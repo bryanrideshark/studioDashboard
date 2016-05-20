@@ -18,6 +18,7 @@
   ],
   "exclude": [
     "src/public/world_data.ts",
+    "temp",
     "node_modules",
     "jspm_packages",
     "typings",
