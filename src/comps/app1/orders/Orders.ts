@@ -11,9 +11,7 @@ import * as _ from 'lodash'
 
 @Component({
     selector: 'Orders',
-    moduleId: module.id,
-    styleUrls: ['Orders.css'],
-    templateUrl: 'Orders.html'
+    templateUrl: `<h1>Orders</h1>`
 })
 
 @CanActivate((to:ComponentInstruction, from:ComponentInstruction) => {

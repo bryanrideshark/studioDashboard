@@ -18,10 +18,11 @@ import {Ng2Highmaps} from '../../ng2-highcharts/ng2-highcharts';
 import {StationModel} from "../../../stations/StationModel";
 import * as _ from 'lodash'
 
+//todo: bring it back if I can fix systen instead of commonjs
 // window['Highmaps'] = require('highcharts/modules/map')(Highcharts);
-import * as Ng2Highcharts from 'highcharts/modules/map';
-var hc:any = Ng2Highcharts;
-hc(Highcharts);
+// import * as Ng2Highcharts from 'highcharts/modules/map';
+// var hc:any = Ng2Highcharts;
+// hc(Highcharts);
 
 @Component({
     selector: 'stationsMap',
@@ -34,10 +35,8 @@ hc(Highcharts);
     `
 })
 export class StationsMap {
-
-    // constructor(private http:Http) {
     constructor() {
-        this.initMap();
+        // this.initMap();
     }
 
     @Input()
