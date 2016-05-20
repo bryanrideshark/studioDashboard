@@ -375,6 +375,16 @@ SystemJS.config({
           "loader": "css"
         }
       }
+    },
+    "npm:readable-stream@2.0.5": {
+      "map": {
+        "core-util-is": "npm:core-util-is@1.0.2",
+        "inherits": "npm:inherits@2.0.1",
+        "isarray": "npm:isarray@0.0.1",
+        "process-nextick-args": "npm:process-nextick-args@1.0.7",
+        "string_decoder": "npm:string_decoder@0.10.31",
+        "util-deprecate": "npm:util-deprecate@1.0.2"
+      }
     }
   },
   meta: {
@@ -402,9 +412,9 @@ SystemJS.config({
     "github:*/*.json"
   ],
   map: {
+    "angular2-redux-util": "npm:angular2-redux-util@0.8.64",
     "angular2": "npm:angular2@2.0.0-beta.15",
     "angular2-polyfill": "npm:angular2-polyfill@0.0.2",
-    "angular2-redux-util": "npm:angular2-redux-util@0.8.59",
     "angular2-uuid": "npm:angular2-uuid@1.0.7",
     "assert": "github:jspm/nodelibs-assert@0.2.0-alpha",
     "bootbox": "npm:bootbox@4.4.0",
@@ -418,8 +428,8 @@ SystemJS.config({
     "highcharts": "npm:highcharts@4.2.4",
     "http": "github:jspm/nodelibs-http@0.2.0-alpha",
     "https": "github:jspm/nodelibs-https@0.2.0-alpha",
-    "immutable": "npm:immutable@3.8.0",
-    "is-equal": "npm:is-equal@1.5.1",
+    "immutable": "npm:immutable@3.8.1",
+    "is-equal": "npm:is-equal@1.5.2",
     "jquery": "npm:jquery@2.2.3",
     "lodash": "npm:lodash@4.5.1",
     "module": "github:jspm/nodelibs-module@0.2.0-alpha",
@@ -450,6 +460,44 @@ SystemJS.config({
     "zone.js": "npm:zone.js@0.6.11"
   },
   packages: {
+    "npm:angular2-redux-util@0.8.64": {
+      "map": {
+        "immutable": "npm:immutable@3.8.1",
+        "is-equal": "npm:is-equal@1.5.2",
+        "object-path": "npm:object-path@0.9.2"
+      }
+    },
+    "npm:is-equal@1.5.2": {
+      "map": {
+        "has": "npm:has@1.0.1",
+        "is-arrow-function": "npm:is-arrow-function@2.0.3",
+        "is-boolean-object": "npm:is-boolean-object@1.0.0",
+        "is-callable": "npm:is-callable@1.1.3",
+        "is-date-object": "npm:is-date-object@1.0.1",
+        "is-generator-function": "npm:is-generator-function@1.0.3",
+        "is-number-object": "npm:is-number-object@1.0.3",
+        "is-regex": "npm:is-regex@1.0.3",
+        "is-string": "npm:is-string@1.0.4",
+        "is-symbol": "npm:is-symbol@1.0.1",
+        "object.entries": "npm:object.entries@1.0.3"
+      }
+    },
+    "npm:loose-envify@1.2.0": {
+      "map": {
+        "js-tokens": "npm:js-tokens@1.0.3"
+      }
+    },
+    "npm:readable-stream@2.1.4": {
+      "map": {
+        "buffer-shims": "npm:buffer-shims@1.0.0",
+        "core-util-is": "npm:core-util-is@1.0.2",
+        "inherits": "npm:inherits@2.0.1",
+        "isarray": "npm:isarray@1.0.0",
+        "process-nextick-args": "npm:process-nextick-args@1.0.7",
+        "string_decoder": "npm:string_decoder@0.10.31",
+        "util-deprecate": "npm:util-deprecate@1.0.2"
+      }
+    },
     "github:frankwallis/plugin-typescript@4.0.6": {
       "map": {
         "typescript": "npm:typescript@1.8.10"
@@ -508,14 +556,6 @@ SystemJS.config({
         "angular": "npm:angular@1.5.5",
         "camelcase": "npm:camelcase@2.1.1",
         "dot-prop": "npm:dot-prop@2.4.0"
-      }
-    },
-    "npm:angular2-redux-util@0.8.59": {
-      "map": {
-        "immutable": "npm:immutable@3.8.0",
-        "is-equal": "npm:is-equal@1.5.1",
-        "object-path": "npm:object-path@0.9.2",
-        "redux": "npm:redux@3.4.0"
       }
     },
     "npm:angular2@2.0.0-beta.15": {
@@ -589,11 +629,6 @@ SystemJS.config({
     "npm:highcharts@4.2.4": {
       "map": {}
     },
-    "npm:immutable@3.8.0": {
-      "map": {
-        "systemjs-json": "github:systemjs/plugin-json@0.1.0"
-      }
-    },
     "npm:inherits@2.0.1": {
       "map": {}
     },
@@ -615,21 +650,6 @@ SystemJS.config({
     "npm:is-date-object@1.0.1": {
       "map": {
         "systemjs-json": "github:systemjs/plugin-json@0.1.0"
-      }
-    },
-    "npm:is-equal@1.5.1": {
-      "map": {
-        "has": "npm:has@1.0.1",
-        "is-arrow-function": "npm:is-arrow-function@2.0.3",
-        "is-boolean-object": "npm:is-boolean-object@1.0.0",
-        "is-callable": "npm:is-callable@1.1.3",
-        "is-date-object": "npm:is-date-object@1.0.1",
-        "is-generator-function": "npm:is-generator-function@1.0.3",
-        "is-number-object": "npm:is-number-object@1.0.3",
-        "is-regex": "npm:is-regex@1.0.3",
-        "is-string": "npm:is-string@1.0.4",
-        "is-symbol": "npm:is-symbol@1.0.1",
-        "object.entries": "npm:object.entries@1.0.3"
       }
     },
     "npm:is-number-object@1.0.3": {
@@ -655,11 +675,6 @@ SystemJS.config({
     "npm:lodash@4.5.1": {
       "map": {}
     },
-    "npm:loose-envify@1.1.0": {
-      "map": {
-        "js-tokens": "npm:js-tokens@1.0.3"
-      }
-    },
     "npm:moment@2.12.0": {
       "map": {}
     },
@@ -683,40 +698,17 @@ SystemJS.config({
         "has": "npm:has@1.0.1"
       }
     },
-    "npm:process-nextick-args@1.0.6": {
-      "map": {}
-    },
     "npm:process@0.11.2": {
       "map": {}
     },
     "npm:punycode@1.3.2": {
       "map": {}
     },
-    "npm:readable-stream@2.0.5": {
-      "map": {
-        "core-util-is": "npm:core-util-is@1.0.2",
-        "inherits": "npm:inherits@2.0.1",
-        "isarray": "npm:isarray@0.0.1",
-        "process-nextick-args": "npm:process-nextick-args@1.0.6",
-        "string_decoder": "npm:string_decoder@0.10.31",
-        "util-deprecate": "npm:util-deprecate@1.0.2"
-      }
-    },
-    "npm:readable-stream@2.1.2": {
-      "map": {
-        "core-util-is": "npm:core-util-is@1.0.2",
-        "inherits": "npm:inherits@2.0.1",
-        "isarray": "npm:isarray@1.0.0",
-        "process-nextick-args": "npm:process-nextick-args@1.0.6",
-        "string_decoder": "npm:string_decoder@0.10.31",
-        "util-deprecate": "npm:util-deprecate@1.0.2"
-      }
-    },
     "npm:redux@3.4.0": {
       "map": {
         "lodash": "npm:lodash@4.5.1",
-        "lodash-es": "npm:lodash-es@4.11.1",
-        "loose-envify": "npm:loose-envify@1.1.0"
+        "lodash-es": "npm:lodash-es@4.12.0",
+        "loose-envify": "npm:loose-envify@1.2.0"
       }
     },
     "npm:reflect-metadata@0.1.3": {
@@ -736,14 +728,14 @@ SystemJS.config({
     "npm:stream-browserify@2.0.1": {
       "map": {
         "inherits": "npm:inherits@2.0.1",
-        "readable-stream": "npm:readable-stream@2.0.5"
+        "readable-stream": "npm:readable-stream@2.1.4"
       }
     },
     "npm:stream-http@2.3.0": {
       "map": {
         "builtin-status-codes": "npm:builtin-status-codes@2.0.0",
         "inherits": "npm:inherits@2.0.1",
-        "readable-stream": "npm:readable-stream@2.1.2",
+        "readable-stream": "npm:readable-stream@2.1.4",
         "to-arraybuffer": "npm:to-arraybuffer@1.0.1",
         "xtend": "npm:xtend@4.0.1"
       }
