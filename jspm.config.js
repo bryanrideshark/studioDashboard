@@ -412,7 +412,7 @@ SystemJS.config({
     "github:*/*.json"
   ],
   map: {
-    "angular2-redux-util": "npm:angular2-redux-util@0.8.62",
+    "angular2-redux-util": "npm:angular2-redux-util@0.8.64",
     "angular2": "npm:angular2@2.0.0-beta.15",
     "angular2-polyfill": "npm:angular2-polyfill@0.0.2",
     "angular2-uuid": "npm:angular2-uuid@1.0.7",
@@ -460,7 +460,7 @@ SystemJS.config({
     "zone.js": "npm:zone.js@0.6.11"
   },
   packages: {
-    "npm:angular2-redux-util@0.8.62": {
+    "npm:angular2-redux-util@0.8.64": {
       "map": {
         "immutable": "npm:immutable@3.8.1",
         "is-equal": "npm:is-equal@1.5.2",
