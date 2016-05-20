@@ -6,14 +6,12 @@ import {BusinessModel} from "../../../business/BusinessModel";
 import {AuthService} from "../../../services/AuthService";
 import {appInjService} from "../../../services/AppInjService";
 import {List} from "immutable";
-const bootbox = require('bootbox');
-const _ = require('underscore');
+import * as bootbox from 'bootbox';
+import * as _ from 'lodash'
 
 @Component({
     selector: 'Orders',
-    moduleId: module.id,
-    styleUrls: ['Orders.css'],
-    templateUrl: 'Orders.html'
+    template: `<h1>Orders</h1>`
 })
 
 @CanActivate((to:ComponentInstruction, from:ComponentInstruction) => {

@@ -17,16 +17,15 @@ import {List} from 'immutable';
 import {PrivelegesModel} from "../../../reseller/PrivelegesModel";
 import {Samplelist} from "./Samplelist";
 import {SampleModel} from "../../../business/SampleModel";
-const bootbox = require('bootbox');
-const _ = require('underscore');
+import * as bootbox from 'bootbox';
+import * as _ from 'lodash'
 
 @Component({
     selector: 'Users',
-    moduleId: module.id,
     providers: [SimpleList],
     directives: [SimpleList, UsersDetails, Loading, Samplelist, DROPDOWN_DIRECTIVES, AddUser, MODAL_DIRECTIVES],
-    styleUrls: ['Users.css'],
-    templateUrl: 'Users.html'
+    styleUrls: ['../comps/app1/users/Users.css'],
+    templateUrl: '/src/comps/app1/users/Users.html'
 })
 
 @CanActivate((to:ComponentInstruction, from:ComponentInstruction) => {

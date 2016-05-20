@@ -15,17 +15,16 @@ import {SimpleGridRecord} from "../../simplegrid/SimpleGridRecord";
 import {Lib} from "../../../Lib";
 import {PrivelegesModel} from "../../../reseller/PrivelegesModel";
 import {MODAL_DIRECTIVES, ModalResult} from "../../ng2-bs3-modal/ng2-bs3-modal";
-let _ = require('underscore');
-const bootbox = require('bootbox');
+import * as _ from 'lodash'
+import * as bootbox from 'bootbox';
 
 @Component({
     selector: 'UsersDetails',
     changeDetection: ChangeDetectionStrategy.OnPush,
     directives: [SIMPLEGRID_DIRECTIVES, UserInfo, AddUser, ChangePass, MODAL_DIRECTIVES],
-    moduleId: module.id,
     pipes: [OrderBy],
-    styleUrls: ['UsersDetails.css'],
-    templateUrl: 'UsersDetails.html'
+    styleUrls: ['../comps/app1/users/UsersDetails.css'],
+    templateUrl: '/src/comps/app1/users/UsersDetails.html'
 })
 
 export class UsersDetails {
