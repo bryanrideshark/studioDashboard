@@ -1,16 +1,9 @@
-// import 'zone.js/dist/zone.min.js';
-// import * as bootbox from 'bootbox';
-// import * as Immutable from 'immutable'
-// require('bootstrap');
-
-//var platform = require('platform');
 import * as platform from 'platform';
 import 'jspm_packages/github/twbs/bootstrap@3.3.6';
 import * as Immutable from 'immutable'
 import 'zone.js/dist/zone';
 import 'zone.js/dist/long-stack-trace-zone'
 import "reflect-metadata";
-//import 'twbs/bootstrap/css/bootstrap.css!';
 import 'twbs/bootstrap/dist/css/bootstrap.css!';
 import './styles/style.css!';
 import {appInjService} from "./services/AppInjService";
@@ -113,7 +106,7 @@ export class App {
         });
 
     }
-    private version = '1.188 beta';
+    private version = '1.305 beta';
 
     private checkPlatform(){
         switch (platform.name.toLowerCase()) {
@@ -166,3 +159,9 @@ bootstrap(App, [ROUTER_PROVIDERS, HTTP_PROVIDERS, JSONP_PROVIDERS,
         appInjService(appRef.injector);
     }
 );
+
+// import 'zone.js/dist/zone.min.js';
+// import * as Immutable from 'immutable'
+// require('bootstrap');
+// var platform = require('platform');
+// import 'twbs/bootstrap/css/bootstrap.css!';
