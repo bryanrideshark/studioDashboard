@@ -1,9 +1,21 @@
+import {bootstrap} from 'angular2/platform/browser';
+import {Component, provide, ViewEncapsulation, PLATFORM_PIPES, Injector, ComponentRef} from 'angular2/core';
+// import 'zone.js/dist/zone.min.js';
+import * as _ from 'lodash'
+// import Immutable = require('immutable');
+import * as bootbox from 'bootbox';
+// import * as Immutable from 'immutable'
+// require('bootstrap');
+
+///////var platform = require('platform');
 import * as platform from 'platform';
 import 'jspm_packages/github/twbs/bootstrap@3.3.6';
+//////// import Immutable = require('immutable');
 import * as Immutable from 'immutable'
 import 'zone.js/dist/zone';
 import 'zone.js/dist/long-stack-trace-zone'
 import "reflect-metadata";
+//import 'twbs/bootstrap/css/bootstrap.css!';
 import 'twbs/bootstrap/dist/css/bootstrap.css!';
 import './styles/style.css!';
 import {appInjService} from "./services/AppInjService";
@@ -14,10 +26,8 @@ import {BusinessAction} from "./business/BusinessAction";
 import {ResellerAction} from "./reseller/ResellerAction";
 import {StationsAction} from "./stations/StationsAction";
 import {CharCount} from "./pipes/CharCount";
-import {bootstrap} from 'angular2/platform/browser';
 import {HTTP_PROVIDERS, JSONP_PROVIDERS} from "angular2/http";
 import {App1} from '../src/comps/app1/App1';
-import {Component, provide, ViewEncapsulation, PLATFORM_PIPES, Injector, ComponentRef} from 'angular2/core';
 import {EntryPanel} from '../src/comps/entry/EntryPanel';
 import {AppManager} from '../src/comps/appmanager/AppManager';
 import {CommBroker} from '../src/services/CommBroker';
@@ -59,33 +69,20 @@ import {AppdbAction} from "./appdb/AppdbAction";
 import {enableProdMode} from 'angular2/core';
 import {LogoCompany} from "./comps/logo/LogoCompany";
 
-
 export enum ServerMode {
     CLOUD,
     PRIVATE,
     HYBRID
 }
 
-/**
- Main application bootstrap
- @class App
- **/
+
 @Component({
     selector: 'app',
-    encapsulation: ViewEncapsulation.Emulated,
-    providers: [StyleService, AppdbAction],
     templateUrl: '/src/App.html',
-    directives: [ROUTER_DIRECTIVES, RouterLink, Filemenu, FilemenuItem, Logo, LogoCompany, Footer]
+    encapsulation: ViewEncapsulation.Emulated,
+    providers: [],
 })
-@RouteConfig([
-    {path: "/", name: "root", redirectTo: ["/EntryPanelNoId/Login"], useAsDefault: true},
-    {path: '/AppManager', component: AppManager, as: 'AppManager'},
-    {path: '/EntryPanelNoId/...', component: EntryPanel, as: 'EntryPanelNoId'},
-    {path: '/EntryPanel/:id/...', component: EntryPanel, as: 'EntryPanel'},
-    {path: '/Login/...', component: EntryPanel, as: 'Login'},
-    {path: '/ForgotPass/...', component: EntryPanel, as: 'ForgotPass'},
-    {path: '/App1/...', component: App1, as: 'App1'},
-])
+
 export class App {
     private m_styleService:StyleService;
 
@@ -104,8 +101,14 @@ export class App {
         router.subscribe(function (currentRoute) {
             console.log(currentRoute);
         });
+
     }
-    private version = '1.318 beta';
+    onClick(){
+        bootbox.alert('123');
+        alert('version ' + this.version);
+    }
+
+    private version = '1.102 beta';
 
     private checkPlatform(){
         switch (platform.name.toLowerCase()) {
@@ -139,28 +142,12 @@ export class App {
     }
 }
 
-enableProdMode();
-bootstrap(App, [ROUTER_PROVIDERS, HTTP_PROVIDERS, JSONP_PROVIDERS,
-    provide(AppStore, {useFactory: Lib.StoreFactory({notify, appdb, business, stations, reseller})}),
-    provide(StoreService, {useClass: StoreService}),
-    provide(BusinessAction, {useClass: BusinessAction}),
-    provide(ResellerAction, {useClass: ResellerAction}),
-    provide(StationsAction, {useClass: StationsAction}),
-    provide(AppdbAction, {useClass: AppdbAction}),
-    provide(CreditService, {useClass: CreditService}),
-    provide(AuthService, {useClass: AuthService}),
-    provide(LocalStorage, {useClass: LocalStorage}),
-    provide(CommBroker, {useClass: CommBroker}),
-    provide(Consts, {useClass: Consts}),
-    provide("DEV_ENV", {useValue: Lib.DevMode()}),
-    provide(PLATFORM_PIPES, {useValue: CharCount, multi: true}),
-    provide(LocationStrategy, {useClass: HashLocationStrategy})]).then((appRef:ComponentRef) => {
-        appInjService(appRef.injector);
+bootstrap(App);
+window['hr'] && window['hr'].on('change', (fileName) => {
+    if (fileName.indexOf('html') !== -1) {
+        var newBody = document.createElement('body')
+        newBody.appendChild(document.createElement('app'))
+        document.body = newBody;
+        bootstrap(App);
     }
-);
-
-// import 'zone.js/dist/zone.min.js';
-// import * as Immutable from 'immutable'
-// require('bootstrap');
-// var platform = require('platform');
-// import 'twbs/bootstrap/css/bootstrap.css!';
+})
