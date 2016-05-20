@@ -105,7 +105,7 @@ export class App {
             console.log(currentRoute);
         });
     }
-    private version = '1.318 beta';
+    private version = '1.355 beta';
 
     private checkPlatform(){
         switch (platform.name.toLowerCase()) {
