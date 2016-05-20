@@ -54,7 +54,7 @@ Technical data:
    Keep in mind that you must serve the source from the root (/) of the server domain (not under any sub-directory)
 - License is modified GPL V3
 
-Installation:
+Installation (currently using jspm beta 0.17):
 ------------------------------------------------------------------------
  
 ```
