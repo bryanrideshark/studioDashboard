@@ -41,6 +41,7 @@ export class OrdersAction extends Actions {
             .finally(() => {
             })
             .map(result => {
+                //todo: create OrderModels
                 var orders:any = result.json();
             }).subscribe();
     }
