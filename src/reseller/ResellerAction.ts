@@ -42,6 +42,7 @@ export const UPDATE_WHITELABEL = 'UPDATE_WHITELABEL';
 export const UPDATE_ACCOUNT = 'UPDATE_ACCOUNT';
 export const ADD_PRIVILEGE = 'ADD_PRIVILEGE';
 export const REMOVE_PRIVILEGE = 'REMOVE_PRIVILEGE';
+export const PAY_SUBSCRIBER:number = 4;
 
 @Injectable()
 export class ResellerAction extends Actions {
@@ -109,6 +110,22 @@ export class ResellerAction extends Actions {
                 })
                 .map(result => {
                 }).subscribe();
+        }
+    }
+
+    public getResellerIsActive():boolean {
+        // accountStatus:"value"
+        //      0 = not verified
+        //      1 = intermediate state while the account is been created
+        //      2 = account is created
+        //      3 = intermediate state
+        //      4 = account paid | this.PAY_SUBSCRIBER
+        var i_reseller = this.appStore.getState().reseller;
+        var whitelabelModel = i_reseller.getIn(['whitelabel']);
+        if (whitelabelModel && whitelabelModel.getAccountStatus() == PAY_SUBSCRIBER) {
+            return true;
+        } else {
+            return false;
         }
     }
 

@@ -4,6 +4,7 @@ import * as AppdbAction from "../appdb/AppdbAction";
 import * as StationsAction from "../stations/StationsAction";
 import * as Immutable from 'immutable'
 const baseUrl = 'https://galaxy.signage.me/WebService/ResellerService.ashx';
+const appBaseUrlCloud = 'https://secure.digitalsignage.com';
 
 export default function appdb(state:Map<string, any> = Map<string, any>({}), action:any):Map<string, any> {
     switch (action.type) {
@@ -21,7 +22,8 @@ export default function appdb(state:Map<string, any> = Map<string, any>({}), act
                     remember: action.remember,
                     reason: action.reason
                 },
-                appBaseUrlUser: `${baseUrl}?resellerUserName=${action.user}&resellerPassword=${action.pass}`
+                appBaseUrlUser: `${baseUrl}?resellerUserName=${action.user}&resellerPassword=${action.pass}`,
+                appBaseUrlCloud: `${appBaseUrlCloud}/END_POINT/${action.user}/${action.pass}`
             });
         case AppdbAction.APP_INIT:
             return state.merge({

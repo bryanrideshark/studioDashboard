@@ -53,11 +53,13 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import notify from "./appdb/NotifyReducer"
 import appdb from "./appdb/AppdbReducer"
 import {business} from "./business/BusinessReducer"
+import {orders} from "./orders/OrdersReducer"
 import {reseller} from "./reseller/ResellerReducer"
 import {stations} from "./stations/StationsReducer"
 import {AppdbAction} from "./appdb/AppdbAction";
 import {enableProdMode} from 'angular2/core';
 import {LogoCompany} from "./comps/logo/LogoCompany";
+import {OrdersAction} from "./orders/OrdersAction";
 
 
 export enum ServerMode {
@@ -141,10 +143,11 @@ export class App {
 
 enableProdMode();
 bootstrap(App, [ROUTER_PROVIDERS, HTTP_PROVIDERS, JSONP_PROVIDERS,
-    provide(AppStore, {useFactory: Lib.StoreFactory({notify, appdb, business, stations, reseller})}),
+    provide(AppStore, {useFactory: Lib.StoreFactory({notify, appdb, business, stations, reseller, orders})}),
     provide(StoreService, {useClass: StoreService}),
     provide(BusinessAction, {useClass: BusinessAction}),
     provide(ResellerAction, {useClass: ResellerAction}),
+    provide(OrdersAction, {useClass: OrdersAction}),
     provide(StationsAction, {useClass: StationsAction}),
     provide(AppdbAction, {useClass: AppdbAction}),
     provide(CreditService, {useClass: CreditService}),

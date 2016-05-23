@@ -162,7 +162,6 @@ export class Account {
     private renderFormInputs() {
         if (!this.accountModels)
             return;
-
         this.companyName = this.appStore.getsKey('reseller', 'whitelabel', 'companyName');
         this.userName = this.appStore.getState().appdb.getIn(['credentials']).get('user');
         this.businessId = this.appStore.getState().reseller.getIn(['whitelabel']).getKey('businessId');
@@ -342,17 +341,7 @@ export class Account {
     }
 
     private isAccountActive():boolean {
-        // accountStatus:"value"
-        //      0 = not verified
-        //      1 = intermediate state while the account is been created
-        //      2 = account is created
-        //      3 = intermediate state
-        //      4 = account paid | this.PAY_SUBSCRIBER
-        if (this.whitelabelModel && this.whitelabelModel.getAccountStatus() == this.PAY_SUBSCRIBER) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.resellerAction.getResellerIsActive();
     }
 
     private onUpdateCreditCard(event) {

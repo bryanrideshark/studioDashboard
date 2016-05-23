@@ -108,12 +108,10 @@ export class Whitelabel {
             return [];
 
         switch (i_type) {
-            case 'logo':
-            {
+            case 'logo': {
                 return ['http://galaxy.signage.me/Resources/Resellers/' + this.getBusinessInfo('businessId') + '/Logo.png', 'http://galaxy.signage.me/Resources/Resellers/' + this.getBusinessInfo('businessId') + '/Logo.jpg'];
             }
-            case 'splash':
-            {
+            case 'splash': {
                 console.log('http://galaxy.signage.me/Resources/Resellers/' + this.getBusinessInfo('businessId') + '/Update.swf');
                 return ['http://galaxy.signage.me/Resources/Resellers/' + this.getBusinessInfo('businessId') + '/Update.swf'];
             }
@@ -182,18 +180,15 @@ export class Whitelabel {
 
     private onBranding(value) {
         switch (value) {
-            case 'video':
-            {
+            case 'video': {
                 window.open('http://www.digitalsignage.com/_html/video_tutorials.html?videoNumber=msgetstarted', '_blank');
                 break;
             }
-            case 'git':
-            {
+            case 'git': {
                 window.open('https://github.com/born2net/msgetstarted', '_blank');
                 break;
             }
-            case 'solution':
-            {
+            case 'solution': {
                 bootbox.alert('At this point you can have your customers open accounts directly on your web site, track them and up-sale them... we make it easy for you to be successful in Digital Signage!');
                 break;
             }
@@ -213,6 +208,10 @@ export class Whitelabel {
     };
 
     private onWhiteLabelChange(value) {
+        if (value == true && this.resellerAction.getResellerIsActive() == false) {
+            value = false;
+            bootbox.alert('Branding will not be set as this account is inactive, be sure to update the billing info to reactivate the account!');
+        }
         setTimeout(()=>this.appStore.dispatch(this.resellerAction.saveWhiteLabel({whitelabelEnabled: value})), 1)
     }
 

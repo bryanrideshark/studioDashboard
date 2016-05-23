@@ -10,11 +10,13 @@ import {Consts} from "../Conts";
 import {StationModel} from "../stations/StationModel";
 import {Lib} from "../Lib";
 import * as _ from 'lodash'
+import {OrdersAction} from "../orders/OrdersAction";
 
 @Injectable()
 export class StoreService {
     constructor(private appStore:AppStore,
                 private businessActions:BusinessAction,
+                private ordersActions:OrdersAction,
                 private resellerAction:ResellerAction,
                 private stationsAction:StationsAction,
                 private appDbActions:AppdbAction,
@@ -65,10 +67,11 @@ export class StoreService {
             }
         }, 'business.businessStats');
 
-        /** (2 optional) if we are running in cloud, get list of used servers **/
+        /** (2 optional) if we are running in cloud, get list of used servers and orders **/
         this.appStore.sub((servers:List<string>) => {
             this.knownServers = servers.toArray();
             this.fetchStations();
+            this.appStore.dispatch(this.ordersActions.fetchAccountType());
         }, 'appdb.cloudServers');
 
         /** (3) receive each set of stations status per server **/

@@ -31,9 +31,6 @@ export class Orders {
 
     }
 
-    // @ViewChild(SimpleList)
-    // simpleList:SimpleList;
-
     private unsub:Function;
     private businessesList:List<BusinessModel> = List<BusinessModel>();
 
