@@ -92,16 +92,16 @@ export class App {
             this.appResized();
         });
         router.subscribe(function (currentRoute) {
+            alert(1)
             console.log(currentRoute);
         });
 
     }
     onClick(){
-        bootbox.alert('123');
-        alert('version ' + this.version);
+        bootbox.alert('1220');
     }
 
-    private version = '1.102 beta';
+    private version = '1.107 beta';
 
     private checkPlatform(){
         switch (platform.name.toLowerCase()) {
