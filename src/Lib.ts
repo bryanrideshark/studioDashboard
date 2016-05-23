@@ -1,8 +1,10 @@
 /** Common Library **/
 
+alert(1);
 import {Injectable} from 'angular2/core';
 import {createStore, combineReducers, applyMiddleware, compose} from "redux";
-import * as thunkMiddleware from 'redux-thunk';
+//import * as thunkMiddleware from 'redux-thunk';
+import thunkMiddleware from 'redux-thunk';
 import {AppStore} from "angular2-redux-util";
 import {List, Map} from 'immutable';
 import {LoggerMiddleware} from "angular2-redux-util";

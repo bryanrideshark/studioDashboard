@@ -412,6 +412,7 @@ SystemJS.config({
     "github:*/*.json"
   ],
   map: {
+    "redux-thunk": "npm:redux-thunk@2.1.0",
     "net": "github:jspm/nodelibs-net@0.2.0-alpha",
     "systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@0.5.8",
     "tty": "github:jspm/nodelibs-tty@0.2.0-alpha",
@@ -442,10 +443,9 @@ SystemJS.config({
     "os": "github:jspm/nodelibs-os@0.2.0-alpha",
     "path": "github:jspm/nodelibs-path@0.2.0-alpha",
     "platform": "npm:platform@1.3.1",
-    "plugin-typescript": "github:frankwallis/plugin-typescript@4.0.9",
+    "plugin-typescript": "github:frankwallis/plugin-typescript@4.0.16",
     "process": "github:jspm/nodelibs-process@0.2.0-alpha",
     "redux": "npm:redux@3.4.0",
-    "redux-thunk": "npm:redux-thunk@1.0.3",
     "reflect-metadata": "npm:reflect-metadata@0.1.3",
     "reselect": "npm:reselect@2.4.0",
     "rxjs": "npm:rxjs@5.0.0-beta.2",
@@ -453,7 +453,7 @@ SystemJS.config({
     "string_decoder": "github:jspm/nodelibs-string_decoder@0.2.0-alpha",
     "text": "github:systemjs/plugin-text@0.0.4",
     "timers": "github:jspm/nodelibs-timers@0.2.0-alpha",
-    "ts": "github:frankwallis/plugin-typescript@4.0.6",
+    "ts": "github:frankwallis/plugin-typescript@4.0.16",
     "typescript": "npm:typescript@1.8.10",
     "underscore": "npm:underscore@1.8.3",
     "url": "github:jspm/nodelibs-url@0.2.0-alpha",
@@ -463,6 +463,11 @@ SystemJS.config({
     "zone.js": "npm:zone.js@0.6.11"
   },
   packages: {
+    "github:frankwallis/plugin-typescript@4.0.16": {
+      "map": {
+        "typescript": "npm:typescript@1.8.10"
+      }
+    },
     "github:capaj/systemjs-hot-reloader@0.5.8": {
       "map": {
         "debug": "npm:debug@2.2.0",
@@ -511,16 +516,6 @@ SystemJS.config({
         "process-nextick-args": "npm:process-nextick-args@1.0.7",
         "string_decoder": "npm:string_decoder@0.10.31",
         "util-deprecate": "npm:util-deprecate@1.0.2"
-      }
-    },
-    "github:frankwallis/plugin-typescript@4.0.6": {
-      "map": {
-        "typescript": "npm:typescript@1.8.10"
-      }
-    },
-    "github:frankwallis/plugin-typescript@4.0.9": {
-      "map": {
-        "typescript": "npm:typescript@1.8.10"
       }
     },
     "github:jspm/nodelibs-buffer@0.2.0-alpha": {

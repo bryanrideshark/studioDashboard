@@ -77,16 +77,16 @@ export enum ServerMode {
 })
 
 export class App {
-    private m_styleService:StyleService;
+    //private m_styleService:StyleService;
 
-    constructor(private appStore:AppStore, private commBroker:CommBroker, styleService:StyleService, private appdbAction:AppdbAction, private router:Router) {
+    constructor(private appStore:AppStore, private commBroker:CommBroker, private appdbAction:AppdbAction, private router:Router) {
         // force logout
         // this.localStorage.removeItem('remember_me')
         // todo: add logic to as when on each env
         // 0 = cloud, 1 = private 2 = hybrid
         this.checkPlatform();
         this.commBroker.setValue(Consts.Values().SERVER_MODE, ServerMode.CLOUD);
-        this.m_styleService = styleService;
+        //this.m_styleService = styleService;
         this.commBroker.setService(Consts.Services().App, this);
         Observable.fromEvent(window, 'resize').debounceTime(250).subscribe(()=> {
             this.appResized();
