@@ -208,7 +208,7 @@ export class Whitelabel {
     };
 
     private onWhiteLabelChange(value) {
-        if (value == true && this.resellerAction.getResellerIsActive() == false) {
+        if (value && this.resellerAction.getResellerIsActive() == false) {
             value = false;
             bootbox.alert('Branding will not be set as this account is inactive, be sure to update the billing info to reactivate the account!');
         }
