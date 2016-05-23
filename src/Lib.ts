@@ -1,6 +1,6 @@
 /** Common Library **/
 
-alert(1);
+alert(2);
 import {Injectable} from 'angular2/core';
 import {createStore, combineReducers, applyMiddleware, compose} from "redux";
 //import * as thunkMiddleware from 'redux-thunk';
