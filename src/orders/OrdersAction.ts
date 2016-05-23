@@ -16,6 +16,7 @@ import * as bootbox from 'bootbox';
 
 export const REQUEST_ORDERS = 'REQUEST_ORDERS';
 export const RECEIVE_ORDERS = 'RECEIVE_ORDERS';
+export const RECEIVE_ACCOUNT_TYPE = 'RECEIVE_ACCOUNT_TYPE';
 
 @Injectable()
 export class OrdersAction extends Actions {
@@ -40,7 +41,7 @@ export class OrdersAction extends Actions {
             .finally(() => {
             })
             .map(result => {
-                var reply:any = result.json();
+                var orders:any = result.json();
             }).subscribe();
     }
 
@@ -59,7 +60,7 @@ export class OrdersAction extends Actions {
                 })
                 .map(result => {
                     var accountType = result.json().accountType
-                    //todo: update store with account type in appdb
+                    dispatch(this.receiveAccountType(accountType))
                     if (accountType == 'UNKNOWN') {
                         bootbox.alert('Problem getting account type');
                         return;
@@ -79,6 +80,13 @@ export class OrdersAction extends Actions {
         return {
             type: RECEIVE_ORDERS,
             orders
+        }
+    }
+
+    public receiveAccountType(accountType:string) {
+        return {
+            type: RECEIVE_ACCOUNT_TYPE,
+            accountType
         }
     }
 

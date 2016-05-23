@@ -2,6 +2,7 @@ import {Map} from 'immutable';
 
 import * as AppdbAction from "../appdb/AppdbAction";
 import * as StationsAction from "../stations/StationsAction";
+import * as OrdersAction from "../orders/OrdersAction";
 import * as Immutable from 'immutable'
 const baseUrl = 'https://galaxy.signage.me/WebService/ResellerService.ashx';
 const appBaseUrlCloud = 'https://secure.digitalsignage.com';
@@ -29,6 +30,10 @@ export default function appdb(state:Map<string, any> = Map<string, any>({}), act
             return state.merge({
                 appStartTime: Date.now(),
                 appBaseUrl: `${baseUrl}`
+            });
+        case OrdersAction.RECEIVE_ACCOUNT_TYPE:
+            return state.merge({
+                accountType: action.accountType
             });
         case AppdbAction.CLOUD_SERVERS:
             return state.merge({
