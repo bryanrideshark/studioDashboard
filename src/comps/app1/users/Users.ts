@@ -22,12 +22,15 @@ import * as _ from 'lodash'
 
 @Component({
     selector: 'Users',
-    moduleId: module.id,
     providers: [SimpleList],
     directives: [SimpleList, UsersDetails, Loading, Samplelist, DROPDOWN_DIRECTIVES, AddUser, MODAL_DIRECTIVES],
-    styleUrls: ['Users.css'],
-    templateUrl: 'Users.html'
+    styleUrls: ['../comps/app1/users/Users.css'],
+    templateUrl: '/src/comps/app1/users/Users.html'
+
 })
+//styleUrls: ['Users.css'],
+//templateUrl: 'Users.html'
+//moduleId: module.id,
 
 @CanActivate((to:ComponentInstruction, from:ComponentInstruction) => {
     let authService:AuthService = appInjService().get(AuthService);

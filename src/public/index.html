@@ -27,14 +27,30 @@
   <!-- config_end -->
 
   <!-- sys_import_start -->
-  <script>
-    System.import('../App')
-      .catch(function (e) {
-        console.error(e,
-          'error system.js ' + e);
-      });
-  </script>
+  <!--<script>-->
+    <!--System.import('../App')-->
+      <!--.catch(function (e) {-->
+        <!--console.error(e,-->
+          <!--'error system.js ' + e);-->
+      <!--});-->
+  <!--</script>-->
   <!-- sys_import_end -->
+
+  <script>
+	 var readyForMainLoad
+	 if (location.origin.match(/localhost/)) {
+		System.trace = true
+		readyForMainLoad = System.import('systemjs-hot-reloader').then(function(HotReloader){
+		  window.hr = new HotReloader.default('http://localhost:9089')
+		})
+	 }
+	 Promise.resolve(readyForMainLoad).then(() => {
+		System.import('reflect-metadata')
+		.then(function(){System.import('zone.js')})
+		.then(function(){System.import('../App')})
+	 })
+  </script>
+
 </head>
 <body>
 <app>

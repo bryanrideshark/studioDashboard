@@ -22,11 +22,13 @@ import * as bootbox from 'bootbox';
     selector: 'UsersDetails',
     changeDetection: ChangeDetectionStrategy.OnPush,
     directives: [SIMPLEGRID_DIRECTIVES, UserInfo, AddUser, ChangePass, MODAL_DIRECTIVES],
-    moduleId: module.id,
     pipes: [OrderBy],
-    styleUrls: ['UsersDetails.css'],
-    templateUrl: 'UsersDetails.html'
+    styleUrls: ['../comps/app1/users/UsersDetails.css'],
+    templateUrl: '/src/comps/app1/users/UsersDetails.html'
 })
+// moduleId: module.id,
+// styleUrls: ['UsersDetails.css'],
+// templateUrl: 'UsersDetails.html'
 
 export class UsersDetails {
 

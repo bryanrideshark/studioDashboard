@@ -1,7 +1,7 @@
 SystemJS.config({
   transpiler: "plugin-typescript",
   typescriptOptions: {
-    "module": "commonjs",
+    "module": "system",
     "emitDecoratorMetadata": true,
     "tsconfig": true,
     "sourceMap": true
@@ -412,6 +412,9 @@ SystemJS.config({
     "github:*/*.json"
   ],
   map: {
+    "net": "github:jspm/nodelibs-net@0.2.0-alpha",
+    "systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@0.5.8",
+    "tty": "github:jspm/nodelibs-tty@0.2.0-alpha",
     "angular2-redux-util": "npm:angular2-redux-util@0.8.64",
     "angular2": "npm:angular2@2.0.0-beta.15",
     "angular2-polyfill": "npm:angular2-polyfill@0.0.2",
@@ -460,6 +463,18 @@ SystemJS.config({
     "zone.js": "npm:zone.js@0.6.11"
   },
   packages: {
+    "github:capaj/systemjs-hot-reloader@0.5.8": {
+      "map": {
+        "debug": "npm:debug@2.2.0",
+        "socket.io-client": "github:socketio/socket.io-client@1.4.6",
+        "weakee": "npm:weakee@1.0.0"
+      }
+    },
+    "npm:debug@2.2.0": {
+      "map": {
+        "ms": "npm:ms@0.7.1"
+      }
+    },
     "npm:angular2-redux-util@0.8.64": {
       "map": {
         "immutable": "npm:immutable@3.8.1",
