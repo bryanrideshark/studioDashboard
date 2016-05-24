@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from 'angular2/core'
+import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core'
 import {PrivelegesModel} from "../../../reseller/PrivelegesModel";
 import {List, Map} from 'immutable';
 import {SIMPLEGRID_DIRECTIVES} from "../../simplegrid/SimpleGrid";
@@ -30,10 +30,10 @@ enum PrivModeEnum {ADD, DEL, UPD}
             </center>
           </div>
           <div *ngIf="m_privelegesSystemModelList && m_selected">
-              <div *ngFor="#privilegesItem of m_privelegesSystemModelList">
+              <div *ngFor="let privilegesItem of m_privelegesSystemModelList">
                 <hr/>
                 <h3>{{privilegesItem.getTableName()}}</h3>
-                <a *ngFor="#groupAttribute of privilegesItem.getGroupAttributes(privilegesItem, groupAttribute)" 
+                <a *ngFor="let groupAttribute of privilegesItem.getGroupAttributes(privilegesItem, groupAttribute)" 
                   (click)="updatePrivilegesGroupAttributes($event, privilegesItem, groupAttribute)"
                   href="#" class="btn btn-outlined btn-xs {{renderPrivilegesGroupAttributes(privilegesItem, groupAttribute)}}"
                   role="button">{{groupAttribute}}
@@ -48,7 +48,7 @@ enum PrivModeEnum {ADD, DEL, UPD}
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="simpleGridRecord" *ngFor="#item of renderPrivilegesTable(privilegesItem); #index=index">
+                        <tr class="simpleGridRecord" *ngFor="let item of renderPrivilegesTable(privilegesItem); #index=index">
                             <td style="width: 70%" [editable]="false" simpleGridData [processField]="renderTableName()" [item]="item"></td>
                             <td style="width: 10%" (changed)="onPrivilegeChange($event)" [item]="{item: privilegesItem, index: index, PrivModeEnum: PrivModeEnum.DEL}" simpleGridDataChecks [checkboxes]="renderPrivilegesChecks(privilegesItem, index, PrivModeEnum.DEL)"></td>
                             <td style="width: 10%" (changed)="onPrivilegeChange($event)" [item]="{item: privilegesItem, index: index, PrivModeEnum: PrivModeEnum.ADD}" simpleGridDataChecks [checkboxes]="renderPrivilegesChecks(privilegesItem, index, PrivModeEnum.ADD)"></td>

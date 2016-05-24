@@ -1,7 +1,7 @@
 import {
     Component, Input, ChangeDetectionStrategy, Output, EventEmitter, ViewChildren, QueryList, HostListener,
     ChangeDetectorRef
-} from 'angular2/core'
+} from '@angular/core'
 import {List} from "immutable";
 import {StoreModel} from "../../models/StoreModel";
 import * as _ from 'lodash'
@@ -20,13 +20,13 @@ import * as _ from 'lodash'
     `],
     template: `
         <div *ngIf="!slideMode">
-            <div *ngFor="#item of m_checkboxes">
+            <div *ngFor="let item of m_checkboxes">
               <label class="pull-left">{{item.name}}</label>
               <Input (click)="onClick()" #checkInputs type="checkbox" [checked]="item" value="{{item}}" class="pull-left" style="margin-right: 2px">
             </div>
         </div>
         <div *ngIf="slideMode" class="slideMode">
-            <div *ngFor="#item of m_checkboxes" class="material-switch pull-right">
+            <div *ngFor="let item of m_checkboxes" class="material-switch pull-right">
               <Input id="{{m_checkId}}"(mouseup)="onClick()" (click)="onClick()" #checkInputs type="checkbox" [checked]="item" value="{{item}}" class="pull-left" style="margin-right: 2px">
               <label [attr.for]="m_checkId" class="label-primary"></label>
           </div>

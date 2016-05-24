@@ -1,4 +1,4 @@
-import {Component, Input, Output, ChangeDetectionStrategy, HostListener, forwardRef, Inject, HostBinding, EventEmitter} from 'angular2/core'
+import {Component, Input, Output, ChangeDetectionStrategy, HostListener, forwardRef, Inject, HostBinding, EventEmitter} from '@angular/core'
 import {SimpleGridTable} from "./SimpleGridTable";
 
 @Component({

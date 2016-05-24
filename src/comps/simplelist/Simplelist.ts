@@ -1,5 +1,4 @@
-import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy,} from 'angular2/core';
-import {COMMON_DIRECTIVES} from "angular2/src/common/common_directives";
+import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy,} from '@angular/core';
 import {FilterPipe} from "../../pipes/FilterPipe";
 import {List} from 'immutable';
 import {SimplelistEditable} from "./SimplelistEditable";
@@ -15,7 +14,7 @@ export interface  ISimpleListItem {
     selector: 'SimpleList',
     templateUrl: '/src/comps/simplelist/Simplelist.html',
     styleUrls: ['../comps/simplelist/Simplelist.css'],
-    directives: [COMMON_DIRECTIVES, SimplelistEditable],
+    directives: [SimplelistEditable],
     pipes: [FilterPipe],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

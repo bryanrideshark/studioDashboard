@@ -1,7 +1,6 @@
-import {Component, Injectable, ViewChild, ElementRef, Renderer} from 'angular2/core';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
-import {RouterLink} from 'angular2/router';
-import {Router} from "angular2/router";
+import {Component, Injectable, ViewChild, ElementRef, Renderer} from '@angular/core';
+import {ROUTER_DIRECTIVES} from '@angular/router';
+import {Router} from "@angular/router";
 import {AppStore} from "angular2-redux-util";
 import {BusinessAction} from "../../business/BusinessAction";
 import Map = Immutable.Map;
@@ -12,7 +11,7 @@ import * as bootbox from 'bootbox';
 @Injectable()
 @Component({
     selector: 'LoginPanel',
-    directives: [ROUTER_DIRECTIVES, RouterLink],
+    directives: [ROUTER_DIRECTIVES],
     providers: [BusinessAction, LocalStorage],
     template: `
                 <div *ngIf="showLoginPanel" class="login-page" id="appLogin">

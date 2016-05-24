@@ -1,9 +1,9 @@
 ///<reference path="../../../typings/app.d.ts"/>
 
-import {Component, ElementRef, ChangeDetectionStrategy} from 'angular2/core';
+import {Component, ElementRef, ChangeDetectionStrategy} from '@angular/core';
 import {Observable} from "rxjs/Observable";
+import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/observable/fromArray';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/merge';
 import 'rxjs/add/operator/distinctUntilChanged';

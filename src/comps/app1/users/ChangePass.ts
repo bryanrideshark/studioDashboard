@@ -1,5 +1,5 @@
-import {Component, EventEmitter, ChangeDetectionStrategy, Input} from 'angular2/core';
-import {FORM_DIRECTIVES, FormBuilder, ControlGroup, Validators} from 'angular2/common'
+import {Component, EventEmitter, ChangeDetectionStrategy, Input} from '@angular/core';
+import {FORM_DIRECTIVES, FormBuilder, ControlGroup, Validators} from '@angular/common'
 import {ModalDialog} from "../../modaldialog/ModalDialog";
 import {AppStore} from "angular2-redux-util/dist/index";
 import {BusinessAction} from "../../../business/BusinessAction";

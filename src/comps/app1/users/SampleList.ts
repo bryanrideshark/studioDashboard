@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnChanges, SimpleChange} from 'angular2/core'
+import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnChanges, SimpleChange} from '@angular/core'
 import {SampleModel} from "../../../business/SampleModel";
 import {List} from 'immutable';
 

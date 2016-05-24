@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, ElementRef} from 'angular2/core';
+import {Component, OnInit, Input, ElementRef} from '@angular/core';
 import {Ng2Highcharts} from '../../ng2-highcharts/ng2-highcharts';
 
 // window['Highcharts'] = require('highcharts');

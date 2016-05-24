@@ -1,6 +1,6 @@
 ///<reference path="../../../typings/app.d.ts"/>
 
-import {Component, Injectable} from "angular2/core";
+import {Component, Injectable} from "@angular/core";
 import {MenuItem} from "./MenuItem";
 import {CommBroker} from "../../services/CommBroker";
 import {Consts} from "../../Conts";
@@ -26,7 +26,7 @@ import {IMessage} from "../../services/CommBroker";
   `],
     template: `
         <section id="appNavigatorWasp" (click)="listenMenuSelected($event)" class="appMenu fill hidden-xs hidden-sm hidden-md col-lg-1">
-         <li *ngFor="#item of m_items" data-ripple-color="white" class="btn btn-default list-group-item navicons">
+         <li *ngFor="let item of m_items" data-ripple-color="white" class="btn btn-default list-group-item navicons">
             <i class="iconSize fa {{item.localFontAwesome}}" [hidden]="m_hidden">
             </i>
             <span>{{item.localTabTitle}}</span>

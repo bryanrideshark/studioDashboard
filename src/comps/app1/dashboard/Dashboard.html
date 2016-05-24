@@ -64,7 +64,7 @@
         <div class="btn-group" role="group">
           <select (change)="onStationsFilterSelected('appVersion', $event.target.value)" class="form-control">
             <option>all player versions</option>
-            <option *ngFor="#item of stationsFilter['appVersion'] | sortBy">{{item}}</option>
+            <option *ngFor="let item of stationsFilter['appVersion'] | sortBy">{{item}}</option>
           </select>
         </div>
       </div>
@@ -72,7 +72,7 @@
         <div class="btn-group" role="group">
           <select (change)="onStationsFilterSelected('os', $event.target.value)" class="form-control">
             <option>all os versions</option>
-            <option *ngFor="#item of stationsFilter['os'] | sortBy">{{item}}</option>
+            <option *ngFor="let item of stationsFilter['os'] | sortBy">{{item}}</option>
           </select>
         </div>
       </div>
@@ -80,7 +80,7 @@
         <div class="btn-group" role="group">
           <select (change)="onStationsFilterSelected('airVersion', $event.target.value)" class="form-control">
             <option>all runtime versions</option>
-            <option *ngFor="#item of stationsFilter['airVersion'] | sortBy">{{item}}</option>
+            <option *ngFor="let item of stationsFilter['airVersion'] | sortBy">{{item}}</option>
           </select>
         </div>
       </div>

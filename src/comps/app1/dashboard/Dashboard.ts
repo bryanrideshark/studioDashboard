@@ -1,4 +1,4 @@
-import {Component, ViewChild, ChangeDetectorRef} from 'angular2/core'
+import {Component, ViewChild, ChangeDetectorRef} from '@angular/core'
 import {Infobox} from "../../infobox/Infobox";
 import {List, Map} from 'immutable';
 import {AppStore} from "angular2-redux-util/dist/index";
@@ -7,7 +7,6 @@ import {ServerStats} from "./ServerStats";
 import {ServerAvg} from "./ServerAvg";
 import {AppdbAction} from "../../../appdb/AppdbAction";
 import {StationsMap} from "./StationsMap";
-import {CanActivate, OnActivate, ComponentInstruction, Router} from "angular2/router";
 import {appInjService} from "../../../services/AppInjService";
 import {AuthService} from "../../../services/AuthService";
 import {StationModel} from "../../../stations/StationModel";
@@ -16,7 +15,7 @@ import {SortBy} from "../../../pipes/SortBy";
 import {StationsGrid} from "./StationsGrid";
 import {CommBroker, IMessage} from "../../../services/CommBroker";
 import {Consts} from "../../../Conts";
-import {FORM_DIRECTIVES, Control} from "angular2/common";
+import {FORM_DIRECTIVES, Control} from "@angular/common";
 import {ModalComponent} from "../../ng2-bs3-modal/components/modal";
 import {MODAL_DIRECTIVES} from "../../ng2-bs3-modal/ng2-bs3-modal";
 import {StationDetails} from "./StationDetails";
@@ -41,11 +40,11 @@ type stationComponentMode = "map" | "grid";
     templateUrl: '/src/comps/app1/dashboard/Dashboard.html'
 })
 
-@CanActivate((to:ComponentInstruction, from:ComponentInstruction) => {
-    let authService:AuthService = appInjService().get(AuthService);
-    return authService.checkAccess(to, from);
-})
-export class Dashboard implements OnActivate {
+// @CanActivate((to:ComponentInstruction, from:ComponentInstruction) => {
+//     let authService:AuthService = appInjService().get(AuthService);
+//     return authService.checkAccess(to, from);
+// })
+export class Dashboard  {
 
     constructor(private appStore:AppStore, private appDbActions:AppdbAction, private cd:ChangeDetectorRef, private commBroker:CommBroker) {
         // constructor(private appStore:AppStore, private appDbActions:AppdbAction, private commBroker:CommBroker) {
@@ -88,9 +87,6 @@ export class Dashboard implements OnActivate {
         airVersion: [],
         appVersion: []
     };
-
-    routerOnActivate(to:ComponentInstruction, from:ComponentInstruction) {
-    }
 
     private listenStationsErrors() {
         this.commBroker.onEvent(Consts.Events().STATIONS_NETWORK_ERROR).subscribe((e:IMessage)=> {

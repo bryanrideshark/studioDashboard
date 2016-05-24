@@ -1,4 +1,4 @@
-import {Component, Input, ChangeDetectionStrategy, ViewChild} from 'angular2/core'
+import {Component, Input, ChangeDetectionStrategy, ViewChild} from '@angular/core'
 import {List, Map} from 'immutable';
 import {BusinessModel} from "../../../business/BusinessModel";
 import {OrderBy} from "../../../pipes/OrderBy";

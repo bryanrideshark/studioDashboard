@@ -1,4 +1,4 @@
-import {Injectable, provide} from "angular2/core";
+import {Injectable, provide} from "@angular/core";
 import {BusinessAction} from "../business/BusinessAction";
 import {ResellerAction} from "../reseller/ResellerAction";
 import {AppdbAction} from "../appdb/AppdbAction";

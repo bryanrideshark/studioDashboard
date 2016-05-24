@@ -1,6 +1,5 @@
-import {Component} from 'angular2/core';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
-import {RouterLink, Router} from 'angular2/router';
+import {Component} from '@angular/core';
+import {ROUTER_DIRECTIVES} from '@angular/router';
 import {Lib} from "../../Lib";
 
 @Component({
@@ -35,33 +34,33 @@ import {Lib} from "../../Lib";
         </div>
     </div>
     `,
-    directives: [ROUTER_DIRECTIVES, RouterLink]
+    directives: [ROUTER_DIRECTIVES]
 })
 export class AppManager {
-    private myRouter:Router;
-    constructor(router:Router) {
-        this.myRouter = router;
-
-        // if you wish to subscribe to router calls
-        //this.myRouter.parent.subscribe(function(e){
-        //    console.log(`Route ${e}`);
-        //});
-    }
+    // private myRouter:Router;
+    // constructor(router:Router) {
+    //     this.myRouter = router;
+    //
+    //     // if you wish to subscribe to router calls
+    //     //this.myRouter.parent.subscribe(function(e){
+    //     //    console.log(`Route ${e}`);
+    //     //});
+    // }
 
     ngAfterViewInit() {
     }
 
     private goToApp1() {
-        setTimeout(e=>this.myRouter.navigate(['/App1']),500);
+        // setTimeout(e=>this.myRouter.navigate(['/App1']),500);
 
     }
 
     private goToApp2() {
-        setTimeout(e=>this.myRouter.navigate(['/App2']),500);
+        // setTimeout(e=>this.myRouter.navigate(['/App2']),500);
     }
 
     private goToApp3() {
-        setTimeout(e=>this.myRouter.navigate(['/App3']),500);
+        // setTimeout(e=>this.myRouter.navigate(['/App3']),500);
     }
 }
 

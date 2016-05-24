@@ -1,6 +1,6 @@
-import {Injectable} from "angular2/core";
+import {Injectable} from "@angular/core";
 import {Actions, AppStore} from "angular2-redux-util";
-import {Http, Jsonp} from "angular2/http";
+import {Http, Jsonp} from "@angular/http";
 import {FlagsAuth} from "../services/AuthService";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
@@ -19,7 +19,7 @@ export const AUTH_FAIL = 'AUTH_FAIL';
 export class AppdbAction extends Actions {
     parseString;
 
-    constructor(private appStore:AppStore, private _http:Http, private jsonp:Jsonp) {
+    constructor(private appStore:AppStore, private _http:Http) {
         super(appStore);
         // this.parseString = require('xml2js').parseString;
         this.parseString = xml2js.parseString;

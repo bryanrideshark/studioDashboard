@@ -1,5 +1,4 @@
-import {Component} from "angular2/core";
-import {CanActivate, ComponentInstruction} from "angular2/router";
+import {Component} from "@angular/core";
 import {AppStore} from "angular2-redux-util/dist/index";
 import {BusinessAction} from "../../../business/BusinessAction";
 import {BusinessModel} from "../../../business/BusinessModel";
@@ -14,10 +13,10 @@ import * as _ from 'lodash'
     template: `<h1>Orders</h1>`
 })
 
-@CanActivate((to:ComponentInstruction, from:ComponentInstruction) => {
-    let authService:AuthService = appInjService().get(AuthService);
-    return authService.checkAccess(to, from, ['/Login/Login']);
-})
+// @CanActivate((to:ComponentInstruction, from:ComponentInstruction) => {
+//     let authService:AuthService = appInjService().get(AuthService);
+//     return authService.checkAccess(to, from, ['/Login/Login']);
+// })
 
 export class Orders {
 

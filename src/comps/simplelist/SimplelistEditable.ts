@@ -1,7 +1,7 @@
 import {
     Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnChanges, SimpleChange,
     ViewChild, QueryList
-} from 'angular2/core'
+} from '@angular/core'
 
 @Component({
     selector: 'simpleListEditable',

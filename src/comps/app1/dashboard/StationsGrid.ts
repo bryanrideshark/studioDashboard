@@ -1,4 +1,4 @@
-import {Component, Input, Output, ViewChild, EventEmitter, ChangeDetectionStrategy, OnChanges, SimpleChange} from 'angular2/core'
+import {Component, Input, Output, ViewChild, EventEmitter, ChangeDetectionStrategy, OnChanges, SimpleChange} from '@angular/core'
 import {OrderBy} from "../../../pipes/OrderBy";
 import {SIMPLEGRID_DIRECTIVES} from "../../simplegrid/SimpleGrid";
 import {MODAL_DIRECTIVES} from "../../ng2-bs3-modal/ng2-bs3-modal";
@@ -53,7 +53,7 @@ import {SimpleGridRecord} from "../../simplegrid/SimpleGridRecord";
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="simpleGridRecord" (onDoubleClicked)="onDoubleClicked($event)" simpleGridRecord *ngFor="#item of m_stations | OrderBy:sort.field:sort.desc; #index=index" [item]="item" [index]="index">
+                    <tr class="simpleGridRecord" (onDoubleClicked)="onDoubleClicked($event)" simpleGridRecord *ngFor="let item of m_stations | OrderBy:sort.field:sort.desc; #index=index" [item]="item" [index]="index">
                       <td style="width: 5%" simpleGridDataImage [color]="item.getConnectionIcon('color')" [field]="item.getConnectionIcon('icon')" [item]="item"></td>
                       <td style="width: 5%" simpleGridDataImage color="dodgerblue" [field]="item.getWatchDogConnection()" [item]="item"></td>
                       <td style="width: 25%" simpleGridData editable="false" field="name" [item]="item"></td>

@@ -1,6 +1,5 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef} from 'angular2/core';
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/observable/fromArray';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/merge';
 import 'rxjs/add/operator/distinctUntilChanged';

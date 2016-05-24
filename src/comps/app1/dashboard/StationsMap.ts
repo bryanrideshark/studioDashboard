@@ -13,7 +13,7 @@
 // http://jsfiddle.net/gh/get/jquery/1.9.1/highslide-software/highcharts.com/tree/master/samples/stock/demo/dynamic-update/
 
 
-import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from 'angular2/core';
+import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
 import {Ng2Highmaps} from '../../ng2-highcharts/ng2-highcharts';
 import {StationModel} from "../../../stations/StationModel";
 import * as _ from 'lodash'
@@ -21,7 +21,7 @@ import * as _ from 'lodash'
 // window['Highmaps'] = require('highcharts/modules/map')(Highcharts);
 import * as Ng2Highcharts from 'highcharts/modules/map';
 var hc:any = Ng2Highcharts;
-hc(Highcharts);
+// hc(Highcharts);
 
 @Component({
     selector: 'stationsMap',
@@ -35,7 +35,7 @@ hc(Highcharts);
 })
 export class StationsMap {
     constructor() {
-        this.initMap();
+        // this.initMap();
     }
 
     @Input()

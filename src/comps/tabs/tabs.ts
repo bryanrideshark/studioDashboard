@@ -1,11 +1,11 @@
-import {Component} from 'angular2/core';
+import {Component} from '@angular/core';
 //import {Tab} from 'tab';
 
 @Component({
     selector: 'tabs',
     template: `
     <ul class="nav nav-tabs">
-      <li *ngFor="#tab of tabs" (click)="selectTab(tab, $event)" [class.active]="tab.active">
+      <li *ngFor="let tab of tabs" (click)="selectTab(tab, $event)" [class.active]="tab.active">
         <a href="#">{{tab.title}}</a>
       </li>
     </ul>

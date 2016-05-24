@@ -1,4 +1,4 @@
-import {Injectable} from "angular2/core";
+import {Injectable} from "@angular/core";
 import {Actions, AppStore} from "angular2-redux-util";
 import {Observable} from "rxjs/Observable";
 import {List, Map} from 'immutable';
@@ -15,7 +15,7 @@ import {
     RequestOptions,
     RequestMethod,
     RequestOptionsArgs
-} from 'angular2/http'
+} from '@angular/http'
 import {StationModel} from "./StationModel";
 import {CommBroker} from "../services/CommBroker";
 import {Consts} from "../Conts";
@@ -174,7 +174,7 @@ export class StationsAction extends Actions {
                 .finally(() => {
                     // console.log('done');
                 })
-                .map(result => {
+                .map((result:any) => {
                     var stations = result.json();
                     for (var station in stations) {
                         var i_station = stations[station];

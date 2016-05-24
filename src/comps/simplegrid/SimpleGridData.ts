@@ -1,4 +1,4 @@
-import {Component, Input, ChangeDetectionStrategy, Output, EventEmitter} from 'angular2/core'
+import {Component, Input, ChangeDetectionStrategy, Output, EventEmitter} from '@angular/core'
 import {StoreModel} from "../../models/StoreModel";
 import {ISimpleGridEdit} from "./SimpleGrid";
 

@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnDestroy, Input, Output, EventEmitter, Type } from 'angular2/core';
+import { Component, AfterViewInit, OnDestroy, Input, Output, EventEmitter, Type } from '@angular/core';
 
 declare var jQuery: any;
 
@@ -26,7 +26,7 @@ export class ModalComponent implements OnDestroy {
     @Input() backdrop: string;
     @Input() keyboard: boolean;
     @Input() size: string;
-    @Output() onClose: EventEmitter<string> = new EventEmitter();
+    @Output() onClose: EventEmitter<any> = new EventEmitter();
 
     init() {
         this.$modal = jQuery('#' + this.id);

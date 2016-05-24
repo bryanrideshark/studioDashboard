@@ -1,4 +1,4 @@
-import {Injectable} from "angular2/core";
+import {Injectable} from "@angular/core";
 import {Actions, AppStore} from "angular2-redux-util";
 import {PrivelegesModel} from "./PrivelegesModel";
 import {PrivelegesTemplateModel} from "./PrivelegesTemplateModel";
@@ -20,7 +20,7 @@ import {
     RequestOptions,
     RequestMethod,
     RequestOptionsArgs
-} from 'angular2/http'
+} from '@angular/http'
 import {CreditService} from "../services/CreditService";
 import * as Immutable from 'immutable'
 import * as bootbox from 'bootbox';
@@ -316,7 +316,7 @@ export class ResellerAction extends Actions {
                     })
                     .finally(() => {
                     })
-                    .map(result => {
+                    .map((result:any) => {
                         var privilegesId = result.text();
                         var privilegesModel:PrivelegesModel = this.privilegesModelFactory(privilegesId, privName)
                         dispatch(this.addPrivilege(privilegesModel));
@@ -437,7 +437,7 @@ export class ResellerAction extends Actions {
                 .finally(() => {
                     console.log('SAVED !!!!!!!!!');
                 })
-                .map(result => {
+                .map((result:any) => {
                     if (result.status != 200)
                         bootbox.alert('Error when accountInfo 2');
                 }).subscribe();
@@ -492,7 +492,7 @@ export class ResellerAction extends Actions {
                 })
                 .finally(() => {
                 })
-                .map(result => {
+                .map((result:any) => {
                     if (result.status != 200)
                         bootbox.alert('Error when whitelabel 2');
                 }).subscribe();
@@ -527,7 +527,7 @@ export class ResellerAction extends Actions {
                     })
                     .finally(() => {
                     })
-                    .map(result => {
+                    .map((result:any) => {
                         if (result.status != 200)
                             bootbox.alert('Error when saving priveleges 2');
                     }).subscribe();

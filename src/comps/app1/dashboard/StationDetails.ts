@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnChanges, SimpleChange} from 'angular2/core'
+import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnChanges, SimpleChange} from '@angular/core'
 import {StationModel} from "../../../stations/StationModel";
 import * as _ from 'lodash'
 

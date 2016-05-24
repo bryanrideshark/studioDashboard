@@ -1,13 +1,13 @@
-import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef} from 'angular2/core'
-import {CanActivate, ComponentInstruction} from "angular2/router";
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef} from "@angular/core";
 import {AuthService} from "../../../services/AuthService";
 import {appInjService} from "../../../services/AppInjService";
 import {AppModel} from "../../../reseller/AppModel";
-import {List} from 'immutable';
+import {List} from "immutable";
 import {AppStore} from "angular2-redux-util/dist/index";
 import {ResellerAction} from "../../../reseller/ResellerAction";
 import {SIMPLEGRID_DIRECTIVES} from "../../simplegrid/SimpleGrid";
 import {OrderBy} from "../../../pipes/OrderBy";
+import {ComponentInstruction, CanActivate} from "@angular/router-deprecated";
 
 @Component({
     selector: 'apps',
@@ -24,7 +24,7 @@ import {OrderBy} from "../../../pipes/OrderBy";
             </tr>
             </thead>
             <tbody>
-            <tr class="simpleGridRecord" simpleGridRecord *ngFor="#item of apps | OrderBy:sort.field:sort.desc; #index=index" [item]="item" [index]="index">
+            <tr class="simpleGridRecord" simpleGridRecord *ngFor="let item of apps | OrderBy:sort.field:sort.desc; #index=index" [item]="item" [index]="index">
               <td style="width: 10%" simpleGridDataImage color="dodgerblue" [field]="item.getIcon(item)" [item]="item"></td> 
               <td style="width: 70%" simpleGridData field="appName" [item]="item"></td>
               <td style="width: 20%" simpleGridDataChecks slideMode="true" [item]="item" [checkboxes]="getInstalledStatus(item)" (changed)="onAppInstalledChange($event,index)"></td>
@@ -35,6 +35,7 @@ import {OrderBy} from "../../../pipes/OrderBy";
     `,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
+
 @CanActivate((to:ComponentInstruction, from:ComponentInstruction) => {
     let authService:AuthService = appInjService().get(AuthService);
     return authService.checkAccess(to, from, ['/Login/Login']);

@@ -1,5 +1,5 @@
 /// <reference path="../../typings/highcharts/highcharts.d.ts" />
-import {Directive, ElementRef, Input, Output, EventEmitter} from 'angular2/core';
+import {Directive, ElementRef, Input, Output, EventEmitter} from '@angular/core';
 
 @Directive({
     selector: '[ng2-highcharts]'

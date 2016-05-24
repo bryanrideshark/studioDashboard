@@ -1,12 +1,12 @@
-import {Injectable, Injector} from 'angular2/core';
-import {Router, ComponentInstruction} from "angular2/router";
+import {Injectable, Injector} from "@angular/core";
+import {Router, ComponentInstruction} from "@angular/router-deprecated";
 import {AppStore} from "angular2-redux-util";
 import {LocalStorage} from "./LocalStorage";
 import {StoreService} from "./StoreService";
 import {AppdbAction} from "../appdb/AppdbAction";
 import {appInjService} from "./AppInjService";
+import * as bootbox from "bootbox";
 import Map = Immutable.Map;
-import * as bootbox from 'bootbox';
 
 export enum FlagsAuth {
     AuthPass,

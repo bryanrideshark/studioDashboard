@@ -40,7 +40,7 @@
               <li class="list-group-item">
                 <!--<input type="text" class="longInput form-control" placeholder="privileges" required [ngFormControl]="notesForm.controls['privileges']">-->
                 <select class="form-control longInput" (change)="onPriveleges($event)" [ngFormControl]="notesForm.controls['privileges']">
-                  <option *ngFor="#item of priveleges">{{item.getKey('name')}}</option>
+                  <option *ngFor="let item of priveleges">{{item.getKey('name')}}</option>
                 </select>
               </li>
             </ul>
@@ -54,7 +54,7 @@
               <i class="fa fa-key pull-right"></i>
             </div>
             <ul class="list-group">
-              <li class="list-group-item" *ngFor="#item of accessKeysArr; #index=index">
+              <li class="list-group-item" *ngFor="let item of accessKeysArr; #index=index">
                 Key {{index}}
                 <div class="material-switch pull-right">
                   <input (click)="onKeyChange($event,index)" [(ngModel)]="accessKeys[index]" id="{{item}}" name="{{item}}" type="checkbox"/>

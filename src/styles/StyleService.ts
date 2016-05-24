@@ -1,4 +1,4 @@
-import {Injectable} from "angular2/core";
+import {Injectable} from "@angular/core";
 import {LocalStorage} from "../services/LocalStorage";
 import {StyleModel} from "../models/StyleModel";
 import {CommBroker} from "../services/CommBroker";

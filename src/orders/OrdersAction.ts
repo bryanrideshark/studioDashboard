@@ -1,5 +1,5 @@
-import {Http, Jsonp} from "angular2/http";
-import {Injectable} from "angular2/core";
+import {Http, Jsonp} from "@angular/http";
+import {Injectable} from "@angular/core";
 import {Actions, AppStore} from "angular2-redux-util";
 import {OrderModel} from "./OrderModel";
 import {Map, List} from 'immutable';
@@ -40,7 +40,7 @@ export class OrdersAction extends Actions {
             })
             .finally(() => {
             })
-            .map(result => {
+            .map((result:any) => {
                 //todo: create OrderModels
                 var orders:any = result.json();
             }).subscribe();
@@ -59,7 +59,7 @@ export class OrdersAction extends Actions {
                 })
                 .finally(() => {
                 })
-                .map(result => {
+                .map((result:any) => {
                     var accountType = result.json().accountType
                     dispatch(this.receiveAccountType(accountType))
                     if (accountType == 'UNKNOWN') {

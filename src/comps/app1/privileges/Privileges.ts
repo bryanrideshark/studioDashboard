@@ -1,10 +1,9 @@
-import {Component, Input, Output, EventEmitter, ViewChild} from 'angular2/core'
+import {Component, Input, Output, EventEmitter, ViewChild} from '@angular/core'
 import {Loading} from "../../loading/Loading";
 import {SimpleList, ISimpleListItem} from "../../simplelist/Simplelist";
 import {PrivelegesModel} from "../../../reseller/PrivelegesModel";
 import {List} from 'immutable';
 import {AppStore} from "angular2-redux-util/dist/index";
-import {CanActivate, ComponentInstruction} from "angular2/router";
 import {AuthService} from "../../../services/AuthService";
 import {appInjService} from "../../../services/AppInjService";
 import {PrivilegesDetails} from "./PrivilegesDetails";
@@ -65,10 +64,10 @@ import * as bootbox from 'bootbox';
         </div>
     `
 })
-@CanActivate((to:ComponentInstruction, from:ComponentInstruction) => {
-    let authService:AuthService = appInjService().get(AuthService);
-    return authService.checkAccess(to, from, ['/Login/Login']);
-})
+// @CanActivate((to:ComponentInstruction, from:ComponentInstruction) => {
+//     let authService:AuthService = appInjService().get(AuthService);
+//     return authService.checkAccess(to, from, ['/Login/Login']);
+// })
 export class Privileges {
 
     constructor(private appStore:AppStore, private resellerAction:ResellerAction) {

@@ -1,6 +1,6 @@
 import {
     Component, Input, ChangeDetectionStrategy, Output, EventEmitter, ViewChildren, QueryList, HostListener
-} from 'angular2/core'
+} from '@angular/core'
 import {List} from "immutable";
 import {StoreModel} from "../../models/StoreModel";
 
@@ -22,10 +22,10 @@ import {StoreModel} from "../../models/StoreModel";
                <div class="btn-group">
                     <!--<select class="form-control longInput" [ngFormControl]="notesForm.controls['privileges']">-->
                     <select (change)="onChanges($event)" class="form-control custom longInput">
-                      <option *ngFor="#dropItem of m_dropdown" [selected]="getSelected(dropItem)">{{dropItem.getKey(m_field)}}</option>
+                      <option *ngFor="let dropItem of m_dropdown" [selected]="getSelected(dropItem)">{{dropItem.getKey(m_field)}}</option>
                     </select>
                </div>
-        <!--<div *ngFor="#item of m_checkboxes">-->
+        <!--<div *ngFor="let item of m_checkboxes">-->
           <!--<label class="pull-left">{{item.name}}</label>-->
           <!--<Input #checkInputs type="checkbox" [checked]="item.checked" value="{{item.value}}" class="pull-left" style="margin-right: 2px">-->
         <!--</div>-->

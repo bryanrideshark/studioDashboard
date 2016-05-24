@@ -5,7 +5,7 @@
                       <span dropdown (on-toggle)="toggled($event)">
                       <a class="btns addUser" dropdownToggle href="#"><span class="fa fa-plus"></span></a>
                         <ul class="dropdown-menu" aria-labelledby="simple-dropdown">
-                          <li *ngFor="#choice of accounts">
+                          <li *ngFor="let choice of accounts">
                             <a (click)="onAddUser(choice)" class="dropdown-item" href="#">{{choice}}</a>
                           </li>
                         </ul>

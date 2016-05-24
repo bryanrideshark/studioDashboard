@@ -1,5 +1,4 @@
-import {Component, ChangeDetectionStrategy} from 'angular2/core'
-import {CanActivate, ComponentInstruction} from "angular2/router";
+import {Component, ChangeDetectionStrategy} from "@angular/core";
 import {AuthService} from "../../../services/AuthService";
 import {appInjService} from "../../../services/AppInjService";
 import {Tab} from "../../tabs/tab";
@@ -7,7 +6,7 @@ import {Tabs} from "../../tabs/tabs";
 import {WhitelabelModel} from "../../../reseller/WhitelabelModel";
 import {ResellerAction} from "../../../reseller/ResellerAction";
 import {AppStore} from "angular2-redux-util/dist/index";
-import {FORM_DIRECTIVES, ControlGroup, FormBuilder, Control} from "angular2/common";
+import {FORM_DIRECTIVES, ControlGroup, FormBuilder, Control} from "@angular/common";
 import {BlurForwarder} from "../../blurforwarder/BlurForwarder";
 import {Loading} from "../../loading/Loading";
 import {List} from "immutable";
@@ -15,8 +14,10 @@ import {Lib} from "../../../Lib";
 import {AccountModel} from "../../../reseller/AccountModel";
 import {CreditService} from "../../../services/CreditService";
 import {InputEdit} from "../../../comps/inputedit/InputEdit";
-import * as _ from 'lodash'
-import * as bootbox from 'bootbox';
+import {ComponentInstruction, CanActivate} from "@angular/router-deprecated";
+import * as _ from "lodash";
+import * as bootbox from "bootbox";
+
 
 @Component({
     selector: 'accounts',
@@ -33,6 +34,7 @@ import * as bootbox from 'bootbox';
     changeDetection: ChangeDetectionStrategy.Default,
     templateUrl: `/src/comps/app1/account/Account.html`
 })
+
 @CanActivate((to:ComponentInstruction, from:ComponentInstruction) => {
     let authService:AuthService = appInjService().get(AuthService);
     return authService.checkAccess(to, from, ['/Login/Login']);

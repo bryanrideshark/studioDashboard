@@ -35,7 +35,7 @@
       </div>
       <div *ngIf="getRecurringValue('recurringMode') != 'ANNUAL'">
         <select (change)="onPaymentChanged($event)" style="width: 200px; margin-top: 20px; font-size: 1.3em" class="form-control pull-right">
-          <option *ngFor="#item of payments" [selected]="getSelectedPayment(item)">{{item.name}}</option>
+          <option *ngFor="let item of payments" [selected]="getSelectedPayment(item)">{{item.name}}</option>
         </select>
       </div>
       <hr/>
@@ -46,7 +46,7 @@
       <div class="panel-heading">
         <h3 class="panel-title">
           <center>
-            <img *ngFor="#card of cards" [ngClass]="{faded: !isCardSelected(card)}" style="padding: 5px" [src]="'assets/'+card+'.png'">
+            <img *ngFor="let card of cards" [ngClass]="{faded: !isCardSelected(card)}" style="padding: 5px" [src]="'assets/'+card+'.png'">
           </center>
         </h3>
       </div>

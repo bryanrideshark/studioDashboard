@@ -1,5 +1,5 @@
-import {Http, Jsonp} from "angular2/http";
-import {Injectable} from "angular2/core";
+import {Http, Jsonp} from "@angular/http";
+import {Injectable} from "@angular/core";
 import {Actions, AppStore} from "angular2-redux-util";
 import {BusinessModel} from "./BusinessModel";
 import {Map, List} from 'immutable';
@@ -146,7 +146,7 @@ export class BusinessAction extends Actions {
                 })
                 .finally(() => {
                 })
-                .map(result => {
+                .map((result:any) => {
                     var reply:any = result.text();
                     if (reply == 'True') {
                     } else {
@@ -167,7 +167,7 @@ export class BusinessAction extends Actions {
             })
             .finally(() => {
             })
-            .map(result => {
+            .map((result:any) => {
                 var reply:string = result.text();
                 cb(reply)
             }).subscribe();
@@ -185,7 +185,7 @@ export class BusinessAction extends Actions {
             })
             .finally(() => {
             })
-            .map(result => {
+            .map((result:any) => {
                 var reply:string = result.text();
                 cb(reply)
             }).subscribe();
@@ -203,7 +203,7 @@ export class BusinessAction extends Actions {
                 })
                 .finally(() => {
                 })
-                .map(result => {
+                .map((result:any) => {
                     var reply:any = result.text();
                     // if (reply == 'True') {
                     //     dispatch(this.fetchBusinesses());
@@ -354,7 +354,7 @@ export class BusinessAction extends Actions {
                 })
                 .finally(() => {
                 })
-                .map(result => {
+                .map((result:any) => {
                     var reply:any = result.text();
                     if (reply == 'True') {
                         bootbox.alert('User imported successfully');
@@ -386,7 +386,7 @@ export class BusinessAction extends Actions {
                 })
                 .finally(() => {
                 })
-                .map(result => {
+                .map((result:any) => {
                     var reply:any = result.text();
                     if (reply == 'True') {
                         dispatch(this.fetchBusinesses());

@@ -1,5 +1,4 @@
-import {Component, ViewChild, ElementRef} from 'angular2/core'
-import {CanActivate, ComponentInstruction} from "angular2/router";
+import {Component, ViewChild, ElementRef} from '@angular/core'
 import {SimpleList, ISimpleListItem} from "../../simplelist/SimpleList";
 import {AppStore} from "angular2-redux-util/dist/index";
 import {DROPDOWN_DIRECTIVES} from "ng2-bootstrap/ng2-bootstrap";
@@ -32,10 +31,10 @@ import * as _ from 'lodash'
 //templateUrl: 'Users.html'
 //moduleId: module.id,
 
-@CanActivate((to:ComponentInstruction, from:ComponentInstruction) => {
-    let authService:AuthService = appInjService().get(AuthService);
-    return authService.checkAccess(to, from, ['/Login/Login']);
-})
+// @CanActivate((to:ComponentInstruction, from:ComponentInstruction) => {
+//     let authService:AuthService = appInjService().get(AuthService);
+//     return authService.checkAccess(to, from, ['/Login/Login']);
+// })
 
 export class Users {
 
@@ -62,6 +61,7 @@ export class Users {
         this.priveleges = i_reseller.getIn(['privileges']);
         this.unsub3 = this.appStore.sub((privelegesModel:List<PrivelegesModel>) => {
             this.priveleges = privelegesModel;
+            var a = 1;
         }, 'reseller.privileges');
     }
 
