@@ -14,7 +14,7 @@ import {Lib} from "../../../Lib";
 import {AccountModel} from "../../../reseller/AccountModel";
 import {CreditService} from "../../../services/CreditService";
 import {InputEdit} from "../../../comps/inputedit/InputEdit";
-import {ComponentInstruction, CanActivate} from "@angular/router-deprecated";
+// import {ComponentInstruction, CanActivate} from "@angular/router";
 import * as _ from "lodash";
 import * as bootbox from "bootbox";
 
@@ -35,10 +35,10 @@ import * as bootbox from "bootbox";
     templateUrl: `/src/comps/app1/account/Account.html`
 })
 
-@CanActivate((to:ComponentInstruction, from:ComponentInstruction) => {
-    let authService:AuthService = appInjService().get(AuthService);
-    return authService.checkAccess(to, from, ['/Login/Login']);
-})
+// @CanActivate((to:ComponentInstruction, from:ComponentInstruction) => {
+//     let authService:AuthService = appInjService().get(AuthService);
+//     return authService.checkAccess(to, from, ['/Login/Login']);
+// })
 export class Account {
 
     constructor(private creditService:CreditService, private appStore:AppStore, private fb:FormBuilder, private resellerAction:ResellerAction) {

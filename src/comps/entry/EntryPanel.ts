@@ -1,10 +1,10 @@
 import {Component} from "@angular/core";
 import {ForgotPass} from "../../../src/comps/entry/ForgotPass";
 import {LoginPanel} from "../../../src/comps/entry/LoginPanel";
-import {RouteConfig, ROUTER_DIRECTIVES} from "@angular/router-deprecated";
+import {Routes, ROUTER_DIRECTIVES} from "@angular/router";
 
 
-@RouteConfig([
+@Routes([
     {path: '/Another2', component: LoginPanel},
     {path: '/Another3', component: ForgotPass},
     {path: '/ForgotPass', component: ForgotPass},

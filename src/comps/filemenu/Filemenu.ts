@@ -7,6 +7,7 @@ import {Router} from "@angular/router";
 import {CommBroker} from "../../services/CommBroker";
 import {Consts} from "../../Conts";
 import {App} from "../../../src/App";
+import jQuery from 'jquery';
 
 /**
  Filemenu manages the top header file menu per application as it mutates it's content depending
@@ -53,8 +54,8 @@ export class Filemenu {
         self.el = viewContainer.element.nativeElement;
         self.m_fileMenuWrap = self.dom.getElementsByClassName(self.el, 'm_fileMenuWrap');
 
-        router.changes.subscribe(function (currentRoute:any) {
-            if (currentRoute==null)
+        router.changes.subscribe((currentRoute:any)=> {
+            if (currentRoute == null)
                 return;
             self.m_renderedItems = [];
             for (var item in self.m_items) {

@@ -7,7 +7,7 @@ import {AppStore} from "angular2-redux-util/dist/index";
 import {ResellerAction} from "../../../reseller/ResellerAction";
 import {SIMPLEGRID_DIRECTIVES} from "../../simplegrid/SimpleGrid";
 import {OrderBy} from "../../../pipes/OrderBy";
-import {ComponentInstruction, CanActivate} from "@angular/router-deprecated";
+// import {ComponentInstruction} from "@angular/router";
 
 @Component({
     selector: 'apps',
@@ -24,7 +24,7 @@ import {ComponentInstruction, CanActivate} from "@angular/router-deprecated";
             </tr>
             </thead>
             <tbody>
-            <tr class="simpleGridRecord" simpleGridRecord *ngFor="let item of apps | OrderBy:sort.field:sort.desc; #index=index" [item]="item" [index]="index">
+            <tr class="simpleGridRecord" simpleGridRecord *ngFor="let item of apps | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">
               <td style="width: 10%" simpleGridDataImage color="dodgerblue" [field]="item.getIcon(item)" [item]="item"></td> 
               <td style="width: 70%" simpleGridData field="appName" [item]="item"></td>
               <td style="width: 20%" simpleGridDataChecks slideMode="true" [item]="item" [checkboxes]="getInstalledStatus(item)" (changed)="onAppInstalledChange($event,index)"></td>
@@ -36,10 +36,10 @@ import {ComponentInstruction, CanActivate} from "@angular/router-deprecated";
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-@CanActivate((to:ComponentInstruction, from:ComponentInstruction) => {
-    let authService:AuthService = appInjService().get(AuthService);
-    return authService.checkAccess(to, from, ['/Login/Login']);
-})
+// @CanActivate((to:ComponentInstruction, from:ComponentInstruction) => {
+//     let authService:AuthService = appInjService().get(AuthService);
+//     return authService.checkAccess(to, from, ['/Login/Login']);
+// })
 export class Apps {
 
     constructor(private appStore:AppStore, private resellerAction:ResellerAction, private ref:ChangeDetectorRef) {

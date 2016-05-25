@@ -8,7 +8,6 @@ import 'rxjs/add/observable/throw';
 import {
     Headers,
     Http,
-    Jsonp,
     Response,
     HTTP_BINDINGS,
     Request,
@@ -30,7 +29,7 @@ export const RECEIVE_TOTAL_STATIONS = 'RECEIVE_TOTAL_STATIONS';
 @Injectable()
 export class StationsAction extends Actions {
 
-    constructor(private appStore:AppStore, private _http:Http, private jsonp:Jsonp, private commBroker:CommBroker) {
+    constructor(private appStore:AppStore, private _http:Http, private commBroker:CommBroker) {
         super(appStore);
         //this.m_parseString = require('xml2js').parseString;
         this.m_parseString = xml2js.parseString;

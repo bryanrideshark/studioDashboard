@@ -54,7 +54,7 @@
               <i class="fa fa-key pull-right"></i>
             </div>
             <ul class="list-group">
-              <li class="list-group-item" *ngFor="let item of accessKeysArr; #index=index">
+              <li class="list-group-item" *ngFor="let item of accessKeysArr; let index=index">
                 Key {{index}}
                 <div class="material-switch pull-right">
                   <input (click)="onKeyChange($event,index)" [(ngModel)]="accessKeys[index]" id="{{item}}" name="{{item}}" type="checkbox"/>

@@ -47,7 +47,7 @@ export const PAY_SUBSCRIBER:number = 4;
 @Injectable()
 export class ResellerAction extends Actions {
 
-    constructor(private appStore:AppStore, private _http:Http, private jsonp:Jsonp, private creditService:CreditService) {
+    constructor(private appStore:AppStore, private _http:Http, private creditService:CreditService) {
         super(appStore);
         // this.m_parseString = require('xml2js').parseString;
         this.m_parseString = xml2js.parseString;

@@ -1,4 +1,4 @@
-import {Http, Jsonp} from "@angular/http";
+import {Http} from "@angular/http";
 import {Injectable} from "@angular/core";
 import {Actions, AppStore} from "angular2-redux-util";
 import {BusinessModel} from "./BusinessModel";

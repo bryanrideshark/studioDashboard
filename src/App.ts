@@ -1,8 +1,7 @@
-//import jQuery from 'jquery';
 import "zone.js/dist/zone";
 import "zone.js/dist/long-stack-trace-zone";
 import "reflect-metadata";
-import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS, Router, RouterLink} from "@angular/router-deprecated";
+import {ROUTER_DIRECTIVES, ROUTER_PROVIDERS, Routes, Router} from "@angular/router";
 import {bootstrap} from "@angular/platform-browser-dynamic";
 import {Component, provide, ViewEncapsulation, PLATFORM_PIPES, ComponentRef} from "@angular/core";
 import * as platform from "platform";
@@ -33,7 +32,6 @@ import {Consts} from "../src/Conts";
 import {LocationStrategy, HashLocationStrategy} from "@angular/common";
 import {AppStore} from "angular2-redux-util";
 import {Lib} from "./Lib";
-import {Observable} from "rxjs/Observable";
 import {CreditService} from "./services/CreditService";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/debounceTime";
@@ -55,6 +53,8 @@ import {reseller} from "./reseller/ResellerReducer";
 import {stations} from "./stations/StationsReducer";
 import {AppdbAction} from "./appdb/AppdbAction";
 import {LogoCompany} from "./comps/logo/LogoCompany";
+import {Observable} from "rxjs/Rx";
+// import {Router} from "@angular/router-deprecated";
 export enum ServerMode {
     CLOUD,
     PRIVATE,
@@ -70,52 +70,65 @@ export enum ServerMode {
     encapsulation: ViewEncapsulation.Emulated,
     providers: [StyleService, AppdbAction],
     templateUrl: '/src/App.html',
-    directives: [ROUTER_DIRECTIVES, RouterLink, Filemenu, FilemenuItem, Logo, LogoCompany, Footer]
+    directives: [ROUTER_DIRECTIVES, Filemenu, FilemenuItem, Logo, LogoCompany, Footer]
 })
-@RouteConfig([
-    {path: "/", name: "root", redirectTo: ["/EntryPanelNoId/Login"], useAsDefault: true},
-    {path: '/AppManager', component: AppManager, as: 'AppManager'},
-    {path: '/EntryPanelNoId/...', component: EntryPanel, as: 'EntryPanelNoId'},
-    {path: '/EntryPanel/:id/...', component: EntryPanel, as: 'EntryPanel'},
-    {path: '/Login/...', component: EntryPanel, as: 'Login'},
-    {path: '/ForgotPass/...', component: EntryPanel, as: 'ForgotPass'},
-    {path: '/App1/...', component: App1, as: 'App1'},
+
+// @Routes([
+//     {path: "/", name: "root", redirectTo: ["/EntryPanelNoId/Login"], useAsDefault: true},
+//     {path: '/AppManager', component: AppManager, as: 'AppManager'},
+//     {path: '/EntryPanelNoId/...', component: EntryPanel, as: 'EntryPanelNoId'},
+//     {path: '/EntryPanel/:id/...', component: EntryPanel, as: 'EntryPanel'},
+//     {path: '/Login/...', component: EntryPanel, as: 'Login'},
+//     {path: '/ForgotPass/...', component: EntryPanel, as: 'ForgotPass'},
+//     {path: '/App1/...', component: App1, as: 'App1'},
+// ])
+
+
+@Routes([
+    {path: '/AppManager', component: AppManager, },
+    {path: '/EntryPanelNoId', component: EntryPanel },
+    {path: '/EntryPanel/:id', component: EntryPanel},
+    {path: '/Login', component: EntryPanel},
+    {path: '/ForgotPass', component: EntryPanel},
+    {path: '/App1', component: App1},
 ])
 export class App {
     private m_styleService:StyleService;
 
-    constructor() {
-    // constructor(private localStorage:LocalStorage, private appStore:AppStore, private commBroker:CommBroker, styleService:StyleService, private appdbAction:AppdbAction, private router:Router) {
-        // // force logout
-        // // this.localStorage.removeItem('remember_me')
-        // // todo: add logic to as when on each env
-        // // 0 = cloud, 1 = private 2 = hybrid
-        // this.checkPlatform();
-        // this.commBroker.setValue(Consts.Values().SERVER_MODE, ServerMode.CLOUD);
-        // this.m_styleService = styleService;
-        // this.commBroker.setService(Consts.Services().App, this);
-        // Observable.fromEvent(window, 'resize').debounceTime(250).subscribe(()=> {
-        //     this.appResized();
-        // });
-        // router.subscribe(function (currentRoute) {
-        //     console.log(currentRoute);
-        // });
+    constructor(private localStorage:LocalStorage, private router:Router, private appStore:AppStore, private commBroker:CommBroker, styleService:StyleService, private appdbAction:AppdbAction) {
+        // force logout
+        // this.localStorage.removeItem('remember_me')
+        // todo: add logic to as when on each env
+        // 0 = cloud, 1 = private 2 = hybrid
+        this.checkPlatform();
+        this.commBroker.setValue(Consts.Values().SERVER_MODE, ServerMode.CLOUD);
+        this.m_styleService = styleService;
+        this.commBroker.setService(Consts.Services().App, this);
+        Observable.fromEvent(window, 'resize').debounceTime(250).subscribe(()=> {
+            this.appResized();
+        });
+        router.changes.subscribe((currentRoute)=> {
+            console.log(currentRoute);
+        });
+        setTimeout(()=>{
+            let target = ['/Login/Login'];
+            router.navigate(target);
+        },3000)
+
     }
+
     private version = '1.355 beta';
 
-    private checkPlatform(){
+    private checkPlatform() {
         switch (platform.name.toLowerCase()) {
-            case 'microsoft edge':
-            {
+            case 'microsoft edge': {
                 alert(`${platform.name} browser not supported at this time, please use Google Chrome`);
                 break;
             }
-            case 'chrome':
-            {
+            case 'chrome': {
                 break;
             }
-            default:
-            {
+            default: {
                 alert('for best performance please use Google Chrome');
                 break;
             }
@@ -137,7 +150,7 @@ export class App {
 
 
 //bootstrap(App, [ROUTER_PROVIDERS, HTTP_PROVIDERS,
-bootstrap(App, [HTTP_PROVIDERS, ROUTER_PROVIDERS, Router,
+bootstrap(App, [HTTP_PROVIDERS, ROUTER_PROVIDERS,
     provide(AppStore, {useFactory: Lib.StoreFactory({notify, appdb, business, stations, reseller, orders})}),
     provide(StoreService, {useClass: StoreService}),
     provide(BusinessAction, {useClass: BusinessAction}),

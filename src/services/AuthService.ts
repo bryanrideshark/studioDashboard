@@ -1,5 +1,5 @@
 import {Injectable, Injector} from "@angular/core";
-import {Router, ComponentInstruction} from "@angular/router-deprecated";
+// import {Router, ComponentInstruction} from "@angular/router";
 import {AppStore} from "angular2-redux-util";
 import {LocalStorage} from "./LocalStorage";
 import {StoreService} from "./StoreService";
@@ -7,6 +7,7 @@ import {AppdbAction} from "../appdb/AppdbAction";
 import {appInjService} from "./AppInjService";
 import * as bootbox from "bootbox";
 import Map = Immutable.Map;
+import {Router} from "@angular/router-deprecated";
 
 export enum FlagsAuth {
     AuthPass,
@@ -103,9 +104,11 @@ export class AuthService {
         }
     }
 
-    public checkAccess(to:ComponentInstruction, from:ComponentInstruction, target = ['/Login/Login']):Promise<any> {
+    // public checkAccess(to:ComponentInstruction, from:ComponentInstruction, target = ['/Login/Login']):Promise<any> {
+    public checkAccess():Promise<any> {
         let injector:Injector = appInjService();
         let router:Router = injector.get(Router);
+        let target = ['/Login/Login'];
 
         if (this.m_authenticated)
             return Promise.resolve(true);

@@ -16,10 +16,12 @@ import {Whitelabel} from "./whitelabel/Whitelabel";
 import {Apps} from "./apps/Apps";
 import {Account} from "./account/Account";
 import {Orders} from "./orders/Orders";
-import {RouteConfig, CanActivate} from "@angular/router-deprecated";
+// import {RouteConfig, CanActivate} from "@angular/router";
 
-@RouteConfig([
-    {path: '/Dashboard', component: Dashboard, as: 'Dashboard', useAsDefault: true},
+//{path: '/Dashboard', component: Dashboard, as: 'Dashboard', useAsDefault: true},
+
+@Routes([
+    {path: '/Dashboard', component: Dashboard},
     {path: '/Users', component: Users},
     {path: '/Privileges', component: Privileges},
     {path: '/White label', component: Whitelabel},
@@ -30,13 +32,13 @@ import {RouteConfig, CanActivate} from "@angular/router-deprecated";
 ])
 
 //CanActivate example of how to allow conditional route access after 10ms of Promise resolution
-@CanActivate(() => {
-   return new Promise(resolve => {
-       setTimeout(e=> {
-           resolve(true)
-       }, 10)
-   })
-})
+// @CanActivate(() => {
+//    return new Promise(resolve => {
+//        setTimeout(e=> {
+//            resolve(true)
+//        }, 10)
+//    })
+// })
 @Component({
     providers: [HTTP_PROVIDERS],
     templateUrl: '/src/comps/app1/App1.html',

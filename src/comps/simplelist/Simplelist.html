@@ -12,7 +12,7 @@
     </div>
     <ul class="list-group">
       <br/>
-      <li #simpleItem *ngFor="let item of list ; #index = index"
+      <li #simpleItem *ngFor="let item of list ; let index = index"
           [class.hidden]="getContent(item) | FilterPipe:filter"
           data-id="simple_id:{{getContentId(item,index)}}"
           class="list-group-item" (click)="itemSelected(item, index)" [class.active]="getMetadata(index,item).selected"

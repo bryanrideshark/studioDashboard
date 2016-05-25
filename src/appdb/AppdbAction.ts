@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {Actions, AppStore} from "angular2-redux-util";
-import {Http, Jsonp} from "@angular/http";
+import {Http} from "@angular/http";
 import {FlagsAuth} from "../services/AuthService";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';

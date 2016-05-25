@@ -444,6 +444,7 @@ SystemJS.config({
         "github:*/*.json"
     ],
     map: {
+        "jquery": "npm:jquery@2.2.4",
         "angular-router-deprecated": "npm:@angular/router-deprecated@2.0.0-rc.1",
         "angular-core": "npm:@angular/core@2.0.0-rc.1",
         "angular-platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.0.0-rc.1",
@@ -479,7 +480,6 @@ SystemJS.config({
         "https": "github:jspm/nodelibs-https@0.2.0-alpha",
         "immutable": "npm:immutable@3.8.1",
         "is-equal": "npm:is-equal@1.5.3",
-        "jquery": "npm:jquery@2.2.4",
         "lodash": "npm:lodash@4.5.1",
         "module": "github:jspm/nodelibs-module@0.2.0-alpha",
         "moment": "npm:moment@2.13.0",
@@ -642,9 +642,6 @@ SystemJS.config({
             }
         },
         "npm:bootbox@4.4.0": {
-            "map": {}
-        },
-        "npm:bootstrap@3.3.6": {
             "map": {}
         },
         "npm:buffer@4.6.0": {

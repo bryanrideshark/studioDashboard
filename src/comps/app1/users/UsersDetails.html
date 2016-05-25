@@ -49,7 +49,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr class="simpleGridRecord" simpleGridRecord *ngFor="let item of m_businesses | OrderBy:sort.field:sort.desc; #index=index" [item]="item" [index]="index">
+    <tr class="simpleGridRecord" simpleGridRecord *ngFor="let item of m_businesses | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">
       <td style="width: 20%" simpleGridData (labelEdited)="onLabelEdited($event,'name')" editable="true" field="name" [item]="item"></td>
       <td style="width: 8%" simpleGridData field="businessId" [item]="item"></td>
       <td style="width: 20%" simpleGridDataChecks (changed)="setAccessMask($event)" [item]="item" [checkboxes]="getAccessMask(item)"></td>
