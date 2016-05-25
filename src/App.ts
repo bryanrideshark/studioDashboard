@@ -101,6 +101,7 @@ export class App {
         // todo: add logic to as when on each env
         // 0 = cloud, 1 = private 2 = hybrid
         this.checkPlatform();
+
         this.commBroker.setValue(Consts.Values().SERVER_MODE, ServerMode.CLOUD);
         this.m_styleService = styleService;
         this.commBroker.setService(Consts.Services().App, this);
@@ -111,8 +112,8 @@ export class App {
             console.log(currentRoute);
         });
         setTimeout(()=>{
-            let target = ['/Login/Login'];
-            router.navigate(target);
+            // let target = ['/Login/Login'];
+            // router.navigate(target);
         },3000)
 
     }
@@ -169,29 +170,29 @@ bootstrap(App, [HTTP_PROVIDERS, ROUTER_PROVIDERS,
         appInjService(appRef.injector);
     }
 );
-// window['hr'] && window['hr'].on('change', (fileName) => {
-//     if (fileName.indexOf('html') !== -1) {
-//         var newBody = document.createElement('body')
-//         newBody.appendChild(document.createElement('app'))
-//         document.body = newBody;
-//         bootstrap(App, [ROUTER_PROVIDERS, HTTP_PROVIDERS,
-//             provide(AppStore, {useFactory: Lib.StoreFactory({notify, appdb, business, stations, reseller, orders})}),
-//             provide(StoreService, {useClass: StoreService}),
-//             provide(BusinessAction, {useClass: BusinessAction}),
-//             provide(ResellerAction, {useClass: ResellerAction}),
-//             provide(OrdersAction, {useClass: OrdersAction}),
-//             provide(StationsAction, {useClass: StationsAction}),
-//             provide(AppdbAction, {useClass: AppdbAction}),
-//             provide(CreditService, {useClass: CreditService}),
-//             provide(AuthService, {useClass: AuthService}),
-//             provide(LocalStorage, {useClass: LocalStorage}),
-//             provide(CommBroker, {useClass: CommBroker}),
-//             provide(Consts, {useClass: Consts}),
-//             provide("DEV_ENV", {useValue: Lib.DevMode()}),
-//             provide(PLATFORM_PIPES, {useValue: CharCount, multi: true}),
-//             provide(LocationStrategy, {useClass: HashLocationStrategy})]).then((appRef:ComponentRef<any>) => {
-//                 appInjService(appRef.injector);
-//             }
-//         );
-//     }
-// })
+window['hr'] && window['hr'].on('change', (fileName) => {
+    if (fileName.indexOf('html') !== -1) {
+        var newBody = document.createElement('body')
+        newBody.appendChild(document.createElement('app'))
+        document.body = newBody;
+        bootstrap(App, [ROUTER_PROVIDERS, HTTP_PROVIDERS,
+            provide(AppStore, {useFactory: Lib.StoreFactory({notify, appdb, business, stations, reseller, orders})}),
+            provide(StoreService, {useClass: StoreService}),
+            provide(BusinessAction, {useClass: BusinessAction}),
+            provide(ResellerAction, {useClass: ResellerAction}),
+            provide(OrdersAction, {useClass: OrdersAction}),
+            provide(StationsAction, {useClass: StationsAction}),
+            provide(AppdbAction, {useClass: AppdbAction}),
+            provide(CreditService, {useClass: CreditService}),
+            provide(AuthService, {useClass: AuthService}),
+            provide(LocalStorage, {useClass: LocalStorage}),
+            provide(CommBroker, {useClass: CommBroker}),
+            provide(Consts, {useClass: Consts}),
+            provide("DEV_ENV", {useValue: Lib.DevMode()}),
+            provide(PLATFORM_PIPES, {useValue: CharCount, multi: true}),
+            provide(LocationStrategy, {useClass: HashLocationStrategy})]).then((appRef:ComponentRef<any>) => {
+                appInjService(appRef.injector);
+            }
+        );
+    }
+})

@@ -11,7 +11,6 @@ import {Pipe, PipeTransform} from '@angular/core';
 export class SortBy implements PipeTransform {
 
     static _orderByComparator(a:any, b:any):number{
-
         if((isNaN(parseFloat(a)) || !isFinite(a)) || (isNaN(parseFloat(b)) || !isFinite(b))){
             //Isn't a number so lowercase the string to properly compare
             if(a.toLowerCase() < b.toLowerCase()) return -1;
@@ -25,9 +24,14 @@ export class SortBy implements PipeTransform {
 
         return 0; //equal each other
     }
-
-    transform(input:any, [config = '+']): any{
-
+    transform(input:any, ...args:any[]): Object[] {
+    //transform(input:any, [config = '+']): any{
+        var config:any;
+        if (args.length==0){
+            config = ['+'];
+        } else {
+            config = args[0];
+        }
         if(!Array.isArray(input)) return input;
 
         if(!Array.isArray(config) || (Array.isArray(config) && config.length == 1)){

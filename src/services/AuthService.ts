@@ -1,13 +1,12 @@
 import {Injectable, Injector} from "@angular/core";
-// import {Router, ComponentInstruction} from "@angular/router";
+import {Router} from "@angular/router";
 import {AppStore} from "angular2-redux-util";
 import {LocalStorage} from "./LocalStorage";
 import {StoreService} from "./StoreService";
 import {AppdbAction} from "../appdb/AppdbAction";
-import {appInjService} from "./AppInjService";
+// import {appInjService} from "./AppInjService";
 import * as bootbox from "bootbox";
 import Map = Immutable.Map;
-import {Router} from "@angular/router-deprecated";
 
 export enum FlagsAuth {
     AuthPass,
@@ -23,7 +22,7 @@ export class AuthService {
     private m_authenticated:boolean = false;
     private m_pendingNotify:any;
 
-    constructor(private appStore:AppStore, private appdbAction:AppdbAction, private localStorage:LocalStorage, private storeService:StoreService) {
+    constructor(private router:Router, private appStore:AppStore, private appdbAction:AppdbAction, private localStorage:LocalStorage, private storeService:StoreService) {
         this.listenStore();
     }
 
@@ -106,15 +105,15 @@ export class AuthService {
 
     // public checkAccess(to:ComponentInstruction, from:ComponentInstruction, target = ['/Login/Login']):Promise<any> {
     public checkAccess():Promise<any> {
-        let injector:Injector = appInjService();
-        let router:Router = injector.get(Router);
+        // let injector:Injector = appInjService();
+        // let router:Router = injector.get(Router);
         let target = ['/Login/Login'];
 
         if (this.m_authenticated)
             return Promise.resolve(true);
 
         if (this.getLocalstoreCred().u == '') {
-            router.navigate(target);
+            this.router.navigate(target);
             return Promise.resolve(false);
         }
 
@@ -129,7 +128,7 @@ export class AuthService {
             this.m_pendingNotify = (status) => {
                 resolve(status);
                 if (!status) {
-                    router.navigate(target);
+                    this.router.navigate(target);
                     resolve(false);
                 }
             }

@@ -44,10 +44,9 @@ type stationComponentMode = "map" | "grid";
 //     let authService:AuthService = appInjService().get(AuthService);
 //     return authService.checkAccess(to, from);
 // })
-export class Dashboard  {
+export class Dashboard {
 
-    constructor(private appStore:AppStore, private appDbActions:AppdbAction, private cd:ChangeDetectorRef, private commBroker:CommBroker) {
-        // constructor(private appStore:AppStore, private appDbActions:AppdbAction, private commBroker:CommBroker) {
+    constructor(private authService:AuthService, private appStore:AppStore, private appDbActions:AppdbAction, private cd:ChangeDetectorRef, private commBroker:CommBroker) {
         this.serverStats = [];
         this.serverStatsCategories = [];
         this.serverAvgResponse = 0;
@@ -55,6 +54,8 @@ export class Dashboard  {
         this.listenBusinessNameFilter();
         this.listenStore()
         this.listenStationsErrors()
+
+        this.authService.checkAccess();
     }
 
     @ViewChild('modalStationDetails')
@@ -156,12 +157,10 @@ export class Dashboard  {
     private onStationComponentSelect(stationComponentMode:stationComponentMode) {
         this.stationComponentMode = stationComponentMode;
         switch (stationComponentMode) {
-            case 'map':
-            {
+            case 'map': {
                 break;
             }
-            case 'grid':
-            {
+            case 'grid': {
                 break;
             }
         }
@@ -246,7 +245,7 @@ export class Dashboard  {
 
     private onStationModalOpen(stationId) {
         this.stationsFiltered.forEach((stationModel:StationModel)=> {
-            if (stationModel.getStationId() == stationId){
+            if (stationModel.getStationId() == stationId) {
                 this.selectedStation = stationModel;
                 this.modalStationDetails.open('lg');
             }
