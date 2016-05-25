@@ -25,7 +25,7 @@ import * as _ from 'lodash'
 
 import * as Ng2Highcharts from 'highcharts/modules/map';
 
-var hc:any = Ng2Highcharts;
+var hc:any = Ng2Highcharts.default;
 var f = hc(Highcharts);
 // alert(Ng2Highcharts['default']);
 // Ng2Highcharts['default'](Highcharts);
