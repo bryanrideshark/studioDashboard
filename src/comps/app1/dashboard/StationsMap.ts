@@ -19,9 +19,15 @@ import {StationModel} from "../../../stations/StationModel";
 import * as _ from 'lodash'
 
 // window['Highmaps'] = require('highcharts/modules/map')(Highcharts);
-import * as Ng2Highcharts from 'highcharts/modules/map';
-var hc:any = Ng2Highcharts;
+// import * as Ng2Highcharts from 'highcharts/modules/map';
+// var hc:any = Ng2Highcharts;
 // hc(Highcharts);
+
+import Ng2Highcharts from 'highcharts/modules/map';
+alert(Ng2Highcharts)
+window['Highmaps'] = Ng2Highcharts(Highcharts)
+alert(window['Highmaps'])
+
 
 @Component({
     selector: 'stationsMap',
@@ -35,7 +41,10 @@ var hc:any = Ng2Highcharts;
 })
 export class StationsMap {
     constructor() {
-        // this.initMap();
+        setTimeout(()=>{
+            this.initMap();
+        },2000)
+
     }
 
     @Input()
