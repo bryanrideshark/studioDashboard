@@ -19,14 +19,12 @@ import {StationModel} from "../../../stations/StationModel";
 import * as _ from 'lodash'
 
 // window['Highmaps'] = require('highcharts/modules/map')(Highcharts);
+//'highcharts/modules/map': 'npm:highcharts@4.2.5',
 
 import * as Ng2Highcharts from 'highcharts/modules/map';
 
-// alert(' 1 ' + Ng2Highcharts)
-var hc:any = Ng2Highcharts.map;
-// alert(' 2 ' + hc);
+var hc:any = Ng2Highcharts['default'];
 var f = hc(Highcharts);
-// alert(' 3 ' + f);
 // alert(Ng2Highcharts['default']);
 // Ng2Highcharts['default'](Highcharts);
 
@@ -66,9 +64,7 @@ export class StationsMap {
     private initMap() {
         var self = this;
         jQuery.getScript('world_data.js', function (data) {
-            alert(1)
             jQuery.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=world-population.json&callback=?', function (data) {
-                alert(2)
                 var mapData = Highcharts['maps']['custom/world'];
                 self.chartMap = {
                     chart: {
