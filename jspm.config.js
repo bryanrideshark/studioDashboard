@@ -445,6 +445,7 @@ SystemJS.config({
         "github:*/*.json"
     ],
     map: {
+        'highcharts/modules/map': 'npm:highcharts@4.2.5',
         "jquery": "npm:jquery@2.2.4",
         "angular-router-deprecated": "npm:@angular/router-deprecated@2.0.0-rc.1",
         "angular-core": "npm:@angular/core@2.0.0-rc.1",

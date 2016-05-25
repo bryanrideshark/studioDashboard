@@ -20,10 +20,12 @@ import * as _ from 'lodash'
 
 // window['Highmaps'] = require('highcharts/modules/map')(Highcharts);
 //'highcharts/modules/map': 'npm:highcharts@4.2.5',
+//npm install http-server --save-dev
+//jspm i --dev systemjs-hot-reloader
 
 import * as Ng2Highcharts from 'highcharts/modules/map';
 
-var hc:any = Ng2Highcharts['default'];
+var hc:any = Ng2Highcharts;
 var f = hc(Highcharts);
 // alert(Ng2Highcharts['default']);
 // Ng2Highcharts['default'](Highcharts);
