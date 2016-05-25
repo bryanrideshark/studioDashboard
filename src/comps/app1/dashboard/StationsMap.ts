@@ -19,15 +19,16 @@ import {StationModel} from "../../../stations/StationModel";
 import * as _ from 'lodash'
 
 // window['Highmaps'] = require('highcharts/modules/map')(Highcharts);
-// import * as Ng2Highcharts from 'highcharts/modules/map';
-// var hc:any = Ng2Highcharts;
-// hc(Highcharts);
 
-import Ng2Highcharts from 'highcharts/modules/map';
-alert(Ng2Highcharts)
-window['Highmaps'] = Ng2Highcharts(Highcharts)
-alert(window['Highmaps'])
+import * as Ng2Highcharts from 'highcharts/modules/map';
 
+// alert(' 1 ' + Ng2Highcharts)
+var hc:any = Ng2Highcharts.map;
+// alert(' 2 ' + hc);
+var f = hc(Highcharts);
+// alert(' 3 ' + f);
+// alert(Ng2Highcharts['default']);
+// Ng2Highcharts['default'](Highcharts);
 
 @Component({
     selector: 'stationsMap',
@@ -41,10 +42,7 @@ alert(window['Highmaps'])
 })
 export class StationsMap {
     constructor() {
-        setTimeout(()=>{
-            this.initMap();
-        },2000)
-
+        this.initMap();
     }
 
     @Input()
@@ -68,7 +66,9 @@ export class StationsMap {
     private initMap() {
         var self = this;
         jQuery.getScript('world_data.js', function (data) {
+            alert(1)
             jQuery.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=world-population.json&callback=?', function (data) {
+                alert(2)
                 var mapData = Highcharts['maps']['custom/world'];
                 self.chartMap = {
                     chart: {
@@ -154,107 +154,4 @@ export class StationsMap {
     }
 }
 
-// if (this.m_stations){
-//     this.highCharts.series[1].setData(this.stationsData3)
-//}
-// setTimeout(()=>{
-//     jQuery(event.el[0]).highcharts().series[1].setData(this.stationsData1)
-// },3000)
-//
-// setTimeout(()=>{
-//     jQuery(event.el[0]).highcharts().series[1].setData(this.stationsData2)
-// },5000)
-//
-// setTimeout(()=>{
-//     jQuery(event.el[0]).highcharts().series[1].setData(this.stationsData3)
-// },7000)
-
-// this.stationsData2 = [{
-//     id: 'b',
-//     name: 'Moscow',
-//     lat: 55.7500,
-//     lon: 37.6167,
-//     color: "blue"
-// }, {
-//     id: 'c',
-//     name: 'Beijing',
-//     lat: 39.9167,
-//     lon: 116.3833,
-//     color: "yellow"
-// }, {
-//     id: 'd',
-//     name: 'Washington D.C.',
-//     lat: 38.889931,
-//     lon: -77.009003,
-//     color: "pink"
-// }]
-//
-// this.stationsData3 = [{
-//     id: 'b',
-//     name: 'Moscow',
-//     lat: 55.7500,
-//     lon: 37.6167,
-//     color: "green"
-// }, {
-//     id: 'c',
-//     name: 'Beijing',
-//     lat: 39.9167,
-//     lon: 116.3833,
-//     color: "green"
-// }, {
-//     id: 'd',
-//     name: 'Washington D.C.',
-//     lat: 38.889931,
-//     lon: -77.009003,
-//     color: "green"
-// }]
-// private stationsData1;
-// private stationsData2;
-// private stationsData3;
-// private chartStock = {};
-
-// if (!this.m_stations)
-//     return;
-// if (!this.highCharts)
-//     return;
-//
-// var stations = [];
-// this.m_stations.forEach((i_station:StationModel)=> {
-//     var publicIp = i_station.getPublicIp();
-//     if (_.isEmpty(publicIp))
-//         return;
-//     stations.push({
-//         id: i_station.getStationId(),
-//         name: i_station.getKey('name'),
-//         publicIp: i_station.getPublicIp(),
-//         color: i_station.getConnectionIcon('color')
-//     });
-// });
-// var body = JSON.stringify(stations);
-// var basicOptions:RequestOptionsArgs = {
-//     url: 'https://secure.digitalsignage.com/getGeoByIp',
-//     headers: new Headers({'Content-Type': 'application/json'}),
-//     method: RequestMethod.Post,
-//     body: body
-// };
-// var reqOptions = new RequestOptions(basicOptions);
-// var req = new Request(reqOptions);
-// this.http.request(req)
-//     .catch((err) => {
-//         bootbox.alert('Error loading station map data 1');
-//         // return Observable.of(true);
-//         return Observable.throw(err);
-//     })
-//     .finally(() => {
-//         // console.log('done');
-//     })
-//     .map(result => {
-//         var stations = result.json();
-//         for (var station in stations){
-//             var current = stations[station];
-//             var rand = _.random(0,30)/100;
-//             current.lat = current.lat + rand;
-//             current.lon = current.lon + rand;
-//         }
-//         this.highCharts.series[1].setData(stations);
-//     }).subscribe();
+;

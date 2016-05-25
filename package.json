@@ -135,8 +135,7 @@
       "ng2-bootstrap": "npm:ng2-bootstrap@1.0.7",
       "reflect-metadata": "npm:reflect-metadata@^0.1.3",
       "systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@^0.5.8",
-      "tty": "github:jspm/nodelibs-tty@^0.2.0-alpha",
-      "zone.js": "npm:zone.js@^0.6.12"
+      "tty": "github:jspm/nodelibs-tty@^0.2.0-alpha"
     },
     "peerDependencies": {
       "@angular/common": "npm:@angular/common@2.0.0-rc.1",
