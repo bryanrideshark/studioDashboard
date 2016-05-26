@@ -10,8 +10,8 @@ SystemJS.config({
         "StudioDashboard": {
             "main": "StudioDashboard.js"
         },
-        'highcharts/modules/map': {
-            defaultExtension: 'js'
+        "highcharts/modules/map": {
+            "defaultExtension": "js"
         },
         "npm:beeper@1.1.0": {
             "map": {}
@@ -464,7 +464,7 @@ SystemJS.config({
         "angular-compiler": "npm:@angular/compiler@2.0.0-rc.1",
         "redux-thunk": "npm:redux-thunk@2.1.0",
         "net": "github:jspm/nodelibs-net@0.2.0-alpha",
-        "systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@0.5.8",
+        "systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@0.5.9",
         "tty": "github:jspm/nodelibs-tty@0.2.0-alpha",
         "angular2-redux-util": "npm:angular2-redux-util@0.8.64",
         "angular2-polyfill": "npm:angular2-polyfill@0.0.2",
@@ -511,6 +511,13 @@ SystemJS.config({
         "zone.js": "npm:zone.js@0.6.12"
     },
     packages: {
+        "github:capaj/systemjs-hot-reloader@0.5.9": {
+            "map": {
+                "debug": "npm:debug@2.2.0",
+                "socket.io-client": "github:socketio/socket.io-client@1.4.6",
+                "weakee": "npm:weakee@1.0.0"
+            }
+        },
         "github:jspm/nodelibs-http@0.2.0-alpha": {
             "map": {
                 "http-browserify": "npm:stream-http@2.3.0"
@@ -562,13 +569,6 @@ SystemJS.config({
         "github:frankwallis/plugin-typescript@4.0.16": {
             "map": {
                 "typescript": "npm:typescript@1.8.10"
-            }
-        },
-        "github:capaj/systemjs-hot-reloader@0.5.8": {
-            "map": {
-                "debug": "npm:debug@2.2.0",
-                "socket.io-client": "github:socketio/socket.io-client@1.4.6",
-                "weakee": "npm:weakee@1.0.0"
             }
         },
         "npm:debug@2.2.0": {
