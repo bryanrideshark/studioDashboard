@@ -12,22 +12,17 @@
 // add this one
 // http://jsfiddle.net/gh/get/jquery/1.9.1/highslide-software/highcharts.com/tree/master/samples/stock/demo/dynamic-update/
 
-
 import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
 import {Ng2Highmaps} from '../../ng2-highcharts/ng2-highcharts';
 import {StationModel} from "../../../stations/StationModel";
 import * as _ from 'lodash'
 
+// npm install http-server --save-dev ; npm i chokidar-socket-emitter ; jspm i --dev systemjs-hot-reloader
 // window['Highmaps'] = require('highcharts/modules/map')(Highcharts);
 //'highcharts/modules/map': 'npm:highcharts@4.2.5',
-// npm install http-server --save-dev ; npm i chokidar-socket-emitter ; jspm i --dev systemjs-hot-reloader
-// alert(Ng2Highcharts['default']);
-// Ng2Highcharts['default'](Highcharts);
 
 import * as Ng2Highcharts from 'highcharts/modules/map';
 Ng2Highcharts['default'](Highcharts)
-
-
 
 @Component({
     selector: 'stationsMap',
@@ -57,7 +52,6 @@ export class StationsMap {
     private m_stations;
 
     onInit(event) {
-        console.log(event);//.series[0].setData([1,2,3,4,5]);
         this.highCharts = jQuery(event.el[0]).highcharts();
         this.updateStations();
     }
