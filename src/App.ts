@@ -150,9 +150,7 @@ export class App {
     }
 }
 
-
-//bootstrap(App, [ROUTER_PROVIDERS, HTTP_PROVIDERS,
-bootstrap(App, [HTTP_PROVIDERS, ROUTER_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
+var modules = [HTTP_PROVIDERS, ROUTER_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
     provide(AppStore, {useFactory: Lib.StoreFactory({notify, appdb, business, stations, reseller, orders})}),
     provide(StoreService, {useClass: StoreService}),
     provide(BusinessAction, {useClass: BusinessAction}),
@@ -167,33 +165,17 @@ bootstrap(App, [HTTP_PROVIDERS, ROUTER_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS
     provide(Consts, {useClass: Consts}),
     provide("DEV_ENV", {useValue: Lib.DevMode()}),
     provide(PLATFORM_PIPES, {useValue: CharCount, multi: true}),
-    provide(LocationStrategy, {useClass: HashLocationStrategy})]).then((appRef:ComponentRef<any>) => {
-        appInjService(appRef.injector);
-    }
-);
+    provide(LocationStrategy, {useClass: HashLocationStrategy})]
+bootstrap(App, modules).then((appRef:ComponentRef<any>) => {
+    appInjService(appRef.injector);
+});
 window['hr'] && window['hr'].on('change', (fileName) => {
     if (fileName.indexOf('html') !== -1) {
         var newBody = document.createElement('body')
         newBody.appendChild(document.createElement('app'))
         document.body = newBody;
-        bootstrap(App, [ROUTER_PROVIDERS, HTTP_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
-            provide(AppStore, {useFactory: Lib.StoreFactory({notify, appdb, business, stations, reseller, orders})}),
-            provide(StoreService, {useClass: StoreService}),
-            provide(BusinessAction, {useClass: BusinessAction}),
-            provide(ResellerAction, {useClass: ResellerAction}),
-            provide(OrdersAction, {useClass: OrdersAction}),
-            provide(StationsAction, {useClass: StationsAction}),
-            provide(AppdbAction, {useClass: AppdbAction}),
-            provide(CreditService, {useClass: CreditService}),
-            provide(AuthService, {useClass: AuthService}),
-            provide(LocalStorage, {useClass: LocalStorage}),
-            provide(CommBroker, {useClass: CommBroker}),
-            provide(Consts, {useClass: Consts}),
-            provide("DEV_ENV", {useValue: Lib.DevMode()}),
-            provide(PLATFORM_PIPES, {useValue: CharCount, multi: true}),
-            provide(LocationStrategy, {useClass: HashLocationStrategy})]).then((appRef:ComponentRef<any>) => {
-                appInjService(appRef.injector);
-            }
-        );
+        bootstrap(App, modules).then((appRef:ComponentRef<any>) => {
+            appInjService(appRef.injector);
+        });
     }
 })

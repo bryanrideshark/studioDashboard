@@ -12,7 +12,6 @@ interface marker {
     label?:string;
     draggable:boolean;
 }
-
 @Component({
     selector: 'stationsMap',
     directives: [ANGULAR2_GOOGLE_MAPS_DIRECTIVES],
@@ -31,7 +30,6 @@ interface marker {
                   [longitude]="m.lng"
                   [iconUrl]="getMarkerIcon(m)"
                   [label]="m.label">
-                  
                 <!--<sebm-google-map-info-window>-->
                   <!--<strong>InfoWindow content</strong>-->
                 <!--</sebm-google-map-info-window>-->
