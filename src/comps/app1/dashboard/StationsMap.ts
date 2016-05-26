@@ -59,7 +59,6 @@ export class StationsMap {
 
     getMarkerIcon(m:marker) {
         this.cdr.detach();
-        console.log(m.color);
         return `assets/screen_${m.color}.png`;
     }
 
