@@ -10,7 +10,9 @@ SystemJS.config({
         "StudioDashboard": {
             "main": "StudioDashboard.js"
         },
-        'highcharts/modules/map': {defaultExtension: 'js'},
+        'highcharts/modules/map': {
+            defaultExtension: 'js'
+        },
         "npm:beeper@1.1.0": {
             "map": {}
         },
