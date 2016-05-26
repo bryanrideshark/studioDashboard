@@ -1,43 +1,70 @@
-// http://jsfiddle.net/dnbtkmyz/
-// http://jsfiddle.net/gh/get/jquery/1.9.1/highslide-software/highcharts.com/tree/master/samples/maps/demo/map-bubble/
-// http://www.highcharts.com/samples/view.php?path=maps/demo/latlon-advanced
-// http://plnkr.co/edit/YX7W20?p=preview
-// https://github.com/SebastianM/angular2-google-maps
-// http://jsfiddle.net/kqck12da/2/
-// http://jsfiddle.net/L6mf6yfo/1/
-// http://jsfiddle.net/L6mf6yfo/1/
-// http://jsfiddle.net/m93r6dsr/41/
-// http://jsfiddle.net/omarshe7ta/m93r6dsr/40/
-
-// add this one
-// http://jsfiddle.net/gh/get/jquery/1.9.1/highslide-software/highcharts.com/tree/master/samples/stock/demo/dynamic-update/
-
-import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
-import {Ng2Highmaps} from '../../ng2-highcharts/ng2-highcharts';
+import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from "@angular/core";
+import {ANGULAR2_GOOGLE_MAPS_DIRECTIVES} from "angular2-google-maps/core";
 import {StationModel} from "../../../stations/StationModel";
-import * as _ from 'lodash'
+import * as _ from "lodash";
 
-// npm install http-server --save-dev ; npm i chokidar-socket-emitter ; jspm i --dev systemjs-hot-reloader
-// window['Highmaps'] = require('highcharts/modules/map')(Highcharts);
-//'highcharts/modules/map': 'npm:highcharts@4.2.5',
-
-import * as Ng2Highcharts from 'highcharts/modules/map';
-Ng2Highcharts['default'](Highcharts)
+interface marker {
+    id:number;
+    lat:number;
+    lng:number;
+    name:string;
+    label?:string;
+    draggable:boolean;
+}
 
 @Component({
     selector: 'stationsMap',
-    directives: [Ng2Highmaps],
+    directives: [ANGULAR2_GOOGLE_MAPS_DIRECTIVES],
     changeDetection: ChangeDetectionStrategy.Default,
     template: `
-       <div id="container" style="height: 300px; min-width: 300px; margin: 0 auto">
-       <div [ng2-highmaps]="chartMap" (init)="onInit($event)" class="Map"></div>
-       </div>
+        <sebm-google-map style="width: 100% ; height: 100%" 
+              [latitude]="38.2500"
+              [longitude]="-96.7500"
+              [zoom]="zoom"
+              [disableDefaultUI]="false"
+              [zoomControl]="false">
+            
+              <sebm-google-map-marker style="width: 300px ; height: 400px" 
+                  *ngFor="let m of markers; let i = index"
+                  (markerClick)="clickedMarker(m, i)"
+                  [latitude]="m.lat"
+                  [longitude]="m.lng"
+                  [iconUrl]="getmarkerIcon(m)"
+                  [label]="m.label">
+                  
+                <!--<sebm-google-map-info-window>-->
+                  <!--<strong>InfoWindow content</strong>-->
+                <!--</sebm-google-map-info-window>-->
+        
+      </sebm-google-map-marker>
+    </sebm-google-map>
     `
 })
 export class StationsMap {
-    constructor() {
-        this.initMap();
+
+    markers:marker[] = [];
+    zoom:number = 4;
+
+    // initial center position for the map
+    lat:number = 39.8282;
+    lng:number = 98.5795;
+
+    getmarkerIcon(m:marker) {
+        return 'assets/screen_on.png';
     }
+
+    clickedMarker(marker:marker, index:number) {
+        this.onStationSelected.next(marker.id);
+        //console.log(`clicked the marker: ${label || index}`)
+    }
+
+
+    // mapClicked($event:MouseEvent) {
+    //     this.markers.push({
+    //         lat: $event.coords.lat,
+    //         lng: $event.coords.lng
+    //     });
+    // }
 
     @Input()
     set stations(i_stations) {
@@ -52,64 +79,7 @@ export class StationsMap {
     private m_stations;
 
     onInit(event) {
-        this.highCharts = jQuery(event.el[0]).highcharts();
         this.updateStations();
-    }
-
-    private initMap() {
-        var self = this;
-        jQuery.getScript('world_data.js', function (data) {
-            jQuery.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=world-population.json&callback=?', function (data) {
-                var mapData = Highcharts['maps']['custom/world'];
-                self.chartMap = {
-                    chart: {
-                        borderWidth: 1,
-                        height: 380
-                    },
-                    credits: {
-                        enabled: false
-                    },
-                    title: {
-                        text: 'Stations map'
-                    },
-                    subtitle: {},
-                    legend: {
-                        enabled: false
-                    },
-                    mapNavigation: {
-                        enabled: true,
-                        buttonOptions: {
-                            verticalAlign: 'bottom'
-                        }
-                    },
-                    plotOptions: {
-                        series: {
-                            point: {
-                                events: {
-                                    click: function () {
-                                        self.onStationSelected.next(this.id);
-                                        // alert(this.name + ' ' + this.id);
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    tooltip: {enabled: false},
-                    series: [{
-                        dataLabels: {
-                            enabled: true,
-                            format: '{point.name}'
-                        },
-                        name: 'Countries',
-                        mapData: mapData,
-                    }, {
-                        name: 'Points',
-                        type: 'mappoint',
-                        data: this.stationsData1
-                    }]
-                };
-            });
-        });
     }
 
     private getStationConnection(i_value) {
@@ -122,27 +92,63 @@ export class StationsMap {
         return 'black';
     }
 
+
     private updateStations() {
         if (!this.m_stations)
             return;
-        if (!this.highCharts)
-            return;
-        var stations = [];
+        // if (!this.highCharts)
+        //     return;
+        // var stations = [];
+        var c = 0;
         this.m_stations.forEach((i_station:StationModel)=> {
             var geoLocation = i_station.getLocation();
             if (_.isEmpty(geoLocation))
                 return;
-            stations.push({
+
+            // this.markers.push({
+            //     lat: 51.673858,
+            //     lng: 7.815982,
+            //     label: 'A',
+            //     draggable: false
+            // })
+
+            function pinSymbol(color) {
+                return {
+                    path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z M -2,-30 a 2,2 0 1,1 4,0 2,2 0 1,1 -4,0',
+                    fillColor: 'green',
+                    fillOpacity: 1,
+                    strokeColor: 'red',
+                    strokeWeight: 2,
+                    scale: 3,
+                };
+            }
+
+            var icon = {
+
+                path: "M-20,0a20,20 0 1,0 40,0a20,20 0 1,0 -40,0",
+                fillColor: '#000000',
+                fillOpacity: .6,
+                strokeWeight: 0,
+                scale: 3
+            }
+
+            this.markers.push({
                 id: i_station.getStationId(),
                 name: i_station.getKey('name'),
-                publicIp: i_station.getPublicIp(),
-                lat: geoLocation.lat,
-                lon: geoLocation.lon,
-                color: i_station.getConnectionIcon('color')
-            });
+                lat: +geoLocation.lat,
+                lng: +geoLocation.lon,
+                label: String(c++),
+                draggable: false
+            })
+            // stations.push({
+            //     id: i_station.getStationId(),
+            //     name: i_station.getKey('name'),
+            //     publicIp: i_station.getPublicIp(),
+            //     lat: geoLocation.lat,
+            //     lon: geoLocation.lon,
+            //     color: i_station.getConnectionIcon('color')
+            // });
         });
-        this.highCharts.series[1].setData(stations);
+        // this.highCharts.series[1].setData(stations);
     }
 }
-
-;

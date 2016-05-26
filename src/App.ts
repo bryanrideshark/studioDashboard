@@ -54,6 +54,7 @@ import {stations} from "./stations/StationsReducer";
 import {AppdbAction} from "./appdb/AppdbAction";
 import {LogoCompany} from "./comps/logo/LogoCompany";
 import {Observable} from "rxjs/Rx";
+import {ANGULAR2_GOOGLE_MAPS_PROVIDERS} from 'angular2-google-maps/core';
 // import {Router} from "@angular/router-deprecated";
 export enum ServerMode {
     CLOUD,
@@ -85,8 +86,8 @@ export enum ServerMode {
 
 
 @Routes([
-    {path: '/AppManager', component: AppManager, },
-    {path: '/EntryPanelNoId', component: EntryPanel },
+    {path: '/AppManager', component: AppManager,},
+    {path: '/EntryPanelNoId', component: EntryPanel},
     {path: '/EntryPanel/:id', component: EntryPanel},
     {path: '/Login', component: EntryPanel},
     {path: '/ForgotPass', component: EntryPanel},
@@ -111,10 +112,10 @@ export class App {
         router.changes.subscribe((currentRoute)=> {
             console.log(currentRoute);
         });
-        setTimeout(()=>{
+        setTimeout(()=> {
             // let target = ['/Login/Login'];
             // router.navigate(target);
-        },3000)
+        }, 3000)
 
     }
 
@@ -151,7 +152,7 @@ export class App {
 
 
 //bootstrap(App, [ROUTER_PROVIDERS, HTTP_PROVIDERS,
-bootstrap(App, [HTTP_PROVIDERS, ROUTER_PROVIDERS,
+bootstrap(App, [HTTP_PROVIDERS, ROUTER_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
     provide(AppStore, {useFactory: Lib.StoreFactory({notify, appdb, business, stations, reseller, orders})}),
     provide(StoreService, {useClass: StoreService}),
     provide(BusinessAction, {useClass: BusinessAction}),
@@ -175,7 +176,7 @@ window['hr'] && window['hr'].on('change', (fileName) => {
         var newBody = document.createElement('body')
         newBody.appendChild(document.createElement('app'))
         document.body = newBody;
-        bootstrap(App, [ROUTER_PROVIDERS, HTTP_PROVIDERS,
+        bootstrap(App, [ROUTER_PROVIDERS, HTTP_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
             provide(AppStore, {useFactory: Lib.StoreFactory({notify, appdb, business, stations, reseller, orders})}),
             provide(StoreService, {useClass: StoreService}),
             provide(BusinessAction, {useClass: BusinessAction}),

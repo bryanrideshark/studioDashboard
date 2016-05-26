@@ -10,6 +10,9 @@ SystemJS.config({
         "StudioDashboard": {
             "main": "StudioDashboard.js"
         },
+        'angular2-google-maps':       {
+            defaultExtension: 'js'
+        },
         "highcharts/modules/map": {
             "defaultExtension": "js"
         },
@@ -447,6 +450,7 @@ SystemJS.config({
         "github:*/*.json"
     ],
     map: {
+        "angular2-google-maps": "npm:angular2-google-maps@0.10.0",
         "jquery": "npm:jquery@2.2.4",
         "angular-router-deprecated": "npm:@angular/router-deprecated@2.0.0-rc.1",
         "angular-core": "npm:@angular/core@2.0.0-rc.1",
@@ -511,6 +515,20 @@ SystemJS.config({
         "zone.js": "npm:zone.js@0.6.12"
     },
     packages: {
+        "npm:angular2-google-maps@0.10.0": {
+            "map": {
+                "@angular/common": "npm:@angular/common@2.0.0-rc.1",
+                "@angular/compiler": "npm:@angular/compiler@2.0.0-rc.1",
+                "@angular/core": "npm:@angular/core@2.0.0-rc.1",
+                "@angular/platform-browser": "npm:@angular/platform-browser@2.0.0-rc.1",
+                "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.0.0-rc.1",
+                "es6-promise": "npm:es6-promise@3.2.1",
+                "es6-shim": "npm:es6-shim@0.35.1",
+                "reflect-metadata": "npm:reflect-metadata@0.1.3",
+                "rxjs": "npm:rxjs@5.0.0-beta.6",
+                "zone.js": "npm:zone.js@0.6.12"
+            }
+        },
         "github:capaj/systemjs-hot-reloader@0.5.9": {
             "map": {
                 "debug": "npm:debug@2.2.0",
