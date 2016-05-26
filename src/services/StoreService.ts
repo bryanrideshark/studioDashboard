@@ -87,7 +87,7 @@ export class StoreService {
 
         /** (5) received station status **/
         this.appStore.sub((serversStatus:Map<string,any>) => {
-            if (!Lib.DevMode())
+            if (Lib.DevMode())
                 this.initPollServices();
         }, 'appdb.serversStatus', false);
     }

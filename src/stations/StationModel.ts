@@ -76,9 +76,9 @@ export class StationModel extends StoreModel {
                     case '1':
                         return 'green';
                     case '2':
-                        return '#C2C200';
+                        return 'yellow';
                     default:
-                        return 'black';
+                        return 'red';
                 }
             }
         }
