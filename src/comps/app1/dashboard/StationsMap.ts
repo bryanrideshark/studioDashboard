@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef} from "@angular/core";
+import {Component, Input, Output, EventEmitter, ChangeDetectorRef} from "@angular/core";
 import {ANGULAR2_GOOGLE_MAPS_DIRECTIVES} from "angular2-google-maps/core";
 import {StationModel} from "../../../stations/StationModel";
 import * as _ from "lodash";
