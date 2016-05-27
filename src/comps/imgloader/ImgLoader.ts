@@ -34,13 +34,15 @@ export class ImgLoader {
     private imageRetries:number = 0;
 
     private getImageUrl() {
-        return '';
-        // if (this.images.length == 0)
-        //     return this.defaultImage;
-        // if (this.images[this.imageRetries] == undefined) {
-        //     return this.defaultImage;
-        // }
+        // return '';
+        if (this.images.length == 0)
+            return this.defaultImage;
+        if (this.images[this.imageRetries] == undefined) {
+            return this.defaultImage;
+        }
+        //todo: find a way to refresh image as ?random causes zone issues in ng2
         // return this.images[this.imageRetries] + '?random=' + Math.random();
+        return this.images[this.imageRetries];
     }
 
     private onImageLoaded() {

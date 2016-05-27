@@ -25,11 +25,10 @@ import * as _ from 'lodash'
     directives: [SimpleList, UsersDetails, Loading, Samplelist, DROPDOWN_DIRECTIVES, AddUser, MODAL_DIRECTIVES],
     styleUrls: ['../comps/app1/users/Users.css'],
     templateUrl: '/src/comps/app1/users/Users.html'
-
 })
-//styleUrls: ['Users.css'],
-//templateUrl: 'Users.html'
-//moduleId: module.id,
+// moduleId: __modulename,
+// tyleUrls: ['Users.css'],
+// templateUrl: 'Users.html',
 
 // @CanActivate((to:ComponentInstruction, from:ComponentInstruction) => {
 //     let authService:AuthService = appInjService().get(AuthService);
@@ -104,13 +103,11 @@ export class Users {
 
     private onAddUser(choice, fromSample:boolean = false) {
         switch (choice) {
-            case this.accounts[0]:
-            {
+            case this.accounts[0]: {
                 this.modalSamples.open('lg');
                 break;
             }
-            case this.accounts[1]:
-            {
+            case this.accounts[1]: {
                 // if (fromSample == false && this.getSelectedBusinessId() == -1)
                 //     return bootbox.alert('you must first select a business from the list, to create the new account under...');
                 // if (fromSample == false && this.getSelectedBusinessId() > 0)
@@ -121,8 +118,7 @@ export class Users {
                     return this.modalAddUserClean.open('lg');
                 }
             }
-            case this.accounts[2]:
-            {
+            case this.accounts[2]: {
                 this.modalAddUserExisting.open('lg');
                 break;
             }
