@@ -13,7 +13,6 @@
   <!--<script   src="https://code.jquery.com/jquery-1.12.4.min.js"   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="   crossorigin="anonymous"></script>-->
   <!--<script src="http://code.highcharts.com/maps/highmaps.js"></script>-->
 
-
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -25,11 +24,8 @@
   <!-- sys_jspm_start -->
   <script src="/jspm_packages/system.js"></script>
   <!-- sys_jspm_end -->
-  <script>
-	 window['System'] = SystemJS;
-  </script>
-  <script src="/jspm_packages/npm/angular2-google-maps@0.10.0/bundles/angular2-google-maps.js"></script>
 
+  <script src="/jspm_packages/npm/angular2-google-maps@0.10.0/bundles/angular2-google-maps.js"></script>
 
   <!-- config_start -->
   <script src="/../jspm.browser.js"></script>
@@ -37,30 +33,40 @@
   <!-- config_end -->
 
   <!-- sys_import_start -->
-  <!--<script>-->
-    <!--System.import('../App')-->
-      <!--.catch(function (e) {-->
-        <!--console.error(e,-->
-          <!--'error system.js ' + e);-->
-      <!--});-->
-  <!--</script>-->
+  <script>
+
+	 switch (location.port){
+
+		case '9089': {
+		  // alert('mode: hot-reload 9089');
+		  var readyForMainLoad
+		  if (location.origin.match(/localhost/)) {
+			 System.trace = true
+			 readyForMainLoad = System.import('systemjs-hot-reloader').then(function(HotReloader){
+				window.hr = new HotReloader.default('http://localhost:9089')
+			 })
+		  }
+		  Promise.resolve(readyForMainLoad).then(() => {
+			 System.import('reflect-metadata')
+			 .then(function(){System.import('zone.js')})
+			 .then(function(){System.import('../App')})
+			})
+		  break;
+		}
+		default: {
+		  // alert('mode: watch port 8080');
+		  System.import('../App')
+			 .catch(function (e) {
+				console.error(e,
+				  'error system.js ' + e);
+			 });
+		  break;
+		}
+	 }
+
+  </script>
   <!-- sys_import_end -->
 
-
-  <script>
-	 var readyForMainLoad
-	 if (location.origin.match(/localhost/)) {
-		System.trace = true
-		readyForMainLoad = System.import('systemjs-hot-reloader').then(function(HotReloader){
-		  window.hr = new HotReloader.default('http://localhost:9089')
-		})
-	 }
-	 Promise.resolve(readyForMainLoad).then(() => {
-		System.import('reflect-metadata')
-		.then(function(){System.import('zone.js')})
-		.then(function(){System.import('../App')})
-	 })
-  </script>
 
 </head>
 <body>

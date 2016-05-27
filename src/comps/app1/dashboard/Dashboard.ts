@@ -24,8 +24,7 @@ import * as _ from 'lodash'
 type stationComponentMode = "map" | "grid";
 
 @Component({
-    directives: [FORM_DIRECTIVES, MODAL_DIRECTIVES, Infobox, ServerStats,
-        ServerAvg, StationsMap, StationsGrid, Loading, StationDetails],
+    directives: [FORM_DIRECTIVES, MODAL_DIRECTIVES, Infobox, ServerStats, ServerAvg, StationsMap, StationsGrid, Loading, StationDetails],
     selector: 'Dashboard',
     pipes: [SortBy],
     styles: [`      
@@ -37,7 +36,8 @@ type stationComponentMode = "map" | "grid";
         }
     `],
     providers: [BusinessAction],
-    templateUrl: '/src/comps/app1/dashboard/Dashboard.html'
+    moduleId: __moduleName,
+    templateUrl: 'Dashboard.html'
 })
 
 // @CanActivate((to:ComponentInstruction, from:ComponentInstruction) => {
@@ -47,6 +47,7 @@ type stationComponentMode = "map" | "grid";
 export class Dashboard {
 
     constructor(private authService:AuthService, private appStore:AppStore, private appDbActions:AppdbAction, private cd:ChangeDetectorRef, private commBroker:CommBroker) {
+        //console.log('hot reload ' + 11);
         this.serverStats = [];
         this.serverStatsCategories = [];
         this.serverAvgResponse = 0;
@@ -59,7 +60,6 @@ export class Dashboard {
 
     @ViewChild('modalStationDetails')
     modalStationDetails:ModalComponent;
-
 
     private selectedStation:StationModel;
     private screensOnline:string = 'screens online: 0';
