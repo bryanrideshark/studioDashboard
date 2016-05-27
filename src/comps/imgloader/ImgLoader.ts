@@ -3,6 +3,7 @@ import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/merge';
 import 'rxjs/add/operator/distinctUntilChanged';
+import {Lib} from "../../Lib";
 
 @Component({
     selector: 'imgLoader',
@@ -34,15 +35,13 @@ export class ImgLoader {
     private imageRetries:number = 0;
 
     private getImageUrl() {
-        // return '';
         if (this.images.length == 0)
             return this.defaultImage;
         if (this.images[this.imageRetries] == undefined) {
             return this.defaultImage;
         }
-        //todo: find a way to refresh image as ?random causes zone issues in ng2
-        // return this.images[this.imageRetries] + '?random=' + Math.random();
-        return this.images[this.imageRetries];
+        var url = this.images[this.imageRetries] + (Lib.DevMode() ? '?random=xyz' : `?random=' ${Math.random()}`);
+        return url;
     }
 
     private onImageLoaded() {

@@ -17,7 +17,7 @@ import "zone.js/dist/long-stack-trace-zone";
 import "reflect-metadata";
 import {ROUTER_DIRECTIVES, ROUTER_PROVIDERS, Routes, Router} from "@angular/router";
 import {bootstrap} from "@angular/platform-browser-dynamic";
-import {Component, provide, ViewEncapsulation, PLATFORM_PIPES, ComponentRef} from "@angular/core";
+import {Component, provide, enableProdMode, ViewEncapsulation, PLATFORM_PIPES, ComponentRef} from "@angular/core";
 import * as platform from "platform";
 import "jspm_packages/github/twbs/bootstrap@3.3.6";
 import "twbs/bootstrap/dist/css/bootstrap.css!";
@@ -164,6 +164,9 @@ export class App {
     }
 }
 
+if (!Lib.DevMode())
+    enableProdMode();
+
 var modules = [HTTP_PROVIDERS, ROUTER_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
     provide(AppStore, {useFactory: Lib.StoreFactory({notify, appdb, business, stations, reseller, orders})}),
     provide(StoreService, {useClass: StoreService}),
@@ -184,7 +187,6 @@ bootstrap(App, modules).then((appRef:ComponentRef<any>) => {
     appInjService(appRef.injector);
 });
 window['hr'] && window['hr'].on('change', (fileName) => {
-    alert('file changed ' + fileName);
     if (fileName.indexOf('html') !== -1) {
         var newBody = document.createElement('body')
         newBody.appendChild(document.createElement('app'))
