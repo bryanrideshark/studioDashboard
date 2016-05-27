@@ -33,7 +33,7 @@ type stationComponentMode = "map" | "grid";
         }
         input {
              border-radius: 0 !important;
-        }
+        }  
     `],
     providers: [BusinessAction],
     moduleId: __moduleName,
@@ -47,7 +47,7 @@ type stationComponentMode = "map" | "grid";
 export class Dashboard {
 
     constructor(private authService:AuthService, private appStore:AppStore, private appDbActions:AppdbAction, private cd:ChangeDetectorRef, private commBroker:CommBroker) {
-        //console.log('hot reload ' + 11);
+        console.log('hot reload ' + 12);
         this.serverStats = [];
         this.serverStatsCategories = [];
         this.serverAvgResponse = 0;

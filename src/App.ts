@@ -184,6 +184,7 @@ bootstrap(App, modules).then((appRef:ComponentRef<any>) => {
     appInjService(appRef.injector);
 });
 window['hr'] && window['hr'].on('change', (fileName) => {
+    alert('file changed ' + fileName);
     if (fileName.indexOf('html') !== -1) {
         var newBody = document.createElement('body')
         newBody.appendChild(document.createElement('app'))
