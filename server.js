@@ -1,6 +1,8 @@
 'use strict'
 const httpServer = require('http-server')
 
+console.log('Hot-reload via jspm')
+
 var cache = 3600
 if (process.env.NODE_ENV === 'production') {
   console.log('running in production mode(with caching)-make sure you have "Disable cache (while DevTools is open)" checked in the browser to see the changes while developing')

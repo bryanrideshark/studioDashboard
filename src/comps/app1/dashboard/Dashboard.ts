@@ -54,7 +54,6 @@ export class Dashboard {
         this.listenBusinessNameFilter();
         this.listenStore()
         this.listenStationsErrors()
-
         this.authService.checkAccess();
     }
 
