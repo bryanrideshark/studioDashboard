@@ -1,3 +1,17 @@
+/********************************************************************
+ *
+ * DigitalSignage.com Inc (c), FREE Digital Signage
+ * StudioDashboard for Enterprise userrs
+ * See GitHub for License
+ *
+ * for Development install and run:
+ 1. npm install chokidar-socket-emitter --save-dev ;
+ 2. npm install http-server --save-dev ;
+ 3. jspm i --dev systemjs-hot-reloader
+ 4. npm run devserver
+ *
+ ****************************************************************/
+
 import "zone.js/dist/zone";
 import "zone.js/dist/long-stack-trace-zone";
 import "reflect-metadata";
@@ -54,7 +68,7 @@ import {stations} from "./stations/StationsReducer";
 import {AppdbAction} from "./appdb/AppdbAction";
 import {LogoCompany} from "./comps/logo/LogoCompany";
 import {Observable} from "rxjs/Rx";
-import {ANGULAR2_GOOGLE_MAPS_PROVIDERS} from 'angular2-google-maps/core';
+import {ANGULAR2_GOOGLE_MAPS_PROVIDERS} from "angular2-google-maps/core";
 // import {Router} from "@angular/router-deprecated";
 export enum ServerMode {
     CLOUD,

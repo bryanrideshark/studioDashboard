@@ -20,6 +20,7 @@
     "src/public/world_data.ts",
     "temp",
     "node_modules",
+    "node_modules/*",
     "jspm_packages",
     "typings",
     "dist",

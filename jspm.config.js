@@ -490,7 +490,7 @@ SystemJS.config({
         "lodash": "npm:lodash@4.5.1",
         "module": "github:jspm/nodelibs-module@0.2.0-alpha",
         "moment": "npm:moment@2.13.0",
-        "ng2-bootstrap": "npm:ng2-bootstrap@1.0.7",
+        "ng2-bootstrap": "npm:ng2-bootstrap@1.0.16",
         "ng2-bs3-modal": "npm:ng2-bs3-modal@0.2.2",
         "os": "github:jspm/nodelibs-os@0.2.0-alpha",
         "path": "github:jspm/nodelibs-path@0.2.0-alpha",
@@ -562,7 +562,7 @@ SystemJS.config({
                 "object.entries": "npm:object.entries@1.0.3"
             }
         },
-        "npm:ng2-bootstrap@1.0.7": {
+        "npm:ng2-bootstrap@1.0.16": {
             "map": {
                 "moment": "npm:moment@2.12.0"
             }
