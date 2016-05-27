@@ -37,9 +37,8 @@ export class ImgLoader {
     private getImageUrl() {
         if (this.images.length == 0)
             return this.defaultImage;
-        if (this.images[this.imageRetries] == undefined) {
+        if (this.images[this.imageRetries] == undefined)
             return this.defaultImage;
-        }
         var url = this.images[this.imageRetries] + (Lib.DevMode() ? '?random=xyz' : `?random=' ${Math.random()}`);
         return url;
     }
@@ -55,7 +54,6 @@ export class ImgLoader {
     public reloadImage(){
         this.imageRetries = 0;
         this.cdr.reattach();
-
     }
 
 }
