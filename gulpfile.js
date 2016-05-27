@@ -97,7 +97,7 @@ gulp.task('typedocs', function (done) {
 gulp.task('x_rsync', function () {
     var rsync = Rsync.build({
         source: '/cygdrive/c/msweb/studioDashboard/dist/',
-        destination: 'Sean@digitalsignage.com:/var/www/sites/dynasite/htdocs/_msportal/_js/_node/public/',
+        destination: 'XXX_Sean@digitalsignage.com:/var/www/sites/dynasite/htdocs/_msportal/_js/_node/public/',
         exclude: ['*.bat', '*.iml', '.gitignore', '.git', '.idea/']
     });
     rsync.set('progress');
@@ -120,7 +120,7 @@ gulp.task('x_rsync', function () {
 // gulp.task('x_rsync', function () {
 //     var rsync = Rsync.build({
 //         source: '/cygdrive/c/msweb/studioDashboard/dist/',
-//         destination: 'Sean@digitalsignage.com:/var/www/sites/monstersignage/htdocs',
+//         destination: 'XXX_Sean@digitalsignage.com:/var/www/sites/monstersignage/htdocs',
 //         exclude: ['*.bat', '*.iml', '.gitignore', '.git', '.idea/']
 //     });
 //     rsync.set('progress');
@@ -142,7 +142,7 @@ gulp.task('x_rsync', function () {
 gulp.task('x_docs_rsync', function () {
     var rsync = Rsync.build({
         source: '/cygdrive/c/msweb/studioDashboard/docs',
-        destination: 'Sean@digitalsignage.com:/var/www/sites/mediasignage.com/htdocs/dashDocs'
+        destination: 'XXX_Sean@digitalsignage.com:/var/www/sites/mediasignage.com/htdocs/dashDocs'
     });
     rsync.set('progress');
     rsync.flags('avzp');
@@ -212,7 +212,7 @@ gulp.task("x_bundle",
 );
 
 gulp.task("x_docs_chown1",
-    shell.task(["ssh root@digitalsignage.com chown -R Sean /var/www/sites/mediasignage.com/htdocs/dashDocs/*"])
+    shell.task(["ssh root@digitalsignage.com chown -R XXX_Sean /var/www/sites/mediasignage.com/htdocs/dashDocs/*"])
 );
 
 gulp.task("x_docs_chown2",
