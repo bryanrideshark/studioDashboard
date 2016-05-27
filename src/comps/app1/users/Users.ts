@@ -23,11 +23,15 @@ import * as _ from 'lodash'
     selector: 'Users',
     providers: [SimpleList],
     directives: [SimpleList, UsersDetails, Loading, Samplelist, DROPDOWN_DIRECTIVES, AddUser, MODAL_DIRECTIVES],
-    styleUrls: ['../comps/app1/users/Users.css'],
-    templateUrl: '/src/comps/app1/users/Users.html'
+    moduleId: __moduleName,
+    styleUrls: ['Users.css'],
+    templateUrl: 'Users.html',
+
 })
+// styleUrls: ['../comps/app1/users/Users.css'],
+// templateUrl: '/src/comps/app1/users/Users.html'
 // moduleId: __modulename,
-// tyleUrls: ['Users.css'],
+// styleUrls: ['Users.css'],
 // templateUrl: 'Users.html',
 
 // @CanActivate((to:ComponentInstruction, from:ComponentInstruction) => {

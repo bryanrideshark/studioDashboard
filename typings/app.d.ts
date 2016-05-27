@@ -68,6 +68,8 @@ declare module 'platform' {
 
 declare var watch:any;
 
+declare var __moduleName: string;
+
 // in TS1.8 we can use this:
 //declare global {
 //    devToolsExtension: any;
