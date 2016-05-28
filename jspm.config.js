@@ -1,7 +1,7 @@
 SystemJS.config({
     transpiler: "plugin-typescript",
     typescriptOptions: {
-        "module": "commonjs",
+        "module": "system",
         "emitDecoratorMetadata": true,
         "tsconfig": true,
         "sourceMap": true

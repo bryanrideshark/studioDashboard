@@ -123,9 +123,9 @@ export class App {
         Observable.fromEvent(window, 'resize').debounceTime(250).subscribe(()=> {
             this.appResized();
         });
-        router.changes.subscribe((currentRoute)=> {
-            console.log(currentRoute);
-        });
+        // router.changes.subscribe((currentRoute)=> {
+        //     console.log(currentRoute);
+        // });
         setTimeout(()=> {
             // let target = ['/Login/Login'];
             // router.navigate(target);

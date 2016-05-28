@@ -27,6 +27,7 @@
 
 declare var assert:any;
 declare var module:any;
+declare var thunkMiddleware:any;
 
 interface Window {
     devToolsExtension: any;
