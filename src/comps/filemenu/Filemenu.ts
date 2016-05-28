@@ -7,7 +7,7 @@ import {Router} from "@angular/router";
 import {CommBroker} from "../../services/CommBroker";
 import {Consts} from "../../Conts";
 import {App} from "../../../src/App";
-import jQuery from 'jquery';
+import * as jQuery from 'jquery';
 
 /**
  Filemenu manages the top header file menu per application as it mutates it's content depending

@@ -186,13 +186,13 @@ var modules = [HTTP_PROVIDERS, ROUTER_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
 bootstrap(App, modules).then((appRef:ComponentRef<any>) => {
     appInjService(appRef.injector);
 });
-window['hr'] && window['hr'].on('change', (fileName) => {
-    if (fileName.indexOf('html') !== -1) {
-        var newBody = document.createElement('body')
-        newBody.appendChild(document.createElement('app'))
-        document.body = newBody;
-        bootstrap(App, modules).then((appRef:ComponentRef<any>) => {
-            appInjService(appRef.injector);
-        });
-    }
-})
+// window['hr'] && window['hr'].on('change', (fileName) => {
+//     if (fileName.indexOf('html') !== -1) {
+//         var newBody = document.createElement('body')
+//         newBody.appendChild(document.createElement('app'))
+//         document.body = newBody;
+//         bootstrap(App, modules).then((appRef:ComponentRef<any>) => {
+//             appInjService(appRef.injector);
+//         });
+//     }
+// })

@@ -36,8 +36,7 @@ type stationComponentMode = "map" | "grid";
         }  
     `],
     providers: [BusinessAction],
-    moduleId: __moduleName,
-    templateUrl: 'Dashboard.html'
+    templateUrl: '/src/comps/app1/dashboard/Dashboard.html'
 })
 
 // @CanActivate((to:ComponentInstruction, from:ComponentInstruction) => {

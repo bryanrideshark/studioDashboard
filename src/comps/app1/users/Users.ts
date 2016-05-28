@@ -23,9 +23,8 @@ import * as _ from 'lodash'
     selector: 'Users',
     providers: [SimpleList],
     directives: [SimpleList, UsersDetails, Loading, Samplelist, DROPDOWN_DIRECTIVES, AddUser, MODAL_DIRECTIVES],
-    moduleId: __moduleName,
-    styleUrls: ['Users.css'],
-    templateUrl: 'Users.html',
+    styleUrls: ['../comps/app1/users/Users.css'],
+    templateUrl: '/src/comps/app1/users/Users.html'
 
 })
 // styleUrls: ['../comps/app1/users/Users.css'],

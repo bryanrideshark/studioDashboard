@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ES5",
     "inlineSources": true,
-    "module": "system",
+    "module": "commonjs",
     "moduleResolution": "node",
     "removeComments": true,
     "emitDecoratorMetadata": true,
