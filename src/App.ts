@@ -133,7 +133,7 @@ export class App {
 
     }
 
-    private version = '1.355 beta';
+    private version = '1.358 beta';
 
     private checkPlatform() {
         switch (platform.name.toLowerCase()) {

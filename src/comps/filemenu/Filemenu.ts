@@ -53,6 +53,7 @@ export class Filemenu {
         self.el = viewContainer.element.nativeElement;
         self.m_fileMenuWrap = self.dom.getElementsByClassName(self.el, 'm_fileMenuWrap');
 
+
         router.changes.subscribe((currentRoute:any)=> {
             if (currentRoute == null)
                 return;
