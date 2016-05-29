@@ -11,7 +11,7 @@
  4. npm run devserver
  *
  ****************************************************************/
-
+                                                            
 import "zone.js/dist/zone";
 import "zone.js/dist/long-stack-trace-zone";
 import "reflect-metadata";
@@ -152,15 +152,15 @@ export class App {
     }
 
     public appResized():void {
-        // var appHeight = document.body.clientHeight;
-        // var appWidth = document.body.clientWidth;
-        // this.commBroker.setValue(Consts.Values().APP_SIZE, {height: appHeight, width: appWidth});
-        // this.commBroker.fire({
-        //     fromInstance: self,
-        //     event: Consts.Events().WIN_SIZED,
-        //     context: '',
-        //     message: {height: appHeight, width: appWidth}
-        // })
+        var appHeight = document.body.clientHeight;
+        var appWidth = document.body.clientWidth;
+        this.commBroker.setValue(Consts.Values().APP_SIZE, {height: appHeight, width: appWidth});
+        this.commBroker.fire({
+            fromInstance: self,
+            event: Consts.Events().WIN_SIZED,
+            context: '',
+            message: {height: appHeight, width: appWidth}
+        })
     }
 }
 
@@ -186,13 +186,13 @@ var modules = [HTTP_PROVIDERS, ROUTER_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
 bootstrap(App, modules).then((appRef:ComponentRef<any>) => {
     appInjService(appRef.injector);
 });
-// window['hr'] && window['hr'].on('change', (fileName) => {
-//     if (fileName.indexOf('html') !== -1) {
-//         var newBody = document.createElement('body')
-//         newBody.appendChild(document.createElement('app'))
-//         document.body = newBody;
-//         bootstrap(App, modules).then((appRef:ComponentRef<any>) => {
-//             appInjService(appRef.injector);
-//         });
-//     }
-// })
+window['hr'] && window['hr'].on('change', (fileName) => {
+    if (fileName.indexOf('html') !== -1) {
+        var newBody = document.createElement('body')
+        newBody.appendChild(document.createElement('app'))
+        document.body = newBody;
+        bootstrap(App, modules).then((appRef:ComponentRef<any>) => {
+            appInjService(appRef.injector);
+        });
+    }
+})
