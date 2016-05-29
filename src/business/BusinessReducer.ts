@@ -42,10 +42,10 @@ export function business(state:Map<string,any> = Map<string,any>(), action:any):
         case BusinessAction.SET_BUSINESS_ACCOUNT_DATA:
         {
             var businesses:List<BusinessModel> = state.getIn(['businesses'])
-            function indexOf(businessId:string) {
+            var indexOfBusiness = function(businessId:string) {
                 return businesses.findIndex((i:BusinessModel) => i.getBusinessId() === businessId);
             }
-            businesses = businesses.update(indexOf(action.payload.businessId), (business:BusinessModel) => {
+            businesses = businesses.update(indexOfBusiness(action.payload.businessId), (business:BusinessModel) => {
                 var updBusiness:BusinessModel = business.setKey<BusinessModel>(BusinessModel, 'name', action.payload.name)
                 updBusiness = updBusiness.setKey<BusinessModel>(BusinessModel, 'allowSharing', action.payload.allowSharing)
                 return updBusiness.setKey<BusinessModel>(BusinessModel, 'maxMonitors', action.payload.maxMonitors)
