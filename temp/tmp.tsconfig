@@ -3,6 +3,7 @@
     "target": "ES5",
     "inlineSources": true,
     "module": "system",
+    "moduleResolution": "classic",
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
