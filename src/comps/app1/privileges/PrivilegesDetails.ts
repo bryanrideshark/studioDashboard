@@ -2,7 +2,7 @@ import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@
 import {PrivelegesModel} from "../../../reseller/PrivelegesModel";
 import {List, Map} from 'immutable';
 import {SIMPLEGRID_DIRECTIVES} from "../../simplegrid/SimpleGrid";
-import {AppStore} from "angular2-redux-util/dist/index";
+import {AppStore} from "angular2-redux-util";
 import {PrivelegesTemplateModel} from "../../../reseller/PrivelegesTemplateModel";
 import {ResellerAction} from "../../../reseller/ResellerAction";
 import {Lib} from "../../../Lib";

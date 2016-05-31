@@ -6,7 +6,7 @@ import {InputEdit} from "../../inputedit/InputEdit";
 import {ISimpleListItem} from "../../simplelist/Simplelist";
 import {ChangePass} from "../../../comps/app1/users/ChangePass";
 import {BusinessAction} from "../../../business/BusinessAction";
-import {AppStore} from "angular2-redux-util/dist/index";
+import {AppStore} from "angular2-redux-util";
 import {Lib} from "../../../Lib";
 
 @Component({

@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {AppStore} from "angular2-redux-util/dist/index";
+import {AppStore} from "angular2-redux-util";
 import {BusinessAction} from "../../../business/BusinessAction";
 import {BusinessModel} from "../../../business/BusinessModel";
 import {AuthService} from "../../../services/AuthService";

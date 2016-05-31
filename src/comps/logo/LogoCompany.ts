@@ -3,7 +3,7 @@ import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/merge';
 import 'rxjs/add/operator/distinctUntilChanged';
-import {AppStore} from "angular2-redux-util/dist/index";
+import {AppStore} from "angular2-redux-util";
 import {WhitelabelModel} from "../../reseller/WhitelabelModel";
 import {ImgLoader} from "../imgloader/ImgLoader";
 

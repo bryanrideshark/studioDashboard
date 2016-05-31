@@ -3,7 +3,7 @@ import {List, Map} from 'immutable';
 import {BusinessModel} from "../../../business/BusinessModel";
 import {OrderBy} from "../../../pipes/OrderBy";
 import {SIMPLEGRID_DIRECTIVES, ISimpleGridEdit} from "../../simplegrid/SimpleGrid";
-import {AppStore} from "angular2-redux-util/dist/index";
+import {AppStore} from "angular2-redux-util";
 import {BusinessAction} from "../../../business/BusinessAction";
 import {UserInfo} from "./UserInfo";
 import {BusinessUser} from "../../../business/BusinessUser";

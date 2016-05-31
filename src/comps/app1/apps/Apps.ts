@@ -3,7 +3,7 @@ import {AuthService} from "../../../services/AuthService";
 import {appInjService} from "../../../services/AppInjService";
 import {AppModel} from "../../../reseller/AppModel";
 import {List} from "immutable";
-import {AppStore} from "angular2-redux-util/dist/index";
+import {AppStore} from "angular2-redux-util";
 import {ResellerAction} from "../../../reseller/ResellerAction";
 import {SIMPLEGRID_DIRECTIVES} from "../../simplegrid/SimpleGrid";
 import {OrderBy} from "../../../pipes/OrderBy";

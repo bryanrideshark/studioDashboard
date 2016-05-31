@@ -3,7 +3,7 @@ import {Loading} from "../../loading/Loading";
 import {SimpleList, ISimpleListItem} from "../../simplelist/Simplelist";
 import {PrivelegesModel} from "../../../reseller/PrivelegesModel";
 import {List} from 'immutable';
-import {AppStore} from "angular2-redux-util/dist/index";
+import {AppStore} from "angular2-redux-util";
 import {AuthService} from "../../../services/AuthService";
 import {appInjService} from "../../../services/AppInjService";
 import {PrivilegesDetails} from "./PrivilegesDetails";

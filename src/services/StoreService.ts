@@ -2,7 +2,7 @@ import {Injectable, provide} from "@angular/core";
 import {BusinessAction} from "../business/BusinessAction";
 import {ResellerAction} from "../reseller/ResellerAction";
 import {AppdbAction} from "../appdb/AppdbAction";
-import {AppStore} from "angular2-redux-util/dist/index";
+import {AppStore} from "angular2-redux-util";
 import {StationsAction} from "../stations/StationsAction";
 import {List, Map} from 'immutable';
 import {CommBroker} from "./CommBroker";

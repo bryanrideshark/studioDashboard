@@ -70,6 +70,7 @@ import {LogoCompany} from "./comps/logo/LogoCompany";
 import {Observable} from "rxjs/Rx";
 import {ANGULAR2_GOOGLE_MAPS_PROVIDERS} from "angular2-google-maps/core";
 // import {Router} from "@angular/router-deprecated";
+
 export enum ServerMode {
     CLOUD,
     PRIVATE,
@@ -108,8 +109,6 @@ export enum ServerMode {
     {path: '/App1', component: App1},
 ])
 export class App {
-    private m_styleService:StyleService;
-
     constructor(private localStorage:LocalStorage, private router:Router, private appStore:AppStore, private commBroker:CommBroker, styleService:StyleService, private appdbAction:AppdbAction) {
         // force logout
         // this.localStorage.removeItem('remember_me')
@@ -132,7 +131,7 @@ export class App {
         }, 3000)
 
     }
-
+    private m_styleService:StyleService;
     private version = '1.358 beta';
 
     private checkPlatform() {

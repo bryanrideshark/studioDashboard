@@ -5,7 +5,7 @@ import {
 } from '@angular/common'
 import {BusinessUser} from "../../../business/BusinessUser";
 import {Lib} from "../../../Lib";
-import {AppStore} from "angular2-redux-util/dist/index";
+import {AppStore} from "angular2-redux-util";
 import {BusinessAction} from "../../../business/BusinessAction";
 import {PrivelegesModel} from "../../../reseller/PrivelegesModel";
 import {ModalComponent} from "../../ng2-bs3-modal/components/modal";

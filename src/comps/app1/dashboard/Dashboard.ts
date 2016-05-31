@@ -1,7 +1,7 @@
 import {Component, ViewChild, ChangeDetectorRef} from '@angular/core'
 import {Infobox} from "../../infobox/Infobox";
 import {List, Map} from 'immutable';
-import {AppStore} from "angular2-redux-util/dist/index";
+import {AppStore} from "angular2-redux-util";
 import {BusinessAction} from "../../../business/BusinessAction";
 import {ServerStats} from "./ServerStats";
 import {ServerAvg} from "./ServerAvg";
