@@ -51,7 +51,6 @@ export class OrdersAction extends Actions {
             var appdb:Map<string,any> = this.appStore.getState().appdb;
             var url;
             url = appdb.get('appBaseUrlCloud').replace('END_POINT', 'getAccountType');
-            console.log(url);
             this._http.get(url)
                 .catch((err) => {
                     bootbox.alert('Error updating account');

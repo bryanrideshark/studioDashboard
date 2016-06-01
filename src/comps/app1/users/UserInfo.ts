@@ -1,4 +1,4 @@
-import {Component, Input, ChangeDetectionStrategy, ViewChild, ChangeDetectorRef} from '@angular/core'
+import {Component, Input, ChangeDetectionStrategy, ChangeDetectorRef} from "@angular/core";
 import {BusinessModel} from "../../../business/BusinessModel";
 import {Infobox} from "../../infobox/Infobox";
 import {UserStorage} from "./UserStorage";
