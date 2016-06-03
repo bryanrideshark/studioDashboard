@@ -15,7 +15,7 @@ import * as xml2js from 'xml2js'
 import * as bootbox from 'bootbox';
 
 export const REQUEST_ORDERS = 'REQUEST_ORDERS';
-export const RECEIVE_ORDERS = 'RECEIVE_ORDERS';
+export const RECEIVED_ORDERS = 'RECEIVED_ORDERS';
 export const RECEIVE_ACCOUNT_TYPE = 'RECEIVE_ACCOUNT_TYPE';
 
 @Injectable()
@@ -41,8 +41,15 @@ export class OrdersAction extends Actions {
             .finally(() => {
             })
             .map((result:any) => {
-                //todo: create OrderModels
                 var orders:any = result.json();
+                var orderModels:List<OrderModel> = List<OrderModel>();
+                orders.forEach((i_order) => {
+                    var orderModel:OrderModel = new OrderModel({
+                        amount: i_order.amount
+                    });
+                    orderModels = orderModels.push(orderModel);
+                })
+                dispatch(this.receivedOrders(orderModels));
             }).subscribe();
     }
 
@@ -76,17 +83,18 @@ export class OrdersAction extends Actions {
         }
     }
 
-    public receiveOrders(orders:List<OrderModel>) {
-        return {
-            type: RECEIVE_ORDERS,
-            orders
-        }
-    }
-
     public receiveAccountType(accountType:string) {
         return {
             type: RECEIVE_ACCOUNT_TYPE,
             accountType
+        }
+    }
+
+
+    private receivedOrders(orders:List<OrderModel>) {
+        return {
+            type: RECEIVED_ORDERS,
+            orders
         }
     }
 
