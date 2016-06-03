@@ -1,12 +1,9 @@
 import {Component} from "@angular/core";
 import {AppStore} from "angular2-redux-util";
-import {BusinessAction} from "../../../business/BusinessAction";
-import {BusinessModel} from "../../../business/BusinessModel";
-import {AuthService} from "../../../services/AuthService";
-import {appInjService} from "../../../services/AppInjService";
 import {List} from "immutable";
-import * as bootbox from 'bootbox';
-import * as _ from 'lodash'
+import {OrdersAction} from "./OrdersAction";
+import {OrderModel} from "./OrderModel";
+
 
 @Component({
     selector: 'Orders',
@@ -20,18 +17,18 @@ import * as _ from 'lodash'
 
 export class Orders {
 
-    constructor(private appStore:AppStore, private businessAction:BusinessAction) {
+    constructor(private appStore:AppStore, private ordersAction:OrdersAction) {
         var i_businesses = this.appStore.getState().business;
 
-        this.businessesList = i_businesses.getIn(['businesses']);
-        this.unsub = this.appStore.sub((i_businesses:List<BusinessModel>) => {
-            this.businessesList = i_businesses;
-        }, 'business.businesses');
+        this.orderList = i_businesses.getIn(['orders']);
+        this.unsub = this.appStore.sub((i_orders:List<OrderModel>) => {
+            this.orderList = i_orders
+        }, 'orders.customerOrders');
 
     }
 
     private unsub:Function;
-    private businessesList:List<BusinessModel> = List<BusinessModel>();
+    private orderList:List<OrderModel> = List<OrderModel>();
 
     private ngOnDestroy() {
         this.unsub();

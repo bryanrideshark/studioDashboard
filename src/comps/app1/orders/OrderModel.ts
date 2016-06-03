@@ -1,4 +1,4 @@
-import {StoreModel} from "../models/StoreModel";
+import {StoreModel} from "../../../models/StoreModel";
 import {Map, List} from 'immutable';
 
 /**

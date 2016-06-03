@@ -8,8 +8,8 @@ import {Observable} from "rxjs/Observable";
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/finally';
 import 'rxjs/add/observable/throw';
-import {SampleModel} from "../business/SampleModel";
-import {Lib} from "../Lib";
+import {SampleModel} from "../../../business/SampleModel";
+import {Lib} from "../../../Lib";
 import * as _ from 'lodash'
 import * as xml2js from 'xml2js'
 import * as bootbox from 'bootbox';
