@@ -10,9 +10,7 @@ export function orders(state:Map<string,any> = Map<string,any>(), action:any):Ma
             return state;
 
         case OrderActions.RECEIVED_ORDERS:
-            //var orders:List<OrderModel> = state.getIn(['orders'])
             return state.setIn(['customerOrders'], action.orders);
-            //return state;
 
         default:
             return state;

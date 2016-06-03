@@ -44,9 +44,7 @@ export class OrdersAction extends Actions {
                 var orders:any = result.json();
                 var orderModels:List<OrderModel> = List<OrderModel>();
                 orders.forEach((i_order) => {
-                    var orderModel:OrderModel = new OrderModel({
-                        amount: i_order.amount
-                    });
+                    var orderModel:OrderModel = new OrderModel(i_order);
                     orderModels = orderModels.push(orderModel);
                 })
                 dispatch(this.receivedOrders(orderModels));
