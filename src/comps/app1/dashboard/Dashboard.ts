@@ -46,7 +46,6 @@ type stationComponentMode = "map" | "grid";
 export class Dashboard {
 
     constructor(private authService:AuthService, private appStore:AppStore, private appDbActions:AppdbAction, private cd:ChangeDetectorRef, private commBroker:CommBroker) {
-        console.log('hot reload ' + 12);
         this.serverStats = [];
         this.serverStatsCategories = [];
         this.serverAvgResponse = 0;
@@ -54,6 +53,8 @@ export class Dashboard {
         this.listenBusinessNameFilter();
         this.listenStore()
         this.listenStationsErrors()
+
+        //todo: workaround until rc.2
         this.authService.checkAccess();
     }
 
