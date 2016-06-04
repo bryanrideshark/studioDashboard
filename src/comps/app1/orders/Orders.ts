@@ -39,7 +39,7 @@ export class Orders {
     private orderList:List<OrderModel> = List<OrderModel>();
 
     private getContent (order:OrderModel) {
-        console.log(Math.random())
+        // console.log(Math.random())
         var type = 'Enterp'
         var paymentDate = order.getKey('payment_date');
         if (_.isUndefined(paymentDate)) {
