@@ -34,4 +34,3 @@ export class OrderDetails {
         this.unsub();
     }
 }
-
