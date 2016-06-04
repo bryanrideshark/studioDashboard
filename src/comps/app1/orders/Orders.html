@@ -1,1 +1,28 @@
-<h1>Orders</h1>
+<div class="row">
+  <div class="col-xs-3">
+	 <div class="users">
+		<!--<div (click)="$event.preventDefault()">-->
+                      <!--<span dropdown (on-toggle)="toggled($event)">-->
+                      <!--<a class="btns addUser" dropdownToggle href="#"><span class="fa fa-plus"></span></a>-->
+                        <!--<ul class="dropdown-menu" aria-labelledby="simple-dropdown">-->
+                          <!--<li *ngFor="let choice of accounts">-->
+                            <!--<a (click)="onAddUser(choice)" class="dropdown-item" href="#">{{choice}}</a>-->
+                          <!--</li>-->
+                        <!--</ul>-->
+                      <!--</span>-->
+		  <!--<a (click)="onRemoveUser($event)" [ngClass]="{disabled: !businessUsersListFiltered || businessUsersListFiltered.size < 1}" href="#"><span class="remove fa fa-remove"></span></a>-->
+		<!--</div>-->
+	 </div>
+
+	 <!--(selected)="onFilteredSelection()" (iconClicked)="onShowUserInfo($event)" [contentId]="getBusinessesId()" [icon]="'fa-user'" "-->
+	 <SimpleList *ngIf="orderList" #simpleList [list]="orderList" [content]="getContent" ></SimpleList>
+	 <Loading *ngIf="!orderList" [src]="'assets/preload6.gif'" [style]="{'margin-top': '150px'}"></Loading>
+  </div>
+
+  <!--<div class="col-xs-9 userView">-->
+	 <!--<UsersDetails #usersDetails *ngIf="businessesUsers && priveleges" [showUserInfo]="showUserInfo" [priveleges]="priveleges" [businesses]="businessUsersListFiltered"></UsersDetails>-->
+	 <!--<Loading *ngIf="!businessesUsers || !priveleges" [src]="'assets/preload6.gif'" [style]="{'margin-top': '150px'}"></Loading>-->
+  <!--</div>-->
+
+
+</div>

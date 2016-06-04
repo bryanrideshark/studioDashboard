@@ -1,17 +1,21 @@
-import {Component} from "@angular/core";
+import {Component, ViewChild} from "@angular/core";
 import {AppStore} from "angular2-redux-util";
 import {List} from "immutable";
 import {OrdersAction} from "./OrdersAction";
 import {OrderModel} from "./OrderModel";
 import {AuthService} from "../../../services/AuthService";
 import {SimpleList} from "../../simplelist/Simplelist";
+import {Loading} from "../../loading/Loading";
+import * as _ from 'lodash';
+import {SimplelistEditable} from "../../simplelist/SimplelistEditable";
 
 
 @Component({
     selector: 'Orders',
     providers: [SimpleList],
-    directives: [SimpleList],
-    template: `<h1>Orders</h1>`
+    directives: [SimpleList, Loading],
+    moduleId: __moduleName,
+    templateUrl: 'Orders.html'
 })
 
 // @CanActivate((to:ComponentInstruction, from:ComponentInstruction) => {
@@ -20,7 +24,6 @@ import {SimpleList} from "../../simplelist/Simplelist";
 // })
 
 export class Orders {
-    //test 5
     constructor(private appStore:AppStore, private ordersAction:OrdersAction, private authService:AuthService) {
         var i_orders = this.appStore.getState().orders;
         this.orderList = i_orders.getIn(['customerOrders']);
@@ -34,6 +37,21 @@ export class Orders {
 
     private unsub:Function;
     private orderList:List<OrderModel> = List<OrderModel>();
+
+    private getContent (order:OrderModel) {
+        console.log(Math.random())
+        var type = 'Enterp'
+        var paymentDate = order.getKey('payment_date');
+        if (_.isUndefined(paymentDate)) {
+            paymentDate = order.getKey('order_date');
+            type = 'Cart'
+        }
+        var date = new Date(paymentDate)
+        var orderId = order.getKey('order_id');
+        if (_.isUndefined(orderId))
+            orderId = order.getKey('payment_id');
+        return `${type} ${orderId} ${date.toLocaleDateString("en-US")}`;
+    }
 
     private ngOnDestroy() {
         this.unsub();

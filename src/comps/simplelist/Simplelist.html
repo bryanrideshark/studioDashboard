@@ -13,7 +13,7 @@
     <ul class="list-group">
       <br/>
       <li #simpleItem *ngFor="let item of list ; let index = index"
-          [class.hidden]="getContent(item) | FilterPipe:filter"
+          [class.hidden]="item | FilterPipe:filter:content"
           data-id="simple_id:{{getContentId(item,index)}}"
           class="list-group-item" (click)="itemSelected(item, index)" [class.active]="getMetadata(index,item).selected"
           (mouseover)="hover.next(item)" (mouseout)="hover.next(null)">

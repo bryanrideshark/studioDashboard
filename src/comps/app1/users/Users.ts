@@ -217,10 +217,9 @@ export class Users {
         this.businessUsersListFiltered = List<BusinessUser>(arr);
     }
 
-    private getBusinesses() {
-        return (businessItem:BusinessModel)=> {
-            return businessItem.getKey('name');
-        }
+    private getBusinesses(businessItem:BusinessModel) {
+        console.log(Math.random());
+        return businessItem.getKey('name');
     }
 
     private getBusinessesId() {

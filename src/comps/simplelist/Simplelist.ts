@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy,} from '@angular/core';
+import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewChild} from '@angular/core';
 import {FilterPipe} from "../../pipes/FilterPipe";
 import {List} from 'immutable';
 import {SimplelistEditable} from "./SimplelistEditable";
@@ -28,6 +28,15 @@ export class SimpleList {
     private m_iconSelectedMode:boolean = false;
     private m_metadata:any = {};
 
+    ngAfterViewInit() {
+        // if (this.simpleListEditable)
+        //     this.simpleListEditable.setContent(this.content)
+    }
+
+    @ViewChild(SimplelistEditable)
+    simpleListEditable:SimplelistEditable;
+    
+    
     @Input()
     list:List<any>;
 
@@ -133,6 +142,11 @@ export class SimpleList {
     private getMetadata(index, item) {
         let id = this.contentId ? this.contentId(item) : index;
         return this.m_metadata[id];
+    }
+
+    public setContent(f) {
+        this.content = f;
+        // this.simpleListEditable.setContent(this.content)
     }
 
     public getContentId(item, index):string {
