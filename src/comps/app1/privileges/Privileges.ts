@@ -52,7 +52,7 @@ import * as bootbox from 'bootbox';
                     [iconSelectiondMode]="true"
                     [iconSelected]="getDefaultPrivilege()"
                     [contentId]="getPrivilegeId()"
-                    [content]="getPrivilege()">
+                    [content]="getPrivilege">
                 </SimpleList>
                 <Loading *ngIf="!privelegesList" [src]="'assets/preload6.gif'" [style]="{'margin-top': '150px'}"></Loading>
              </div>
@@ -70,7 +70,7 @@ import * as bootbox from 'bootbox';
 // })
 export class Privileges {
 
-    constructor(private appStore:AppStore, private resellerAction:ResellerAction) {
+    constructor(private appStore:AppStore, private resellerAction:ResellerAction, private authService:AuthService) {
         var i_reseller = this.appStore.getState().reseller;
 
         this.privilegeDefault = i_reseller.getIn(['privilegeDefault']);
@@ -83,6 +83,9 @@ export class Privileges {
             this.privelegesList = privelegesModel;
             this.onPrivilegeSelected();
         }, 'reseller.privileges');
+
+        //todo: workaround until rc.2
+        this.authService.checkAccess();
     }
 
     @ViewChild(SimpleList)
@@ -127,10 +130,8 @@ export class Privileges {
         this.privelegesModelSelected = selectedList.first();
     }
 
-    private getPrivilege() {
-        return (privelegesModel:PrivelegesModel)=> {
-            return privelegesModel.getName();
-        }
+    private getPrivilege(privelegesModel:PrivelegesModel) {
+        return privelegesModel.getName();
     }
 
     private getPrivilegeId() {

@@ -10,25 +10,25 @@
     "noEmitHelpers": false,
     "sourceMap": true,
     "noResolve": false,
-    "baseUrl": "./jspm_packages",
+    "baseUrl": "./",
     "paths": {
       "angular2-redux-util": [
-        "npm/angular2-redux-util@0.8.64"
+        "jspm_packages/npm/angular2-redux-util@0.8.64"
       ],
       "angular2-google-maps/core": [
-        "npm/angular2-google-maps@0.10.0/core"
+        "jspm_packages/npm/angular2-google-maps@0.10.0/core"
       ],
       "@angular/*": [
-        "npm/@angular/*@2.0.0-rc.1"
+        "jspm_packages/npm/@angular/*@2.0.0-rc.1"
       ],
       "redux-thunk": [
-        "/npm/redux-thunk@2.1.0"
+        "jspm_packages/npm/redux-thunk@2.1.0"
       ],
       "@angular/platform-browser/src/browser/browser_adapter": [
-        "npm/@angular/platform-browser@2.0.0-rc.1/src/browser/browser_adapter"
+        "jspm_packages/npm/@angular/platform-browser@2.0.0-rc.1/src/browser/browser_adapter"
       ],
       "rxjs/*": [
-        "npm/rxjs@5.0.0-beta.6/*"
+        "jspm_packages/npm/rxjs@5.0.0-beta.6/*"
       ]
     }
   },

@@ -12,8 +12,9 @@ export interface  ISimpleListItem {
 
 @Component({
     selector: 'SimpleList',
-    templateUrl: '/src/comps/simplelist/Simplelist.html',
-    styleUrls: ['../comps/simplelist/Simplelist.css'],
+    moduleId: __moduleName,
+    templateUrl: 'Simplelist.html',
+    styleUrls: ['Simplelist.css'],
     directives: [SimplelistEditable],
     pipes: [FilterPipe],
     changeDetection: ChangeDetectionStrategy.OnPush

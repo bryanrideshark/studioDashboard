@@ -1,19 +1,20 @@
-import {
-    Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnChanges, SimpleChange,
-    ViewChild, QueryList
-} from '@angular/core'
+import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, ApplicationRef} from "@angular/core";
 
 @Component({
     selector: 'simpleListEditable',
+    moduleId: __moduleName,
     template: `
                 <span *ngIf="!m_editing" class="li-content pull-left">{{getContent(item)}}</span>
                 <input #editInput *ngIf="m_editing && editable" [(ngModel)]="m_value" class="li-content pull-left"  value="{{getContent(item)}}" />
                 <span *ngIf="editable" (click)="onEdit(true)" class="editable fa {{m_icon}} pull-right"></span>
     `,
-    styleUrls: ['../comps/simplelist/Simplelist.css'],
+    styleUrls: ['Simplelist.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SimplelistEditable {
+    constructor(private app:ApplicationRef, private ref:ChangeDetectorRef) {
+    }
+
     @Input()
     item;
     @Input()
@@ -37,8 +38,16 @@ export class SimplelistEditable {
             var delay = 0;
             this.m_icon = 'fa-check';
         }
+        this.updateDetection();
         // use small delay so you don't see a skip in data appending
-        setTimeout(()=> this.m_editing = !this.m_editing, delay);
+        setTimeout(()=> {
+            this.m_editing = !this.m_editing
+            this.updateDetection();
+        }, delay);
+    }
+
+    private updateDetection(){
+        this.ref.markForCheck();
     }
 
     private getContent(item):string {
