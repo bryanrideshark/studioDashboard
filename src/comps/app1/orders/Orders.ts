@@ -10,7 +10,6 @@ import * as _ from 'lodash';
 import {SimplelistEditable} from "../../simplelist/SimplelistEditable";
 import {OrderDetails} from "./OrderDetails";
 
-
 @Component({
     selector: 'Orders',
     providers: [SimpleList],
