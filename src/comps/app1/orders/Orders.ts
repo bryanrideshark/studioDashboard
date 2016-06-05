@@ -8,12 +8,13 @@ import {SimpleList} from "../../simplelist/Simplelist";
 import {Loading} from "../../loading/Loading";
 import * as _ from 'lodash';
 import {SimplelistEditable} from "../../simplelist/SimplelistEditable";
+import {OrderDetails} from "./OrderDetails";
 
 
 @Component({
     selector: 'Orders',
     providers: [SimpleList],
-    directives: [SimpleList, Loading],
+    directives: [SimpleList, Loading, OrderDetails],
     moduleId: __moduleName,
     templateUrl: 'Orders.html'
 })

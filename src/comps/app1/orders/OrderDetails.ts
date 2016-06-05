@@ -1,36 +1,41 @@
-import {Component} from "@angular/core";
-import {BusinessAction} from "../../../business/BusinessAction";
-import {BusinessModel} from "../../../business/BusinessModel";
+import {Component, ViewChild} from "@angular/core";
 import {AppStore} from "angular2-redux-util";
 import {List} from "immutable";
+import {OrdersAction} from "./OrdersAction";
+import {OrderModel} from "./OrderModel";
+import {AuthService} from "../../../services/AuthService";
+import {SimpleList} from "../../simplelist/Simplelist";
+import {Loading} from "../../loading/Loading";
 import * as _ from 'lodash';
+import {SimplelistEditable} from "../../simplelist/SimplelistEditable";
+
 
 @Component({
-    selector: 'orderDetails',
+    selector: 'OrderDetails',
     moduleId: __moduleName,
     styleUrls: ['OrderDetails.css'],
     templateUrl: 'OrderDetails.html'
 })
 
 export class OrderDetails {
-     //a
-    constructor(private appStore:AppStore, private businessAction:BusinessAction) {
-        var i_businesses = this.appStore.getState().business;
 
-        this.businessesList = i_businesses.getIn(['businesses']);
-        this.unsub = this.appStore.sub((i_businesses:List<BusinessModel>) => {
-            this.businessesList = i_businesses;
-        }, 'business.businesses');
+    constructor(private appStore:AppStore, private ordersAction:OrdersAction, private authService:AuthService) {
+        var i_orders = this.appStore.getState().orders;
+        this.orderList = i_orders.getIn(['customerOrders']);
+        this.unsub = this.appStore.sub((i_orders:List<OrderModel>) => {
+            this.orderList = i_orders
+        }, 'orders.customerOrders');
 
+        //todo: workaround until rc.2
+        this.authService.checkAccess();
     }
 
-    // @ViewChild(SimpleList)
-    // simpleList:SimpleList;
-
     private unsub:Function;
-    private businessesList:List<BusinessModel> = List<BusinessModel>();
+    private orderList:List<OrderModel> = List<OrderModel>();
+
 
     private ngOnDestroy() {
         this.unsub();
     }
+
 }
