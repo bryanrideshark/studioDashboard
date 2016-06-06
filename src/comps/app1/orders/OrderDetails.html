@@ -1,1 +1,4 @@
-<h2>Order 3 details</h2>
+<div *ngIf="selectedOrder">Order 3 details
+  <h1>{{selectedOrder.getTotal()}}</h1>
+  <h3>{{selectedOrder.getOrderId()}}</h3>
+</div>

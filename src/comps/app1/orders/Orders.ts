@@ -1,10 +1,10 @@
-import {Component} from "@angular/core";
+import {Component, ViewChild} from "@angular/core";
 import {AppStore} from "angular2-redux-util";
 import {List} from "immutable";
 import {OrdersAction} from "./OrdersAction";
 import {OrderModel} from "./OrderModel";
 import {AuthService} from "../../../services/AuthService";
-import {SimpleList} from "../../simplelist/Simplelist";
+import {SimpleList, ISimpleListItem} from "../../simplelist/Simplelist";
 import {Loading} from "../../loading/Loading";
 import * as _ from "lodash";
 import {OrderDetails} from "./OrderDetails";
@@ -34,22 +34,31 @@ export class Orders {
         this.authService.checkAccess();
     }
 
+    @ViewChild(SimpleList)
+    simpleList:SimpleList;
+
+    private selectedOrder:OrderModel;
     private unsub:Function;
     private orderList:List<OrderModel> = List<OrderModel>();
 
-    private getContent (order:OrderModel) {
-        // console.log(Math.random())
-        var type = 'Enterp'
-        var paymentDate = order.getKey('payment_date');
-        if (_.isUndefined(paymentDate)) {
-            paymentDate = order.getKey('order_date');
-            type = 'Cart'
-        }
-        var date = new Date(paymentDate)
-        var orderId = order.getKey('order_id');
-        if (_.isUndefined(orderId))
-            orderId = order.getKey('payment_id');
-        return `${type} ${orderId} ${date.toLocaleDateString("en-US")}`;
+    private getContent(order:OrderModel) {
+        console.log(Math.random())
+        var type = order.getOrderType();
+        var paymentDate = order.getDate();
+        var orderId = order.getOrderId();
+        return `${type} ${orderId} ${paymentDate.toLocaleDateString("en-US")}`;
+    }
+
+    private onSelection() {
+        if (!this.orderList)
+            return;
+        var orderSelected:{} = this.simpleList.getSelected();
+        _.forEach(orderSelected, (order:ISimpleListItem)=> {
+            if (order.selected) {
+                this.selectedOrder = order.item;
+            }
+        })
+
     }
 
     private ngOnDestroy() {

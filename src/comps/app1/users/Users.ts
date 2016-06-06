@@ -29,7 +29,7 @@ import * as _ from 'lodash'
 })
 // styleUrls: ['../comps/app1/users/Users.css'],
 // templateUrl: '/src/comps/app1/users/Users.html'
-// moduleId: __modulename,
+// moduleId: __moduleName,
 // styleUrls: ['Users.css'],
 // templateUrl: 'Users.html',
 
