@@ -6,11 +6,11 @@
 
 	 <!--(selected)="onFilteredSelection()" (iconClicked)="onShowUserInfo($event)" [contentId]="getBusinessesId()" [icon]="'fa-user'" "-->
 	 <SimpleList *ngIf="orderList" #simpleList [list]="orderList" (selected)="onSelection()" [content]="getContent" ></SimpleList>
-	 <Loading *ngIf="!orderList" [src]="'assets/preload6.gif'" [style]="{'margin-top': '150px'}"></Loading>
+	 <Loading *ngIf="!orderList" [size]="50" [style]="{'margin-top': '150px'}"></Loading>
   </div>
 
   <div class="col-xs-9 userView">
-	 <OrderDetails #orderList *ngIf="orderList" [selectedOrder]="selectedOrder"></OrderDetails>
-	 <Loading *ngIf="!orderList" [src]="'assets/preload6.gif'" [style]="{'margin-top': '150px'}"></Loading>
+	 <OrderDetails #orderList *ngIf="orderList" [onSelectedOrder]="selectedOrder"></OrderDetails>
+	 <Loading *ngIf="!orderList" [size]="50" [style]="{'margin-top': '150px'}"></Loading>
   </div>
 </div>

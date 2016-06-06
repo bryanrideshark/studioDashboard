@@ -42,11 +42,11 @@ export class Orders {
     private orderList:List<OrderModel> = List<OrderModel>();
 
     private getContent(order:OrderModel) {
-        console.log(Math.random())
+        // console.log(Math.random())
         var type = order.getOrderType();
         var paymentDate = order.getDate();
         var orderId = order.getOrderId();
-        return `${type} ${orderId} ${paymentDate.toLocaleDateString("en-US")}`;
+        return `${type} ${orderId} ${paymentDate}`;
     }
 
     private onSelection() {
@@ -58,7 +58,6 @@ export class Orders {
                 this.selectedOrder = order.item;
             }
         })
-
     }
 
     private ngOnDestroy() {

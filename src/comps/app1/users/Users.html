@@ -14,11 +14,11 @@
       </div>
     </div>
     <SimpleList *ngIf="businessesUsers && priveleges" #simpleList [list]="businessesList" (selected)="onFilteredSelection()" (iconClicked)="onShowUserInfo($event)" [contentId]="getBusinessesId()" [icon]="'fa-user'" [content]="getBusinesses"></SimpleList>
-    <Loading *ngIf="!businessesUsers || !priveleges" [src]="'assets/preload6.gif'" [style]="{'margin-top': '150px'}"></Loading>
+    <Loading *ngIf="!businessesUsers || !priveleges" [size]="100" [style]="{'margin-top': '150px'}"></Loading>
   </div>
   <div class="col-xs-9 userView">
     <UsersDetails #usersDetails *ngIf="businessesUsers && priveleges" [showUserInfo]="showUserInfo" [priveleges]="priveleges" [businesses]="businessUsersListFiltered"></UsersDetails>
-    <Loading *ngIf="!businessesUsers || !priveleges" [src]="'assets/preload6.gif'" [style]="{'margin-top': '150px'}"></Loading>
+    <Loading *ngIf="!businessesUsers || !priveleges" [size]="100" [style]="{'margin-top': '150px'}"></Loading>
   </div>
 
   <modal #modalSamples [animation]="true" (onClose)="onModalClose($event)">

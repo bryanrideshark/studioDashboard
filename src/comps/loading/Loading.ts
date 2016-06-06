@@ -4,11 +4,8 @@ import {Component, Input, ChangeDetectionStrategy} from '@angular/core'
     selector: 'Loading',
     styles: [`
         .spinner {
-          position:fixed;
-          left: 40px;
           display: inline-block;
-          width: 50px;
-          height: 50px;
+          opacity: 0;
           border: 3px solid rgba(0,0,0,.3);
           border-radius: 50%;
           border-top-color: #fff;
@@ -26,10 +23,10 @@ import {Component, Input, ChangeDetectionStrategy} from '@angular/core'
     template: `
         <div [ngStyle]="_style">
             <center>
-               <h5>Loading</h5>
+               <!--<h5>Loading</h5>-->
                 <!--<div *ngIf="show" class="spinner"></div>-->
-                <div class="spinner"></div>
-               <img [src]="src"/>
+                <div [ngStyle]="_size" class="spinner"></div>
+               <!--<img [src]="src"/>-->
             </center>
         </div>
     `,
@@ -38,6 +35,7 @@ import {Component, Input, ChangeDetectionStrategy} from '@angular/core'
 export class Loading {
 
     _style:Object;
+    _size:Object;
 
     @Input()
     src:string = '';
@@ -45,6 +43,15 @@ export class Loading {
     @Input('style')
     set style(i_style:Object) {
         this._style = i_style;
+        console.log();
+    }
+    @Input('size')
+    set size(i_size:number) {
+        this._size = {
+            opacity: 1,
+            height: i_size,
+            width: i_size
+        }
 
     }
 }

@@ -21,11 +21,12 @@ export class OrderModel extends StoreModel {
         return 'Cart';
     }
 
-    public getDate():Date {
+    public getDate():string {
         var paymentDate = this.getKey('payment_date');
         if (_.isUndefined(paymentDate))
             paymentDate = this.getKey('order_date');
-        return new Date(paymentDate)
+        var d = new Date(paymentDate)
+        return d.toLocaleDateString("en-US")
     }
 
     public getOrderId() {

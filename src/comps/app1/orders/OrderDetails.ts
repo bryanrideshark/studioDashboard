@@ -4,10 +4,12 @@ import {List} from "immutable";
 import {OrdersAction} from "./OrdersAction";
 import {OrderModel} from "./OrderModel";
 import {AuthService} from "../../../services/AuthService";
+import {Loading} from "../../loading/Loading";
 
 @Component({
     selector: 'OrderDetails',
     moduleId: __moduleName,
+    directives: [Loading],
     styleUrls: ['OrderDetails.css'],
     templateUrl: 'OrderDetails.html'
 })
@@ -25,8 +27,19 @@ export class OrderDetails {
         this.authService.checkAccess();
     }
 
-    @Input() selectedOrder:OrderModel;
+    @Input() set onSelectedOrder(order:OrderModel) {
+        if (!order)
+            return;
+        this.selectedOrder = null;
+        this.loading = true;
+        setTimeout(()=> {
+            this.loading = false;
+            this.selectedOrder = order;
+        }, 1000)
+    };
 
+    private selectedOrder:OrderModel;
+    private loading:boolean = false;
     private unsub:Function;
     private orderList:List<OrderModel> = List<OrderModel>();
 
