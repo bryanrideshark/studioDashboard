@@ -5,8 +5,9 @@ import * as _ from 'lodash'
 @Component({
     selector: 'stationDetails',
     directives: [],
-    templateUrl: '/src/comps/app1/dashboard/StationDetails.html',
-    styleUrls: ['../comps/app1/dashboard/StationDetails.css'],
+    moduleId: __moduleName,
+    templateUrl: 'StationDetails.html',
+    styleUrls: ['StationDetails.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 

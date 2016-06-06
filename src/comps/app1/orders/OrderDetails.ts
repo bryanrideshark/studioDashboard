@@ -1,14 +1,9 @@
-import {Component, ViewChild} from "@angular/core";
+import {Component} from "@angular/core";
 import {AppStore} from "angular2-redux-util";
 import {List} from "immutable";
 import {OrdersAction} from "./OrdersAction";
 import {OrderModel} from "./OrderModel";
 import {AuthService} from "../../../services/AuthService";
-import {SimpleList} from "../../simplelist/Simplelist";
-import {Loading} from "../../loading/Loading";
-import * as _ from 'lodash';
-import {SimplelistEditable} from "../../simplelist/SimplelistEditable";
-
 
 @Component({
     selector: 'OrderDetails',
