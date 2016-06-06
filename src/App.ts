@@ -166,7 +166,6 @@ export class App {
 if (!Lib.DevMode())
     enableProdMode();
 
-
 var modules = [HTTP_PROVIDERS, ROUTER_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
     provide(AppStore, {useFactory: Lib.StoreFactory({notify, appdb, business, stations, reseller, orders})}),
     provide(StoreService, {useClass: StoreService}),
