@@ -10,18 +10,24 @@ export class OrderDetailModel extends StoreModel {
         super(data);
     }
 
+    private fields = ['company', 'first_name', 'last_name', 'address1', 'address2', 'state', 'county', 'zip_code', 'phone1'];
+
+    private getCustomerInfo(type) {
+        var str:string = '';
+        var data = this.getKey(type);
+        this.fields.forEach((field)=> {
+            if (data[field] && data[field].length > 0)
+                str = str + data[field] + '\n';
+        })
+        return str;
+    }
+
     public getBilling() {
-        var billing = this.getKey('billing');
-        var address2
-        billing.address2.length > 0 ? address2 = billing.address2 + '\n' : address2 = '';
-        return `${billing.first_name}\n${billing.last_name}\n${billing.address1}\n${address2}${billing.zip_code}\n${billing.phone1}\n${billing.country}`
+        return this.getCustomerInfo('billing');
     }
 
     public getShipping() {
-        var billing = this.getKey('shipping');
-        var address2
-        billing.address2.length > 0 ? address2 = billing.address2 + '\n' : address2 = '';
-        return `${billing.first_name}\n${billing.last_name}\n${billing.address1}\n${address2}${billing.zip_code}\n${billing.phone1}\n${billing.country}`
+        return this.getCustomerInfo('shipping');
     }
 
     public getDate() {

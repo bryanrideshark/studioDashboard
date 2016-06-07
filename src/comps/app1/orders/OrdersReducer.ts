@@ -19,8 +19,6 @@ export function orders(state:Map<string,any> = Map<string,any>(), action:any):Ma
         case OrderActions.RECEIVED_ORDERS:
             return state.setIn(['customerOrders'], action.orders);
 
-
-
         default:
             return state;
     }
