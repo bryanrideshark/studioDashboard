@@ -2,7 +2,6 @@
   <h2>no orders selected</h2>
   <hr/>
 </div>
-
 <Loading *ngIf="loading" [size]="75" [style]="{'margin-top': '250px'}"></Loading>
 <div *ngIf="selectedOrder && !loading">
   <div class="row">
@@ -10,26 +9,29 @@
 		<div class="invoice-title">
 		  <h2>Invoice</h2>
 		  <h5>Placed on {{selectedOrder.getDate()}}</h5>
-		  <h3 class="pull-right">Order: {{selectedOrder.getOrderId()}}</h3>
+		  <h3 class="pull-right">Order: </h3>
 		</div>
 		<hr>
 		<div class="row">
 		  <div class="col-xs-6">
 			 <address>
 				<strong>Billed To:</strong><br>
-				John Smith<br>
-				1234 Main<br>
-				Apt. 4B<br>
-				Springfield, ST 54321
+				<span class="whiteReplace">
+					{{selectedOrder.getBilling()}}
+				</span>
+
+				<!--John Smith<br>-->
+				<!--1234 Main<br>-->
+				<!--Apt. 4B<br>-->
+				<!--Springfield, ST 54321-->
 			 </address>
 		  </div>
 		  <div class="col-xs-6 text-right">
 			 <address>
 				<strong>Shipped To:</strong><br>
-				Jane Smith<br>
-				1234 Main<br>
-				Apt. 4B<br>
-				Springfield, ST 54321
+				<span class="whiteReplace">
+					{{selectedOrder.getShipping()}}
+				</span>
 			 </address>
 		  </div>
 		</div>

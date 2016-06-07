@@ -30,6 +30,10 @@ export class Orders {
             this.orderList = i_orders
         }, 'orders.customerOrders');
 
+        this.appStore.sub((i_order:OrderModel) => {
+            this.selectedOrder = i_order
+        }, 'orders.selectedOrder');
+
         //todo: workaround until rc.2
         this.authService.checkAccess();
     }
@@ -56,8 +60,7 @@ export class Orders {
         var accountType = this.appStore.getState().appdb.get('accountType');
         _.forEach(orderSelected, (order:ISimpleListItem)=> {
             if (order.selected) {
-                this.selectedOrder = order.item;
-                this.appStore.dispatch(this.ordersAction.fetchOrder(this.selectedOrder.getOrderId(), accountType));
+                this.appStore.dispatch(this.ordersAction.fetchOrder(order.item.getOrderId(), accountType));
                 return;
             }
         })

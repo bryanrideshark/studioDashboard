@@ -13,6 +13,7 @@ import {Lib} from "../../../Lib";
 import * as _ from 'lodash'
 import * as xml2js from 'xml2js'
 import * as bootbox from 'bootbox';
+import {OrderDetailModel} from "./OrderDetailModel";
 
 export const REQUEST_ORDERS = 'REQUEST_ORDERS';
 export const REQUEST_ORDER = 'REQUEST_ORDER';
@@ -44,8 +45,8 @@ export class OrdersAction extends Actions {
                 })
                 .map((result:any) => {
                     var order:any = result.json();
-                    var orderModel:OrderModel = new OrderModel(order);
-                    dispatch(this.receivedOrder(orderModel));
+                    var orderDetailModel:OrderDetailModel = new OrderDetailModel(order);
+                    dispatch(this.receivedOrder(orderDetailModel));
                 }).subscribe();
         }
     }
@@ -116,7 +117,7 @@ export class OrdersAction extends Actions {
         }
     }
 
-    private receivedOrder(order:OrderModel) {
+    private receivedOrder(order:OrderDetailModel) {
         return {
             type: RECEIVED_ORDER,
             order
