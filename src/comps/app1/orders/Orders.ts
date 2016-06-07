@@ -53,9 +53,12 @@ export class Orders {
         if (!this.orderList)
             return;
         var orderSelected:{} = this.simpleList.getSelected();
+        var accountType = this.appStore.getState().appdb.get('accountType');
         _.forEach(orderSelected, (order:ISimpleListItem)=> {
             if (order.selected) {
                 this.selectedOrder = order.item;
+                this.appStore.dispatch(this.ordersAction.fetchOrder(this.selectedOrder.getOrderId(), accountType));
+                return;
             }
         })
     }

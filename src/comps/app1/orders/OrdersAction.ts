@@ -15,6 +15,8 @@ import * as xml2js from 'xml2js'
 import * as bootbox from 'bootbox';
 
 export const REQUEST_ORDERS = 'REQUEST_ORDERS';
+export const REQUEST_ORDER = 'REQUEST_ORDER';
+export const RECEIVED_ORDER = 'RECEIVED_ORDER';
 export const RECEIVED_ORDERS = 'RECEIVED_ORDERS';
 export const RECEIVE_ACCOUNT_TYPE = 'RECEIVE_ACCOUNT_TYPE';
 
@@ -25,6 +27,27 @@ export class OrdersAction extends Actions {
     constructor(private _http:Http, private appStore:AppStore) {
         super();
         this.parseString = xml2js.parseString;
+    }
+
+    public fetchOrder(orderId:string, accountType:string) {
+        return (dispatch)=> {
+            dispatch(this.requestOrder());
+            var appdb:Map<string,any> = this.appStore.getState().appdb;
+            var url;
+            url = appdb.get('appBaseUrlCloud').replace('END_POINT', 'order') + `/${orderId}/${accountType}`
+            this._http.get(url)
+                .catch((err) => {
+                    bootbox.alert('Error getting order details');
+                    return Observable.throw(err);
+                })
+                .finally(() => {
+                })
+                .map((result:any) => {
+                    var order:any = result.json();
+                    var orderModel:OrderModel = new OrderModel(order);
+                    dispatch(this.receivedOrder(orderModel));
+                }).subscribe();
+        }
     }
 
     public fetchOrders(dispatch, accountType:string) {
@@ -80,6 +103,12 @@ export class OrdersAction extends Actions {
         }
     }
 
+    public requestOrder() {
+        return {
+            type: REQUEST_ORDER
+        }
+    }
+
     public receiveAccountType(accountType:string) {
         return {
             type: RECEIVE_ACCOUNT_TYPE,
@@ -87,6 +116,12 @@ export class OrdersAction extends Actions {
         }
     }
 
+    private receivedOrder(order:OrderModel) {
+        return {
+            type: RECEIVED_ORDER,
+            order
+        }
+    }
 
     private receivedOrders(orders:List<OrderModel>) {
         return {

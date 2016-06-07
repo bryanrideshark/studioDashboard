@@ -3,8 +3,8 @@
   <hr/>
 </div>
 
-<Loading *ngIf="loading" [size]="75" [style]="{'margin-top': '50px'}"></Loading>
-<div *ngIf="selectedOrder">
+<Loading *ngIf="loading" [size]="75" [style]="{'margin-top': '250px'}"></Loading>
+<div *ngIf="selectedOrder && !loading">
   <div class="row">
 	 <div class="col-xs-12">
 		<div class="invoice-title">
