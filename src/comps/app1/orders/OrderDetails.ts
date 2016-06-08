@@ -7,12 +7,13 @@ import {Loading} from "../../loading/Loading";
 import {OrderDetailModel} from "./OrderDetailModel";
 import {ReplacePipe} from "../../../pipes/ReplacePipe";
 import {CharCount} from "../../../pipes/CharCount";
+import {SIMPLEGRID_DIRECTIVES} from "../../simplegrid/SimpleGrid";
 
 @Component({
     selector: 'OrderDetails',
     moduleId: __moduleName,
     pipes: [ReplacePipe],
-    directives: [Loading],
+    directives: [Loading, SIMPLEGRID_DIRECTIVES],
     styleUrls: ['OrderDetails.css'],
     templateUrl: 'OrderDetails.html',
     changeDetection: ChangeDetectionStrategy.OnPush,

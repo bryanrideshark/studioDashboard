@@ -45,6 +45,7 @@
 		  <h5>Placed on {{selectedOrder.getDate()}}</h5>
 		  <h3 class="pull-right">Order: {{selectedOrder.getOrderId()}} </h3>
 		</div>
+		<hr/>
 		<div class="row">
 		  <div class="col-xs-6">
 			 <address>
@@ -52,11 +53,6 @@
 				<span class="whiteReplace">
 					{{selectedOrder.getBilling()}}
 				</span>
-
-				<!--John Smith<br>-->
-				<!--1234 Main<br>-->
-				<!--Apt. 4B<br>-->
-				<!--Springfield, ST 54321-->
 			 </address>
 		  </div>
 		  <div class="col-xs-6 text-right">
@@ -71,20 +67,17 @@
 		<div class="row">
 		  <div class="col-xs-6">
 			 <address>
-				<strong>e-mail:</strong><br>
+				<strong>e-mail:</strong>
 				{{selectedOrder.getEmail()}}
 			 </address>
 			 <div *ngIf="isCartOrder">
 				<strong>tracking:</strong><br>
 				{{selectedOrder.getTracking()}}
+				<br/>
+				<br/>
 			 </div>
 		  </div>
 		  <div class="col-xs-6 text-right">
-			 <address>
-				<strong>Order Date:</strong><br>
-				{{selectedOrder.getDate()}}
-				<br><br>
-			 </address>
 		  </div>
 		</div>
 	 </div>
@@ -97,57 +90,80 @@
 			 <h3 class="panel-title"><strong>Order summary</strong></h3>
 		  </div>
 		  <div class="panel-body">
-			 <div class="table-responsive">
-				<table class="table table-condensed">
-				  <thead>
-				  <tr>
-					 <td><strong>Item</strong></td>
-					 <td class="text-center"><strong>Price</strong></td>
-					 <td class="text-center"><strong>Quantity</strong></td>
-					 <td class="text-right"><strong>Totals</strong></td>
-				  </tr>
-				  </thead>
-				  <tbody>
-				  <!-- foreach ($order->lineItems as $line) or some such thing here -->
-				  <tr>
-					 <td>BS-200</td>
-					 <td class="text-center">$10.99</td>
-					 <td class="text-center">1</td>
-					 <td class="text-right">$10.99</td>
-				  </tr>
-				  <tr>
-					 <td>BS-400</td>
-					 <td class="text-center">$20.00</td>
-					 <td class="text-center">3</td>
-					 <td class="text-right">$60.00</td>
-				  </tr>
-				  <tr>
-					 <td>BS-1000</td>
-					 <td class="text-center">$600.00</td>
-					 <td class="text-center">1</td>
-					 <td class="text-right">$600.00</td>
-				  </tr>
-				  <tr>
-					 <td class="thick-line"></td>
-					 <td class="thick-line"></td>
-					 <td class="thick-line text-center"><strong>Subtotal</strong></td>
-					 <td class="thick-line text-right">$670.99</td>
-				  </tr>
-				  <tr>
-					 <td class="no-line"></td>
-					 <td class="no-line"></td>
-					 <td class="no-line text-center"><strong>Shipping</strong></td>
-					 <td class="no-line text-right">$15</td>
-				  </tr>
-				  <tr>
-					 <td class="no-line"></td>
-					 <td class="no-line"></td>
-					 <td class="no-line text-center"><strong>Total</strong></td>
-					 <td class="no-line text-right">$685.99</td>
-				  </tr>
-				  </tbody>
-				</table>
-			 </div>
+
+
+			 <simpleGridTable #userSimpleGridTable>
+				<thead>
+				<tr>
+				  <th></th>
+				  <th>product</th>
+				  <th>qty</th>
+				  <th>price</th>
+				  <th>total</th>
+				</tr>
+				</thead>
+				<tbody>
+				<!--<tr class="simpleGridRecord" *ngFor="let item of renderPrivilegesTable(privilegesItem); let index=index">-->
+				  <!--<td style="width: 70%" [editable]="false" simpleGridData [processField]="renderTableName()" [item]="item"></td>-->
+				  <!--<td style="width: 10%" (changed)="onPrivilegeChange($event)" [item]="{item: privilegesItem, index: index, PrivModeEnum: PrivModeEnum.DEL}" simpleGridDataChecks [checkboxes]="renderPrivilegesChecks(privilegesItem, index, PrivModeEnum.DEL)"></td>-->
+				  <!--<td style="width: 10%" (changed)="onPrivilegeChange($event)" [item]="{item: privilegesItem, index: index, PrivModeEnum: PrivModeEnum.ADD}" simpleGridDataChecks [checkboxes]="renderPrivilegesChecks(privilegesItem, index, PrivModeEnum.ADD)"></td>-->
+				  <!--<td style="width: 10%" (changed)="onPrivilegeChange($event)" [item]="{item: privilegesItem, index: index, PrivModeEnum: PrivModeEnum.UPD}" simpleGridDataChecks [checkboxes]="renderPrivilegesChecks(privilegesItem, index, PrivModeEnum.UPD)"></td>-->
+				<!--</tr>-->
+				</tbody>
+			 </simpleGridTable>
+
+
+			 <!--<div class="table-responsive">-->
+				<!--<table class="table table-condensed">-->
+				  <!--<thead>-->
+				  <!--<tr>-->
+					 <!--<td><strong>Item</strong></td>-->
+					 <!--<td class="text-center"><strong>Price</strong></td>-->
+					 <!--<td class="text-center"><strong>Quantity</strong></td>-->
+					 <!--<td class="text-right"><strong>Totals</strong></td>-->
+				  <!--</tr>-->
+				  <!--</thead>-->
+				  <!--<tbody>-->
+				  <!--&lt;!&ndash; foreach ($order->lineItems as $line) or some such thing here &ndash;&gt;-->
+				  <!--<tr>-->
+					 <!--<td>BS-200</td>-->
+					 <!--<td class="text-center">$10.99</td>-->
+					 <!--<td class="text-center">1</td>-->
+					 <!--<td class="text-right">$10.99</td>-->
+				  <!--</tr>-->
+				  <!--<tr>-->
+					 <!--<td>BS-400</td>-->
+					 <!--<td class="text-center">$20.00</td>-->
+					 <!--<td class="text-center">3</td>-->
+					 <!--<td class="text-right">$60.00</td>-->
+				  <!--</tr>-->
+				  <!--<tr>-->
+					 <!--<td>BS-1000</td>-->
+					 <!--<td class="text-center">$600.00</td>-->
+					 <!--<td class="text-center">1</td>-->
+					 <!--<td class="text-right">$600.00</td>-->
+				  <!--</tr>-->
+				  <!--<tr>-->
+					 <!--<td class="thick-line"></td>-->
+					 <!--<td class="thick-line"></td>-->
+					 <!--<td class="thick-line text-center"><strong>Subtotal</strong></td>-->
+					 <!--<td class="thick-line text-right">$670.99</td>-->
+				  <!--</tr>-->
+				  <!--<tr>-->
+					 <!--<td class="no-line"></td>-->
+					 <!--<td class="no-line"></td>-->
+					 <!--<td class="no-line text-center"><strong>Shipping</strong></td>-->
+					 <!--<td class="no-line text-right">$15</td>-->
+				  <!--</tr>-->
+				  <!--<tr>-->
+					 <!--<td class="no-line"></td>-->
+					 <!--<td class="no-line"></td>-->
+					 <!--<td class="no-line text-center"><strong>Total</strong></td>-->
+					 <!--<td class="no-line text-right">$685.99</td>-->
+				  <!--</tr>-->
+				  <!--</tbody>-->
+				<!--</table>-->
+			 <!--</div>-->
 		  </div>
 		</div>
 	 </div>

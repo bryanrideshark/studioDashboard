@@ -43,9 +43,9 @@ export class OrderDetailModel extends StoreModel {
 
     public getStatus() {
         var orderDetails = this.getKey('orderDetails');
-        if (_.isUndefined(orderDetails))
+        if (orderDetails.length==0)
             return 'subscription';
-        var status = this.getKey('orderDetails').status;
+        var status = this.getKey('orderDetails')[0].status;
         switch (status) {
             case -2:
                 return 'in cart';
@@ -71,50 +71,16 @@ export class OrderDetailModel extends StoreModel {
         var subscription = this.getKey('subscription')
         if (subscription)
             return '';
-        return this.getKey('orderDetails').tracking;
+        return this.getKey('orderDetails')[0].tracking;
     }
 
     public getDate() {
         var subscription = this.getKey('subscription')
         if (subscription)
             return new Date(subscription.payment_date).toLocaleDateString('us');
-        return new Date(this.getKey('orderDetails').order_date).toLocaleDateString('us');
+        return new Date(this.getKey('orderDetails')[0].order_date).toLocaleDateString('us');
     }
 }
-
-
-// switch ($row['status']) {
-//     case NEW_ORDER:
-//     {
-//         $oData['textStatus'] = 'new order';
-//         break;
-//     }
-//     case APPROVED:
-//     {
-//         $oData['textStatus'] = 'approved';
-//         break;
-//     }
-//     case COMPLETED:
-//     {
-//         $oData['textStatus'] = 'completed';
-//         break;
-//     }
-//     case ON_HOLD:
-//     {
-//         $oData['textStatus'] = 'on Hold';
-//         break;
-//     }
-//     case PROCESSING:
-//     {
-//         if (strlen($oData['tracking']) > 3) {
-//             $oData['textStatus'] = 'shipping';
-//             break;
-//         } else {
-//             $oData['textStatus'] = 'processing';
-//             break;
-//         }
-//     }
-// }
 
 
 // if ($globs['db_mediapay']->numRows() != 0) {
