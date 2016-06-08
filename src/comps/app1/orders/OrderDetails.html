@@ -5,7 +5,7 @@
 <div *ngIf="selectedOrder && !loading">
   <div *ngIf="isCartOrder" class="row bs-wizard" style="border-bottom:0;">
 
-	 <div class="row bs-wizard" style="border-bottom:0;">
+	 <div class="row bs-wizard" (click)="$event.preventDefault()" style="border-bottom:0;">
 
 		<div class="col-xs-3 bs-wizard-step" [ngClass]="{complete: steps[0]}">
 		  <div class="text-center bs-wizard-stepnum">Step 1</div>
@@ -168,5 +168,4 @@
 		</div>
 	 </div>
   </div>
-
 </div>
