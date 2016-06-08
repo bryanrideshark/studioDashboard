@@ -12,7 +12,7 @@ export class OrderDetailModel extends StoreModel {
 
     private fields = ['company', 'first_name', 'last_name', 'address1', 'address2', 'state', 'county', 'zip_code', 'phone1'];
 
-    private getOrderId(){
+    private getOrderId() {
         var subscription = this.getKey('subscription')
         if (subscription)
             return subscription.payment_id;
@@ -39,6 +39,39 @@ export class OrderDetailModel extends StoreModel {
 
     public getEmail() {
         return this.getKey('billing').email;
+    }
+
+    public getStatus() {
+        var orderDetails = this.getKey('orderDetails');
+        if (_.isUndefined(orderDetails))
+            return 'subscription';
+        var status = this.getKey('orderDetails').status;
+        switch (status) {
+            case -2:
+                return 'in cart';
+            case -1:
+                return 'wait payments';
+            case 0:
+                return 'new order';
+            case 1:
+                return 'approved';
+            case 2:
+                return 'processing';
+            case 3:
+                return 'on hold';
+            case 4:
+                return 'quote';
+            case 5:
+                return 'completed';
+        }
+        return status;
+    }
+
+    public getTracking() {
+        var subscription = this.getKey('subscription')
+        if (subscription)
+            return '';
+        return this.getKey('orderDetails').tracking;
     }
 
     public getDate() {
