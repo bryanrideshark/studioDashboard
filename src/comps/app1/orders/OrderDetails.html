@@ -9,7 +9,7 @@
 		<div class="invoice-title">
 		  <h2>Invoice</h2>
 		  <h5>Placed on {{selectedOrder.getDate()}}</h5>
-		  <h3 class="pull-right">Order: </h3>
+		  <h3 class="pull-right">Order: {{selectedOrder.getOrderId()}} </h3>
 		</div>
 		<hr>
 		<div class="row">
@@ -38,15 +38,15 @@
 		<div class="row">
 		  <div class="col-xs-6">
 			 <address>
-				<strong>Payment Method:</strong><br>
-				Visa ending **** 4242<br>
-				jsmith@email.com
+				<strong>e-mail:</strong><br>
+				{{selectedOrder.getEmail()}}
 			 </address>
 		  </div>
 		  <div class="col-xs-6 text-right">
 			 <address>
 				<strong>Order Date:</strong><br>
-				March 7, 2014<br><br>
+				{{selectedOrder.getDate()}}
+				<br><br>
 			 </address>
 		  </div>
 		</div>

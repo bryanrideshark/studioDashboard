@@ -12,6 +12,13 @@ export class OrderDetailModel extends StoreModel {
 
     private fields = ['company', 'first_name', 'last_name', 'address1', 'address2', 'state', 'county', 'zip_code', 'phone1'];
 
+    private getOrderId(){
+        var subscription = this.getKey('subscription')
+        if (subscription)
+            return subscription.payment_id;
+        return this.getKey('order').order_id;
+    }
+
     private getCustomerInfo(type) {
         var str:string = '';
         var data = this.getKey(type);
@@ -30,8 +37,15 @@ export class OrderDetailModel extends StoreModel {
         return this.getCustomerInfo('shipping');
     }
 
-    public getDate() {
+    public getEmail() {
+        return this.getKey('billing').email;
+    }
 
+    public getDate() {
+        var subscription = this.getKey('subscription')
+        if (subscription)
+            return new Date(subscription.payment_date).toLocaleDateString('us');
+        return new Date(this.getKey('orderDetails').order_date).toLocaleDateString('us');
     }
 }
 
