@@ -105,11 +105,8 @@
 				<tr class="simpleGridRecord" *ngFor="let item of products; let index=index">
 				  <td style="width: 70%" [editable]="false" [processField]="tableDesc" simpleGridData [item]="item"></td>
 				  <td style="width: 10%" [editable]="false" [processField]="tableQty" simpleGridData [item]="item"></td>
-				  <td style="width: 10%" [editable]="false" [processField]="tablePrice" simpleGridData [item]="item"></td>
-				  <td style="width: 10%" [editable]="false" [processField]="tableTotal" simpleGridData [item]="item"></td>
-				  <!--<td style="width: 10%" (changed)="onPrivilegeChange($event)" [item]="{item: privilegesItem, index: index, PrivModeEnum: PrivModeEnum.DEL}" simpleGridDataChecks [checkboxes]="renderPrivilegesChecks(privilegesItem, index, PrivModeEnum.DEL)"></td>-->
-				  <!--<td style="width: 10%" (changed)="onPrivilegeChange($event)" [item]="{item: privilegesItem, index: index, PrivModeEnum: PrivModeEnum.ADD}" simpleGridDataChecks [checkboxes]="renderPrivilegesChecks(privilegesItem, index, PrivModeEnum.ADD)"></td>-->
-				  <!--<td style="width: 10%" (changed)="onPrivilegeChange($event)" [item]="{item: privilegesItem, index: index, PrivModeEnum: PrivModeEnum.UPD}" simpleGridDataChecks [checkboxes]="renderPrivilegesChecks(privilegesItem, index, PrivModeEnum.UPD)"></td>-->
+				  <td style="width: 10%" [processField]="tablePrice" simpleGridData [item]="item"></td>
+				  <td style="width: 10%" [processField]="tableTotal" simpleGridData [item]="item"></td>
 				</tr>
 				</tbody>
 			 </simpleGridTable>
@@ -119,28 +116,34 @@
 				<table class="table table-condensed">
 				  <tbody>
 				  <tr>
-					 <td class="thick-line text-left"><strong>Subtotal</strong></td>
+					 <td class="thick-line text-left"><strong>Discount</strong></td>
 					 <td class="thick-line"></td>
 					 <td class="thick-line"></td>
-					 <td class="thick-line text-right">$670.99</td>
+					 <td class="thick-line text-right">{{selectedOrder.getDiscount()}}</td>
+				  </tr>
+				  <tr>
+					 <td class="no-line text-left"><strong>Subtotal</strong></td>
+					 <td class="no-line"></td>
+					 <td class="no-line"></td>
+					 <td class="no-line text-right">{{selectedOrder.getSubtotal()}}</td>
 				  </tr>
 				  <tr>
 					 <td class="no-line text-left"><strong>Tax</strong></td>
 					 <td class="no-line"></td>
 					 <td class="no-line"></td>
-					 <td class="no-line text-right">$15</td>
+					 <td class="no-line text-right">{{selectedOrder.getTax()}}</td>
 				  </tr>
 				  <tr>
 					 <td class="no-line text-left"><strong>Shipping</strong></td>
 					 <td class="no-line"></td>
 					 <td class="no-line"></td>
-					 <td class="no-line text-right">$15</td>
+					 <td class="no-line text-right">{{selectedOrder.getShippingTotal()}}</td>
 				  </tr>
 				  <tr>
 					 <td class="no-line text-left"><strong>Total</strong></td>
 					 <td class="no-line"></td>
 					 <td class="no-line"></td>
-					 <td class="no-line text-right">$15</td>
+					 <td class="no-line text-right">{{selectedOrder.getTotal()}}</td>
 				  </tr>
 				  </tbody>
 				</table>

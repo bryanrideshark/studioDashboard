@@ -29,6 +29,11 @@ export class OrderDetailModel extends StoreModel {
         return str;
     }
 
+    private toCurrency(value){
+        value = parseFloat(value);
+        return '$' + value.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+    }
+
     public getBilling() {
         return this.getCustomerInfo('billing');
     }
@@ -45,9 +50,46 @@ export class OrderDetailModel extends StoreModel {
         return this.getKey('billing').email;
     }
 
+    public getDiscount() {
+        var order = this.getKey('order');
+        if (_.isUndefined(order))
+            return this.toCurrency(0);
+        return this.toCurrency(order.discount_amount);
+    }
+
+    public getTax() {
+        var order = this.getKey('order');
+        if (_.isUndefined(order))
+            return this.toCurrency(0);
+        return this.toCurrency(order.tax_amount);
+    }
+
+
+    public getSubtotal() {
+        var order = this.getKey('order');
+        if (_.isUndefined(order))
+            return this.toCurrency(99);
+        return this.toCurrency(order.subtotal_amount);
+    }
+
+    public getTotal() {
+        var order = this.getKey('order');
+        if (_.isUndefined(order))
+            return this.toCurrency(99)
+        return this.toCurrency(order.amount);
+    }
+
+    public getShippingTotal() {
+        var order = this.getKey('order');
+        if (_.isUndefined(order))
+            return this.toCurrency(0);
+        return this.toCurrency(order.shipping_amount);
+    }
+
+
     public getStatus() {
         var orderDetails = this.getKey('orderDetails');
-        if (orderDetails.length==0)
+        if (orderDetails.length == 0)
             return 'subscription';
         var status = this.getKey('orderDetails')[0].status;
         switch (status) {

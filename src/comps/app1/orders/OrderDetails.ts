@@ -5,14 +5,12 @@ import {OrderModel} from "./OrderModel";
 import {AuthService} from "../../../services/AuthService";
 import {Loading} from "../../loading/Loading";
 import {OrderDetailModel} from "./OrderDetailModel";
-import {ReplacePipe} from "../../../pipes/ReplacePipe";
 import {CharCount} from "../../../pipes/CharCount";
 import {SIMPLEGRID_DIRECTIVES} from "../../simplegrid/SimpleGrid";
 
 @Component({
     selector: 'OrderDetails',
     moduleId: __moduleName,
-    pipes: [ReplacePipe],
     directives: [Loading, SIMPLEGRID_DIRECTIVES],
     styleUrls: ['OrderDetails.css'],
     templateUrl: 'OrderDetails.html',
@@ -71,11 +69,21 @@ export class OrderDetails implements OnDestroy {
                 product_count: 1,
                 price: "99.00"
             }];
+            this.subtotal = 99;
+            this.total = 99;
+            this.shipping = 0;
+            this.discount = 0;
+            this.tax = 0;
         } else {
             this.products = this.selectedOrder.getOrderDetails();
         }
     };
 
+    private subtotal:number = 0;
+    private tax:number = 0;
+    private discount:number = 0;
+    private shipping:number = 0;
+    private total:number = 0;
     private products:Array<any>;
     private isCartOrder:boolean = false;
     private steps:Array<boolean> = [true, true, true, true];
@@ -86,6 +94,13 @@ export class OrderDetails implements OnDestroy {
     private unsub2:Function;
     // private orderList:List<OrderModel> = List<OrderModel>();
 
+    private toCurrency(value) {
+        if (value && !isNaN(value)) {
+            return '$' + parseFloat(value).toFixed(2);
+        }
+        return '$0.00';
+    }
+
     private tableDesc(field) {
         return field.description;
     }
@@ -95,11 +110,12 @@ export class OrderDetails implements OnDestroy {
     }
 
     private tablePrice(field) {
-        return `$${field.price}`;
+        return parseFloat(field.price);
     }
 
     private tableTotal(field) {
-        return `$${field.product_count * field.price}`;
+        var v:any = field.product_count * field.price;
+        return parseFloat(v);
     }
 
     ngOnDestroy() {
