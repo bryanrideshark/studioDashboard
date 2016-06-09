@@ -65,8 +65,18 @@ export class OrderDetails implements OnDestroy {
         if (!order)
             return;
         this.selectedOrder = order;
+        if (this.selectedOrder.getStatus() == 'subscription') {
+            this.products = [{
+                description: "Enterprise subscription",
+                product_count: 1,
+                price: "99.00"
+            }];
+        } else {
+            this.products = this.selectedOrder.getOrderDetails();
+        }
     };
 
+    private products:Array<any>;
     private isCartOrder:boolean = false;
     private steps:Array<boolean> = [true, true, true, true];
     private stepsDescription:Array<string> = ['new order', 'approved', 'processing', 'shipped'];
@@ -76,8 +86,24 @@ export class OrderDetails implements OnDestroy {
     private unsub2:Function;
     // private orderList:List<OrderModel> = List<OrderModel>();
 
+    private tableDesc(field) {
+        return field.description;
+    }
+
+    private tableQty(field) {
+        return field.product_count;
+    }
+
+    private tablePrice(field) {
+        return `$${field.price}`;
+    }
+
+    private tableTotal(field) {
+        return `$${field.product_count * field.price}`;
+    }
+
     ngOnDestroy() {
-        //todo: bug in ng2 router not calling destory, revisit in rc.2
+        //todo: bug in ng2 router not calling destroy, revisit in rc.2
         // this.unsub1();
         // this.unsub2();
         // alert('yay, router working again...')

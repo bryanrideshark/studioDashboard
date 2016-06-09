@@ -95,7 +95,6 @@
 			 <simpleGridTable #userSimpleGridTable>
 				<thead>
 				<tr>
-				  <th></th>
 				  <th>product</th>
 				  <th>qty</th>
 				  <th>price</th>
@@ -103,69 +102,53 @@
 				</tr>
 				</thead>
 				<tbody>
-				<!--<tr class="simpleGridRecord" *ngFor="let item of renderPrivilegesTable(privilegesItem); let index=index">-->
-				  <!--<td style="width: 70%" [editable]="false" simpleGridData [processField]="renderTableName()" [item]="item"></td>-->
+				<tr class="simpleGridRecord" *ngFor="let item of products; let index=index">
+				  <td style="width: 70%" [editable]="false" [processField]="tableDesc" simpleGridData [item]="item"></td>
+				  <td style="width: 10%" [editable]="false" [processField]="tableQty" simpleGridData [item]="item"></td>
+				  <td style="width: 10%" [editable]="false" [processField]="tablePrice" simpleGridData [item]="item"></td>
+				  <td style="width: 10%" [editable]="false" [processField]="tableTotal" simpleGridData [item]="item"></td>
 				  <!--<td style="width: 10%" (changed)="onPrivilegeChange($event)" [item]="{item: privilegesItem, index: index, PrivModeEnum: PrivModeEnum.DEL}" simpleGridDataChecks [checkboxes]="renderPrivilegesChecks(privilegesItem, index, PrivModeEnum.DEL)"></td>-->
 				  <!--<td style="width: 10%" (changed)="onPrivilegeChange($event)" [item]="{item: privilegesItem, index: index, PrivModeEnum: PrivModeEnum.ADD}" simpleGridDataChecks [checkboxes]="renderPrivilegesChecks(privilegesItem, index, PrivModeEnum.ADD)"></td>-->
 				  <!--<td style="width: 10%" (changed)="onPrivilegeChange($event)" [item]="{item: privilegesItem, index: index, PrivModeEnum: PrivModeEnum.UPD}" simpleGridDataChecks [checkboxes]="renderPrivilegesChecks(privilegesItem, index, PrivModeEnum.UPD)"></td>-->
-				<!--</tr>-->
+				</tr>
 				</tbody>
 			 </simpleGridTable>
 
 
-			 <!--<div class="table-responsive">-->
-				<!--<table class="table table-condensed">-->
-				  <!--<thead>-->
-				  <!--<tr>-->
-					 <!--<td><strong>Item</strong></td>-->
-					 <!--<td class="text-center"><strong>Price</strong></td>-->
-					 <!--<td class="text-center"><strong>Quantity</strong></td>-->
-					 <!--<td class="text-right"><strong>Totals</strong></td>-->
-				  <!--</tr>-->
-				  <!--</thead>-->
-				  <!--<tbody>-->
-				  <!--&lt;!&ndash; foreach ($order->lineItems as $line) or some such thing here &ndash;&gt;-->
-				  <!--<tr>-->
-					 <!--<td>BS-200</td>-->
-					 <!--<td class="text-center">$10.99</td>-->
-					 <!--<td class="text-center">1</td>-->
-					 <!--<td class="text-right">$10.99</td>-->
-				  <!--</tr>-->
-				  <!--<tr>-->
-					 <!--<td>BS-400</td>-->
-					 <!--<td class="text-center">$20.00</td>-->
-					 <!--<td class="text-center">3</td>-->
-					 <!--<td class="text-right">$60.00</td>-->
-				  <!--</tr>-->
-				  <!--<tr>-->
-					 <!--<td>BS-1000</td>-->
-					 <!--<td class="text-center">$600.00</td>-->
-					 <!--<td class="text-center">1</td>-->
-					 <!--<td class="text-right">$600.00</td>-->
-				  <!--</tr>-->
-				  <!--<tr>-->
-					 <!--<td class="thick-line"></td>-->
-					 <!--<td class="thick-line"></td>-->
-					 <!--<td class="thick-line text-center"><strong>Subtotal</strong></td>-->
-					 <!--<td class="thick-line text-right">$670.99</td>-->
-				  <!--</tr>-->
-				  <!--<tr>-->
-					 <!--<td class="no-line"></td>-->
-					 <!--<td class="no-line"></td>-->
-					 <!--<td class="no-line text-center"><strong>Shipping</strong></td>-->
-					 <!--<td class="no-line text-right">$15</td>-->
-				  <!--</tr>-->
-				  <!--<tr>-->
-					 <!--<td class="no-line"></td>-->
-					 <!--<td class="no-line"></td>-->
-					 <!--<td class="no-line text-center"><strong>Total</strong></td>-->
-					 <!--<td class="no-line text-right">$685.99</td>-->
-				  <!--</tr>-->
-				  <!--</tbody>-->
-				<!--</table>-->
-			 <!--</div>-->
+			 <div class="table-responsive">
+				<table class="table table-condensed">
+				  <tbody>
+				  <tr>
+					 <td class="thick-line text-left"><strong>Subtotal</strong></td>
+					 <td class="thick-line"></td>
+					 <td class="thick-line"></td>
+					 <td class="thick-line text-right">$670.99</td>
+				  </tr>
+				  <tr>
+					 <td class="no-line text-left"><strong>Tax</strong></td>
+					 <td class="no-line"></td>
+					 <td class="no-line"></td>
+					 <td class="no-line text-right">$15</td>
+				  </tr>
+				  <tr>
+					 <td class="no-line text-left"><strong>Shipping</strong></td>
+					 <td class="no-line"></td>
+					 <td class="no-line"></td>
+					 <td class="no-line text-right">$15</td>
+				  </tr>
+				  <tr>
+					 <td class="no-line text-left"><strong>Total</strong></td>
+					 <td class="no-line"></td>
+					 <td class="no-line"></td>
+					 <td class="no-line text-right">$15</td>
+				  </tr>
+				  </tbody>
+				</table>
+			 </div>
 		  </div>
 		</div>
+		<hr/>
+		<hr/>
 	 </div>
   </div>
 </div>

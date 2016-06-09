@@ -33,6 +33,10 @@ export class OrderDetailModel extends StoreModel {
         return this.getCustomerInfo('billing');
     }
 
+    public getOrderDetails():Array<any> {
+        return this.getKey('orderDetails');
+    }
+
     public getShipping() {
         return this.getCustomerInfo('shipping');
     }
