@@ -111,7 +111,7 @@ export class AuthService {
     public checkAccess():Promise<any> {
         // let injector:Injector = appInjService();
         // let router:Router = injector.get(Router);
-        let target = ['/Login/Login'];
+        let target = ['/Login'];
 
         if (this.m_authenticated)
             return Promise.resolve(true);

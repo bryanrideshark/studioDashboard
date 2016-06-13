@@ -13,6 +13,8 @@ import {Orders} from "./comps/app1/orders/Orders";
 
 
 const routes:RouterConfig = [
+    {path: '/Login', component: LoginPanel},
+    {path: '/Logout', component: Logout},
     {
         path: '/App1', component: App1,
         children: [
