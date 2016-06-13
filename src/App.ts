@@ -15,7 +15,8 @@
 import "zone.js/dist/zone";
 import "zone.js/dist/long-stack-trace-zone";
 import "reflect-metadata";
-import {ROUTER_DIRECTIVES, ROUTER_PROVIDERS, Routes, Router} from "@angular/router";
+import {ROUTER_DIRECTIVES, Router} from "@angular/router";
+import {APP_ROUTER_PROVIDERS} from "./App.routes";
 import {bootstrap} from "@angular/platform-browser-dynamic";
 import {Component, provide, enableProdMode, ViewEncapsulation, PLATFORM_PIPES, ComponentRef} from "@angular/core";
 import * as platform from "platform";
@@ -89,6 +90,7 @@ export enum ServerMode {
     directives: [ROUTER_DIRECTIVES, Filemenu, FilemenuItem, Logo, LogoCompany, Footer]
 })
 
+// v1
 // @Routes([
 //     {path: "/", name: "root", redirectTo: ["/EntryPanelNoId/Login"], useAsDefault: true},
 //     {path: '/AppManager', component: AppManager, as: 'AppManager'},
@@ -99,15 +101,15 @@ export enum ServerMode {
 //     {path: '/App1/...', component: App1, as: 'App1'},
 // ])
 
-
-@Routes([
-    {path: '/AppManager', component: AppManager,},
-    {path: '/EntryPanelNoId', component: EntryPanel},
-    {path: '/EntryPanel/:id', component: EntryPanel},
-    {path: '/Login', component: EntryPanel},
-    {path: '/ForgotPass', component: EntryPanel},
-    {path: '/App1', component: App1},
-])
+// v2
+// @Routes([
+//     {path: '/AppManager', component: AppManager,},
+//     {path: '/EntryPanelNoId', component: EntryPanel},
+//     {path: '/EntryPanel/:id', component: EntryPanel},
+//     {path: '/Login', component: EntryPanel},
+//     {path: '/ForgotPass', component: EntryPanel},
+//     {path: '/App1', component: App1},
+// ])
 export class App {
     constructor(private localStorage:LocalStorage, private router:Router, private appStore:AppStore, private commBroker:CommBroker, styleService:StyleService, private appdbAction:AppdbAction) {
         // force logout
@@ -166,7 +168,7 @@ export class App {
 if (!Lib.DevMode())
     enableProdMode();
 
-var modules = [HTTP_PROVIDERS, ROUTER_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
+var modules = [HTTP_PROVIDERS, APP_ROUTER_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
     provide(AppStore, {useFactory: Lib.StoreFactory({notify, appdb, business, stations, reseller, orders})}),
     provide(StoreService, {useClass: StoreService}),
     provide(BusinessAction, {useClass: BusinessAction}),

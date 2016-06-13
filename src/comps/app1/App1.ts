@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {ROUTER_DIRECTIVES, Router, OnActivate, Routes} from "@angular/router";
+import {ROUTER_DIRECTIVES, Router} from "@angular/router";
 import {HTTP_PROVIDERS} from "@angular/http";
 import {Menu} from "../sidemenu/Menu";
 import {MenuItem} from "../sidemenu/MenuItem";
@@ -20,16 +20,16 @@ import {Orders} from "./orders/Orders";
 
 //{path: '/Dashboard', component: Dashboard, as: 'Dashboard', useAsDefault: true},
 
-@Routes([
-    {path: '/Dashboard', component: Dashboard},
-    {path: '/Users', component: Users},
-    {path: '/Privileges', component: Privileges},
-    {path: '/White label', component: Whitelabel},
-    {path: '/Apps', component: Apps},
-    {path: '/Account', component: Account},
-    {path: '/Orders', component: Orders},
-    {path: '/Logout', component: Logout}
-])
+// @Routes([
+//     {path: '/Dashboard', component: Dashboard},
+//     {path: '/Users', component: Users},
+//     {path: '/Privileges', component: Privileges},
+//     {path: '/White label', component: Whitelabel},
+//     {path: '/Apps', component: Apps},
+//     {path: '/Account', component: Account},
+//     {path: '/Orders', component: Orders},
+//     {path: '/Logout', component: Logout}
+// ])
 
 //CanActivate example of how to allow conditional route access after 10ms of Promise resolution
 // @CanActivate(() => {

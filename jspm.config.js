@@ -437,8 +437,7 @@ SystemJS.config({
         "gulp-util": "npm:gulp-util@3.0.7",
         "twbs/bootstrap": "github:twbs/bootstrap@3.3.6",
         "@angular/http": "npm:@angular/http@2.0.0-rc.1",
-        "@angular/router": "npm:@angular/router@2.0.0-rc.1",
-        "@angular/router-deprecated": "npm:@angular/router-deprecated@2.0.0-rc.1",
+        "@angular/router": "npm:@angular/router@3.0.0-alpha.3",
         "angular2": "npm:angular2@2.0.0-beta.9"
     }
 });
@@ -453,12 +452,11 @@ SystemJS.config({
         "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.0.0-rc.1",
         "angular2-google-maps": "npm:angular2-google-maps@0.10.0",
         "jquery": "npm:jquery@2.2.4",
-        "angular-router-deprecated": "npm:@angular/router-deprecated@2.0.0-rc.1",
         "angular-core": "npm:@angular/core@2.0.0-rc.1",
         "angular-platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.0.0-rc.1",
         "angular-http": "npm:@angular/http@2.0.0-rc.1",
         "angular-router": "npm:@angular/router@2.0.0-rc.1",
-        "router": "npm:@angular/router@2.0.0-rc.1",
+        "router": "npm:@angular/router@3.0.0-alpha.3",
         "@angular/platform-browser": "npm:@angular/platform-browser@2.0.0-rc.1",
         "@angular/common": "npm:@angular/common@2.0.0-rc.1",
         "@angular/compiler": "npm:@angular/compiler@2.0.0-rc.1",

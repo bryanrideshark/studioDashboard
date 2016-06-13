@@ -1,15 +1,15 @@
 import {Component} from "@angular/core";
 import {ForgotPass} from "../../../src/comps/entry/ForgotPass";
 import {LoginPanel} from "../../../src/comps/entry/LoginPanel";
-import {Routes, ROUTER_DIRECTIVES} from "@angular/router";
+import {ROUTER_DIRECTIVES} from "@angular/router";
 
 
-@Routes([
-    {path: '/Another2', component: LoginPanel},
-    {path: '/Another3', component: ForgotPass},
-    {path: '/ForgotPass', component: ForgotPass},
-    {path: '/Login', component: LoginPanel}
-])
+// @Routes([
+//     {path: '/Another2', component: LoginPanel},
+//     {path: '/Another3', component: ForgotPass},
+//     {path: '/ForgotPass', component: ForgotPass},
+//     {path: '/Login', component: LoginPanel}
+// ])
 @Component({
     providers: [LoginPanel],
     directives: [ROUTER_DIRECTIVES],

@@ -1,4 +1,4 @@
-import {Injectable, Injector} from "@angular/core";
+import {Injectable, Injector, Inject, forwardRef} from "@angular/core";
 import {Router} from "@angular/router";
 import {AppStore} from "angular2-redux-util";
 import {LocalStorage} from "./LocalStorage";
@@ -22,7 +22,11 @@ export class AuthService {
     private m_authenticated:boolean = false;
     private m_pendingNotify:any;
 
-    constructor(private router:Router, private appStore:AppStore, private appdbAction:AppdbAction, private localStorage:LocalStorage, private storeService:StoreService) {
+    constructor(private router:Router,
+                @Inject(forwardRef(() => AppStore)) private appStore:AppStore,
+                @Inject(forwardRef(() => AppdbAction)) private appdbAction:AppdbAction,
+                @Inject(forwardRef(() => LocalStorage)) private localStorage:LocalStorage,
+                @Inject(forwardRef(() => StoreService)) private storeService:StoreService) {
         this.listenStore();
     }
 

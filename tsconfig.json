@@ -18,6 +18,9 @@
       "angular2-google-maps/core": [
         "jspm_packages/npm/angular2-google-maps@0.10.0/core"
       ],
+      "@angular/router": [
+        "jspm_packages/npm/@angular/router@3.0.0-alpha.3"
+      ],
       "@angular/*": [
         "jspm_packages/npm/@angular/*@2.0.0-rc.1"
       ],

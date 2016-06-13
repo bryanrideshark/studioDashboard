@@ -1,4 +1,4 @@
-import {Injectable, provide} from "@angular/core";
+import {Injectable, provide, Inject, forwardRef} from "@angular/core";
 import {BusinessAction} from "../business/BusinessAction";
 import {ResellerAction} from "../reseller/ResellerAction";
 import {AppdbAction} from "../appdb/AppdbAction";
@@ -14,13 +14,13 @@ import {OrdersAction} from "../comps/app1/orders/OrdersAction";
 
 @Injectable()
 export class StoreService {
-    constructor(private appStore:AppStore,
-                private businessActions:BusinessAction,
-                private ordersActions:OrdersAction,
-                private resellerAction:ResellerAction,
-                private stationsAction:StationsAction,
-                private appDbActions:AppdbAction,
-                private commBroker:CommBroker) {
+    constructor(@Inject(forwardRef(() => AppStore)) private appStore:AppStore,
+                @Inject(forwardRef(() => BusinessAction)) private businessActions:BusinessAction,
+                @Inject(forwardRef(() => OrdersAction)) private ordersActions:OrdersAction,
+                @Inject(forwardRef(() => ResellerAction)) private resellerAction:ResellerAction,
+                @Inject(forwardRef(() => StationsAction)) private stationsAction:StationsAction,
+                @Inject(forwardRef(() => AppdbAction)) private appDbActions:AppdbAction,
+                @Inject(forwardRef(() => CommBroker)) private commBroker:CommBroker) {
 
         this.appStore.dispatch(this.appDbActions.initAppDb());
     }
