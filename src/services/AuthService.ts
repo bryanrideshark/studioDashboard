@@ -5,6 +5,8 @@ import {LocalStorage} from "./LocalStorage";
 import {StoreService} from "./StoreService";
 import {AppdbAction} from "../appdb/AppdbAction";
 // import {appInjService} from "./AppInjService";
+import 'rxjs/add/observable/fromPromise';
+import {Observable} from 'rxjs/Observable';
 import * as bootbox from "bootbox";
 import Map = Immutable.Map;
 
@@ -107,7 +109,6 @@ export class AuthService {
         }
     }
 
-    // public checkAccess(to:ComponentInstruction, from:ComponentInstruction, target = ['/Login/Login']):Promise<any> {
     public checkAccess():Promise<any> {
         // let injector:Injector = appInjService();
         // let router:Router = injector.get(Router);
@@ -139,6 +140,15 @@ export class AuthService {
         });
     }
 
+    public canActivate():Observable<boolean> {
+        var o:Observable<any> = Observable.fromPromise(this.checkAccess());
+        o.subscribe((result)=> {
+            if (!result)
+                this.router.navigate(['/Login']);
+            return result;
+        })
+        return o;
+    }
 
     ngOnDestroy() {
         this.ubsub();

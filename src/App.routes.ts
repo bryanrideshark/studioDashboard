@@ -10,6 +10,7 @@ import {Whitelabel} from "./comps/app1/whitelabel/Whitelabel";
 import {Apps} from "./comps/app1/apps/Apps";
 import {Account} from "./comps/app1/account/Account";
 import {Orders} from "./comps/app1/orders/Orders";
+import {AuthService} from "./services/AuthService";
 
 
 const routes:RouterConfig = [
@@ -18,15 +19,15 @@ const routes:RouterConfig = [
     {
         path: '/App1', component: App1,
         children: [
-            {path: '/Orders', component: Orders},
-            {path: '/Dashboard', component: Dashboard, index: true},
-            {path: '/Users', component: Users},
-            {path: '/Privileges', component: Privileges},
-            {path: '/White label', component: Whitelabel},
-            {path: '/Apps', component: Apps},
-            {path: '/Account', component: Account},
-            {path: '/Orders', component: Orders},
-            {path: '/Logout', component: Logout}
+            {path: '/Dashboard', component: Dashboard, canActivate: [AuthService], index: true},
+            {path: '/Orders', component: Orders, canActivate: [AuthService]},
+            {path: '/Users', component: Users, canActivate: [AuthService]},
+            {path: '/Privileges', component: Privileges, canActivate: [AuthService]},
+            {path: '/White label', component: Whitelabel, canActivate: [AuthService]},
+            {path: '/Apps', component: Apps, canActivate: [AuthService]},
+            {path: '/Account', component: Account, canActivate: [AuthService]},
+            {path: '/Orders', component: Orders, canActivate: [AuthService]},
+            {path: '/Logout', component: Logout, canActivate: [AuthService]}
         ]
     }
 ];
