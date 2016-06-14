@@ -19,7 +19,7 @@ const routes:RouterConfig = [
         path: '/App1', component: App1,
         children: [
             {path: '/Orders', component: Orders},
-            {path: '/Dashboard', component: Dashboard},
+            {path: '/Dashboard', component: Dashboard, index: true},
             {path: '/Users', component: Users},
             {path: '/Privileges', component: Privileges},
             {path: '/White label', component: Whitelabel},

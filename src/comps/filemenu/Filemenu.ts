@@ -1,9 +1,7 @@
-///<reference path="../../../typings/app.d.ts" />
-
 import {Component, ViewContainerRef} from '@angular/core';
 import {BrowserDomAdapter} from '@angular/platform-browser/src/browser/browser_adapter';
 import {FilemenuItem} from "./FilemenuItem";
-import {Router} from "@angular/router";
+import {Router, ActivatedRoute, UrlTree, NavigationStart} from "@angular/router";
 import {CommBroker} from "../../services/CommBroker";
 import {Consts} from "../../Conts";
 import {App} from "../../../src/App";
@@ -44,7 +42,7 @@ export class Filemenu {
     private viewContainer:ViewContainerRef;
     private dom = new BrowserDomAdapter();
 
-    constructor(viewContainer:ViewContainerRef, router:Router, commBroker:CommBroker) {
+    constructor(viewContainer:ViewContainerRef, private router:Router, commBroker:CommBroker) {
         var self = this;
         self.m_commBroker = commBroker;
         self.m_items = [];
@@ -54,31 +52,30 @@ export class Filemenu {
         self.m_fileMenuWrap = self.dom.getElementsByClassName(self.el, 'm_fileMenuWrap');
 
 
-        // router.changes.subscribe((currentRoute:any)=> {
-        //     if (currentRoute == null)
-        //         return;
-        //     self.m_renderedItems = [];
-        //     for (var item in self.m_items) {
-        //         var ex = new RegExp(self.m_items[item]['app']);
-        //         if (currentRoute.match(ex))
-        //             self.m_renderedItems.push(self.m_items[item]);
-        //     }
-        //     if (self.m_renderedItems.length == 0) {
-        //         jQuery(self.m_fileMenuWrap).fadeOut('slow', function () {
-        //             //notify ng2 of the changes so we comply with change strategy
-        //             self.dom.setStyle(self.el, 'opacity', '0');
-        //         });
-        //     } else {
-        //         jQuery(self.m_fileMenuWrap).fadeIn('slow', function () {
-        //             //notify ng2 of the changes so we comply with change strategy
-        //             self.dom.setStyle(self.el, 'opacity', '1');
-        //         });
-        //
-        //         let app:App = self.m_commBroker.getService(Consts.Services().App);
-        //         app.appResized();
-        //     }
-        //     //console.log(`Route ${currentRoute}`);
-        // });
+        this.router.events.subscribe((navigationStart:NavigationStart)=> {
+            var currentRoute:string = this.router.serializeUrl(navigationStart.url);
+            currentRoute = currentRoute.replace(/\//, '');
+            self.m_renderedItems = [];
+            for (var item in self.m_items) {
+                var currRoute = self.m_items[item]['app'].replace(/\/\.\*/, '');
+                if (currentRoute.indexOf(currRoute) > -1)
+                    self.m_renderedItems.push(self.m_items[item]);
+            }
+            if (self.m_renderedItems.length == 0) {
+                jQuery(self.m_fileMenuWrap).fadeOut('slow', function () {
+                    //notify ng2 of the changes so we comply with change strategy
+                    self.dom.setStyle(self.el, 'opacity', '0');
+                });
+            } else {
+                jQuery(self.m_fileMenuWrap).fadeIn('slow', function () {
+                    //notify ng2 of the changes so we comply with change strategy
+                    self.dom.setStyle(self.el, 'opacity', '1');
+                });
+
+                let app:App = self.m_commBroker.getService(Consts.Services().App);
+                app.appResized();
+            }
+        })
 
         jQuery('.navbar-nav').css({
             display: 'block'
