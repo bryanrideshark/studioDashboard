@@ -91,7 +91,13 @@ export enum ServerMode {
 })
 
 export class App {
-    constructor(private localStorage:LocalStorage, private router:Router, private appStore:AppStore, private commBroker:CommBroker, styleService:StyleService, private appdbAction:AppdbAction) {
+    constructor(private localStorage:LocalStorage,
+                private router:Router,
+                private appStore:AppStore,
+                private commBroker:CommBroker,
+                styleService:StyleService,
+                private appdbAction:AppdbAction) {
+
         // force logout
         // this.localStorage.removeItem('remember_me')
         // todo: add logic to as when on each env
@@ -104,17 +110,16 @@ export class App {
         Observable.fromEvent(window, 'resize').debounceTime(250).subscribe(()=> {
             this.appResized();
         });
-        // router.changes.subscribe((currentRoute)=> {
-        //     console.log(currentRoute);
-        // });
+
         setTimeout(()=> {
-            // let target = ['/Login/Login'];
-            // router.navigate(target);
-        }, 3000)
+            let target = ['/Login'];
+            router.navigate(target);
+        }, 1000)
 
     }
+
     private m_styleService:StyleService;
-    private version = '1.415 beta';
+    private version = '1.500';
 
     private checkPlatform() {
         switch (platform.name.toLowerCase()) {

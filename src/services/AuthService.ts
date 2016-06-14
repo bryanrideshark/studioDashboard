@@ -141,13 +141,12 @@ export class AuthService {
     }
 
     public canActivate():Observable<boolean> {
-        var o:Observable<any> = Observable.fromPromise(this.checkAccess());
-        o.subscribe((result)=> {
-            if (!result)
-                this.router.navigate(['/Login']);
-            return result;
-        })
-        return o;
+        return Observable
+            .fromPromise(this.checkAccess())
+            .do(result => {
+                if (!result)
+                    this.router.navigate(['/Login']);
+            });
     }
 
     ngOnDestroy() {

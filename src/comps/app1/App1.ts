@@ -36,27 +36,12 @@ export class App1 {
     ngOnInit() {
         this.routerActive = true;
         this.commBroker.getService(Consts.Services().App).appResized();
+        // setTimeout(()=> {
+        //     alert('1')
+        //     this.router.navigate(['/App1/Dashboard'])
+        // }, 2000)
+
     }
-
-    /** Examples on router life-cycle hooks **/
-    // routerCanReuse(next:ComponentInstruction, prev:ComponentInstruction) {
-    //     return true;
-    // }
-
-    // routerOnReuse(to:ComponentInstruction, from:ComponentInstruction) {
-    //     //console.log(to.params['name']);
-    //     // console.log(to.urlPath ? to.urlPath : '' + ' ' + from.urlPath);
-    // }
-
-    // routerOnActivate(to:ComponentInstruction, from:ComponentInstruction) {
-    //     this.routerActive = true;
-    //     // demonstrate delay on routing, maybe to load some server data first or show loading bar
-    //     return new Promise((resolve) => {
-    //         setTimeout(()=> {
-    //             resolve(true);
-    //         }, 10)
-    //     });
-    // }
 
     public listenMenuChanges() {
         var self = this;
@@ -67,8 +52,4 @@ export class App1 {
             self.router.navigate([`/App1/${screen}`]);
         });
     }
-
-    // routerOnDeactivate(next:ComponentInstruction, prev:ComponentInstruction) {
-    //     this.routerActive = false;
-    // }
 }

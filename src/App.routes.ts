@@ -16,6 +16,7 @@ import {AuthService} from "./services/AuthService";
 const routes:RouterConfig = [
     {path: '/Login', component: LoginPanel},
     {path: '/Logout', component: Logout},
+    {path: '/', component: App1, canActivate: [AuthService]},
     {
         path: '/App1', component: App1,
         children: [
