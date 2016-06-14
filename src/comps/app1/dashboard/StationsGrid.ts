@@ -79,7 +79,6 @@ export class StationsGrid {
     @ViewChild(SimpleGridTable)
     simpleGridTable:SimpleGridTable
 
-
     @Input()
     set stations(i_stations) {
         this.m_stations = i_stations;
