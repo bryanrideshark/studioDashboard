@@ -125,13 +125,16 @@
       "rxjs": "npm:rxjs@5.0.0-beta.6",
       "text": "github:systemjs/plugin-text@^0.0.4",
       "ts": "github:frankwallis/plugin-typescript@^4",
-      "typescript": "npm:typescript@^1.8",
+      "typescript": "npm:typescript@^1.9",
       "underscore": "npm:underscore@^1.8.3",
       "xml2js": "npm:xml2js@^0.4.16",
       "zone.js": "npm:zone.js@^0.6.12"
     },
     "devDependencies": {
+      "@angular/common": "npm:@angular/common@2.0.0-rc.1",
       "@angular/compiler": "npm:@angular/compiler@2.0.0-rc.1",
+      "@angular/core": "npm:@angular/core@2.0.0-rc.1",
+      "@angular/platform-browser": "npm:@angular/platform-browser@2.0.0-rc.1",
       "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@^2.0.0-rc.1",
       "net": "github:jspm/nodelibs-net@^0.2.0-alpha",
       "ng2-bootstrap": "npm:ng2-bootstrap@1.0.16",
@@ -139,9 +142,6 @@
       "tty": "github:jspm/nodelibs-tty@^0.2.0-alpha"
     },
     "peerDependencies": {
-      "@angular/common": "npm:@angular/common@2.0.0-rc.1",
-      "@angular/core": "npm:@angular/core@2.0.0-rc.1",
-      "@angular/platform-browser": "npm:@angular/platform-browser@2.0.0-rc.1",
       "assert": "github:jspm/nodelibs-assert@^0.2.0-alpha",
       "bootstrap": "github:twbs/bootstrap@^3.3.6",
       "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
@@ -265,7 +265,7 @@
           }
         }
       },
-      "npm:angular2@2.0.0-beta.9": {
+      "npm:angular2@2.0.0-beta.17": {
         "main": false,
         "dependencies": {
           "reflect-metadata": "npm:reflect-metadata@^0.1.3",
@@ -369,17 +369,6 @@
             "default": "@empty"
           }
         }
-      },
-      "npm:typescript@1.8.10": {
-        "browser": {},
-        "map": {
-          "buffer": "@empty",
-          "child_process": "@empty",
-          "fs": "@empty",
-          "path": "@empty",
-          "process": "@empty",
-          "readline": "@empty"
-        }
       }
     }
   },
@@ -391,4 +380,5 @@
     "rxjs": "^5.0.0-beta.6",
     "zone.js": "^0.6.12"
   }
-}
+}
+

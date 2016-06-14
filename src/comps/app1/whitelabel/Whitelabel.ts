@@ -25,10 +25,6 @@ import * as bootbox from 'bootbox';
     templateUrl: '/src/comps/app1/whitelabel/Whitelabel.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-// @CanActivate((to:ComponentInstruction, from:ComponentInstruction) => {
-//     let authService:AuthService = appInjService().get(AuthService);
-//     return authService.checkAccess(to, from, ['/Login/Login']);
-// })
 export class Whitelabel {
 
     constructor(private appStore:AppStore, private fb:FormBuilder, private router:Router, private zone:NgZone, private resellerAction:ResellerAction) {

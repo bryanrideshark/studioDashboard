@@ -36,10 +36,6 @@ import {OrderBy} from "../../../pipes/OrderBy";
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-// @CanActivate((to:ComponentInstruction, from:ComponentInstruction) => {
-//     let authService:AuthService = appInjService().get(AuthService);
-//     return authService.checkAccess(to, from, ['/Login/Login']);
-// })
 export class Apps {
 
     constructor(private appStore:AppStore, private resellerAction:ResellerAction, private ref:ChangeDetectorRef) {

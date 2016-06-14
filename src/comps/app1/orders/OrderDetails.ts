@@ -54,9 +54,6 @@ export class OrderDetails implements OnDestroy {
                 }
             }
         }, 'orders.selectedOrder');
-
-        //todo: workaround until rc.2
-        this.authService.checkAccess();
     }
 
     @Input() set onSelectedOrder(order:OrderDetailModel) {

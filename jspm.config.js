@@ -437,8 +437,7 @@ SystemJS.config({
         "gulp-util": "npm:gulp-util@3.0.7",
         "twbs/bootstrap": "github:twbs/bootstrap@3.3.6",
         "@angular/http": "npm:@angular/http@2.0.0-rc.1",
-        "@angular/router": "npm:@angular/router@3.0.0-alpha.3",
-        "angular2": "npm:angular2@2.0.0-beta.9"
+        "@angular/router": "npm:@angular/router@3.0.0-alpha.3"
     }
 });
 
@@ -449,6 +448,7 @@ SystemJS.config({
         "github:*/*.json"
     ],
     map: {
+        "angular-router-deprecated": "npm:@angular/router-deprecated@2.0.0-rc.1",
         "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.0.0-rc.1",
         "angular2-google-maps": "npm:angular2-google-maps@0.10.0",
         "jquery": "npm:jquery@2.2.4",
@@ -760,7 +760,7 @@ SystemJS.config({
         },
         "npm:ng2-bs3-modal@0.2.2": {
             "map": {
-                "angular2": "npm:angular2@2.0.0-beta.9",
+                "angular2": "npm:angular2@2.0.0-beta.17",
                 "bootstrap": "npm:bootstrap@3.3.6"
             }
         },

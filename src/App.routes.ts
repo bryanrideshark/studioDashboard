@@ -41,7 +41,6 @@ export const APP_ROUTER_PROVIDERS = [
 //{path: "/", name: "root", redirectTo: ["/EntryPanelNoId/Login"], useAsDefault: true},
 //{path: "/", redirectTo: ["/EntryPanelNoId/Login"], useAsDefault: true},
 //{path: '/:id', component: AppManager, canDeactivate: [CrisisDetailGuard]}
-
 // @Routes([
 //     {path: '/', component: EntryPanel},
 //     {path: '/AppManager', component: AppManager},
@@ -65,3 +64,44 @@ export const APP_ROUTER_PROVIDERS = [
 //     //})
 //
 // ])
+// v1
+// @Routes([
+//     {path: "/", name: "root", redirectTo: ["/EntryPanelNoId/Login"], useAsDefault: true},
+//     {path: '/AppManager', component: AppManager, as: 'AppManager'},
+//     {path: '/EntryPanelNoId/...', component: EntryPanel, as: 'EntryPanelNoId'},
+//     {path: '/EntryPanel/:id/...', component: EntryPanel, as: 'EntryPanel'},
+//     {path: '/Login/...', component: EntryPanel, as: 'Login'},
+//     {path: '/ForgotPass/...', component: EntryPanel, as: 'ForgotPass'},
+//     {path: '/App1/...', component: App1, as: 'App1'},
+// ])
+// v2
+// @Routes([
+//     {path: '/AppManager', component: AppManager,},
+//     {path: '/EntryPanelNoId', component: EntryPanel},
+//     {path: '/EntryPanel/:id', component: EntryPanel},
+//     {path: '/Login', component: EntryPanel},
+//     {path: '/ForgotPass', component: EntryPanel},
+//     {path: '/App1', component: App1},
+// ])
+// import {RouteConfig, CanActivate} from "@angular/router";
+
+//{path: '/Dashboard', component: Dashboard, as: 'Dashboard', useAsDefault: true},
+
+// @Routes([
+//     {path: '/Dashboard', component: Dashboard},
+//     {path: '/Users', component: Users},
+//     {path: '/Privileges', component: Privileges},
+//     {path: '/White label', component: Whitelabel},
+//     {path: '/Apps', component: Apps},
+//     {path: '/Account', component: Account},
+//     {path: '/Orders', component: Orders},
+//     {path: '/Logout', component: Logout}
+// ])
+//CanActivate example of how to allow conditional route access after 10ms of Promise resolution
+// @CanActivate(() => {
+//    return new Promise(resolve => {
+//        setTimeout(e=> {
+//            resolve(true)
+//        }, 10)
+//    })
+// })

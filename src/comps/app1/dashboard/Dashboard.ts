@@ -39,10 +39,6 @@ type stationComponentMode = "map" | "grid";
     templateUrl: '/src/comps/app1/dashboard/Dashboard.html'
 })
 
-// @CanActivate((to:ComponentInstruction, from:ComponentInstruction) => {
-//     let authService:AuthService = appInjService().get(AuthService);
-//     return authService.checkAccess(to, from);
-// })
 export class Dashboard {
 
     constructor(private authService:AuthService, private appStore:AppStore, private appDbActions:AppdbAction, private cd:ChangeDetectorRef, private commBroker:CommBroker) {
@@ -53,9 +49,6 @@ export class Dashboard {
         this.listenBusinessNameFilter();
         this.listenStore()
         this.listenStationsErrors()
-
-        //todo: workaround until rc.2
-        this.authService.checkAccess();
     }
 
     @ViewChild('modalStationDetails')

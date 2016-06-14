@@ -64,10 +64,6 @@ import * as bootbox from 'bootbox';
         </div>
     `
 })
-// @CanActivate((to:ComponentInstruction, from:ComponentInstruction) => {
-//     let authService:AuthService = appInjService().get(AuthService);
-//     return authService.checkAccess(to, from, ['/Login/Login']);
-// })
 export class Privileges {
 
     constructor(private appStore:AppStore, private resellerAction:ResellerAction, private authService:AuthService) {
@@ -83,9 +79,6 @@ export class Privileges {
             this.privelegesList = privelegesModel;
             this.onPrivilegeSelected();
         }, 'reseller.privileges');
-
-        //todo: workaround until rc.2
-        this.authService.checkAccess();
     }
 
     @ViewChild(SimpleList)

@@ -90,26 +90,6 @@ export enum ServerMode {
     directives: [ROUTER_DIRECTIVES, Filemenu, FilemenuItem, Logo, LogoCompany, Footer]
 })
 
-// v1
-// @Routes([
-//     {path: "/", name: "root", redirectTo: ["/EntryPanelNoId/Login"], useAsDefault: true},
-//     {path: '/AppManager', component: AppManager, as: 'AppManager'},
-//     {path: '/EntryPanelNoId/...', component: EntryPanel, as: 'EntryPanelNoId'},
-//     {path: '/EntryPanel/:id/...', component: EntryPanel, as: 'EntryPanel'},
-//     {path: '/Login/...', component: EntryPanel, as: 'Login'},
-//     {path: '/ForgotPass/...', component: EntryPanel, as: 'ForgotPass'},
-//     {path: '/App1/...', component: App1, as: 'App1'},
-// ])
-
-// v2
-// @Routes([
-//     {path: '/AppManager', component: AppManager,},
-//     {path: '/EntryPanelNoId', component: EntryPanel},
-//     {path: '/EntryPanel/:id', component: EntryPanel},
-//     {path: '/Login', component: EntryPanel},
-//     {path: '/ForgotPass', component: EntryPanel},
-//     {path: '/App1', component: App1},
-// ])
 export class App {
     constructor(private localStorage:LocalStorage, private router:Router, private appStore:AppStore, private commBroker:CommBroker, styleService:StyleService, private appdbAction:AppdbAction) {
         // force logout

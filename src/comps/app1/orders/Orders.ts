@@ -17,11 +17,6 @@ import {OrderDetails} from "./OrderDetails";
     templateUrl: 'Orders.html'
 })
 
-// @CanActivate((to:ComponentInstruction, from:ComponentInstruction) => {
-//     let authService:AuthService = appInjService().get(AuthService);
-//     return authService.checkAccess(to, from, ['/Login/Login']);
-// })
-
 export class Orders {
     constructor(private appStore:AppStore, private ordersAction:OrdersAction, private authService:AuthService) {
         var i_orders = this.appStore.getState().orders;
@@ -33,9 +28,6 @@ export class Orders {
         this.appStore.sub((i_order:OrderModel) => {
             this.selectedOrder = i_order
         }, 'orders.selectedOrder');
-
-        //todo: workaround until rc.2
-        this.authService.checkAccess();
     }
 
     @ViewChild(SimpleList)
