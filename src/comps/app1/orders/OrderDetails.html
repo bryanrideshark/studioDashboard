@@ -1,9 +1,11 @@
+<br/>
+<button class="btn btn-default fa fa-print" (click)="printElem()"></button>
 <div *ngIf="!selectedOrder && !loading">
   <h2>no orders selected</h2>
 </div>
 <Loading *ngIf="loading" [size]="75" [style]="{'margin-top': '250px'}"></Loading>
 <div *ngIf="selectedOrder && !loading">
-  <div *ngIf="isCartOrder" class="row bs-wizard" style="border-bottom:0;">
+  <div *ngIf="showProgress" class="row bs-wizard" style="border-bottom:0;">
 
 	 <div class="row bs-wizard" (click)="$event.preventDefault()" style="border-bottom:0;">
 
@@ -38,7 +40,7 @@
 
 
   </div>
-  <div class="row">
+  <div class="row" id="printableArea">
 	 <div class="col-xs-12">
 		<div class="invoice-title">
 		  <h2>Invoice</h2>
@@ -70,7 +72,7 @@
 				<strong>e-mail:</strong>
 				{{selectedOrder.getEmail()}}
 			 </address>
-			 <div *ngIf="isCartOrder">
+			 <div *ngIf="showProgress">
 				<strong>tracking:</strong><br>
 				{{selectedOrder.getTracking()}}
 				<br/>

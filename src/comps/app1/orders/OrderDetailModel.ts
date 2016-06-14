@@ -12,7 +12,7 @@ export class OrderDetailModel extends StoreModel {
 
     private fields = ['company', 'first_name', 'last_name', 'address1', 'address2', 'state', 'county', 'zip_code', 'phone1'];
 
-    private getOrderId() {
+    public getOrderId() {
         var subscription = this.getKey('subscription')
         if (subscription)
             return subscription.payment_id;

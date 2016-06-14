@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, ChangeDetectionStrategy} from "@angular/core";
+import {Component, Input, OnDestroy, ChangeDetectionStrategy, ViewContainerRef} from "@angular/core";
 import {AppStore} from "angular2-redux-util";
 import * as OrderActions from "./OrdersAction";
 import {OrderModel} from "./OrderModel";
@@ -20,20 +20,23 @@ import {SIMPLEGRID_DIRECTIVES} from "../../simplegrid/SimpleGrid";
 
 export class OrderDetails implements OnDestroy {
 
-    constructor(private appStore:AppStore, private authService:AuthService) {
+    constructor(private appStore:AppStore, private viewContainer:ViewContainerRef) {
+
         // var i_orders = this.appStore.getState().orders;
         // this.orderList = i_orders.getIn(['customerOrders']);
         // this.unsub1 = this.appStore.sub((i_orders:List<OrderModel>) => {
         //     this.orderList = i_orders
         // }, 'orders.customerOrders');
 
+        this.el = this.viewContainer.element.nativeElement;
+
         //var statusOrder = i_orders.getIn(['statusOrder']);
         this.unsub2 = this.appStore.sub((orderDetailModel:OrderDetailModel) => {
             var status = orderDetailModel.getStatus();
             if (status == 'subscription') {
-                this.isCartOrder = false;
+                this.showProgress = false;
             } else {
-                this.isCartOrder = true;
+                this.showProgress = true;
                 switch (status) {
                     case 'in cart':
                         return this.steps = [false, false, false, false];
@@ -54,7 +57,10 @@ export class OrderDetails implements OnDestroy {
                 }
             }
         }, 'orders.selectedOrder');
+
     }
+
+    private el:HTMLElement;
 
     @Input() set onSelectedOrder(order:OrderDetailModel) {
         if (!order)
@@ -82,7 +88,7 @@ export class OrderDetails implements OnDestroy {
     private shipping:number = 0;
     private total:number = 0;
     private products:Array<any>;
-    private isCartOrder:boolean = false;
+    private showProgress:boolean = false;
     private steps:Array<boolean> = [true, true, true, true];
     private stepsDescription:Array<string> = ['new order', 'approved', 'processing', 'shipped'];
     private selectedOrder:OrderDetailModel;
@@ -90,6 +96,27 @@ export class OrderDetails implements OnDestroy {
     private unsub1:Function;
     private unsub2:Function;
     // private orderList:List<OrderModel> = List<OrderModel>();
+
+    printElem() {
+        var self = this;
+        this.showProgress = false;
+        var mywindow = window.open('', self.selectedOrder.getDate(), 'height=400,width=600');
+        setTimeout(()=>{
+            var printContents = self.el.innerHTML;
+            //var mywindow = window.open('', self.selectedOrder.getDate(), 'height=400,width=600');
+            mywindow.document.write(`<html><head><title>${self.selectedOrder.getOrderId()}</title>`);
+            /*optional stylesheet*/ //
+            mywindow.document.write('</head><body >');
+            // mywindow.document.write('<link rel="stylesheet" href="http://localhost:9089/src/styles/style.css" type="text/css" />');
+            mywindow.document.write(printContents);
+            mywindow.document.write('</body></html>');
+            mywindow.document.close(); // necessary for IE >= 10
+            mywindow.focus(); // necessary for IE >= 10
+            mywindow.print();
+            mywindow.close();
+        },1000)
+        return true;
+    }
 
     private toCurrency(value) {
         if (value && !isNaN(value)) {
