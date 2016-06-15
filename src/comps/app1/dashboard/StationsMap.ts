@@ -101,6 +101,7 @@ export class StationsMap {
         if (!this.m_stations)
             return;
         var c = 0;
+        this.markers = [];
         this.m_stations.forEach((i_station:StationModel)=> {
             var geoLocation = i_station.getLocation();
             if (_.isEmpty(geoLocation))
