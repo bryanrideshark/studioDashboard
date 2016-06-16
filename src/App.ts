@@ -35,9 +35,6 @@ import {orders} from "./comps/app1/orders/OrdersReducer";
 import {StationsAction} from "./stations/StationsAction";
 import {CharCount} from "./pipes/CharCount";
 import {HTTP_PROVIDERS} from "@angular/http";
-import {App1} from "../src/comps/app1/App1";
-import {EntryPanel} from "../src/comps/entry/EntryPanel";
-import {AppManager} from "../src/comps/appmanager/AppManager";
 import {CommBroker} from "../src/services/CommBroker";
 import {Filemenu} from "../src/comps/filemenu/Filemenu";
 import {FilemenuItem} from "../src/comps/filemenu/FilemenuItem";
@@ -112,14 +109,13 @@ export class App {
         });
 
         setTimeout(()=> {
-            let target = ['/App1/Dashboard'];
-            router.navigate(target);
+            router.navigate(['/App1/Dashboard']);
         }, 1000)
 
     }
 
     private m_styleService:StyleService;
-    private version = '1.501';
+    private version = '1.510.rc2';
 
     private checkPlatform() {
         switch (platform.name.toLowerCase()) {

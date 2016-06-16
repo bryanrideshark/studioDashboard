@@ -84,7 +84,7 @@ export class LoginPanel {
     }
 
     private onAuthPass() {
-        this.m_router.navigate(['/App1']);
+        this.m_router.navigate(['/App1/Dashboard']);
     }
 
     private onAuthFail(i_reason) {
