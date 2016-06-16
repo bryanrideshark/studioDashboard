@@ -20,7 +20,8 @@ const routes:RouterConfig = [
     {
         path: '/App1', component: App1,
         children: [
-            {path: '/Dashboard', component: Dashboard, canActivate: [AuthService], index: true},
+            {path: '/', component: App1, canActivate: [AuthService]},
+            {path: '/Dashboard', component: Dashboard, canActivate: [AuthService]},
             {path: '/Orders', component: Orders, canActivate: [AuthService]},
             {path: '/Users', component: Users, canActivate: [AuthService]},
             {path: '/Privileges', component: Privileges, canActivate: [AuthService]},

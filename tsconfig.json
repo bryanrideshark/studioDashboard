@@ -19,16 +19,16 @@
         "jspm_packages/npm/angular2-google-maps@0.10.0/core"
       ],
       "@angular/router": [
-        "jspm_packages/npm/@angular/router@3.0.0-alpha.3"
+        "jspm_packages/npm/@angular/router@3.0.0-alpha.6"
       ],
       "@angular/*": [
-        "jspm_packages/npm/@angular/*@2.0.0-rc.1"
+        "jspm_packages/npm/@angular/*@2.0.0-rc.2"
       ],
       "redux-thunk": [
         "jspm_packages/npm/redux-thunk@2.1.0"
       ],
       "@angular/platform-browser/src/browser/browser_adapter": [
-        "jspm_packages/npm/@angular/platform-browser@2.0.0-rc.1/src/browser/browser_adapter"
+        "jspm_packages/npm/@angular/platform-browser@2.0.0-rc.2/src/browser/browser_adapter"
       ],
       "rxjs/*": [
         "jspm_packages/npm/rxjs@5.0.0-beta.6/*"

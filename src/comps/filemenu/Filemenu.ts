@@ -53,7 +53,8 @@ export class Filemenu {
 
 
         this.router.events.subscribe((navigationStart:NavigationStart)=> {
-            var currentRoute:string = this.router.serializeUrl(navigationStart.url);
+            // var currentRoute:string = this.router.serializeUrl(navigationStart.url);
+            var currentRoute:string = navigationStart.url;
             currentRoute = currentRoute.replace(/\//, '');
             self.m_renderedItems = [];
             for (var item in self.m_items) {

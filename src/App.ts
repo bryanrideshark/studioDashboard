@@ -112,7 +112,7 @@ export class App {
         });
 
         setTimeout(()=> {
-            let target = ['/Login'];
+            let target = ['/App1/Dashboard'];
             router.navigate(target);
         }, 1000)
 
