@@ -26,7 +26,8 @@ export class StoreService {
     }
 
     private singleton:boolean = false; // prevent multiple calls to this service
-    // todo: in private / hybrid mode we need to get list of business servers
+    // todo: in private / hybrid mode we need to get list of business servers and logic to as when on each env
+    // 0 = cloud, 1 = private 2 = hybrid
     // private knownServers:Array<string> = ['mars.signage.me', 'mercury.signage.me'];
     private knownServers:Array<string> = [];
     private running:boolean = false;

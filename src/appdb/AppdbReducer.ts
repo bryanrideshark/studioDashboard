@@ -4,6 +4,8 @@ import * as AppdbAction from "../appdb/AppdbAction";
 import * as StationsAction from "../stations/StationsAction";
 import * as OrdersAction from "../comps/app1/orders/OrdersAction";
 import * as Immutable from 'immutable'
+// todo: add logic to as when on each env
+// 0 = cloud, 1 = private 2 = hybrid
 const baseUrl = 'https://galaxy.signage.me/WebService/ResellerService.ashx';
 const appBaseUrlCloud = 'https://secure.digitalsignage.com';
 

@@ -1,5 +1,9 @@
 import {StoreModel} from "../models/StoreModel";
 import {Map, List} from 'immutable';
+import {AppStore} from "angular2-redux-util";
+import Store = Redux.Store;
+import {BusinessModel} from "../business/BusinessModel";
+import {BusinessUser} from "../business/BusinessUser";
 
 /**
  * Thin wrapper of Immutable data around a single business
@@ -18,6 +22,32 @@ export class StationModel extends StoreModel {
         return this.getKey('id')
     }
 
+    public getSource(appStore:AppStore) {
+        let source:string = '';
+        var businessId = this.getKey('businessId');
+        var businesses:List<BusinessModel> = appStore.getState().business.get('businesses');
+        businesses.forEach((business:BusinessModel)=> {
+            if (business.getBusinessId() == businessId)
+                source = business.getKey('source');
+        })
+        return source;
+    }
+
+    public getCustomerName(appStore:AppStore) {
+        let name:string = '';
+        var businessId = this.getKey('businessId');
+        var businessUsers:List<BusinessUser> = appStore.getState().business.get('businessUsers');
+        businessUsers.forEach((businessUser:BusinessUser)=> {
+            if (businessUser.getBusinessId() == businessId)
+                name = businessUser.getName();
+        })
+        return name;
+    }
+
+    public getBusinessId() {
+        return this.getKey('businessId');
+    }
+
     public getPublicIp() {
         return this.getKey('publicIp')
     }
@@ -30,7 +60,7 @@ export class StationModel extends StoreModel {
         return this.getKey('geoLocation')
     }
 
-        public getStationName() {
+    public getStationName() {
         return this.getKey('name')
     }
 
@@ -54,8 +84,7 @@ export class StationModel extends StoreModel {
     public getConnectionIcon(style:'icon'|'color') {
         var connection = this.getConnection();
         switch (style) {
-            case 'icon':
-            {
+            case 'icon': {
                 switch (connection) {
                     case '0':
                         return 'fa-circle-thin';
@@ -68,8 +97,7 @@ export class StationModel extends StoreModel {
                 }
             }
 
-            case 'color':
-            {
+            case 'color': {
                 switch (connection) {
                     case '0':
                         return 'red';
