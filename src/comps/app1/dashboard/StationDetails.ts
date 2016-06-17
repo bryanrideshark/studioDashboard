@@ -1,4 +1,4 @@
-import {Component, Input, ChangeDetectionStrategy, ViewChild} from "@angular/core";
+import {Component, Input, ChangeDetectionStrategy, ViewChild, Renderer, ElementRef} from "@angular/core";
 import {StationModel} from "../../../stations/StationModel";
 import {AppStore} from "angular2-redux-util";
 import * as _ from "lodash";
@@ -18,7 +18,7 @@ import {ImgLoader} from "../../imgloader/ImgLoader";
 
 export class StationDetails {
 
-    constructor(private appStore:AppStore, private businessActions:BusinessAction) {
+    constructor(private appStore:AppStore, private businessActions:BusinessAction, private elRef:ElementRef, private renderer:Renderer) {
     }
 
     private snapshots:Array<any> = [];
@@ -144,7 +144,6 @@ export class StationDetails {
         if (_.isUndefined(i_selectedStation))
             return;
         this.m_selectedStation = i_selectedStation;
-        this.sendSnapshot(this.m_selectedStation);
 
         // this.m_selectedStation.getPublicIp()
         // this.m_selectedStation.getLocalIp()
@@ -154,7 +153,7 @@ export class StationDetails {
         // this.m_selectedStation.getLocation().country
     }
 
-    private sendSnapshot(i_selectedStation:StationModel) {
+    private sendSnapshot() {
         var stationId = this.m_selectedStation.getStationId();
         var businessId = this.m_selectedStation.getKey('businessId');
         var fileName = Date.now();
@@ -168,7 +167,12 @@ export class StationDetails {
             var path = `http://${source}/Snapshots/business${businessId}/station${stationId}/${fileName}.jpg`;
             this.snapshots.push(path);
             setTimeout(()=>{
-                this.imgLoader.reloadImage();
+                // this.imgLoader.reloadImage();
+                jQuery(this.elRef.nativeElement).find('.newImage').fadeOut(200);
+                var img = this.renderer.createElement(this.elRef.nativeElement, 'img', null);
+                img.src = path;
+                jQuery(img).addClass('newImage')
+
             },1000)
             //var path = window.g_protocol + pepper.getUserData().domain + '/Snapshots/business' + pepper.getUserData().businessID + "/station" + i_stationId + '/' + i_fileName + '.jpg';
             // return path;

@@ -35,7 +35,8 @@
 
 	 </tab>
 	 <tab [tabtitle]="'Commands'">
-		<imgLoader #imgLoader style="display: inline-block; padding-top: 4px" [circle]="false" [images]="snapshots" [defaultImage]="'assets/person.png'"></imgLoader>
+		<button class="btn btn-primary" (click)="sendSnapshot()">Snap</button>
+		<!--<imgLoader #imgLoader style="display: inline-block; padding-top: 4px" [circle]="false" [images]="snapshots" [defaultImage]="'assets/person.png'"></imgLoader>-->
 	 </tab>
   </tabs>
 </div>
