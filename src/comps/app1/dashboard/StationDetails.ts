@@ -22,6 +22,7 @@ export class StationDetails {
     }
 
     private snapshots:Array<any> = [];
+
     private onModalClose($event) {
     }
 
@@ -139,6 +140,7 @@ export class StationDetails {
     // @Input() station:StationModel;
 
     @ViewChild('imgLoader') imgLoader:ImgLoader
+
     @Input()
     set station(i_selectedStation:StationModel) {
         if (_.isUndefined(i_selectedStation))
@@ -166,14 +168,13 @@ export class StationDetails {
             });
             var path = `http://${source}/Snapshots/business${businessId}/station${stationId}/${fileName}.jpg`;
             this.snapshots.push(path);
-            setTimeout(()=>{
+            setTimeout(()=> {
                 // this.imgLoader.reloadImage();
                 jQuery(this.elRef.nativeElement).find('.newImage').fadeOut(200);
                 var img = this.renderer.createElement(this.elRef.nativeElement, 'img', null);
                 img.src = path;
                 jQuery(img).addClass('newImage')
-
-            },1000)
+            }, 1000)
             //var path = window.g_protocol + pepper.getUserData().domain + '/Snapshots/business' + pepper.getUserData().businessID + "/station" + i_stationId + '/' + i_fileName + '.jpg';
             // return path;
             //

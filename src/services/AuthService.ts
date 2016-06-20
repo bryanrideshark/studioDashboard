@@ -1,5 +1,5 @@
 import {Injectable, Injector, Inject, forwardRef} from "@angular/core";
-import {Router} from "@angular/router";
+import {Router, ActivatedRouteSnapshot, RouterStateSnapshot} from "@angular/router";
 import {AppStore} from "angular2-redux-util";
 import {LocalStorage} from "./LocalStorage";
 import {StoreService} from "./StoreService";
@@ -140,7 +140,7 @@ export class AuthService {
         });
     }
 
-    public canActivate():Observable<boolean> {
+    public canActivate(activatedRouteSnapshot:ActivatedRouteSnapshot, routerStateSnapshot:RouterStateSnapshot):Observable<boolean> {
         return Observable
             .fromPromise(this.checkAccess())
             .do(result => {
