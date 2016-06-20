@@ -41,7 +41,6 @@ import {FilemenuItem} from "../src/comps/filemenu/FilemenuItem";
 import {Logo} from "./comps/logo/Logo";
 import {Footer} from "./comps/footer/Footer";
 import {Consts} from "../src/Conts";
-import {LocationStrategy, HashLocationStrategy} from "@angular/common";
 import {AppStore} from "angular2-redux-util";
 import {Lib} from "./Lib";
 import {CreditService} from "./services/CreditService";
@@ -115,7 +114,7 @@ export class App {
     }
 
     private m_styleService:StyleService;
-    private version = '1.514.rc2';
+    private version = '1.520.rc2';
 
     private checkPlatform() {
         switch (platform.name.toLowerCase()) {
@@ -163,8 +162,7 @@ var modules = [HTTP_PROVIDERS, APP_ROUTER_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVID
     provide(CommBroker, {useClass: CommBroker}),
     provide(Consts, {useClass: Consts}),
     provide("DEV_ENV", {useValue: Lib.DevMode()}),
-    provide(PLATFORM_PIPES, {useValue: CharCount, multi: true}),
-    provide(LocationStrategy, {useClass: HashLocationStrategy})]
+    provide(PLATFORM_PIPES, {useValue: CharCount, multi: true})]
 bootstrap(App, modules).then((appRef:ComponentRef<any>) => {
     appInjService(appRef.injector);
 });
