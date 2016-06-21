@@ -1,6 +1,11 @@
 import {Component, Input, ChangeDetectionStrategy, ViewChild, Renderer, ElementRef} from "@angular/core";
+import {Http} from "@angular/http";
 import {StationModel} from "../../../stations/StationModel";
 import {AppStore} from "angular2-redux-util";
+import {Observable} from "rxjs/Rx";
+import 'rxjs/add/operator/do';
+import "rxjs/add/observable/fromEvent";
+import "rxjs/add/observable/interval";
 import * as _ from "lodash";
 import {Tabs} from "../../tabs/tabs";
 import {Tab} from "../../tabs/tab";
@@ -18,7 +23,11 @@ import {ImgLoader} from "../../imgloader/ImgLoader";
 
 export class StationDetails {
 
-    constructor(private appStore:AppStore, private businessActions:BusinessAction, private elRef:ElementRef, private renderer:Renderer) {
+    constructor(private appStore:AppStore,
+                private http:Http,
+                private businessActions:BusinessAction,
+                private elRef:ElementRef,
+                private renderer:Renderer) {
     }
 
     private snapshots:Array<any> = [];
@@ -164,17 +173,48 @@ export class StationDetails {
         this.businessActions.getUserPass(customerUserName, (i_pass)=> {
             var pass = i_pass;
             var url = `https://${source}/WebService/sendCommand.ashx?i_user=${customerUserName}&i_password=${pass}&i_stationId=${stationId}&i_command=captureScreen2&i_param1=${fileName}&i_param2=0.2&callback=?`;
+
             jQuery.getJSON(url, ()=> {
             });
-            var path = `http://${source}/Snapshots/business${businessId}/station${stationId}/${fileName}.jpg`;
-            this.snapshots.push(path);
-            setTimeout(()=> {
-                // this.imgLoader.reloadImage();
-                jQuery(this.elRef.nativeElement).find('.newImage').fadeOut(200);
-                var img = this.renderer.createElement(this.elRef.nativeElement, 'img', null);
+            // this.jsonp.get(url).subscribe((res)=>{
+            //     console.log(res);
+            // })
+            var path = `https://${source}/Snapshots/business${businessId}/station${stationId}/${fileName}.jpg`;
+            // console.log(path);
+            // this.http.request(path).delay(500).retry(3).subscribe((res)=> {
+            //     jQuery(this.elRef.nativeElement).find('.newImage').fadeOut(200);
+            //     var img = this.renderer.createElement(this.elRef.nativeElement, 'img', null);
+            //     img.src = path;
+            //     jQuery(img).addClass('newImage')
+            // }, (err)=> {
+            //     console.log('err ' + path);
+            // }, ()=> {
+            // })
+            //
+            // this.snapshots.push(path);
+            // this.imgLoader.reloadImage();
+            jQuery(this.elRef.nativeElement).find('.newImage').fadeOut(200);
+            var img = this.renderer.createElement(this.elRef.nativeElement, 'img', null);
+            jQuery(img).addClass('snap');
+
+            var int$ = Observable.interval(500).do(()=> {
                 img.src = path;
-                jQuery(img).addClass('newImage')
-            }, 1000)
+            })
+            var $err = Observable.fromEvent(img, 'error')
+            var load$ = Observable.fromEvent(img, 'load')
+            var subscription = Observable.merge(int$, $err).takeUntil(load$).subscribe((res)=> {
+                subscription.unsubscribe();
+            })
+
+
+
+            // jQuery(img).one('load',(status)=>{
+            //     alert(1)
+            // })
+            // jQuery(img).one('error',(status)=>{
+            //     alert(2)
+            // })
+            // jQuery(img).addClass('newImage')
             //var path = window.g_protocol + pepper.getUserData().domain + '/Snapshots/business' + pepper.getUserData().businessID + "/station" + i_stationId + '/' + i_fileName + '.jpg';
             // return path;
             //

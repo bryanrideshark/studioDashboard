@@ -1,20 +1,39 @@
-import {Component, Injectable, ViewChild, ElementRef, Renderer} from '@angular/core';
-import {ROUTER_DIRECTIVES} from '@angular/router';
-import {Router} from "@angular/router";
+import {Component, Injectable, ViewChild, ElementRef, Renderer,  trigger,
+    state,
+    style,
+    transition,
+    animate} from "@angular/core";
+import {ROUTER_DIRECTIVES, Router} from "@angular/router";
 import {AppStore} from "angular2-redux-util";
 import {BusinessAction} from "../../business/BusinessAction";
-import Map = Immutable.Map;
 import {LocalStorage} from "../../services/LocalStorage";
 import {AuthService, FlagsAuth} from "../../services/AuthService";
-import * as bootbox from 'bootbox';
+import * as bootbox from "bootbox";
+import Map = Immutable.Map;
+
 
 @Injectable()
 @Component({
     selector: 'LoginPanel',
     directives: [ROUTER_DIRECTIVES],
     providers: [BusinessAction, LocalStorage],
+    animations: [
+        trigger('loginState', [
+            state('inactive', style({
+                backgroundColor: 'red',
+                transform: 'scale(1)',
+                alpha: 0
+            })),
+            state('active',   style({
+                backgroundColor: 'green',
+                transform: 'scale(0.98)'
+            })),
+            transition('* => active', animate('600ms ease-out')),
+            transition('* => inactive', animate('2000ms ease-out'))
+        ])
+    ],
     template: `
-                <div *ngIf="showLoginPanel" class="login-page" id="appLogin">
+                <div *ngIf="showLoginPanel" @loginState="loginState" class="login-page" id="appLogin">
                 <br/>
                 <br/>
                   <form class="form-signin" role="form">
@@ -48,6 +67,7 @@ export class LoginPanel {
     private m_rememberMe:any;
     private m_unsub:()=>void;
     private showLoginPanel:boolean = false;
+    private loginState:string = '';
 
     constructor(private appStore:AppStore, private renderer:Renderer, private router:Router, private authService:AuthService) {
         this.m_router = router;
@@ -84,21 +104,22 @@ export class LoginPanel {
     }
 
     private onAuthPass() {
-        this.m_router.navigate(['/App1/Dashboard']);
+        this.loginState = 'active';
+        setTimeout(()=>this.m_router.navigate(['/App1/Dashboard']),2000)
+
     }
 
     private onAuthFail(i_reason) {
+        this.loginState = 'inactive';
         let msg1:string;
         let msg2:string;
         switch (i_reason) {
-            case FlagsAuth.WrongPass:
-            {
+            case FlagsAuth.WrongPass: {
                 msg1 = 'User or password are incorrect...'
                 msg2 = 'Please try again or click forgot password to reset your credentials'
                 break;
             }
-            case FlagsAuth.NotEnterprise:
-            {
+            case FlagsAuth.NotEnterprise: {
                 msg1 = 'Not an enterprise account'
                 msg2 = 'You must login with an Enterprise account, not an end user account...'
                 break;
