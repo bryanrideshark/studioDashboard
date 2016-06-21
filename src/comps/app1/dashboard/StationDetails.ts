@@ -5,7 +5,6 @@ import * as _ from "lodash";
 import {Tabs} from "../../tabs/tabs";
 import {Tab} from "../../tabs/tab";
 import {BusinessAction} from "../../../business/BusinessAction";
-import {ImgLoader} from "../../imgloader/ImgLoader";
 import {StationSnapshot} from "./StationSnapshot";
 
 @Component({
