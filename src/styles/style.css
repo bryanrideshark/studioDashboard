@@ -895,6 +895,9 @@ Language selector
 
 .snap {
     position: absolute;
-    top: 200px;
-    left: 0;
+    top: 120px;
+    left: 15px;
+    width: 400px;
+    border: none;
+
 }
