@@ -30,15 +30,15 @@ export class StationSnapshot {
             var url = `https://${source}/WebService/sendCommand.ashx?i_user=${customerUserName}&i_password=${pass}&i_stationId=${stationId}&i_command=captureScreen2&i_param1=${fileName}&i_param2=0.2&callback=?`;
             jQuery.getJSON(url, ()=> {
                 var path = `https://${source}/Snapshots/business${businessId}/station${stationId}/${fileName}.jpg`;
-
                 jQuery(this.elRef.nativeElement).find('.newImage').fadeOut(200);
                 var img = this.renderer.createElement(this.elRef.nativeElement, 'img', null);
                 jQuery(img).addClass('snap');
-
                 var int$ = Observable.interval(500).do(()=> {
                     img.src = path;
                 })
-                var $err = Observable.fromEvent(img, 'error')
+                var $err = Observable.fromEvent(img, 'error').do(()=>{
+                    jQuery(this.elRef.nativeElement).find('.snap').remove();
+                })
                 var load$ = Observable.fromEvent(img, 'load')
                 var subscription = Observable.merge(int$, $err).takeUntil(load$).delay(500).subscribe((res)=> {
                     subscription.unsubscribe();
