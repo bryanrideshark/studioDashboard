@@ -14,22 +14,22 @@ import {AuthService} from "./services/AuthService";
 
 
 const routes:RouterConfig = [
-    {path: '/Login', component: LoginPanel},
-    {path: '/Logout', component: Logout},
-    {path: '/', component: App1, canActivate: [AuthService]},
+    {path: 'Login', component: LoginPanel},
+    {path: 'Logout', component: Logout},
+    {path: '', component: App1, canActivate: [AuthService]},
     {
-        path: '/App1', component: App1,
+        path: 'App1', component: App1,
         children: [
-            {path: '/', component: App1, canActivate: [AuthService]},
-            {path: '/Dashboard', component: Dashboard, canActivate: [AuthService]},
-            {path: '/Orders', component: Orders, canActivate: [AuthService]},
-            {path: '/Users', component: Users, canActivate: [AuthService]},
-            {path: '/Privileges', component: Privileges, canActivate: [AuthService]},
-            {path: '/White label', component: Whitelabel, canActivate: [AuthService]},
-            {path: '/Apps', component: Apps, canActivate: [AuthService]},
-            {path: '/Account', component: Account, canActivate: [AuthService]},
-            {path: '/Orders', component: Orders, canActivate: [AuthService]},
-            {path: '/Logout', component: Logout, canActivate: [AuthService]}
+            {path: '', component: App1, canActivate: [AuthService]},
+            {path: 'Dashboard', component: Dashboard, canActivate: [AuthService]},
+            {path: 'Orders', component: Orders, canActivate: [AuthService]},
+            {path: 'Users', component: Users, canActivate: [AuthService]},
+            {path: 'Privileges', component: Privileges, canActivate: [AuthService]},
+            {path: 'White label', component: Whitelabel, canActivate: [AuthService]},
+            {path: 'Apps', component: Apps, canActivate: [AuthService]},
+            {path: 'Account', component: Account, canActivate: [AuthService]},
+            {path: 'Orders', component: Orders, canActivate: [AuthService]},
+            {path: 'Logout', component: Logout, canActivate: [AuthService]}
         ]
     }
 ];

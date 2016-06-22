@@ -2,10 +2,10 @@ SystemJS.config({
     baseURL: "/",
     production: false,
     paths: {
-        "github:*": "jspm_packages/github/*",
-        "npm:*": "jspm_packages/npm/*",
         "rxjs/*": "node_modules/rxjs/*.js",
-        "src/*": "src/*",
+        "github:": "jspm_packages/github/",
+        "npm:": "jspm_packages/npm/",
+        "src/": "src/",
         "StudioDashboard/": "src/"
     }
 });

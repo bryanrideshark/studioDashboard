@@ -18,6 +18,7 @@ import "reflect-metadata";
 import {ROUTER_DIRECTIVES, Router} from "@angular/router";
 import {APP_ROUTER_PROVIDERS} from "./App.routes";
 import {bootstrap} from "@angular/platform-browser-dynamic";
+import {disableDeprecatedForms, provideForms} from '@angular/forms';
 import {Component, provide, enableProdMode, ViewEncapsulation, PLATFORM_PIPES, ComponentRef} from "@angular/core";
 import * as platform from "platform";
 import "jspm_packages/github/twbs/bootstrap@3.3.6";
@@ -149,6 +150,8 @@ if (!Lib.DevMode())
     enableProdMode();
 
 var modules = [HTTP_PROVIDERS, APP_ROUTER_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
+    disableDeprecatedForms(),
+    provideForms(),
     provide(AppStore, {useFactory: Lib.StoreFactory({notify, appdb, business, stations, reseller, orders})}),
     provide(StoreService, {useClass: StoreService}),
     provide(BusinessAction, {useClass: BusinessAction}),
@@ -178,3 +181,5 @@ window['hr'] && window['hr'].on('change', (fileName) => {
 })
 
 
+//provide(LocationStrategy, {useClass: HashLocationStrategy}),
+//import {LocationStrategy, HashLocationStrategy} from "@angular/common";

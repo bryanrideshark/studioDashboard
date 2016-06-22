@@ -6,7 +6,7 @@ import {Tabs} from "../../tabs/tabs";
 import {WhitelabelModel} from "../../../reseller/WhitelabelModel";
 import {ResellerAction} from "../../../reseller/ResellerAction";
 import {AppStore} from "angular2-redux-util";
-import {FORM_DIRECTIVES, ControlGroup, FormBuilder, Control} from "@angular/common";
+// import {FORM_DIRECTIVES, ControlGroup, FormBuilder, Control} from "@angular/common";
 import {BlurForwarder} from "../../blurforwarder/BlurForwarder";
 import {Loading} from "../../loading/Loading";
 import {List} from "immutable";
@@ -14,7 +14,7 @@ import {Lib} from "../../../Lib";
 import {AccountModel} from "../../../reseller/AccountModel";
 import {CreditService} from "../../../services/CreditService";
 import {InputEdit} from "../../../comps/inputedit/InputEdit";
-// import {ComponentInstruction, CanActivate} from "@angular/router";
+import {REACTIVE_FORM_DIRECTIVES, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import * as _ from "lodash";
 import * as bootbox from "bootbox";
 
@@ -27,7 +27,7 @@ import * as bootbox from "bootbox";
             opacity: 0.3;
         }
     `],
-    directives: [Tab, Tabs, FORM_DIRECTIVES, BlurForwarder, Loading, InputEdit],
+    directives: [Tab, Tabs, REACTIVE_FORM_DIRECTIVES, BlurForwarder, Loading, InputEdit],
     host: {
         '(input-blur)': 'onInputBlur($event)'
     },
@@ -96,7 +96,7 @@ export class Account {
             'contact_email': ['']
         });
         _.forEach(this.contGroup.controls, (value, key:string)=> {
-            this.formInputs[key] = this.contGroup.controls[key] as Control;
+            this.formInputs[key] = this.contGroup.controls[key] as FormControl;
         })
         this.renderFormInputs();
     }
@@ -123,7 +123,7 @@ export class Account {
     private payerId = '';
     private whiteLabelEnabled:boolean = true;
     private formInputs = {};
-    private contGroup:ControlGroup;
+    private contGroup:FormGroup;
     private whitelabelModel:WhitelabelModel;
     private accountModels:List<AccountModel>;
     private PAY_SUBSCRIBER:number = 4;

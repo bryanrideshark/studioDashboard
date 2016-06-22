@@ -51,7 +51,7 @@
         </h3>
       </div>
       <div class="panel-body">
-        <form [ngFormModel]="contGroup" (ngSubmit)="onSubmit(contGroup.value)">
+        <form [formGroup]="contGroup" (ngSubmit)="onSubmit(contGroup.value)">
           <tabs>
             <tab [tabtitle]="'Payment'">
               <div *ngIf="getRecurringValue('recurringMode') == '0'" role="form">
@@ -90,7 +90,7 @@
                     <div class="form-group">
                       <label for="cardNumber">CARD NUMBER</label>
                       <div class="input-group">
-                        <input id="upgCredit" [ngFormControl]="contGroup.controls['billing_cardNumber']" type="text" class="ccNumber form-control" name="cardNumber" placeholder="Valid Card Number" autofocus data-stripe="number"/>
+                        <input id="upgCredit" [formControl]="contGroup.controls['billing_cardNumber']" type="text" class="ccNumber form-control" name="cardNumber" placeholder="Valid Card Number" autofocus data-stripe="number"/>
                         <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
                       </div>
                     </div>
@@ -101,16 +101,16 @@
                     <div class="form-group">
 
                       <div class="col-xs-6 col-lg-6 pl-ziro">
-                        <input id="upgMonth" [ngFormControl]="contGroup.controls['billing_expirationMonth']" type="text" class="form-control" name="expMonth" placeholder="MM" data-stripe="exp_month"/>
+                        <input id="upgMonth" [formControl]="contGroup.controls['billing_expirationMonth']" type="text" class="form-control" name="expMonth" placeholder="MM" data-stripe="exp_month"/>
                       </div>
                       <div class="col-xs-6 col-lg-6 pl-ziro">
-                        <input id="upgYear" [ngFormControl]="contGroup.controls['billing_expirationYear']" type="text" class="form-control" name="expYear" placeholder="YYYY" data-stripe="exp_year"/>
+                        <input id="upgYear" [formControl]="contGroup.controls['billing_expirationYear']" type="text" class="form-control" name="expYear" placeholder="YYYY" data-stripe="exp_year"/>
                       </div>
                     </div>
                   </div>
                   <div class="col-xs-5 col-md-5 pull-right">
                     <div class="form-group">
-                      <input id="upgCV" [ngFormControl]="contGroup.controls['billing_securityCode']" class="form-control" name="cvCode" placeholder="CV" data-stripe="cvc"/>
+                      <input id="upgCV" [formControl]="contGroup.controls['billing_securityCode']" class="form-control" name="cvCode" placeholder="CV" data-stripe="cvc"/>
                     </div>
                   </div>
                 </div>
@@ -141,101 +141,101 @@
             </tab>
             <tab [tabtitle]="'Billing'">
               <div class="form-group">
-                <input [ngFormControl]="contGroup.controls['billing_firstName']" type="text" class="form-control" placeholder="first name">
+                <input [formControl]="contGroup.controls['billing_firstName']" type="text" class="form-control" placeholder="first name">
               </div>
               <div class="form-group">
-                <input [ngFormControl]="contGroup.controls['billing_lastName']" type="text" class="form-control" placeholder="last name">
+                <input [formControl]="contGroup.controls['billing_lastName']" type="text" class="form-control" placeholder="last name">
               </div>
               <div class="form-group">
-                <input [ngFormControl]="contGroup.controls['billing_address1']" type="text" class="form-control" placeholder="address1">
+                <input [formControl]="contGroup.controls['billing_address1']" type="text" class="form-control" placeholder="address1">
               </div>
               <div class="form-group">
-                <input [ngFormControl]="contGroup.controls['billing_address2']" type="text" class="form-control" placeholder="address2">
+                <input [formControl]="contGroup.controls['billing_address2']" type="text" class="form-control" placeholder="address2">
               </div>
               <div class="form-group">
-                <input [ngFormControl]="contGroup.controls['billing_city']" type="text" class="form-control" placeholder="city">
+                <input [formControl]="contGroup.controls['billing_city']" type="text" class="form-control" placeholder="city">
               </div>
               <div class="form-group">
-                <input [ngFormControl]="contGroup.controls['billing_state']" type="text" class="form-control" placeholder="state">
+                <input [formControl]="contGroup.controls['billing_state']" type="text" class="form-control" placeholder="state">
               </div>
               <div class="form-group">
-                <input [ngFormControl]="contGroup.controls['billing_country']" type="text" class="form-control" placeholder="country">
+                <input [formControl]="contGroup.controls['billing_country']" type="text" class="form-control" placeholder="country">
               </div>
               <div class="form-group">
-                <input [ngFormControl]="contGroup.controls['billing_zipCode']" type="text" class="form-control" placeholder="zip">
+                <input [formControl]="contGroup.controls['billing_zipCode']" type="text" class="form-control" placeholder="zip">
               </div>
               <div class="form-group">
-                <input [ngFormControl]="contGroup.controls['billing_workPhone']" type="text" class="form-control" placeholder="work phone">
+                <input [formControl]="contGroup.controls['billing_workPhone']" type="text" class="form-control" placeholder="work phone">
               </div>
               <div class="form-group">
-                <input [ngFormControl]="contGroup.controls['billing_cellPhone']" type="text" class="form-control" placeholder="cell phone">
+                <input [formControl]="contGroup.controls['billing_cellPhone']" type="text" class="form-control" placeholder="cell phone">
               </div>
               <div class="form-group">
-                <input [ngFormControl]="contGroup.controls['billing_email']" type="text" class="form-control" placeholder="email">
+                <input [formControl]="contGroup.controls['billing_email']" type="text" class="form-control" placeholder="email">
               </div>
             </tab>
             <tab [tabtitle]="'Shipping'">
               <div class="form-group">
-                <input [ngFormControl]="contGroup.controls['shipping_firstName']" type="text" class="form-control" placeholder="first name">
+                <input [formControl]="contGroup.controls['shipping_firstName']" type="text" class="form-control" placeholder="first name">
               </div>
               <div class="form-group">
-                <input [ngFormControl]="contGroup.controls['shipping_lastName']" type="text" class="form-control" placeholder="last name">
+                <input [formControl]="contGroup.controls['shipping_lastName']" type="text" class="form-control" placeholder="last name">
               </div>
               <div class="form-group">
-                <input [ngFormControl]="contGroup.controls['shipping_address1']" type="text" class="form-control" placeholder="address1">
+                <input [formControl]="contGroup.controls['shipping_address1']" type="text" class="form-control" placeholder="address1">
               </div>
               <div class="form-group">
-                <input [ngFormControl]="contGroup.controls['shipping_address2']" type="text" class="form-control" placeholder="address2">
+                <input [formControl]="contGroup.controls['shipping_address2']" type="text" class="form-control" placeholder="address2">
               </div>
               <div class="form-group">
-                <input [ngFormControl]="contGroup.controls['shipping_city']" type="text" class="form-control" placeholder="city">
+                <input [formControl]="contGroup.controls['shipping_city']" type="text" class="form-control" placeholder="city">
               </div>
               <div class="form-group">
-                <input [ngFormControl]="contGroup.controls['shipping_state']" type="text" class="form-control" placeholder="state">
+                <input [formControl]="contGroup.controls['shipping_state']" type="text" class="form-control" placeholder="state">
               </div>
               <div class="form-group">
-                <input [ngFormControl]="contGroup.controls['shipping_country']" type="text" class="form-control" placeholder="country">
+                <input [formControl]="contGroup.controls['shipping_country']" type="text" class="form-control" placeholder="country">
               </div>
               <div class="form-group">
-                <input [ngFormControl]="contGroup.controls['shipping_zipCode']" type="text" class="form-control" placeholder="zip">
+                <input [formControl]="contGroup.controls['shipping_zipCode']" type="text" class="form-control" placeholder="zip">
               </div>
               <div class="form-group">
-                <input [ngFormControl]="contGroup.controls['shipping_workPhone']" type="text" class="form-control" placeholder="work phone">
+                <input [formControl]="contGroup.controls['shipping_workPhone']" type="text" class="form-control" placeholder="work phone">
               </div>
               <div class="form-group">
-                <input [ngFormControl]="contGroup.controls['shipping_cellPhone']" type="text" class="form-control" placeholder="cell phone">
+                <input [formControl]="contGroup.controls['shipping_cellPhone']" type="text" class="form-control" placeholder="cell phone">
               </div>
               <div class="form-group">
-                <input [ngFormControl]="contGroup.controls['shipping_email']" type="text" class="form-control" placeholder="email">
+                <input [formControl]="contGroup.controls['shipping_email']" type="text" class="form-control" placeholder="email">
               </div>
             </tab>
             <tab [tabtitle]="'Contact'">
               <div class="form-group">
-                <input [ngFormControl]="contGroup.controls['contact_firstName']" type="text" class="form-control" placeholder="first name">
+                <input [formControl]="contGroup.controls['contact_firstName']" type="text" class="form-control" placeholder="first name">
               </div>
               <div class="form-group">
-                <input [ngFormControl]="contGroup.controls['contact_lastName']" type="text" class="form-control" placeholder="last name">
+                <input [formControl]="contGroup.controls['contact_lastName']" type="text" class="form-control" placeholder="last name">
               </div>
               <div class="form-group">
-                <input [ngFormControl]="contGroup.controls['contact_address1']" type="text" class="form-control" placeholder="address1">
+                <input [formControl]="contGroup.controls['contact_address1']" type="text" class="form-control" placeholder="address1">
               </div>
               <div class="form-group">
-                <input [ngFormControl]="contGroup.controls['contact_city']" type="text" class="form-control" placeholder="city">
+                <input [formControl]="contGroup.controls['contact_city']" type="text" class="form-control" placeholder="city">
               </div>
               <div class="form-group">
-                <input [ngFormControl]="contGroup.controls['contact_state']" type="text" class="form-control" placeholder="state / country">
+                <input [formControl]="contGroup.controls['contact_state']" type="text" class="form-control" placeholder="state / country">
               </div>
               <div class="form-group">
-                <input [ngFormControl]="contGroup.controls['contact_zipCode']" type="text" class="form-control" placeholder="zip">
+                <input [formControl]="contGroup.controls['contact_zipCode']" type="text" class="form-control" placeholder="zip">
               </div>
               <div class="form-group">
-                <input [ngFormControl]="contGroup.controls['contact_workPhone']" type="text" class="form-control" placeholder="work phone">
+                <input [formControl]="contGroup.controls['contact_workPhone']" type="text" class="form-control" placeholder="work phone">
               </div>
               <div class="form-group">
-                <input [ngFormControl]="contGroup.controls['contact_cellPhone']" type="text" class="form-control" placeholder="cell phone">
+                <input [formControl]="contGroup.controls['contact_cellPhone']" type="text" class="form-control" placeholder="cell phone">
               </div>
               <div class="form-group">
-                <input [ngFormControl]="contGroup.controls['contact_email']" type="text" class="form-control" placeholder="email">
+                <input [formControl]="contGroup.controls['contact_email']" type="text" class="form-control" placeholder="email">
               </div>
             </tab>
           </tabs>

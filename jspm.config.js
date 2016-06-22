@@ -1,4 +1,38 @@
 SystemJS.config({
+    nodeConfig: {
+        "paths": {
+            "StudioDashboard/": "src/"
+        }
+    },
+    devConfig: {
+        "map": {
+            "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.0.0-rc.3",
+            "@angular/platform-browser": "npm:@angular/platform-browser@2.0.0-rc.3",
+            "net": "github:jspm/nodelibs-net@0.2.0-alpha",
+            "systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@0.5.9",
+            "tty": "github:jspm/nodelibs-tty@0.2.0-alpha",
+            "ng2-bootstrap": "npm:ng2-bootstrap@1.0.16"
+        },
+        "packages": {
+            "github:capaj/systemjs-hot-reloader@0.5.9": {
+                "map": {
+                    "debug": "npm:debug@2.2.0",
+                    "socket.io-client": "github:socketio/socket.io-client@1.4.6",
+                    "weakee": "npm:weakee@1.0.0"
+                }
+            },
+            "npm:ng2-bootstrap@1.0.16": {
+                "map": {
+                    "moment": "npm:moment@2.13.0"
+                }
+            },
+            "npm:debug@2.2.0": {
+                "map": {
+                    "ms": "npm:ms@0.7.1"
+                }
+            }
+        }
+    },
     transpiler: "plugin-typescript",
     typescriptOptions: {
         "module": "system",
@@ -436,8 +470,8 @@ SystemJS.config({
         "core-js": "npm:core-js@1.2.6",
         "gulp-util": "npm:gulp-util@3.0.7",
         "twbs/bootstrap": "github:twbs/bootstrap@3.3.6",
-        "@angular/http": "npm:@angular/http@2.0.0-rc.2",
-        "@angular/router": "npm:@angular/router@3.0.0-alpha.6"
+        "@angular/http": "npm:@angular/http@2.0.0-rc.3",
+        "@angular/router": "npm:@angular/router@3.0.0-alpha.7"
     }
 });
 
@@ -448,26 +482,22 @@ SystemJS.config({
         "github:*/*.json"
     ],
     map: {
-        "angular-router-deprecated": "npm:@angular/router-deprecated@2.0.0-rc.2",
-        "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.0.0-rc.2",
+        "@angular/forms": "npm:@angular/forms@0.1.1",
+        "angular-router-deprecated": "npm:@angular/router-deprecated@2.0.0-rc.3",
         "angular2-google-maps": "npm:angular2-google-maps@0.10.0",
         "jquery": "npm:jquery@2.2.4",
-        "angular-core": "npm:@angular/core@2.0.0-rc.2",
-        "angular-platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.0.0-rc.2",
-        "angular-http": "npm:@angular/http@2.0.0-rc.2",
-        "angular-router": "npm:@angular/router@2.0.0-rc.2",
-        "router": "npm:@angular/router@3.0.0-alpha.6",
-        "@angular/platform-browser": "npm:@angular/platform-browser@2.0.0-rc.2",
-        "@angular/common": "npm:@angular/common@2.0.0-rc.2",
-        "@angular/compiler": "npm:@angular/compiler@2.0.0-rc.2",
-        "angular-platform-browser": "npm:@angular/platform-browser@2.0.0-rc.2",
-        "angular-common": "npm:@angular/common@2.0.0-rc.2",
-        "@angular/core": "npm:@angular/core@2.0.0-rc.2",
-        "angular-compiler": "npm:@angular/compiler@2.0.0-rc.2",
+        "angular-core": "npm:@angular/core@2.0.0-rc.3",
+        "angular-platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.0.0-rc.3",
+        "angular-http": "npm:@angular/http@2.0.0-rc.3",
+        "angular-router": "npm:@angular/router@2.0.0-rc.3",
+        "router": "npm:@angular/router@3.0.0-alpha.7",
+        "@angular/common": "npm:@angular/common@2.0.0-rc.3",
+        "@angular/compiler": "npm:@angular/compiler@2.0.0-rc.3",
+        "angular-platform-browser": "npm:@angular/platform-browser@2.0.0-rc.3",
+        "angular-common": "npm:@angular/common@2.0.0-rc.3",
+        "@angular/core": "npm:@angular/core@2.0.0-rc.3",
+        "angular-compiler": "npm:@angular/compiler@2.0.0-rc.3",
         "redux-thunk": "npm:redux-thunk@2.1.0",
-        "net": "github:jspm/nodelibs-net@0.2.0-alpha",
-        "systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@0.5.9",
-        "tty": "github:jspm/nodelibs-tty@0.2.0-alpha",
         "angular2-redux-util": "npm:angular2-redux-util@0.8.64",
         "angular2-polyfill": "npm:angular2-polyfill@0.0.2",
         "angular2-uuid": "npm:angular2-uuid@1.0.7",
@@ -488,7 +518,6 @@ SystemJS.config({
         "lodash": "npm:lodash@4.5.1",
         "module": "github:jspm/nodelibs-module@0.2.0-alpha",
         "moment": "npm:moment@2.13.0",
-        "ng2-bootstrap": "npm:ng2-bootstrap@1.0.16",
         "ng2-bs3-modal": "npm:ng2-bs3-modal@0.2.2",
         "os": "github:jspm/nodelibs-os@0.2.0-alpha",
         "path": "github:jspm/nodelibs-path@0.2.0-alpha",
@@ -529,23 +558,16 @@ SystemJS.config({
         },
         "npm:angular2-google-maps@0.10.0": {
             "map": {
-                "@angular/common": "npm:@angular/common@2.0.0-rc.2",
-                "@angular/compiler": "npm:@angular/compiler@2.0.0-rc.2",
-                "@angular/core": "npm:@angular/core@2.0.0-rc.2",
-                "@angular/platform-browser": "npm:@angular/platform-browser@2.0.0-rc.2",
-                "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.0.0-rc.2",
+                "@angular/common": "npm:@angular/common@2.0.0-rc.3",
+                "@angular/compiler": "npm:@angular/compiler@2.0.0-rc.3",
+                "@angular/core": "npm:@angular/core@2.0.0-rc.3",
+                "@angular/platform-browser": "npm:@angular/platform-browser@2.0.0-rc.3",
+                "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.0.0-rc.3",
                 "es6-promise": "npm:es6-promise@3.2.1",
                 "es6-shim": "npm:es6-shim@0.35.1",
                 "reflect-metadata": "npm:reflect-metadata@0.1.3",
                 "rxjs": "npm:rxjs@5.0.0-beta.6",
                 "zone.js": "npm:zone.js@0.6.12"
-            }
-        },
-        "github:capaj/systemjs-hot-reloader@0.5.9": {
-            "map": {
-                "debug": "npm:debug@2.2.0",
-                "socket.io-client": "github:socketio/socket.io-client@1.4.6",
-                "weakee": "npm:weakee@1.0.0"
             }
         },
         "github:jspm/nodelibs-http@0.2.0-alpha": {
@@ -568,11 +590,6 @@ SystemJS.config({
                 "object.entries": "npm:object.entries@1.0.3"
             }
         },
-        "npm:ng2-bootstrap@1.0.16": {
-            "map": {
-                "moment": "npm:moment@2.13.0"
-            }
-        },
         "npm:redux@3.5.2": {
             "map": {
                 "lodash": "npm:lodash@4.5.1",
@@ -593,11 +610,6 @@ SystemJS.config({
         "github:frankwallis/plugin-typescript@4.0.16": {
             "map": {
                 "typescript": "npm:typescript@1.8.10"
-            }
-        },
-        "npm:debug@2.2.0": {
-            "map": {
-                "ms": "npm:ms@0.7.1"
             }
         },
         "npm:angular2-redux-util@0.8.64": {
