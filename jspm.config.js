@@ -6,8 +6,6 @@ SystemJS.config({
     },
     devConfig: {
         "map": {
-            "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.0.0-rc.3",
-            "@angular/platform-browser": "npm:@angular/platform-browser@2.0.0-rc.3",
             "net": "github:jspm/nodelibs-net@0.2.0-alpha",
             "systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@0.5.9",
             "tty": "github:jspm/nodelibs-tty@0.2.0-alpha",
@@ -471,7 +469,9 @@ SystemJS.config({
         "gulp-util": "npm:gulp-util@3.0.7",
         "twbs/bootstrap": "github:twbs/bootstrap@3.3.6",
         "@angular/http": "npm:@angular/http@2.0.0-rc.3",
-        "@angular/router": "npm:@angular/router@3.0.0-alpha.7"
+        "@angular/router": "npm:@angular/router@3.0.0-alpha.7",
+        "angular-router-deprecated": "npm:@angular/router-deprecated@2.0.0-rc.3",
+        "angular-router": "npm:@angular/router@2.0.0-rc.3"
     }
 });
 
@@ -482,14 +482,14 @@ SystemJS.config({
         "github:*/*.json"
     ],
     map: {
+        "@angular/platform-browser": "npm:@angular/platform-browser@2.0.0-rc.3",
+        "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.0.0-rc.3",
         "@angular/forms": "npm:@angular/forms@0.1.1",
-        "angular-router-deprecated": "npm:@angular/router-deprecated@2.0.0-rc.3",
         "angular2-google-maps": "npm:angular2-google-maps@0.10.0",
         "jquery": "npm:jquery@2.2.4",
         "angular-core": "npm:@angular/core@2.0.0-rc.3",
         "angular-platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.0.0-rc.3",
         "angular-http": "npm:@angular/http@2.0.0-rc.3",
-        "angular-router": "npm:@angular/router@2.0.0-rc.3",
         "router": "npm:@angular/router@3.0.0-alpha.7",
         "@angular/common": "npm:@angular/common@2.0.0-rc.3",
         "@angular/compiler": "npm:@angular/compiler@2.0.0-rc.3",
