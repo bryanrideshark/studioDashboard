@@ -1,5 +1,5 @@
 <div class="container">
-  <form [ngFormModel]="notesForm" (ngSubmit)="onSubmit(notesForm.value)">
+  <form [formGroup]="notesForm" (ngSubmit)="onSubmit(notesForm.value)">
     <div class="row">
       <div class="col-xs-6">
         <div class="inner userGeneral tallPanel">
@@ -21,25 +21,25 @@
             </div>
             <ul class="list-group">
               <li *ngIf="mode != 'fromUser'" class="list-group-item">
-                <input type="text" class="longInput form-control" placeholder="business name" required [ngFormControl]="notesForm.controls['businessName']">
+                <input type="text" class="longInput form-control" placeholder="business name" required [formControl]="notesForm.controls['businessName']">
               </li>
               <li class="list-group-item">
-                <input type="text" class="longInput form-control" placeholder="name" required [ngFormControl]="notesForm.controls['userName']">
+                <input type="text" class="longInput form-control" placeholder="name" required [formControl]="notesForm.controls['userName']">
               </li>
               <li class="list-group-item">
-                <div ngControlGroup="matchingPassword" [class.invalid]="passwordGroup.touched && !passwordGroup.valid">
+                <div formGroupName="matchingPassword" [class.invalid]="passwordGroup.touched && !passwordGroup.valid">
                   <div *ngIf="!passwordGroup.valid" class="alert alert-warning alert-dismissible" role="alert">
                     needs matching password 4+ characters
                   </div>
-                  <input required id="password" class="longInput form-control" placeholder="password (4+ characters)" type="password" ngControl="password">
-                  <input required id="confirmPassword" class="longInput form-control" placeholder="password again" type="password" ngControl="confirmPassword">
+                  <input required id="password" class="longInput form-control" placeholder="password (4+ characters)" type="password" formControlName="password">
+                  <input required id="confirmPassword" class="longInput form-control" placeholder="password again" type="password" formControlName="confirmPassword">
                 </div>
                 <!--<p>Valid?: {{notesForm.valid}}</p>-->
                 <!--<pre>{{notesForm.value | json}}</pre>-->
               </li>
               <li class="list-group-item">
-                <!--<input type="text" class="longInput form-control" placeholder="privileges" required [ngFormControl]="notesForm.controls['privileges']">-->
-                <select class="form-control longInput" (change)="onPriveleges($event)" [ngFormControl]="notesForm.controls['privileges']">
+                <!--<input type="text" class="longInput form-control" placeholder="privileges" required [formControl]="notesForm.controls['privileges']">-->
+                <select class="form-control longInput" (change)="onPriveleges($event)" [formControl]="notesForm.controls['privileges']">
                   <option *ngFor="let item of priveleges">{{item.getKey('name')}}</option>
                 </select>
               </li>
@@ -57,7 +57,8 @@
               <li class="list-group-item" *ngFor="let item of accessKeysArr; let index=index">
                 Key {{index}}
                 <div class="material-switch pull-right">
-                  <input (click)="onKeyChange($event,index)" [(ngModel)]="accessKeys[index]" id="{{item}}" name="{{item}}" type="checkbox"/>
+                  <!--<input (click)="onKeyChange($event,index)" [(ngModel)]="accessKeys[index]" id="{{item}}" name="{{item}}" type="checkbox"/>-->
+                  <input (click)="onKeyChange($event,index)" id="{{item}}" name="{{item}}" type="checkbox"/>
                   <label [attr.for]="item" class="label-default"></label>
                 </div>
               </li>

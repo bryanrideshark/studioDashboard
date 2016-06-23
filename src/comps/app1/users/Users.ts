@@ -8,8 +8,6 @@ import {MODAL_DIRECTIVES} from "../../ng2-bs3-modal/ng2-bs3-modal";
 import {ModalComponent} from "../../ng2-bs3-modal/components/modal";
 import {BusinessModel} from "../../../business/BusinessModel";
 import {UsersDetails} from "./UsersDetails";
-import {AuthService} from "../../../services/AuthService";
-import {appInjService} from "../../../services/AppInjService";
 import {BusinessUser} from "../../../business/BusinessUser";
 import {Loading} from "../../loading/Loading";
 import {List} from 'immutable';

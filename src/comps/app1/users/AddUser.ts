@@ -1,10 +1,8 @@
 import {Component, EventEmitter, ChangeDetectionStrategy, Input} from '@angular/core';
 import {ModalDialog} from "../../modaldialog/ModalDialog";
-import {
-    FORM_DIRECTIVES, FormBuilder, ControlGroup, Validators, AbstractControl, Control
-} from '@angular/common'
 import {BusinessUser} from "../../../business/BusinessUser";
 import {Lib} from "../../../Lib";
+import {REACTIVE_FORM_DIRECTIVES, FormGroup, Validators, FormControl, FormBuilder} from "@angular/forms";
 import {AppStore} from "angular2-redux-util";
 import {BusinessAction} from "../../../business/BusinessAction";
 import {PrivelegesModel} from "../../../reseller/PrivelegesModel";
@@ -13,7 +11,7 @@ import * as _ from 'lodash'
 
 @Component({
     selector: 'addUser',
-    directives: [ModalDialog, FORM_DIRECTIVES],
+    directives: [ModalDialog, REACTIVE_FORM_DIRECTIVES],
     changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: '/src/comps/app1/users/AddUser.html',
     styleUrls: ['../comps/app1/users/AddUser.css']
@@ -37,15 +35,15 @@ export class AddUser {
         });
 
         this.sub = modal.onClose.subscribe(()=> {
-            var userNameControl:Control = this.notesForm.controls['userName'] as Control;
-            var businessNameControl:Control = this.notesForm.controls['businessName'] as Control;
+            var userNameControl:FormControl = this.notesForm.controls['userName'] as FormControl;
+            var businessNameControl:FormControl = this.notesForm.controls['businessName'] as FormControl;
             this.passwordGroup.controls['password'].updateValue('')
             this.passwordGroup.controls['confirmPassword'].updateValue('')
             userNameControl.updateValue('')
             businessNameControl.updateValue('')
         })
-        this.passwordGroup = this.notesForm.controls['matchingPassword'];
-        this.userName = this.notesForm.controls['userName'];
+        this.passwordGroup = this.notesForm.controls['matchingPassword'] as FormControl;
+        this.userName = this.notesForm.controls['userName'] as FormControl;
     }
 
     private accessKeysArr:any = _.times(8, _.uniqueId as any);
@@ -61,9 +59,9 @@ export class AddUser {
     mode:'fromSample'|'fromClean'|'fromUser' = null;
 
     private privilegeName:string = '';
-    private notesForm:ControlGroup;
-    private userName:AbstractControl;
-    private businessName:AbstractControl;
+    private notesForm:FormGroup;
+    private userName:FormControl;
+    private businessName:FormControl;
     private passwordGroup;
     private sub:EventEmitter<any>;
 
@@ -71,7 +69,7 @@ export class AddUser {
         // console.log(event.target.checked + ' ' + index);
     }
 
-    private areEqual(group:ControlGroup) {
+    private areEqual(group:FormGroup) {
         let valid = true, val;
         for (name in group.controls) {
             if (val === undefined) {
