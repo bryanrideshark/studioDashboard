@@ -7,7 +7,8 @@ import {Tabs} from "../../tabs/tabs";
 import {WhitelabelModel} from "../../../reseller/WhitelabelModel";
 import {ResellerAction} from "../../../reseller/ResellerAction";
 import {AppStore} from "angular2-redux-util";
-import {FORM_DIRECTIVES, ControlGroup, FormBuilder, Control} from "@angular/common";
+// import {FORM_DIRECTIVES, ControlGroup, FormBuilder, Control} from "@angular/common";
+import {REACTIVE_FORM_DIRECTIVES, FormControlName, FormGroup, FormControl, FormBuilder, Validators} from '@angular/forms';
 import {BlurForwarder} from "../../blurforwarder/BlurForwarder";
 import {Loading} from "../../loading/Loading";
 import {Lib} from "../../../Lib";
@@ -18,7 +19,7 @@ import * as bootbox from 'bootbox';
 @Component({
     selector: 'whitelabel',
     styleUrls: [`../comps/app1/whitelabel/Whitelabel.css`],
-    directives: [Tab, Tabs, FORM_DIRECTIVES, BlurForwarder, Loading, ImgLoader],
+    directives: [Tab, Tabs, REACTIVE_FORM_DIRECTIVES, BlurForwarder, Loading, ImgLoader],
     host: {
         '(input-blur)': 'onInputBlur($event)'
     },
@@ -56,7 +57,7 @@ export class Whitelabel {
             'createAccountOption': ['']
         });
         _.forEach(this.contGroup.controls, (value, key:string)=> {
-            this.formInputs[key] = this.contGroup.controls[key] as Control;
+            this.formInputs[key] = this.contGroup.controls[key] as FormControl;
         })
         this.renderFormInputs();
 
@@ -71,6 +72,9 @@ export class Whitelabel {
         }
     }
 
+    ngOnInit(){
+        this.onWhiteLabelChange(true);
+    }
     @ViewChild('fileName') fileName:ElementRef;
     @ViewChild('imgLoaderLogo') imgLoaderLogo:ImgLoader;
     @ViewChild('imgLoaderSplash') imgLoaderSplash:ImgLoader;
@@ -89,7 +93,7 @@ export class Whitelabel {
 
     private whiteLabelEnabled:any = true;
     private formInputs = {};
-    private contGroup:ControlGroup;
+    private contGroup:FormGroup;
     private whitelabelModel:WhitelabelModel;
     private unsub;
     private stylesObj;

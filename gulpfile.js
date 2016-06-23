@@ -289,7 +289,27 @@ gulp.task('x_open_server_development_auto', ['x_watch_source'], function () {
         server: {
             baseDir: './',
             directory: true
-        }
+        },
+        middleware: [
+            function (req, res, next) {
+                // if (/\/src\/public\/App1\/Dashboard\/?/.test(req.url)) {
+                //     res.writeHead(302, {
+                //         'Location': '/src/public/index.html#/App1/Dashboard' // also an option
+                //     });
+                //     res.end();
+                // }
+                console.log('url: ' + req.url);
+                if (/\/src\/public\/App[0-9]+\/?/.test(req.url)) {
+                    var match = req.url.match(/\/src\/public\/(.*)/);
+                    var redirect = '/src/public/index.html#/' + match[1];
+                    console.log('RedirectTo:: ' + redirect);
+                    res.writeHead(302, {'Location': redirect});
+                    res.end();
+                }
+                next();
+            }
+        ]
+
     });
     // exit every 20 minutes so forever will restart it
     setTimeout(function () {

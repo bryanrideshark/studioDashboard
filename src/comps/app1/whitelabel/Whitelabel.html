@@ -1,15 +1,18 @@
 <br/>
-<form [ngFormModel]="contGroup">
+<form [formGroup]="contGroup">
   <label>
 	 <div class="material-switch  pull-left">
-		<input id="whiteLabelCheckbox" #whiteLabelCheckbox type="checkbox" [(ngModel)]="whiteLabelEnabled" (change)="onWhiteLabelChange(whiteLabelCheckbox.checked)"/>
-		<label for="whiteLabelCheckbox" class="label-primary"></label>
+		<!--<input id="whiteLabelCheckbox" #whiteLabelCheckbox type="checkbox" [(ngModel)]="whiteLabelEnabled" (change)="onWhiteLabelChange(whiteLabelCheckbox.checked)"/>-->
+		<!--<input id="whiteLabelCheckbox" #whiteLabelCheckbox type="checkbox" name="whiteLabelEnabled"-->
+				 <!--[(ngModel)]="whiteLabelEnabled" (change)="onWhiteLabelChange(whiteLabelCheckbox.checked)"/>-->
+		<input type="checkbox" #aaa formControlName="aaa">
 	 </div>
 	 <h4 style="padding-top: 6px">Business own branding</h4>
   </label>
   <br/>
   <div>
-	 <tabs *ngIf="whiteLabelEnabled">
+	 <!--<tabs *ngIf="whiteLabelEnabled">-->
+	 <tabs>
 		<tab [tabtitle]="'Logo'" style="background-color: red">
 		  <div class="tabStyle">
 			 <div class="form-area">
@@ -17,16 +20,16 @@
 				  <br style="clear:both">
 				  <h3 style="margin-bottom: 25px; text-align: center">custom application branding</h3>
 				  <div class="form-group">
-					 <input [ngFormControl]="contGroup.controls['companyName']" type="text" class="form-control" placeholder="Company name" required>
+					 <input [formControl]="contGroup.controls['companyName']" type="text" class="form-control" placeholder="Company name" required>
 				  </div>
 				  <div class="form-group">
-					 <input [ngFormControl]="contGroup.controls['logoTooltip']" type="text" class="form-control" placeholder="logo tooltip" required>
+					 <input [formControl]="contGroup.controls['logoTooltip']" type="text" class="form-control" placeholder="logo tooltip" required>
 				  </div>
 				  <div class="form-group">
-					 <input [ngFormControl]="contGroup.controls['logoLink']" type="text" class="form-control" placeholder="logo link" required>
+					 <input [formControl]="contGroup.controls['logoLink']" type="text" class="form-control" placeholder="logo link" required>
 				  </div>
 				  <label>
-					 <input [ngFormControl]="contGroup.controls['createAccountOption']" type="checkbox" checked> display
+					 <input [formControl]="contGroup.controls['createAccountOption']" type="checkbox" checked> display
 					 create account option
 				  </label>
 				  <div class="clearfix"></div>
@@ -80,33 +83,33 @@
 				  <br style="clear:both">
 				  <h3 style="margin-bottom: 25px; text-align: center;">StudioPro links</h3>
 				  <div class="form-group">
-					 <input [ngFormControl]="contGroup.controls['linksHome']" type="text" class="form-control" placeholder="home page" required>
+					 <input [formControl]="contGroup.controls['linksHome']" type="text" class="form-control" placeholder="home page" required>
 				  </div>
 				  <div class="form-group">
-					 <input [ngFormControl]="contGroup.controls['linksDownload']" type="text" class="form-control" placeholder="download page" required>
+					 <input [formControl]="contGroup.controls['linksDownload']" type="text" class="form-control" placeholder="download page" required>
 				  </div>
 				  <div class="form-group">
-					 <input [ngFormControl]="contGroup.controls['linksContact']" type="text" class="form-control" placeholder="contact us" required>
+					 <input [formControl]="contGroup.controls['linksContact']" type="text" class="form-control" placeholder="contact us" required>
 				  </div>
 				  <hr/>
 				  <label>
-					 <input [ngFormControl]="contGroup.controls['twitterShow']" type="checkbox" checked> show twitter button
+					 <input [formControl]="contGroup.controls['twitterShow']" type="checkbox" checked> show twitter button
 				  </label>
 				  <div class="clearfix"></div>
 				  <div class="form-group">
-					 <input [ngFormControl]="contGroup.controls['twitterLink']" type="text" class="form-control" placeholder="twitter link" required>
+					 <input [formControl]="contGroup.controls['twitterLink']" type="text" class="form-control" placeholder="twitter link" required>
 				  </div>
 				  <hr/>
 				  <label>
-					 <input [ngFormControl]="contGroup.controls['chatShow']" type="checkbox" checked> show live chat button
+					 <input [formControl]="contGroup.controls['chatShow']" type="checkbox" checked> show live chat button
 				  </label>
 				  <div class="clearfix"></div>
 				  <div class="form-group">
-					 <input [ngFormControl]="contGroup.controls['chatLink']" type="text" class="form-control" placeholder="live chat link" required>
+					 <input [formControl]="contGroup.controls['chatLink']" type="text" class="form-control" placeholder="live chat link" required>
 				  </div>
 				  <hr/>
 				  <label>
-					 <input [ngFormControl]="contGroup.controls['bannerEmbedReference']" type="checkbox" checked> show banner
+					 <input [formControl]="contGroup.controls['bannerEmbedReference']" type="checkbox" checked> show banner
 					 back links
 				  </label>
 				  <div class="clearfix"></div>
@@ -121,19 +124,19 @@
 				  <br style="clear:both">
 				  <h3 style="margin-bottom: 25px; text-align: center;">StudioPro custom menus</h3>
 				  <div class="form-group">
-					 <input [ngFormControl]="contGroup.controls['mainMenuLink0']" type="text" class="form-control" placeholder="visit site" required>
+					 <input [formControl]="contGroup.controls['mainMenuLink0']" type="text" class="form-control" placeholder="visit site" required>
 				  </div>
 				  <div class="form-group">
-					 <input [ngFormControl]="contGroup.controls['mainMenuLink1']" type="text" class="form-control" placeholder="video tutorials" required>
+					 <input [formControl]="contGroup.controls['mainMenuLink1']" type="text" class="form-control" placeholder="video tutorials" required>
 				  </div>
 				  <div class="form-group">
-					 <input [ngFormControl]="contGroup.controls['mainMenuLink2']" type="text" class="form-control" placeholder="support" required>
+					 <input [formControl]="contGroup.controls['mainMenuLink2']" type="text" class="form-control" placeholder="support" required>
 				  </div>
 				  <div class="form-group">
-					 <input [ngFormControl]="contGroup.controls['mainMenuLink3']" type="text" class="form-control" placeholder="report bugs" required>
+					 <input [formControl]="contGroup.controls['mainMenuLink3']" type="text" class="form-control" placeholder="report bugs" required>
 				  </div>
 				  <div class="form-group">
-					 <input [ngFormControl]="contGroup.controls['mainMenuLabel4']" type="text" class="form-control" placeholder="about" required>
+					 <input [formControl]="contGroup.controls['mainMenuLabel4']" type="text" class="form-control" placeholder="about" required>
 				  </div>
 				</form>
 			 </div>
