@@ -1,34 +1,45 @@
-import {Component, ViewChild, ChangeDetectionStrategy, ElementRef, NgZone, ViewChildren, QueryList} from '@angular/core'
-import {Router} from '@angular/router';
-import {AuthService} from "../../../services/AuthService";
-import {appInjService} from "../../../services/AppInjService";
+import {
+    Component,
+    ViewChild,
+    ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ElementRef,
+    NgZone,
+    ViewChildren,
+    QueryList
+} from "@angular/core";
+import {Router} from "@angular/router";
 import {Tab} from "../../tabs/tab";
 import {Tabs} from "../../tabs/tabs";
 import {WhitelabelModel} from "../../../reseller/WhitelabelModel";
 import {ResellerAction} from "../../../reseller/ResellerAction";
 import {AppStore} from "angular2-redux-util";
-// import {FORM_DIRECTIVES, ControlGroup, FormBuilder, Control} from "@angular/common";
-import {REACTIVE_FORM_DIRECTIVES, FormControlName, FormGroup, FormControl, FormBuilder, Validators} from '@angular/forms';
+import {REACTIVE_FORM_DIRECTIVES, FormGroup, FormControl, FormBuilder} from "@angular/forms";
 import {BlurForwarder} from "../../blurforwarder/BlurForwarder";
 import {Loading} from "../../loading/Loading";
 import {Lib} from "../../../Lib";
 import {ImgLoader} from "../../imgloader/ImgLoader";
-import * as _ from 'lodash'
-import * as bootbox from 'bootbox';
+import * as _ from "lodash";
+import * as bootbox from "bootbox";
 
 @Component({
     selector: 'whitelabel',
     styleUrls: [`../comps/app1/whitelabel/Whitelabel.css`],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     directives: [Tab, Tabs, REACTIVE_FORM_DIRECTIVES, BlurForwarder, Loading, ImgLoader],
     host: {
         '(input-blur)': 'onInputBlur($event)'
     },
-    templateUrl: '/src/comps/app1/whitelabel/Whitelabel.html',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: '/src/comps/app1/whitelabel/Whitelabel.html'
 })
 export class Whitelabel {
 
-    constructor(private appStore:AppStore, private fb:FormBuilder, private router:Router, private zone:NgZone, private resellerAction:ResellerAction) {
+    constructor(private appStore:AppStore,
+                private fb:FormBuilder,
+                private cd:ChangeDetectorRef,
+                private router:Router,
+                private zone:NgZone,
+                private resellerAction:ResellerAction) {
         var i_reseller = this.appStore.getState().reseller;
         this.whitelabelModel = i_reseller.getIn(['whitelabel']);
         this.unsub = this.appStore.sub((whitelabelModel:WhitelabelModel) => {
@@ -38,6 +49,7 @@ export class Whitelabel {
 
         this.contGroup = fb.group({
             'whitelabelEnabled': [''],
+            brandingEnabled: [''],
             'companyName': [''],
             'logoTooltip': [''],
             'logoLink': [''],
@@ -72,9 +84,6 @@ export class Whitelabel {
         }
     }
 
-    ngOnInit(){
-        this.onWhiteLabelChange(true);
-    }
     @ViewChild('fileName') fileName:ElementRef;
     @ViewChild('imgLoaderLogo') imgLoaderLogo:ImgLoader;
     @ViewChild('imgLoaderSplash') imgLoaderSplash:ImgLoader;
@@ -91,7 +100,7 @@ export class Whitelabel {
     @ViewChildren(ImgLoader)
     f:QueryList<any>;
 
-    private whiteLabelEnabled:any = true;
+    private whiteLabelEnabled:boolean;
     private formInputs = {};
     private contGroup:FormGroup;
     private whitelabelModel:WhitelabelModel;
@@ -111,7 +120,7 @@ export class Whitelabel {
                 return ['http://galaxy.signage.me/Resources/Resellers/' + this.getBusinessInfo('businessId') + '/Logo.png', 'http://galaxy.signage.me/Resources/Resellers/' + this.getBusinessInfo('businessId') + '/Logo.jpg'];
             }
             case 'splash': {
-                console.log('http://galaxy.signage.me/Resources/Resellers/' + this.getBusinessInfo('businessId') + '/Update.swf');
+                // console.log('http://galaxy.signage.me/Resources/Resellers/' + this.getBusinessInfo('businessId') + '/Update.swf');
                 return ['http://galaxy.signage.me/Resources/Resellers/' + this.getBusinessInfo('businessId') + '/Update.swf'];
             }
         }
@@ -211,7 +220,11 @@ export class Whitelabel {
             value = false;
             bootbox.alert('Branding will not be set as this account is inactive, be sure to update the billing info to reactivate the account!');
         }
-        setTimeout(()=>this.appStore.dispatch(this.resellerAction.saveWhiteLabel({whitelabelEnabled: value})), 1)
+        setTimeout(()=> {
+            this.appStore.dispatch(this.resellerAction.saveWhiteLabel({whitelabelEnabled: value}))
+            this.cd.markForCheck();
+        }, 1)
+        // this.appStore.dispatch(this.resellerAction.saveWhiteLabel({whitelabelEnabled: value}));
     }
 
     private ngOnDestroy() {

@@ -38,7 +38,6 @@ export class Users {
     constructor(private appStore:AppStore, private businessAction:BusinessAction) {
         var i_businesses = this.appStore.getState().business;
         var i_reseller = this.appStore.getState().reseller;
-
         this.businessesList = i_businesses.getIn(['businesses']);
         this.unsub = this.appStore.sub((i_businesses:List<BusinessModel>) => {
             this.businessesList = i_businesses;

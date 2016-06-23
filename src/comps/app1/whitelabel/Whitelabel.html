@@ -1,18 +1,42 @@
 <br/>
 <form [formGroup]="contGroup">
+  <!--<label>-->
+  <!--<div class="material-switch  pull-left">-->
+  <!--&lt;!&ndash;<input id="whiteLabelCheckbox" #whiteLabelCheckbox type="checkbox" [(ngModel)]="whiteLabelEnabled" (change)="onWhiteLabelChange(whiteLabelCheckbox.checked)"/>&ndash;&gt;-->
+  <!--&lt;!&ndash;<input id="whiteLabelCheckbox" #whiteLabelCheckbox type="checkbox" name="whiteLabelEnabled"&ndash;&gt;-->
+  <!--&lt;!&ndash;[(ngModel)]="whiteLabelEnabled" (change)="onWhiteLabelChange(whiteLabelCheckbox.checked)"/>&ndash;&gt;-->
+  <!---->
+  <!---->
+  <!---->
+  <!--</div>-->
+  
+  <!--<input *ngIf="this.formInputs['whiteLabelEnabled']"-->
+  <!--id="whiteLabelCheckbox" #whiteLabelCheckbox-->
+  <!--type="checkbox"-->
+  <!--formControlName="this.formInputs['whiteLabelEnabled']"-->
+  <!--/>-->
+  
+  <!--<label>-->
+  <!--<input [formControlName]="contGroup.controls['brandingEnabled']" #whiteLabelCheckbox-->
+  <!--(change)="onWhiteLabelChange(whiteLabelCheckbox.checked)"-->
+  <!--type="checkbox">-->
+  <!--<input [formControlName]="contGroup.controls['brandingEnabled']" #whiteLabelCheckbox-->
+  <!--type="checkbox">-->
+  <!--display branding-->
+  <!--</label>-->
+  
   <label>
 	 <div class="material-switch  pull-left">
-		<!--<input id="whiteLabelCheckbox" #whiteLabelCheckbox type="checkbox" [(ngModel)]="whiteLabelEnabled" (change)="onWhiteLabelChange(whiteLabelCheckbox.checked)"/>-->
-		<!--<input id="whiteLabelCheckbox" #whiteLabelCheckbox type="checkbox" name="whiteLabelEnabled"-->
-				 <!--[(ngModel)]="whiteLabelEnabled" (change)="onWhiteLabelChange(whiteLabelCheckbox.checked)"/>-->
-		<input type="checkbox" #aaa formControlName="aaa">
+		<input id="whiteLabelCheckbox" [formControl]="contGroup.controls['brandingEnabled']" #whiteLabelCheckbox
+				 type="checkbox" [(ngModel)]="whiteLabelEnabled"
+				 (change)="onWhiteLabelChange(whiteLabelCheckbox.checked)">
+		<label for="whiteLabelCheckbox" class="label-primary"></label>
 	 </div>
 	 <h4 style="padding-top: 6px">Business own branding</h4>
   </label>
   <br/>
   <div>
-	 <!--<tabs *ngIf="whiteLabelEnabled">-->
-	 <tabs>
+	 <tabs *ngIf="whiteLabelEnabled">
 		<tab [tabtitle]="'Logo'" style="background-color: red">
 		  <div class="tabStyle">
 			 <div class="form-area">
