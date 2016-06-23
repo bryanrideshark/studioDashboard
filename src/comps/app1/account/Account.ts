@@ -6,7 +6,6 @@ import {Tabs} from "../../tabs/tabs";
 import {WhitelabelModel} from "../../../reseller/WhitelabelModel";
 import {ResellerAction} from "../../../reseller/ResellerAction";
 import {AppStore} from "angular2-redux-util";
-// import {FORM_DIRECTIVES, ControlGroup, FormBuilder, Control} from "@angular/common";
 import {BlurForwarder} from "../../blurforwarder/BlurForwarder";
 import {Loading} from "../../loading/Loading";
 import {List} from "immutable";

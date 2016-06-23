@@ -7,7 +7,6 @@ import {ServerStats} from "./ServerStats";
 import {ServerAvg} from "./ServerAvg";
 import {AppdbAction} from "../../../appdb/AppdbAction";
 import {StationsMap} from "./StationsMap";
-import {appInjService} from "../../../services/AppInjService";
 import {AuthService} from "../../../services/AuthService";
 import {StationModel} from "../../../stations/StationModel";
 import {Loading} from "../../loading/Loading";
