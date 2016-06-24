@@ -29,7 +29,8 @@ const routes:RouterConfig = [
             {path: 'Apps', component: Apps, canActivate: [AuthService]},
             {path: 'Account', component: Account, canActivate: [AuthService]},
             {path: 'Orders', component: Orders, canActivate: [AuthService]},
-            {path: 'Logout', component: Logout, canActivate: [AuthService]}
+            {path: 'Logout', component: Logout, canActivate: [AuthService]},
+            {path: '**', redirectTo: 'Dashboard'}
         ]
     }
 ];

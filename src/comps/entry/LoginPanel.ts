@@ -37,9 +37,9 @@ import Map = Immutable.Map;
                 <br/>
                 <br/>
                   <form class="form-signin" role="form">
-                    <h2 class="form-signin-heading"></h2>
-                    <input (keyup.enter)="passFocus()" #userName id="userName" spellcheck="false" type="text" [(ngModel)]="m_user" class="input-underline input-lg form-control" data-localize="username" placeholder="user name" required autofocus>
-                    <input (keyup.enter)="authUser()" #userPass id="userPass" type="password" [(ngModel)]="m_pass" class="input-underline input-lg form-control" data-localize="password" placeholder="password" required>
+                    <h2 class="form-signin-heading"></h2>     
+                    <input (keyup.enter)="passFocus()" #userName id="userName" spellcheck="false" type="text" name="m_user" [(ngModel)]="m_user" class="input-underline input-lg form-control" data-localize="username" placeholder="user name" required autofocus>
+                    <input (keyup.enter)="authUser()" #userPass id="userPass" type="password" [(ngModel)]="m_pass" name="m_pass" class="input-underline input-lg form-control" data-localize="password" placeholder="password" required>
                     <br/>
                     <a id="loginButton"  (click)="authUser()" type="submit" class="btn rounded-btn"> enterprise member login </a>&nbsp;
                     <!--<a type="submit" class="btn rounded-btn"> Register</a> -->
@@ -48,13 +48,12 @@ import Map = Immutable.Map;
                       <input #rememberMe type="checkbox" [checked]="m_rememberMe" (change)="m_rememberMe = rememberMe.checked" />
                       <span style="color: gray"> remember me for next time </span>
                     </label>
-                    <br/>
+                    <br/>     
                     <br/>
                     <br/>
                     <!--<hr class="hrThin"/>-->
                    <a href="http://www.digitalsignage.com/_html/benefits.html" target="_blank">not an enterprise member? learn more</a>
-                    <!-- todo: add forgot password in v2-->
-                    <!--<a [routerLink]="['/ForgotPass', 'ForgotPass']"> forgot password </a>-->
+                    <!-- todo: add forgot password in v2-->                    
                     <div id="languageSelectionLogin"></div>
                   </form>
                 </div>
