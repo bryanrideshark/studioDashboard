@@ -27,6 +27,14 @@ export class AddUser {
         this.notesForm = fb.group({
             'userName': ['', Validators.required],
             'businessName': [],
+            accessKeys0: [],
+            accessKeys1: [],
+            accessKeys2: [],
+            accessKeys3: [],
+            accessKeys4: [],
+            accessKeys5: [],
+            accessKeys6: [],
+            accessKeys7: [],
             matchingPassword: fb.group({
                 password: ['', Validators.required],
                 confirmPassword: ['', Validators.required]
@@ -47,7 +55,8 @@ export class AddUser {
     }
 
     private accessKeysArr:any = _.times(8, _.uniqueId as any);
-    private accessKeys:Array<boolean> = _.times(8, ()=>false);
+    // private accessKeys:Array<boolean> = _.times(8, ()=>false);
+    // private accessKeys:FormControl[];
 
     @Input()
     businessId:number;
@@ -98,8 +107,15 @@ export class AddUser {
     }
 
     private onSubmit(event) {
+        var accessKeys = [];
+        _.forEach(event,(value,key:any)=>{
+            if (key.indexOf('accessKey') > -1){
+                var state:boolean = (value === false || _.isNull(value)) || value == 'false' ? false : true
+                accessKeys.push(state);
+            }
+        })
         let privilegeId = '-1';
-        let computedAccessMask = Lib.ComputeAccessMask(this.accessKeys);
+        let computedAccessMask = Lib.ComputeAccessMask(accessKeys);
         var privileges:Array<PrivelegesModel> = this.appStore.getState().reseller.getIn(['privileges']);
         privileges.forEach((privelegesModel:PrivelegesModel)=> {
             if (privelegesModel.getName() == this.privilegeName) {
@@ -114,25 +130,22 @@ export class AddUser {
             businessName: event.businessName,
             businessId: this.businessId,
         }
-        
+
 
         switch (this.mode) {
-            case 'fromSample':
-            {
-                userData['businessId'] = this.businessId; 
+            case 'fromSample': {
+                userData['businessId'] = this.businessId;
                 var businessUser:BusinessUser = new BusinessUser(userData);
                 this.appStore.dispatch(this.businessActions.duplicateAccount(businessUser));
                 break;
             }
-            case 'fromClean':
-            {
+            case 'fromClean': {
                 userData['businessId'] = 999;
                 var businessUser:BusinessUser = new BusinessUser(userData);
                 this.appStore.dispatch(this.businessActions.duplicateAccount(businessUser));
                 break;
             }
-            case 'fromUser':
-            {
+            case 'fromUser': {
                 var businessUser:BusinessUser = new BusinessUser(userData);
                 this.appStore.dispatch(this.businessActions.addNewBusinessUser(businessUser));
                 break;
