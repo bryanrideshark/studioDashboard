@@ -469,7 +469,7 @@ SystemJS.config({
         "gulp-util": "npm:gulp-util@3.0.7",
         "twbs/bootstrap": "github:twbs/bootstrap@3.3.6",
         "@angular/http": "npm:@angular/http@2.0.0-rc.3",
-        "@angular/router": "npm:@angular/router@3.0.0-alpha.7",
+        "@angular/router": "npm:@angular/router@3.0.0-alpha.8",
         "angular-router-deprecated": "npm:@angular/router-deprecated@2.0.0-rc.3",
         "angular-router": "npm:@angular/router@2.0.0-rc.3"
     }
@@ -490,7 +490,7 @@ SystemJS.config({
         "angular-core": "npm:@angular/core@2.0.0-rc.3",
         "angular-platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.0.0-rc.3",
         "angular-http": "npm:@angular/http@2.0.0-rc.3",
-        "router": "npm:@angular/router@3.0.0-alpha.7",
+        "router": "npm:@angular/router@3.0.0-alpha.8",
         "@angular/common": "npm:@angular/common@2.0.0-rc.3",
         "@angular/compiler": "npm:@angular/compiler@2.0.0-rc.3",
         "angular-platform-browser": "npm:@angular/platform-browser@2.0.0-rc.3",

@@ -3,24 +3,20 @@ import {Ng2Highcharts} from '../../ng2-highcharts/ng2-highcharts';
 
 // window['Highcharts'] = require('highcharts');
 import * as Highcharts from 'highcharts';
+import {Loading} from "../../loading/Loading";
 window['Highcharts'] = Highcharts;
 
 @Component({
     selector: 'ServerAvg',
     template: `
         <div style="width: 100%; height: 150px">
-            <div *ngIf="_data == 0">
-                <div style="margin-top: 120px"></div>
-                <center>
-                    <img src="assets/preload5.gif">
-                </center>
-            </div>
+           <Loading *ngIf="_data == 0" [size]="50" [style]="{'margin-top': '150px'}"></Loading>            
             <div *ngIf="_data !=  0">
                 <div [ng2-highcharts]="_options" (init)="onInit($event)" class="graph"></div>
             </div>
         </div>
     `,
-    directives: [Ng2Highcharts]
+    directives: [Ng2Highcharts, Loading]
 })
 export class ServerAvg {
 
