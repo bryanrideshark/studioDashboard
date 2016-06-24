@@ -152,20 +152,21 @@ if (!Lib.DevMode())
 var modules = [HTTP_PROVIDERS, APP_ROUTER_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
     disableDeprecatedForms(),
     provideForms(),
-    provide(AppStore, {useFactory: Lib.StoreFactory({notify, appdb, business, stations, reseller, orders})}),
-    provide(StoreService, {useClass: StoreService}),
-    provide(BusinessAction, {useClass: BusinessAction}),
-    provide(ResellerAction, {useClass: ResellerAction}),
-    provide(OrdersAction, {useClass: OrdersAction}),
-    provide(StationsAction, {useClass: StationsAction}),
-    provide(AppdbAction, {useClass: AppdbAction}),
-    provide(CreditService, {useClass: CreditService}),
-    provide(AuthService, {useClass: AuthService}),
-    provide(LocalStorage, {useClass: LocalStorage}),
-    provide(CommBroker, {useClass: CommBroker}),
-    provide(Consts, {useClass: Consts}),
-    provide("DEV_ENV", {useValue: Lib.DevMode()}),
-    provide(PLATFORM_PIPES, {useValue: CharCount, multi: true})]
+    {provide: AppStore, useFactory: Lib.StoreFactory({notify, appdb, business, stations, reseller, orders})},
+    {provide: StoreService, useClass: StoreService},
+    {provide: BusinessAction, useClass: BusinessAction},
+    {provide: ResellerAction, useClass: ResellerAction},
+    {provide: OrdersAction, useClass: OrdersAction},
+    {provide: StationsAction, useClass: StationsAction},
+    {provide: AppdbAction, useClass: AppdbAction},
+    {provide: CreditService, useClass: CreditService},
+    {provide: AuthService, useClass: AuthService},
+    {provide: LocalStorage, useClass: LocalStorage},
+    {provide: CommBroker, useClass: CommBroker},
+    {provide: Consts, useClass: Consts},
+    {provide: "DEV_ENV", useValue: Lib.DevMode()},
+    {provide: PLATFORM_PIPES, useValue: CharCount, multi: true}];
+
 bootstrap(App, modules).then((appRef:ComponentRef<any>) => {
     appInjService(appRef.injector);
 });
