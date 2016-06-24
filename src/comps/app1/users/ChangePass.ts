@@ -1,15 +1,14 @@
 import {Component, EventEmitter, ChangeDetectionStrategy, Input} from '@angular/core';
-import {FORM_DIRECTIVES, FormBuilder, ControlGroup, Validators} from '@angular/common'
+import {REACTIVE_FORM_DIRECTIVES, FormGroup, Validators, FormControl, FormBuilder} from "@angular/forms";
 import {ModalDialog} from "../../modaldialog/ModalDialog";
 import {AppStore} from "angular2-redux-util";
 import {BusinessAction} from "../../../business/BusinessAction";
-import {PrivelegesModel} from "../../../reseller/PrivelegesModel";
 import {BusinessUser} from "../../../business/BusinessUser";
 import {ModalComponent} from "../../ng2-bs3-modal/components/modal";
 
 @Component({
     selector: 'changePass',
-    directives: [ModalDialog, FORM_DIRECTIVES],
+    directives: [ModalDialog],
     templateUrl: '/src/comps/app1/users/ChangePass.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrls: ['../comps/app1/users/ChangePass.css']
@@ -34,10 +33,10 @@ export class ChangePass {
     @Input()
     businessUser:BusinessUser;
 
-    private notesForm:ControlGroup;
+    private notesForm:FormGroup;
     private passwordGroup;
 
-    private areEqual(group:ControlGroup) {
+    private areEqual(group:FormGroup) {
         let valid = true, val;
         for (name in group.controls) {
             if (val === undefined) {
