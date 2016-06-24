@@ -173,7 +173,10 @@ export class Users {
     private getSelectedBusinessId():number {
         if (!this.businessUsersListFiltered)
             return -1;
-        return this.businessesListFiltered.first().getBusinessId();
+        var first = this.businessesListFiltered.first();
+        if (_.isUndefined(first))
+            return -1;
+        return first.getBusinessId();
     }
 
     private getSelectedSampleBusinessId():number {
