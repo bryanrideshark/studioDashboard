@@ -17,8 +17,12 @@ const routes:RouterConfig = [
     {path: 'Login', component: LoginPanel},
     {path: 'Logout', component: Logout},
     {path: '', component: App1, canActivate: [AuthService]},
-    {
-        path: 'App1', component: App1,
+    {path: 'src', component: App1,
+        children: [
+            {path: 'public', component: Dashboard, canActivate: [AuthService]}
+        ]
+    },
+    {path: 'App1', component: App1,
         children: [
             {path: '', component: App1, canActivate: [AuthService]},
             {path: 'Dashboard', component: Dashboard, canActivate: [AuthService]},

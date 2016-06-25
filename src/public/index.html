@@ -20,7 +20,8 @@
   <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap-theme.css" rel="stylesheet">-->
 
   <!-- es6 shim for IE 11, enable for releases -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.0/es6-shim.js"></script>
+  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.0/es6-shim.js"></script>-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.0/core.js"></script>
 
   <!-- sys_jspm_start -->
   <script src="/jspm_packages/system.js"></script>
@@ -45,7 +46,7 @@
 				window.hr = new HotReloader.default('http://localhost:9089')
 			 })
 		  }
-		  Promise.resolve(readyForMainLoad).then(() => {
+		  Promise.resolve(readyForMainLoad).then(function() {
 			 System.import('reflect-metadata')
 			 .then(function(){System.import('zone.js')})
 			 .then(function(){System.import('../App')})
