@@ -40,7 +40,11 @@ type stationComponentMode = "map" | "grid";
 
 export class Dashboard {
 
-    constructor(private authService:AuthService, private appStore:AppStore, private appDbActions:AppdbAction, private cd:ChangeDetectorRef, private commBroker:CommBroker) {
+    constructor(private authService:AuthService,
+                private appStore:AppStore,
+                private appDbActions:AppdbAction,
+                private cd:ChangeDetectorRef,
+                private commBroker:CommBroker) {
         this.serverStats = [];
         this.serverStatsCategories = [];
         this.serverAvgResponse = 0;

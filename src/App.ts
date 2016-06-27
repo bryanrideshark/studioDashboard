@@ -67,7 +67,6 @@ import {AppdbAction} from "./appdb/AppdbAction";
 import {LogoCompany} from "./comps/logo/LogoCompany";
 import {Observable} from "rxjs/Rx";
 import {ANGULAR2_GOOGLE_MAPS_PROVIDERS} from "angular2-google-maps/core";
-// import {Router} from "@angular/router-deprecated";
 
 export enum ServerMode {
     CLOUD,
@@ -115,7 +114,7 @@ export class App {
     }
 
     private m_styleService:StyleService;
-    private version = '1.541.rc3';
+    private version = '1.542.rc3';
 
     private checkPlatform() {
         switch (platform.name.toLowerCase()) {
@@ -165,6 +164,7 @@ var modules = [HTTP_PROVIDERS, APP_ROUTER_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVID
     {provide: CommBroker, useClass: CommBroker},
     {provide: Consts, useClass: Consts},
     {provide: "DEV_ENV", useValue: Lib.DevMode()},
+    {provide: "OFFLINE_ENV", useValue: true},
     {provide: PLATFORM_PIPES, useValue: CharCount, multi: true}];
 
 bootstrap(App, modules).then((appRef:ComponentRef<any>) => {

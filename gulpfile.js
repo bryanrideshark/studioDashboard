@@ -36,6 +36,8 @@ var paths = {
     jspm: "./dist/jspm_packages",
     sources: "./src/**/*.ts",
     sourcesToCopy: ["index.html"],
+    appTsFile: "./src/App.ts",
+    src: "./src/",
     targetHTML: "./src/public/index.html",
     bundleHTML: "./dist/public",
     targetJS: "index.js",
@@ -49,6 +51,7 @@ var paths = {
 
 gulp.task("production", function (callback) {
     runSequence(
+        "x_removeOffline",
         "x_clean",
         "x_assets",
         "x_jspm",
@@ -358,6 +361,11 @@ gulp.task('x_watch_source', function () {
 });
 
 // Delete the dist directory
+gulp.task("x_setProd", function () {
+    return gulp.src(paths.dist, {read: false}).pipe(rimraf({force: true}));
+});
+
+// Delete the dist directory
 gulp.task("x_clean", function () {
     return gulp.src(paths.dist, {read: false}).pipe(rimraf({force: true}));
 });
@@ -398,5 +406,11 @@ gulp.task("x_target", function () {
         .pipe(gulp.dest(paths.bundleHTML))
 });
 
+// make sure we set to production in online mode
+gulp.task('x_removeOffline', function(){
+    gulp.src([paths.appTsFile])
+        .pipe(replace(/\{provide: "OFFLINE_ENV", useValue: true},/, "{provide: \"OFFLINE_ENV\", useValue: false},"))
+        .pipe(gulp.dest(paths.src))
 
+});
 

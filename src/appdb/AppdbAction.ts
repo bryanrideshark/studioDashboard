@@ -1,4 +1,4 @@
-import {Injectable} from "@angular/core";
+import {Injectable, Inject} from "@angular/core";
 import {Actions, AppStore} from "angular2-redux-util";
 import {Http} from "@angular/http";
 import {FlagsAuth} from "../services/AuthService";
@@ -19,50 +19,66 @@ export const AUTH_FAIL = 'AUTH_FAIL';
 export class AppdbAction extends Actions {
     parseString;
 
-    constructor(private appStore:AppStore, private _http:Http) {
+    constructor(@Inject('OFFLINE_ENV') private offlineEnv,
+                private appStore:AppStore,
+                private _http:Http) {
         super(appStore);
         // this.parseString = require('xml2js').parseString;
         this.parseString = xml2js.parseString;
     }
 
     public authenticateUser(i_user, i_pass, i_remember) {
+
         return (dispatch) => {
+
+            var processXml = (xmlData)=> {
+                this.parseString(xmlData, {attrkey: 'attr'}, function (err, result) {
+                    if (!result) {
+                        dispatch({
+                            type: AUTH_FAIL,
+                            authenticated: false,
+                            user: i_user,
+                            pass: i_pass,
+                            remember: i_remember,
+                            reason: FlagsAuth.WrongPass
+                        });
+                    } else if (result && !result.Businesses) {
+                        dispatch({
+                            type: AUTH_PASS,
+                            authenticated: false,
+                            user: i_user,
+                            pass: i_pass,
+                            remember: i_remember,
+                            reason: FlagsAuth.NotEnterprise
+                        });
+                    } else {
+                        dispatch({
+                            type: AUTH_FAIL,
+                            authenticated: true,
+                            user: i_user,
+                            pass: i_pass,
+                            remember: i_remember,
+                            reason: FlagsAuth.Enterprise
+                        });
+                    }
+                });
+            }
+
+
             const baseUrl = this.appStore.getState().appdb.get('appBaseUrl');
             const url = `${baseUrl}?command=GetCustomers&resellerUserName=${i_user}&resellerPassword=${i_pass}`;
-            this._http.get(url)
-                .map(result => {
+            if (this.offlineEnv) {
+                this._http.get('offline/getCustomers.xml').subscribe((result)=> {
                     var xmlData:string = result.text()
-                    this.parseString(xmlData, {attrkey: 'attr'}, function (err, result) {
-                        if (!result) {
-                            dispatch({
-                                type: AUTH_FAIL,
-                                authenticated: false,
-                                user: i_user,
-                                pass: i_pass,
-                                remember: i_remember,
-                                reason: FlagsAuth.WrongPass
-                            });
-                        } else if (result && !result.Businesses) {
-                            dispatch({
-                                type: AUTH_PASS,
-                                authenticated: false,
-                                user: i_user,
-                                pass: i_pass,
-                                remember: i_remember,
-                                reason: FlagsAuth.NotEnterprise
-                            });
-                        } else {
-                            dispatch({
-                                type: AUTH_FAIL,
-                                authenticated: true,
-                                user: i_user,
-                                pass: i_pass,
-                                remember: i_remember,
-                                reason: FlagsAuth.Enterprise
-                            });
-                        }
-                    });
-                }).subscribe()
+                    processXml(xmlData);
+                })
+            } else {
+                this._http.get(url)
+                    .map(result => {
+                        var xmlData:string = result.text()
+                        processXml(xmlData);
+                    }).subscribe()
+            }
         };
     }
 

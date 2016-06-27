@@ -20,6 +20,7 @@ export class StoreService {
                 @Inject(forwardRef(() => ResellerAction)) private resellerAction:ResellerAction,
                 @Inject(forwardRef(() => StationsAction)) private stationsAction:StationsAction,
                 @Inject(forwardRef(() => AppdbAction)) private appDbActions:AppdbAction,
+                @Inject('OFFLINE_ENV') private offlineEnv,
                 @Inject(forwardRef(() => CommBroker)) private commBroker:CommBroker) {
 
         this.appStore.dispatch(this.appDbActions.initAppDb());
@@ -36,6 +37,15 @@ export class StoreService {
         if (this.singleton)
             return;
         this.singleton = true;
+
+        /** (0)
+         * enable special case for offline debugging mode
+         **/
+        if (this.offlineEnv){
+            return;
+        }
+
+
         this.listenServices();
         this.appStore.dispatch(this.resellerAction.getResellerInfo());
         this.appStore.dispatch(this.resellerAction.getAccountInfo());
