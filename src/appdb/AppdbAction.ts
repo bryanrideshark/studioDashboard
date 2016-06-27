@@ -64,13 +64,15 @@ export class AppdbAction extends Actions {
                 });
             }
 
-
             const baseUrl = this.appStore.getState().appdb.get('appBaseUrl');
             const url = `${baseUrl}?command=GetCustomers&resellerUserName=${i_user}&resellerPassword=${i_pass}`;
             if (this.offlineEnv) {
                 this._http.get('offline/getCustomers.xml').subscribe((result)=> {
                     var xmlData:string = result.text()
                     processXml(xmlData);
+                })
+                this._http.get('offline/customerRequest.json').subscribe((result)=> {
+                    var jData:string = result.json();
                 })
             } else {
                 this._http.get(url)

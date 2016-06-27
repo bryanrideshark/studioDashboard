@@ -62,11 +62,13 @@ import notify from "./appdb/NotifyReducer";
 import appdb from "./appdb/AppdbReducer";
 import {business} from "./business/BusinessReducer";
 import {reseller} from "./reseller/ResellerReducer";
+import {adnet} from "./adnet/AdnetReducer";
 import {stations} from "./stations/StationsReducer";
 import {AppdbAction} from "./appdb/AppdbAction";
 import {LogoCompany} from "./comps/logo/LogoCompany";
 import {Observable} from "rxjs/Rx";
 import {ANGULAR2_GOOGLE_MAPS_PROVIDERS} from "angular2-google-maps/core";
+import {AdnetActions} from "./adnet/AdnetActions";
 
 export enum ServerMode {
     CLOUD,
@@ -106,11 +108,9 @@ export class App {
         Observable.fromEvent(window, 'resize').debounceTime(250).subscribe(()=> {
             this.appResized();
         });
-
         setTimeout(()=> {
             router.navigate(['/App1/Dashboard']);
         }, 1000)
-
     }
 
     private m_styleService:StyleService;
@@ -151,10 +151,11 @@ if (!Lib.DevMode())
 var modules = [HTTP_PROVIDERS, APP_ROUTER_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
     disableDeprecatedForms(),
     provideForms(),
-    {provide: AppStore, useFactory: Lib.StoreFactory({notify, appdb, business, stations, reseller, orders})},
+    {provide: AppStore, useFactory: Lib.StoreFactory({notify, appdb, business, stations, reseller, adnet, orders})},
     {provide: StoreService, useClass: StoreService},
     {provide: BusinessAction, useClass: BusinessAction},
     {provide: ResellerAction, useClass: ResellerAction},
+    {provide: AdnetActions, useClass: AdnetActions},
     {provide: OrdersAction, useClass: OrdersAction},
     {provide: StationsAction, useClass: StationsAction},
     {provide: AppdbAction, useClass: AppdbAction},

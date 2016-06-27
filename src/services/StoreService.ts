@@ -1,5 +1,6 @@
 import {Injectable, provide, Inject, forwardRef} from "@angular/core";
 import {BusinessAction} from "../business/BusinessAction";
+import {AdnetActions} from "../adnet/AdnetActions";
 import {ResellerAction} from "../reseller/ResellerAction";
 import {AppdbAction} from "../appdb/AppdbAction";
 import {AppStore} from "angular2-redux-util";
@@ -16,6 +17,7 @@ import {OrdersAction} from "../comps/app1/orders/OrdersAction";
 export class StoreService {
     constructor(@Inject(forwardRef(() => AppStore)) private appStore:AppStore,
                 @Inject(forwardRef(() => BusinessAction)) private businessActions:BusinessAction,
+                @Inject(forwardRef(() => AdnetActions)) private adnetActions:AdnetActions,
                 @Inject(forwardRef(() => OrdersAction)) private ordersActions:OrdersAction,
                 @Inject(forwardRef(() => ResellerAction)) private resellerAction:ResellerAction,
                 @Inject(forwardRef(() => StationsAction)) private stationsAction:StationsAction,
@@ -38,13 +40,11 @@ export class StoreService {
             return;
         this.singleton = true;
 
-        /** (0)
-         * enable special case for offline debugging mode
-         **/
+        //todo: if in offline mode enable adnet while project is in development
         if (this.offlineEnv){
+            this.appStore.dispatch(this.adnetActions.getAdnet());
             return;
         }
-
 
         this.listenServices();
         this.appStore.dispatch(this.resellerAction.getResellerInfo());
@@ -87,7 +87,7 @@ export class StoreService {
 
         /** (3) receive each set of stations status per server **/
         this.appStore.sub((stations:Map<string, List<StationModel>>) => {
-             //console.log('received station');
+            //console.log('received station');
         }, 'stations');
 
         /** (4) once we have all stations, we can get their respective servers and geo info **/
