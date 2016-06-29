@@ -165,7 +165,7 @@ var modules = [HTTP_PROVIDERS, APP_ROUTER_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVID
     {provide: CommBroker, useClass: CommBroker},
     {provide: Consts, useClass: Consts},
     {provide: "DEV_ENV", useValue: Lib.DevMode()},
-    {provide: "OFFLINE_ENV", useValue: true},
+    {provide: "OFFLINE_ENV", useValue: false},
     {provide: PLATFORM_PIPES, useValue: CharCount, multi: true}];
 
 bootstrap(App, modules).then((appRef:ComponentRef<any>) => {
