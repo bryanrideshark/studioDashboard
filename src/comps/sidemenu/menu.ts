@@ -1,5 +1,3 @@
-///<reference path="../../../typings/app.d.ts"/>
-
 import {Component, Injectable} from "@angular/core";
 import {MenuItem} from "./MenuItem";
 import {CommBroker} from "../../services/CommBroker";
@@ -17,6 +15,7 @@ import {IMessage} from "../../services/CommBroker";
         font-size: 0.9em;
         position: relative;
         top: 2px;
+        left: -10px;
         text-align: left;
         padding-right: 5px;
     }

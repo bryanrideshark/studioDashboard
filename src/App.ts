@@ -27,7 +27,7 @@ import "./styles/style.css!";
 import {StyleService} from "./styles/StyleService";
 import {appInjService} from "./services/AppInjService";
 import {LocalStorage} from "./services/LocalStorage";
-import {AuthService} from "./services/AuthService";
+// import {AuthService} from "./services/AuthService";
 import {StoreService} from "./services/StoreService";
 import {BusinessAction} from "./business/BusinessAction";
 import {ResellerAction} from "./reseller/ResellerAction";
@@ -69,6 +69,7 @@ import {LogoCompany} from "./comps/logo/LogoCompany";
 import {Observable} from "rxjs/Rx";
 import {ANGULAR2_GOOGLE_MAPS_PROVIDERS} from "angular2-google-maps/core";
 import {AdnetActions} from "./adnet/AdnetActions";
+import {AUTH_PROVIDERS} from "./services/AuthService";
 
 export enum ServerMode {
     CLOUD,
@@ -148,7 +149,7 @@ export class App {
 if (!Lib.DevMode())
     enableProdMode();
 
-var modules = [HTTP_PROVIDERS, APP_ROUTER_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
+var modules = [HTTP_PROVIDERS, AUTH_PROVIDERS, APP_ROUTER_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
     disableDeprecatedForms(),
     provideForms(),
     {provide: AppStore, useFactory: Lib.StoreFactory({notify, appdb, business, stations, reseller, adnet, orders})},
@@ -160,13 +161,15 @@ var modules = [HTTP_PROVIDERS, APP_ROUTER_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVID
     {provide: StationsAction, useClass: StationsAction},
     {provide: AppdbAction, useClass: AppdbAction},
     {provide: CreditService, useClass: CreditService},
-    {provide: AuthService, useClass: AuthService},
     {provide: LocalStorage, useClass: LocalStorage},
     {provide: CommBroker, useClass: CommBroker},
     {provide: Consts, useClass: Consts},
     {provide: "DEV_ENV", useValue: Lib.DevMode()},
-    {provide: "OFFLINE_ENV", useValue: true},
+    {provide: "OFFLINE_ENV", useValue: false},
     {provide: PLATFORM_PIPES, useValue: CharCount, multi: true}];
+
+// {provide: AuthService, useClass: AuthService},
+
 
 bootstrap(App, modules).then((appRef:ComponentRef<any>) => {
     appInjService(appRef.injector);

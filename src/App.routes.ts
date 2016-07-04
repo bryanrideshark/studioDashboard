@@ -11,6 +11,7 @@ import {Apps} from "./comps/app1/apps/Apps";
 import {Account} from "./comps/app1/account/Account";
 import {Orders} from "./comps/app1/orders/Orders";
 import {AuthService} from "./services/AuthService";
+import {MediaAdnet} from "./comps/app1/adnet/MediaAdnet";
 
 
 const routes:RouterConfig = [
@@ -33,6 +34,7 @@ const routes:RouterConfig = [
             {path: 'Apps', component: Apps, canActivate: [AuthService]},
             {path: 'Account', component: Account, canActivate: [AuthService]},
             {path: 'Orders', component: Orders, canActivate: [AuthService]},
+            {path: 'mediaADNET', component: MediaAdnet, canActivate: [AuthService]},
             {path: 'Logout', component: Logout, canActivate: [AuthService]},
             {path: '**', redirectTo: 'Dashboard'}
         ]

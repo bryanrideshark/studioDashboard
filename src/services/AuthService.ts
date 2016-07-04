@@ -1,14 +1,14 @@
-import {Injectable, Injector, Inject, forwardRef} from "@angular/core";
+import {Injectable, provide, Inject, forwardRef} from "@angular/core";
 import {Router, ActivatedRouteSnapshot, RouterStateSnapshot} from "@angular/router";
 import {AppStore} from "angular2-redux-util";
 import {LocalStorage} from "./LocalStorage";
 import {StoreService} from "./StoreService";
 import {AppdbAction} from "../appdb/AppdbAction";
-// import {appInjService} from "./AppInjService";
 import 'rxjs/add/observable/fromPromise';
 import {Observable} from 'rxjs/Observable';
 import * as bootbox from "bootbox";
 import Map = Immutable.Map;
+
 
 export enum FlagsAuth {
     AuthPass,
@@ -153,3 +153,5 @@ export class AuthService {
         this.ubsub();
     }
 }
+
+export const AUTH_PROVIDERS:Array<any> = [provide(AuthService, {useClass: AuthService})];
