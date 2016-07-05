@@ -165,7 +165,7 @@ var modules = [HTTP_PROVIDERS, AUTH_PROVIDERS, APP_ROUTER_PROVIDERS, ANGULAR2_GO
     {provide: CommBroker, useClass: CommBroker},
     {provide: Consts, useClass: Consts},
     {provide: "DEV_ENV", useValue: Lib.DevMode()},
-    {provide: "OFFLINE_ENV", useValue: false},
+    {provide: "OFFLINE_ENV", useValue: true},
     {provide: PLATFORM_PIPES, useValue: CharCount, multi: true}];
 
 // {provide: AuthService, useClass: AuthService},

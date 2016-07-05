@@ -1,14 +1,17 @@
 import {Injectable, Inject} from "@angular/core";
 import {Actions, AppStore} from "angular2-redux-util";
-import {Map} from "immutable";
+import {Map, List} from "immutable";
 import {Observable} from "rxjs/Observable";
 import "rxjs/add/operator/catch";
 import "rxjs/add/operator/finally";
 import "rxjs/add/observable/throw";
 import {Http} from "@angular/http";
 import * as bootbox from "bootbox";
+import * as _ from 'lodash';
+import {AdnetCustomerModel} from "./AdnetCustomerModel";
 
 export const RECEIVE_ADNET = 'RECEIVE_ADNET';
+export const RECEIVE_CUSTOMERS = 'RECEIVE_CUSTOMERS';
 
 @Injectable()
 export class AdnetActions extends Actions {
@@ -26,7 +29,12 @@ export class AdnetActions extends Actions {
             if (this.offlineEnv) {
                 this._http.get('offline/customerRequest.json').subscribe((result)=> {
                     var jData:Object = result.json();
-                    dispatch(this.receivedAdnet(jData));
+                    var adnetCustomers:List<AdnetCustomerModel> = List<AdnetCustomerModel>();
+                    for (var adnetCustomer of jData['customers']) {
+                        const adnetCustomerModel:AdnetCustomerModel = new AdnetCustomerModel(adnetCustomer);
+                        adnetCustomers = adnetCustomers.push(adnetCustomerModel)
+                    }
+                    dispatch(this.receivedCustomers(adnetCustomers));
                 })
             } else {
                 this._http.get(url)
@@ -42,6 +50,13 @@ export class AdnetActions extends Actions {
         return {
             type: RECEIVE_ADNET,
             payload
+        }
+    }
+
+    public receivedCustomers(customers:List<AdnetCustomerModel>) {
+        return {
+            type: RECEIVE_CUSTOMERS,
+            customers
         }
     }
 }
