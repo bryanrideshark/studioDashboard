@@ -15,7 +15,7 @@ import {IMessage} from "../../services/CommBroker";
         font-size: 0.9em;
         position: relative;
         top: 2px;
-        left: -10px;
+        left: 0px;
         text-align: left;
         padding-right: 5px;
     }
@@ -23,6 +23,7 @@ import {IMessage} from "../../services/CommBroker";
         font-size: 1.3em;
     }
   `],
+
     template: `
         <section id="appNavigatorWasp" (click)="listenMenuSelected($event)" class="appMenu fill hidden-xs hidden-sm hidden-md col-lg-1">
          <li *ngFor="let item of m_items" data-ripple-color="white" class="btn btn-default list-group-item navicons">

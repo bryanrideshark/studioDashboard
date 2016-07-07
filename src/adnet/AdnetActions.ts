@@ -24,6 +24,7 @@ export class AdnetActions extends Actions {
 
     public getAdnet() {
         return (dispatch) => {
+            const adnetCustomerId = this.appStore.getState().appdb.get('adnetCustomerId');
             const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnet');
             const url = `${baseUrl}`;
             if (this.offlineEnv) {

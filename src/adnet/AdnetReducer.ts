@@ -6,7 +6,7 @@ export function adnet(state:Map<string,any> = Map<string,any>(), action:any):Map
 
         case AdnetActions.RECEIVE_CUSTOMERS:
         {
-            return state.setIn(['customer'], action.customers);
+            return state.setIn(['customers'], action.customers);
         }
         default:
             return state;

@@ -5,4 +5,8 @@ export class AdnetCustomerModel extends StoreModel {
         super(data);
     }
 
+    public customerId(){
+        return this.getKey('Key');
+    }
+
 }
