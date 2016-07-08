@@ -93,13 +93,13 @@
       "lib": "src"
     },
     "dependencies": {
-      "angular-common": "npm:@angular/common@^2.0.0-rc.3",
-      "angular-compiler": "npm:@angular/compiler@^2.0.0-rc.3",
-      "angular-core": "npm:@angular/core@^2.0.0-rc.3",
-      "angular-http": "npm:@angular/http@^2.0.0-rc.3",
-      "angular-platform-browser": "npm:@angular/platform-browser@^2.0.0-rc.3",
-      "angular-platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@^2.0.0-rc.3",
-      "@angular/forms": "npm:@angular/forms@0.1.1",
+      "angular-common": "npm:@angular/common@^2.0.0-rc.4",
+      "angular-compiler": "npm:@angular/compiler@^2.0.0-rc.4",
+      "angular-core": "npm:@angular/core@^2.0.0-rc.4",
+      "angular-http": "npm:@angular/http@^2.0.0-rc.4",
+      "angular-platform-browser": "npm:@angular/platform-browser@^2.0.0-rc.4",
+      "angular-platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@^2.0.0-rc.4",
+      "@angular/forms": "npm:@angular/forms@0.2.0",
       "angular2-google-maps": "npm:angular2-google-maps@^0.10.0",
       "angular2-polyfill": "npm:angular2-polyfill@^0.0.2",
       "angular2-redux-util": "npm:angular2-redux-util@^0.8.64",
@@ -118,7 +118,7 @@
       "plugin-typescript": "github:frankwallis/plugin-typescript@^4.0.16",
       "redux-thunk": "npm:redux-thunk@2.1.0",
       "reselect": "npm:reselect@^2.0.3",
-      "router": "npm:@angular/router@3.0.0-alpha.8",
+      "router": "npm:@angular/router@3.0.0-beta.2",
       "text": "github:systemjs/plugin-text@^0.0.4",
       "ts": "github:frankwallis/plugin-typescript@^4",
       "typescript": "npm:typescript@^1.9",
@@ -132,11 +132,11 @@
       "tty": "github:jspm/nodelibs-tty@^0.2.0-alpha"
     },
     "peerDependencies": {
-      "@angular/common": "npm:@angular/common@2.0.0-rc.3",
-      "@angular/compiler": "npm:@angular/compiler@2.0.0-rc.3",
-      "@angular/core": "npm:@angular/core@2.0.0-rc.3",
-      "@angular/platform-browser": "npm:@angular/platform-browser@2.0.0-rc.3",
-      "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@^2.0.0-rc.3",
+      "@angular/common": "npm:@angular/common@2.0.0-rc.4",
+      "@angular/compiler": "npm:@angular/compiler@2.0.0-rc.4",
+      "@angular/core": "npm:@angular/core@2.0.0-rc.4",
+      "@angular/platform-browser": "npm:@angular/platform-browser@2.0.0-rc.4",
+      "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@^2.0.0-rc.4",
       "assert": "github:jspm/nodelibs-assert@^0.2.0-alpha",
       "bootstrap": "github:twbs/bootstrap@^3.3.6",
       "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
@@ -194,7 +194,7 @@
           }
         }
       },
-      "npm:@angular/common@2.0.0-rc.3": {
+      "npm:@angular/common@2.0.0-rc.4": {
         "meta": {
           "src/*.js": {
             "deps": [
@@ -204,7 +204,7 @@
           }
         }
       },
-      "npm:@angular/compiler@2.0.0-rc.3": {
+      "npm:@angular/compiler@2.0.0-rc.4": {
         "meta": {
           "src/*.js": {
             "deps": [
@@ -214,7 +214,7 @@
           }
         }
       },
-      "npm:@angular/core@2.0.0-rc.3": {
+      "npm:@angular/core@2.0.0-rc.4": {
         "meta": {
           "src/*.js": {
             "deps": [
@@ -224,7 +224,7 @@
           }
         }
       },
-      "npm:@angular/http@2.0.0-rc.3": {
+      "npm:@angular/http@2.0.0-rc.4": {
         "meta": {
           "src/*.js": {
             "deps": [
@@ -234,7 +234,7 @@
           }
         }
       },
-      "npm:@angular/platform-browser-dynamic@2.0.0-rc.3": {
+      "npm:@angular/platform-browser-dynamic@2.0.0-rc.4": {
         "meta": {
           "src/*.js": {
             "deps": [
@@ -244,7 +244,7 @@
           }
         }
       },
-      "npm:@angular/platform-browser@2.0.0-rc.3": {
+      "npm:@angular/platform-browser@2.0.0-rc.4": {
         "meta": {
           "src/*.js": {
             "deps": [
@@ -254,7 +254,7 @@
           }
         }
       },
-      "npm:@angular/router@2.0.0-rc.3": {
+      "npm:@angular/router@2.0.0-rc.4": {
         "meta": {
           "src/*.js": {
             "deps": [

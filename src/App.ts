@@ -109,13 +109,15 @@ export class App {
         Observable.fromEvent(window, 'resize').debounceTime(250).subscribe(()=> {
             this.appResized();
         });
-        setTimeout(()=> {
-            router.navigate(['/App1/Dashboard']);
-        }, 1000)
+        if (!Lib.DevMode()) {
+            setTimeout(()=> {
+                router.navigate(['/App1/Dashboard']);
+            }, 1000);
+        }
     }
 
     private m_styleService:StyleService;
-    private version = '1.542.rc3';
+    private version = '1.552.rc4';
 
     private checkPlatform() {
         switch (platform.name.toLowerCase()) {
