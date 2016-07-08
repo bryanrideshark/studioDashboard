@@ -6,6 +6,9 @@ import {Component, OnInit} from '@angular/core';
         .input-group {
             padding-top: 10px;
         }
+        i {
+            width: 20px;
+        }
     `],
     moduleId: __moduleName,
     templateUrl: 'AdnetConfigCustomer.html'
