@@ -27,7 +27,6 @@ import "./styles/style.css!";
 import {StyleService} from "./styles/StyleService";
 import {appInjService} from "./services/AppInjService";
 import {LocalStorage} from "./services/LocalStorage";
-// import {AuthService} from "./services/AuthService";
 import {StoreService} from "./services/StoreService";
 import {BusinessAction} from "./business/BusinessAction";
 import {ResellerAction} from "./reseller/ResellerAction";

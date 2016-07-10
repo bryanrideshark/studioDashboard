@@ -8,7 +8,6 @@ import * as _ from 'lodash'
 
 @Component({
     selector: 'td[simpleGridDataChecks]',
-    changeDetection: ChangeDetectionStrategy.CheckOnce,
     styles: [`
         i {
             cursor: pointer;
