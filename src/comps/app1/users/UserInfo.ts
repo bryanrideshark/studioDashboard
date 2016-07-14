@@ -7,6 +7,8 @@ import {ISimpleListItem} from "../../simplelist/Simplelist";
 import {ChangePass} from "../../../comps/app1/users/ChangePass";
 import {BusinessAction} from "../../../business/BusinessAction";
 import {AppStore} from "angular2-redux-util";
+import * as bootbox from "bootbox";
+import * as _ from 'lodash';
 import {Lib} from "../../../Lib";
 
 @Component({
@@ -118,7 +120,10 @@ export class UserInfo {
     }
 
     private onChangeMonitors(event) {
-        this.maxMonitors = event;
+        var maxMonitors:number = parseInt(event);
+        if (_.isNaN(maxMonitors))
+            return bootbox.alert('Not a valid number entered');
+        this.maxMonitors = maxMonitors;
         this.updateStore();
     }
 

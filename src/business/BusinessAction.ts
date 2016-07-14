@@ -133,7 +133,7 @@ export class BusinessAction extends Actions {
         }
     }
 
-    public updateAccount(businessId:string, name:string, maxMonitors:string, allowSharing:string) {
+    public updateAccount(businessId:string, name:string, maxMonitors:number, allowSharing:string) {
         return (dispatch)=> {
             dispatch(this.saveAccountInfo({businessId, name, maxMonitors, allowSharing}));
             var appdb:Map<string,any> = this.appStore.getState().appdb;
