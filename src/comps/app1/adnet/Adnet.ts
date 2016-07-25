@@ -13,10 +13,10 @@ import {Tab} from "../../tabs/tab";
               <AdnetConfigCustomer></AdnetConfigCustomer>
             </tab>
             <tab [tabtitle]="'Network'">
-              <h1>tab 2</h1>
+              <h3>network coming soon...</h3>
             </tab>
             <tab [tabtitle]="'Billing'">
-              <h1>tab 2</h1>
+              <h3>billing coming soon...</h3>
             </tab>
         </tabs>
         

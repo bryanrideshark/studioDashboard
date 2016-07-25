@@ -27,21 +27,22 @@ export class AdnetActions extends Actions {
             const adnetCustomerId = this.appStore.getState().appdb.get('adnetCustomerId');
             const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnet');
             const url = `${baseUrl}`;
+            // offline not being used
             if (this.offlineEnv) {
                 this._http.get('offline/customerRequest.json').subscribe((result)=> {
                     var jData:Object = result.json();
-                    var adnetCustomers:List<AdnetCustomerModel> = List<AdnetCustomerModel>();
-                    for (var adnetCustomer of jData['customers']) {
-                        const adnetCustomerModel:AdnetCustomerModel = new AdnetCustomerModel(adnetCustomer);
-                        adnetCustomers = adnetCustomers.push(adnetCustomerModel)
-                    }
-                    dispatch(this.receivedCustomers(adnetCustomers));
                 })
             } else {
                 this._http.get(url)
                     .map(result => {
                         var jData:Object = result.json()
                         dispatch(this.receivedAdnet(jData));
+                        var adnetCustomers:List<AdnetCustomerModel> = List<AdnetCustomerModel>();
+                        for (var adnetCustomer of jData['customers']) {
+                            const adnetCustomerModel:AdnetCustomerModel = new AdnetCustomerModel(adnetCustomer);
+                            adnetCustomers = adnetCustomers.push(adnetCustomerModel)
+                        }
+                        dispatch(this.receivedCustomers(adnetCustomers));
                     }).subscribe()
             }
         };

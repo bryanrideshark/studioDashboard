@@ -39,14 +39,8 @@ export class StoreService {
         if (this.singleton)
             return;
         this.singleton = true;
-
-        //todo: if in offline mode enable adnet while project is in development
-        if (this.offlineEnv){
-            this.appStore.dispatch(this.adnetActions.getAdnet());
-            return;
-        }
-
         this.listenServices();
+        this.appStore.dispatch(this.adnetActions.getAdnet());
         this.appStore.dispatch(this.resellerAction.getResellerInfo());
         this.appStore.dispatch(this.resellerAction.getAccountInfo());
         this.appStore.dispatch(this.businessActions.fetchBusinesses());
