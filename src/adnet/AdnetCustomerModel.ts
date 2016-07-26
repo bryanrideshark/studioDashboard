@@ -13,4 +13,7 @@ export class AdnetCustomerModel extends StoreModel {
         return this.getKey('Value').label;
     }
 
+    public getContact(){
+        return this.getKey('Value').contactPerson;
+    }
 }
