@@ -3,7 +3,7 @@
   <div class="col-xs-6">
 	 <div class="input-group">
 		<span class="input-group-addon"><i class="fa fa-user"></i></span>
-		<input type="text" class="form-control" value="" placeholder="Customer name">
+		<input [formControl]="contGroup.controls['label']" type="text" class="form-control" value="{{adnetCustomerModel?.getName()}}" placeholder="Customer name">
 	 </div>
 	 <div class="input-group">
 		<span class="input-group-addon"><i class="fa fa-street-view"></i></span>

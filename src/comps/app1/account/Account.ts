@@ -35,7 +35,6 @@ import * as bootbox from "bootbox";
 })
 
 export class Account {
-
     constructor(private creditService:CreditService, private appStore:AppStore, private fb:FormBuilder, private resellerAction:ResellerAction) {
         var i_reseller = this.appStore.getState().reseller;
 
