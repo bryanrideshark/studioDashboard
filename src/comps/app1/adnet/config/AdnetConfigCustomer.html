@@ -49,7 +49,7 @@
 			 <ul class="list-group">
 				<li class="list-group-item">
 				  Customer network
-				  <div class="material-switch pull-right">
+				  <div id="aa" class="material-switch pull-right" style="padding-top: 10px">
 					 <input (change)="onChangeSharing(customerNetwork.checked)"
 							  [(ngModel)]="customerNetworkValue" id="customerNetwork" #customerNetwork
 							  name="customerNetwork" type="checkbox"/>
@@ -58,7 +58,7 @@
 				</li>
 				<li class="list-group-item">
 				  Reseller network
-				  <div class="material-switch pull-right">
+				  <div class="material-switch pull-right" style="padding-top: 10px">
 					 <input (change)="onChangeSharing(accountNetwork.checked)"
 							  [(ngModel)]="accountNetworkValue" id="accountNetwork" #accountNetwork
 							  name="accountNetwork" type="checkbox"/>
@@ -67,7 +67,7 @@
 				</li>
 				<li class="list-group-item">
 				  Global network
-				  <div class="material-switch pull-right">
+				  <div class="material-switch pull-right" style="padding-top: 10px">
 					 <input (change)="onChangeSharing(globalNetwork.checked)"
 							  [(ngModel)]="globalNetworkValue" id="globalNetwork" #globalNetwork
 							  name="globalNetwork" type="checkbox"/>
@@ -76,7 +76,7 @@
 				</li>
 				<li class="list-group-item">
 				  Default auto enable
-				  <div class="material-switch pull-right">
+				  <div class="material-switch pull-right" style="padding-top: 10px">
 					 <input (change)="onChangeSharing(defaultAutoActivate.checked)"
 							  [(ngModel)]="defaultAutoActivateValue" id="defaultAutoActivate" #defaultAutoActivate
 							  name="defaultAutoActivate" type="checkbox"/>

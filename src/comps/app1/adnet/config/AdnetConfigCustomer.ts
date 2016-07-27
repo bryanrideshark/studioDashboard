@@ -15,9 +15,6 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
         '(input-blur)': 'onInputBlur($event)'
     },
     styles: [`                                            f
-        .material-switch {
-            padding-top: 10px;
-        }
         .input-group {
             padding-top: 10px;
         }
