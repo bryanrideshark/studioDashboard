@@ -1,6 +1,6 @@
 import {Directive, ElementRef, Renderer} from "@angular/core";
 @Directive({
-    selector: 'input,select',
+    selector: 'input,select,textarea',
     host: {
         '(blur)': 'onBlur($event)'
     }

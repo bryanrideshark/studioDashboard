@@ -14,7 +14,7 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
     host: {
         '(input-blur)': 'onInputBlur($event)'
     },
-    styles: [`
+    styles: [`                                            f
         .material-switch {
             padding-top: 10px;
         }
@@ -35,7 +35,16 @@ export class AdnetConfigCustomer {
 
         this.contGroup = fb.group({
             'label': [''],
-            'contactPerson': ['']
+            'contactPerson': [''],
+            'contactCell': [''],
+            'contactPhone': [''],
+            'contactEmail': [''],
+            'website': [''],
+            'comments': [''],
+            'customerNetwork': [''],
+            'accountNetwork': [''],
+            'globalNetwork': [''],
+            'defaultAutoActivate': ['']
         });
         _.forEach(this.contGroup.controls, (value, key:string)=> {
             this.formInputs[key] = this.contGroup.controls[key] as FormControl;
@@ -51,8 +60,20 @@ export class AdnetConfigCustomer {
     private customerModel:AdnetCustomerModel;
     private contGroup:FormGroup;
     private formInputs = {};
+    private customerNetworkValue = '';
+    private accountNetworkValue = '';
+    private defaultAutoActivateValue = '';
+    private globalNetworkValue = '';
 
     private onInputBlur(event) {
+        this.updateSore();
+    }
+
+    private onChangeSharing(event) {
+        this.updateSore();
+    }
+
+    private updateSore(){
         setTimeout(()=> {
             this.appStore.dispatch(this.adnetAction.saveCustomerInfo(Lib.CleanCharForXml(this.contGroup.value)))
         } ,1)
