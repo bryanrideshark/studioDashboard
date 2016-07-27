@@ -7,6 +7,9 @@ export function adnet(state: Map<string,any> = Map<string,any>(), action: any): 
         case AdnetActions.RECEIVE_CUSTOMERS: {
             return state.setIn(['customers'], action.customers);
         }
+        case AdnetActions.RECEIVE_RATES: {
+            return state.setIn(['rates'], action.rates);
+        }
         case AdnetActions.UPDATE_ADNET_CUSTOMER: {
             var customers:List<AdnetCustomerModel> = state.getIn(['customers'])
             var indexOf = function(i_adnetCustomerId:string) {

@@ -9,9 +9,11 @@ import {Http} from "@angular/http";
 import * as bootbox from "bootbox";
 import * as _ from 'lodash';
 import {AdnetCustomerModel} from "./AdnetCustomerModel";
+import {AdnetRateModel} from "./AdnetRateModel";
 
 export const RECEIVE_ADNET = 'RECEIVE_ADNET';
 export const RECEIVE_CUSTOMERS = 'RECEIVE_CUSTOMERS';
+export const RECEIVE_RATES = 'RECEIVE_RATES';
 export const UPDATE_ADNET_CUSTOMER = 'UPDATE_ADNET_CUSTOMER';
 
 @Injectable()
@@ -28,7 +30,7 @@ export class AdnetActions extends Actions {
             const adnetCustomerId = this.appStore.getState().appdb.get('adnetCustomerId');
             const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnet');
             const url = `${baseUrl}`;
-            // offline not being used
+            // offline not being used currently
             if (this.offlineEnv) {
                 this._http.get('offline/customerRequest.json').subscribe((result)=> {
                     var jData: Object = result.json();
@@ -38,12 +40,23 @@ export class AdnetActions extends Actions {
                     .map(result => {
                         var jData: Object = result.json()
                         dispatch(this.receivedAdnet(jData));
+
+                        // adnet customers
                         var adnetCustomers: List<AdnetCustomerModel> = List<AdnetCustomerModel>();
                         for (var adnetCustomer of jData['customers']) {
                             const adnetCustomerModel: AdnetCustomerModel = new AdnetCustomerModel(adnetCustomer);
                             adnetCustomers = adnetCustomers.push(adnetCustomerModel)
                         }
                         dispatch(this.receivedCustomers(adnetCustomers));
+
+                        // adnet rates
+                        var adnetRates: List<AdnetRateModel> = List<AdnetRateModel>();
+                        for (var adnetRate of jData['rates']) {
+                            const adnetRateModel: AdnetRateModel = new AdnetRateModel(adnetRate);
+                            adnetRates = adnetRates.push(adnetRateModel)
+                        }
+                        dispatch(this.receivedRates(adnetRates));
+
                     }).subscribe()
             }
         };
@@ -85,6 +98,13 @@ export class AdnetActions extends Actions {
         return {
             type: UPDATE_ADNET_CUSTOMER,
             payload
+        }
+    }
+
+    public receivedRates(rates: List<AdnetRateModel>) {
+        return {
+            type: RECEIVE_RATES,
+            rates
         }
     }
 
