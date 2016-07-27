@@ -14,16 +14,9 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
     host: {
         '(input-blur)': 'onInputBlur($event)'
     },
-    styles: [`                                            f
-        .input-group {
-            padding-top: 10px;
-        }
-        i {
-            width: 20px;
-        }
-    `],
     moduleId: __moduleName,
-    templateUrl: 'AdnetConfigCustomer.html'
+    templateUrl: 'AdnetConfigCustomer.html',
+    styleUrls: ['AdnetConfigCustomer.css']
 })
 export class AdnetConfigCustomer {
     constructor(private fb:FormBuilder,
