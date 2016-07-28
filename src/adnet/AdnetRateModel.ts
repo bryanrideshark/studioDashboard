@@ -4,4 +4,9 @@ export class AdnetRateModel extends StoreModel {
     constructor(data:any = {}) {
         super(data);
     }
+
+    public customerId(){
+        return this.getKey('Value').customerId;
+    }
+
 }

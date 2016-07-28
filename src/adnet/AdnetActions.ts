@@ -52,6 +52,8 @@ export class AdnetActions extends Actions {
                         // adnet rates
                         var adnetRates: List<AdnetRateModel> = List<AdnetRateModel>();
                         for (var adnetRate of jData['rates']) {
+                            if (adnetRate.Value.deleted==true)
+                                continue;
                             const adnetRateModel: AdnetRateModel = new AdnetRateModel(adnetRate);
                             adnetRates = adnetRates.push(adnetRateModel)
                         }

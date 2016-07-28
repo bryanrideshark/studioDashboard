@@ -9,7 +9,7 @@ SystemJS.config({
             "net": "github:jspm/nodelibs-net@0.2.0-alpha",
             "systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@0.5.9",
             "tty": "github:jspm/nodelibs-tty@0.2.0-alpha",
-            "ng2-bootstrap": "npm:ng2-bootstrap@1.0.17"
+            "ng2-bootstrap": "npm:ng2-bootstrap@1.0.24"
         },
         "packages": {
             "github:capaj/systemjs-hot-reloader@0.5.9": {
@@ -19,7 +19,7 @@ SystemJS.config({
                     "weakee": "npm:weakee@1.0.0"
                 }
             },
-            "npm:ng2-bootstrap@1.0.17": {
+            "npm:ng2-bootstrap@1.0.24": {
                 "map": {
                     "moment": "npm:moment@2.13.0"
                 }

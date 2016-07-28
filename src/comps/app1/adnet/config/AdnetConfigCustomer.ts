@@ -73,7 +73,6 @@ export class AdnetConfigCustomer {
         if (!this.customerModel)
             return;
         _.forEach(this.formInputs, (value, key:string)=> {
-            console.log(value, key);
             var data = this.customerModel.getKey('Value')[key];
             this.formInputs[key].updateValue(data)
         });

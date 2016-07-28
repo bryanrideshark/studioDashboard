@@ -15,32 +15,35 @@ import {OrdersAction} from "../comps/app1/orders/OrdersAction";
 
 @Injectable()
 export class StoreService {
-    constructor(@Inject(forwardRef(() => AppStore)) private appStore:AppStore,
-                @Inject(forwardRef(() => BusinessAction)) private businessActions:BusinessAction,
-                @Inject(forwardRef(() => AdnetActions)) private adnetActions:AdnetActions,
-                @Inject(forwardRef(() => OrdersAction)) private ordersActions:OrdersAction,
-                @Inject(forwardRef(() => ResellerAction)) private resellerAction:ResellerAction,
-                @Inject(forwardRef(() => StationsAction)) private stationsAction:StationsAction,
-                @Inject(forwardRef(() => AppdbAction)) private appDbActions:AppdbAction,
+    constructor(@Inject(forwardRef(() => AppStore)) private appStore: AppStore,
+                @Inject(forwardRef(() => BusinessAction)) private businessActions: BusinessAction,
+                @Inject(forwardRef(() => AdnetActions)) private adnetActions: AdnetActions,
+                @Inject(forwardRef(() => OrdersAction)) private ordersActions: OrdersAction,
+                @Inject(forwardRef(() => ResellerAction)) private resellerAction: ResellerAction,
+                @Inject(forwardRef(() => StationsAction)) private stationsAction: StationsAction,
+                @Inject(forwardRef(() => AppdbAction)) private appDbActions: AppdbAction,
                 @Inject('OFFLINE_ENV') private offlineEnv,
-                @Inject(forwardRef(() => CommBroker)) private commBroker:CommBroker) {
+                @Inject(forwardRef(() => CommBroker)) private commBroker: CommBroker) {
 
         this.appStore.dispatch(this.appDbActions.initAppDb());
     }
 
-    private singleton:boolean = false; // prevent multiple calls to this service
+    private singleton: boolean = false; // prevent multiple calls to this service
     // todo: in private / hybrid mode we need to get list of business servers and logic to as when on each env
     // 0 = cloud, 1 = private 2 = hybrid
     // private knownServers:Array<string> = ['mars.signage.me', 'mercury.signage.me'];
-    private knownServers:Array<string> = [];
-    private running:boolean = false;
+    private knownServers: Array<string> = [];
+    private running: boolean = false;
 
     public loadServices() {
         if (this.singleton)
             return;
         this.singleton = true;
         this.listenServices();
+        // setTimeout(()=>{
         this.appStore.dispatch(this.adnetActions.getAdnet());
+        // },3000)
+
         this.appStore.dispatch(this.resellerAction.getResellerInfo());
         this.appStore.dispatch(this.resellerAction.getAccountInfo());
         this.appStore.dispatch(this.businessActions.fetchBusinesses());
@@ -73,34 +76,34 @@ export class StoreService {
         }, 'business.businessStats');
 
         /** (2 optional) if we are running in cloud, get list of used servers and orders **/
-        this.appStore.sub((servers:List<string>) => {
+        this.appStore.sub((servers: List<string>) => {
             this.knownServers = servers.toArray();
             this.fetchStations();
             this.appStore.dispatch(this.ordersActions.fetchAccountType());
         }, 'appdb.cloudServers');
 
         /** (3) receive each set of stations status per server **/
-        this.appStore.sub((stations:Map<string, List<StationModel>>) => {
+        this.appStore.sub((stations: Map<string, List<StationModel>>) => {
             //console.log('received station');
         }, 'stations');
 
         /** (4) once we have all stations, we can get their respective servers and geo info **/
-        this.appStore.sub((totalStationsReceived:Map<string,any>) => {
+        this.appStore.sub((totalStationsReceived: Map<string,any>) => {
             this.appStore.dispatch(this.appDbActions.serverStatus());
             this.appStore.dispatch(this.stationsAction.getStationsIps())
         }, 'appdb.totalStations');
 
         /** (5) received station status **/
-        this.appStore.sub((serversStatus:Map<string,any>) => {
+        this.appStore.sub((serversStatus: Map<string,any>) => {
             if (!Lib.DevMode())
                 this.initPollServices();
         }, 'appdb.serversStatus', false);
     }
 
     private fetchStations() {
-        var sources:Map<string,any> = this.appStore.getState().business.getIn(['businessSources']).getData();
+        var sources: Map<string,any> = this.appStore.getState().business.getIn(['businessSources']).getData();
         var config = {}
-        sources.forEach((i_businesses:List<string>, source)=> {
+        sources.forEach((i_businesses: List<string>, source)=> {
             let businesses = i_businesses.toArray();
             if (this.knownServers.indexOf(source) > -1)
                 config[source] = businesses;
