@@ -9,4 +9,8 @@ export class AdnetRateModel extends StoreModel {
         return this.getKey('Value').customerId;
     }
 
+    public rateMap(){
+        return this.getKey('Value').rateMap;
+    }
+
 }

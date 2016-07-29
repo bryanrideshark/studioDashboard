@@ -1,8 +1,8 @@
-import {Component, ChangeDetectionStrategy, Input} from "@angular/core";
+import {Component, ChangeDetectionStrategy, Input, ViewChild} from "@angular/core";
 import {AppStore} from "angular2-redux-util";
 import {List} from "immutable";
 import * as _ from 'lodash';
-import {SimpleList} from "../../../simplelist/Simplelist";
+import {SimpleList, ISimpleListItem} from "../../../simplelist/Simplelist";
 import {AdnetRateModel} from "../../../../adnet/AdnetRateModel";
 
 @Component({
@@ -29,13 +29,27 @@ export class AdnetConfigRates {
         this.updFilteredRates();
     }
 
-    // @ViewChild(SimpleList)
-    // simpleList:SimpleList;
+    @ViewChild(SimpleList)
+    simpleList:SimpleList;
 
     private unsub: Function;
     private selectedAdnetCustomerId: string;
     private rates: List<AdnetRateModel> = List<AdnetRateModel>();
     private filteredRates: List<AdnetRateModel> = List<AdnetRateModel>();
+
+    private onSelection() {
+        if (!this.filteredRates)
+            return;
+        var selected:{} = this.simpleList.getSelected();
+        // var accountType = this.appStore.getState().appdb.get('accountType');
+        _.forEach(selected, (simpleItem:ISimpleListItem)=> {
+            if (simpleItem.selected) {
+                var adnetRateModel:AdnetRateModel = simpleItem.item;
+                console.log(adnetRateModel.rateMap());
+                return;
+            }
+        })
+    }
 
     private updFilteredRates(){
         if (this.rates && this.selectedAdnetCustomerId){
@@ -51,14 +65,9 @@ export class AdnetConfigRates {
 
     private getContent(adnetRateModel: AdnetRateModel) {
         return adnetRateModel.getKey('Value').label;
-        // console.log(Math.random())
-        // var type = order.getOrderType();
-        // var paymentDate = order.getDate();
-        // var orderId = order.getOrderId();
-        // return `${type} ${orderId} ${paymentDate}`;
     }
 
-    // private ngOnDestroy() {
-    //     this.unsub();
-    // }
+    private ngOnDestroy() {
+        this.unsub();
+    }
 }
