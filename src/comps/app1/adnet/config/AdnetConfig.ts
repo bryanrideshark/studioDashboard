@@ -18,17 +18,15 @@ import {RatingComponent} from 'ng2-bootstrap/ng2-bootstrap';
     template: `
 
           <div (click)="$event.preventDefault()">
-               <div class="btn-group" dropdown [(isOpen)]="status.isopen">
+               <div class="btn-group" dropdown  (onToggle)="toggled($event)" [(isOpen)]="status.isopen">
             <button id="single-button" type="button" class="btn btn-primary" dropdownToggle>
               Select customer 
               <span class="caret"></span>
             </button>
             <ul dropdownMenu role="menu" aria-labelledby="single-button">
-              <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
-              <li role="menuitem"><a class="dropdown-item" href="#">Another action</a></li>
-              <li role="menuitem"><a class="dropdown-item" href="#">Something else here</a></li>
-              <li class="divider dropdown-divider"></li>
-              <li role="menuitem"><a class="dropdown-item" href="#">Separated link</a></li>
+              <li *ngFor="let customer of adnetCustomers" (click)="onSelectedAdnetCustomer(customer)"  role="menuitem"><a class="dropdown-item" href="#">{{customer.getName()}}</a></li>
+              <!--<li class="divider dropdown-divider"></li>-->
+              <!--<li role="menuitem"><a class="dropdown-item" href="#">Separated link</a></li>-->
             </ul>
           </div>
          <hr/>
@@ -37,7 +35,7 @@ import {RatingComponent} from 'ng2-bootstrap/ng2-bootstrap';
               <AdnetConfigCustomer [adnetCustomerModel]="adnetCustomerModel"></AdnetConfigCustomer>
             </tab>
             <tab [tabtitle]="'Rates'">
-              <AdnetConfigRates></AdnetConfigRates>
+              <AdnetConfigRates [adnetCustomerId]="adnetCustomerId"></AdnetConfigRates>
             </tab>
             <tab [tabtitle]="'Targets'">
             </tab>
@@ -55,26 +53,21 @@ export class AdnetConfig {
     public items: Array<string> = ['The first choice!',
         'And another choice for you.', 'but wait! A third!'];
 
+    public onSelectedAdnetCustomer(adnetCustomerModel:AdnetCustomerModel): void {
+        // this.adnetCustomerId = this.appStore.getState().appdb.get('adnetCustomerId');
+        this.adnetCustomerId = adnetCustomerModel.customerId();
+        this.getCustomerData();
+    }
+
     public toggled(open: boolean): void {
-        console.log('Dropdown is now: ', open);
     }
-
-    public toggleDropdown($event: MouseEvent): void {
-        $event.preventDefault();
-        $event.stopPropagation();
-        this.status.isopen = !this.status.isopen;
-    }
-
 
     constructor(private appStore: AppStore) {
-        this.adnetCustomerId = this.appStore.getState().appdb.get('adnetCustomerId');
         var i_adnet = this.appStore.getState().adnet;
         this.adnetCustomers = i_adnet.getIn(['customers']);
         this.unsub = this.appStore.sub((i_adnetCustomers: List<AdnetCustomerModel>) => {
             this.adnetCustomers = i_adnetCustomers
-            this.getCustomerData();
         }, 'adnet.customers');
-        this.getCustomerData();
     }
 
     private unsub: Function;

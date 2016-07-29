@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from "@angular/core";
+import {Component, ChangeDetectionStrategy, Input} from "@angular/core";
 import {AppStore} from "angular2-redux-util";
 import {List} from "immutable";
 import * as _ from 'lodash';
@@ -23,13 +23,18 @@ export class AdnetConfigRates {
         }, 'adnet.rates');
     }
 
+    @Input()
+    set adnetCustomerId(i_adnetCustomerId: string) {
+        console.log(i_adnetCustomerId);
+    }
+
     // @ViewChild(SimpleList)
     // simpleList:SimpleList;
 
     private unsub: Function;
     private rates: List<AdnetRateModel> = List<AdnetRateModel>();
 
-    private getContent(adnetRateModel:AdnetRateModel) {
+    private getContent(adnetRateModel: AdnetRateModel) {
         return adnetRateModel.getKey('Value').label;
         // console.log(Math.random())
         // var type = order.getOrderType();

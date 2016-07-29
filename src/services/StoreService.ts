@@ -40,9 +40,9 @@ export class StoreService {
             return;
         this.singleton = true;
         this.listenServices();
-        // setTimeout(()=>{
-        this.appStore.dispatch(this.adnetActions.getAdnet());
-        // },3000)
+        setTimeout(()=> {
+            this.appStore.dispatch(this.adnetActions.getAdnet());
+        }, 3000)
 
         this.appStore.dispatch(this.resellerAction.getResellerInfo());
         this.appStore.dispatch(this.resellerAction.getAccountInfo());
