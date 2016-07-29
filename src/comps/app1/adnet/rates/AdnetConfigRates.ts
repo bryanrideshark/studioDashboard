@@ -26,7 +26,7 @@ import {AdnetRateModel} from "../../../../adnet/AdnetRateModel";
             clear:both;
         }
         
-        .hover {
+        .green {
             background-color: green;
         }
         `],
@@ -49,7 +49,7 @@ export class AdnetConfigRates {
 
     ngOnInit() {
         this.rateGridContainer = jQuery(this.el.nativeElement).find('.rateGridContainer');
-        this.makeGrid(8);
+        this.makeGrid();
     }
 
     @Input()
@@ -67,7 +67,7 @@ export class AdnetConfigRates {
     private rates: List<AdnetRateModel> = List<AdnetRateModel>();
     private filteredRates: List<AdnetRateModel> = List<AdnetRateModel>();
 
-    private makeGrid(n) {
+    private makeGrid() {
         var hour: any = '';
         var today: any = '';
         var days = ['Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat', 'Sun'];
@@ -101,12 +101,21 @@ export class AdnetConfigRates {
             this.rateGridContainer.append("<div class='new_row'></div>");
         }
 
-        jQuery(document).on('click', '.square', function () {
-            jQuery(this).addClass('hover');
+        jQuery(document)['contextmenu']( function() {
+            return false;
         });
-        jQuery(document).on('mousedown', '.square', function () {
-            jQuery(this).addClass('hover');
-            // jQuery(this).removeClass('hover');
+        jQuery(document).on('click', '.square', function () {
+            jQuery(this).addClass('green');
+        });
+        jQuery(document).on('mouseenter', '.square', function (e) {
+            if (e['buttons']==1)
+                jQuery(this).addClass('green');
+            if (e['buttons']==2)
+                jQuery(this).removeClass('green');
+            return false;
+        });
+        jQuery(document).on('mouse_down', '.square', function () {
+            jQuery(this).addClass('green');
         });
     }
 
