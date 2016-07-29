@@ -64,10 +64,10 @@ export class AdnetActions extends Actions {
         };
     }
 
-    public saveCustomerInfo(data: Object) {
+    public saveCustomerInfo(data: Object, adnetCustomerId:string) {
         return (dispatch) => {
             //todo: save to server
-            const adnetCustomerId = this.appStore.getState().appdb.get('adnetCustomerId');
+            // const adnetCustomerId = this.appStore.getState().appdb.get('adnetCustomerId');
             const payload = {
                 Value: data,
                 Key: adnetCustomerId

@@ -16,19 +16,20 @@ import {RatingComponent} from 'ng2-bootstrap/ng2-bootstrap';
     directives: [AdnetConfigCustomer, AdnetConfigRates, Tabs, Tab, RatingComponent,
         DROPDOWN_DIRECTIVES, CORE_DIRECTIVES],
     template: `
-
-          <div (click)="$event.preventDefault()">
-               <div class="btn-group" dropdown  (onToggle)="toggled($event)" [(isOpen)]="status.isopen">
-            <button id="single-button" type="button" class="btn btn-primary" dropdownToggle>
-              Select customer 
-              <span class="caret"></span>
-            </button>
-            <ul dropdownMenu role="menu" aria-labelledby="single-button">
-              <li *ngFor="let customer of adnetCustomers" (click)="onSelectedAdnetCustomer(customer)"  role="menuitem"><a class="dropdown-item" href="#">{{customer.getName()}}</a></li>
-              <!--<li class="divider dropdown-divider"></li>-->
-              <!--<li role="menuitem"><a class="dropdown-item" href="#">Separated link</a></li>-->
-            </ul>
-          </div>
+          <div>
+            <div (click)="$event.preventDefault()">
+              <div class="btn-group" dropdown  (onToggle)="toggled($event)" [(isOpen)]="status.isopen">
+                  <button id="single-button" type="button" class="btn btn-primary" dropdownToggle>
+                    Select customer 
+                  <span class="caret"></span>
+                </button>
+                  <ul dropdownMenu role="menu" aria-labelledby="single-button">
+                    <li *ngFor="let customer of adnetCustomers" (click)="onSelectedAdnetCustomer(customer)" role="menuitem"><a class="dropdown-item" href="#">{{customer.getName()}}</a></li>
+                    <!--<li class="divider dropdown-divider"></li>-->
+                    <!--<li role="menuitem"><a class="dropdown-item" href="#">Separated link</a></li>-->
+                  </ul>
+              </div>
+            </div>
          <hr/>
          <tabs>
             <tab [tabtitle]="'Customers'">                      
@@ -53,7 +54,7 @@ export class AdnetConfig {
     public items: Array<string> = ['The first choice!',
         'And another choice for you.', 'but wait! A third!'];
 
-    public onSelectedAdnetCustomer(adnetCustomerModel:AdnetCustomerModel): void {
+    public onSelectedAdnetCustomer(adnetCustomerModel: AdnetCustomerModel): void {
         // this.adnetCustomerId = this.appStore.getState().appdb.get('adnetCustomerId');
         this.adnetCustomerId = adnetCustomerModel.customerId();
         this.getCustomerData();

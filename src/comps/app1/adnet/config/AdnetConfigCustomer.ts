@@ -65,7 +65,7 @@ export class AdnetConfigCustomer {
 
     private updateSore(){
         setTimeout(()=> {
-            this.appStore.dispatch(this.adnetAction.saveCustomerInfo(Lib.CleanCharForXml(this.contGroup.value)))
+            this.appStore.dispatch(this.adnetAction.saveCustomerInfo(Lib.CleanCharForXml(this.contGroup.value),this.customerModel.customerId()))
         } ,1)
     }
 
