@@ -901,3 +901,37 @@ Language selector
     border: none;
 
 }
+
+
+
+.rateGridContainer {
+    overflow: auto;
+    width: 960px;
+    margin: auto;
+}
+
+.square {
+    height: 20px;
+    width: 70px;
+    border: 1px solid;
+    display: block;
+    float: left;
+
+}
+
+.borderLessSquare {
+    height: 20px;
+    width: 70px;
+    border: 0px solid;
+    display: block;
+    float: left;
+
+}
+
+.new_row {
+    clear:both;
+}
+
+.hover {
+    background-color: green;
+}
