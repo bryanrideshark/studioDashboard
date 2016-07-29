@@ -31,7 +31,7 @@ import {RatingComponent} from 'ng2-bootstrap/ng2-bootstrap';
               </div>
             </div>
          <hr/>
-         <tabs>
+         <tabs *ngIf="adnetCustomerId != -1">
             <tab [tabtitle]="'Customers'">                      
               <AdnetConfigCustomer [adnetCustomerModel]="adnetCustomerModel"></AdnetConfigCustomer>
             </tab>
@@ -72,7 +72,7 @@ export class AdnetConfig {
     }
 
     private unsub: Function;
-    private adnetCustomerId: number;
+    private adnetCustomerId: number = -1;
     private adnetCustomers: List<AdnetCustomerModel>
     private adnetCustomerModel: AdnetCustomerModel;
 
