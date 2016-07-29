@@ -2,7 +2,7 @@
 [content]="getContent" ></SimpleList>-->
 <div class="row">
   <div class="col-xs-3"  style="padding-left: 30px">
-	 <SimpleList *ngIf="rates" #simpleList [list]="rates" [content]="getContent"></SimpleList>
+	 <SimpleList *ngIf="filteredRates" #simpleList [list]="filteredRates" [content]="getContent"></SimpleList>
   </div>
   <div class="col-xs-11">
   </div>

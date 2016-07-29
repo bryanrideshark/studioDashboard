@@ -25,14 +25,29 @@ export class AdnetConfigRates {
 
     @Input()
     set adnetCustomerId(i_adnetCustomerId: string) {
-        console.log(i_adnetCustomerId);
+        this.selectedAdnetCustomerId = i_adnetCustomerId;
+        this.updFilteredRates();
     }
 
     // @ViewChild(SimpleList)
     // simpleList:SimpleList;
 
     private unsub: Function;
+    private selectedAdnetCustomerId: string;
     private rates: List<AdnetRateModel> = List<AdnetRateModel>();
+    private filteredRates: List<AdnetRateModel> = List<AdnetRateModel>();
+
+    private updFilteredRates(){
+        if (this.rates && this.selectedAdnetCustomerId){
+            this.filteredRates = List<AdnetRateModel>();
+            this.rates.forEach((i_adnetRateModel: AdnetRateModel)=> {
+                var adnetCustomerId = i_adnetRateModel.customerId();
+                if (adnetCustomerId == this.selectedAdnetCustomerId) {
+                    this.filteredRates = this.filteredRates.push(i_adnetRateModel)
+                }
+            })
+        }
+    }
 
     private getContent(adnetRateModel: AdnetRateModel) {
         return adnetRateModel.getKey('Value').label;
