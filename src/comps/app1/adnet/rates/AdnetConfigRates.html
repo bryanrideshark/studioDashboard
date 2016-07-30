@@ -3,6 +3,7 @@
 	 <SimpleList *ngIf="filteredRates" #simpleList [list]="filteredRates" (selected)="onSelection()" [content]="getContent"></SimpleList>
   </div>
   <div class="col-xs-9" style="overflow-x: scroll">
+	 <button (click)="onSave()" class="btn-primary">Save</button>
 	 <h3>table</h3>
 	 <div class="rateGridContainer" style="width: 1130px">
 	 </div>
