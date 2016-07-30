@@ -933,16 +933,16 @@ Language selector
 }
 
 .green {
-    background-color: green;
+    background-color: #2adc64;
 }
 .blue {
-    background-color: blue;
+    background-color: #0ae2ff;
 }
 .red {
-    background-color: red;
+    background-color: #ff7c10;
 }
 .yellow {
-    background-color: yellow;
+    background-color: #fff64e;
 }
 
 .borderLessSquare {

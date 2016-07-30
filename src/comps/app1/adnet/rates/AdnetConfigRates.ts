@@ -132,8 +132,12 @@ export class AdnetConfigRates {
         jQuery(document).on('mouseenter', '.square', function (e) {
             if (e['buttons'] == 1)
                 jQuery(this).addClass('green');
-            if (e['buttons'] == 2)
+            if (e['buttons'] == 2){
                 jQuery(this).removeClass('green');
+                jQuery(this).removeClass('blue');
+                jQuery(this).removeClass('red');
+                jQuery(this).removeClass('yellow');
+            }
             return false;
         });
         jQuery(document).on('mouse_down', '.square', function () {
