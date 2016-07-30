@@ -3,8 +3,43 @@
 	 <SimpleList *ngIf="filteredRates" #simpleList [list]="filteredRates" (selected)="onSelection()" [content]="getContent"></SimpleList>
   </div>
   <div class="col-xs-9" style="overflow-x: scroll">
-	 <button (click)="onSave()" class="btn-primary">Save</button>
-	 <h3>table</h3>
+	 <!--<button (click)="onSave()" class="btn-primary">Save</button>-->
+  
+	 <div class="well well-sm text-center">
+		<h4>USD per hour legend</h4>
+		<div class="btn-group" data-toggle="buttons">
+		  
+		  <label (click)="onColor('gray')" class="btn btn-warning">
+			 <input type="radio" name="options" autocomplete="off">
+			 <span  class="glyphicon glyphicon-ok"></span>
+			 <input class="rateInput" #hourRateInput0 value={{hourRate0}} (change)="onHourRateChange('hourRate0', hourRateInput0.value)">
+		  </label>
+		  
+		  <label (click)="onColor('green')" class="btn btn-success active">
+			 <input  type="radio" name="options" autocomplete="off" checked>
+			 <span class="glyphicon glyphicon-ok"></span>
+			 <input class="rateInput" #hourRateInput1 value={{hourRate1}} (change)="onHourRateChange('hourRate1', hourRateInput1.value)">
+		  </label>
+		
+		  <label (click)="onColor('blue')" class="btn btn-info">
+			 <input type="radio" name="options" autocomplete="off">
+			 <span  class="glyphicon glyphicon-ok"></span>
+			 <input class="rateInput" #hourRateInput2 value={{hourRate2}} (change)="onHourRateChange('hourRate2', hourRateInput2.value)">
+		  </label>
+		
+		  <label (click)="onColor('red')" class="btn btn-danger">
+			 <input type="radio" name="options" autocomplete="off">
+			 <span class="glyphicon glyphicon-ok"></span>
+			 <input class="rateInput" #hourRateInput3 value={{hourRate3}} (change)="onHourRateChange('hourRate3', hourRateInput3.value)">
+		  </label>
+	 
+		</div>
+  
+  
+	 </div>
+	 
+	 
+	 <h4>hourly ad rate table</h4>
 	 <div class="rateGridContainer" style="width: 1130px">
 	 </div>
   </div>

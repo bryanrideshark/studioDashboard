@@ -9,6 +9,18 @@ import {AdnetRateModel} from "../../../../adnet/AdnetRateModel";
     selector: 'AdnetConfigRates',
     moduleId: __moduleName,
     directives: [SimpleList],
+    styles: [`
+        .rateInput {
+            width: 40px; 
+            color: #0f0f0f;
+        }
+        .btn span.glyphicon {    			
+            opacity: 0;				
+        }
+        .btn.active span.glyphicon {				
+            opacity: 1;				
+        }
+    `],
     templateUrl: 'AdnetConfigRates.html'
 })
 
@@ -35,6 +47,11 @@ export class AdnetConfigRates {
     @ViewChild(SimpleList)
     simpleList: SimpleList;
 
+    private hourRate0: number = 11
+    private hourRate1: number = 1
+    private hourRate2: number = 1
+    private hourRate3: number = 1
+    private selectedColor: string = 'green';
     private unsub: Function;
     private rateGridContainer;
     private selectedAdnetCustomerId: string;
@@ -106,18 +123,19 @@ export class AdnetConfigRates {
         // jQuery(document)['contextmenu'](function () {
         //     return false;
         // });
+        var self = this;
         this.rateGridContainer.on('click', '.square', function () {
             jQuery(this).removeClass('blue');
             jQuery(this).removeClass('red');
             jQuery(this).removeClass('green');
-            jQuery(this).addClass('gray');
+            jQuery(this).addClass(self.selectedColor);
         });
         this.rateGridContainer.on('mouseenter', '.square', function (e) {
-            if (e['buttons'] == 1){
+            if (e['buttons'] == 1) {
                 jQuery(this).removeClass('blue');
                 jQuery(this).removeClass('red');
                 jQuery(this).removeClass('green');
-                jQuery(this).addClass('gray');
+                jQuery(this).addClass(self.selectedColor);
             }
 
             // if (e['buttons'] == 2) {
@@ -133,7 +151,15 @@ export class AdnetConfigRates {
         // });
     }
 
-    private  onSave() {
+    private onColor(i_color) {
+        this.selectedColor = i_color;
+    }
+
+    private onHourRateChange(name, value) {
+    }
+
+    private onSave() {
+        console.log(this.selectedColor);
         var rateMap = [];
         this.rateGridContainer.find('.square').each((index, elem)=> {
             var classColorCode;
