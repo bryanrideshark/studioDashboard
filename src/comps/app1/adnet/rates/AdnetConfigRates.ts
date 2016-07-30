@@ -47,9 +47,7 @@ export class AdnetConfigRates {
 
     ngOnInit() {
         this.rateGridContainer = jQuery(this.el.nativeElement).find('.rateGridContainer');
-        setTimeout(()=>{
-            this.makeGrid('111111221222222033333313333333333330111111110223333333333330111111010223333333333330111111110223333333333330111111110223333333333330111111110223333333333330111111110221');
-        },3000)
+        this.makeGrid('111111221222222033333313333333333330111111110223333333333330111111010223333333333330111111110223333333333330111111110223333333333330111111110223333333333330111111110221');
     }
 
     @Input()
@@ -68,20 +66,20 @@ export class AdnetConfigRates {
     private filteredRates: List<AdnetRateModel> = List<AdnetRateModel>();
 
 
-    private makeGrid(mask:string) {
+    private makeGrid(mask: string) {
         var hour: any = '';
         var today: any = '';
         var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat'];
         var maskIndex = 0;
         var cls = '';
-        for (var i = 1;i<=8; i++) {
-            for (var j = 1; j <= 25; j++){
+        for (var i = 1; i <= 8; i++) {
+            for (var j = 1; j <= 25; j++) {
                 if (j == 1 && i != 1) {
                     today = days.shift();
                     cls = 'borderLessSquare';
-                } else if(i != 1 && j != 1) {
+                } else if (i != 1 && j != 1) {
                     today = ''
-                    var classColorCode = mask.substr(maskIndex,1);
+                    var classColorCode = mask.substr(maskIndex, 1);
                     var classColor = '';
                     maskIndex++;
                     switch (classColorCode) {
@@ -125,16 +123,16 @@ export class AdnetConfigRates {
             this.rateGridContainer.append("<div class='new_row'></div>");
         }
 
-        jQuery(document)['contextmenu']( function() {
+        jQuery(document)['contextmenu'](function () {
             return false;
         });
         jQuery(document).on('click', '.square', function () {
             jQuery(this).addClass('green');
         });
         jQuery(document).on('mouseenter', '.square', function (e) {
-            if (e['buttons']==1)
+            if (e['buttons'] == 1)
                 jQuery(this).addClass('green');
-            if (e['buttons']==2)
+            if (e['buttons'] == 2)
                 jQuery(this).removeClass('green');
             return false;
         });
