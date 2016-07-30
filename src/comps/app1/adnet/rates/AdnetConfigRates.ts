@@ -43,13 +43,13 @@ export class AdnetConfigRates {
         this.unsub = this.appStore.sub((i_rates: List<AdnetRateModel>) => {
             this.rates = i_rates;
         }, 'adnet.rates');
-
-
     }
 
     ngOnInit() {
         this.rateGridContainer = jQuery(this.el.nativeElement).find('.rateGridContainer');
-        this.makeGrid();
+        setTimeout(()=>{
+            this.makeGrid('111111221222222033333313333333333330111111110223333333333330111111010223333333333330111111110223333333333330111111110223333333333330111111110223333333333330111111110221');
+        },3000)
     }
 
     @Input()
@@ -67,36 +67,60 @@ export class AdnetConfigRates {
     private rates: List<AdnetRateModel> = List<AdnetRateModel>();
     private filteredRates: List<AdnetRateModel> = List<AdnetRateModel>();
 
-    private makeGrid() {
+
+    private makeGrid(mask:string) {
         var hour: any = '';
         var today: any = '';
-        var days = ['Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat', 'Sun'];
-        for (var i = 1; i <= 25; i++) {
-            for (var j = 1; j <= 8; j++) {
-                if (j == 1) {
-                    hour = i - 1;
+        var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat'];
+        var maskIndex = 0;
+        var cls = '';
+        for (var i = 1;i<=8; i++) {
+            for (var j = 1; j <= 25; j++){
+                if (j == 1 && i != 1) {
+                    today = days.shift();
+                    cls = 'borderLessSquare';
+                } else if(i != 1 && j != 1) {
+                    today = ''
+                    var classColorCode = mask.substr(maskIndex,1);
+                    var classColor = '';
+                    maskIndex++;
+                    switch (classColorCode) {
+                        case '0': {
+                            classColor = 'green';
+                            break;
+                        }
+                        case '1': {
+                            classColor = 'yellow';
+                            break;
+                        }
+                        case '2': {
+                            classColor = 'red';
+                            break;
+                        }
+                        case '3': {
+                            classColor = 'blue';
+                            break;
+                        }
+                    }
+                    cls = 'square ' + classColor;
+                }
+                if (i == 1 && j == 1)
+                    var cls = 'borderLessSquare';
+                if (i == 1 && j > 1) {
+                    hour = j - 1;
+                    var cls = 'borderLessSquare';
                     if (hour == 0)
                         hour = ''
                 } else {
                     hour = ''
-                }
-                if (j > 1) {
-                    today = days.shift();
-                    if (!today)
-                        today = '';
-                }
-                if (today.length == 0 && hour.length == 0 && i != 1) {
-                    var cls = 'square';
-                } else {
-                    var cls = 'borderLessSquare';
                 }
                 if (_.isNumber(hour) && hour < 10) {
                     hour = `0${hour}:00`
                 } else if (_.isNumber(hour) && hour > 9) {
                     hour = `${hour}:00`
                 }
+
                 this.rateGridContainer.append(`<div class='${cls}'>${today}${hour}</div>`);
-                today = '';
             }
             this.rateGridContainer.append("<div class='new_row'></div>");
         }
@@ -152,3 +176,80 @@ export class AdnetConfigRates {
         this.unsub();
     }
 }
+
+//
+// private makeGridOriginal(mask:string) {
+//     var maskIndex = 0;
+//     var hour: any = '';
+//     var today: any = '';
+//     var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat'];
+//     for (var i = 1; i <= 25; i++) {
+//         for (var j = 1; j <= 8; j++) {
+//             if (j == 1) {
+//                 hour = i - 1;
+//                 if (hour == 0)
+//                     hour = ''
+//             } else {
+//                 hour = ''
+//             }
+//             if (j > 1) {
+//                 today = days.shift();
+//                 if (!today)
+//                     today = '';
+//             }
+//
+//             // draw colored boxes
+//             if (today.length == 0 && hour.length == 0 && i != 1) {
+//                 var classColorCode = mask.substr(maskIndex,1);
+//                 var classColor = '';
+//                 maskIndex++;
+//                 switch (classColorCode) {
+//                     case '0': {
+//                         classColor = 'green';
+//                         break;
+//                     }
+//                     case '1': {
+//                         classColor = 'yellow';
+//                         break;
+//                     }
+//                     case '2': {
+//                         classColor = 'red';
+//                         break;
+//                     }
+//                     case '3': {
+//                         classColor = 'blue';
+//                         break;
+//                     }
+//                 }
+//                 var cls = 'square ' + classColor;
+//             } else {
+//                 var cls = 'borderLessSquare';
+//             }
+//             if (_.isNumber(hour) && hour < 10) {
+//                 hour = `0${hour}:00`
+//             } else if (_.isNumber(hour) && hour > 9) {
+//                 hour = `${hour}:00`
+//             }
+//             this.rateGridContainer.append(`<div class='${cls}'>${today}${hour}</div>`);
+//             today = '';
+//         }
+//         this.rateGridContainer.append("<div class='new_row'></div>");
+//     }
+//
+//     jQuery(document)['contextmenu']( function() {
+//         return false;
+//     });
+//     jQuery(document).on('click', '.square', function () {
+//         jQuery(this).addClass('green');
+//     });
+//     jQuery(document).on('mouseenter', '.square', function (e) {
+//         if (e['buttons']==1)
+//             jQuery(this).addClass('green');
+//         if (e['buttons']==2)
+//             jQuery(this).removeClass('green');
+//         return false;
+//     });
+//     jQuery(document).on('mouse_down', '.square', function () {
+//         jQuery(this).addClass('green');
+//     });
+// }

@@ -912,7 +912,7 @@ Language selector
 
 .square {
     height: 20px;
-    width: 70px;
+    width: 45px;
     border: 1px solid;
     display: block;
     float: left;
@@ -921,7 +921,7 @@ Language selector
 
 .borderLessSquare {
     height: 20px;
-    width: 70px;
+    width: 45px;
     border: 0px solid;
     display: block;
     float: left;
@@ -934,6 +934,15 @@ Language selector
 
 .green {
     background-color: green;
+}
+.blue {
+    background-color: blue;
+}
+.red {
+    background-color: red;
+}
+.yellow {
+    background-color: yellow;
 }
 
 .borderLessSquare {

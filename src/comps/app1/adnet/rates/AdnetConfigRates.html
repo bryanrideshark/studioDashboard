@@ -2,9 +2,9 @@
   <div class="col-xs-3"  style="padding-left: 30px">
 	 <SimpleList *ngIf="filteredRates" #simpleList [list]="filteredRates" (selected)="onSelection()" [content]="getContent"></SimpleList>
   </div>
-  <div class="col-xs-9">
+  <div class="col-xs-9" style="overflow-x: scroll">
 	 <h3>table</h3>
-	 <div class="rateGridContainer">
+	 <div class="rateGridContainer" style="width: 1130px">
 	 </div>
   </div>
 </div>
