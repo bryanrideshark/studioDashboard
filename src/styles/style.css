@@ -902,8 +902,6 @@ Language selector
 
 }
 
-
-
 .rateGridContainer {
     overflow: auto;
     width: 960px;
@@ -911,6 +909,7 @@ Language selector
 }
 
 .square {
+    cursor: pointer;
     height: 20px;
     width: 45px;
     border: 1px solid;
@@ -942,7 +941,7 @@ Language selector
     clear:both;
 }
 
-.gray {
+.orange {
     background-color: #ec971f;
 }
 .green {
