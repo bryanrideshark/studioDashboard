@@ -1,4 +1,4 @@
-import {Component, Input, ViewChild, ElementRef} from "@angular/core";
+import {Component, Input, ViewChild, ElementRef, ChangeDetectionStrategy} from "@angular/core";
 import * as _ from "lodash";
 import {SimpleList} from "../../../../simplelist/Simplelist";
 import {AdnetRateModel} from "../../../../../adnet/AdnetRateModel";
@@ -7,6 +7,7 @@ import {AdnetRateModel} from "../../../../../adnet/AdnetRateModel";
     selector: 'RatesTable',
     moduleId: __moduleName,
     directives: [SimpleList],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styles: [`
         .rateInput {
             width: 40px; 
