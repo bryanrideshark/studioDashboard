@@ -137,6 +137,10 @@ export class RatesTable {
         });
     }
 
+    // private ngOnChanges(changes) {
+    //     console.log(changes);
+    // }
+
     private onColor(i_color) {
         this.selectedColor = i_color;
     }
