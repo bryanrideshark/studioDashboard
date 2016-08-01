@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 import {SimpleList, ISimpleListItem} from "../../../simplelist/Simplelist";
 import {AdnetRateModel} from "../../../../adnet/AdnetRateModel";
 import {RatesTable} from "./RatesTable/RatesTable";
+import {AdnetActions} from "../../../../adnet/AdnetActions";
 
 @Component({
     selector: 'AdnetConfigRates',
@@ -14,7 +15,7 @@ import {RatesTable} from "./RatesTable/RatesTable";
 })
 
 export class AdnetConfigRates {
-    constructor(private appStore: AppStore, private el: ElementRef) {
+    constructor(private appStore: AppStore, private adnetAction:AdnetActions) {
         var i_adnet = this.appStore.getState().adnet;
         this.rates = i_adnet.getIn(['rates']);
         this.unsub = this.appStore.sub((i_rates: List<AdnetRateModel>) => {
@@ -52,6 +53,9 @@ export class AdnetConfigRates {
 
     private onRateChange(event){
         console.log(event,this.selectedAdnetCustomerId);
+        this.appStore.dispatch(this.adnetAction.saveAdnetRateTable(event, this.selectedAdnetCustomerId));
+
+
     }
 
     private updFilteredRates() {

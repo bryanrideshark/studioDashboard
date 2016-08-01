@@ -93,7 +93,7 @@ export class AdnetActions extends Actions {
         return (dispatch) => {
             //todo: save to server
             const payload = {
-                Value: data,
+                data,
                 Key: adnetCustomerId
             };
             // const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnet');
