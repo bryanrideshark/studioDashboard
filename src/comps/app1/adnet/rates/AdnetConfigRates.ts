@@ -50,6 +50,10 @@ export class AdnetConfigRates {
         })
     }
 
+    private onRateChange(event){
+        console.log(event,this.selectedAdnetCustomerId);
+    }
+
     private updFilteredRates() {
         if (this.rates && this.selectedAdnetCustomerId) {
             this.filteredRates = List<AdnetRateModel>();

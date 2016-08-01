@@ -32,7 +32,7 @@ import {RatingComponent} from 'ng2-bootstrap/ng2-bootstrap';
             </div>
          <hr/>
          <tabs *ngIf="adnetCustomerId != -1">
-            <tab [tabtitle]="'Customers'">                      
+            <tab [tabtitle]="'Setup'">                      
               <AdnetConfigCustomer [adnetCustomerModel]="adnetCustomerModel"></AdnetConfigCustomer>
             </tab>
             <tab [tabtitle]="'Rates'">

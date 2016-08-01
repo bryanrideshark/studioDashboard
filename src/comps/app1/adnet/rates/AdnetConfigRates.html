@@ -3,7 +3,7 @@
 	 <SimpleList *ngIf="filteredRates" #simpleList [list]="filteredRates" (selected)="onSelection()" [content]="getContent"></SimpleList>
   </div>
   <div class="col-xs-9">
-	 <RatesTable [rates]="selectedAdnetRateModel"></RatesTable>
+	 <RatesTable [rates]="selectedAdnetRateModel" (onRateChange)="onRateChange($event)" ></RatesTable>
   </div>
 </div>
 

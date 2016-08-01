@@ -1,4 +1,4 @@
-import {Component, Input, ViewChild, ElementRef, ChangeDetectionStrategy} from "@angular/core";
+import {Component, Input, ViewChild, ElementRef, ChangeDetectionStrategy, Output, EventEmitter} from "@angular/core";
 import * as _ from "lodash";
 import {SimpleList} from "../../../../simplelist/Simplelist";
 import {AdnetRateModel} from "../../../../../adnet/AdnetRateModel";
@@ -31,6 +31,9 @@ export class RatesTable {
     ngOnInit() {
         this.rateGridContainer = jQuery(this.el.nativeElement).find('.rateGridContainer');
     }
+
+    @Output() onRateChange = new EventEmitter()
+
 
     // @Input()
     // set adnetCustomerId(i_adnetCustomerId: string) {
@@ -138,7 +141,8 @@ export class RatesTable {
         this.selectedColor = i_color;
     }
 
-    private onHourRateChange(name, value) {
+    private onHourRateChange(hourlyRateName, hourlyRateValue) {
+        this.onRateChange.emit({hourlyRateName, hourlyRateValue})
     }
 
     private onSave() {
