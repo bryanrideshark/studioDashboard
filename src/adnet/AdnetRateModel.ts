@@ -13,4 +13,13 @@ export class AdnetRateModel extends StoreModel {
         return this.getKey('Value').rateMap;
     }
 
+    public rateLevels():string[] {
+        var a = [
+            this.getKey('Value').hourRate0,
+            this.getKey('Value').hourRate1,
+            this.getKey('Value').hourRate2,
+            this.getKey('Value').hourRate3
+        ]
+        return a;
+    }
 }

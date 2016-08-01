@@ -51,14 +51,8 @@ export class RatesTable {
     @ViewChild(SimpleList)
     simpleList: SimpleList;
 
-    private hourRate0: number = 1
-    private hourRate1: number = 1
-    private hourRate2: number = 1
-    private hourRate3: number = 1
     private selectedColor: string = 'orange';
-    private unsub: Function;
     private rateGridContainer;
-    // private selectedAdnetCustomerId: string;
     private adnetRateModel: AdnetRateModel;
 
     private makeGrid(mask: string) {
@@ -181,13 +175,10 @@ export class RatesTable {
         console.log('Saving map: ' + rateMapStr);
     }
 
-    private getContent(adnetRateModel: AdnetRateModel) {
-        return adnetRateModel.getKey('Value').label;
-    }
+    // private getContent(adnetRateModel: AdnetRateModel) {
+    //     return adnetRateModel.getKey('Value').label;
+    // }
 
-    private ngOnDestroy() {
-        this.unsub();
-    }
 }
 
 // if (e['buttons'] == 2) {

@@ -1,36 +1,36 @@
 <div>
   <!--<button (click)="onSave()" class="btn-primary">Save</button>-->
   
-  <div class="well well-sm text-center">
-	 <h6>charge per hour legend</h6>
+  <div *ngIf="adnetRateModel" class="well well-sm text-center">
+	 <h5>set hourly advertisement charge rates</h5>
 	 <div class="btn-group" data-toggle="buttons">
 		
 		<label (click)="onColor('orange')" class="btn btn-warning active">
 		  <input type="radio" name="options" autocomplete="off">
 		  <span class="glyphicon glyphicon-ok"></span>
-		  <input class="rateInput" #hourRateInput0 value={{hourRate0}} (change)="onHourRateChange('hourRate0', hourRateInput0.value)">
+		  <input class="rateInput" #hourRateInput0 value={{adnetRateModel.rateLevels()[0]}} (change)="onHourRateChange('hourRate0', hourRateInput0.value)">
 		</label>
 		
 		<label (click)="onColor('green')" class="btn btn-success">
 		  <input type="radio" name="options" autocomplete="off">
 		  <span class="glyphicon glyphicon-ok"></span>
-		  <input class="rateInput" #hourRateInput1 value={{hourRate1}} (change)="onHourRateChange('hourRate1', hourRateInput1.value)">
+		  <input class="rateInput" #hourRateInput1 value={{adnetRateModel.rateLevels()[1]}} (change)="onHourRateChange('hourRate1', hourRateInput1.value)">
 		</label>
 		
 		<label (click)="onColor('blue')" class="btn btn-info">
 		  <input type="radio" name="options" autocomplete="off">
 		  <span class="glyphicon glyphicon-ok"></span>
-		  <input class="rateInput" #hourRateInput2 value={{hourRate2}} (change)="onHourRateChange('hourRate2', hourRateInput2.value)">
+		  <input class="rateInput" #hourRateInput2 value={{adnetRateModel.rateLevels()[2]}} (change)="onHourRateChange('hourRate2', hourRateInput2.value)">
 		</label>
 		
 		<label (click)="onColor('red')" class="btn btn-danger">
 		  <input type="radio" name="options" autocomplete="off">
 		  <span class="glyphicon glyphicon-ok"></span>
-		  <input class="rateInput" #hourRateInput3 value={{hourRate3}} (change)="onHourRateChange('hourRate3', hourRateInput3.value)">
+		  <input class="rateInput" #hourRateInput3 value={{adnetRateModel.rateLevels()[3]}} (change)="onHourRateChange('hourRate3', hourRateInput3.value)">
 		</label>
 	 </div>
   </div>
-  <h4>hourly ad rate table</h4>
+  <!--<h4>hourly ad rate table</h4>-->
   <div style="overflow-x: scroll">
 	 <div class="rateGridContainer" style="width: 1130px; overflow-x: scroll">
 	 </div>
