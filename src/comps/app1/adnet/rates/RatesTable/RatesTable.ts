@@ -1,4 +1,7 @@
-import {Component, Input, ViewChild, ElementRef, ChangeDetectionStrategy, Output, EventEmitter} from "@angular/core";
+import {
+    Component, Input, ViewChild, ElementRef, ChangeDetectionStrategy, Output, EventEmitter,
+    ViewChildren, QueryList
+} from "@angular/core";
 import * as _ from "lodash";
 import {SimpleList} from "../../../../simplelist/Simplelist";
 import {AdnetRateModel} from "../../../../../adnet/AdnetRateModel";
@@ -35,12 +38,6 @@ export class RatesTable {
     @Output() onRateChange = new EventEmitter()
 
 
-    // @Input()
-    // set adnetCustomerId(i_adnetCustomerId: string) {
-    //     this.selectedAdnetCustomerId = i_adnetCustomerId;
-    //     this.updFilteredRates();
-    // }
-
     @Input()
     set rates(i_adnetRateModel: AdnetRateModel) {
         if (!i_adnetRateModel)
@@ -49,14 +46,69 @@ export class RatesTable {
         this.rateGridContainer.empty();
         console.log('Loading map: ' + this.adnetRateModel.rateMap());
         this.makeGrid(this.adnetRateModel.rateMap());
+        this.adHourlyRate[0] = this.adnetRateModel.rateLevels()[0];
+        this.adHourlyRate[1] = this.adnetRateModel.rateLevels()[1];
+        this.adHourlyRate[2] = this.adnetRateModel.rateLevels()[2];
+        this.adHourlyRate[3] = this.adnetRateModel.rateLevels()[3];
     }
 
     @ViewChild(SimpleList)
     simpleList: SimpleList;
 
+    @ViewChildren('input')
+    inputs: QueryList<ElementRef>;
+
+    private adHourlyRate: Array<string> = [];
     private selectedColor: string = 'orange';
     private rateGridContainer;
     private adnetRateModel: AdnetRateModel;
+
+
+    private onColor(i_color) {
+        this.selectedColor = i_color;
+    }
+
+    private onUpdateRate() {
+        var rateTable = this.getRateTable();
+        _.forEach(this.adHourlyRate, (k, v)=> {
+            if (_.isNaN(Number(k)))
+                this.adHourlyRate[v] = '1';
+        });
+        this.onRateChange.emit({adHourlyRate: this.adHourlyRate, rateTable})
+    }
+
+    private getRateTable(): string {
+        var rateMap = [];
+        this.rateGridContainer.find('.square').each((index, elem)=> {
+            var classColorCode;
+            var classColor = jQuery(elem).attr('class').split(' ')[1];
+            switch (classColor) {
+                case 'orange': {
+                    classColorCode = '0';
+                    break;
+                }
+                case 'green': {
+                    classColorCode = '1';
+                    break;
+                }
+                case 'blue': {
+                    classColorCode = '2';
+                    break;
+                }
+                case 'red': {
+                    classColorCode = '3';
+                    break;
+                }
+                default: {
+                    classColorCode = '0';
+                    break;
+                }
+            }
+            rateMap.push(classColorCode);
+        });
+        var rateMapStr = rateMap.join('')
+        return rateMapStr;
+    }
 
     private makeGrid(mask: string) {
         var hour: any = '';
@@ -118,13 +170,20 @@ export class RatesTable {
             this.rateGridContainer.append(`<div class='new_row'></div>`);
         }
         var self = this;
+        this.rateGridContainer.off('click');
+        this.rateGridContainer.off('mouseenter');
+
         this.rateGridContainer.on('click', '.square', function () {
             jQuery(this).removeClass('blue');
             jQuery(this).removeClass('red');
             jQuery(this).removeClass('green');
             jQuery(this).removeClass('orange');
             jQuery(this).addClass(self.selectedColor);
+            self.onUpdateRate();
         });
+        var upd = _.debounce(()=> {
+            this.onUpdateRate();
+        }, 500);
         this.rateGridContainer.on('mouseenter', '.square', function (e) {
             if (e['buttons'] == 1) {
                 jQuery(this).removeClass('blue');
@@ -132,72 +191,10 @@ export class RatesTable {
                 jQuery(this).removeClass('green');
                 jQuery(this).removeClass('orange');
                 jQuery(this).addClass(self.selectedColor);
+                upd();
             }
             return false;
         });
     }
 
-    // private ngOnChanges(changes) {
-    //     console.log(changes);
-    // }
-
-    private onColor(i_color) {
-        this.selectedColor = i_color;
-    }
-
-    private onHourRateChange(hourlyRateName, hourlyRateValue) {
-        this.onRateChange.emit({hourlyRateName, hourlyRateValue})
-    }
-
-    private onSave() {
-        console.log(this.selectedColor);
-        var rateMap = [];
-        this.rateGridContainer.find('.square').each((index, elem)=> {
-            var classColorCode;
-            var classColor = jQuery(elem).attr('class').split(' ')[1];
-            switch (classColor) {
-                case 'orange': {
-                    classColorCode = '0';
-                    break;
-                }
-                case 'green': {
-                    classColorCode = '1';
-                    break;
-                }
-                case 'blue': {
-                    classColorCode = '2';
-                    break;
-                }
-                case 'red': {
-                    classColorCode = '3';
-                    break;
-                }
-                default: {
-                    classColorCode = '0';
-                    break;
-                }
-            }
-            rateMap.push(classColorCode);
-        });
-        var rateMapStr = rateMap.join('')
-        console.log('Saving map: ' + rateMapStr);
-    }
-
-    // private getContent(adnetRateModel: AdnetRateModel) {
-    //     return adnetRateModel.getKey('Value').label;
-    // }
-
 }
-
-// if (e['buttons'] == 2) {
-//     jQuery(this).removeClass('blue');
-//     jQuery(this).removeClass('red');
-//     jQuery(this).removeClass('green');
-//     jQuery(this).addClass('orange');
-// }
-// jQuery(document)['contextmenu'](function () {
-//     return false;
-// });
-// jQuery(document).on('mouse_down', '.square', function () {
-//     jQuery(this).addClass('orange');
-// });

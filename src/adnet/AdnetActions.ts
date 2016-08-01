@@ -15,6 +15,7 @@ export const RECEIVE_ADNET = 'RECEIVE_ADNET';
 export const RECEIVE_CUSTOMERS = 'RECEIVE_CUSTOMERS';
 export const RECEIVE_RATES = 'RECEIVE_RATES';
 export const UPDATE_ADNET_CUSTOMER = 'UPDATE_ADNET_CUSTOMER';
+export const UPDATE_ADNET_RATE_TABLE = 'UPDATE_ADNET_RATE_TABLE';
 
 @Injectable()
 export class AdnetActions extends Actions {
@@ -67,7 +68,6 @@ export class AdnetActions extends Actions {
     public saveCustomerInfo(data: Object, adnetCustomerId:string) {
         return (dispatch) => {
             //todo: save to server
-            // const adnetCustomerId = this.appStore.getState().appdb.get('adnetCustomerId');
             const payload = {
                 Value: data,
                 Key: adnetCustomerId
@@ -89,9 +89,40 @@ export class AdnetActions extends Actions {
         };
     }
 
+    public saveAdnetRateTable(data: Object, adnetCustomerId:string) {
+        return (dispatch) => {
+            //todo: save to server
+            const payload = {
+                Value: data,
+                Key: adnetCustomerId
+            };
+            // const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnet');
+            // const url = `${baseUrl}`;
+            // this._http.get(url)
+            //     .map(result => {
+            //         var jData: Object = result.json()
+            //         dispatch(this.receivedAdnet(jData));
+            //         var adnetCustomers: List<AdnetCustomerModel> = List<AdnetCustomerModel>();
+            //         for (var adnetCustomer of jData['customers']) {
+            //             const adnetCustomerModel: AdnetCustomerModel = new AdnetCustomerModel(adnetCustomer);
+            //             adnetCustomers = adnetCustomers.push(adnetCustomerModel)
+            //         }
+            //         dispatch(this.receivedCustomers(adnetCustomers));
+            //     }).subscribe()
+            dispatch(this.updateAdnetRateTable(payload))
+        };
+    }
+
     public receivedAdnet(payload: any) {
         return {
             type: RECEIVE_ADNET,
+            payload
+        }
+    }
+
+    public updateAdnetRateTable(payload) {
+        return {
+            type: UPDATE_ADNET_RATE_TABLE,
             payload
         }
     }

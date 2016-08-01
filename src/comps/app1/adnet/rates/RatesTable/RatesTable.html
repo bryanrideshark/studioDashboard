@@ -1,5 +1,5 @@
 <div>
-  <!--<button (click)="onSave()" class="btn-primary">Save</button>-->
+  <!--<button (click)="getRateTable()" class="btn-primary">Save</button>-->
   
   <div *ngIf="adnetRateModel" class="well well-sm text-center">
 	 <h5>set hourly advertisement charge rates</h5>
@@ -8,25 +8,25 @@
 		<label (click)="onColor('orange')" class="btn btn-warning active">
 		  <input type="radio" name="options" autocomplete="off">
 		  <span class="fa fa-check"></span>
-		  <input class="rateInput" #hourRateInput0 value={{adnetRateModel.rateLevels()[0]}} (change)="onHourRateChange('hourRate0', hourRateInput0.value)">
+		  <input class="rateInput" [(ngModel)]="adHourlyRate[0]" (change)="onUpdateRate()">
 		</label>
 		
 		<label (click)="onColor('green')" class="btn btn-success">
 		  <input type="radio" name="options" autocomplete="off">
 		  <span class="fa fa-check"></span>
-		  <input class="rateInput" #hourRateInput1 value={{adnetRateModel.rateLevels()[1]}} (change)="onHourRateChange('hourRate1', hourRateInput1.value)">
+		  <input class="rateInput" [(ngModel)]="adHourlyRate[1]" (change)="onUpdateRate()">
 		</label>
 		
 		<label (click)="onColor('blue')" class="btn btn-info">
 		  <input type="radio" name="options" autocomplete="off">
 		  <span class="fa fa-check"></span>
-		  <input class="rateInput" #hourRateInput2 value={{adnetRateModel.rateLevels()[2]}} (change)="onHourRateChange('hourRate2', hourRateInput2.value)">
+		  <input class="rateInput"  [(ngModel)]="adHourlyRate[2]" (change)="onUpdateRate()">
 		</label>
 		
 		<label (click)="onColor('red')" class="btn btn-danger">
 		  <input type="radio" name="options" autocomplete="off">
 		  <span class="fa fa-check"></span>
-		  <input class="rateInput" #hourRateInput3 value={{adnetRateModel.rateLevels()[3]}} (change)="onHourRateChange('hourRate3', hourRateInput3.value)">
+		  <input class="rateInput" [(ngModel)]="adHourlyRate[3]" (change)="onUpdateRate()">
 		</label>
 	 </div>
   </div>
