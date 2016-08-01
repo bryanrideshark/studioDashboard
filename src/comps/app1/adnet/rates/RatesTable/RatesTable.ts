@@ -13,10 +13,10 @@ import {AdnetRateModel} from "../../../../../adnet/AdnetRateModel";
             width: 40px; 
             color: #0f0f0f;
         }
-        .btn span.glyphicon {    			
+        .btn span.fa {    			
             opacity: 0;				
         }
-        .btn.active span.glyphicon {				
+        .btn.active span.fa {				
             opacity: 1;				
         }
     `],
