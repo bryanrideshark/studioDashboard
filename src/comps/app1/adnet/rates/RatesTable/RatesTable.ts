@@ -44,7 +44,6 @@ export class RatesTable {
             return;
         this.adnetRateModel = i_adnetRateModel;
         this.rateGridContainer.empty();
-        console.log('Loading map: ' + this.adnetRateModel.rateMap());
         this.makeGrid(this.adnetRateModel.rateMap());
         this.adHourlyRate[0] = this.adnetRateModel.rateLevels()[0];
         this.adHourlyRate[1] = this.adnetRateModel.rateLevels()[1];
@@ -77,7 +76,7 @@ export class RatesTable {
                 this.adHourlyRate[v] = String(Number(k))
             }
         });
-        this.onRateChange.emit({adHourlyRate: this.adHourlyRate, rateTable})
+        this.onRateChange.emit({rateId: this.adnetRateModel.rateId(), adHourlyRate: this.adHourlyRate, rateTable})
     }
 
     private getRateTable(): string {

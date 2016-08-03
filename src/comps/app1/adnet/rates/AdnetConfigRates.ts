@@ -52,8 +52,7 @@ export class AdnetConfigRates {
     }
 
     private onRateChange(event){
-        console.log(event,this.selectedAdnetCustomerId);
-        this.appStore.dispatch(this.adnetAction.saveAdnetRateTable(event, this.selectedAdnetCustomerId));
+        this.appStore.dispatch(this.adnetAction.saveAdnetRateTable(event));
 
 
     }

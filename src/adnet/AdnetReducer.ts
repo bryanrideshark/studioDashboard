@@ -1,6 +1,7 @@
 import {List, Map} from "immutable";
 import * as AdnetActions from "./AdnetActions";
 import {AdnetCustomerModel} from "./AdnetCustomerModel";
+import {AdnetRateModel} from "./AdnetRateModel";
 
 export function adnet(state: Map<string,any> = Map<string,any>(), action: any): Map<string,any> {
     switch (action.type) {
@@ -9,6 +10,16 @@ export function adnet(state: Map<string,any> = Map<string,any>(), action: any): 
         }
         case AdnetActions.RECEIVE_RATES: {
             return state.setIn(['rates'], action.rates);
+        }
+        case AdnetActions.UPDATE_ADNET_RATE_TABLE: {
+            var rates:List<AdnetRateModel> = state.getIn(['rates']);
+            var indexOf = function(i_rateId:string) {
+                return rates.findIndex((i:AdnetRateModel) => i.rateId() === i_rateId);
+            }
+            rates = rates.update(indexOf(action.payload.rateId), (rate:AdnetRateModel) => {
+                return rate.setField('rateMap', action.payload.rateTable)
+            });
+            return state.setIn(['rates'], rates);
         }
         case AdnetActions.UPDATE_ADNET_CUSTOMER: {
             var customers:List<AdnetCustomerModel> = state.getIn(['customers'])

@@ -89,13 +89,14 @@ export class AdnetActions extends Actions {
         };
     }
 
-    public saveAdnetRateTable(data: Object, adnetCustomerId:string) {
+    //public saveAdnetRateTable(data: Object, adnetCustomerId:string) {
+    public saveAdnetRateTable(payload) {
         return (dispatch) => {
             //todo: save to server
-            const payload = {
-                data,
-                Key: adnetCustomerId
-            };
+            // const payload = {
+            //     data,
+            //     Key: adnetCustomerId
+            // };
             // const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnet');
             // const url = `${baseUrl}`;
             // this._http.get(url)
