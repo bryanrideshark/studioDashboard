@@ -1,4 +1,8 @@
-import {Component} from "@angular/core";
+import {Component, trigger,
+    state,
+    style,
+    transition,
+    animate} from "@angular/core";
 import {AdnetConfigCustomer} from "../config/AdnetConfigCustomer";
 import {Tabs} from "../../../tabs/tabs";
 import {Tab} from "../../../tabs/tab";
@@ -13,6 +17,18 @@ import {RatingComponent} from 'ng2-bootstrap/ng2-bootstrap';
 @Component({
     selector: 'AdnetConfig',
     moduleId: __moduleName,
+    animations: [
+        trigger('showState', [
+            state('inactive', style({
+                opacity: 0
+            })),
+            state('active',   style({
+                opacity: 1
+            })),
+            transition('* => active', animate('100ms ease-out')),
+            transition('* => inactive', animate('100ms ease-out'))
+        ])
+    ],
     directives: [AdnetConfigCustomer, AdnetConfigRates, Tabs, Tab, RatingComponent,
         DROPDOWN_DIRECTIVES, CORE_DIRECTIVES],
     template: `
@@ -31,6 +47,7 @@ import {RatingComponent} from 'ng2-bootstrap/ng2-bootstrap';
               </div>
             </div>
          <hr/>
+         <div @showState="showState">
          <tabs *ngIf="adnetCustomerId != -1">
             <tab [tabtitle]="'Setup'">                      
               <AdnetConfigCustomer [adnetCustomerModel]="adnetCustomerModel"></AdnetConfigCustomer>
@@ -40,7 +57,8 @@ import {RatingComponent} from 'ng2-bootstrap/ng2-bootstrap';
             </tab>
             <tab [tabtitle]="'Targets'">
             </tab>
-        </tabs>     
+        </tabs>
+         </div>
       </div>  
       
     `
@@ -48,16 +66,23 @@ import {RatingComponent} from 'ng2-bootstrap/ng2-bootstrap';
 
 export class AdnetConfig {
 
-
+    private showState:string = 'active';
     public disabled: boolean = false;
     public status: {isopen: boolean} = {isopen: false};
     public items: Array<string> = ['The first choice!',
         'And another choice for you.', 'but wait! A third!'];
 
     public onSelectedAdnetCustomer(adnetCustomerModel: AdnetCustomerModel): void {
-        // this.adnetCustomerId = this.appStore.getState().appdb.get('adnetCustomerId');
-        this.adnetCustomerId = adnetCustomerModel.customerId();
-        this.getCustomerData();
+        // reset to no selection before loading new selection
+        this.showState = 'inactive'
+        setTimeout(()=> {
+            this.adnetCustomerId = -1;
+        },100);
+        setTimeout(()=>{
+            this.adnetCustomerId = adnetCustomerModel.customerId();
+            this.getCustomerData();
+            this.showState = 'active'
+        },110)
     }
 
     public toggled(open: boolean): void {
