@@ -15,7 +15,7 @@ import {AdnetActions} from "../../../../adnet/AdnetActions";
 })
 
 export class AdnetConfigRates {
-    constructor(private appStore: AppStore, private adnetAction:AdnetActions) {
+    constructor(private appStore: AppStore, private adnetAction: AdnetActions) {
         var i_adnet = this.appStore.getState().adnet;
         this.rates = i_adnet.getIn(['rates']);
         this.unsub = this.appStore.sub((i_rates: List<AdnetRateModel>) => {
@@ -34,10 +34,9 @@ export class AdnetConfigRates {
 
     private unsub: Function;
     private selectedAdnetCustomerId: string;
-    private selectedAdnetRateModel:AdnetRateModel;
+    private selectedAdnetRateModel: AdnetRateModel;
     private rates: List<AdnetRateModel> = List<AdnetRateModel>();
     private filteredRates: List<AdnetRateModel> = List<AdnetRateModel>();
-
 
     private onSelection() {
         if (!this.filteredRates)
@@ -51,10 +50,13 @@ export class AdnetConfigRates {
         })
     }
 
-    private onRateChange(event){
-        this.appStore.dispatch(this.adnetAction.saveAdnetRateTable(event));
+    private onRateChange(event) {
+        this.appStore.dispatch(this.adnetAction.updAdnetRateTable(event));
+    }
 
-
+    private onRateRenamed(event) {
+        var adnetRateModel: AdnetRateModel = event.item;
+        this.appStore.dispatch(this.adnetAction.renameAdnetRateTable(adnetRateModel.rateId(), event.value));
     }
 
     private updFilteredRates() {

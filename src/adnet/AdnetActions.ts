@@ -16,6 +16,7 @@ export const RECEIVE_CUSTOMERS = 'RECEIVE_CUSTOMERS';
 export const RECEIVE_RATES = 'RECEIVE_RATES';
 export const UPDATE_ADNET_CUSTOMER = 'UPDATE_ADNET_CUSTOMER';
 export const UPDATE_ADNET_RATE_TABLE = 'UPDATE_ADNET_RATE_TABLE';
+export const RENAME_ADNET_RATE_TABLE = 'RENAME_ADNET_RATE_TABLE';
 
 @Injectable()
 export class AdnetActions extends Actions {
@@ -24,6 +25,22 @@ export class AdnetActions extends Actions {
                 private appStore: AppStore,
                 private _http: Http) {
         super(appStore);
+    }
+
+    private saveToServer(data) {
+        // const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnet');
+        // const url = `${baseUrl}`;
+        // this._http.get(url)
+        //     .map(result => {
+        //         var jData: Object = result.json()
+        //         dispatch(this.receivedAdnet(jData));
+        //         var adnetCustomers: List<AdnetCustomerModel> = List<AdnetCustomerModel>();
+        //         for (var adnetCustomer of jData['customers']) {
+        //             const adnetCustomerModel: AdnetCustomerModel = new AdnetCustomerModel(adnetCustomer);
+        //             adnetCustomers = adnetCustomers.push(adnetCustomerModel)
+        //         }
+        //         dispatch(this.receivedCustomers(adnetCustomers));
+        //     }).subscribe()
     }
 
     public getAdnet() {
@@ -53,7 +70,7 @@ export class AdnetActions extends Actions {
                         // adnet rates
                         var adnetRates: List<AdnetRateModel> = List<AdnetRateModel>();
                         for (var adnetRate of jData['rates']) {
-                            if (adnetRate.Value.deleted==true)
+                            if (adnetRate.Value.deleted == true)
                                 continue;
                             const adnetRateModel: AdnetRateModel = new AdnetRateModel(adnetRate);
                             adnetRates = adnetRates.push(adnetRateModel)
@@ -65,52 +82,31 @@ export class AdnetActions extends Actions {
         };
     }
 
-    public saveCustomerInfo(data: Object, adnetCustomerId:string) {
+    public saveCustomerInfo(data: Object, adnetCustomerId: string) {
         return (dispatch) => {
             //todo: save to server
             const payload = {
                 Value: data,
                 Key: adnetCustomerId
             };
-            // const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnet');
-            // const url = `${baseUrl}`;
-            // this._http.get(url)
-            //     .map(result => {
-            //         var jData: Object = result.json()
-            //         dispatch(this.receivedAdnet(jData));
-            //         var adnetCustomers: List<AdnetCustomerModel> = List<AdnetCustomerModel>();
-            //         for (var adnetCustomer of jData['customers']) {
-            //             const adnetCustomerModel: AdnetCustomerModel = new AdnetCustomerModel(adnetCustomer);
-            //             adnetCustomers = adnetCustomers.push(adnetCustomerModel)
-            //         }
-            //         dispatch(this.receivedCustomers(adnetCustomers));
-            //     }).subscribe()
             dispatch(this.updateAdnetCustomerInfo(payload))
         };
     }
 
-    //public saveAdnetRateTable(data: Object, adnetCustomerId:string) {
-    public saveAdnetRateTable(payload) {
+    public updAdnetRateTable(payload) {
         return (dispatch) => {
             //todo: save to server
-            // const payload = {
-            //     data,
-            //     Key: adnetCustomerId
-            // };
-            // const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnet');
-            // const url = `${baseUrl}`;
-            // this._http.get(url)
-            //     .map(result => {
-            //         var jData: Object = result.json()
-            //         dispatch(this.receivedAdnet(jData));
-            //         var adnetCustomers: List<AdnetCustomerModel> = List<AdnetCustomerModel>();
-            //         for (var adnetCustomer of jData['customers']) {
-            //             const adnetCustomerModel: AdnetCustomerModel = new AdnetCustomerModel(adnetCustomer);
-            //             adnetCustomers = adnetCustomers.push(adnetCustomerModel)
-            //         }
-            //         dispatch(this.receivedCustomers(adnetCustomers));
-            //     }).subscribe()
             dispatch(this.updateAdnetRateTable(payload))
+        };
+    }
+
+    public renameAdnetRateTable(rateId: string, newLabel: string) {
+        return (dispatch) => {
+            //todo: save to server
+            dispatch({
+                type: RENAME_ADNET_RATE_TABLE,
+                payload: {rateId, newLabel}
+            });
         };
     }
 
@@ -121,28 +117,28 @@ export class AdnetActions extends Actions {
         }
     }
 
-    public updateAdnetRateTable(payload) {
+    private updateAdnetRateTable(payload) {
         return {
             type: UPDATE_ADNET_RATE_TABLE,
             payload
         }
     }
 
-    public updateAdnetCustomerInfo(payload) {
+    private updateAdnetCustomerInfo(payload) {
         return {
             type: UPDATE_ADNET_CUSTOMER,
             payload
         }
     }
 
-    public receivedRates(rates: List<AdnetRateModel>) {
+    private receivedRates(rates: List<AdnetRateModel>) {
         return {
             type: RECEIVE_RATES,
             rates
         }
     }
 
-    public receivedCustomers(customers: List<AdnetCustomerModel>) {
+    private receivedCustomers(customers: List<AdnetCustomerModel>) {
         return {
             type: RECEIVE_CUSTOMERS,
             customers

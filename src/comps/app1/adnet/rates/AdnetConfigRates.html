@@ -1,6 +1,9 @@
 <div class="row">
   <div class="col-xs-3"  style="padding-left: 30px">
-	 <SimpleList *ngIf="filteredRates" #simpleList [list]="filteredRates" (selected)="onSelection()" [content]="getContent"></SimpleList>
+	 <SimpleList *ngIf="filteredRates" #simpleList [list]="filteredRates"
+                 [editable]="true"
+                 (edited)="onRateRenamed($event)"
+                 (selected)="onSelection()" [content]="getContent"></SimpleList>
   </div>
   <div class="col-xs-9">
 	 <RatesTable [rates]="selectedAdnetRateModel" (onRateChange)="onRateChange($event)" ></RatesTable>

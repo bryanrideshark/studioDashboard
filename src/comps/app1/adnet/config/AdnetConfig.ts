@@ -13,6 +13,7 @@ import {AdnetConfigRates} from "../rates/AdnetConfigRates";
 import {CORE_DIRECTIVES} from "@angular/common";
 import {DROPDOWN_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
 import {RatingComponent} from 'ng2-bootstrap/ng2-bootstrap';
+import {AdnetConfigTargets} from "../targets/AdnetConfigTargets";
 
 @Component({
     selector: 'AdnetConfig',
@@ -29,7 +30,7 @@ import {RatingComponent} from 'ng2-bootstrap/ng2-bootstrap';
             transition('* => inactive', animate('100ms ease-out'))
         ])
     ],
-    directives: [AdnetConfigCustomer, AdnetConfigRates, Tabs, Tab, RatingComponent,
+    directives: [AdnetConfigCustomer, AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, RatingComponent,
         DROPDOWN_DIRECTIVES, CORE_DIRECTIVES],
     template: `
           <div>
@@ -51,11 +52,12 @@ import {RatingComponent} from 'ng2-bootstrap/ng2-bootstrap';
          <tabs *ngIf="adnetCustomerId != -1">
             <tab [tabtitle]="'Setup'">                      
               <AdnetConfigCustomer [adnetCustomerModel]="adnetCustomerModel"></AdnetConfigCustomer>
-            </tab>
+            </tab>          
             <tab [tabtitle]="'Rates'">
               <AdnetConfigRates [adnetCustomerId]="adnetCustomerId"></AdnetConfigRates>
             </tab>
             <tab [tabtitle]="'Targets'">
+            <AdnetConfigTargets></AdnetConfigTargets>
             </tab>
         </tabs>
          </div>

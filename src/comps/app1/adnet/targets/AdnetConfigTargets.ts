@@ -1,13 +1,15 @@
 import {Component, OnInit} from '@angular/core';
+import {Tabs} from "../../../tabs/tabs";
+import {Tab} from "../../../tabs/tab";
 
 @Component({
-    selector: 'AdnetConfigCustomer',
-    template: `
-        <div>
-        </div>
-    `
+    selector: 'AdnetConfigTargets',
+    moduleId: __moduleName,
+    directives: [Tabs, Tab],
+    templateUrl: 'AdnetConfigTargets.html'
+
 })
-export class AdnetConfigCustomer {
+export class AdnetConfigTargets {
 
     constructor() {
     }
