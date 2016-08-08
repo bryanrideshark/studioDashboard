@@ -33,6 +33,16 @@ export function adnet(state: Map<string,any> = Map<string,any>(), action: any): 
             });
             return state.setIn(['rates'], rates);
         }
+        case AdnetActions.ADD_ADNET_RATE_TABLE: {
+            var rates: List<AdnetRateModel> = state.getIn(['rates']);
+            rates = rates.push(action.adnetRateModel);
+            return state.setIn(['rates'], rates);
+        }
+        case AdnetActions.REMOVE_ADNET_RATE_TABLE: {
+            var rates: List<AdnetRateModel> = state.getIn(['rates']);
+            var updatedRates:List<AdnetRateModel> = rates.filter((adnetRateModel:AdnetRateModel) => adnetRateModel.rateId() !== action.rateId) as List<AdnetRateModel>;
+            return state.setIn(['rates'], updatedRates);
+        }
         case AdnetActions.UPDATE_ADNET_CUSTOMER: {
             var customers: List<AdnetCustomerModel> = state.getIn(['customers'])
             customers = customers.update(indexOfCustomerId(action.payload.Key), (customer: AdnetCustomerModel) => {

@@ -11,6 +11,7 @@ import {AdnetActions} from "../../../../adnet/AdnetActions";
     selector: 'AdnetConfigRates',
     moduleId: __moduleName,
     directives: [SimpleList, RatesTable],
+    styleUrls: ['AdnetConfigRates.css'],
     templateUrl: 'AdnetConfigRates.html'
 })
 
@@ -20,6 +21,7 @@ export class AdnetConfigRates {
         this.rates = i_adnet.getIn(['rates']);
         this.unsub = this.appStore.sub((i_rates: List<AdnetRateModel>) => {
             this.rates = i_rates;
+            this.updFilteredRates();
         }, 'adnet.rates');
     }
 
@@ -33,7 +35,7 @@ export class AdnetConfigRates {
     simpleList: SimpleList;
 
     private unsub: Function;
-    private selectedAdnetCustomerId: string;
+    private selectedAdnetCustomerId: string = '-1';
     private selectedAdnetRateModel: AdnetRateModel;
     private rates: List<AdnetRateModel> = List<AdnetRateModel>();
     private filteredRates: List<AdnetRateModel> = List<AdnetRateModel>();
@@ -48,6 +50,18 @@ export class AdnetConfigRates {
                 return;
             }
         })
+    }
+
+    private onAddRate() {
+        this.appStore.dispatch(this.adnetAction.addAdnetRateTable(this.selectedAdnetCustomerId));
+    }
+
+    private onRemoveRate() {
+        if (!this.selectedAdnetRateModel)
+            return;
+        this.appStore.dispatch(this.adnetAction.removeAdnetRateTable(this.selectedAdnetRateModel.rateId()));
+        this.simpleList.deselect();
+        this.selectedAdnetRateModel = null;
     }
 
     private onRateChange(event) {

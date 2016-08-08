@@ -16,6 +16,8 @@ export const RECEIVE_CUSTOMERS = 'RECEIVE_CUSTOMERS';
 export const RECEIVE_RATES = 'RECEIVE_RATES';
 export const UPDATE_ADNET_CUSTOMER = 'UPDATE_ADNET_CUSTOMER';
 export const UPDATE_ADNET_RATE_TABLE = 'UPDATE_ADNET_RATE_TABLE';
+export const ADD_ADNET_RATE_TABLE = 'ADD_ADNET_RATE_TABLE';
+export const REMOVE_ADNET_RATE_TABLE = 'REMOVE_ADNET_RATE_TABLE';
 export const RENAME_ADNET_RATE_TABLE = 'RENAME_ADNET_RATE_TABLE';
 
 @Injectable()
@@ -90,6 +92,43 @@ export class AdnetActions extends Actions {
                 Key: adnetCustomerId
             };
             dispatch(this.updateAdnetCustomerInfo(payload))
+        };
+    }
+
+    public addAdnetRateTable(customerId) {
+        return (dispatch) => {
+            //todo: save to server
+            //todo: get handle and id back from server on save
+            var key = _.uniqueId();
+            const adnetRateModel: AdnetRateModel = new AdnetRateModel({
+                Key: key,
+                Value: {
+                    customerId: customerId,
+                    deleted: false,
+                    id: key,
+                    handle: _.uniqueId(),
+                    hourRate0: 1,
+                    hourRate1: 2,
+                    hourRate2: 3,
+                    hourRate3: 4,
+                    label: 'new rate',
+                    rateMap: '000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'
+                }
+            });
+            dispatch({
+                type: ADD_ADNET_RATE_TABLE,
+                adnetRateModel: adnetRateModel
+            });
+        };
+    }
+
+    public removeAdnetRateTable(rateId) {
+        return (dispatch) => {
+            //todo: save to server
+            dispatch({
+                type: REMOVE_ADNET_RATE_TABLE,
+                rateId: rateId
+            });
         };
     }
 

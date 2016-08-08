@@ -166,6 +166,10 @@ export class SimpleList {
         }
     }
 
+    public deselect(){
+        this.itemSelected(null,-1);
+    }
+
     public getSelected() {
         return this.m_metadata;
     }

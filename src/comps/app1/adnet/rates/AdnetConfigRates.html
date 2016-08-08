@@ -1,12 +1,20 @@
 <div class="row">
-  <div class="col-xs-3"  style="padding-left: 30px">
-	 <SimpleList *ngIf="filteredRates" #simpleList [list]="filteredRates"
-                 [editable]="true"
-                 (edited)="onRateRenamed($event)"
-                 (selected)="onSelection()" [content]="getContent"></SimpleList>
-  </div>
-  <div class="col-xs-9">
-	 <RatesTable [rates]="selectedAdnetRateModel" (onRateChange)="onRateChange($event)" ></RatesTable>
-  </div>
+    <div class="col-xs-3" style="padding-left: 30px">
+        <div (click)="$event.preventDefault()">
+            <a (click)="onAddRate($event)" class="btns addUser" href="#">
+                <span class="fa fa-plus"></span>
+            </a>
+            <a (click)="onRemoveRate($event)"
+               [ngClass]="{disabled: !selectedAdnetRateModel }" href="#">
+                <span class="remove fa fa-remove"></span></a>
+        </div>
+        <SimpleList *ngIf="filteredRates" #simpleList [list]="filteredRates"
+                    [editable]="true"
+                    (edited)="onRateRenamed($event)"
+                    (selected)="onSelection()" [content]="getContent"></SimpleList>
+    </div>
+    <div class="col-xs-9">
+        <RatesTable [hidden]="!selectedAdnetRateModel" [rates]="selectedAdnetRateModel" (onRateChange)="onRateChange($event)"></RatesTable>
+    </div>
 </div>
 
