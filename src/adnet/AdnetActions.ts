@@ -10,10 +10,12 @@ import * as bootbox from "bootbox";
 import * as _ from 'lodash';
 import {AdnetCustomerModel} from "./AdnetCustomerModel";
 import {AdnetRateModel} from "./AdnetRateModel";
+import {AdnetTargetModel} from "./AdnetTargetModel";
 
 export const RECEIVE_ADNET = 'RECEIVE_ADNET';
 export const RECEIVE_CUSTOMERS = 'RECEIVE_CUSTOMERS';
 export const RECEIVE_RATES = 'RECEIVE_RATES';
+export const RECEIVE_TARGETS = 'RECEIVE_TARGETS';
 export const UPDATE_ADNET_CUSTOMER = 'UPDATE_ADNET_CUSTOMER';
 export const UPDATE_ADNET_RATE_TABLE = 'UPDATE_ADNET_RATE_TABLE';
 export const ADD_ADNET_RATE_TABLE = 'ADD_ADNET_RATE_TABLE';
@@ -61,7 +63,7 @@ export class AdnetActions extends Actions {
                         var jData: Object = result.json()
                         dispatch(this.receivedAdnet(jData));
 
-                        // adnet customers
+                        /** Customers **/
                         var adnetCustomers: List<AdnetCustomerModel> = List<AdnetCustomerModel>();
                         for (var adnetCustomer of jData['customers']) {
                             const adnetCustomerModel: AdnetCustomerModel = new AdnetCustomerModel(adnetCustomer);
@@ -69,7 +71,7 @@ export class AdnetActions extends Actions {
                         }
                         dispatch(this.receivedCustomers(adnetCustomers));
 
-                        // adnet rates
+                        /** Rates **/
                         var adnetRates: List<AdnetRateModel> = List<AdnetRateModel>();
                         for (var adnetRate of jData['rates']) {
                             if (adnetRate.Value.deleted == true)
@@ -79,6 +81,15 @@ export class AdnetActions extends Actions {
                         }
                         dispatch(this.receivedRates(adnetRates));
 
+                        /** Targets **/
+                        var adnetTargets: List<AdnetTargetModel> = List<AdnetTargetModel>();
+                        for (var target of jData['targets']) {
+                            if (target.Value.deleted == true)
+                                continue;
+                            const adnetTargetModel: AdnetTargetModel = new AdnetTargetModel(adnetRate);
+                            adnetTargets = adnetTargets.push(adnetTargetModel)
+                        }
+                        dispatch(this.receivedTargets(adnetTargets));
                     }).subscribe()
             }
         };
@@ -174,6 +185,13 @@ export class AdnetActions extends Actions {
         return {
             type: RECEIVE_RATES,
             rates
+        }
+    }
+
+    private receivedTargets(targets: List<AdnetTargetModel>) {
+        return {
+            type: RECEIVE_TARGETS,
+            targets
         }
     }
 

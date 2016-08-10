@@ -33,7 +33,9 @@ import {AdnetConfigTargets} from "../targets/AdnetConfigTargets";
     directives: [AdnetConfigCustomer, AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, RatingComponent,
         DROPDOWN_DIRECTIVES, CORE_DIRECTIVES],
     template: `
+<h3 style="float: right">{{adnetCustomerName}}</h3>
           <div>
+          
             <div (click)="$event.preventDefault()">
               <div class="btn-group" dropdown  (onToggle)="toggled($event)" [(isOpen)]="status.isopen">
                   <button id="single-button" type="button" class="btn btn-primary" dropdownToggle>
@@ -47,7 +49,7 @@ import {AdnetConfigTargets} from "../targets/AdnetConfigTargets";
                   </ul>
               </div>
             </div>
-         <hr/>
+         <hr class="clearFloat"/>
          <div @showState="showState">
          <tabs *ngIf="adnetCustomerId != -1">
             <tab [tabtitle]="'Setup'">                      
@@ -71,8 +73,6 @@ export class AdnetConfig {
     private showState:string = 'active';
     public disabled: boolean = false;
     public status: {isopen: boolean} = {isopen: false};
-    public items: Array<string> = ['The first choice!',
-        'And another choice for you.', 'but wait! A third!'];
 
     public onSelectedAdnetCustomer(adnetCustomerModel: AdnetCustomerModel): void {
         // reset to no selection before loading new selection
@@ -82,6 +82,7 @@ export class AdnetConfig {
         },100);
         setTimeout(()=>{
             this.adnetCustomerId = adnetCustomerModel.customerId();
+            this.adnetCustomerName = adnetCustomerModel.getName();
             this.getCustomerData();
             this.showState = 'active'
         },110)
@@ -100,6 +101,7 @@ export class AdnetConfig {
 
     private unsub: Function;
     private adnetCustomerId: number = -1;
+    private adnetCustomerName: string = '';
     private adnetCustomers: List<AdnetCustomerModel>
     private adnetCustomerModel: AdnetCustomerModel;
 

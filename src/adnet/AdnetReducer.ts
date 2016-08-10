@@ -18,6 +18,9 @@ export function adnet(state: Map<string,any> = Map<string,any>(), action: any): 
         case AdnetActions.RECEIVE_RATES: {
             return state.setIn(['rates'], action.rates);
         }
+        case AdnetActions.RECEIVE_TARGETS: {
+            return state.setIn(['targets'], action.targets);
+        }
         case AdnetActions.UPDATE_ADNET_RATE_TABLE: {
             var rates: List<AdnetRateModel> = state.getIn(['rates']);
 
