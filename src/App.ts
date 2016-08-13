@@ -81,6 +81,18 @@ import {
 import {SimpleList} from "./comps/simplelist/Simplelist";
 import {Orders} from "./comps/app1/orders/Orders";
 import {UsersDetails} from "./comps/app1/users/UsersDetails";
+import {LoginPanel} from "./comps/entry/LoginPanel";
+import {Menu} from "./comps/sidemenu/Menu";
+import {MenuItem} from "./comps/sidemenu/MenuItem";
+import {Sliderpanel} from "./comps/sliderpanel/Sliderpanel";
+import {Whitelabel} from "./comps/app1/whitelabel/Whitelabel";
+import {Apps} from "./comps/app1/apps/Apps";
+import {Privileges} from "./comps/app1/privileges/Privileges";
+import {Dashboard} from "./comps/app1/dashboard/Dashboard";
+import {Logout} from "./comps/logout/Logout";
+import {Tabs} from "./comps/tabs/tabs";
+import {Tab} from "./comps/tabs/tab";
+import {Account} from "./comps/app1/account/Account";
 
 export enum ServerMode {
     CLOUD,
@@ -185,7 +197,8 @@ var modules = [HTTP_PROVIDERS, AUTH_PROVIDERS, APP_ROUTER_PROVIDERS, ANGULAR2_GO
 @NgModule({
     imports: [BrowserModule, FormsModule, HttpModule, ReactiveFormsModule, routing],
     providers: [appRoutingProviders, CommBroker, ...modules],
-    declarations: [Main, SimpleList, UsersDetails],
+    declarations: [Main, SimpleList, UsersDetails, LoginPanel, Menu, MenuItem, Sliderpanel,
+        Account, Whitelabel, Apps, Privileges, Dashboard, Logout, Orders, Tabs, Tab],
     bootstrap: [Main],
 })
 export class App {

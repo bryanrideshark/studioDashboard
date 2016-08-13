@@ -11,7 +11,6 @@ import {ROUTER_DIRECTIVES} from "@angular/router";
 //     {path: '/Login', component: LoginPanel}
 // ])
 @Component({
-    providers: [LoginPanel],
     directives: [ROUTER_DIRECTIVES],
     selector: 'EntryPanel',
     template: `

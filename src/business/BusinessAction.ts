@@ -78,8 +78,9 @@ export class BusinessAction extends Actions {
                             dispatch(self.receiveBusinessUsers(businessUsers));
                         });
                     });
-            }).share()
-            .subscribe();
+            }).publish().connect()
+            // }).share().subscribe()
+
     }
 
     public fetchBusinessUser(businessIds:Array<string>) {
