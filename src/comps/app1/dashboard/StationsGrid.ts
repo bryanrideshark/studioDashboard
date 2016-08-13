@@ -8,7 +8,6 @@ import {SimpleGridRecord} from "../../simplegrid/SimpleGridRecord";
 
 @Component({
     selector: 'stationsGrid',
-    directives: [SIMPLEGRID_DIRECTIVES, MODAL_DIRECTIVES],
     pipes: [OrderBy],
     styles: [
         `

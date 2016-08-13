@@ -8,7 +8,6 @@ import {ModalComponent} from "../../ng2-bs3-modal/components/modal";
 
 @Component({
     selector: 'changePass',
-    directives: [ModalDialog],
     templateUrl: '/src/comps/app1/users/ChangePass.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrls: ['../comps/app1/users/ChangePass.css']

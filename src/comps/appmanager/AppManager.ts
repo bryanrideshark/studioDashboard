@@ -33,8 +33,7 @@ import {Lib} from "../../Lib";
         <div id="appEverNodesContent" class="noScroll container" style="display: none">
         </div>
     </div>
-    `,
-    directives: [ROUTER_DIRECTIVES]
+    `
 })
 export class AppManager {
     // private myRouter:Router;

@@ -7,6 +7,4 @@ export * from './src/directives/ng2-highstocks';
 import {Ng2Highmaps} from './src/directives/ng2-highmaps';
 export * from './src/directives/ng2-highmaps';
 
-export default {
-  directives: [Ng2Highcharts, Ng2Highstocks, Ng2Highmaps]
-}
+export default {}

@@ -13,7 +13,6 @@ import {Lib} from "../../../Lib";
 
 @Component({
     selector: 'UserInfo',
-    directives: [Infobox, UserStorage, InputEdit, ChangePass],
     templateUrl: `/src/comps/app1/users/UserInfo.html`,
     changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrls: [`../comps/app1/users/UserInfo.css`]

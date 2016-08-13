@@ -14,7 +14,6 @@ import {ImgLoader} from "../imgloader/ImgLoader";
  **/
 @Component({
     selector: 'logoCompany',
-    directives: [ImgLoader],
     changeDetection: ChangeDetectionStrategy.Default,
     template: `
             <div *ngIf="whitelabelModel"> 

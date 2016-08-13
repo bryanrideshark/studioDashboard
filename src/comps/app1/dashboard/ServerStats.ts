@@ -13,8 +13,7 @@ import {Loading} from "../../loading/Loading";
                 <div [ng2-highcharts]="_options" (init)="onInit($event)" class="graph"></div>
             </div>
         </div>
-    `,
-    directives: [Ng2Highcharts, Loading]
+    `
 })
 export class ServerStats {
 

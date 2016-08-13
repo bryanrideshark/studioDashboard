@@ -10,8 +10,7 @@ import * as Highcharts from 'highcharts';
         <div style="width: 100%; height: 80%">
              <div [ng2-highcharts]="chartBar" class="graph"></div>
         </div>
-    `,
-    directives: [Ng2Highcharts]
+    `
 })
 export class UserStorage  {
     constructor() {

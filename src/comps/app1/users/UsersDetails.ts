@@ -21,7 +21,6 @@ import * as bootbox from 'bootbox';
 @Component({
     selector: 'UsersDetails',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    directives: [SIMPLEGRID_DIRECTIVES, UserInfo, AddUser, ChangePass, MODAL_DIRECTIVES],
     pipes: [OrderBy],
     moduleId: __moduleName,
     styleUrls: ['UsersDetails.css'],

@@ -11,7 +11,6 @@ import {SIMPLEGRID_DIRECTIVES} from "../../simplegrid/SimpleGrid";
 @Component({
     selector: 'OrderDetails',
     moduleId: __moduleName,
-    directives: [Loading, SIMPLEGRID_DIRECTIVES],
     styleUrls: ['OrderDetails.css'],
     templateUrl: 'OrderDetails.html',
     changeDetection: ChangeDetectionStrategy.OnPush,

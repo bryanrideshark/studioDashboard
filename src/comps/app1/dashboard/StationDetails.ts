@@ -9,7 +9,6 @@ import {StationSnapshot} from "./StationSnapshot";
 
 @Component({
     selector: 'stationDetails',
-    directives: [Tabs, Tab, StationSnapshot],
     moduleId: __moduleName,
     templateUrl: 'StationDetails.html',
     styleUrls: ['StationDetails.css'],

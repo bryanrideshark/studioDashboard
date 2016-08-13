@@ -19,7 +19,6 @@ import * as _ from 'lodash'
 
 @Component({
     selector: 'Users',
-    directives: [Loading, Samplelist, DROPDOWN_DIRECTIVES, AddUser, MODAL_DIRECTIVES],
     moduleId: __moduleName,
     styleUrls: ['Users.css'],
     templateUrl: 'Users.html',

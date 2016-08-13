@@ -15,14 +15,11 @@
 import "zone.js/dist/zone";
 import "zone.js/dist/long-stack-trace-zone";
 import "reflect-metadata";
-import {ROUTER_DIRECTIVES, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {APP_ROUTER_PROVIDERS, routing, appRoutingProviders} from "./App.routes";
-import {bootstrap, platformBrowserDynamic} from "@angular/platform-browser-dynamic";
-import {disableDeprecatedForms, provideForms, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {
-    Component, provide, enableProdMode, ViewEncapsulation, PLATFORM_PIPES, ComponentRef,
-    NgModule, NgModuleRef
-} from "@angular/core";
+import {platformBrowserDynamic} from "@angular/platform-browser-dynamic";
+import {disableDeprecatedForms, provideForms, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {Component, enableProdMode, ViewEncapsulation, PLATFORM_PIPES, NgModule, NgModuleRef} from "@angular/core";
 import * as platform from "platform";
 import "jspm_packages/github/twbs/bootstrap@3.3.6";
 import "twbs/bootstrap/dist/css/bootstrap.css!";
@@ -37,7 +34,7 @@ import {OrdersAction} from "./comps/app1/orders/OrdersAction";
 import {orders} from "./comps/app1/orders/OrdersReducer";
 import {StationsAction} from "./stations/StationsAction";
 import {CharCount} from "./pipes/CharCount";
-import {HTTP_PROVIDERS} from "@angular/http";
+import {HTTP_PROVIDERS, HttpModule} from "@angular/http";
 import {CommBroker} from "../src/services/CommBroker";
 import {Filemenu} from "../src/comps/filemenu/Filemenu";
 import {FilemenuItem} from "../src/comps/filemenu/FilemenuItem";
@@ -69,15 +66,10 @@ import {stations} from "./stations/StationsReducer";
 import {AppdbAction} from "./appdb/AppdbAction";
 import {LogoCompany} from "./comps/logo/LogoCompany";
 import {Observable} from "rxjs/Rx";
-import {ANGULAR2_GOOGLE_MAPS_PROVIDERS} from "angular2-google-maps/core";
+import {ANGULAR2_GOOGLE_MAPS_PROVIDERS, ANGULAR2_GOOGLE_MAPS_DIRECTIVES} from "angular2-google-maps/core";
 import {AdnetActions} from "./adnet/AdnetActions";
 import {AUTH_PROVIDERS} from "./services/AuthService";
 import {BrowserModule} from "@angular/platform-browser";
-import {
-    JSONP_PROVIDERS,
-    HttpModule,
-    Http
-} from "@angular/http";
 import {SimpleList} from "./comps/simplelist/Simplelist";
 import {Orders} from "./comps/app1/orders/Orders";
 import {UsersDetails} from "./comps/app1/users/UsersDetails";
@@ -115,6 +107,22 @@ import {ServerAvg} from "./comps/app1/dashboard/ServerAvg";
 import {ServerStats} from "./comps/app1/dashboard/ServerStats";
 import {StationDetails} from "./comps/app1/dashboard/StationDetails";
 import {Ng2Highcharts} from "./comps/ng2-highcharts/src/directives/ng2-highcharts";
+import {StationSnapshot} from "./comps/app1/dashboard/StationSnapshot";
+import {OrderDetails} from "./comps/app1/orders/OrderDetails";
+import {PrivilegesDetails} from "./comps/app1/privileges/PrivilegesDetails";
+import {UserStorage} from "./comps/app1/users/UserStorage";
+import {ChangePass} from "./comps/app1/users/ChangePass";
+import {ModalDialog} from "./comps/modaldialog/ModalDialog";
+import {UserInfo} from "./comps/app1/users/UserInfo";
+import {AddUser} from "./comps/app1/users/AddUser";
+import {Samplelist} from "./comps/app1/users/SampleList";
+import {ImgLoader} from "./comps/imgloader/ImgLoader";
+import {Ng2Highmaps} from "./comps/ng2-highcharts/src/directives/ng2-highmaps";
+import {Ng2Highstocks} from "./comps/ng2-highcharts/src/directives/ng2-highstocks";
+import {SimpleGridSortableHeader} from "./comps/simplegrid/SimpleGridSortableHeader";
+import {SimpleGridRecord} from "./comps/simplegrid/SimpleGridRecord";
+import {SimpleGridData} from "./comps/simplegrid/SimpleGridData";
+import {SimplelistEditable} from "./comps/simplelist/SimplelistEditable";
 
 export enum ServerMode {
     CLOUD,
@@ -134,12 +142,12 @@ export enum ServerMode {
 })
 
 export class Main {
-    constructor(private localStorage:LocalStorage,
-                private router:Router,
-                private appStore:AppStore,
-                private commBroker:CommBroker,
-                styleService:StyleService,
-                private appdbAction:AppdbAction) {
+    constructor(private localStorage: LocalStorage,
+                private router: Router,
+                private appStore: AppStore,
+                private commBroker: CommBroker,
+                styleService: StyleService,
+                private appdbAction: AppdbAction) {
 
         // force logout
         // this.localStorage.removeItem('remember_me')
@@ -160,7 +168,7 @@ export class Main {
         }
     }
 
-    private m_styleService:StyleService;
+    private m_styleService: StyleService;
     private version = '1.552.rc4';
 
     private checkPlatform() {
@@ -179,7 +187,7 @@ export class Main {
         }
     }
 
-    public appResized():void {
+    public appResized(): void {
         var appHeight = document.body.clientHeight;
         var appWidth = document.body.clientWidth;
         this.commBroker.setValue(Consts.Values().APP_SIZE, {height: appHeight, width: appWidth});
@@ -218,14 +226,18 @@ var modules = [HTTP_PROVIDERS, AUTH_PROVIDERS, APP_ROUTER_PROVIDERS, ANGULAR2_GO
 @NgModule({
     imports: [BrowserModule, FormsModule, HttpModule, ReactiveFormsModule, routing],
     providers: [appRoutingProviders, CommBroker, ...modules],
-    declarations: [Main, SimpleList, RatesTable, UsersDetails, LoginPanel, Menu, MenuItem, Sliderpanel,
-        Account, Whitelabel, Apps, App1, Users, Adnet, Privileges, Dashboard, Logout, Orders, Tabs, Tab,
-        Filemenu, FilemenuItem, Logo, LogoCompany, Footer, Tab, Tabs, BlurForwarder, Loading, InputEdit,
-        SIMPLEGRID_DIRECTIVES, AdnetConfigCustomer, AdnetConfig,
-        AdnetConfigCustomer, AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, RatingComponent,
-        DROPDOWN_DIRECTIVES, MODAL_DIRECTIVES, Infobox,
-        ServerStats, ServerAvg, StationsMap, StationsGrid, Loading, StationDetails,
-        Ng2Highcharts, Loading],
+    declarations: [Main, RatesTable, UsersDetails, LoginPanel, Menu, MenuItem, Sliderpanel,
+        Account, Whitelabel, Apps, App1, Users, Adnet, Privileges, Dashboard, Logout, Orders,
+        Filemenu, FilemenuItem, Logo, LogoCompany, Footer, BlurForwarder, InputEdit,
+        ANGULAR2_GOOGLE_MAPS_DIRECTIVES,
+        AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, RatingComponent,
+        ServerStats, ServerAvg, StationsMap, StationsGrid, StationDetails, ImgLoader,
+        Ng2Highcharts, AdnetConfigCustomer, AdnetConfig, StationSnapshot,
+        OrderDetails, SimpleList, PrivilegesDetails, ModalDialog,
+        Infobox, UserStorage, Loading, Samplelist, DROPDOWN_DIRECTIVES,
+        SIMPLEGRID_DIRECTIVES, UserInfo, AddUser, ChangePass, MODAL_DIRECTIVES,
+        Ng2Highstocks, Ng2Highmaps, SimpleGridSortableHeader, SimpleGridRecord, SimpleGridData, SimplelistEditable
+    ],
     bootstrap: [Main],
 })
 export class App {
@@ -244,10 +256,6 @@ window['hr'] && window['hr'].on('change', (fileName) => {
         });
     }
 })
-
-
-
-
 
 
 // {provide: AuthService, useClass: AuthService},

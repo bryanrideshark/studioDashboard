@@ -11,7 +11,6 @@ import * as _ from 'lodash'
 
 @Component({
     selector: 'addUser',
-    directives: [ModalDialog, REACTIVE_FORM_DIRECTIVES],
     changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: '/src/comps/app1/users/AddUser.html',
     styleUrls: ['../comps/app1/users/AddUser.css']

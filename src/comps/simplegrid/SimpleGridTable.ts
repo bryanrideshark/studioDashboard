@@ -9,7 +9,6 @@ import {SimpleGridData} from "./SimpleGridData";
     selector: 'simpleGridTable',
     changeDetection: ChangeDetectionStrategy.OnPush,
     pipes: [OrderBy],
-    directives: [COMMON_DIRECTIVES, SimpleGridSortableHeader, SimpleGridRecord, SimpleGridData],
     styleUrls: [`../comps/simplegrid/SimpleGrid.css`],
     template: `
         <table class="table simpleTable">

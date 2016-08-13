@@ -14,7 +14,6 @@ interface marker {
 }
 @Component({
     selector: 'stationsMap',
-    directives: [ANGULAR2_GOOGLE_MAPS_DIRECTIVES],
     template: `
         <sebm-google-map style="width: 100% ; height: 100%" 
               [latitude]="38.2500"

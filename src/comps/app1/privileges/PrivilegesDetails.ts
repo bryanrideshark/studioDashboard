@@ -12,7 +12,6 @@ enum PrivModeEnum {ADD, DEL, UPD}
 
 @Component({
     selector: 'privilegesDetails',
-    directives: [SIMPLEGRID_DIRECTIVES],
     styles: [`
         .btn-outlined {
             position: relative;

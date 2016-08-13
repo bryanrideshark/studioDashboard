@@ -26,7 +26,6 @@ import * as bootbox from "bootbox";
     selector: 'whitelabel',
     styleUrls: [`../comps/app1/whitelabel/Whitelabel.css`],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    directives: [Tab, Tabs, REACTIVE_FORM_DIRECTIVES, BlurForwarder, Loading, ImgLoader],
     host: {
         '(input-blur)': 'onInputBlur($event)'
     },

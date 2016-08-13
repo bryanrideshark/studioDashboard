@@ -12,7 +12,6 @@ import * as bootbox from 'bootbox';
 
 @Component({
     selector: 'privileges',
-    directives: [Loading, SimpleList, PrivilegesDetails],
     styles: [`
       .userView {
         /*background-color: red; */

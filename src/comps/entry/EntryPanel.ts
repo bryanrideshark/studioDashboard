@@ -11,7 +11,6 @@ import {ROUTER_DIRECTIVES} from "@angular/router";
 //     {path: '/Login', component: LoginPanel}
 // ])
 @Component({
-    directives: [ROUTER_DIRECTIVES],
     selector: 'EntryPanel',
     template: `
                 <!--<a [routerLink]="['/App1']">And back to Test1</a><br/>-->

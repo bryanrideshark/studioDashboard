@@ -15,7 +15,6 @@ import Map = Immutable.Map;
 @Injectable()
 @Component({
     selector: 'LoginPanel',
-    directives: [ROUTER_DIRECTIVES],
     providers: [BusinessAction, LocalStorage],
     animations: [
         trigger('loginState', [
