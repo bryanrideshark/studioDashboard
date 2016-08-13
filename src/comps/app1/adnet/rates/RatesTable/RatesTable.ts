@@ -9,7 +9,6 @@ import {AdnetRateModel} from "../../../../../adnet/AdnetRateModel";
 @Component({
     selector: 'RatesTable',
     moduleId: __moduleName,
-    directives: [SimpleList],
     changeDetection: ChangeDetectionStrategy.OnPush,
     styles: [`
         .rateInput {

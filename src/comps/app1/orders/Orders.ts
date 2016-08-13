@@ -11,8 +11,7 @@ import {OrderDetails} from "./OrderDetails";
 
 @Component({
     selector: 'Orders',
-    providers: [SimpleList],
-    directives: [SimpleList, Loading, OrderDetails],
+    directives: [Loading, OrderDetails],
     moduleId: __moduleName,
     templateUrl: 'Orders.html'
 })

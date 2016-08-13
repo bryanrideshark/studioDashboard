@@ -45,10 +45,10 @@ export class AddUser {
         this.sub = modal.onClose.subscribe(()=> {
             var userNameControl:FormControl = this.notesForm.controls['userName'] as FormControl;
             var businessNameControl:FormControl = this.notesForm.controls['businessName'] as FormControl;
-            this.passwordGroup.controls['password'].updateValue('')
-            this.passwordGroup.controls['confirmPassword'].updateValue('')
-            userNameControl.updateValue('')
-            businessNameControl.updateValue('')
+            this.passwordGroup.controls['password'].setValue('')
+            this.passwordGroup.controls['confirmPassword'].setValue('')
+            userNameControl.setValue('')
+            businessNameControl.setValue('')
         })
         this.passwordGroup = this.notesForm.controls['matchingPassword'] as FormControl;
         this.userName = this.notesForm.controls['userName'] as FormControl;

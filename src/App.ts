@@ -16,10 +16,13 @@ import "zone.js/dist/zone";
 import "zone.js/dist/long-stack-trace-zone";
 import "reflect-metadata";
 import {ROUTER_DIRECTIVES, Router} from "@angular/router";
-import {APP_ROUTER_PROVIDERS} from "./App.routes";
-import {bootstrap} from "@angular/platform-browser-dynamic";
-import {disableDeprecatedForms, provideForms} from '@angular/forms';
-import {Component, provide, enableProdMode, ViewEncapsulation, PLATFORM_PIPES, ComponentRef} from "@angular/core";
+import {APP_ROUTER_PROVIDERS, routing, appRoutingProviders} from "./App.routes";
+import {bootstrap, platformBrowserDynamic} from "@angular/platform-browser-dynamic";
+import {disableDeprecatedForms, provideForms, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {
+    Component, provide, enableProdMode, ViewEncapsulation, PLATFORM_PIPES, ComponentRef,
+    NgModule, NgModuleRef
+} from "@angular/core";
 import * as platform from "platform";
 import "jspm_packages/github/twbs/bootstrap@3.3.6";
 import "twbs/bootstrap/dist/css/bootstrap.css!";
@@ -69,6 +72,15 @@ import {Observable} from "rxjs/Rx";
 import {ANGULAR2_GOOGLE_MAPS_PROVIDERS} from "angular2-google-maps/core";
 import {AdnetActions} from "./adnet/AdnetActions";
 import {AUTH_PROVIDERS} from "./services/AuthService";
+import {BrowserModule} from "@angular/platform-browser";
+import {
+    JSONP_PROVIDERS,
+    HttpModule,
+    Http
+} from "@angular/http";
+import {SimpleList} from "./comps/simplelist/Simplelist";
+import {Orders} from "./comps/app1/orders/Orders";
+import {UsersDetails} from "./comps/app1/users/UsersDetails";
 
 export enum ServerMode {
     CLOUD,
@@ -88,7 +100,7 @@ export enum ServerMode {
     directives: [ROUTER_DIRECTIVES, Filemenu, FilemenuItem, Logo, LogoCompany, Footer]
 })
 
-export class App {
+export class Main {
     constructor(private localStorage:LocalStorage,
                 private router:Router,
                 private appStore:AppStore,
@@ -169,22 +181,53 @@ var modules = [HTTP_PROVIDERS, AUTH_PROVIDERS, APP_ROUTER_PROVIDERS, ANGULAR2_GO
     {provide: "OFFLINE_ENV", useValue: false},
     {provide: PLATFORM_PIPES, useValue: CharCount, multi: true}];
 
-// {provide: AuthService, useClass: AuthService},
 
-
-bootstrap(App, modules).then((appRef:ComponentRef<any>) => {
+@NgModule({
+    imports: [BrowserModule, FormsModule, HttpModule, ReactiveFormsModule, routing],
+    providers: [appRoutingProviders, CommBroker, ...modules],
+    declarations: [Main, SimpleList, UsersDetails],
+    bootstrap: [Main],
+})
+export class App {
+}
+platformBrowserDynamic().bootstrapModule(App, modules).then((appRef: NgModuleRef<any>) => {
     appInjService(appRef.injector);
 });
+
 window['hr'] && window['hr'].on('change', (fileName) => {
     if (fileName.indexOf('html') !== -1) {
         var newBody = document.createElement('body')
         newBody.appendChild(document.createElement('app'))
         document.body = newBody;
-        bootstrap(App, modules).then((appRef:ComponentRef<any>) => {
+        platformBrowserDynamic().bootstrapModule(App, modules).then((appRef: NgModuleRef<any>) => {
             appInjService(appRef.injector);
         });
     }
 })
+
+
+
+
+
+
+// {provide: AuthService, useClass: AuthService},
+//
+//
+//
+//
+// bootstrap(App, modules).then((appRef:ComponentRef<any>) => {
+//     appInjService(appRef.injector);
+// });
+// window['hr'] && window['hr'].on('change', (fileName) => {
+//     if (fileName.indexOf('html') !== -1) {
+//         var newBody = document.createElement('body')
+//         newBody.appendChild(document.createElement('app'))
+//         document.body = newBody;
+//         bootstrap(App, modules).then((appRef:ComponentRef<any>) => {
+//             appInjService(appRef.injector);
+//         });
+//     }
+// })
 
 
 //provide(LocationStrategy, {useClass: HashLocationStrategy}),

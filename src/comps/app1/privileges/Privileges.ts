@@ -53,7 +53,7 @@ import * as bootbox from 'bootbox';
                     [iconSelected]="getDefaultPrivilege()"
                     [contentId]="getPrivilegeId()"
                     [content]="getPrivilege">
-                </SimpleList>
+                </SimpleList> 
                 <Loading *ngIf="!privelegesList" [src]="'assets/preload6.gif'" [style]="{'margin-top': '150px'}"></Loading>
              </div>
              <div class="col-xs-9" style="max-height: 100% !important; overflow-y: scroll">                

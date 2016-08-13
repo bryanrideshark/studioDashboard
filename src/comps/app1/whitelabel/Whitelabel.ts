@@ -211,7 +211,7 @@ export class Whitelabel {
         _.forEach(this.formInputs, (value, key:string)=> {
             var value = this.whitelabelModel.getKey(key);
             value = Lib.BooleanToNumber(value);
-            this.formInputs[key].updateValue(value);
+            this.formInputs[key].setValue(value);
         })
     };
 

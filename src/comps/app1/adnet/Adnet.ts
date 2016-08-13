@@ -7,7 +7,7 @@ import {AdnetConfig} from "./config/AdnetConfig";
 
 @Component({
     selector: 'Adnet',
-    directives: [AdnetConfigCustomer, AdnetConfig, Tabs, Tab, SimpleList],
+    directives: [AdnetConfigCustomer, AdnetConfig, Tabs, Tab],
     template: `
         <br/>
         <tabs>

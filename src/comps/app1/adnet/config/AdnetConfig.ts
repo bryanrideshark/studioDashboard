@@ -50,18 +50,18 @@ import {AdnetConfigTargets} from "../targets/AdnetConfigTargets";
               </div>
             </div>
          <hr class="clearFloat"/>
-         <div @showState="showState">
-         <tabs *ngIf="adnetCustomerId != -1">
-            <tab [tabtitle]="'Setup'">                      
-              <AdnetConfigCustomer [adnetCustomerModel]="adnetCustomerModel"></AdnetConfigCustomer>
-            </tab>          
-            <tab [tabtitle]="'Rates'">
-              <AdnetConfigRates [adnetCustomerId]="adnetCustomerId"></AdnetConfigRates>
-            </tab>
-            <tab [tabtitle]="'Targets'">
-            <AdnetConfigTargets></AdnetConfigTargets>
-            </tab>
-        </tabs>
+         <div [@showState]="showState">
+             <tabs *ngIf="adnetCustomerId != -1">
+                <tab [tabtitle]="'Setup'">                      
+                  <AdnetConfigCustomer [adnetCustomerModel]="adnetCustomerModel"></AdnetConfigCustomer>
+                </tab>          
+                <tab [tabtitle]="'Rates'">
+                  <AdnetConfigRates [adnetCustomerId]="adnetCustomerId"></AdnetConfigRates>
+                </tab>
+                <tab [tabtitle]="'Targets'">
+                    <AdnetConfigTargets></AdnetConfigTargets>
+                </tab>
+            </tabs>
          </div>
       </div>  
       

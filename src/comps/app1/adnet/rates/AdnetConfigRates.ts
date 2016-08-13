@@ -10,7 +10,7 @@ import {AdnetActions} from "../../../../adnet/AdnetActions";
 @Component({
     selector: 'AdnetConfigRates',
     moduleId: __moduleName,
-    directives: [SimpleList, RatesTable],
+    directives: [RatesTable],
     styleUrls: ['AdnetConfigRates.css'],
     templateUrl: 'AdnetConfigRates.html'
 })

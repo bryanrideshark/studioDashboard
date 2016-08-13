@@ -181,7 +181,7 @@ export class Account {
                         if (table == type) {
                             var field = key.split('_')[1];
                             var data = accountModel.getKey(field);
-                            this.formInputs[key].updateValue(data);
+                            this.formInputs[key].setValue(data);
                         }
                     })
                     break;

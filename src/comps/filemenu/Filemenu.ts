@@ -4,7 +4,7 @@ import {FilemenuItem} from "./FilemenuItem";
 import {Router, ActivatedRoute, UrlTree, NavigationStart} from "@angular/router";
 import {CommBroker} from "../../services/CommBroker";
 import {Consts} from "../../Conts";
-import {App} from "../../../src/App";
+import {Main} from "../../../src/App";
 
 /**
  Filemenu manages the top header file menu per application as it mutates it's content depending
@@ -73,7 +73,7 @@ export class Filemenu {
                     self.dom.setStyle(self.el, 'opacity', '1');
                 });
 
-                let app:App = self.m_commBroker.getService(Consts.Services().App);
+                let app:Main = self.m_commBroker.getService(Consts.Services().App);
                 app.appResized();
             }
         })

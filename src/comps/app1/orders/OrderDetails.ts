@@ -15,7 +15,6 @@ import {SIMPLEGRID_DIRECTIVES} from "../../simplegrid/SimpleGrid";
     styleUrls: ['OrderDetails.css'],
     templateUrl: 'OrderDetails.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-
 })
 
 export class OrderDetails implements OnDestroy {

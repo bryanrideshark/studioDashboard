@@ -74,7 +74,7 @@ export class AdnetConfigCustomer {
             return;
         _.forEach(this.formInputs, (value, key:string)=> {
             var data = this.customerModel.getKey('Value')[key];
-            this.formInputs[key].updateValue(data)
+            this.formInputs[key].setValue(data)
         });
     };
 }

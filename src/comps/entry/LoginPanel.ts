@@ -33,7 +33,7 @@ import Map = Immutable.Map;
         ])
     ],
     template: `
-                <div *ngIf="showLoginPanel" @loginState="loginState" class="login-page" id="appLogin">
+                <div *ngIf="showLoginPanel" [@loginState]="loginState" class="login-page" id="appLogin">
                 <br/>
                 <br/>
                   <form class="form-signin" role="form">

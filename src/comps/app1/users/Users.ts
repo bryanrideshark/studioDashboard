@@ -19,8 +19,7 @@ import * as _ from 'lodash'
 
 @Component({
     selector: 'Users',
-    providers: [SimpleList],
-    directives: [SimpleList, UsersDetails, Loading, Samplelist, DROPDOWN_DIRECTIVES, AddUser, MODAL_DIRECTIVES],
+    directives: [Loading, Samplelist, DROPDOWN_DIRECTIVES, AddUser, MODAL_DIRECTIVES],
     moduleId: __moduleName,
     styleUrls: ['Users.css'],
     templateUrl: 'Users.html',
@@ -59,7 +58,7 @@ export class Users {
         }, 'reseller.privileges');
     }
 
-    @ViewChild(SimpleList)
+    @ViewChild('simpleList')
     simpleList:SimpleList;
 
     @ViewChild('modalSamples')
