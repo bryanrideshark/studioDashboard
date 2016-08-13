@@ -8,7 +8,6 @@ import {SimpleGridData} from "./SimpleGridData";
 @Component({
     selector: 'simpleGridTable',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    pipes: [OrderBy],
     styleUrls: [`../comps/simplegrid/SimpleGrid.css`],
     template: `
         <table class="table simpleTable">

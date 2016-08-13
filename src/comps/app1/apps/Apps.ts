@@ -11,7 +11,6 @@ import {OrderBy} from "../../../pipes/OrderBy";
 
 @Component({
     selector: 'apps',
-    pipes: [OrderBy],
     template: `
         <div *ngIf="apps && apps.size > 0">
           <simpleGridTable>

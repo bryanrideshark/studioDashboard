@@ -15,7 +15,6 @@ export interface  ISimpleListItem {
     moduleId: __moduleName,
     templateUrl: 'Simplelist.html',
     styleUrls: ['Simplelist.css'],
-    pipes: [FilterPipe],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SimpleList {

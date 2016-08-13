@@ -21,7 +21,6 @@ import * as bootbox from 'bootbox';
 @Component({
     selector: 'UsersDetails',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    pipes: [OrderBy],
     moduleId: __moduleName,
     styleUrls: ['UsersDetails.css'],
     templateUrl: 'UsersDetails.html'

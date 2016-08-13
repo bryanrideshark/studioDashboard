@@ -8,7 +8,6 @@ import {SimpleGridRecord} from "../../simplegrid/SimpleGridRecord";
 
 @Component({
     selector: 'stationsGrid',
-    pipes: [OrderBy],
     styles: [
         `
             .disabled {

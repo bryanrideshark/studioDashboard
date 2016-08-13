@@ -34,7 +34,7 @@ import {OrdersAction} from "./comps/app1/orders/OrdersAction";
 import {orders} from "./comps/app1/orders/OrdersReducer";
 import {StationsAction} from "./stations/StationsAction";
 import {CharCount} from "./pipes/CharCount";
-import {HTTP_PROVIDERS, HttpModule} from "@angular/http";
+import {HttpModule} from "@angular/http";
 import {CommBroker} from "../src/services/CommBroker";
 import {Filemenu} from "../src/comps/filemenu/Filemenu";
 import {FilemenuItem} from "../src/comps/filemenu/FilemenuItem";
@@ -123,6 +123,9 @@ import {SimpleGridSortableHeader} from "./comps/simplegrid/SimpleGridSortableHea
 import {SimpleGridRecord} from "./comps/simplegrid/SimpleGridRecord";
 import {SimpleGridData} from "./comps/simplegrid/SimpleGridData";
 import {SimplelistEditable} from "./comps/simplelist/SimplelistEditable";
+import {OrderBy} from "./pipes/OrderBy";
+import {SortBy} from "./pipes/SortBy";
+import {FilterPipe} from "./pipes/FilterPipe";
 
 export enum ServerMode {
     CLOUD,
@@ -203,7 +206,7 @@ export class Main {
 if (!Lib.DevMode())
     enableProdMode();
 
-var modules = [HTTP_PROVIDERS, AUTH_PROVIDERS, APP_ROUTER_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
+var modules = [AUTH_PROVIDERS, APP_ROUTER_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
     disableDeprecatedForms(),
     provideForms(),
     {provide: AppStore, useFactory: Lib.StoreFactory({notify, appdb, business, stations, reseller, adnet, orders})},
@@ -229,7 +232,7 @@ var modules = [HTTP_PROVIDERS, AUTH_PROVIDERS, APP_ROUTER_PROVIDERS, ANGULAR2_GO
     declarations: [Main, RatesTable, UsersDetails, LoginPanel, Menu, MenuItem, Sliderpanel,
         Account, Whitelabel, Apps, App1, Users, Adnet, Privileges, Dashboard, Logout, Orders,
         Filemenu, FilemenuItem, Logo, LogoCompany, Footer, BlurForwarder, InputEdit,
-        ANGULAR2_GOOGLE_MAPS_DIRECTIVES,
+        ANGULAR2_GOOGLE_MAPS_DIRECTIVES, OrderBy, SortBy, FilterPipe,
         AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, RatingComponent,
         ServerStats, ServerAvg, StationsMap, StationsGrid, StationDetails, ImgLoader,
         Ng2Highcharts, AdnetConfigCustomer, AdnetConfig, StationSnapshot,
@@ -256,27 +259,3 @@ window['hr'] && window['hr'].on('change', (fileName) => {
         });
     }
 })
-
-
-// {provide: AuthService, useClass: AuthService},
-//
-//
-//
-//
-// bootstrap(App, modules).then((appRef:ComponentRef<any>) => {
-//     appInjService(appRef.injector);
-// });
-// window['hr'] && window['hr'].on('change', (fileName) => {
-//     if (fileName.indexOf('html') !== -1) {
-//         var newBody = document.createElement('body')
-//         newBody.appendChild(document.createElement('app'))
-//         document.body = newBody;
-//         bootstrap(App, modules).then((appRef:ComponentRef<any>) => {
-//             appInjService(appRef.injector);
-//         });
-//     }
-// })
-
-
-//provide(LocationStrategy, {useClass: HashLocationStrategy}),
-//import {LocationStrategy, HashLocationStrategy} from "@angular/common";

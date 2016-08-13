@@ -24,7 +24,6 @@ type stationComponentMode = "map" | "grid";
 
 @Component({
     selector: 'Dashboard',
-    pipes: [SortBy],
     styles: [`      
       * {
              border-radius: 0 !important;

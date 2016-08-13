@@ -1,6 +1,5 @@
 import {Component} from "@angular/core";
 import {Router} from "@angular/router";
-import {HTTP_PROVIDERS} from "@angular/http";
 import {CommBroker, IMessage} from "../../services/CommBroker";
 import {Consts} from "../../../src/Conts";
 
