@@ -23,7 +23,6 @@ import * as _ from "lodash";
 type stationComponentMode = "map" | "grid";
 
 @Component({
-    directives: [REACTIVE_FORM_DIRECTIVES, MODAL_DIRECTIVES, Infobox, ServerStats, ServerAvg, StationsMap, StationsGrid, Loading, StationDetails],
     selector: 'Dashboard',
     pipes: [SortBy],
     styles: [`      

@@ -5,7 +5,6 @@ import {Tab} from "../../../tabs/tab";
 @Component({
     selector: 'AdnetConfigTargets',
     moduleId: __moduleName,
-    directives: [Tabs, Tab],
     templateUrl: 'AdnetConfigTargets.html'
 
 })

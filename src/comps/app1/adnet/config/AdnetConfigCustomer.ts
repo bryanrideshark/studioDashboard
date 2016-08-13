@@ -10,7 +10,6 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 @Component({
     selector: 'AdnetConfigCustomer',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    directives: [BlurForwarder, REACTIVE_FORM_DIRECTIVES],
     host: {
         '(input-blur)': 'onInputBlur($event)'
     },

@@ -93,6 +93,28 @@ import {Logout} from "./comps/logout/Logout";
 import {Tabs} from "./comps/tabs/tabs";
 import {Tab} from "./comps/tabs/tab";
 import {Account} from "./comps/app1/account/Account";
+import {BlurForwarder} from "./comps/blurforwarder/BlurForwarder";
+import {Loading} from "./comps/loading/Loading";
+import {InputEdit} from "./comps/inputedit/InputEdit";
+import {Users} from "./comps/app1/users/Users";
+import {Adnet} from "./comps/app1/adnet/Adnet";
+import {App1} from "./comps/app1/App1";
+import {RatesTable} from "./comps/app1/adnet/rates/RatesTable/RatesTable";
+import {SIMPLEGRID_DIRECTIVES} from "./comps/simplegrid/SimpleGrid";
+import {AdnetConfigCustomer} from "./comps/app1/adnet/config/AdnetConfigCustomer";
+import {AdnetConfig} from "./comps/app1/adnet/config/AdnetConfig";
+import {AdnetConfigTargets} from "./comps/app1/adnet/targets/AdnetConfigTargets";
+import {AdnetConfigRates} from "./comps/app1/adnet/rates/AdnetConfigRates";
+import {RatingComponent} from "../jspm_packages/npm/ng2-bootstrap@1.0.24/components/rating/rating.component";
+import {DROPDOWN_DIRECTIVES} from "../jspm_packages/npm/ng2-bootstrap@1.0.24/components/dropdown";
+import {MODAL_DIRECTIVES} from "./comps/ng2-bs3-modal/ng2-bs3-modal";
+import {Infobox} from "./comps/infobox/Infobox";
+import {StationsGrid} from "./comps/app1/dashboard/StationsGrid";
+import {StationsMap} from "./comps/app1/dashboard/StationsMap";
+import {ServerAvg} from "./comps/app1/dashboard/ServerAvg";
+import {ServerStats} from "./comps/app1/dashboard/ServerStats";
+import {StationDetails} from "./comps/app1/dashboard/StationDetails";
+import {Ng2Highcharts} from "./comps/ng2-highcharts/src/directives/ng2-highcharts";
 
 export enum ServerMode {
     CLOUD,
@@ -108,8 +130,7 @@ export enum ServerMode {
     selector: 'app',
     encapsulation: ViewEncapsulation.Emulated,
     providers: [StyleService, AppdbAction],
-    templateUrl: '/src/App.html',
-    directives: [ROUTER_DIRECTIVES, Filemenu, FilemenuItem, Logo, LogoCompany, Footer]
+    templateUrl: '/src/App.html'
 })
 
 export class Main {
@@ -197,8 +218,14 @@ var modules = [HTTP_PROVIDERS, AUTH_PROVIDERS, APP_ROUTER_PROVIDERS, ANGULAR2_GO
 @NgModule({
     imports: [BrowserModule, FormsModule, HttpModule, ReactiveFormsModule, routing],
     providers: [appRoutingProviders, CommBroker, ...modules],
-    declarations: [Main, SimpleList, UsersDetails, LoginPanel, Menu, MenuItem, Sliderpanel,
-        Account, Whitelabel, Apps, Privileges, Dashboard, Logout, Orders, Tabs, Tab],
+    declarations: [Main, SimpleList, RatesTable, UsersDetails, LoginPanel, Menu, MenuItem, Sliderpanel,
+        Account, Whitelabel, Apps, App1, Users, Adnet, Privileges, Dashboard, Logout, Orders, Tabs, Tab,
+        Filemenu, FilemenuItem, Logo, LogoCompany, Footer, Tab, Tabs, BlurForwarder, Loading, InputEdit,
+        SIMPLEGRID_DIRECTIVES, AdnetConfigCustomer, AdnetConfig,
+        AdnetConfigCustomer, AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, RatingComponent,
+        DROPDOWN_DIRECTIVES, MODAL_DIRECTIVES, Infobox,
+        ServerStats, ServerAvg, StationsMap, StationsGrid, Loading, StationDetails,
+        Ng2Highcharts, Loading],
     bootstrap: [Main],
 })
 export class App {

@@ -26,7 +26,6 @@ import * as bootbox from "bootbox";
             opacity: 0.3;
         }
     `],
-    directives: [Tab, Tabs, REACTIVE_FORM_DIRECTIVES, BlurForwarder, Loading, InputEdit],
     host: {
         '(input-blur)': 'onInputBlur($event)'
     },

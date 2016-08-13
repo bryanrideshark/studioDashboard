@@ -30,8 +30,6 @@ import {AdnetConfigTargets} from "../targets/AdnetConfigTargets";
             transition('* => inactive', animate('100ms ease-out'))
         ])
     ],
-    directives: [AdnetConfigCustomer, AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, RatingComponent,
-        DROPDOWN_DIRECTIVES, CORE_DIRECTIVES],
     template: `
 <h3 style="float: right">{{adnetCustomerName}}</h3>
           <div>

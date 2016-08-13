@@ -15,8 +15,7 @@ window['Highcharts'] = Highcharts;
                 <div [ng2-highcharts]="_options" (init)="onInit($event)" class="graph"></div>
             </div>
         </div>
-    `,
-    directives: [Ng2Highcharts, Loading]
+    `
 })
 export class ServerAvg {
 
