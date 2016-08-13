@@ -50,10 +50,6 @@ export class AdnetConfigCustomer {
     private customerModel:AdnetCustomerModel;
     private contGroup:FormGroup;
     private formInputs = {};
-    private customerNetworkValue = '';
-    private accountNetworkValue = '';
-    private defaultAutoActivateValue = '';
-    private globalNetworkValue = '';
 
     private onInputBlur(event) {
         this.updateSore();
