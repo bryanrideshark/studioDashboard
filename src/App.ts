@@ -207,8 +207,6 @@ if (!Lib.DevMode())
     enableProdMode();
 
 var modules = [AUTH_PROVIDERS, APP_ROUTER_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
-    disableDeprecatedForms(),
-    provideForms(),
     {provide: AppStore, useFactory: Lib.StoreFactory({notify, appdb, business, stations, reseller, adnet, orders})},
     {provide: StoreService, useClass: StoreService},
     {provide: BusinessAction, useClass: BusinessAction},

@@ -3,29 +3,20 @@ import {Actions, AppStore} from "angular2-redux-util";
 import {PrivelegesModel} from "./PrivelegesModel";
 import {PrivelegesTemplateModel} from "./PrivelegesTemplateModel";
 import {Lib} from "../Lib";
-import {List, Map} from 'immutable';
+import * as Immutable from "immutable";
+import {List, Map} from "immutable";
 import {Observable} from "rxjs/Observable";
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/finally';
-import 'rxjs/add/observable/throw';
+import "rxjs/add/operator/catch";
+import "rxjs/add/operator/finally";
+import "rxjs/add/observable/throw";
 import {AppModel} from "./AppModel";
 import {WhitelabelModel} from "./WhitelabelModel";
 import {AccountModel} from "./AccountModel";
-import {
-    Headers,
-    Http,
-    Jsonp,
-    HTTP_BINDINGS,
-    Request,
-    RequestOptions,
-    RequestMethod,
-    RequestOptionsArgs
-} from '@angular/http'
+import {Http, Request, RequestOptions, RequestMethod, RequestOptionsArgs} from "@angular/http";
 import {CreditService} from "../services/CreditService";
-import * as Immutable from 'immutable'
-import * as bootbox from 'bootbox';
-import * as _ from 'lodash'
-import * as xml2js from 'xml2js'
+import * as bootbox from "bootbox";
+import * as _ from "lodash";
+import * as xml2js from "xml2js";
 
 export const RECEIVE_PRIVILEGES = 'RECEIVE_PRIVILEGES';
 export const RECEIVE_PRIVILEGES_SYSTEM = 'RECEIVE_PRIVILEGES_SYSTEM';
@@ -42,25 +33,25 @@ export const UPDATE_WHITELABEL = 'UPDATE_WHITELABEL';
 export const UPDATE_ACCOUNT = 'UPDATE_ACCOUNT';
 export const ADD_PRIVILEGE = 'ADD_PRIVILEGE';
 export const REMOVE_PRIVILEGE = 'REMOVE_PRIVILEGE';
-export const PAY_SUBSCRIBER:number = 4;
+export const PAY_SUBSCRIBER: number = 4;
 
 @Injectable()
 export class ResellerAction extends Actions {
 
-    constructor(private appStore:AppStore, private _http:Http, private creditService:CreditService) {
+    constructor(private appStore: AppStore, private _http: Http, private creditService: CreditService) {
         super(appStore);
         // this.m_parseString = require('xml2js').parseString;
         this.m_parseString = xml2js.parseString;
     }
 
     private m_parseString;
-    private m_privilegesSystemModels:Array<PrivelegesTemplateModel> = [];
+    private m_privilegesSystemModels: Array<PrivelegesTemplateModel> = [];
 
-    private privilegesModelFactory(i_defaultPrivId, i_defaultPrivName, i_existingGroups?:Array<any>):PrivelegesModel {
+    private privilegesModelFactory(i_defaultPrivId, i_defaultPrivName, i_existingGroups?: Array<any>): PrivelegesModel {
         let groups = List();
         let tablesDst = [];
         if (i_existingGroups) {
-            i_existingGroups.forEach((privilegesGroups:any)=> {
+            i_existingGroups.forEach((privilegesGroups: any)=> {
                 var tableName = privilegesGroups._attr.name;
                 var visible = privilegesGroups._attr.visible;
                 tablesDst.push(tableName)
@@ -77,12 +68,12 @@ export class ResellerAction extends Actions {
             })
         }
         // fill up any new or missing tables
-        this.m_privilegesSystemModels.forEach((privelegesTemplateModel:PrivelegesTemplateModel)=> {
+        this.m_privilegesSystemModels.forEach((privelegesTemplateModel: PrivelegesTemplateModel)=> {
             var srcTableName = privelegesTemplateModel.getTableName();
             if (tablesDst.indexOf(srcTableName) == -1)
                 groups = groups.push(privelegesTemplateModel.getData());
         })
-        let privilegesModel:PrivelegesModel = new PrivelegesModel({
+        let privilegesModel: PrivelegesModel = new PrivelegesModel({
             privilegesId: i_defaultPrivId,
             name: i_defaultPrivName,
             groups: groups
@@ -90,10 +81,10 @@ export class ResellerAction extends Actions {
         return privilegesModel;
     }
 
-    public appStatus(app:AppModel, mode:boolean) {
+    public appStatus(app: AppModel, mode: boolean) {
         return (dispatch)=> {
             dispatch(this.updatedApp(app, mode));
-            var appdb:Map<string,any> = this.appStore.getState().appdb;
+            var appdb: Map<string,any> = this.appStore.getState().appdb;
             var url;
             if (mode) {
                 url = appdb.get('appBaseUrlUser') + `&command=InstallApp&appId=${app.getAppId()}`;
@@ -113,7 +104,7 @@ export class ResellerAction extends Actions {
         }
     }
 
-    public getResellerIsActive():boolean {
+    public getResellerIsActive(): boolean {
         // accountStatus:"value"
         //      0 = not verified
         //      1 = intermediate state while the account is been created
@@ -132,11 +123,11 @@ export class ResellerAction extends Actions {
     public getResellerInfo() {
         var self = this;
         return (dispatch)=> {
-            var appdb:Map<string,any> = this.appStore.getState().appdb;
+            var appdb: Map<string,any> = this.appStore.getState().appdb;
             var url = appdb.get('appBaseUrlUser') + `&command=GetBusinessUserInfo`;
             this._http.get(url)
                 .map(result => {
-                    var xmlData:string = result.text()
+                    var xmlData: string = result.text()
                     this.m_parseString(xmlData, {attrkey: '_attr'}, function (err, result) {
                         if (err) {
                             bootbox.alert('problem loading user info')
@@ -188,12 +179,12 @@ export class ResellerAction extends Actions {
                             iconLabel: result.User.BusinessInfo["0"].WhiteLabel["0"].Studio["0"].MainMenu["0"].CommandGroup["0"]._attr.label,
                             twitterLink: result.User.BusinessInfo["0"].WhiteLabel["0"].Studio["0"].Twitter["0"]._attr.link
                         }
-                        var whitelabelModel:WhitelabelModel = new WhitelabelModel(whitelabel);
+                        var whitelabelModel: WhitelabelModel = new WhitelabelModel(whitelabel);
                         dispatch(self.receiveWhitelabel(whitelabelModel));
 
                         Lib.AppsXmlTemplate((err, xmlTemplate)=> {
 
-                            var isAppInstalled = (i_appId):number => {
+                            var isAppInstalled = (i_appId): number => {
                                 var returns = 0;
                                 result.User.BusinessInfo["0"].InstalledApps["0"].App.forEach((i_app)=> {
                                     if (i_appId === i_app._attr.id)
@@ -204,9 +195,9 @@ export class ResellerAction extends Actions {
                             /**
                              * redux inject Apps
                              **/
-                            var userApps:List<AppModel> = List<AppModel>();
+                            var userApps: List<AppModel> = List<AppModel>();
                             xmlTemplate.Apps.App.forEach((i_app) => {
-                                var app:AppModel = new AppModel({
+                                var app: AppModel = new AppModel({
                                     desc: i_app.Description["0"],
                                     appName: i_app._attr.appName,
                                     appId: i_app._attr.id,
@@ -234,7 +225,7 @@ export class ResellerAction extends Actions {
                                 })
                                 values['tableName'] = table._attr.name;
                                 values['columns'] = Immutable.fromJS(table.Tables["0"]._attr);
-                                let privelegesSystemModel:PrivelegesTemplateModel = new PrivelegesTemplateModel(values);
+                                let privelegesSystemModel: PrivelegesTemplateModel = new PrivelegesTemplateModel(values);
                                 if (privelegesSystemModel.getColumnSize() > 0)
                                     self.m_privilegesSystemModels.push(privelegesSystemModel)
                             })
@@ -244,10 +235,10 @@ export class ResellerAction extends Actions {
                              **/
                             var defaultPrivId = result.User.BusinessInfo[0].Privileges[0]._attr.defaultPrivilegeId;
                             dispatch(self.receiveDefaultPrivilege(defaultPrivId));
-                            var privilegesModels:List<PrivelegesModel> = List<PrivelegesModel>();
+                            var privilegesModels: List<PrivelegesModel> = List<PrivelegesModel>();
 
                             result.User.BusinessInfo["0"].Privileges["0"].Privilege.forEach((privileges)=> {
-                                let privilegesModel:PrivelegesModel = self.privilegesModelFactory(privileges._attr.id, privileges._attr.name, privileges.Groups["0"].Group);
+                                let privilegesModel: PrivelegesModel = self.privilegesModelFactory(privileges._attr.id, privileges._attr.name, privileges.Groups["0"].Group);
                                 privilegesModels = privilegesModels.push(privilegesModel)
                             });
                             dispatch(self.receivePrivileges(privilegesModels));
@@ -260,12 +251,12 @@ export class ResellerAction extends Actions {
     public getAccountInfo() {
         var self = this;
         return (dispatch)=> {
-            var appdb:Map<string,any> = this.appStore.getState().appdb;
+            var appdb: Map<string,any> = this.appStore.getState().appdb;
             var url = appdb.get('appBaseUrlUser') + `&command=GetAccountInfo`;
-            var accountModelList:List<AccountModel> = List<AccountModel>();
+            var accountModelList: List<AccountModel> = List<AccountModel>();
             this._http.get(url)
                 .map(result => {
-                    var xmlData:string = result.text()
+                    var xmlData: string = result.text()
                     this.m_parseString(xmlData, {attrkey: '_attr'}, function (err, result) {
                         if (err) {
                             bootbox.alert('problem account info')
@@ -279,7 +270,7 @@ export class ResellerAction extends Actions {
                             if (_.isUndefined(values))
                                 values = {};
                             values['type'] = item;
-                            var accountModel:AccountModel = new AccountModel(values);
+                            var accountModel: AccountModel = new AccountModel(values);
                             accountModelList = accountModelList.push(accountModel);
                         });
                         dispatch(self.receiveAccountInfo(accountModelList));
@@ -296,10 +287,10 @@ export class ResellerAction extends Actions {
             Lib.PrivilegesXmlTemplate(true, privilegeDefault, self.appStore, (err, template)=> {
                 template = template.replace(/>\s*/g, '>').replace(/\s*</g, '<').replace(/(\r\n|\n|\r)/gm, "");
                 template = template.replace(/<Privilege>/g, '').replace(/<\/Privilege>/g, '');
-                var appdb:Map<string,any> = this.appStore.getState().appdb;
+                var appdb: Map<string,any> = this.appStore.getState().appdb;
                 var url = appdb.get('appBaseUrlUser') + `&command=AddPrivilege&privilegeName=${privName}`;
 
-                var basicOptions:RequestOptionsArgs = {
+                var basicOptions: RequestOptionsArgs = {
                     url: url,
                     method: RequestMethod.Post,
                     search: null,
@@ -316,9 +307,9 @@ export class ResellerAction extends Actions {
                     })
                     .finally(() => {
                     })
-                    .map((result:any) => {
+                    .map((result: any) => {
                         var privilegesId = result.text();
-                        var privilegesModel:PrivelegesModel = this.privilegesModelFactory(privilegesId, privName)
+                        var privilegesModel: PrivelegesModel = this.privilegesModelFactory(privilegesId, privName)
                         dispatch(this.addPrivilege(privilegesModel));
                     }).subscribe();
             });
@@ -327,7 +318,7 @@ export class ResellerAction extends Actions {
 
     public deletePrivilege(privilegeId) {
         return (dispatch)=> {
-            var appdb:Map<string,any> = this.appStore.getState().appdb;
+            var appdb: Map<string,any> = this.appStore.getState().appdb;
             var url = appdb.get('appBaseUrlUser') + `&command=DeletePrivilege&privilegeId=${privilegeId}`;
             this._http.get(url)
                 .catch((err) => {
@@ -346,7 +337,7 @@ export class ResellerAction extends Actions {
 
     public setDefaultPrivilege(privilegeId) {
         return (dispatch)=> {
-            var appdb:Map<string,any> = this.appStore.getState().appdb;
+            var appdb: Map<string,any> = this.appStore.getState().appdb;
             var url = appdb.get('appBaseUrlUser') + `&command=SetPrivilegeAsDefault&privilegeId=${privilegeId}`;
             this._http.get(url)
                 .catch((err) => {
@@ -362,9 +353,9 @@ export class ResellerAction extends Actions {
         }
     }
 
-    public saveAccountInfo(payload:any) {
+    public saveAccountInfo(payload: any) {
 
-        var validatedCreditCard = ():boolean => {
+        var validatedCreditCard = (): boolean => {
             // var cardType = getStoreValue('Billing', 'cardType');
             // var securityCode = getStoreValue('Billing', 'securityCode'); // don't check
             var expirationMonth = getStoreValue('Billing', 'expirationMonth');
@@ -383,7 +374,7 @@ export class ResellerAction extends Actions {
 
         var getStoreValue = (table, key) => {
             var result = '';
-            var accounts = this.appStore.getState().reseller.getIn(['accounts']).forEach((accountModel:AccountModel)=> {
+            var accounts = this.appStore.getState().reseller.getIn(['accounts']).forEach((accountModel: AccountModel)=> {
                 if (accountModel.getType() == table)
                     return result = accountModel.getKey(key);
             });
@@ -416,10 +407,10 @@ export class ResellerAction extends Actions {
 
             template = template.replace(/>\s*/g, '>').replace(/\s*</g, '<').replace(/(\r\n|\n|\r)/gm, "");
 
-            var appdb:Map<string,any> = this.appStore.getState().appdb;
+            var appdb: Map<string,any> = this.appStore.getState().appdb;
             var url = appdb.get('appBaseUrlUser') + `&command=UpdateAccountInfo`;
 
-            var basicOptions:RequestOptionsArgs = {
+            var basicOptions: RequestOptionsArgs = {
                 url: url,
                 method: RequestMethod.Post,
                 search: null,
@@ -437,14 +428,14 @@ export class ResellerAction extends Actions {
                 .finally(() => {
                     console.log('SAVED !!!!!!!!!');
                 })
-                .map((result:any) => {
+                .map((result: any) => {
                     if (result.status != 200)
                         bootbox.alert('Error when accountInfo 2');
                 }).subscribe();
         }
     }
 
-    public saveWhiteLabel(payload:any) {
+    public saveWhiteLabel(payload: any) {
         return (dispatch)=> {
             dispatch(this.updateResellerInfo(payload));
 
@@ -472,10 +463,10 @@ export class ResellerAction extends Actions {
             </Studio>`;
             template = template.replace(/>\s*/g, '>').replace(/\s*</g, '<').replace(/(\r\n|\n|\r)/gm, "");
 
-            var appdb:Map<string,any> = this.appStore.getState().appdb;
+            var appdb: Map<string,any> = this.appStore.getState().appdb;
             var url = appdb.get('appBaseUrlUser') + `&command=SaveWhiteLabel&useWhiteLabel=${this.appStore.getsKey('reseller', 'whitelabel', 'whitelabelEnabled')}&resellerName=${this.appStore.getsKey('reseller', 'whitelabel', 'companyName')}&defaultThemeId=1`;
 
-            var basicOptions:RequestOptionsArgs = {
+            var basicOptions: RequestOptionsArgs = {
                 url: url,
                 method: RequestMethod.Post,
                 search: null,
@@ -492,23 +483,23 @@ export class ResellerAction extends Actions {
                 })
                 .finally(() => {
                 })
-                .map((result:any) => {
+                .map((result: any) => {
                     if (result.status != 200)
                         bootbox.alert('Error when whitelabel 2');
                 }).subscribe();
         }
     }
 
-    public savePrivileges(privelegesId:string, selPrivName:string) {
+    public savePrivileges(privelegesId: string, selPrivName: string) {
         return (dispatch)=> {
             var self = this;
             Lib.PrivilegesXmlTemplate(false, privelegesId, self.appStore, (err, template)=> {
                 template = template.replace(/>\s*/g, '>').replace(/\s*</g, '<').replace(/(\r\n|\n|\r)/gm, "");
                 template = template.replace(/<Privilege>/g, '').replace(/<\/Privilege>/g, '');
-                var appdb:Map<string,any> = this.appStore.getState().appdb;
+                var appdb: Map<string,any> = this.appStore.getState().appdb;
                 var url = appdb.get('appBaseUrlUser') + `&command=UpdatePrivilege&privilegeName=${selPrivName}&privilegeId=${privelegesId}`;
 
-                var basicOptions:RequestOptionsArgs = {
+                var basicOptions: RequestOptionsArgs = {
                     //headers: new Headers({'trustme':true}),
                     url: url,
                     method: RequestMethod.Post,
@@ -527,7 +518,7 @@ export class ResellerAction extends Actions {
                     })
                     .finally(() => {
                     })
-                    .map((result:any) => {
+                    .map((result: any) => {
                         if (result.status != 200)
                             bootbox.alert('Error when saving priveleges 2');
                     }).subscribe();
@@ -535,49 +526,49 @@ export class ResellerAction extends Actions {
         }
     }
 
-    public addPrivilege(privelegesModel:PrivelegesModel) {
+    public addPrivilege(privelegesModel: PrivelegesModel) {
         return {
             type: ADD_PRIVILEGE,
             privelegesModel
         }
     }
 
-    public receivePrivileges(privilegesModels:List<PrivelegesModel>) {
+    public receivePrivileges(privilegesModels: List<PrivelegesModel>) {
         return {
             type: RECEIVE_PRIVILEGES,
             privilegesModels
         }
     }
 
-    public receiveWhitelabel(whitelabelModel:WhitelabelModel) {
+    public receiveWhitelabel(whitelabelModel: WhitelabelModel) {
         return {
             type: RECEIVE_WHITELABEL,
             whitelabelModel
         }
     }
 
-    public receiveAccountInfo(accountModels:List<AccountModel>) {
+    public receiveAccountInfo(accountModels: List<AccountModel>) {
         return {
             type: RECEIVE_ACCOUNT_INFO,
             accountModels
         }
     }
 
-    public receiveDefaultPrivilege(privilegeId:number) {
+    public receiveDefaultPrivilege(privilegeId: number) {
         return {
             type: RECEIVE_DEFAULT_PRIVILEGE,
             privilegeId
         }
     }
 
-    public updateDefaultPrivilege(privilegeId:number) {
+    public updateDefaultPrivilege(privilegeId: number) {
         return {
             type: UPDATE_DEFAULT_PRIVILEGE,
             privilegeId
         }
     }
 
-    public updateDefaultPrivilegeName(privilegeId:number, privilegeName:string) {
+    public updateDefaultPrivilegeName(privilegeId: number, privilegeName: string) {
         return {
             type: UPDATE_PRIVILEGE_NAME,
             privilegeId,
@@ -585,28 +576,28 @@ export class ResellerAction extends Actions {
         }
     }
 
-    public updateResellerInfo(payload:any) {
+    public updateResellerInfo(payload: any) {
         return {
             type: UPDATE_WHITELABEL,
             payload
         }
     }
 
-    public updateAccountInfo(payload:any) {
+    public updateAccountInfo(payload: any) {
         return {
             type: UPDATE_ACCOUNT,
             payload
         }
     }
 
-    public receiveApps(apps:List<AppModel>) {
+    public receiveApps(apps: List<AppModel>) {
         return {
             type: RECEIVE_APPS,
             apps
         }
     }
 
-    public updatedApp(app:AppModel, mode:boolean) {
+    public updatedApp(app: AppModel, mode: boolean) {
         return {
             type: UPDATE_APP,
             app,
@@ -614,14 +605,14 @@ export class ResellerAction extends Actions {
         }
     }
 
-    public receivePrivilegesSystem(privelegesSystemModels:Array<PrivelegesTemplateModel>) {
+    public receivePrivilegesSystem(privelegesSystemModels: Array<PrivelegesTemplateModel>) {
         return {
             type: RECEIVE_PRIVILEGES_SYSTEM,
             privelegesSystemModels
         }
     }
 
-    public removePrivilege(privilegeId:number) {
+    public removePrivilege(privilegeId: number) {
         return {
             type: REMOVE_PRIVILEGE,
             privilegeId
