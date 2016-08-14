@@ -1,5 +1,3 @@
-///<reference path="../../../typings/app.d.ts"/>
-
 import {Component, ElementRef, ChangeDetectionStrategy} from '@angular/core';
 import {Observable} from "rxjs/Observable";
 import 'rxjs/add/observable/of';
