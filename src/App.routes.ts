@@ -1,7 +1,6 @@
-import {provideRouter, RouterConfig} from "@angular/router";
+import {Routes, RouterModule} from "@angular/router";
 import {App1} from "./comps/app1/App1";
 import {LoginPanel} from "./comps/entry/LoginPanel";
-import {ForgotPass} from "./comps/entry/ForgotPass";
 import {Logout} from "./comps/logout/Logout";
 import {Dashboard} from "./comps/app1/dashboard/Dashboard";
 import {Users} from "./comps/app1/users/Users";
@@ -12,10 +11,6 @@ import {Account} from "./comps/app1/account/Account";
 import {Orders} from "./comps/app1/orders/Orders";
 import {AuthService} from "./services/AuthService";
 import {Adnet} from "./comps/app1/adnet/Adnet";
-import {
-    Routes,
-    RouterModule
-} from '@angular/router';
 
 
 const routes: Routes = [
@@ -46,12 +41,6 @@ const routes: Routes = [
         ]
     }
 ];
-
-export const APP_ROUTER_PROVIDERS = [
-    provideRouter(routes)
-];
-
-export const appRoutingProviders: any[] = [];
 
 export const routing = RouterModule.forRoot(routes);
 

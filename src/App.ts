@@ -16,9 +16,9 @@ import "zone.js/dist/zone";
 import "zone.js/dist/long-stack-trace-zone";
 import "reflect-metadata";
 import {Router} from "@angular/router";
-import {APP_ROUTER_PROVIDERS, routing, appRoutingProviders} from "./App.routes";
+import {routing} from "./App.routes";
 import {platformBrowserDynamic} from "@angular/platform-browser-dynamic";
-import {disableDeprecatedForms, provideForms, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Component, enableProdMode, ViewEncapsulation, PLATFORM_PIPES, NgModule, NgModuleRef} from "@angular/core";
 import * as platform from "platform";
 import "jspm_packages/github/twbs/bootstrap@3.3.6";
@@ -207,7 +207,7 @@ export class Main {
 if (!Lib.DevMode())
     enableProdMode();
 
-var modules = [AUTH_PROVIDERS, APP_ROUTER_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
+var modules = [AUTH_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
     {provide: AppStore, useFactory: Lib.StoreFactory({notify, appdb, business, stations, reseller, adnet, orders})},
     {provide: StoreService, useClass: StoreService},
     {provide: BusinessAction, useClass: BusinessAction},
@@ -228,7 +228,7 @@ var decelerations = [Main, RatesTable, UsersDetails, LoginPanel, Menu, MenuItem,
 
 @NgModule({
     imports: [BrowserModule, FormsModule, HttpModule, ReactiveFormsModule, routing],
-    providers: [appRoutingProviders, CommBroker, ...modules],
+    providers: [CommBroker, ...modules],
     declarations: decelerations,
     bootstrap: [Main],
 })

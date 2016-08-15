@@ -3,7 +3,7 @@ import {Component, Injectable, ViewChild, ElementRef, Renderer,  trigger,
     style,
     transition,
     animate} from "@angular/core";
-import {ROUTER_DIRECTIVES, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {AppStore} from "angular2-redux-util";
 import {BusinessAction} from "../../business/BusinessAction";
 import {LocalStorage} from "../../services/LocalStorage";

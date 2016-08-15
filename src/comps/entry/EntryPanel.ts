@@ -1,7 +1,4 @@
 import {Component} from "@angular/core";
-import {ForgotPass} from "../../../src/comps/entry/ForgotPass";
-import {LoginPanel} from "../../../src/comps/entry/LoginPanel";
-import {ROUTER_DIRECTIVES} from "@angular/router";
 
 
 // @Routes([
