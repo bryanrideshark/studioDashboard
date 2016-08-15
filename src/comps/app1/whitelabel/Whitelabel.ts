@@ -97,7 +97,6 @@ export class Whitelabel {
     @ViewChildren(ImgLoader)
     f:QueryList<any>;
 
-    //private whiteLabelEnabled:boolean;
     private formInputs = {};
     private contGroup:FormGroup;
     private whitelabelModel:WhitelabelModel;
