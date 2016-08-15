@@ -86,7 +86,7 @@ export class AdnetActions extends Actions {
                         for (var target of jData['targets']) {
                             if (target.Value.deleted == true)
                                 continue;
-                            const adnetTargetModel: AdnetTargetModel = new AdnetTargetModel(adnetRate);
+                            const adnetTargetModel: AdnetTargetModel = new AdnetTargetModel(target);
                             adnetTargets = adnetTargets.push(adnetTargetModel)
                         }
                         dispatch(this.receivedTargets(adnetTargets));

@@ -48,7 +48,6 @@ export class Whitelabel {
 
         this.contGroup = fb.group({
             'whitelabelEnabled': [''],
-            brandingEnabled: [''],
             'companyName': [''],
             'logoTooltip': [''],
             'logoLink': [''],
@@ -71,7 +70,6 @@ export class Whitelabel {
             this.formInputs[key] = this.contGroup.controls[key] as FormControl;
         })
         this.renderFormInputs();
-
         this.stylesObj = {
             img: {
                 'color': '#333333',
@@ -99,7 +97,7 @@ export class Whitelabel {
     @ViewChildren(ImgLoader)
     f:QueryList<any>;
 
-    private whiteLabelEnabled:boolean;
+    //private whiteLabelEnabled:boolean;
     private formInputs = {};
     private contGroup:FormGroup;
     private whitelabelModel:WhitelabelModel;
@@ -204,15 +202,16 @@ export class Whitelabel {
     }
 
     private renderFormInputs() {
-        this.whiteLabelEnabled = this.whitelabelModel.getKey('whitelabelEnabled');
-        this.whiteLabelEnabled = Lib.BooleanToNumber(this.whiteLabelEnabled);
-
         _.forEach(this.formInputs, (value, key:string)=> {
             var value = this.whitelabelModel.getKey(key);
             value = Lib.BooleanToNumber(value);
             this.formInputs[key].setValue(value);
         })
     };
+
+    private isWhitelabelEnabled() {
+        return Lib.BooleanToNumber(this.getBusinessInfo('whitelabelEnabled'));
+    }
 
     private onWhiteLabelChange(value) {
         if (value && this.resellerAction.getResellerIsActive() == false) {
@@ -223,7 +222,6 @@ export class Whitelabel {
             this.appStore.dispatch(this.resellerAction.saveWhiteLabel({whitelabelEnabled: value}))
             this.cd.markForCheck();
         }, 1)
-        // this.appStore.dispatch(this.resellerAction.saveWhiteLabel({whitelabelEnabled: value}));
     }
 
     private ngOnDestroy() {
