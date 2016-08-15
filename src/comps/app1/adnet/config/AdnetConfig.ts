@@ -1,19 +1,7 @@
-import {Component, trigger,
-    state,
-    style,
-    transition,
-    animate} from "@angular/core";
-import {AdnetConfigCustomer} from "../config/AdnetConfigCustomer";
-import {Tabs} from "../../../tabs/tabs";
-import {Tab} from "../../../tabs/tab";
+import {Component, trigger, state, style, transition, animate} from "@angular/core";
 import {AppStore} from "angular2-redux-util";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {List} from "immutable";
-import {AdnetConfigRates} from "../rates/AdnetConfigRates";
-import {CORE_DIRECTIVES} from "@angular/common";
-import {DROPDOWN_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
-import {RatingComponent} from 'ng2-bootstrap/ng2-bootstrap';
-import {AdnetConfigTargets} from "../targets/AdnetConfigTargets";
 
 @Component({
     selector: 'AdnetConfig',
@@ -57,7 +45,7 @@ import {AdnetConfigTargets} from "../targets/AdnetConfigTargets";
                   <AdnetConfigRates [adnetCustomerId]="adnetCustomerId"></AdnetConfigRates>
                 </tab>
                 <tab [tabtitle]="'Targets'">
-                    <AdnetConfigTargets></AdnetConfigTargets>
+                    <AdnetConfigTargetStations [adnetCustomerModel]="adnetCustomerModel"></AdnetConfigTargetStations>
                 </tab>
             </tabs>
          </div>

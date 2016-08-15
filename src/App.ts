@@ -126,6 +126,7 @@ import {SimplelistEditable} from "./comps/simplelist/SimplelistEditable";
 import {OrderBy} from "./pipes/OrderBy";
 import {SortBy} from "./pipes/SortBy";
 import {FilterPipe} from "./pipes/FilterPipe";
+import {AdnetConfigTargetStations} from "./comps/app1/adnet/targets/AdnetConfigTargetStations";
 
 export enum ServerMode {
     CLOUD,
@@ -223,7 +224,7 @@ var modules = [AUTH_PROVIDERS, APP_ROUTER_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVID
     {provide: "OFFLINE_ENV", useValue: false},
     {provide: PLATFORM_PIPES, useValue: CharCount, multi: true}];
 
-var decelerations = [Main, RatesTable, UsersDetails, LoginPanel, Menu, MenuItem, Sliderpanel, Account, Whitelabel, Apps, App1, Users, Adnet, Privileges, Dashboard, Logout, Orders, Filemenu, FilemenuItem, Logo, LogoCompany, Footer, BlurForwarder, InputEdit, ANGULAR2_GOOGLE_MAPS_DIRECTIVES, OrderBy, SortBy, FilterPipe, AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, RatingComponent, ServerStats, ServerAvg, StationsMap, StationsGrid, StationDetails, ImgLoader, Ng2Highcharts, AdnetConfigCustomer, AdnetConfig, StationSnapshot, OrderDetails, SimpleList, PrivilegesDetails, ModalDialog, Infobox, UserStorage, Loading, Samplelist, DROPDOWN_DIRECTIVES, SIMPLEGRID_DIRECTIVES, UserInfo, AddUser, ChangePass, MODAL_DIRECTIVES, Ng2Highstocks, Ng2Highmaps, SimpleGridSortableHeader, SimpleGridRecord, SimpleGridData, SimplelistEditable];
+var decelerations = [Main, RatesTable, UsersDetails, LoginPanel, Menu, MenuItem, Sliderpanel, Account, Whitelabel, Apps, App1, Users, Adnet, Privileges, Dashboard, Logout, Orders, Filemenu, FilemenuItem, Logo, LogoCompany, Footer, BlurForwarder, InputEdit, ANGULAR2_GOOGLE_MAPS_DIRECTIVES, OrderBy, SortBy, FilterPipe, AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, RatingComponent, ServerStats, ServerAvg, StationsMap, StationsGrid, StationDetails, ImgLoader, Ng2Highcharts, AdnetConfigCustomer, AdnetConfig, StationSnapshot, OrderDetails, SimpleList, PrivilegesDetails, ModalDialog, Infobox, UserStorage, Loading, Samplelist, DROPDOWN_DIRECTIVES, SIMPLEGRID_DIRECTIVES, UserInfo, AddUser, ChangePass, MODAL_DIRECTIVES, Ng2Highstocks, Ng2Highmaps, SimpleGridSortableHeader, SimpleGridRecord, SimpleGridData, SimplelistEditable, AdnetConfigTargetStations];
 
 @NgModule({
     imports: [BrowserModule, FormsModule, HttpModule, ReactiveFormsModule, routing],
