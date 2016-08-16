@@ -41,6 +41,15 @@ export class Dashboard {
         this.listenBusinessNameFilter();
         this.listenStore()
         this.listenStationsErrors()
+
+        // setInterval(function(){
+        //     // jQuery.getScript('https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyAGD7EQugVG8Gq8X3vpyvkZCnW4E4HONLI', function(e){
+        //     // })
+        //     jQuery.getScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyA_iflZH2kzuesa0hTwGOaIdqFaIk-_bH4', function(a,b,c){
+        //         console.log(a,b,c);
+        //     })
+        // },3000)
+
     }
 
     @ViewChild('modalStationDetails')

@@ -66,7 +66,10 @@ import {stations} from "./stations/StationsReducer";
 import {AppdbAction} from "./appdb/AppdbAction";
 import {LogoCompany} from "./comps/logo/LogoCompany";
 import {Observable} from "rxjs/Rx";
-import {ANGULAR2_GOOGLE_MAPS_PROVIDERS, ANGULAR2_GOOGLE_MAPS_DIRECTIVES} from "angular2-google-maps/core";
+import {
+    ANGULAR2_GOOGLE_MAPS_PROVIDERS, ANGULAR2_GOOGLE_MAPS_DIRECTIVES,
+    LazyMapsAPILoaderConfig
+} from "angular2-google-maps/core";
 import {AdnetActions} from "./adnet/AdnetActions";
 import {AUTH_PROVIDERS} from "./services/AuthService";
 import {BrowserModule} from "@angular/platform-browser";
@@ -207,7 +210,14 @@ export class Main {
 if (!Lib.DevMode())
     enableProdMode();
 
+var googleKey = function () {
+    var config = new LazyMapsAPILoaderConfig();
+    config.apiKey = 'AIzaSyAGD7EQugVG8Gq8X3vpyvkZCnW4E4HONLI';
+    return config;
+}
+
 var modules = [AUTH_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
+    {provide: LazyMapsAPILoaderConfig, useFactory: () => googleKey()},
     {provide: AppStore, useFactory: Lib.StoreFactory({notify, appdb, business, stations, reseller, adnet, orders})},
     {provide: StoreService, useClass: StoreService},
     {provide: BusinessAction, useClass: BusinessAction},
