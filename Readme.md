@@ -17,6 +17,9 @@ Prerequisites:
 - An active DigitalSignage.com Enterprise account
 - Working knowledge of the Google Angular2 JavaScript framework
 - Working knowledge of the Microsoft TypeScript 
+
+ 
+ ![Image of Yaktocat](http://www.digitalsignage.com/_images/kitchensink.png)
  
 Features:
 ----------
