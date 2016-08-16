@@ -1,23 +1,14 @@
 import {Component, ViewChild, ChangeDetectorRef} from "@angular/core";
-import {Infobox} from "../../infobox/Infobox";
 import {List, Map} from "immutable";
 import {AppStore} from "angular2-redux-util";
 import {BusinessAction} from "../../../business/BusinessAction";
-import {ServerStats} from "./ServerStats";
-import {ServerAvg} from "./ServerAvg";
 import {AppdbAction} from "../../../appdb/AppdbAction";
-import {StationsMap} from "./StationsMap";
 import {AuthService} from "../../../services/AuthService";
 import {StationModel} from "../../../stations/StationModel";
-import {Loading} from "../../loading/Loading";
-import {SortBy} from "../../../pipes/SortBy";
-import {StationsGrid} from "./StationsGrid";
 import {CommBroker, IMessage} from "../../../services/CommBroker";
 import {Consts} from "../../../Conts";
 import {FormControl} from "@angular/forms";
 import {ModalComponent} from "../../ng2-bs3-modal/components/modal";
-import {MODAL_DIRECTIVES} from "../../ng2-bs3-modal/ng2-bs3-modal";
-import {StationDetails} from "./StationDetails";
 import * as _ from "lodash";
 
 type stationComponentMode = "map" | "grid";

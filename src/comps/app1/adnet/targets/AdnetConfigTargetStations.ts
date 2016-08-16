@@ -15,6 +15,9 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
     moduleId: __moduleName,
     templateUrl: 'AdnetConfigTargetStations.html',
     styles: [`
+        .row{
+            padding: 10px;
+        }
         .material-switch {
             position: relative;
             padding-top: 10px;

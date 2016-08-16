@@ -45,7 +45,7 @@ import {List} from "immutable";
                   <AdnetConfigRates [adnetCustomerId]="adnetCustomerId"></AdnetConfigRates>
                 </tab>
                 <tab [tabtitle]="'Targets'">
-                    <AdnetConfigTargetStations [adnetCustomerModel]="adnetCustomerModel"></AdnetConfigTargetStations>
+                    <AdnetConfigTargets [adnetCustomerModel]="adnetCustomerModel"></AdnetConfigTargets>                    
                 </tab>
             </tabs>
          </div>

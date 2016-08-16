@@ -1,36 +1,36 @@
-<div>
+<div class="row">
     <form [formGroup]="contGroup">
-        <div class="container" style="padding-right: 170px">
-            <div class="col-xs-6">
-                <h3>personal configuration</h3>
+        <div class="row">
+            <div class="col-xs-12">
+                <h3>target stations</h3>
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
                     <input [formControl]="contGroup.controls['label']" type="text" class="form-control"
                            placeholder="Customer name">
                 </div>
             </div>
-            <div class="col-xs-6 box">
-                <h3>settings</h3>
-                <div class="inner userGeneral">
-                    <div class="panel panel-default tallPanel">
-                        <div class="panel-heading">mediaADNET network activation
-                            <i class="fa fa-cog pull-right"></i>
-                        </div>
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                Customer network
-                                <div class="material-switch pull-right">
-                                    <input (change)="onChangeSharing(customerNetwork2.checked)"
-                                           formControlName="customerNetwork2"
-                                           id="customerNetwork2" #customerNetwork2
-                                           name="customerNetwork2" type="checkbox"/>
-                                    <label for="customerNetwork2" class="label-primary"></label>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+            <!--<div class="col-xs-6 box">-->
+                <!--<h3>settings</h3>-->
+                <!--<div class="inner userGeneral">-->
+                    <!--<div class="panel panel-default tallPanel">-->
+                        <!--<div class="panel-heading">mediaADNET network activation-->
+                            <!--<i class="fa fa-cog pull-right"></i>-->
+                        <!--</div>-->
+                        <!--<ul class="list-group">-->
+                            <!--<li class="list-group-item">-->
+                                <!--Customer network-->
+                                <!--<div class="material-switch pull-right">-->
+                                    <!--<input (change)="onChangeSharing(customerNetwork2.checked)"-->
+                                           <!--formControlName="customerNetwork2"-->
+                                           <!--id="customerNetwork2" #customerNetwork2-->
+                                           <!--name="customerNetwork2" type="checkbox"/>-->
+                                    <!--<label for="customerNetwork2" class="label-primary"></label>-->
+                                <!--</div>-->
+                            <!--</li>-->
+                        <!--</ul>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
         </div>
     </form>
 </div>

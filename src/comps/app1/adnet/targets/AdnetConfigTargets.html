@@ -4,8 +4,10 @@
             <tab [tabtitle]="'Stations'">
                 <tabs>
                     <tab [tabtitle]="'Grid'">
+                        <AdnetConfigTargetStations [adnetCustomerModel]="customerModel"></AdnetConfigTargetStations>
                     </tab>
                     <tab [tabtitle]="'Map'">
+                        <stationsMap></stationsMap>
                     </tab>
                 </tabs>
             </tab>
