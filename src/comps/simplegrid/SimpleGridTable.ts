@@ -1,6 +1,5 @@
 import {Component, ChangeDetectionStrategy, Input, ContentChildren, QueryList} from "@angular/core";
 import {SimpleGridSortableHeader} from "./SimpleGridSortableHeader";
-import {COMMON_DIRECTIVES} from "@angular/common";
 import {OrderBy} from "../../pipes/OrderBy";
 import {SimpleGridRecord} from "./SimpleGridRecord";
 import {SimpleGridData} from "./SimpleGridData";

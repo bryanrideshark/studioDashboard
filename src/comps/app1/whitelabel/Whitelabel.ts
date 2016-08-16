@@ -14,7 +14,7 @@ import {Tabs} from "../../tabs/tabs";
 import {WhitelabelModel} from "../../../reseller/WhitelabelModel";
 import {ResellerAction} from "../../../reseller/ResellerAction";
 import {AppStore} from "angular2-redux-util";
-import {REACTIVE_FORM_DIRECTIVES, FormGroup, FormControl, FormBuilder} from "@angular/forms";
+import {FormGroup, FormControl, FormBuilder} from "@angular/forms";
 import {BlurForwarder} from "../../blurforwarder/BlurForwarder";
 import {Loading} from "../../loading/Loading";
 import {Lib} from "../../../Lib";

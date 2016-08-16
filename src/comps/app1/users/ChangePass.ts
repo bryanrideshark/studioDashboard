@@ -1,5 +1,5 @@
 import {Component, EventEmitter, ChangeDetectionStrategy, Input} from '@angular/core';
-import {REACTIVE_FORM_DIRECTIVES, FormGroup, Validators, FormControl, FormBuilder} from "@angular/forms";
+import {FormGroup, Validators, FormControl, FormBuilder} from "@angular/forms";
 import {ModalDialog} from "../../modaldialog/ModalDialog";
 import {AppStore} from "angular2-redux-util";
 import {BusinessAction} from "../../../business/BusinessAction";

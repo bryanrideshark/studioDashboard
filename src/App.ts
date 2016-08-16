@@ -19,7 +19,7 @@ import {Router} from "@angular/router";
 import {routing} from "./App.routes";
 import {platformBrowserDynamic} from "@angular/platform-browser-dynamic";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {Component, enableProdMode, ViewEncapsulation, PLATFORM_PIPES, NgModule, NgModuleRef} from "@angular/core";
+import {Component, enableProdMode, ViewEncapsulation, NgModule, NgModuleRef} from "@angular/core";
 import * as platform from "platform";
 import "jspm_packages/github/twbs/bootstrap@3.3.6";
 import "twbs/bootstrap/dist/css/bootstrap.css!";
@@ -34,7 +34,7 @@ import {OrdersAction} from "./comps/app1/orders/OrdersAction";
 import {orders} from "./comps/app1/orders/OrdersReducer";
 import {StationsAction} from "./stations/StationsAction";
 import {CharCount} from "./pipes/CharCount";
-import {HttpModule} from "@angular/http";
+import {HttpModule, JsonpModule} from "@angular/http";
 import {CommBroker} from "../src/services/CommBroker";
 import {Filemenu} from "../src/comps/filemenu/Filemenu";
 import {FilemenuItem} from "../src/comps/filemenu/FilemenuItem";
@@ -222,12 +222,12 @@ var modules = [AUTH_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
     {provide: Consts, useClass: Consts},
     {provide: "DEV_ENV", useValue: Lib.DevMode()},
     {provide: "OFFLINE_ENV", useValue: false},
-    {provide: PLATFORM_PIPES, useValue: CharCount, multi: true}];
+    {provide: CharCount}];
 
 var decelerations = [Main, RatesTable, UsersDetails, LoginPanel, Menu, MenuItem, Sliderpanel, Account, Whitelabel, Apps, App1, Users, Adnet, Privileges, Dashboard, Logout, Orders, Filemenu, FilemenuItem, Logo, LogoCompany, Footer, BlurForwarder, InputEdit, ANGULAR2_GOOGLE_MAPS_DIRECTIVES, OrderBy, SortBy, FilterPipe, AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, RatingComponent, ServerStats, ServerAvg, StationsMap, StationsGrid, StationDetails, ImgLoader, Ng2Highcharts, AdnetConfigCustomer, AdnetConfig, StationSnapshot, OrderDetails, SimpleList, PrivilegesDetails, ModalDialog, Infobox, UserStorage, Loading, Samplelist, DROPDOWN_DIRECTIVES, SIMPLEGRID_DIRECTIVES, UserInfo, AddUser, ChangePass, MODAL_DIRECTIVES, Ng2Highstocks, Ng2Highmaps, SimpleGridSortableHeader, SimpleGridRecord, SimpleGridData, SimplelistEditable, AdnetConfigTargetStations];
 
 @NgModule({
-    imports: [BrowserModule, FormsModule, HttpModule, ReactiveFormsModule, routing],
+    imports: [BrowserModule, FormsModule, JsonpModule, HttpModule, ReactiveFormsModule, routing],
     providers: [CommBroker, ...modules],
     declarations: decelerations,
     bootstrap: [Main],

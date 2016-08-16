@@ -2,7 +2,7 @@ import {Component, EventEmitter, ChangeDetectionStrategy, Input} from '@angular/
 import {ModalDialog} from "../../modaldialog/ModalDialog";
 import {BusinessUser} from "../../../business/BusinessUser";
 import {Lib} from "../../../Lib";
-import {REACTIVE_FORM_DIRECTIVES, FormGroup, Validators, FormControl, FormBuilder} from "@angular/forms";
+import {FormGroup, Validators, FormControl, FormBuilder} from "@angular/forms";
 import {AppStore} from "angular2-redux-util";
 import {BusinessAction} from "../../../business/BusinessAction";
 import {PrivelegesModel} from "../../../reseller/PrivelegesModel";

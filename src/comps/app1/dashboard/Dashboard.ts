@@ -14,7 +14,7 @@ import {SortBy} from "../../../pipes/SortBy";
 import {StationsGrid} from "./StationsGrid";
 import {CommBroker, IMessage} from "../../../services/CommBroker";
 import {Consts} from "../../../Conts";
-import {REACTIVE_FORM_DIRECTIVES, FormControl} from "@angular/forms";
+import {FormControl} from "@angular/forms";
 import {ModalComponent} from "../../ng2-bs3-modal/components/modal";
 import {MODAL_DIRECTIVES} from "../../ng2-bs3-modal/ng2-bs3-modal";
 import {StationDetails} from "./StationDetails";

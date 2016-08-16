@@ -13,7 +13,7 @@ import {Lib} from "../../../Lib";
 import {AccountModel} from "../../../reseller/AccountModel";
 import {CreditService} from "../../../services/CreditService";
 import {InputEdit} from "../../../comps/inputedit/InputEdit";
-import {REACTIVE_FORM_DIRECTIVES, FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import * as _ from "lodash";
 import * as bootbox from "bootbox";
 

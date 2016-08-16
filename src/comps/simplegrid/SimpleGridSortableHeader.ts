@@ -1,5 +1,4 @@
 import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
-import {COMMON_DIRECTIVES} from '@angular/common';
 
 @Component({
     selector: 'th[sortableHeader]',
