@@ -1,10 +1,10 @@
-import {Component, Input, ChangeDetectionStrategy} from "@angular/core";
-import {FormControl, FormGroup, FormBuilder} from "@angular/forms";
-import * as _ from "lodash";
-import {Lib} from "../../../../Lib";
+import {Component, Input, ChangeDetectionStrategy, ViewChild} from "@angular/core";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {AppStore} from "angular2-redux-util";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
+import {SimpleGridTable} from "../../../simplegrid/SimpleGridTable";
+import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
+import {List} from 'immutable';
 
 @Component({
     selector: 'AdnetConfigTargetStations',
@@ -18,62 +18,51 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
         .row{
             padding: 10px;
         }
-        .material-switch {
-            position: relative;
-            padding-top: 10px;
-        }
-        .input-group {
-            padding-top: 10px;
-        }
-        i {
-            width: 20px;
-        }
     `]
 })
 export class AdnetConfigTargetStations {
-    constructor(private fb: FormBuilder,
-                private appStore: AppStore,
-                private adnetAction: AdnetActions) {
-
-        this.contGroup = fb.group({
-            'label': [''],
-            'customerNetwork2': ['']
-        });
-        _.forEach(this.contGroup.controls, (value, key: string)=> {
-            this.formInputs[key] = this.contGroup.controls[key] as FormControl;
-        })
+    constructor(private appStore: AppStore, private adnetAction: AdnetActions) {
     }
+
+    ngOnInit() {
+        this.adTargets = this.appStore.getState().adnet.getIn(['targets']) || {};
+        this.unsub = this.appStore.sub((i_adTargets: List<AdnetTargetModel>) => {
+            this.adTargets = i_adTargets;
+            this.render();
+        }, 'adnet.targets');
+        this.render();
+    }
+
+    @ViewChild(SimpleGridTable)
+    simpleGridTable: SimpleGridTable
 
     @Input()
     set adnetCustomerModel(i_adnetCustomerModel: AdnetCustomerModel) {
         this.customerModel = i_adnetCustomerModel;
-        this.renderFormInputs();
     }
 
+    public sort: {field: string, desc: boolean} = {field: null, desc: false};
     private customerModel: AdnetCustomerModel;
-    private contGroup: FormGroup;
-    private formInputs = {};
+    private adTargets: List<AdnetTargetModel>;
+    private unsub: Function;
 
-    private onInputBlur(event) {
-        this.updateSore();
-    }
-
-    private onChangeSharing(event) {
-        this.updateSore();
+    private render() {
+        if (!this.adTargets)
+            return;
+        this.adTargets.forEach((i_adTarget:AdnetTargetModel)=> {
+            if (i_adTarget.getCustomerId()==this.customerModel.customerId()){
+                console.log(i_adTarget.getCustomerId());
+            }
+        })
     }
 
     private updateSore() {
         setTimeout(()=> {
-            this.appStore.dispatch(this.adnetAction.saveCustomerInfo(Lib.CleanCharForXml(this.contGroup.value), this.customerModel.customerId()))
+            //this.appStore.dispatch(this.adnetAction.saveCustomerInfo(Lib.CleanCharForXml(this.contGroup.value), this.customerModel.customerId()))
         }, 1)
     }
 
-    private renderFormInputs() {
-        if (!this.customerModel)
-            return;
-        _.forEach(this.formInputs, (value, key: string)=> {
-            var data = this.customerModel.getKey('Value')[key];
-            this.formInputs[key].setValue(data)
-        });
-    };
+    ngOnDestroy() {
+        this.unsub();
+    }
 }

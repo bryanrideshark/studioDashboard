@@ -12,4 +12,8 @@ export class AdnetTargetModel extends StoreModel {
     public getName(){
         return this.getKey('Value').label;
     }
+
+    public getCustomerId(){
+        return this.getKey('Value').customerId;
+    }
 }

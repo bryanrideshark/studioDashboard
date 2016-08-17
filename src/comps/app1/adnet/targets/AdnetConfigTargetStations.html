@@ -1,36 +1,35 @@
 <div class="row">
-    <form [formGroup]="contGroup">
-        <div class="row">
-            <div class="col-xs-12">
-                <h3>target stations</h3>
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                    <input [formControl]="contGroup.controls['label']" type="text" class="form-control"
-                           placeholder="Customer name">
-                </div>
-            </div>
-            <!--<div class="col-xs-6 box">-->
-                <!--<h3>settings</h3>-->
-                <!--<div class="inner userGeneral">-->
-                    <!--<div class="panel panel-default tallPanel">-->
-                        <!--<div class="panel-heading">mediaADNET network activation-->
-                            <!--<i class="fa fa-cog pull-right"></i>-->
-                        <!--</div>-->
-                        <!--<ul class="list-group">-->
-                            <!--<li class="list-group-item">-->
-                                <!--Customer network-->
-                                <!--<div class="material-switch pull-right">-->
-                                    <!--<input (change)="onChangeSharing(customerNetwork2.checked)"-->
-                                           <!--formControlName="customerNetwork2"-->
-                                           <!--id="customerNetwork2" #customerNetwork2-->
-                                           <!--name="customerNetwork2" type="checkbox"/>-->
-                                    <!--<label for="customerNetwork2" class="label-primary"></label>-->
-                                <!--</div>-->
-                            <!--</li>-->
-                        <!--</ul>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
+    <div class="row">
+        <div class="col-xs-12">
+            <h3>target stations</h3>
+
+            <simpleGridTable #userSimpleGridTable>
+                <thead>
+                <tr>
+                    <th>connection</th>
+                    <th sortableHeader="Type" [sort]="sort">name</th>
+                    <th sortableHeader="Type" [sort]="sort">type</th>
+                    <th sortableHeader="Type" [sort]="sort">rate</th>
+                    <th sortableHeader="Type" [sort]="sort">keys</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!--<tr class="simpleGridRecord" (onDoubleClicked)="onDoubleClicked($event)" simpleGridRecord *ngFor="let item of m_stations | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">-->
+                    <!--<td style="width: 5%" simpleGridDataImage [color]="item.getConnectionIcon('color')" [field]="item.getConnectionIcon('icon')" [item]="item"></td>-->
+                    <!--<td style="width: 5%" simpleGridDataImage color="dodgerblue" [field]="item.getWatchDogConnection()" [item]="item"></td>-->
+                    <!--<td style="width: 25%" simpleGridData editable="false" field="name" [item]="item"></td>-->
+                    <!--<td style="width: 5%" simpleGridData editable="false" field="businessId" [item]="item"></td>-->
+                    <!--<td style="width: 20%" simpleGridData editable="false" field="os" [item]="item"></td>-->
+                    <!--<td style="width: 10%" simpleGridData editable="false" field="status" [item]="item"></td>-->
+                    <!--<td style="width: 5%" simpleGridData editable="false" field="runningTime" [item]="item"></td>-->
+                    <!--<td style="width: 5%" simpleGridData editable="false" field="totalMemory" [item]="item"></td>-->
+                    <!--<td style="width: 5%" simpleGridData editable="false" field="peakMemory" [item]="item"></td>-->
+                    <!--<td style="width: 10%" simpleGridData editable="false" field="airVersion" [item]="item"></td>-->
+                    <!--<td style="width: 5%" simpleGridData editable="false" field="appVersion" [item]="item"></td>-->
+                <!--</tr>-->
+                </tbody>
+            </simpleGridTable>
+
         </div>
-    </form>
+    </div>
 </div>
