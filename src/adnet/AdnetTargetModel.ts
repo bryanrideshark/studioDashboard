@@ -13,7 +13,17 @@ export class AdnetTargetModel extends StoreModel {
         return this.getKey('Value').label;
     }
 
+    public getField(i_field){
+        return this.getKey('Value')[i_field];
+    }
+
     public getCustomerId(){
         return this.getKey('Value').customerId;
+    }
+
+    // 0 stations
+    // 2 websites
+    public getTargetType(){
+        return this.getKey('Value').targetType;
     }
 }

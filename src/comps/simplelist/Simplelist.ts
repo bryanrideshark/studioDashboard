@@ -49,6 +49,9 @@ export class SimpleList {
     contentId:((any)=>string);
 
     @Input()
+    multiSelect:boolean = true;
+
+    @Input()
     iconSelected:((index:number, item:any)=>boolean);
 
     @Input()
@@ -114,6 +117,8 @@ export class SimpleList {
     }
 
     private itemAllSelected() {
+        if (!this.multiSelect)
+            return;
         for (let id in this.m_metadata)
             this.m_metadata[id].selected = true;
         this.list.forEach((i_item)=> {

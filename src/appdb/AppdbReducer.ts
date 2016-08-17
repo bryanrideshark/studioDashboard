@@ -8,6 +8,7 @@ import * as Immutable from 'immutable'
 // 0 = cloud, 1 = private 2 = hybrid
 const baseUrl = 'https://galaxy.signage.me/WebService/ResellerService.ashx';
 const appBaseUrlCloud = 'https://secure.digitalsignage.com';
+//todo: fix hard coded
 const appBaseUrlAdnet = 'https://adnet.signage.me/adNetService.ashx?command=customerRequest&customerId=472&customerToken=7d1f5f73-7159-40af-9bbd-f61ef37b6394&fromChangelistId=0';
 const adnetCustomerId = 18635;
 
