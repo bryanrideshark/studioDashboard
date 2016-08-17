@@ -1,6 +1,5 @@
-import {Component, ChangeDetectionStrategy, Input, Output, EventEmitter} from "@angular/core";
-import {AppStore} from "angular2-redux-util";
-import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
+import {Component, ChangeDetectionStrategy, Input} from "@angular/core";
+import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 
 @Component({
     selector: 'AdnetConfigTargetProps',
@@ -10,19 +9,10 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 })
 
 export class AdnetConfigTargetProps {
-
-    constructor(private appStore: AppStore) {
-
-    }
-
-    private adnetCustomerModel:AdnetCustomerModel;
+    private adnetTargetModel: AdnetTargetModel;
 
     @Input()
-    set selectedAdnetTargetModel(i_adnetCustomerModel:AdnetCustomerModel){
-        this.adnetCustomerModel = i_adnetCustomerModel;
-    }
-
-
-    private ngOnDestroy() {
+    set selectedAdnetTargetModel(i_adnetTargetModel: AdnetTargetModel) {
+        this.adnetTargetModel = i_adnetTargetModel;
     }
 }
