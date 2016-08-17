@@ -9,6 +9,16 @@ import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 })
 
 export class AdnetConfigTargetProps {
+
+    ngOnInit() {
+        // this.adTargets = this.appStore.getState().adnet.getIn(['targets']) || {};
+        // this.unsub = this.appStore.sub((i_adTargets: List<AdnetTargetModel>) => {
+        //     this.adTargets = i_adTargets;
+        //     this.render();
+        // }, 'adnet.targets');
+        // this.render();
+    }
+
     private adnetTargetModel: AdnetTargetModel;
 
     @Input()
