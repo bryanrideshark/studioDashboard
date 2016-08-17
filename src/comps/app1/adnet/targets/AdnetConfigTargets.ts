@@ -11,9 +11,6 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 })
 export class AdnetConfigTargets {
 
-    constructor() {
-    }
-
     @Input()
     set adnetCustomerModel(i_adnetCustomerModel: AdnetCustomerModel) {
         this.customerModel = i_adnetCustomerModel;

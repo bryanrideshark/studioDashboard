@@ -1,12 +1,12 @@
-import {Component, Input, ChangeDetectionStrategy, ViewChild} from "@angular/core";
+import {Component, ChangeDetectionStrategy, ViewChild, Input} from "@angular/core";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {AppStore} from "angular2-redux-util";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {SimpleGridTable} from "../../../simplegrid/SimpleGridTable";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
-import {List} from 'immutable';
+import {List} from "immutable";
 import {ISimpleListItem} from "../../../simplelist/Simplelist";
-import * as _ from 'lodash';
+import * as _ from "lodash";
 
 @Component({
     selector: 'AdnetConfigTargetStations',
@@ -36,7 +36,7 @@ export class AdnetConfigTargetStations {
         this.customerModel = i_adnetCustomerModel;
     }
 
-    private onSelection(items:Array<any>) {
+    private onSelection(items: Array<any>) {
         _.forEach(items, (simpleItem: ISimpleListItem)=> {
             if (simpleItem.selected) {
                 this.selectedAdnetTargetModel = simpleItem.item;
@@ -44,10 +44,8 @@ export class AdnetConfigTargetStations {
             }
         })
     }
-
-    public sort: {field: string, desc: boolean} = {field: null, desc: false};
+    public selectedAdnetTargetModel: AdnetTargetModel;
     private customerModel: AdnetCustomerModel;
-    private selectedAdnetTargetModel:AdnetTargetModel;
     private adTargets: List<AdnetTargetModel>;
     private adTargetsFiltered: List<AdnetTargetModel> = List<AdnetTargetModel>();
     private unsub: Function;
@@ -65,12 +63,6 @@ export class AdnetConfigTargetStations {
 
     private getContent(item: AdnetTargetModel) {
         return item.getName();
-    }
-
-    private updateSore() {
-        setTimeout(()=> {
-            //this.appStore.dispatch(this.adnetAction.saveCustomerInfo(Lib.CleanCharForXml(this.contGroup.value), this.customerModel.customerId()))
-        }, 1)
     }
 
     ngOnDestroy() {

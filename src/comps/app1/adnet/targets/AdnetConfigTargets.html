@@ -3,7 +3,7 @@
         <tabs>
             <tab [tabtitle]="'Stations'">
                 <tabs>
-                    <AdnetConfigTargetStations [adnetCustomerModel]="customerModel"></AdnetConfigTargetStations>
+                    <AdnetConfigTargetStations #adnetConfigTargetStations [adnetCustomerModel]="customerModel"></AdnetConfigTargetStations>
                     <!--<tab [tabtitle]="'Grid'">-->
                     <!--</tab>-->
                     <!--<tab [tabtitle]="'Map'">-->
@@ -16,9 +16,10 @@
     </div>
     <div class="col-xs-8">
         <tabs>
-            <tab [tabtitle]="'Info'">
+            <tab [tabtitle]="'properties'">
+                <AdnetConfigTargetProps [selectedAdnetTargetModel]="adnetConfigTargetStations.selectedAdnetTargetModel"></AdnetConfigTargetProps>
             </tab>
-            <tab [tabtitle]="'Location'">
+            <tab [tabtitle]="'location'">
             </tab>
         </tabs>
     </div>
