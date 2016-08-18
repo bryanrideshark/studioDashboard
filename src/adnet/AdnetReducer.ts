@@ -6,7 +6,7 @@ import {AdnetTargetModel} from "./AdnetTargetModel";
 
 export function adnet(state: Map<string,any> = Map<string,any>(), action: any): Map<string,any> {
 
-    var indexOfRateId = function (id: string) {
+    var indexOfId = function (id: string) {
         return rates.findIndex((i: AdnetRateModel) => i.getId() === id);
     }
     var indexOfCustomerId = function (i_adnetCustomerId: string) {
@@ -25,10 +25,10 @@ export function adnet(state: Map<string,any> = Map<string,any>(), action: any): 
         case AdnetActions.UPDATE_ADNET_RATE_TABLE: {
             var rates: List<AdnetRateModel> = state.getIn(['rates']);
 
-            rates = rates.update(indexOfRateId(action.payload.rateId), (rate: AdnetRateModel) => {
+            rates = rates.update(indexOfId(action.payload.rateId), (rate: AdnetRateModel) => {
                 return rate.setField('rateMap', action.payload.rateTable)
             });
-            rates = rates.update(indexOfRateId(action.payload.rateId), (rate: AdnetRateModel) => {
+            rates = rates.update(indexOfId(action.payload.rateId), (rate: AdnetRateModel) => {
                 rate = rate.setField('hourRate0', action.payload.adHourlyRate["0"])
                 rate = rate.setField('hourRate1', action.payload.adHourlyRate["1"])
                 rate = rate.setField('hourRate2', action.payload.adHourlyRate["2"])
@@ -40,7 +40,7 @@ export function adnet(state: Map<string,any> = Map<string,any>(), action: any): 
         // case AdnetActions.UPDATE_ADNET_TARGET: {
         //     var targets: List<AdnetRateModel> = state.getIn(['targets']);
         //
-        //     rates = rates.update(indexOfRateId(action.payload.rateId), (rate: AdnetRateModel) => {
+        //     rates = rates.update(indexOfId(action.payload.rateId), (rate: AdnetRateModel) => {
         //         return rate.setField('rateMap', action.payload.rateTable)
         //     });
         //     return state.setIn(['rates'], rates);
@@ -64,7 +64,7 @@ export function adnet(state: Map<string,any> = Map<string,any>(), action: any): 
         }
         case AdnetActions.RENAME_ADNET_RATE_TABLE: {
             var rates: List<AdnetRateModel> = state.getIn(['rates']);
-            rates = rates.update(indexOfRateId(action.payload.rateId), (rate: AdnetRateModel) => {
+            rates = rates.update(indexOfId(action.payload.rateId), (rate: AdnetRateModel) => {
                 return rate.setField('label', action.payload.newLabel)
             });
             return state.setIn(['rates'], rates);
