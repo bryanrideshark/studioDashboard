@@ -1,2 +1,86 @@
 <h3>name: {{adnetTargetModel?.getName()}}</h3>
 <h4>customer id: {{adnetTargetModel?.getCustomerId()}}</h4>
+
+
+<div class="row">
+    <form [formGroup]="contGroup">
+        <div>
+
+            <div class="col-xs-12 box">
+                <hr/>
+                <div class="inner userGeneral">
+                    <div class="panel panel-default tallPanel">
+                        <div class="panel-heading">station ad network activation
+                            <i class="fa fa-cog pull-right"></i>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                enabled
+                                <div class="material-switch pull-right">
+                                    <input (change)="onChangeSharing(customerNetwork.checked)"
+                                           formControlName="customerNetwork"
+                                           id="customerNetwork" #customerNetwork
+                                           name="customerNetwork" type="checkbox"/>
+                                    <label for="customerNetwork" class="label-primary"></label>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                Timezone
+                                <div class="pull-right">
+                                    <label for="customerNetwork">GMT+0 (ST)</label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-6">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-tv"></i></span>
+                    <input [formControl]="contGroup.controls['label']" type="text" class="form-control"
+                           placeholder="station name">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                    <div class="btn-group" role="group">
+                        <select class="form-control">
+                            <option>selected rate table</option>
+                            <option>all os versions</option>
+                            <!--<option *ngFor="let item of stationsFilter['os'] | sortBy">{{item}}</option>-->
+                        </select>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-asterisk"></i></span>
+                    <div class="btn-group" role="group">
+                        <select class="form-control">
+                            <option>mode: station</option>
+                            <option>mode: mobile</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-globe"></i></span>
+                    <input [formControl]="contGroup.controls['contactPhone']" type="text" class="form-control"
+                           placeholder="web address">
+                </div>
+            </div>
+            <div class="col-xs-6">
+
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                    <textarea [formControl]="contGroup.controls['comments']" style="height: 78px" type="text"
+                              class="form-control" value="" placeholder="searchable keywords"></textarea>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-quote-left"></i></span>
+                    <textarea [formControl]="contGroup.controls['comments']" style="height: 78px" type="text"
+                              class="form-control" value="" placeholder="comments"></textarea>
+                </div>
+
+            </div>
+
+        </div>
+    </form>
+</div>
