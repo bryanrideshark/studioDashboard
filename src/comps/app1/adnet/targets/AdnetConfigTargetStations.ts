@@ -2,10 +2,9 @@ import {Component, ChangeDetectionStrategy, ViewChild, Input} from "@angular/cor
 import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {AppStore} from "angular2-redux-util";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
-import {SimpleGridTable} from "../../../simplegrid/SimpleGridTable";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {List} from "immutable";
-import {ISimpleListItem} from "../../../simplelist/Simplelist";
+import {ISimpleListItem, SimpleList} from "../../../simplelist/Simplelist";
 import * as _ from "lodash";
 
 @Component({
@@ -28,12 +27,20 @@ export class AdnetConfigTargetStations {
         this.render();
     }
 
-    @ViewChild(SimpleGridTable)
-    simpleGridTable: SimpleGridTable
+    @ViewChild(SimpleList)
+    simpleList: SimpleList
 
     @Input()
     set adnetCustomerModel(i_adnetCustomerModel: AdnetCustomerModel) {
         this.customerModel = i_adnetCustomerModel;
+        this.resetSelection();
+    }
+
+    private resetSelection(){
+        if (this.customerModel)
+            this.render();
+        if (this.simpleList)
+            this.simpleList.deselect();
     }
 
     private onSelection(items: Array<any>) {
@@ -44,6 +51,7 @@ export class AdnetConfigTargetStations {
             }
         })
     }
+
     public selectedAdnetTargetModel: AdnetTargetModel;
     private customerModel: AdnetCustomerModel;
     private adTargets: List<AdnetTargetModel>;
@@ -54,6 +62,7 @@ export class AdnetConfigTargetStations {
         if (!this.adTargets)
             return;
         this.adTargetsFiltered = List<AdnetTargetModel>();
+        var c = this.customerModel.customerId();
         this.adTargets.forEach((i_adTarget: AdnetTargetModel)=> {
             if (i_adTarget.getCustomerId() == this.customerModel.customerId() && i_adTarget.getTargetType() == 0) {
                 this.adTargetsFiltered = this.adTargetsFiltered.push(i_adTarget);
