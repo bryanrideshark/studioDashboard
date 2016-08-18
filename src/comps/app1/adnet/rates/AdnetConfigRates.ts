@@ -66,7 +66,7 @@ export class AdnetConfigRates {
     private onRemoveRate() {
         if (!this.selectedAdnetRateModel)
             return;
-        this.appStore.dispatch(this.adnetAction.removeAdnetRateTable(this.selectedAdnetRateModel.rateId()));
+        this.appStore.dispatch(this.adnetAction.removeAdnetRateTable(this.selectedAdnetRateModel.getId()));
         this.simpleList.deselect();
         this.selectedAdnetRateModel = null;
     }
@@ -77,7 +77,7 @@ export class AdnetConfigRates {
 
     private onRateRenamed(event) {
         var adnetRateModel: AdnetRateModel = event.item;
-        this.appStore.dispatch(this.adnetAction.renameAdnetRateTable(adnetRateModel.rateId(), event.value));
+        this.appStore.dispatch(this.adnetAction.renameAdnetRateTable(adnetRateModel.getId(), event.value));
     }
 
     private updFilteredRates() {

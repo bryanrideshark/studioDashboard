@@ -5,7 +5,7 @@ export class AdnetTargetModel extends StoreModel {
         super(data);
     }
 
-    public targetId(){
+    public getId(){
         return this.getKey('Key');
     }
 
@@ -15,6 +15,12 @@ export class AdnetTargetModel extends StoreModel {
 
     public getField(i_field){
         return this.getKey('Value')[i_field];
+    }
+
+    public setField(i_field, i_value) {
+        var value = this.getKey('Value');
+        value[i_field] = i_value;
+        return this.setKey<AdnetTargetModel>(AdnetTargetModel, 'Value', value);
     }
 
     public getCustomerId(){

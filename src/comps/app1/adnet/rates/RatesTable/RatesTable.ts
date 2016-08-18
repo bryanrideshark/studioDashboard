@@ -75,7 +75,7 @@ export class RatesTable {
                 this.adHourlyRate[v] = String(Number(k))
             }
         });
-        this.onRateChange.emit({rateId: this.adnetRateModel.rateId(), adHourlyRate: this.adHourlyRate, rateTable})
+        this.onRateChange.emit({rateId: this.adnetRateModel.getId(), adHourlyRate: this.adHourlyRate, rateTable})
     }
 
     private getRateTable(): string {

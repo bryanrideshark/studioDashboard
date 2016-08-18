@@ -47,7 +47,7 @@ export class AdnetConfigTargetProps {
             'contactEmail': [''],
             'website': [''],
             'comments': [''],
-            'customerNetwork': [''],
+            'adnetStationEnabled': [''],
             'accountNetwork': [''],
             'globalNetwork': [''],
             'defaultAutoActivate': ['']
@@ -55,6 +55,15 @@ export class AdnetConfigTargetProps {
         _.forEach(this.contGroup.controls, (value, key: string)=> {
             this.formInputs[key] = this.contGroup.controls[key] as FormControl;
         })
+    }
+
+    private ngOnInit() {
+        // this.adTargets = this.appStore.getState().adnet.getIn(['targets']) || {};
+        // this.unsub = this.appStore.sub((i_adTargets: List<AdnetTargetModel>) => {
+        //     this.adTargets = i_adTargets;
+        //     this.render();
+        // }, 'adnet.targets');
+        // this.render();
     }
 
     @Input()
@@ -68,6 +77,7 @@ export class AdnetConfigTargetProps {
         this.renderFormInputs();
     }
 
+    private adnetTargetModel: AdnetTargetModel;
     private customerModel: AdnetCustomerModel;
     private contGroup: FormGroup;
     private formInputs = {};
@@ -82,7 +92,7 @@ export class AdnetConfigTargetProps {
 
     private updateSore() {
         setTimeout(()=> {
-            this.appStore.dispatch(this.adnetAction.saveCustomerInfo(Lib.CleanCharForXml(this.contGroup.value), this.customerModel.customerId()))
+            this.appStore.dispatch(this.adnetAction.saveTargetInfo(Lib.CleanCharForXml(this.contGroup.value), this.adnetTargetModel.getId()))
         }, 1)
     }
 
@@ -94,19 +104,6 @@ export class AdnetConfigTargetProps {
             this.formInputs[key].setValue(data)
         });
     };
-
-    ngOnInit() {
-        // this.adTargets = this.appStore.getState().adnet.getIn(['targets']) || {};
-        // this.unsub = this.appStore.sub((i_adTargets: List<AdnetTargetModel>) => {
-        //     this.adTargets = i_adTargets;
-        //     this.render();
-        // }, 'adnet.targets');
-        // this.render();
-    }
-
-    private adnetTargetModel: AdnetTargetModel;
-
-
 }
 
 

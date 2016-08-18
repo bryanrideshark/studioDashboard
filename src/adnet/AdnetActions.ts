@@ -18,6 +18,7 @@ export const RECEIVE_RATES = 'RECEIVE_RATES';
 export const RECEIVE_TARGETS = 'RECEIVE_TARGETS';
 export const UPDATE_ADNET_CUSTOMER = 'UPDATE_ADNET_CUSTOMER';
 export const UPDATE_ADNET_RATE_TABLE = 'UPDATE_ADNET_RATE_TABLE';
+export const UPDATE_ADNET_TARGET = 'UPDATE_ADNET_TARGET';
 export const ADD_ADNET_RATE_TABLE = 'ADD_ADNET_RATE_TABLE';
 export const REMOVE_ADNET_RATE_TABLE = 'REMOVE_ADNET_RATE_TABLE';
 export const RENAME_ADNET_RATE_TABLE = 'RENAME_ADNET_RATE_TABLE';
@@ -102,7 +103,18 @@ export class AdnetActions extends Actions {
                 Value: data,
                 Key: adnetCustomerId
             };
-            dispatch(this.updateAdnetCustomerInfo(payload))
+            dispatch(this.updateAdnetCustomer(payload))
+        };
+    }
+
+    public saveTargetInfo(data: Object, adnetTargetId: string) {
+        return (dispatch) => {
+            //todo: save to server
+            const payload = {
+                Value: data,
+                Key: adnetTargetId
+            };
+            dispatch(this.updateAdnetTarget(payload))
         };
     }
 
@@ -174,9 +186,16 @@ export class AdnetActions extends Actions {
         }
     }
 
-    private updateAdnetCustomerInfo(payload) {
+    private updateAdnetCustomer(payload) {
         return {
             type: UPDATE_ADNET_CUSTOMER,
+            payload
+        }
+    }
+
+    private updateAdnetTarget(payload) {
+        return {
+            type: UPDATE_ADNET_TARGET,
             payload
         }
     }

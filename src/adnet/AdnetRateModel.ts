@@ -5,7 +5,7 @@ export class AdnetRateModel extends StoreModel {
         super(data);
     }
 
-    public rateId() {
+    public getId() {
         return this.getKey('Key');
     }
 

@@ -2,11 +2,12 @@ import {List, Map} from "immutable";
 import * as AdnetActions from "./AdnetActions";
 import {AdnetCustomerModel} from "./AdnetCustomerModel";
 import {AdnetRateModel} from "./AdnetRateModel";
+import {AdnetTargetModel} from "./AdnetTargetModel";
 
 export function adnet(state: Map<string,any> = Map<string,any>(), action: any): Map<string,any> {
 
-    var indexOfRateId = function (i_rateId: string) {
-        return rates.findIndex((i: AdnetRateModel) => i.rateId() === i_rateId);
+    var indexOfRateId = function (id: string) {
+        return rates.findIndex((i: AdnetRateModel) => i.getId() === id);
     }
     var indexOfCustomerId = function (i_adnetCustomerId: string) {
         return customers.findIndex((i: AdnetCustomerModel) => i.customerId() === i_adnetCustomerId);
@@ -36,6 +37,14 @@ export function adnet(state: Map<string,any> = Map<string,any>(), action: any): 
             });
             return state.setIn(['rates'], rates);
         }
+        // case AdnetActions.UPDATE_ADNET_TARGET: {
+        //     var targets: List<AdnetRateModel> = state.getIn(['targets']);
+        //
+        //     rates = rates.update(indexOfRateId(action.payload.rateId), (rate: AdnetRateModel) => {
+        //         return rate.setField('rateMap', action.payload.rateTable)
+        //     });
+        //     return state.setIn(['rates'], rates);
+        // }
         case AdnetActions.ADD_ADNET_RATE_TABLE: {
             var rates: List<AdnetRateModel> = state.getIn(['rates']);
             rates = rates.push(action.adnetRateModel);
@@ -43,7 +52,7 @@ export function adnet(state: Map<string,any> = Map<string,any>(), action: any): 
         }
         case AdnetActions.REMOVE_ADNET_RATE_TABLE: {
             var rates: List<AdnetRateModel> = state.getIn(['rates']);
-            var updatedRates:List<AdnetRateModel> = rates.filter((adnetRateModel:AdnetRateModel) => adnetRateModel.rateId() !== action.rateId) as List<AdnetRateModel>;
+            var updatedRates:List<AdnetRateModel> = rates.filter((adnetRateModel:AdnetRateModel) => adnetRateModel.getId() !== action.getId) as List<AdnetRateModel>;
             return state.setIn(['rates'], updatedRates);
         }
         case AdnetActions.UPDATE_ADNET_CUSTOMER: {
