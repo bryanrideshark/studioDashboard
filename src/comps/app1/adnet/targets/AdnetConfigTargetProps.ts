@@ -13,7 +13,7 @@ import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
     templateUrl: 'AdnetConfigTargetProps.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
-        '(input-blur)': 'onInputBlur($event)'
+        '(input-blur)': 'onChangeSharing($event)'
     },
     styles: [`
         .material-switch {
@@ -55,36 +55,18 @@ export class AdnetConfigTargetProps {
         })
     }
 
-    private ngOnInit() {
-        // this.adTargets = this.appStore.getState().adnet.getIn(['targets']) || {};
-        // this.unsub = this.appStore.sub((i_adTargets: List<AdnetTargetModel>) => {
-        //     this.adTargets = i_adTargets;
-        //     this.render();
-        // }, 'adnet.targets');
-        // this.render();
-    }
-
     @Input()
-    set selectedAdnetTargetModel(i_adnetTargetModel: AdnetTargetModel) {
-        this.adnetTargetModel = i_adnetTargetModel;
+    set aAdnetTargetModel(i_adnetTargetModel: AdnetTargetModel) {
+        this.targetModel = i_adnetTargetModel;
         this.renderFormInputs();
     }
 
     @Input()
-    set adnetCustomerModel(i_adnetCustomerModel: AdnetCustomerModel) {
-        this.customerModel = i_adnetCustomerModel;
-        // this.renderFormInputs();
+    adnetCustomerModel: AdnetCustomerModel
 
-    }
-
-    private adnetTargetModel: AdnetTargetModel;
-    private customerModel: AdnetCustomerModel;
+    private targetModel: AdnetTargetModel;
     private contGroup: FormGroup;
     private formInputs = {};
-
-    private onInputBlur(event) {
-        this.updateSore();
-    }
 
     private onChangeSharing(event) {
         this.updateSore();
@@ -93,20 +75,17 @@ export class AdnetConfigTargetProps {
     private updateSore() {
         setTimeout(()=> {
             let payload = Lib.CleanCharForXml(this.contGroup.value);
-            payload.customerId = 472
-            payload.targetType = 0
-            this.appStore.dispatch(this.adnetAction.saveTargetInfo(payload, this.adnetTargetModel.getId()))
+            payload.customerId = this.adnetCustomerModel.customerId();
+            this.appStore.dispatch(this.adnetAction.saveTargetInfo(payload, this.targetModel.getId()))
         }, 1)
     }
 
     private renderFormInputs() {
-        if (!this.adnetTargetModel)
+        if (!this.targetModel)
             return;
         _.forEach(this.formInputs, (value, key: string)=> {
-            var data = this.adnetTargetModel.getKey('Value')[key];
+            var data = this.targetModel.getKey('Value')[key];
             this.formInputs[key].setValue(data)
         });
     };
 }
-
-
