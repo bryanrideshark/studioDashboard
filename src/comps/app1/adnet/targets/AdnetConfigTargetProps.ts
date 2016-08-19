@@ -1,11 +1,13 @@
-import {Component, ChangeDetectionStrategy, Input} from "@angular/core";
+import {Component, ChangeDetectionStrategy, Input, ChangeDetectorRef} from "@angular/core";
 import {FormControl, FormGroup, FormBuilder} from "@angular/forms";
 import * as _ from "lodash";
+import {List} from 'immutable';
 import {Lib} from "../../../../Lib";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {AppStore} from "angular2-redux-util";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
+import {AdnetRateModel} from "../../../../adnet/AdnetRateModel";
 
 @Component({
     selector: 'AdnetConfigTargetProps',
@@ -37,6 +39,7 @@ export class AdnetConfigTargetProps {
 
     constructor(private fb: FormBuilder,
                 private appStore: AppStore,
+                private cd:ChangeDetectorRef,
                 private adnetAction: AdnetActions) {
 
         this.contGroup = fb.group({
@@ -55,6 +58,16 @@ export class AdnetConfigTargetProps {
         })
     }
 
+    ngOnInit() {
+        var i_adnet = this.appStore.getState().adnet;
+        this.rates = i_adnet.getIn(['rates']);
+        this.unsub = this.appStore.sub((i_rates: List<AdnetRateModel>) => {
+            this.rates = i_rates;
+            this.updFilteredRates();
+        }, 'adnet.rates');
+        this.updFilteredRates();
+    }
+
     @Input()
     set aAdnetTargetModel(i_adnetTargetModel: AdnetTargetModel) {
         this.targetModel = i_adnetTargetModel;
@@ -64,9 +77,24 @@ export class AdnetConfigTargetProps {
     @Input()
     adnetCustomerModel: AdnetCustomerModel
 
+    private unsub: Function;
+    private rates: List<AdnetRateModel> = List<AdnetRateModel>();
+    private filteredRates: List<AdnetRateModel> = List<AdnetRateModel>();
     private targetModel: AdnetTargetModel;
     private contGroup: FormGroup;
     private formInputs = {};
+
+    private updFilteredRates() {
+        if (this.rates && this.adnetCustomerModel) {
+            this.filteredRates = List<AdnetRateModel>();
+            this.rates.forEach((i_adnetRateModel: AdnetRateModel)=> {
+                if (i_adnetRateModel.customerId() == this.adnetCustomerModel.customerId()) {
+                    this.filteredRates = this.filteredRates.push(i_adnetRateModel)
+                }
+            })
+        }
+        this.cd.markForCheck();
+    }
 
     private onChangeSharing(event) {
         this.updateSore();
@@ -88,4 +116,8 @@ export class AdnetConfigTargetProps {
             this.formInputs[key].setValue(data)
         });
     };
+
+    ngOnDestroy() {
+        this.unsub();
+    }
 }

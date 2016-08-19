@@ -43,8 +43,7 @@
                         <span class="input-group-addon"><i class="fa fa-money"></i></span>
                         <div class="btn-group" role="group">
                             <select [formControl]="contGroup.controls['hRate']" class="form-control">
-                                <option>selected rate table</option>
-                                <option>all os versions</option>
+                                <option *ngFor="let rate of filteredRates">{{rate.getName()}}</option>
                                 <!--<option *ngFor="let item of stationsFilter['os'] | sortBy">{{item}}</option>-->
                             </select>
                         </div>

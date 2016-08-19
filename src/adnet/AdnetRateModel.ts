@@ -17,6 +17,10 @@ export class AdnetRateModel extends StoreModel {
         return this.getKey('Value').rateMap;
     }
 
+    public getName(){
+        return this.getKey('Value').label;
+    }
+
     public setField(i_field, i_value) {
         var value = this.getKey('Value');
         value[i_field] = i_value;

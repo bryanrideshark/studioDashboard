@@ -92,7 +92,7 @@ export class AdnetConfigRates {
     }
 
     private getContent(adnetRateModel: AdnetRateModel) {
-        return adnetRateModel.getKey('Value').label;
+        return adnetRateModel.getName();
     }
 
     private ngOnDestroy() {
