@@ -44,7 +44,8 @@ export function adnet(state: Map<string,any> = Map<string,any>(), action: any): 
         case AdnetActions.UPDATE_ADNET_TARGET: {
             var targets: List<AdnetTargetModel> = state.getIn(['targets'])
             targets = targets.update(getIndex(targets, action.payload.Key), (target: AdnetTargetModel) => {
-                return target.setData<AdnetTargetModel>(AdnetTargetModel, action.payload)
+                var a = target.setData<AdnetTargetModel>(AdnetTargetModel, action.payload)
+                return a;
             });
             return state.setIn(['targets'], targets);
         }

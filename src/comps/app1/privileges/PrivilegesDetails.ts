@@ -1,12 +1,10 @@
-import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core'
+import {Component, Input, ChangeDetectionStrategy} from "@angular/core";
 import {PrivelegesModel} from "../../../reseller/PrivelegesModel";
-import {List, Map} from 'immutable';
-import {SIMPLEGRID_DIRECTIVES} from "../../simplegrid/SimpleGrid";
+import {List, Map} from "immutable";
 import {AppStore} from "angular2-redux-util";
 import {PrivelegesTemplateModel} from "../../../reseller/PrivelegesTemplateModel";
 import {ResellerAction} from "../../../reseller/ResellerAction";
 import {Lib} from "../../../Lib";
-import * as _ from 'lodash'
 
 enum PrivModeEnum {ADD, DEL, UPD}
 
@@ -64,22 +62,22 @@ export class PrivilegesDetails {
 
     private PrivModeEnum = PrivModeEnum;
 
-    constructor(private appStore:AppStore, private resellerAction:ResellerAction) {
+    constructor(private appStore: AppStore, private resellerAction: ResellerAction) {
         var i_reseller = this.appStore.getState().reseller;
 
         this.m_privelegesSystemModelList = i_reseller.getIn(['privilegesSystem']);
-        this.unsub = this.appStore.sub((privelegesSystemModel:List<PrivelegesTemplateModel>) => {
+        this.unsub = this.appStore.sub((privelegesSystemModel: List<PrivelegesTemplateModel>) => {
             this.m_privelegesSystemModelList = privelegesSystemModel;
         }, 'reseller.privilegesSystem');
     }
 
     private unsub;
-    private m_selected:PrivelegesModel;
+    private m_selected: PrivelegesModel;
     // private m_privileges:List<PrivelegesModel>
-    private m_privelegesSystemModelList:List<PrivelegesTemplateModel>
+    private m_privelegesSystemModelList: List<PrivelegesTemplateModel>
 
     @Input()
-    set selected(i_selected:PrivelegesModel) {
+    set selected(i_selected: PrivelegesModel) {
         this.m_selected = i_selected;
     }
 
@@ -91,24 +89,21 @@ export class PrivilegesDetails {
     private calcMask(i_privModeEnum, i_adding, i_totalBits) {
 
         switch (i_privModeEnum) {
-            case PrivModeEnum.UPD:
-            {
+            case PrivModeEnum.UPD: {
                 if (i_adding) {
                     return 1;
                 } else {
                     return 0;
                 }
             }
-            case PrivModeEnum.ADD:
-            {
+            case PrivModeEnum.ADD: {
                 if (i_adding) {
                     return 3;
                 } else {
                     return 1;
                 }
             }
-            case PrivModeEnum.DEL:
-            {
+            case PrivModeEnum.DEL: {
                 if (i_adding) {
                     return 7;
                 } else {
@@ -119,7 +114,7 @@ export class PrivilegesDetails {
         }
     }
 
-    private renderPrivilegesTable(privelegesSystemModel:PrivelegesTemplateModel):Map<string,any> {
+    private renderPrivilegesTable(privelegesSystemModel: PrivelegesTemplateModel): Map<string,any> {
         return privelegesSystemModel.getColumns();
     }
 
@@ -129,7 +124,7 @@ export class PrivilegesDetails {
         }
     }
 
-    private updatePrivilegesGroupAttributes(event, i_privelegesSystemModel:PrivelegesTemplateModel, privelegesAttribute:string):void {
+    private updatePrivilegesGroupAttributes(event, i_privelegesSystemModel: PrivelegesTemplateModel, privelegesAttribute: string): void {
         event.preventDefault();
         let privelegesId = this.m_selected.getPrivelegesId();
         let selPrivName = this.m_selected.getName();
@@ -151,14 +146,14 @@ export class PrivilegesDetails {
         this.appStore.dispatch(this.resellerAction.savePrivileges(privelegesId, selPrivName));
     }
 
-    private onPrivilegeChange(event:{ value:Array<number>, item:{ PrivModeEnum:PrivModeEnum, index:number, item:PrivelegesTemplateModel } }) {
+    private onPrivilegeChange(event: { value: Array<number>, item: { PrivModeEnum: PrivModeEnum, index: number, item: PrivelegesTemplateModel } }) {
 
         let selPrivName = this.m_selected.getName();
         let privelegesId = this.m_selected.getPrivelegesId();
-        let index:number = event.item.index;
-        let adding:boolean = Boolean(event.value[0]);
-        let tableName:string = event.item.item.getTableName();
-        let privModeEnum:PrivModeEnum = event.item.PrivModeEnum;
+        let index: number = event.item.index;
+        let adding: boolean = Boolean(event.value[0]);
+        let tableName: string = event.item.item.getTableName();
+        let privModeEnum: PrivModeEnum = event.item.PrivModeEnum;
 
         var selColumn = this.m_selected.getColumns();
         selColumn = selColumn.find((k)=> {
@@ -181,7 +176,7 @@ export class PrivilegesDetails {
         this.appStore.dispatch(this.resellerAction.savePrivileges(privelegesId, selPrivName));
     }
 
-    private renderPrivilegesGroupAttributes(i_privelegesSystemModel:PrivelegesTemplateModel, i_privelegesAttribute:string):string {
+    private renderPrivilegesGroupAttributes(i_privelegesSystemModel: PrivelegesTemplateModel, i_privelegesAttribute: string): string {
         var tableName = i_privelegesSystemModel.getTableName();
         var selColumn = this.m_selected.getColumns();
         selColumn = selColumn.find((k)=> {
@@ -193,8 +188,8 @@ export class PrivilegesDetails {
         return 'btn-secondary';
     }
 
-    private renderPrivilegesChecks(i_privelegesSystemModel:PrivelegesTemplateModel, index, privModeEnum:PrivModeEnum):Array<number> {
-        var tableName:string = i_privelegesSystemModel.getTableName();
+    private renderPrivilegesChecks(i_privelegesSystemModel: PrivelegesTemplateModel, index, privModeEnum: PrivModeEnum): Array<number> {
+        var tableName: string = i_privelegesSystemModel.getTableName();
         var selColumn = this.m_selected.getColumns();
 
 
@@ -210,18 +205,15 @@ export class PrivilegesDetails {
         var totalBits = Number(Lib.MapOfIndex(selColumn.get('columns'), index, 'last'));
         var bit;
         switch (privModeEnum) {
-            case PrivModeEnum.UPD:
-            {
+            case PrivModeEnum.UPD: {
                 bit = 1;
                 break;
             }
-            case PrivModeEnum.ADD:
-            {
+            case PrivModeEnum.ADD: {
                 bit = 2;
                 break;
             }
-            case PrivModeEnum.DEL:
-            {
+            case PrivModeEnum.DEL: {
                 bit = 4;
                 break;
             }

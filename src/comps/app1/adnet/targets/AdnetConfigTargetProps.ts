@@ -40,17 +40,15 @@ export class AdnetConfigTargetProps {
                 private adnetAction: AdnetActions) {
 
         this.contGroup = fb.group({
+            'enabled': [''],
             'label': [''],
-            'contactPerson': [''],
-            'contactCell': [''],
-            'contactPhone': [''],
-            'contactEmail': [''],
-            'website': [''],
+            'hRate': [''],
+            'keys': [''],
+            'targetDomain': [''],
+            'targetType': [''],
             'comments': [''],
-            'adnetStationEnabled': [''],
-            'accountNetwork': [''],
-            'globalNetwork': [''],
-            'defaultAutoActivate': ['']
+            'standardTimeOffset': [''],
+            'url': ['']
         });
         _.forEach(this.contGroup.controls, (value, key: string)=> {
             this.formInputs[key] = this.contGroup.controls[key] as FormControl;
@@ -69,12 +67,14 @@ export class AdnetConfigTargetProps {
     @Input()
     set selectedAdnetTargetModel(i_adnetTargetModel: AdnetTargetModel) {
         this.adnetTargetModel = i_adnetTargetModel;
+        this.renderFormInputs();
     }
 
     @Input()
     set adnetCustomerModel(i_adnetCustomerModel: AdnetCustomerModel) {
         this.customerModel = i_adnetCustomerModel;
-        this.renderFormInputs();
+        // this.renderFormInputs();
+
     }
 
     private adnetTargetModel: AdnetTargetModel;
@@ -92,15 +92,18 @@ export class AdnetConfigTargetProps {
 
     private updateSore() {
         setTimeout(()=> {
-            this.appStore.dispatch(this.adnetAction.saveTargetInfo(Lib.CleanCharForXml(this.contGroup.value), this.adnetTargetModel.getId()))
+            let payload = Lib.CleanCharForXml(this.contGroup.value);
+            payload.customerId = 472
+            payload.targetType = 0
+            this.appStore.dispatch(this.adnetAction.saveTargetInfo(payload, this.adnetTargetModel.getId()))
         }, 1)
     }
 
     private renderFormInputs() {
-        if (!this.customerModel)
+        if (!this.adnetTargetModel)
             return;
         _.forEach(this.formInputs, (value, key: string)=> {
-            var data = this.customerModel.getKey('Value')[key];
+            var data = this.adnetTargetModel.getKey('Value')[key];
             this.formInputs[key].setValue(data)
         });
     };

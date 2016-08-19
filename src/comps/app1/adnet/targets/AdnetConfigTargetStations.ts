@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ViewChild, Input} from "@angular/core";
+import {Component, ChangeDetectionStrategy, ViewChild, Input, ChangeDetectorRef} from "@angular/core";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {AppStore} from "angular2-redux-util";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
@@ -15,7 +15,7 @@ import * as _ from "lodash";
     styles: [`.row{padding: 15px;}`]
 })
 export class AdnetConfigTargetStations {
-    constructor(private appStore: AppStore, private adnetAction: AdnetActions) {
+    constructor(private appStore: AppStore, private adnetAction: AdnetActions, private cd:ChangeDetectorRef) {
     }
 
     ngOnInit() {
@@ -62,12 +62,12 @@ export class AdnetConfigTargetStations {
         if (!this.adTargets)
             return;
         this.adTargetsFiltered = List<AdnetTargetModel>();
-        var c = this.customerModel.customerId();
         this.adTargets.forEach((i_adTarget: AdnetTargetModel)=> {
             if (i_adTarget.getCustomerId() == this.customerModel.customerId() && i_adTarget.getTargetType() == 0) {
                 this.adTargetsFiltered = this.adTargetsFiltered.push(i_adTarget);
             }
         })
+        this.cd.markForCheck();
     }
 
     private getContent(item: AdnetTargetModel) {
