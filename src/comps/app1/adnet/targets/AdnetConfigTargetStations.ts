@@ -63,7 +63,8 @@ export class AdnetConfigTargetStations {
             return;
         this.adTargetsFiltered = List<AdnetTargetModel>();
         this.adTargets.forEach((i_adTarget: AdnetTargetModel)=> {
-            if (i_adTarget.getCustomerId() == this.customerModel.customerId() && i_adTarget.getTargetType() == 0) {
+            // if (i_adTarget.getCustomerId() == this.customerModel.customerId() && i_adTarget.getTargetType() == 0) {
+            if (i_adTarget.getCustomerId() == this.customerModel.customerId()) {
                 this.adTargetsFiltered = this.adTargetsFiltered.push(i_adTarget);
             }
         })
