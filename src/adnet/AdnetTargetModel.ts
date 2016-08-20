@@ -13,6 +13,9 @@ export class AdnetTargetModel extends StoreModel {
         return this.getKey('Value').label;
     }
 
+    public getRateId(){
+        return this.getKey('Value').hRate;
+    }
     public getField(i_field){
         return this.getKey('Value')[i_field];
     }

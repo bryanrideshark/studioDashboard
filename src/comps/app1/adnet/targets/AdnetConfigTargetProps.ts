@@ -69,7 +69,7 @@ export class AdnetConfigTargetProps {
     }
 
     @Input()
-    set aAdnetTargetModel(i_adnetTargetModel: AdnetTargetModel) {
+    set adnetTargetModel(i_adnetTargetModel: AdnetTargetModel) {
         this.targetModel = i_adnetTargetModel;
         this.renderFormInputs();
     }
@@ -94,6 +94,12 @@ export class AdnetConfigTargetProps {
             })
         }
         this.cd.markForCheck();
+    }
+
+    private getSelectedRate(adnetRateModel:AdnetRateModel) {
+        if (adnetRateModel.getId() == this.targetModel.getRateId())
+            return 'selected'
+        return '';
     }
 
     private onChangeSharing(event) {
