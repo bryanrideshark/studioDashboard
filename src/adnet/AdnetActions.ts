@@ -22,6 +22,7 @@ export const UPDATE_ADNET_TARGET = 'UPDATE_ADNET_TARGET';
 export const ADD_ADNET_TARGET = 'ADD_ADNET_TARGET';
 export const ADD_ADNET_RATE_TABLE = 'ADD_ADNET_RATE_TABLE';
 export const REMOVE_ADNET_RATE_TABLE = 'REMOVE_ADNET_RATE_TABLE';
+export const REMOVE_ADNET_TAREGT = 'REMOVE_ADNET_TAREGT';
 export const RENAME_ADNET_RATE_TABLE = 'RENAME_ADNET_RATE_TABLE';
 
 @Injectable()
@@ -181,12 +182,21 @@ export class AdnetActions extends Actions {
         };
     }
 
-    public removeAdnetRateTable(rateId) {
+    public removeAdnetRateTable(id) {
         return (dispatch) => {
             //todo: save to server
             dispatch({
                 type: REMOVE_ADNET_RATE_TABLE,
-                rateId: rateId
+                id: id
+            });
+        };
+    }
+    public removeAdnetTarget(id) {
+        return (dispatch) => {
+            //todo: save to server
+            dispatch({
+                type: REMOVE_ADNET_TAREGT,
+                id: id
             });
         };
     }

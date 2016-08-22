@@ -56,7 +56,9 @@ export class AdnetConfigTargetStations {
     private onRemoveWeb() {
         if (this.isWebLocation())
             return;
-        console.log(1);
+        this.appStore.dispatch(this.adnetAction.removeAdnetTarget(this.selectedAdnetTargetModel.getId()));
+        this.simpleList.deselect();
+
     }
 
     private resetSelection() {
