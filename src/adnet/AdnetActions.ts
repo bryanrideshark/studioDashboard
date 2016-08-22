@@ -19,6 +19,7 @@ export const RECEIVE_TARGETS = 'RECEIVE_TARGETS';
 export const UPDATE_ADNET_CUSTOMER = 'UPDATE_ADNET_CUSTOMER';
 export const UPDATE_ADNET_RATE_TABLE = 'UPDATE_ADNET_RATE_TABLE';
 export const UPDATE_ADNET_TARGET = 'UPDATE_ADNET_TARGET';
+export const ADD_ADNET_TARGET = 'ADD_ADNET_TARGET';
 export const ADD_ADNET_RATE_TABLE = 'ADD_ADNET_RATE_TABLE';
 export const REMOVE_ADNET_RATE_TABLE = 'REMOVE_ADNET_RATE_TABLE';
 export const RENAME_ADNET_RATE_TABLE = 'RENAME_ADNET_RATE_TABLE';
@@ -118,12 +119,47 @@ export class AdnetActions extends Actions {
         };
     }
 
+    public addAdnetTarget(customerId) {
+        return (dispatch) => {
+            //todo: save to server
+            //todo: get handle and id back from server on save
+            var key = _.uniqueId();
+            const model: AdnetTargetModel = new AdnetTargetModel({
+                Key: key,
+                Value: {
+                    customerId: customerId,
+                    daylightSavingType: 0,
+                    id: key,
+                    comments: '',
+                    handle: _.uniqueId(),
+                    deleted: false,
+                    enabled: true,
+                    hRate: '',
+                    keys: '',
+                    label: 'web target',
+                    locationLng: 0,
+                    locationLat: 0,
+                    rateId: 0,
+                    standardTimeOffset: 0,
+                    targetDomain: 'example.com',
+                    targetType: 2,
+                    url: '',
+                }
+            });
+            dispatch({
+                type: ADD_ADNET_TARGET,
+                model: model
+            });
+        };
+    }
+
+
     public addAdnetRateTable(customerId) {
         return (dispatch) => {
             //todo: save to server
             //todo: get handle and id back from server on save
             var key = _.uniqueId();
-            const adnetRateModel: AdnetRateModel = new AdnetRateModel({
+            const model: AdnetRateModel = new AdnetRateModel({
                 Key: key,
                 Value: {
                     customerId: customerId,
@@ -140,7 +176,7 @@ export class AdnetActions extends Actions {
             });
             dispatch({
                 type: ADD_ADNET_RATE_TABLE,
-                adnetRateModel: adnetRateModel
+                model: model
             });
         };
     }

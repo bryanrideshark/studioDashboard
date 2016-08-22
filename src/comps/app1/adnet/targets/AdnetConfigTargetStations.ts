@@ -49,7 +49,8 @@ export class AdnetConfigTargetStations {
     }
 
     private onAddWeb() {
-
+        var id = this.customerModel.customerId();
+        this.appStore.dispatch(this.adnetAction.addAdnetTarget(id));
     }
 
     private onRemoveWeb() {
