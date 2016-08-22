@@ -1,13 +1,20 @@
-import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewChild} from '@angular/core';
-import {FilterPipe} from "../../pipes/FilterPipe";
-import {List} from 'immutable';
+import {
+    Component,
+    Input,
+    Output,
+    EventEmitter,
+    ChangeDetectionStrategy,
+    ViewChild,
+    ChangeDetectorRef
+} from "@angular/core";
+import {List} from "immutable";
 import {SimplelistEditable} from "./SimplelistEditable";
-import * as _ from 'lodash'
+import * as _ from "lodash";
 
 export interface  ISimpleListItem {
-    item:any,
-    index:number,
-    selected:boolean
+    item: any,
+    index: number,
+    selected: boolean
 }
 
 @Component({
@@ -19,13 +26,18 @@ export interface  ISimpleListItem {
 })
 export class SimpleList {
 
-    private filter:string = '';
-    private m_icon:string = '';
-    private m_editing:boolean = false;
-    private m_iconSelected:string = '';
-    private m_iconSelectedIndex:number = -1;
-    private m_iconSelectedMode:boolean = false;
-    private m_metadata:any = {};
+    constructor(private cd: ChangeDetectorRef) {
+    }
+
+    private filter: string = '';
+    private m_icon:string;
+    private m_iconCallback: ((a:number,b:any) => string);
+    private m_iconInstanceOfFunction: boolean;
+    private m_editing: boolean = false;
+    private m_iconSelected: string = '';
+    private m_iconSelectedIndex: number = -1;
+    private m_iconSelectedMode: boolean = false;
+    private m_metadata: any = {};
 
     ngAfterViewInit() {
         // if (this.simpleListEditable)
@@ -33,34 +45,39 @@ export class SimpleList {
     }
 
     @ViewChild(SimplelistEditable)
-    simpleListEditable:SimplelistEditable;
-    
-    
-    @Input()
-    list:List<any>;
+    simpleListEditable: SimplelistEditable;
+
 
     @Input()
-    editable:boolean = false;
+    list: List<any>;
 
     @Input()
-    content:((any)=>string);
+    editable: boolean = false;
 
     @Input()
-    contentId:((any)=>string);
+    content: ((any)=>string);
 
     @Input()
-    multiSelect:boolean = true;
+    contentId: ((any)=>string);
 
     @Input()
-    iconSelected:((index:number, item:any)=>boolean);
+    multiSelect: boolean = true;
 
     @Input()
-    set icon(i_icon:string) {
+    iconSelected: ((index: number, item: any)=>boolean);
+
+    @Input()
+    set icon(i_icon: any) {
         this.m_icon = i_icon;
     }
 
     @Input()
-    set iconSelectiondMode(mode:boolean) {
+    set iconCallback(i_iconCallback: ((a:number,b:any) => string)) {
+        this.m_iconCallback = i_iconCallback;
+    }
+
+    @Input()
+    set iconSelectiondMode(mode: boolean) {
         if (mode) {
             this.m_iconSelectedMode = true;
             this.m_icon = 'fa-circle-o'
@@ -69,16 +86,16 @@ export class SimpleList {
     }
 
     @Output()
-    hover:EventEmitter<any> = new EventEmitter();
+    hover: EventEmitter<any> = new EventEmitter();
 
     @Output()
-    iconClicked:EventEmitter<any> = new EventEmitter();
+    iconClicked: EventEmitter<any> = new EventEmitter();
 
     @Output()
-    selected:EventEmitter<any> = new EventEmitter();
+    selected: EventEmitter<any> = new EventEmitter();
 
     @Output()
-    edited:EventEmitter<any> = new EventEmitter();
+    edited: EventEmitter<any> = new EventEmitter();
 
     private onEditChanged(event) {
         this.edited.emit((event))
@@ -101,19 +118,26 @@ export class SimpleList {
     }
 
     private renderIcon(index, item) {
-        if (!this.m_iconSelectedMode)
-            return this.m_icon;
-        if (this.iconSelected) {
-            if (this.iconSelected(index, item)) {
-                this.m_iconSelectedIndex = index;
-                return this.m_iconSelected;
-            } else {
-                return this.m_icon;
+        if (this.m_iconSelectedMode) {
+            if (this.iconSelected) {
+                if (this.iconSelected(index, item)) {
+                    this.m_iconSelectedIndex = index;
+                    return this.m_iconSelected;
+                } else {
+                    return this.m_icon;
+                }
             }
+            if (index == this.m_iconSelectedIndex)
+                return this.m_iconSelected;
+            return this.m_icon;
+        } else {
+            if (!this.m_iconInstanceOfFunction)
+                this.m_iconInstanceOfFunction = (this.m_iconCallback instanceof Function);
+            if (this.m_iconInstanceOfFunction) {
+                return this.m_iconCallback(index, item);
+            }
+            return this.m_icon;
         }
-        if (index == this.m_iconSelectedIndex)
-            return this.m_iconSelected;
-        return this.m_icon;
     }
 
     private itemAllSelected() {
@@ -131,7 +155,7 @@ export class SimpleList {
         // this.m_editClickPending = true;
         this.m_iconSelectedIndex = index;
         setTimeout(()=> {
-            let match = _.find(self.m_metadata, (i:any) => i.index == index);
+            let match = _.find(self.m_metadata, (i: any) => i.index == index);
             // console.log(match.item.getBusinessId() + ' ' + match.item.getKey('name'));
             this.iconClicked.next({
                 item: match,
@@ -153,7 +177,7 @@ export class SimpleList {
         // this.simpleListEditable.setContent(this.content)
     }
 
-    public getContentId(item, index):string {
+    public getContentId(item, index): string {
         let id = this.contentId ? this.contentId(item) : index;
         if (!this.m_metadata[id])
             this.m_metadata[id] = {};
@@ -161,7 +185,7 @@ export class SimpleList {
         return id;
     }
 
-    private getContent(item):string {
+    private getContent(item): string {
         if (this.content) {
             return this.content(item);
         } else {
@@ -169,8 +193,9 @@ export class SimpleList {
         }
     }
 
-    public deselect(){
-        this.itemSelected(null,-1);
+    public deselect() {
+        this.itemSelected(null, -1);
+        this.cd.markForCheck();
     }
 
     public getSelected() {

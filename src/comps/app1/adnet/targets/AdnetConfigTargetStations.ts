@@ -12,19 +12,10 @@ import * as _ from "lodash";
     changeDetection: ChangeDetectionStrategy.OnPush,
     moduleId: __moduleName,
     templateUrl: 'AdnetConfigTargetStations.html',
-    styles: [`.row{padding: 15px;}`]
+    styleUrls: ['adnetConfigTargetStations.css']
 })
 export class AdnetConfigTargetStations {
-    constructor(private appStore: AppStore, private adnetAction: AdnetActions, private cd:ChangeDetectorRef) {
-    }
-
-    ngOnInit() {
-        this.adTargets = this.appStore.getState().adnet.getIn(['targets']) || {};
-        this.unsub = this.appStore.sub((i_adTargets: List<AdnetTargetModel>) => {
-            this.adTargets = i_adTargets;
-            this.render();
-        }, 'adnet.targets');
-        this.render();
+    constructor(private appStore: AppStore, private adnetAction: AdnetActions, private cd: ChangeDetectorRef) {
     }
 
     @ViewChild(SimpleList)
@@ -36,7 +27,38 @@ export class AdnetConfigTargetStations {
         this.resetSelection();
     }
 
-    private resetSelection(){
+    ngOnInit() {
+        this.adTargets = this.appStore.getState().adnet.getIn(['targets']) || {};
+        this.unsub = this.appStore.sub((i_adTargets: List<AdnetTargetModel>) => {
+            this.adTargets = i_adTargets;
+            this.render();
+        }, 'adnet.targets');
+        this.render();
+    }
+
+    private isWebLocation(): boolean {
+        if (!this.selectedAdnetTargetModel || this.selectedAdnetTargetModel.getTargetType() == "0")
+            return true;
+        return false;
+    }
+
+    private renderIcon(index: number, adnetTargetModel: AdnetTargetModel) {
+        if (adnetTargetModel.getTargetType() == '0')
+            return 'fa-tv'
+        return 'fa-globe';
+    }
+
+    private onAddWeb() {
+
+    }
+
+    private onRemoveWeb() {
+        if (this.isWebLocation())
+            return;
+        console.log(1);
+    }
+
+    private resetSelection() {
         if (this.customerModel)
             this.render();
         if (this.simpleList)
@@ -47,7 +69,6 @@ export class AdnetConfigTargetStations {
         _.forEach(items, (simpleItem: ISimpleListItem)=> {
             if (simpleItem.selected) {
                 this.selectedAdnetTargetModel = simpleItem.item;
-                return;
             }
         })
     }

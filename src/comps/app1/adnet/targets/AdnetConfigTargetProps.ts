@@ -84,6 +84,13 @@ export class AdnetConfigTargetProps {
     private contGroup: FormGroup;
     private formInputs = {};
 
+
+    private isWebLocation(): boolean {
+        if (!this.targetModel || this.targetModel.getTargetType() == "0")
+            return true;
+        return false;
+    }
+
     private updFilteredRates() {
         if (this.rates && this.adnetCustomerModel) {
             this.filteredRates = List<AdnetRateModel>();

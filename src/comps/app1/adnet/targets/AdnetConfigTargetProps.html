@@ -22,18 +22,26 @@
                                         <label for="enabled" class="label-primary"></label>
                                     </div>
                                 </li>
-                                <li class="list-group-item">
-                                    Timezone
-                                    <div class="pull-right">
-                                        <label>GMT+0 (ST)</label>
-                                    </div>
-                                </li>
+                                <!--<li class="list-group-item">-->
+                                    <!--Timezone-->
+                                    <!--<div class="pull-right">-->
+                                        <!--<label>GMT+0 (ST)</label>-->
+                                    <!--</div>-->
+                                <!--</li>-->
                             </ul>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-xs-6">
+                    <div *ngIf="!isWebLocation()" class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-tv"></i></span>
+                        <input [formControl]="contGroup.controls['targetDomain']" type="text" class="form-control"
+                               placeholder="domain">
+                    </div>
+                    <div *ngIf="isWebLocation()" class="input-group">
+                        <label>Timezone: GMT+0 (ST)</label>
+                    </div>
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-tv"></i></span>
                         <input [formControl]="contGroup.controls['label']" type="text" class="form-control"
@@ -48,15 +56,15 @@
                             </select>
                         </div>
                     </div>
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-asterisk"></i></span>
-                        <div class="btn-group" role="group">
-                            <select [formControl]="contGroup.controls['targetType']" class="form-control">
-                                <option value="0">mode: station</option>
-                                <option value="1">mode: mobile</option>
-                            </select>
-                        </div>
-                    </div>
+                    <!--<div class="input-group">-->
+                        <!--<span class="input-group-addon"><i class="fa fa-asterisk"></i></span>-->
+                        <!--<div class="btn-group" role="group">-->
+                            <!--<select [formControl]="contGroup.controls['targetType']" class="form-control">-->
+                                <!--<option value="0">mode: station</option>-->
+                                <!--<option value="1">mode: mobile</option>-->
+                            <!--</select>-->
+                        <!--</div>-->
+                    <!--</div>-->
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-globe"></i></span>
                         <input [formControl]="contGroup.controls['url']" type="text" class="form-control"

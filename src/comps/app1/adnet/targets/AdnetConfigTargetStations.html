@@ -1,8 +1,20 @@
 <div class="row">
+    <div style="position: relative; top: 10px">
+        <div>
+            <a class="btns"
+               data-toggle="tooltip" data-placement="left" title="Add a new web address location"
+               (click)="onAddWeb($event);$event.preventDefault()" href="#"><span class="fa fa-plus"></span>
+            </a>
+            <a class="btns" (click)="onRemoveWeb($event);$event.preventDefault()" [ngClass]="{disabled: isWebLocation()}" href="#">
+                <span class="fa fa-remove"></span>
+            </a>
+        </div>
+    </div>
+
     <div class="col-xs-12">
-        <!--<h3>target stations</h3>-->
         <SimpleList #simpleList [list]="adTargetsFiltered"
                     [editable]="false"
+                    [iconCallback]="renderIcon"
                     [multiSelect]="false"
                     (selected)="onSelection($event)" [content]="getContent"></SimpleList>
     </div>
