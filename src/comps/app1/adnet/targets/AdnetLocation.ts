@@ -4,14 +4,23 @@ import {StationModel} from "../../../../stations/StationModel";
 import {List} from 'immutable';
 import * as _ from 'lodash';
 import {StationsMap} from "../../dashboard/StationsMap";
+import {AppStore} from "angular2-redux-util";
+import {AdnetActions} from "../../../../adnet/AdnetActions";
 
 @Component({
     selector: 'AdnetLocation',
     moduleId: __moduleName,
-    template: `<stationsMap #stationsMap (onStationSelected)="onStationModalOpen($event)" *ngIf="stationComponentMode=='map'" [stations]="stations"></stationsMap>`
+    template: `<stationsMap #stationsMap (onMapClicked)="onUpdatedStationCoords($event)" 
+                    (onStationSelected)="onStationModalOpen($event)" 
+                    *ngIf="stationComponentMode=='map'" [stations]="stations">
+                </stationsMap>`
 })
 
 export class AdnetLocation {
+
+    constructor(private appStore: AppStore, private adnetAction: AdnetActions) {
+
+    }
 
     @ViewChild(StationsMap)
     stationsMap: StationsMap;
@@ -62,7 +71,19 @@ export class AdnetLocation {
             this.stationComponentMode = 'map';
     }
 
+    private onUpdatedStationCoords(event) {
+        var payload = this.selectedAdnetTargetModel.getKey('Value');
+        payload.locationLat = event['coords'].lat;
+        payload.locationLng = event['coords'].lng;
+        this.appStore.dispatch(this.adnetAction.saveTargetInfo(payload, this.selectedAdnetTargetModel.getId()))
+        setTimeout(()=> {
+            this.stationsMap.forceUpdateUi();
+        }, 1000)
+
+    }
+
     private stationComponentMode: string;
+
     private onStationModalOpen(event) {
 
     }

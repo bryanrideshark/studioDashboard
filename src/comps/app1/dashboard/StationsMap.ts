@@ -15,7 +15,8 @@ interface marker {
 @Component({
     selector: 'stationsMap',
     template: `
-        <sebm-google-map #googleMaps style="width: 100% ; height: 100%" 
+        <sebm-google-map #googleMaps style="width: 100% ; height: 100%"
+              (mapClick)="mapClicked($event)"
               [latitude]="38.2500"
               [longitude]="-96.7500"
               [zoom]="zoom"
@@ -53,6 +54,12 @@ export class StationsMap {
     @ViewChild('googleMaps')
     googleMaps: SebmGoogleMap;
 
+    @Output()
+    onStationSelected: EventEmitter<any> = new EventEmitter();
+
+    @Output()
+    onMapClicked: EventEmitter<any> = new EventEmitter();
+
     markers: marker[] = [];
     zoom: number = 4;
 
@@ -69,12 +76,9 @@ export class StationsMap {
         this.onStationSelected.next(marker.id);
     }
 
-    // mapClicked($event:MouseEvent) {
-    //     this.markers.push({
-    //         lat: $event.coords.lat,
-    //         lng: $event.coords.lng
-    //     });
-    // }
+    mapClicked($event: MouseEvent) {
+        this.onMapClicked.emit($event);
+    }
 
     @Input()
     set stations(i_stations) {
@@ -82,7 +86,6 @@ export class StationsMap {
         this.updateStations();
     }
 
-    @Output() onStationSelected: EventEmitter<any> = new EventEmitter();
 
     protected chartMap = {};
     private highCharts: any;
@@ -102,7 +105,7 @@ export class StationsMap {
         return 'black';
     }
 
-    private forceUpdateUi() {
+    public forceUpdateUi() {
         this.cdr.reattach();
         setTimeout(()=> {
             this.cdr.detach();
