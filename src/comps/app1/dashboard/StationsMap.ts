@@ -1,6 +1,7 @@
-import {Component, Input, Output, EventEmitter, ChangeDetectorRef} from "@angular/core";
+import {Component, Input, Output, EventEmitter, ChangeDetectorRef, ViewChild} from "@angular/core";
 import {StationModel} from "../../../stations/StationModel";
 import * as _ from "lodash";
+import {SebmGoogleMap} from "angular2-google-maps/core";
 
 interface marker {
     id: number;
@@ -14,7 +15,7 @@ interface marker {
 @Component({
     selector: 'stationsMap',
     template: `
-        <sebm-google-map style="width: 100% ; height: 100%" 
+        <sebm-google-map #googleMaps style="width: 100% ; height: 100%" 
               [latitude]="38.2500"
               [longitude]="-96.7500"
               [zoom]="zoom"
@@ -39,12 +40,18 @@ interface marker {
 export class StationsMap {
     constructor(private cdr: ChangeDetectorRef) {
         setInterval(()=> {
-            this.cdr.reattach();
-            setTimeout(()=> {
-                this.cdr.detach();
-            }, 1000)
+            this.forceUpdateUi();
         }, 3000)
+
+        // this.googleMaps.setCenter()
     }
+
+    ngAfterViewInit() {
+        console.log(this.googleMaps);
+    }
+
+    @ViewChild('googleMaps')
+    googleMaps: SebmGoogleMap;
 
     markers: marker[] = [];
     zoom: number = 4;
@@ -95,6 +102,13 @@ export class StationsMap {
         return 'black';
     }
 
+    private forceUpdateUi() {
+        this.cdr.reattach();
+        setTimeout(()=> {
+            this.cdr.detach();
+        }, 1000)
+    }
+
     private updateStations() {
         if (!this.m_stations)
             return;
@@ -114,5 +128,17 @@ export class StationsMap {
                 draggable: false
             })
         });
+        this.forceUpdateUi();
+    }
+
+    public setCenter(lat, lng) {
+        this.googleMaps.latitude = lat;
+        this.googleMaps.longitude = lng;
+
+        // for private access to all APIs do:
+        // this.googleMaps['_mapsWrapper'].setCenter({
+        //     lat: lat,
+        //     lng: lng,
+        // });
     }
 }

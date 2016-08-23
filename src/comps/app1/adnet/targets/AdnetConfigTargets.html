@@ -7,8 +7,8 @@
             <tab [tabtitle]="'properties'">
                 <AdnetConfigTargetProps [adnetCustomerModel]="customerModel" [adnetTargetModel]="adnetConfigTargetStations.selectedAdnetTargetModel"></AdnetConfigTargetProps>
             </tab>
-            <tab [tabtitle]="'location'">
-                <AdnetLocation [adnetTargetModel]="adnetConfigTargetStations.selectedAdnetTargetModel"></AdnetLocation>
+            <tab [tabtitle]="'location'" #adnetTab >
+                <AdnetLocation #adnetLocation [activated]="adnetTab.active" [adnetTargetModel]="adnetConfigTargetStations.selectedAdnetTargetModel"></AdnetLocation>
             </tab>
         </tabs>
     </div>

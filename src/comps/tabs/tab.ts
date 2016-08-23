@@ -1,4 +1,4 @@
-import {Component, Host} from '@angular/core';
+import {Component, Host, Output, EventEmitter} from '@angular/core';
 import {Tabs} from '../tabs/tabs';
 
 @Component({
@@ -17,7 +17,7 @@ import {Tabs} from '../tabs/tabs';
     }
   `],
     template: `
-    <div [hidden]="!active" class="pane">
+    <div [hidden]="!_active" class="pane">
       <ng-content></ng-content>
     </div>
   `
@@ -29,11 +29,26 @@ import {Tabs} from '../tabs/tabs';
  and don't go any further to prevent lookup of wrong Tabs under misconfiguration
  **/
 export class Tab {
-    title:string;
-    active = this.active || false;
 
     constructor(@Host() tabs:Tabs) {
         //this.title = 'tab';
         tabs.addTab(this);
     }
+
+    @Output()
+    activated:EventEmitter<any> = new EventEmitter<any>();
+
+    public title:string;
+    private _active = false;
+    public set active(value){
+        this._active = value || false;
+        if (this._active)
+            this.activated.emit(true);
+    }
+    public get active(){
+        return this._active;
+    }
+
+
+
 }

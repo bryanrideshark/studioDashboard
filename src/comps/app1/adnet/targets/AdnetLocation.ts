@@ -1,32 +1,33 @@
-import {Component, Input} from "@angular/core";
+import {Component, Input, ViewChild} from "@angular/core";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {StationModel} from "../../../../stations/StationModel";
 import {List} from 'immutable';
 import * as _ from 'lodash';
+import {StationsMap} from "../../dashboard/StationsMap";
 
 @Component({
     selector: 'AdnetLocation',
     moduleId: __moduleName,
-    template: `<stationsMap (onStationSelected)="onStationModalOpen($event)" *ngIf="stationComponentMode=='map'" [stations]="stations"></stationsMap>`
+    template: `<stationsMap #stationsMap (onStationSelected)="onStationModalOpen($event)" *ngIf="stationComponentMode=='map'" [stations]="stations"></stationsMap>`
 })
 
 export class AdnetLocation {
-    constructor(){
-        var self = this;
-        setTimeout(()=>{
-            self.stationComponentMode = 'map';
-        },5000)
-    }
+
+    @ViewChild(StationsMap)
+    stationsMap: StationsMap;
 
     @Input()
     set adnetTargetModel(i_adnetTargetModel: AdnetTargetModel) {
         if (!i_adnetTargetModel)
             return;
-       this.selectedAdnetTargetModel = i_adnetTargetModel;
+        this.selectedAdnetTargetModel = i_adnetTargetModel;
         var stationData = {
             businessId: this.selectedAdnetTargetModel.getCustomerId,
             id: this.selectedAdnetTargetModel.getCustomerId,
-            geoLocation: {lat: -18.14, lon: _.random(1,100)},
+            geoLocation: {
+                lat: this.selectedAdnetTargetModel.getCoordinates().lat,
+                lon: this.selectedAdnetTargetModel.getCoordinates().lng
+            },
             source: -1,
             airVersion: -1,
             appVersion: -1,
@@ -48,15 +49,24 @@ export class AdnetLocation {
             watchDogConnection: ''
         };
         this.stations = List<StationModel>();
-        var stationModel:StationModel = new StationModel(stationData)
+        var stationModel: StationModel = new StationModel(stationData)
         this.stations = this.stations.push(stationModel);
+        if (this.stationsMap) {
+            this.stationsMap.setCenter(stationModel.getLocation().lat, stationModel.getLocation().lon);
+        }
     }
 
-    private stationComponentMode:string = 'grid';
-    private onStationModalOpen(event){
+    @Input()
+    set activated(value) {
+        if (value)
+            this.stationComponentMode = 'map';
+    }
+
+    private stationComponentMode: string;
+    private onStationModalOpen(event) {
 
     }
 
-    private stations:List<StationModel> = List<StationModel>();
-    private selectedAdnetTargetModel:AdnetTargetModel;
+    private stations: List<StationModel> = List<StationModel>();
+    private selectedAdnetTargetModel: AdnetTargetModel;
 }
