@@ -38,7 +38,7 @@ interface marker {
     `
 })
 export class StationsMap {
-    constructor(private cdr:ChangeDetectorRef) {
+    constructor(private cdr: ChangeDetectorRef) {
         setInterval(()=> {
             this.cdr.reattach();
             setTimeout(()=> {
@@ -47,19 +47,19 @@ export class StationsMap {
         }, 3000)
     }
 
-    markers:marker[] = [];
-    zoom:number = 4;
+    markers: marker[] = [];
+    zoom: number = 4;
 
     // initial center position for the map
-    lat:number = 39.8282;
-    lng:number = 98.5795;
+    lat: number = 39.8282;
+    lng: number = 98.5795;
 
-    getMarkerIcon(m:marker) {
+    getMarkerIcon(m: marker) {
         this.cdr.detach();
         return `assets/screen_${m.color}.png`;
     }
 
-    clickedMarker(marker:marker, index:number) {
+    clickedMarker(marker: marker, index: number) {
         this.onStationSelected.next(marker.id);
     }
 
@@ -76,10 +76,10 @@ export class StationsMap {
         this.updateStations();
     }
 
-    @Output() onStationSelected:EventEmitter<any> = new EventEmitter();
+    @Output() onStationSelected: EventEmitter<any> = new EventEmitter();
 
     protected chartMap = {};
-    private highCharts:any;
+    private highCharts: any;
     private m_stations;
 
     onInit(event) {
@@ -101,7 +101,7 @@ export class StationsMap {
             return;
         var c = 0;
         this.markers = [];
-        this.m_stations.forEach((i_station:StationModel)=> {
+        this.m_stations.forEach((i_station: StationModel)=> {
             var geoLocation = i_station.getLocation();
             if (_.isEmpty(geoLocation))
                 return;

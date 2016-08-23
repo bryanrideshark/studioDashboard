@@ -1,6 +1,4 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {Tabs} from "../../../tabs/tabs";
-import {Tab} from "../../../tabs/tab";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 
 @Component({

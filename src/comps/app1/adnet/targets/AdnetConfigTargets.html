@@ -1,19 +1,6 @@
 <div class="row">
     <div class="col-xs-4">
         <AdnetConfigTargetStations #adnetConfigTargetStations [adnetCustomerModel]="customerModel"></AdnetConfigTargetStations>
-        <!--<tabs>-->
-            <!--<tab [tabtitle]="'Stations'">-->
-                <!--<tabs>-->
-                    <!--<AdnetConfigTargetStations #adnetConfigTargetStations [adnetCustomerModel]="customerModel"></AdnetConfigTargetStations>-->
-                    <!--<tab [tabtitle]="'Grid'">-->
-                    <!--</tab>-->
-                    <!--<tab [tabtitle]="'Map'">-->
-                    <!--</tab>-->
-                <!--</tabs>-->
-            <!--</tab>-->
-            <!--<tab [tabtitle]="'Web sites'">-->
-            <!--</tab>-->
-        <!--</tabs>-->
     </div>
     <div class="col-xs-8">
         <tabs>
@@ -21,6 +8,7 @@
                 <AdnetConfigTargetProps [adnetCustomerModel]="customerModel" [adnetTargetModel]="adnetConfigTargetStations.selectedAdnetTargetModel"></AdnetConfigTargetProps>
             </tab>
             <tab [tabtitle]="'location'">
+                <AdnetLocation [adnetTargetModel]="adnetConfigTargetStations.selectedAdnetTargetModel"></AdnetLocation>
             </tab>
         </tabs>
     </div>
