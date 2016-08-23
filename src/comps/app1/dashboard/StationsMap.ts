@@ -1,16 +1,15 @@
 import {Component, Input, Output, EventEmitter, ChangeDetectorRef} from "@angular/core";
-import {ANGULAR2_GOOGLE_MAPS_DIRECTIVES} from "angular2-google-maps/core";
 import {StationModel} from "../../../stations/StationModel";
 import * as _ from "lodash";
 
 interface marker {
-    id:number;
-    lat:number;
-    lng:number;
-    color:string;
-    name:string;
-    label?:string;
-    draggable:boolean;
+    id: number;
+    lat: number;
+    lng: number;
+    color: string;
+    name: string;
+    label?: string;
+    draggable: boolean;
 }
 @Component({
     selector: 'stationsMap',

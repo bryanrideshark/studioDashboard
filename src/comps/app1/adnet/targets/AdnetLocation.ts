@@ -1,22 +1,21 @@
-import {Component, ChangeDetectionStrategy, Input} from "@angular/core";
+import {Component, Input} from "@angular/core";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {StationModel} from "../../../../stations/StationModel";
 import {List} from 'immutable';
-import {Dashboard} from "../../dashboard/Dashboard";
+import * as _ from 'lodash';
 
 @Component({
     selector: 'AdnetLocation',
     moduleId: __moduleName,
-    template: `
-                <stationsMap (onStationSelected)="onStationModalOpen($event)" *ngIf="selectedAdnetTargetModel" [stations]="stations"></stationsMap>
-                <!--<Dashboard></Dashboard>-->
-             `,
-    changeDetection: ChangeDetectionStrategy.OnPush
+    template: `<stationsMap (onStationSelected)="onStationModalOpen($event)" *ngIf="stationComponentMode=='map'" [stations]="stations"></stationsMap>`
 })
 
 export class AdnetLocation {
     constructor(){
-
+        var self = this;
+        setTimeout(()=>{
+            self.stationComponentMode = 'map';
+        },5000)
     }
 
     @Input()
@@ -27,7 +26,7 @@ export class AdnetLocation {
         var stationData = {
             businessId: this.selectedAdnetTargetModel.getCustomerId,
             id: this.selectedAdnetTargetModel.getCustomerId,
-            geoLocation: {lat: -18.14, lon:0},
+            geoLocation: {lat: -18.14, lon: _.random(1,100)},
             source: -1,
             airVersion: -1,
             appVersion: -1,
@@ -53,6 +52,7 @@ export class AdnetLocation {
         this.stations = this.stations.push(stationModel);
     }
 
+    private stationComponentMode:string = 'grid';
     private onStationModalOpen(event){
 
     }
