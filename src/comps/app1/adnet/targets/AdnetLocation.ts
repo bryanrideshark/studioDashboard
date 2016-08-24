@@ -5,12 +5,13 @@ import {List} from 'immutable';
 import {StationsMap} from "../../dashboard/StationsMap";
 import {AppStore} from "angular2-redux-util";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
+import {MapAddress} from "../../../mapaddress/MapAddress";
 
 @Component({
     selector: 'AdnetLocation',
     moduleId: __moduleName,
     template: `
-                <MapAddress (onChange)="onUpdatedStationCoords($event)"></MapAddress>
+                <MapAddress #mapAddress (onChange)="onUpdatedStationCoords($event)"></MapAddress>
                 <stationsMap #stationsMap (onMapClicked)="onUpdatedStationCoords($event)" 
                     *ngIf="stationComponentMode=='map'" [stations]="stations">
                 </stationsMap>`
@@ -27,10 +28,19 @@ export class AdnetLocation {
     @ViewChild(StationsMap)
     stationsMap: StationsMap;
 
+    @ViewChild(MapAddress)
+    mapAddress: MapAddress;
+
     @Input()
     set adnetTargetModel(i_adnetTargetModel: AdnetTargetModel) {
-        if (!i_adnetTargetModel)
+        if (!i_adnetTargetModel){
+            this.stations = null;
+            if (this.stationsMap)
+                this.stationsMap.clear();
+            this.mapAddress.clear();
             return;
+        }
+
         this.selectedAdnetTargetModel = i_adnetTargetModel;
         this.onUpdateMap();
 
@@ -83,10 +93,6 @@ export class AdnetLocation {
         payload.locationLat = event['coords'].lat;
         payload.locationLng = event['coords'].lng;
         this.appStore.dispatch(this.adnetAction.saveTargetInfo(payload, this.selectedAdnetTargetModel.getId()))
-        // setTimeout(()=> {
-        //     this.stationsMap.forceUpdateUi();
-        // }, 100)
-
     }
 
     private stationComponentMode: string;

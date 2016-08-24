@@ -53,6 +53,10 @@ export class MapAddress {
 
     }
 
+    public clear() {
+        this.searchControl.setValue('');
+    }
+
     ngOnDestroy() {
         this.unsub.unsubscribe();
     }

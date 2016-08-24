@@ -119,7 +119,7 @@ export class StationsMap {
         this.markers = [];
         this.m_stations.forEach((i_station: StationModel)=> {
             var geoLocation = i_station.getLocation();
-            if (_.isEmpty(geoLocation))
+            if (_.isEmpty(geoLocation) || geoLocation.lat == 0 && geoLocation.lon == 0)
                 return;
             this.markers.push({
                 id: i_station.getStationId(),
@@ -134,10 +134,14 @@ export class StationsMap {
         this.forceUpdateUi();
     }
 
+    public clear() {
+        this.markers = [];
+        this.forceUpdateUi();
+    }
+
     public setCenter(lat, lng) {
         this.googleMaps.latitude = lat;
         this.googleMaps.longitude = lng;
-
         // for private access to all APIs do:
         // this.googleMaps['_mapsWrapper'].setCenter({
         //     lat: lat,
