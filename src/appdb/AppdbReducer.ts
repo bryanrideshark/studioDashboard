@@ -8,9 +8,12 @@ import * as Immutable from 'immutable'
 // 0 = cloud, 1 = private 2 = hybrid
 const baseUrl = 'https://galaxy.signage.me/WebService/ResellerService.ashx';
 const appBaseUrlCloud = 'https://secure.digitalsignage.com';
-//todo: fix hard coded
+//todo: hard coded to one customer account while in dev
+
 const appBaseUrlAdnet = 'https://adnet.signage.me/adNetService.ashx?command=customerRequest&customerId=472&customerToken=7d1f5f73-7159-40af-9bbd-f61ef37b6394&fromChangelistId=0';
-const adnetCustomerId = 18635;
+
+// const adnetCustomerId = 18635;
+//adnetCustomerId: adnetCustomerId,
 
 export default function appdb(state:Map<string, any> = Map<string, any>({}), action:any):Map<string, any> {
     switch (action.type) {
@@ -28,7 +31,6 @@ export default function appdb(state:Map<string, any> = Map<string, any>({}), act
                     remember: action.remember,
                     reason: action.reason
                 },
-                adnetCustomerId: adnetCustomerId,
                 appBaseUrlUser: `${baseUrl}?resellerUserName=${action.user}&resellerPassword=${action.pass}`,
                 appBaseUrlCloud: `${appBaseUrlCloud}/END_POINT/${action.user}/${action.pass}`,
                 appBaseUrlAdnet: `${appBaseUrlAdnet}`

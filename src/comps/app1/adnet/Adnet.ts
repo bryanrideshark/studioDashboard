@@ -42,7 +42,7 @@ import {List} from "immutable";
                       <AdnetConfig [setAdnetCustomerModel]="adnetCustomerModel"></AdnetConfig>
                     </tab>
                     <tab [tabtitle]="'Network'">
-                      <h3>network coming soon...</h3>
+                      <AdnetNetwork [setAdnetCustomerModel]="adnetCustomerModel"></AdnetNetwork>
                     </tab>
                     <tab [tabtitle]="'Billing'">
                       <h3>billing coming soon...</h3>

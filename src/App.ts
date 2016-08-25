@@ -133,6 +133,8 @@ import {AdnetConfigTargetStations} from "./comps/app1/adnet/targets/AdnetConfigT
 import {AdnetConfigTargetProps} from "./comps/app1/adnet/targets/AdnetConfigTargetProps";
 import {AdnetLocation} from "./comps/app1/adnet/targets/AdnetLocation";
 import {MapAddress} from "./comps/mapaddress/MapAddress";
+import {AdnetNetwork} from "./comps/app1/adnet/network/AdnetNetwork";
+import {AdnetNetworkSelector} from "./comps/app1/adnet/network/AdnetNetworkSelector";
 
 export enum ServerMode {
     CLOUD,
@@ -238,7 +240,7 @@ var modules = [AUTH_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
     {provide: "OFFLINE_ENV", useValue: false},
     {provide: CharCount}];
 
-var decelerations = [Main, RatesTable, UsersDetails, LoginPanel, Menu, MenuItem, Sliderpanel, Account, Whitelabel, Apps, App1, Users, Adnet, Privileges, Dashboard, Logout, Orders, Filemenu, FilemenuItem, Logo, LogoCompany, Footer, BlurForwarder, InputEdit, ANGULAR2_GOOGLE_MAPS_DIRECTIVES, OrderBy, SortBy, FilterPipe, AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, RatingComponent, ServerStats, ServerAvg, StationsMap, StationsGrid, StationDetails, ImgLoader, Ng2Highcharts, AdnetConfigCustomer, AdnetConfig, StationSnapshot, OrderDetails, SimpleList, PrivilegesDetails, ModalDialog, Infobox, UserStorage, Loading, Samplelist, DROPDOWN_DIRECTIVES, SIMPLEGRID_DIRECTIVES, UserInfo, AddUser, ChangePass, MODAL_DIRECTIVES, Ng2Highstocks, Ng2Highmaps, SimpleGridSortableHeader, SimpleGridRecord, SimpleGridData, SimplelistEditable, AdnetConfigTargetStations, AdnetConfigTargetProps, AdnetLocation, MapAddress];
+var decelerations = [Main, RatesTable, UsersDetails, LoginPanel, Menu, MenuItem, Sliderpanel, Account, Whitelabel, Apps, App1, Users, Adnet, Privileges, Dashboard, Logout, Orders, Filemenu, FilemenuItem, Logo, LogoCompany, Footer, BlurForwarder, InputEdit, ANGULAR2_GOOGLE_MAPS_DIRECTIVES, OrderBy, SortBy, FilterPipe, AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, RatingComponent, ServerStats, ServerAvg, StationsMap, StationsGrid, StationDetails, ImgLoader, Ng2Highcharts, AdnetConfigCustomer, AdnetConfig, StationSnapshot, OrderDetails, SimpleList, PrivilegesDetails, ModalDialog, Infobox, UserStorage, Loading, Samplelist, DROPDOWN_DIRECTIVES, SIMPLEGRID_DIRECTIVES, UserInfo, AddUser, ChangePass, MODAL_DIRECTIVES, Ng2Highstocks, Ng2Highmaps, SimpleGridSortableHeader, SimpleGridRecord, SimpleGridData, SimplelistEditable, AdnetConfigTargetStations, AdnetConfigTargetProps, AdnetLocation, MapAddress, AdnetNetwork, AdnetNetworkSelector];
 
 @NgModule({
     imports: [BrowserModule, FormsModule, JsonpModule, HttpModule, ReactiveFormsModule, routing],
