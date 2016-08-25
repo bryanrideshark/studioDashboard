@@ -21,6 +21,10 @@ export function adnet(state: Map<string,any> = Map<string,any>(), action: any): 
             return state.setIn(['rates'], action.rates);
         }
 
+        case AdnetActions.RECEIVE_PAIRS: {
+            return state.setIn(['pairs'], action.pairs);
+        }
+
         case AdnetActions.RECEIVE_TARGETS: {
             return state.setIn(['targets'], action.targets);
         }

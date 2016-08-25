@@ -12,7 +12,7 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
     template: `            
            <div class="row">                        
                 <div class="col-xs-2">
-                    <AdnetNetworkSelector></AdnetNetworkSelector>
+                    <AdnetNetworkSelector [setAdnetCustomerModel]="adnetCustomerModel"></AdnetNetworkSelector>
                 </div>
                 <div class="col-xs-10">                
                     <div class="row">
