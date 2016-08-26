@@ -10,4 +10,12 @@ export class AdnetPairModel extends StoreModel {
         return this.getKey('Key');
     }
 
+    public getCustomerId(){
+        return this.getKey('Value').customerId;
+    }
+
+    public getToCustomerId(){
+        return this.getKey('Value').toCustomerId;
+    }
+
 }
