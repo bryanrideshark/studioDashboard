@@ -1,21 +1,16 @@
 <div class="row">
     <div class="col-xs-4">
-        <AdnetConfigTargetStations (onTargetSelected)="onTargetSelected($event)"
-                                   [adnetCustomerModel]="customerModel">
-
+        <AdnetConfigTargetStations (onTargetSelected)="onTargetSelected($event)" [adnetCustomerModel]="customerModel">
         </AdnetConfigTargetStations>
     </div>
     <div class="col-xs-8">
         <tabs>
             <tab [tabtitle]="'properties'">
-                <AdnetConfigTargetProps [adnetCustomerModel]="customerModel"
-                                        [adnetTargetModel]="adnetTargetModel">
+                <AdnetConfigTargetProps [adnetCustomerModel]="customerModel" [adnetTargetModel]="adnetTargetModel">
                 </AdnetConfigTargetProps>
             </tab>
             <tab [tabtitle]="'location'" #adnetTab>
-                <AdnetLocation #adnetLocation [activated]="adnetTab.active"
-                               [adnetCustomerModel]="customerModel"
-                               [adnetTargetModel]="adnetTargetModel">
+                <AdnetLocation #adnetLocation [activated]="adnetTab.active" [adnetCustomerModel]="customerModel" [adnetTargetModel]="adnetTargetModel">
                 </AdnetLocation>
             </tab>
         </tabs>

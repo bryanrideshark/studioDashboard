@@ -20,8 +20,9 @@ import {StoreModel} from "../../../../models/StoreModel";
             `],
     template: `
             <select style="font-family:'FontAwesome', Arial;" (change)="onChanges($event)" class="form-control custom longInput">
-                <option [selected]="getSelected(dropItem)">&#xf064; Incoming</option>
                 <option [selected]="getSelected(dropItem)">&#xf112; Outgoing</option>
+                <option [selected]="getSelected(dropItem)">&#xf064; Incoming</option>
+
             </select>
             <div *ngIf="pairsFiltered" style="padding-left: 20px">
                <SimpleList #simpleList [list]="pairsFiltered" 
@@ -57,6 +58,8 @@ export class AdnetNetworkSelector {
         console.log(event);
     }
 
+    private outgoing = true;
+
     private getPairName(i_adnetPairModel: AdnetPairModel) {
         var self = this;
         return (i_adnetPairModel: AdnetPairModel) => {
@@ -64,7 +67,11 @@ export class AdnetNetworkSelector {
                 return list.findIndex((i: StoreModel) => i['getId']() === id);
             }
             var customers: List<AdnetCustomerModel> = self.appStore.getState().adnet.getIn(['customers']);
-            var index = getIndex(customers, i_adnetPairModel.getToCustomerId())
+            if (this.outgoing){
+                var index = getIndex(customers, i_adnetPairModel.getToCustomerId())
+            } else {
+                var index = getIndex(customers, i_adnetPairModel.getCustomerId())
+            }
             var customer: AdnetCustomerModel = customers.get(index);
             return customer.getName();
         }
@@ -73,8 +80,13 @@ export class AdnetNetworkSelector {
     private filterPairs() {
         this.pairsFiltered = List<AdnetPairModel>();
         this.pairs.forEach((i_pair: AdnetPairModel) => {
-            if (i_pair.getCustomerId() == this.adnetCustomerId)
-                this.pairsFiltered = this.pairsFiltered.push(i_pair);
+            if (this.outgoing){
+                if (i_pair.getCustomerId() == this.adnetCustomerId)
+                    this.pairsFiltered = this.pairsFiltered.push(i_pair);
+            } else {
+                if (i_pair.getToCustomerId() == this.adnetCustomerId)
+                    this.pairsFiltered = this.pairsFiltered.push(i_pair);
+            }
         })
     }
 
@@ -94,7 +106,12 @@ export class AdnetNetworkSelector {
     private adnetCustomerModel: AdnetCustomerModel;
 
     private onChanges(event) {
-
+        if (event.target.value.indexOf('Outgoing') > -1){
+            this.outgoing = true;
+        } else {
+            this.outgoing = false;
+        }
+        this.filterPairs();
     }
 
     private getSelected(i_dropItem): string {
