@@ -35,7 +35,7 @@ export class SimpleGridRecord {
     @HostListener('dblclick', ['$event'])
     doubleClicked(event) {
         this.setSelected();
-        this.onDoubleClicked.next({target: event.target});
+        this.onDoubleClicked.emit({target: event.target});
         return true;
     }
 

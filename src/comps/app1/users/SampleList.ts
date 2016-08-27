@@ -20,7 +20,7 @@ export class Samplelist {
     selected:EventEmitter<any> = new EventEmitter<any>();
 
     protected  onSelectedSample(sample:SampleModel){
-        this.selected.next(sample.getBusinessId());
+        this.selected.emit(sample.getBusinessId());
     }
 
 }

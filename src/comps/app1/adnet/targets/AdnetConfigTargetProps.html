@@ -3,6 +3,13 @@
     <h4>customer id: {{targetModel?.getCustomerId()}}</h4>
     <div class="row">
         <form [formGroup]="contGroup">
+
+            <input [formControl]="contGroup.controls['locationLat']" type="text" class="form-control"
+                   placeholder="domain">
+
+            <input [formControl]="contGroup.controls['locationLng']" type="text" class="form-control"
+                   placeholder="domain">
+
             <div>
                 <div class="col-xs-12 box">
                     <hr/>

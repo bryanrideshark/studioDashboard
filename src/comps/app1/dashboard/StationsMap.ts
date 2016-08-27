@@ -73,7 +73,7 @@ export class StationsMap {
     }
 
     clickedMarker(marker: marker, index: number) {
-        this.onStationSelected.next(marker.id);
+        this.onStationSelected.emit(marker.id);
     }
 
     mapClicked($event: MouseEvent) {

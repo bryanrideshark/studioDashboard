@@ -29,7 +29,7 @@ export class Ng2Highcharts {
             }
             opt.chart.renderTo = this.hostElement.nativeElement;
             this.chart = new Highcharts.Chart(opt);
-            this.init.next(this.chart);
+            this.init.emit(this.chart);
         } else {
             console.log('No valid options...');
             console.dir(opt);

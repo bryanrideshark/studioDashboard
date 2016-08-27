@@ -60,13 +60,13 @@ export class ModalComponent implements OnDestroy {
 
     close() {
         this.result = ModalResult.Close;
-        this.onClose.next(this.result);
+        this.onClose.emit(this.result);
         this.hide();
     }
 
     dismiss() {
         this.result = ModalResult.Dismiss;
-        this.onClose.next(this.result);
+        this.onClose.emit(this.result);
         this.hide();
     }
 

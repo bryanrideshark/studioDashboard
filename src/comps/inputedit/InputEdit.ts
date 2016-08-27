@@ -63,7 +63,7 @@ export class InputEdit {
         this._editing = value;
         if (this._editing)
             return;
-        this.labelEdited.next(this._value);
+        this.labelEdited.emit(this._value);
         if (this._type == 'password')
             this._value = '*********';
     }

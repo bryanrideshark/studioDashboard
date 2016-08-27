@@ -6,23 +6,24 @@ import {StationsMap} from "../../dashboard/StationsMap";
 import {AppStore} from "angular2-redux-util";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {MapAddress} from "../../../mapaddress/MapAddress";
+import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
+import * as _ from 'lodash';
 
 @Component({
     selector: 'AdnetLocation',
     moduleId: __moduleName,
-    template: `
-                <MapAddress #mapAddress (onChange)="onUpdatedStationCoords($event)"></MapAddress>
-                <stationsMap #stationsMap (onMapClicked)="onUpdatedStationCoords($event)" 
-                    *ngIf="stationComponentMode=='map'" [stations]="stations">
-                </stationsMap>`
+    template: `<MapAddress #mapAddress (onChange)="onUpdatedStationCoords($event)"></MapAddress>
+               <stationsMap #stationsMap (onMapClicked)="onUpdatedStationCoords($event)" 
+                   *ngIf="stationComponentMode=='map'" [stations]="stations">
+               </stationsMap>`
 })
 
 export class AdnetLocation {
 
     constructor(private appStore: AppStore, private adnetAction: AdnetActions) {
-        this.unsub = this.appStore.sub((i_adTargets: List<AdnetTargetModel>) => {
-            this.onUpdateMap();
-        }, 'adnet.targets');
+        // this.unsub = this.appStore.sub((i_adTargets: List<AdnetTargetModel>) => {
+        //     this.onUpdateMap();
+        // }, 'adnet.targets');
     }
 
     @ViewChild(StationsMap)
@@ -40,10 +41,8 @@ export class AdnetLocation {
             this.mapAddress.clear();
             return;
         }
-
         this.selectedAdnetTargetModel = i_adnetTargetModel;
         this.onUpdateMap();
-
     }
 
     @Input()
@@ -52,13 +51,20 @@ export class AdnetLocation {
             this.stationComponentMode = 'map';
     }
 
+    @Input()
+    adnetCustomerModel: AdnetCustomerModel
+
     private onUpdateMap(){
+        var lat = this.selectedAdnetTargetModel ? this.selectedAdnetTargetModel.getCoordinates().lat : 0;
+        var lon = this.selectedAdnetTargetModel ? this.selectedAdnetTargetModel.getCoordinates().lng : 0;
+        var name = this.selectedAdnetTargetModel ? this.selectedAdnetTargetModel.getName() : '';
+
         var stationData = {
-            businessId: this.selectedAdnetTargetModel.getCustomerId,
-            id: this.selectedAdnetTargetModel.getCustomerId,
+            businessId: this.adnetCustomerModel.customerId(),
+            id: _.uniqueId(),
             geoLocation: {
-                lat: this.selectedAdnetTargetModel.getCoordinates().lat,
-                lon: this.selectedAdnetTargetModel.getCoordinates().lng
+                lat: lat,
+                lon: lon
             },
             source: -1,
             airVersion: -1,
@@ -70,7 +76,7 @@ export class AdnetLocation {
             connection: -1,
             lastCameraTest: -1,
             lastUpdate: -1,
-            name: this.selectedAdnetTargetModel.getName(),
+            name: name,
             os: '',
             peakMemory: '',
             runningTime: '',

@@ -48,6 +48,8 @@ export class AdnetConfigTargetProps {
             'hRate': [''],
             'keys': [''],
             'targetDomain': [''],
+            'locationLat': [''],
+            'locationLng': [''],
             'targetType': [''],
             'comments': [''],
             'standardTimeOffset': [''],

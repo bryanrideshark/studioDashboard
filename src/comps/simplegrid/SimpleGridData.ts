@@ -72,7 +72,7 @@ export class SimpleGridData {
             value: this.value,
             item: this.storeModel
         }
-        this.labelEdited.next(payload);
+        this.labelEdited.emit(payload);
 
     }
 }

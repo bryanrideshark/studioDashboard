@@ -1,4 +1,7 @@
-import {Component, ChangeDetectionStrategy, ViewChild, Input, ChangeDetectorRef} from "@angular/core";
+import {
+    Component, ChangeDetectionStrategy, ViewChild, Input, ChangeDetectorRef, Output,
+    EventEmitter
+} from "@angular/core";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {AppStore} from "angular2-redux-util";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
@@ -26,6 +29,9 @@ export class AdnetConfigTargetStations {
         this.customerModel = i_adnetCustomerModel;
         this.resetSelection();
     }
+
+    @Output()
+    onTargetSelected:EventEmitter<AdnetTargetModel> = new EventEmitter<AdnetTargetModel>();
 
     ngOnInit() {
         this.adTargets = this.appStore.getState().adnet.getIn(['targets']) || {};
@@ -72,11 +78,12 @@ export class AdnetConfigTargetStations {
         _.forEach(items, (simpleItem: ISimpleListItem)=> {
             if (simpleItem.selected) {
                 this.selectedAdnetTargetModel = simpleItem.item;
+                this.onTargetSelected.emit(this.selectedAdnetTargetModel);
             }
         })
     }
 
-    public selectedAdnetTargetModel: AdnetTargetModel;
+    private selectedAdnetTargetModel: AdnetTargetModel;
     private customerModel: AdnetCustomerModel;
     private adTargets: List<AdnetTargetModel>;
     private adTargetsFiltered: List<AdnetTargetModel> = List<AdnetTargetModel>();

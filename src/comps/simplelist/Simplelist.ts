@@ -114,7 +114,7 @@ export class SimpleList {
             selected: true //this.m_editClickPending ? true : !this.m_metadata[id].selected
 
         }
-        this.selected.next(this.m_metadata);
+        this.selected.emit(this.m_metadata);
     }
 
     private renderIcon(index, item) {
@@ -140,13 +140,13 @@ export class SimpleList {
         }
     }
 
-    private itemAllSelected() {
+    public itemAllSelected() {
         if (!this.multiSelect)
             return;
         for (let id in this.m_metadata)
             this.m_metadata[id].selected = true;
         this.list.forEach((i_item)=> {
-            this.selected.next(this.m_metadata);
+            this.selected.emit(this.m_metadata);
         })
     }
 
@@ -157,7 +157,7 @@ export class SimpleList {
         setTimeout(()=> {
             let match = _.find(self.m_metadata, (i: any) => i.index == index);
             // console.log(match.item.getBusinessId() + ' ' + match.item.getKey('name'));
-            this.iconClicked.next({
+            this.iconClicked.emit({
                 item: match,
                 target: event.target,
                 index: index,

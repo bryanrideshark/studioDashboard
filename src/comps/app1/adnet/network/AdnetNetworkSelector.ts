@@ -25,6 +25,8 @@ import {StoreModel} from "../../../../models/StoreModel";
             </select>
             <div *ngIf="pairsFiltered" style="padding-left: 20px">
                <SimpleList #simpleList [list]="pairsFiltered" 
+                    (selected)="onSelected($event)"
+                    [multiSelect]="true" 
                     [contentId]="getPairId" [content]="getPairName()">
                     
                 </SimpleList>
@@ -49,6 +51,10 @@ export class AdnetNetworkSelector {
 
     private getPairId(i_adnetPairModel: AdnetPairModel) {
         return i_adnetPairModel.getId();
+    }
+
+    private onSelected(event){
+        console.log(event);
     }
 
     private getPairName(i_adnetPairModel: AdnetPairModel) {

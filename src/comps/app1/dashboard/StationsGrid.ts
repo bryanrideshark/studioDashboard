@@ -94,7 +94,7 @@ export class StationsGrid {
         var stationModel:StationModel = this.selectedStation();
         // this.modalAddUserSample.open('lg');
         // alert(stationModel.getKey('businessId'));
-        this.onStationSelected.next(stationModel.getStationId())
+        this.onStationSelected.emit(stationModel.getStationId())
     }
 
     private selectedStation():StationModel {

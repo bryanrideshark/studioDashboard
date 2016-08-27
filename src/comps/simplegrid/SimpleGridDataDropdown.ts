@@ -66,7 +66,7 @@ export class SimpleGridDataDropdown {
     changed:EventEmitter<any> = new EventEmitter();
 
     onChanges(event) {
-        this.changed.next({item: this.m_storeModel, value: event.target.value});
+        this.changed.emit({item: this.m_storeModel, value: event.target.value});
     }
 
     private getSelected(i_dropItem):string {
