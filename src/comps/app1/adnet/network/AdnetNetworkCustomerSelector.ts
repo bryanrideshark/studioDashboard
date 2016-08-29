@@ -11,8 +11,8 @@ import {Subscription} from "rxjs/Subscription";
 import * as _ from 'lodash';
 
 export interface IPairSelect {
-    pairs:List<AdnetPairModel>,
-    pairsOutgoing:boolean
+    pairs: List<AdnetPairModel>,
+    pairsOutgoing: boolean
 }
 
 @Component({
@@ -30,8 +30,8 @@ export interface IPairSelect {
             `],
     template: `            
             <select style="font-family:'FontAwesome', Arial;" (change)="onChanges($event)" class="mn form-control custom longInput">
-                <option [selected]="getSelected(dropItem)">&#xf112; Outgoing</option>
-                <option [selected]="getSelected(dropItem)">&#xf064; Incoming</option>
+                <option>&#xf112; Outgoing</option>
+                <option>&#xf064; Incoming</option>
             </select>
             <br/>
             <button (click)="onSelectAll()" class="btn-sm mn btn bg-primary">Select all</button>
@@ -64,6 +64,7 @@ export class AdnetNetworkCustomerSelector {
         }, 'adnet.pairs');
         this.filterPairs();
         this.listenOnCustomerSelected();
+        this.announceChange();
     }
 
     @ViewChild('simpleListOutgoing')
@@ -72,7 +73,30 @@ export class AdnetNetworkCustomerSelector {
     @ViewChild('simpleListIncoming')
     simpleListIncoming: SimpleList;
 
-    private getIndex(list: List<any>, id: string|number) {
+    @Input()
+    set setAdnetCustomerModel(i_adnetCustomerModel: AdnetCustomerModel) {
+        this.adnetCustomerModel = i_adnetCustomerModel;
+        if (this.adnetCustomerModel) {
+            this.adnetCustomerId = this.adnetCustomerModel.customerId();
+            this.filterPairs();
+        }
+    }
+
+    @Output()
+    onPairsSelected: EventEmitter<IPairSelect> = new EventEmitter<IPairSelect>();
+
+    private obs: Subscription;
+    private observer: Observer<any>;
+    private outgoing = true;
+    private pairs: List<AdnetPairModel>
+    private pairsFilteredIncoming: List<AdnetPairModel>
+    private pairsFilteredOutgoing: List<AdnetPairModel>
+    private pairsSelected: List<AdnetPairModel>
+    private unsub: Function;
+    private adnetCustomerId: number = -1;
+    private adnetCustomerModel: AdnetCustomerModel;
+
+    private getIndex(list: List<any>, id: number) {
         return list.findIndex((i: StoreModel) => i['getId']() === id);
     }
 
@@ -84,14 +108,11 @@ export class AdnetNetworkCustomerSelector {
             _.forEach(v, (value, key) => {
                 if (value.selected == true) {
                     var index = this.getIndex(this.pairs, Number(key))
-                    this.pairsSelected = this.pairsSelected.push(this.pairs.get(index));
+                    if (index > -1)
+                        this.pairsSelected = this.pairsSelected.push(this.pairs.get(index));
                 }
             })
-            const data:IPairSelect = {
-                pairs: this.pairsSelected,
-                pairsOutgoing: this.outgoing
-            }
-            this.onPairsSelected.emit(<IPairSelect>data);
+            this.announceChange();
         })
     }
 
@@ -107,12 +128,10 @@ export class AdnetNetworkCustomerSelector {
     }
 
     private getPairId(i_adnetPairModel: AdnetPairModel) {
+        if (!i_adnetPairModel)
+            return;
         return i_adnetPairModel.getId();
     }
-
-    private obs: Subscription;
-    private observer: Observer<any>;
-    private outgoing = true;
 
     private getPairName(i_adnetPairModel: AdnetPairModel) {
         var self = this;
@@ -144,43 +163,30 @@ export class AdnetNetworkCustomerSelector {
         })
     }
 
-    @Input()
-    set setAdnetCustomerModel(i_adnetCustomerModel: AdnetCustomerModel) {
-        this.adnetCustomerModel = i_adnetCustomerModel;
-        if (this.adnetCustomerModel) {
-            this.adnetCustomerId = this.adnetCustomerModel.customerId();
-            this.filterPairs();
-        }
-    }
-
-    @Output()
-    onPairsSelected: EventEmitter<IPairSelect> = new EventEmitter<IPairSelect>();
-
-    private pairs: List<AdnetPairModel>
-    private pairsFilteredIncoming: List<AdnetPairModel>
-    private pairsFilteredOutgoing: List<AdnetPairModel>
-    private pairsSelected: List<AdnetPairModel>
-    private unsub: Function;
-    private adnetCustomerId: number = -1;
-    private adnetCustomerModel: AdnetCustomerModel;
-
     private onChanges(event) {
-        if (event.target.value.indexOf('Outgoing') > -1) {
-            this.outgoing = true;
-        } else {
-            this.outgoing = false;
-        }
-        this.filterPairs();
-    }
-
-    private getSelected(i_dropItem): string {
-        // if (this.m_testSelection) {
-        //     return this.m_testSelection(i_dropItem, this.m_storeModel);
+        // if (event.target.value.indexOf('Outgoing') > -1) {
+        //     this.outgoing = true;
+        // } else {
+        //     this.outgoing = false;
         // }
-        return '';
+        this.outgoing = !this.outgoing;
+        if (this.simpleListOutgoing)
+            this.simpleListOutgoing.deselect();
+        if (this.simpleListIncoming)
+            this.simpleListIncoming.deselect();
+        this.filterPairs();
+        this.announceChange();
     }
 
-    ngOnDestroy() {
+    private announceChange() {
+        const data: IPairSelect = {
+            pairs: this.pairsSelected,
+            pairsOutgoing: this.outgoing
+        }
+        this.onPairsSelected.emit(<IPairSelect>data);
+    }
+
+    private ngOnDestroy() {
         this.unsub();
         this.obs.unsubscribe();
     }
