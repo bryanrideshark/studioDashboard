@@ -1,15 +1,16 @@
-import {Component, ChangeDetectionStrategy, Input} from "@angular/core";
+import {Component, ChangeDetectionStrategy, Input, ViewChild} from "@angular/core";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
 import {List} from 'immutable';
 import {AppStore} from "angular2-redux-util";
 import {StoreModel} from "../../../../models/StoreModel";
+import {SimpleList} from "../../../simplelist/Simplelist";
 
 @Component({
     selector: 'AdnetNetworkSelector',
     moduleId: __moduleName,
     styles: [`
-                select {
+                .mn {
                     margin-left: 4px;
                     width: 80%;                    
                 }
@@ -18,12 +19,13 @@ import {StoreModel} from "../../../../models/StoreModel";
                 }
                 
             `],
-    template: `
-            <select style="font-family:'FontAwesome', Arial;" (change)="onChanges($event)" class="form-control custom longInput">
+    template: `            
+            <select style="font-family:'FontAwesome', Arial;" (change)="onChanges($event)" class="mn form-control custom longInput">
                 <option [selected]="getSelected(dropItem)">&#xf112; Outgoing</option>
                 <option [selected]="getSelected(dropItem)">&#xf064; Incoming</option>
-
             </select>
+            <br/>
+            <button (click)="onSelectAll()" class="btn-sm mn btn bg-primary">Select all</button>
             <div *ngIf="pairsFiltered" style="padding-left: 20px">
                <SimpleList #simpleList [list]="pairsFiltered" 
                     (selected)="onSelected($event)"
@@ -38,23 +40,29 @@ import {StoreModel} from "../../../../models/StoreModel";
 
 export class AdnetNetworkSelector {
     constructor(private appStore: AppStore) {
-        console.log(this.appStore);
     }
 
     ngOnInit() {
         this.pairs = this.appStore.getState().adnet.getIn(['pairs']) || {};
         this.unsub = this.appStore.sub((i_pairs: List<AdnetPairModel>) => {
             this.pairs = i_pairs;
-            // this.filterPairs();
+            this.filterPairs();
         }, 'adnet.pairs');
-        // this.filterPairs();
+        this.filterPairs();
+    }
+
+    @ViewChild(SimpleList)
+    simpleList: SimpleList;
+
+    private onSelectAll() {
+        this.simpleList.itemAllSelected();
     }
 
     private getPairId(i_adnetPairModel: AdnetPairModel) {
         return i_adnetPairModel.getId();
     }
 
-    private onSelected(event){
+    private onSelected(event) {
         console.log(event);
     }
 
@@ -67,7 +75,7 @@ export class AdnetNetworkSelector {
                 return list.findIndex((i: StoreModel) => i['getId']() === id);
             }
             var customers: List<AdnetCustomerModel> = self.appStore.getState().adnet.getIn(['customers']);
-            if (this.outgoing){
+            if (this.outgoing) {
                 var index = getIndex(customers, i_adnetPairModel.getToCustomerId())
             } else {
                 var index = getIndex(customers, i_adnetPairModel.getCustomerId())
@@ -78,9 +86,11 @@ export class AdnetNetworkSelector {
     }
 
     private filterPairs() {
+        if (!this.pairs)
+            return;
         this.pairsFiltered = List<AdnetPairModel>();
         this.pairs.forEach((i_pair: AdnetPairModel) => {
-            if (this.outgoing){
+            if (this.outgoing) {
                 if (i_pair.getCustomerId() == this.adnetCustomerId)
                     this.pairsFiltered = this.pairsFiltered.push(i_pair);
             } else {
@@ -106,7 +116,7 @@ export class AdnetNetworkSelector {
     private adnetCustomerModel: AdnetCustomerModel;
 
     private onChanges(event) {
-        if (event.target.value.indexOf('Outgoing') > -1){
+        if (event.target.value.indexOf('Outgoing') > -1) {
             this.outgoing = true;
         } else {
             this.outgoing = false;
@@ -119,5 +129,9 @@ export class AdnetNetworkSelector {
         //     return this.m_testSelection(i_dropItem, this.m_storeModel);
         // }
         return '';
+    }
+
+    ngOnDestroy(){
+        this.unsub();
     }
 }

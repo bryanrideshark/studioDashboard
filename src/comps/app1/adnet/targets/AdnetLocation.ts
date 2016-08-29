@@ -21,9 +21,6 @@ import * as _ from 'lodash';
 export class AdnetLocation {
 
     constructor(private appStore: AppStore, private adnetAction: AdnetActions) {
-        // this.unsub = this.appStore.sub((i_adTargets: List<AdnetTargetModel>) => {
-        //     this.onUpdateMap();
-        // }, 'adnet.targets');
     }
 
     @ViewChild(StationsMap)
@@ -102,11 +99,6 @@ export class AdnetLocation {
     }
 
     private stationComponentMode: string;
-    private unsub:Function;
     private stations: List<StationModel> = List<StationModel>();
     private selectedAdnetTargetModel: AdnetTargetModel;
-
-    private ngOnDestroy() {
-        this.unsub();
-    }
 }

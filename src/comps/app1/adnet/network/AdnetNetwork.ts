@@ -10,7 +10,7 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
         .bgRed { background-color: red}
     `],
     template: `            
-           <div class="row">                        
+           <div *ngIf="adnetCustomerModel" class="row">                        
                 <div class="col-xs-2">
                     <AdnetNetworkSelector [setAdnetCustomerModel]="adnetCustomerModel"></AdnetNetworkSelector>
                 </div>
