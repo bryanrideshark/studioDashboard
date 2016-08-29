@@ -18,7 +18,9 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
                     <div class="row">
                         <tabs>
                             <tab [tabtitle]="'Packages'">
-                                <div class="bgGreen col-xs-3">a</div>
+                                <div class="bgGreen col-xs-3">
+                                    <AdnetNetworkPackageEditor [setAdnetCustomerModel]="adnetCustomerModel"></AdnetNetworkPackageEditor>
+                                </div>
                                 <div class="bgYellow col-xs-5">b</div>
                                 <div class="bgRed col-xs-4">c</div>
                             </tab>

@@ -5,6 +5,9 @@ import {List} from 'immutable';
 import {AppStore} from "angular2-redux-util";
 import {StoreModel} from "../../../../models/StoreModel";
 import {SimpleList} from "../../../simplelist/Simplelist";
+import {Observable} from "rxjs/Observable";
+import {Observer} from "rxjs/Observer";
+import {Subscription} from "rxjs/Subscription";
 
 @Component({
     selector: 'AdnetNetworkSelector',
@@ -28,7 +31,7 @@ import {SimpleList} from "../../../simplelist/Simplelist";
             <button (click)="onSelectAll()" class="btn-sm mn btn bg-primary">Select all</button>
             <div *ngIf="pairsFiltered" style="padding-left: 20px">
                <SimpleList #simpleList [list]="pairsFiltered" 
-                    (selected)="onSelected($event)"
+                    (selected)="onSelecting($event)"
                     [multiSelect]="true" 
                     [contentId]="getPairId" [content]="getPairName()">
                     
@@ -49,10 +52,27 @@ export class AdnetNetworkSelector {
             this.filterPairs();
         }, 'adnet.pairs');
         this.filterPairs();
+        this.listenOnPackageSelected();
     }
 
     @ViewChild(SimpleList)
     simpleList: SimpleList;
+
+    private obs: Subscription;
+    private observer: Observer<any>;
+
+
+    private listenOnPackageSelected(){
+        this.obs = Observable.create((observer: Observer<any>) => {
+            this.observer = observer;
+        }).debounceTime(50).subscribe((v) => {
+            console.log(v);
+        })
+    }
+
+    private onSelecting(event) {
+        this.observer.next(event)
+    }
 
     private onSelectAll() {
         this.simpleList.itemAllSelected();
@@ -60,10 +80,6 @@ export class AdnetNetworkSelector {
 
     private getPairId(i_adnetPairModel: AdnetPairModel) {
         return i_adnetPairModel.getId();
-    }
-
-    private onSelected(event) {
-        console.log(event);
     }
 
     private outgoing = true;
@@ -131,7 +147,8 @@ export class AdnetNetworkSelector {
         return '';
     }
 
-    ngOnDestroy(){
+    ngOnDestroy() {
         this.unsub();
+        this.obs.unsubscribe();
     }
 }
