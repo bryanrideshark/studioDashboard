@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Input, ViewChild} from "@angular/core";
+import {Component, ChangeDetectionStrategy, Input, ViewChild, Output, EventEmitter} from "@angular/core";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
 import {List} from 'immutable';
@@ -8,9 +8,15 @@ import {SimpleList} from "../../../simplelist/Simplelist";
 import {Observable} from "rxjs/Observable";
 import {Observer} from "rxjs/Observer";
 import {Subscription} from "rxjs/Subscription";
+import * as _ from 'lodash';
+
+export interface IPairSelect {
+    pairs:List<AdnetPairModel>,
+    pairsOutgoing:boolean
+}
 
 @Component({
-    selector: 'AdnetNetworkSelector',
+    selector: 'AdnetNetworkCustomerSelector',
     moduleId: __moduleName,
     styles: [`
                 .mn {
@@ -29,19 +35,24 @@ import {Subscription} from "rxjs/Subscription";
             </select>
             <br/>
             <button (click)="onSelectAll()" class="btn-sm mn btn bg-primary">Select all</button>
-            <div *ngIf="pairsFiltered" style="padding-left: 20px">
-               <SimpleList #simpleList [list]="pairsFiltered" 
+            <div style="padding-left: 20px">
+               <SimpleList *ngIf="outgoing" #simpleListOutgoing [list]="pairsFilteredOutgoing" 
                     (selected)="onSelecting($event)"
                     [multiSelect]="true" 
                     [contentId]="getPairId" [content]="getPairName()">
-                    
+                </SimpleList>
+                
+                <SimpleList *ngIf="!outgoing" #simpleListIncoming [list]="pairsFilteredIncoming" 
+                    (selected)="onSelecting($event)"
+                    [multiSelect]="true" 
+                    [contentId]="getPairId" [content]="getPairName()">
                 </SimpleList>
             </div>
             `,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class AdnetNetworkSelector {
+export class AdnetNetworkCustomerSelector {
     constructor(private appStore: AppStore) {
     }
 
@@ -52,21 +63,35 @@ export class AdnetNetworkSelector {
             this.filterPairs();
         }, 'adnet.pairs');
         this.filterPairs();
-        this.listenOnPackageSelected();
+        this.listenOnCustomerSelected();
     }
 
-    @ViewChild(SimpleList)
-    simpleList: SimpleList;
+    @ViewChild('simpleListOutgoing')
+    simpleListOutgoing: SimpleList;
 
-    private obs: Subscription;
-    private observer: Observer<any>;
+    @ViewChild('simpleListIncoming')
+    simpleListIncoming: SimpleList;
 
+    private getIndex(list: List<any>, id: string|number) {
+        return list.findIndex((i: StoreModel) => i['getId']() === id);
+    }
 
-    private listenOnPackageSelected(){
+    private listenOnCustomerSelected() {
         this.obs = Observable.create((observer: Observer<any>) => {
             this.observer = observer;
         }).debounceTime(50).subscribe((v) => {
-            console.log(v);
+            this.pairsSelected = List<AdnetPairModel>();
+            _.forEach(v, (value, key) => {
+                if (value.selected == true) {
+                    var index = this.getIndex(this.pairs, Number(key))
+                    this.pairsSelected = this.pairsSelected.push(this.pairs.get(index));
+                }
+            })
+            const data:IPairSelect = {
+                pairs: this.pairsSelected,
+                pairsOutgoing: this.outgoing
+            }
+            this.onPairsSelected.emit(<IPairSelect>data);
         })
     }
 
@@ -75,26 +100,28 @@ export class AdnetNetworkSelector {
     }
 
     private onSelectAll() {
-        this.simpleList.itemAllSelected();
+        if (this.simpleListIncoming)
+            this.simpleListIncoming.itemAllSelected();
+        if (this.simpleListOutgoing)
+            this.simpleListOutgoing.itemAllSelected();
     }
 
     private getPairId(i_adnetPairModel: AdnetPairModel) {
         return i_adnetPairModel.getId();
     }
 
+    private obs: Subscription;
+    private observer: Observer<any>;
     private outgoing = true;
 
     private getPairName(i_adnetPairModel: AdnetPairModel) {
         var self = this;
         return (i_adnetPairModel: AdnetPairModel) => {
-            var getIndex = function (list: List<any>, id: string) {
-                return list.findIndex((i: StoreModel) => i['getId']() === id);
-            }
             var customers: List<AdnetCustomerModel> = self.appStore.getState().adnet.getIn(['customers']);
             if (this.outgoing) {
-                var index = getIndex(customers, i_adnetPairModel.getToCustomerId())
+                var index = this.getIndex(customers, i_adnetPairModel.getToCustomerId())
             } else {
-                var index = getIndex(customers, i_adnetPairModel.getCustomerId())
+                var index = this.getIndex(customers, i_adnetPairModel.getCustomerId())
             }
             var customer: AdnetCustomerModel = customers.get(index);
             return customer.getName();
@@ -104,14 +131,15 @@ export class AdnetNetworkSelector {
     private filterPairs() {
         if (!this.pairs)
             return;
-        this.pairsFiltered = List<AdnetPairModel>();
+        this.pairsFilteredIncoming = List<AdnetPairModel>();
+        this.pairsFilteredOutgoing = List<AdnetPairModel>();
         this.pairs.forEach((i_pair: AdnetPairModel) => {
             if (this.outgoing) {
                 if (i_pair.getCustomerId() == this.adnetCustomerId)
-                    this.pairsFiltered = this.pairsFiltered.push(i_pair);
+                    this.pairsFilteredOutgoing = this.pairsFilteredOutgoing.push(i_pair);
             } else {
                 if (i_pair.getToCustomerId() == this.adnetCustomerId)
-                    this.pairsFiltered = this.pairsFiltered.push(i_pair);
+                    this.pairsFilteredIncoming = this.pairsFilteredIncoming.push(i_pair);
             }
         })
     }
@@ -125,8 +153,13 @@ export class AdnetNetworkSelector {
         }
     }
 
+    @Output()
+    onPairsSelected: EventEmitter<IPairSelect> = new EventEmitter<IPairSelect>();
+
     private pairs: List<AdnetPairModel>
-    private pairsFiltered: List<AdnetPairModel>
+    private pairsFilteredIncoming: List<AdnetPairModel>
+    private pairsFilteredOutgoing: List<AdnetPairModel>
+    private pairsSelected: List<AdnetPairModel>
     private unsub: Function;
     private adnetCustomerId: number = -1;
     private adnetCustomerModel: AdnetCustomerModel;

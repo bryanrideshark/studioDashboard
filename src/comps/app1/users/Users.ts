@@ -53,7 +53,6 @@ export class Users {
         this.priveleges = i_reseller.getIn(['privileges']);
         this.unsub3 = this.appStore.sub((privelegesModel:List<PrivelegesModel>) => {
             this.priveleges = privelegesModel;
-            var a = 1;
         }, 'reseller.privileges');
     }
 

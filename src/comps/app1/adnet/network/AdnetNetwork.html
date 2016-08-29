@@ -1,0 +1,45 @@
+<div *ngIf="adnetCustomerModel" class="row">
+    <div class="col-xs-2">
+        <AdnetNetworkCustomerSelector (onPairsSelected)="onPairSelected($event)"
+                                      [setAdnetCustomerModel]="adnetCustomerModel">
+        </AdnetNetworkCustomerSelector>
+    </div>
+    <div class="col-xs-10">
+        <tabs style="height: 500px">
+            <tab [tabtitle]="'Packages'">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <AdnetNetworkPackageEditor
+                                [setPairOutgoing]="pairsOutgoing"
+                                [setAdnetPairModels]="pairsSelected"
+                                [setAdnetCustomerModel]="adnetCustomerModel">
+                        </AdnetNetworkPackageEditor>
+                    </div>
+                    <div class="bgYellow col-xs-5">
+                    </div>
+                    <div class="bgRed col-xs-4">
+                    </div>
+                </div>
+            </tab>
+            <tab [tabtitle]="'Targets'">
+                <div class="row">
+                    <div class="bgGreen col-xs-2">aa</div>
+                    <div class="bgYellow col-xs-2">bb</div>
+                    <div class="bgRed col-xs-8">cc</div>
+                </div>
+            </tab>
+            <tab [tabtitle]="'Estimates'">
+                <div class="row">
+                    <div class="bgGreen col-xs-6">aaa</div>
+                    <div class="bgYellow col-xs-6">bbb</div>
+                </div>
+            </tab>
+            <tab [tabtitle]="'Reports'">
+                <div class="row">
+                    <div class="bgGreen col-xs-5">aaaa</div>
+                    <div class="bgYellow col-xs-7">bbbb</div>
+                </div>
+            </tab>
+        </tabs>
+    </div>
+</div>

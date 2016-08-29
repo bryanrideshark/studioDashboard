@@ -1,10 +1,12 @@
 import {Component, ChangeDetectionStrategy, Input} from "@angular/core";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
+import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
+import {List} from 'immutable';
 
 @Component({
     selector: 'AdnetNetworkPackageEditor',
     moduleId: __moduleName,
-    template: `<h1>Package editor</h1>`,
+    templateUrl: 'AdnetNetworkPackageEditor.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
@@ -14,6 +16,13 @@ export class AdnetNetworkPackageEditor {
     set setAdnetCustomerModel(i_adnetCustomerModel: AdnetCustomerModel) {
         this.adnetCustomerModel = i_adnetCustomerModel;
     }
+
+    @Input()
+    setPairOutgoing:boolean;
+
+    @Input()
+    setAdnetPairModels: List<AdnetPairModel>
+
 
     private adnetCustomerModel: AdnetCustomerModel;
 

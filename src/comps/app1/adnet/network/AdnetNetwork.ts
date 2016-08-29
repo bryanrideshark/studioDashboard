@@ -1,5 +1,8 @@
 import {Component, ChangeDetectionStrategy, Input} from "@angular/core";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
+import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
+import {List} from 'immutable';
+import {IPairSelect} from "./AdnetNetworkCustomerSelector";
 
 @Component({
     selector: 'AdnetNetwork',
@@ -9,40 +12,7 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
         .bgYellow { background-color: yellow}
         .bgRed { background-color: red}
     `],
-    template: `            
-           <div *ngIf="adnetCustomerModel" class="row">                        
-                <div class="col-xs-2">
-                    <AdnetNetworkSelector [setAdnetCustomerModel]="adnetCustomerModel"></AdnetNetworkSelector>
-                </div>
-                <div class="col-xs-10">                
-                    <div class="row">
-                        <tabs>
-                            <tab [tabtitle]="'Packages'">
-                                <div class="bgGreen col-xs-3">
-                                    <AdnetNetworkPackageEditor [setAdnetCustomerModel]="adnetCustomerModel"></AdnetNetworkPackageEditor>
-                                </div>
-                                <div class="bgYellow col-xs-5">b</div>
-                                <div class="bgRed col-xs-4">c</div>
-                            </tab>
-                            <tab [tabtitle]="'Targets'">
-                                <div class="bgGreen col-xs-2">aa</div>
-                                <div class="bgYellow col-xs-2">bb</div>
-                                <div class="bgRed col-xs-8">cc</div>
-                            </tab>
-                            <tab [tabtitle]="'Estimates'">
-                                <div class="bgGreen col-xs-6">aaa</div>
-                                <div class="bgYellow col-xs-6">bbb</div>
-                            </tab>
-                            <tab [tabtitle]="'Reports'">
-                                <div class="bgGreen col-xs-5">aaaa</div>
-                                <div class="bgYellow col-xs-7">bbbb</div>
-                            </tab>
-                
-                        </tabs>                        
-                    </div>
-                </div>
-            </div>
-            `,
+    templateUrl: 'AdnetNetwork.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
@@ -57,5 +27,11 @@ export class AdnetNetwork {
 
     private adnetCustomerId: number = -1;
     private adnetCustomerModel: AdnetCustomerModel;
+    private pairsSelected: List<AdnetPairModel>;
+    private pairsOutgoing: boolean;
 
+    private onPairSelected(event: IPairSelect) {
+        this.pairsSelected = event.pairs;
+        this.pairsOutgoing = event.pairsOutgoing;
+    }
 }
