@@ -12,12 +12,14 @@ import {AdnetCustomerModel} from "./AdnetCustomerModel";
 import {AdnetRateModel} from "./AdnetRateModel";
 import {AdnetTargetModel} from "./AdnetTargetModel";
 import {AdnetPairModel} from "./AdnetPairModel";
+import {AdnetPackage} from "./AdnetPackage";
 
 export const RECEIVE_ADNET = 'RECEIVE_ADNET';
 export const RECEIVE_CUSTOMERS = 'RECEIVE_CUSTOMERS';
 export const RECEIVE_RATES = 'RECEIVE_RATES';
 export const RECEIVE_TARGETS = 'RECEIVE_TARGETS';
 export const RECEIVE_PAIRS = 'RECEIVE_PAIRS';
+export const RECEIVE_PACKAGES = 'RECEIVE_PACKAGES';
 export const UPDATE_ADNET_CUSTOMER = 'UPDATE_ADNET_CUSTOMER';
 export const UPDATE_ADNET_RATE_TABLE = 'UPDATE_ADNET_RATE_TABLE';
 export const UPDATE_ADNET_TARGET = 'UPDATE_ADNET_TARGET';
@@ -103,6 +105,16 @@ export class AdnetActions extends Actions {
                             adnetPairModels = adnetPairModels.push(adnetPairModel)
                         }
                         dispatch(this.receivedPairs(adnetPairModels));
+
+                        /** Packages **/
+                        var adnetPackageModels: List<AdnetPackage> = List<AdnetPackage>();
+                        for (var pkg of jData['packages']) {
+                            if (pkg.Value.deleted == true)
+                                continue;
+                            const adnetPackageModel: AdnetPackage = new AdnetPackage(pkg);
+                            adnetPackageModels = adnetPackageModels.push(adnetPackageModel)
+                        }
+                        dispatch(this.receivedPackages(adnetPackageModels));
 
                     }).subscribe()
             }
@@ -275,6 +287,13 @@ export class AdnetActions extends Actions {
         return {
             type: RECEIVE_PAIRS,
             pairs
+        }
+    }
+
+    private receivedPackages(packages: List<AdnetPackage>) {
+        return {
+            type: RECEIVE_PACKAGES,
+            packages
         }
     }
 

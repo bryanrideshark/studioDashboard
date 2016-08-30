@@ -13,12 +13,12 @@ import {List} from 'immutable';
 export class AdnetNetworkPackageEditor {
 
     @Input()
+    setPairOutgoing:boolean;
+
+    @Input()
     set setAdnetCustomerModel(i_adnetCustomerModel: AdnetCustomerModel) {
         this.adnetCustomerModel = i_adnetCustomerModel;
     }
-
-    @Input()
-    setPairOutgoing:boolean;
 
     @Input()
     setAdnetPairModels: List<AdnetPairModel>
