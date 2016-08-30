@@ -156,11 +156,6 @@ export class AdnetNetworkCustomerSelector {
     }
 
     private onChanges(event) {
-        // if (event.target.value.indexOf('Outgoing') > -1) {
-        //     this.outgoing = true;
-        // } else {
-        //     this.outgoing = false;
-        // }
         this.outgoing = !this.outgoing;
         if (this.simpleListOutgoing)
             this.simpleListOutgoing.deselect();

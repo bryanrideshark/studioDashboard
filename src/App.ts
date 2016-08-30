@@ -67,7 +67,8 @@ import {AppdbAction} from "./appdb/AppdbAction";
 import {LogoCompany} from "./comps/logo/LogoCompany";
 import {Observable} from "rxjs/Rx";
 import {
-    ANGULAR2_GOOGLE_MAPS_PROVIDERS, ANGULAR2_GOOGLE_MAPS_DIRECTIVES,
+    ANGULAR2_GOOGLE_MAPS_PROVIDERS,
+    ANGULAR2_GOOGLE_MAPS_DIRECTIVES,
     LazyMapsAPILoaderConfig
 } from "angular2-google-maps/core";
 import {AdnetActions} from "./adnet/AdnetActions";
@@ -137,6 +138,9 @@ import {AdnetNetwork} from "./comps/app1/adnet/network/AdnetNetwork";
 import {AdnetNetworkPackageEditor} from "./comps/app1/adnet/network/AdnetNetworkPackageEditor";
 import {AdnetNetworkCustomerSelector} from "./comps/app1/adnet/network/AdnetNetworkCustomerSelector";
 import {AdnetNetworkPackageViewer} from "./comps/app1/adnet/network/AdnetNetworkPackageViewer";
+import {AdnetNetworkPackageTarget} from "./comps/app1/adnet/network/AdnetNetworkPackageTarget";
+import {AdnetNetworkPackageProps} from "./comps/app1/adnet/network/AdnetNetworkPackageProps";
+import {AdnetNetworkPackageContent} from "./comps/app1/adnet/network/AdnetNetworkPackageContent";
 
 export enum ServerMode {
     CLOUD,
@@ -172,11 +176,11 @@ export class Main {
         this.commBroker.setValue(Consts.Values().SERVER_MODE, ServerMode.CLOUD);
         this.m_styleService = styleService;
         this.commBroker.setService(Consts.Services().App, this);
-        Observable.fromEvent(window, 'resize').debounceTime(250).subscribe(()=> {
+        Observable.fromEvent(window, 'resize').debounceTime(250).subscribe(() => {
             this.appResized();
         });
         if (!Lib.DevMode()) {
-            setTimeout(()=> {
+            setTimeout(() => {
                 router.navigate(['/App1/Dashboard']);
             }, 1000);
         }
@@ -242,7 +246,7 @@ var modules = [AUTH_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
     {provide: "OFFLINE_ENV", useValue: false},
     {provide: CharCount}];
 
-var decelerations = [Main, RatesTable, UsersDetails, LoginPanel, Menu, MenuItem, Sliderpanel, Account, Whitelabel, Apps, App1, Users, Adnet, Privileges, Dashboard, Logout, Orders, Filemenu, FilemenuItem, Logo, LogoCompany, Footer, BlurForwarder, InputEdit, ANGULAR2_GOOGLE_MAPS_DIRECTIVES, OrderBy, SortBy, FilterPipe, AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, RatingComponent, ServerStats, ServerAvg, StationsMap, StationsGrid, StationDetails, ImgLoader, Ng2Highcharts, AdnetConfigCustomer, AdnetConfig, StationSnapshot, OrderDetails, SimpleList, PrivilegesDetails, ModalDialog, Infobox, UserStorage, Loading, Samplelist, DROPDOWN_DIRECTIVES, SIMPLEGRID_DIRECTIVES, UserInfo, AddUser, ChangePass, MODAL_DIRECTIVES, Ng2Highstocks, Ng2Highmaps, SimpleGridSortableHeader, SimpleGridRecord, SimpleGridData, SimplelistEditable, AdnetConfigTargetStations, AdnetConfigTargetProps, AdnetLocation, MapAddress, AdnetNetwork, AdnetNetworkCustomerSelector, AdnetNetworkPackageEditor, AdnetNetworkPackageViewer];
+var decelerations = [Main, RatesTable, UsersDetails, LoginPanel, Menu, MenuItem, Sliderpanel, Account, Whitelabel, Apps, App1, Users, Adnet, Privileges, Dashboard, Logout, Orders, Filemenu, FilemenuItem, Logo, LogoCompany, Footer, BlurForwarder, InputEdit, ANGULAR2_GOOGLE_MAPS_DIRECTIVES, OrderBy, SortBy, FilterPipe, AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, RatingComponent, ServerStats, ServerAvg, StationsMap, StationsGrid, StationDetails, ImgLoader, Ng2Highcharts, AdnetConfigCustomer, AdnetConfig, StationSnapshot, OrderDetails, SimpleList, PrivilegesDetails, ModalDialog, Infobox, UserStorage, Loading, Samplelist, DROPDOWN_DIRECTIVES, SIMPLEGRID_DIRECTIVES, UserInfo, AddUser, ChangePass, MODAL_DIRECTIVES, Ng2Highstocks, Ng2Highmaps, SimpleGridSortableHeader, SimpleGridRecord, SimpleGridData, SimplelistEditable, AdnetConfigTargetStations, AdnetConfigTargetProps, AdnetLocation, MapAddress, AdnetNetwork, AdnetNetworkCustomerSelector, AdnetNetworkPackageEditor, AdnetNetworkPackageViewer, AdnetNetworkPackageTarget, AdnetNetworkPackageProps, AdnetNetworkPackageContent];
 
 @NgModule({
     imports: [BrowserModule, FormsModule, JsonpModule, HttpModule, ReactiveFormsModule, routing],

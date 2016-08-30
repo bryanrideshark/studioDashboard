@@ -1,11 +1,11 @@
 import {Component, ChangeDetectionStrategy} from "@angular/core";
 
 @Component({
-    selector: 'AdnetNetworkPackageProps',
+    selector: 'AdnetNetworkPackageTarget',
     moduleId: __moduleName,
-    template: 'My AdnetNetworkPackageProps',
+    template: 'My AdnetNetworkPackageTarget',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class  AdnetNetworkPackageProps {
+export class AdnetNetworkPackageTarget {
 }

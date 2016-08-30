@@ -8,7 +8,7 @@ import {AppStore} from "angular2-redux-util";
 @Component({
     selector: 'AdnetNetworkPackageEditor',
     moduleId: __moduleName,
-    styles: [`.mn {margin-left: 4px; width: 80%; } option { font-size: 16px; }`],
+    styleUrls: ['AdnetNetworkPackageEditor.css'],
     templateUrl: 'AdnetNetworkPackageEditor.html'
 })
 
@@ -48,6 +48,14 @@ export class AdnetNetworkPackageEditor {
     private packagesFiltered: List<AdnetPackageModel>
     private pairOutgoing: boolean
 
+    private onAdd(event){
+
+    }
+
+    private onRemove(event){
+
+    }
+
     private filterPackages() {
         if (!this.packages || !this.adnetCustomerModel)
             return;
@@ -70,7 +78,8 @@ export class AdnetNetworkPackageEditor {
     }
 
     private getName(i_adnetPackageModel: AdnetPackageModel) {
-        return 'dsds'
+        if (i_adnetPackageModel)
+            return i_adnetPackageModel.getName();
         // var self = this;
         // return (i_adnetPairModel: AdnetPairModel) => {
         //     var customers: List<AdnetCustomerModel> = self.appStore.getState().adnet.getIn(['customers']);

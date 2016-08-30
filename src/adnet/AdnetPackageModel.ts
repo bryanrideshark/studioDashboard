@@ -10,6 +10,10 @@ export class AdnetPackageModel extends StoreModel {
         return this.getKey('Key');
     }
 
+    public getName() {
+        return this.getKey('Value').label;
+    }
+
     public getCustomerId(){
         return this.getKey('Value').customerId;
     }
