@@ -76,7 +76,7 @@ export function adnet(state: Map<string,any> = Map<string,any>(), action: any): 
             return state.setIn(['rates'], updRateList);
         }
 
-        case AdnetActions.REMOVE_ADNET_TAREGT: {
+        case AdnetActions.REMOVE_ADNET_TARGET: {
             var targets: List<AdnetTargetModel> = state.getIn(['targets']);
             var updTargetList: List<AdnetTargetModel> = targets.filter((model: AdnetTargetModel) => model.getId() !== action.id) as List<AdnetTargetModel>;
             return state.setIn(['targets'], updTargetList);

@@ -10,10 +10,13 @@
                 <div class="row">
                     <div class="col-xs-3">
                         <AdnetNetworkPackageEditor
+                                 *ngIf="pairsOutgoing == true && this.pairsSelected && this.pairsSelected.size > 1"
                                 [setPairOutgoing]="pairsOutgoing"
                                 [setAdnetPairModels]="pairsSelected"
                                 [setAdnetCustomerModel]="adnetCustomerModel">
                         </AdnetNetworkPackageEditor>
+                        <AdnetNetworkPackageViewer *ngIf="pairsOutgoing == false || (this.pairsSelected && this.pairsSelected.size == 1)">
+                        </AdnetNetworkPackageViewer>
                     </div>
                     <div class="bgYellow col-xs-5">
                     </div>

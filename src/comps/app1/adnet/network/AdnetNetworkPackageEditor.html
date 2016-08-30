@@ -1,2 +1,9 @@
-<small>total customer selected {{setAdnetPairModels?.size}}</small>
-{{setPairOutgoing ? 'outgoing' : 'incoming' }}
+<small>customers selected: {{setAdnetPairModels?.size}}</small>
+<small>mode: {{pairOutgoing ? 'outgoing' : 'incoming' }}</small>
+<div style="padding-left: 20px">
+    <SimpleList #simpleList [list]="packagesFiltered"
+                (selected)="onSelecting($event)"
+                [multiSelect]="false"
+                [contentId]="getId" [content]="getName">
+    </SimpleList>
+</div>

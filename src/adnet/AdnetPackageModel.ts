@@ -1,6 +1,6 @@
 import {StoreModel} from "../models/StoreModel";
 
-export class AdnetPackage extends StoreModel {
+export class AdnetPackageModel extends StoreModel {
 
     constructor(data: any = {}) {
         super(data);

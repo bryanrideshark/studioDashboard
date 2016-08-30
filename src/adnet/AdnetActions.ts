@@ -12,7 +12,7 @@ import {AdnetCustomerModel} from "./AdnetCustomerModel";
 import {AdnetRateModel} from "./AdnetRateModel";
 import {AdnetTargetModel} from "./AdnetTargetModel";
 import {AdnetPairModel} from "./AdnetPairModel";
-import {AdnetPackage} from "./AdnetPackage";
+import {AdnetPackageModel} from "./AdnetPackageModel";
 
 export const RECEIVE_ADNET = 'RECEIVE_ADNET';
 export const RECEIVE_CUSTOMERS = 'RECEIVE_CUSTOMERS';
@@ -26,7 +26,7 @@ export const UPDATE_ADNET_TARGET = 'UPDATE_ADNET_TARGET';
 export const ADD_ADNET_TARGET = 'ADD_ADNET_TARGET';
 export const ADD_ADNET_RATE_TABLE = 'ADD_ADNET_RATE_TABLE';
 export const REMOVE_ADNET_RATE_TABLE = 'REMOVE_ADNET_RATE_TABLE';
-export const REMOVE_ADNET_TAREGT = 'REMOVE_ADNET_TAREGT';
+export const REMOVE_ADNET_TARGET = 'REMOVE_ADNET_TARGET';
 export const RENAME_ADNET_RATE_TABLE = 'RENAME_ADNET_RATE_TABLE';
 
 @Injectable()
@@ -107,11 +107,11 @@ export class AdnetActions extends Actions {
                         dispatch(this.receivedPairs(adnetPairModels));
 
                         /** Packages **/
-                        var adnetPackageModels: List<AdnetPackage> = List<AdnetPackage>();
+                        var adnetPackageModels: List<AdnetPackageModel> = List<AdnetPackageModel>();
                         for (var pkg of jData['packages']) {
                             if (pkg.Value.deleted == true)
                                 continue;
-                            const adnetPackageModel: AdnetPackage = new AdnetPackage(pkg);
+                            const adnetPackageModel: AdnetPackageModel = new AdnetPackageModel(pkg);
                             adnetPackageModels = adnetPackageModels.push(adnetPackageModel)
                         }
                         dispatch(this.receivedPackages(adnetPackageModels));
@@ -218,7 +218,7 @@ export class AdnetActions extends Actions {
         return (dispatch) => {
             //todo: save to server
             dispatch({
-                type: REMOVE_ADNET_TAREGT,
+                type: REMOVE_ADNET_TARGET,
                 id: id
             });
         };
@@ -290,7 +290,7 @@ export class AdnetActions extends Actions {
         }
     }
 
-    private receivedPackages(packages: List<AdnetPackage>) {
+    private receivedPackages(packages: List<AdnetPackageModel>) {
         return {
             type: RECEIVE_PACKAGES,
             packages

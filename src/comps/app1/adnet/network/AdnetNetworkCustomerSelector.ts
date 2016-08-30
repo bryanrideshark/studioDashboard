@@ -18,16 +18,7 @@ export interface IPairSelect {
 @Component({
     selector: 'AdnetNetworkCustomerSelector',
     moduleId: __moduleName,
-    styles: [`
-                .mn {
-                    margin-left: 4px;
-                    width: 80%;                    
-                }
-                option {
-                    font-size: 16px;
-                }
-                
-            `],
+    styles: [`.mn {margin-left: 4px; width: 80%; } option { font-size: 16px; }`],
     template: `            
             <select style="font-family:'FontAwesome', Arial;" (change)="onChanges($event)" class="mn form-control custom longInput">
                 <option>&#xf112; Outgoing</option>
@@ -65,6 +56,7 @@ export class AdnetNetworkCustomerSelector {
         this.filterPairs();
         this.listenOnCustomerSelected();
         this.announceChange();
+        this.selectAllDelayed();
     }
 
     @ViewChild('simpleListOutgoing')
@@ -176,6 +168,13 @@ export class AdnetNetworkCustomerSelector {
             this.simpleListIncoming.deselect();
         this.filterPairs();
         this.announceChange();
+        this.selectAllDelayed();
+    }
+
+    private selectAllDelayed() {
+        setTimeout(() => {
+            this.onSelectAll();
+        }, 50)
     }
 
     private announceChange() {
