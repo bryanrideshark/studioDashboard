@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Input} from "@angular/core";
+import {Component, Input} from "@angular/core";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
 import {List} from "immutable";
@@ -48,11 +48,11 @@ export class AdnetNetworkPackageEditor {
     private packagesFiltered: List<AdnetPackageModel>
     private pairOutgoing: boolean
 
-    private onAdd(event){
+    private onAdd(event) {
 
     }
 
-    private onRemove(event){
+    private onRemove(event) {
 
     }
 

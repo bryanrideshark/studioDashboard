@@ -14,7 +14,17 @@ export class AdnetPackageModel extends StoreModel {
         return this.getKey('Value').label;
     }
 
-    public getCustomerId(){
+    public getCustomerId() {
         return this.getKey('Value').customerId;
+    }
+
+    public getTargetIds(): Array<number> {
+        var result:Array<number> = [];
+        var targets:Array<any> = this.getKey('Value').targets;
+        targets.forEach((k,v)=>{
+            result.push(k.Value.targetId);
+        })
+        return result;
+
     }
 }
