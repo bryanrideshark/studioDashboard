@@ -14,6 +14,16 @@ export class AdnetPairModel extends StoreModel {
         return this.getKey('Value').customerId;
     }
 
+    public active(){
+        return this.getKey('Value').activated;
+    }
+
+    public autoActivated(){
+        return this.getKey('Value').autoActivate;
+    }
+
+
+
     public getToCustomerId(){
         return this.getKey('Value').toCustomerId;
     }
