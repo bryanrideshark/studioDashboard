@@ -11,9 +11,13 @@ const appBaseUrlCloud = 'https://secure.digitalsignage.com';
 //todo: hard coded to one customer account while in dev
 
 // fq5@ms.com
-const appBaseUrlAdnet = 'https://adnet.signage.me/adNetService.ashx?command=customerRequest&customerId=472&customerToken=7d1f5f73-7159-40af-9bbd-f61ef37b6394&fromChangelistId=0';
+//const appBaseUrlAdnet = 'https://adnet.signage.me/adNetService.ashx?command=customerRequest&customerId=472&customerToken=7d1f5f73-7159-40af-9bbd-f61ef37b6394&fromChangelistId=0';
+
 // d20@ms.com
-// const appBaseUrlAdnet = 'https://adnet.signage.me/adNetService.ashx?command=customerRequest&customerId=18635&customerToken=ec202a94-a66b-4380-85aa-1e73aab59be6&fromChangelistId=0';
+// const appBaseUrlAdnet = 'https://adnet.signage.me/adNetService.ashx?command=customerRequest&customerId=18635&customerToken=ec202a94-a66b-4380-85aa-1e73aab59be6&fromChangelistId=0';// d20@ms.com
+
+// sherwin5
+const appBaseUrlAdnet = 'https://adnet.signage.me/adNetService.ashx?command=customerRequest&customerId=2537&customerToken=82902404-48e2-4cdc-89b9-13b887ef9512&fromChangelistId=0';
 
 // const adnetCustomerId = 18635;
 //adnetCustomerId: adnetCustomerId,

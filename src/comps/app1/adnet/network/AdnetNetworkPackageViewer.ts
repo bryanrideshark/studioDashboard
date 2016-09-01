@@ -68,21 +68,47 @@ export class AdnetNetworkPackageViewer {
     private filterPackages() {
         if (!this.targets || !this.packages || !this.adnetCustomerModel)
             return;
-        this.packagesFiltered = List<AdnetPackageModel>();
-        this.packages.forEach((i_package: AdnetPackageModel) => {
-            var targetsIds = i_package.getTargetIds();
-            this.targets.forEach((i_adnetTargetModel: AdnetTargetModel) => {
-                if (targetsIds.indexOf(i_adnetTargetModel.getId()) > -1) {
-                    var customerId = i_adnetTargetModel.getCustomerId();
-                    //todo: fix get(0) and change it to a loop, on multi selection
-                    var pairModelSelected:AdnetPairModel = this.adnetPairModels.get(0);
-                    if (customerId == pairModelSelected.getToCustomerId()){
-                        console.log(i_package.getName());
-                    }
 
-                }
+        this.packagesFiltered = List<AdnetPackageModel>();
+        if (this.pairOutgoing){
+            this.packages.forEach((i_package: AdnetPackageModel) => {
+                var targetsIds = i_package.getTargetIds();
+                this.targets.forEach((i_adnetTargetModel: AdnetTargetModel) => {
+                    if (targetsIds.indexOf(i_adnetTargetModel.getId()) > -1) {
+                        var adnetTargetCustomerId = i_adnetTargetModel.getCustomerId();
+                        this.adnetPairModels.forEach((i_adnetPairModels: AdnetPairModel) => {
+                            if (adnetTargetCustomerId == i_adnetPairModels.getToCustomerId()) {
+                                console.log(i_package.getName() + ' ' + i_adnetPairModels.getToCustomerId());
+                            }
+                        })
+                    }
+                });
             });
-        });
+        } else {
+            this.packages.forEach((i_package: AdnetPackageModel) => {
+                if (i_package.deleted()==true)
+                    return;
+                var targetsIds = i_package.getTargetIds();
+                this.targets.forEach((i_adnetTargetModel: AdnetTargetModel) => {
+                    if (targetsIds.indexOf(i_adnetTargetModel.getId()) > -1) {
+                        var adnetTargetCustomerId = i_adnetTargetModel.getCustomerId();
+                        this.adnetPairModels.forEach((i_adnetPairModels: AdnetPairModel) => {
+                            var cusTotId = i_adnetPairModels.getToCustomerId();
+                            var custId = i_adnetPairModels.getCustomerId();
+                            var custIdSel = this.adnetCustomerModel.customerId();
+                            var pkgName = i_package.getName()
+                            var pkgCustId = i_package.getCustomerId();
+                            if (pkgName=='PackageTo888')
+                                    console.log('');
+                            if (pkgCustId == custId && cusTotId == custIdSel ) {
+                                console.log(pkgName + ' ' + i_adnetPairModels.getCustomerId());
+                            }
+                        })
+                    }
+                });
+            })
+        }
+
     }
 
 

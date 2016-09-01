@@ -18,6 +18,10 @@ export class AdnetPackageModel extends StoreModel {
         return this.getKey('Value').customerId;
     }
 
+    public deleted() {
+        return this.getKey('Value').deleted;
+    }
+
     public getTargetIds(): Array<number> {
         var result:Array<number> = [];
         var targets:Array<any> = this.getKey('Value').targets;
@@ -28,3 +32,4 @@ export class AdnetPackageModel extends StoreModel {
 
     }
 }
+

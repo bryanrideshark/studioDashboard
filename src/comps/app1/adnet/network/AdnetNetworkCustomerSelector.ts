@@ -27,13 +27,15 @@ export interface IPairSelect {
             <br/>
             <button (click)="onSelectAll()" class="btn-sm mn btn bg-primary">Select all</button>
             <div style="padding-left: 20px">
-               <SimpleList *ngIf="outgoing" #simpleListOutgoing [list]="pairsFilteredOutgoing" 
+               <SimpleList *ngIf="outgoing" #simpleListOutgoing
+                    [list]="pairsFilteredOutgoing" 
                     (selected)="onSelecting($event)"
                     [multiSelect]="true" 
                     [contentId]="getPairId" [content]="getPairName()">
                 </SimpleList>
                 
-                <SimpleList *ngIf="!outgoing" #simpleListIncoming [list]="pairsFilteredIncoming" 
+                <SimpleList *ngIf="!outgoing" #simpleListIncoming 
+                    [list]="pairsFilteredIncoming" 
                     (selected)="onSelecting($event)"
                     [multiSelect]="true" 
                     [contentId]="getPairId" [content]="getPairName()">
