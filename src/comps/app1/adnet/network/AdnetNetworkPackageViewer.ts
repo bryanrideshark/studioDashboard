@@ -70,8 +70,11 @@ export class AdnetNetworkPackageViewer {
             return;
 
         this.packagesFiltered = List<AdnetPackageModel>();
-        if (this.pairOutgoing){
+        if (this.pairOutgoing) {
+            /** Outgoing ads **/
             this.packages.forEach((i_package: AdnetPackageModel) => {
+                if (i_package.deleted() == true)
+                    return;
                 var targetsIds = i_package.getTargetIds();
                 this.targets.forEach((i_adnetTargetModel: AdnetTargetModel) => {
                     if (targetsIds.indexOf(i_adnetTargetModel.getId()) > -1) {
@@ -85,22 +88,23 @@ export class AdnetNetworkPackageViewer {
                 });
             });
         } else {
+            /** Incoming ads **/
             this.packages.forEach((i_package: AdnetPackageModel) => {
-                if (i_package.deleted()==true)
+                if (i_package.deleted() == true)
                     return;
                 var targetsIds = i_package.getTargetIds();
                 this.targets.forEach((i_adnetTargetModel: AdnetTargetModel) => {
                     if (targetsIds.indexOf(i_adnetTargetModel.getId()) > -1) {
                         var adnetTargetCustomerId = i_adnetTargetModel.getCustomerId();
                         this.adnetPairModels.forEach((i_adnetPairModels: AdnetPairModel) => {
-                            if (i_adnetPairModels.active()==false && i_adnetPairModels.autoActivated()==false)
+                            if (i_adnetPairModels.active() == false && i_adnetPairModels.autoActivated() == false)
                                 return;
                             var cusTotId = i_adnetPairModels.getToCustomerId();
                             var custId = i_adnetPairModels.getCustomerId();
                             var custIdSel = this.adnetCustomerModel.customerId();
                             var pkgName = i_package.getName()
                             var pkgCustId = i_package.getCustomerId();
-                            if (pkgCustId == custId && cusTotId == custIdSel ) {
+                            if (pkgCustId == custId && cusTotId == custIdSel) {
                                 console.log(pkgName + ' ' + i_adnetPairModels.getCustomerId());
                             }
                         })
