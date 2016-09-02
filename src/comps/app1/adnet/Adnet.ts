@@ -22,7 +22,7 @@ import {List} from "immutable";
         <h3 style="float: right">{{adnetCustomerName}}</h3>
           <div>
             <div (click)="$event.preventDefault()">
-              <div class="btn-group" dropdown  (onToggle)="toggled($event)" [(isOpen)]="status.isopen">
+              <div class="btn-group" dropdown (onToggle)="toggled($event)" [(isOpen)]="status.isopen">
                   <button id="single-button" type="button" class="btn btn-primary" dropdownToggle>
                     Select customer 
                   <span class="caret"></span>
@@ -60,11 +60,11 @@ export class Adnet {
     public onSelectedAdnetCustomer(adnetCustomerModel: AdnetCustomerModel): void {
         // reset to no selection before loading new selection
         this.showState = 'inactive'
-        setTimeout(()=> {
+        setTimeout(() => {
             this.adnetCustomerId = -1;
             this.adnetCustomerModel = null;
         }, 100);
-        setTimeout(()=> {
+        setTimeout(() => {
             this.adnetCustomerId = adnetCustomerModel.customerId();
             this.adnetCustomerName = adnetCustomerModel.getName();
             this.getCustomerData();
@@ -92,7 +92,7 @@ export class Adnet {
     private getCustomerData() {
         if (!this.adnetCustomers)
             return;
-        this.adnetCustomers.forEach((i_adNetCustomer: AdnetCustomerModel)=> {
+        this.adnetCustomers.forEach((i_adNetCustomer: AdnetCustomerModel) => {
             var adnetCustomerId = i_adNetCustomer.customerId();
             if (adnetCustomerId == this.adnetCustomerId) {
                 this.adnetCustomerModel = i_adNetCustomer;

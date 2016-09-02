@@ -7,7 +7,7 @@ import * as _ from 'lodash'
     selector: 'Logout',
     providers: [LocalStorage],
     template: `
-        <h1><Center>Goodbye</Center></h1>
+        <h1>Goodbye</h1>
         <small>I am Logout component</small>
         `
 })

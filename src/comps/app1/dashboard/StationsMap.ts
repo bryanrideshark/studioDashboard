@@ -140,12 +140,12 @@ export class StationsMap {
     }
 
     public setCenter(lat, lng) {
-        this.googleMaps.latitude = lat;
-        this.googleMaps.longitude = lng;
+        // this.googleMaps.latitude = lat;
+        // this.googleMaps.longitude = lng;
         // for private access to all APIs do:
-        // this.googleMaps['_mapsWrapper'].setCenter({
-        //     lat: lat,
-        //     lng: lng,
-        // });
+        this.googleMaps['_mapsWrapper'].setCenter({
+            lat: lat,
+            lng: lng,
+        });
     }
 }

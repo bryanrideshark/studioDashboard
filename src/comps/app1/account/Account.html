@@ -45,9 +45,9 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <center>
+          <!--<center>-->
             <img *ngFor="let card of cards" [ngClass]="{faded: !isCardSelected(card)}" style="padding: 5px" [src]="'assets/'+card+'.png'">
-          </center>
+          <!--</center>-->
         </h3>
       </div>
       <div class="panel-body">
@@ -57,24 +57,24 @@
               <div *ngIf="getRecurringValue('recurringMode') == '0'" role="form">
                 <br/>
                 <br/>
-                <center>
+                <!--<center>-->
                   <h1 style="color: red">Account is inactive</h1>
                   <h5>to reactivate update your payment method</h5>
                   <br/>
                   <br/>
-                </center>
+                <!--</center>-->
               </div>
               <div *ngIf="getRecurringValue('recurringMode') == 'ANNUAL'" role="form">
                 <br/>
                 <br/>
-                <center>
+                <!--<center>-->
                   <h1 style="color: green">Annual payer</h1>
                   <br/>
                   <br/>
-                </center>
+                <!--</center>-->
               </div>
               <div *ngIf="getRecurringValue('recurringMode') == '2'" role="form">
-                <center>
+                <!--<center>-->
                   <br/>
                   <br/>
                   <button (click)="onPaypalConnect()" class="btn btn-danger" style="padding: 10px 30px 10px 30px; font-size: 2em">Connect to Paypal
@@ -82,7 +82,7 @@
                   </button>
                   <br/>
                   <br/>
-                </center>
+                <!--</center>-->
               </div>
               <div *ngIf="getRecurringValue('recurringMode') == '1'" role="form" id="payment-form">
                 <div class="row">

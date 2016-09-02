@@ -22,9 +22,7 @@ enum PrivModeEnum {ADD, DEL, UPD}
     `],
     template: `
           <div *ngIf="!m_privelegesSystemModelList || !m_selected">
-            <center>
-              <h3>select | create privileges</h3>
-            </center>
+              <h3 style="text-align: center">select | create privileges</h3>
           </div>
           <div *ngIf="m_privelegesSystemModelList && m_selected">
               <div *ngFor="let privilegesItem of m_privelegesSystemModelList">
@@ -34,7 +32,7 @@ enum PrivModeEnum {ADD, DEL, UPD}
                   (click)="updatePrivilegesGroupAttributes($event, privilegesItem, groupAttribute)"
                   href="#" class="btn btn-outlined btn-xs {{renderPrivilegesGroupAttributes(privilegesItem, groupAttribute)}}"
                   role="button">{{groupAttribute}}
-                </a>
+                </a>         
                 <simpleGridTable #userSimpleGridTable>
                     <thead>
                         <tr>

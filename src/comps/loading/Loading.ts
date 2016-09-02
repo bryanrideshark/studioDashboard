@@ -12,22 +12,24 @@ import {Component, Input, ChangeDetectionStrategy} from '@angular/core'
           animation: spin 1s ease-in-out infinite;
           -webkit-animation: spin 1s ease-in-out infinite; 
         }
-        
         @keyframes spin {
           to { -webkit-transform: rotate(360deg); }
         }
         @-webkit-keyframes spin {
           to { -webkit-transform: rotate(360deg); }
         }
+        .center {
+            text-align: center 
+        }   
     `],
     template: `
-        <div [ngStyle]="_style">
-            <center>
+        <div class="center" [ngStyle]="_style">
+            <!--<center>-->
                <!--<h5>Loading</h5>-->
                 <!--<div *ngIf="show" class="spinner"></div>-->
                 <div [ngStyle]="_size" class="spinner"></div>
                <!--<img [src]="src"/>-->
-            </center>
+            <!--</center>-->
         </div>
     `,
     changeDetection: ChangeDetectionStrategy.OnPush

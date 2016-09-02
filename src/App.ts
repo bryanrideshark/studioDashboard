@@ -67,9 +67,7 @@ import {AppdbAction} from "./appdb/AppdbAction";
 import {LogoCompany} from "./comps/logo/LogoCompany";
 import {Observable} from "rxjs/Rx";
 import {
-    ANGULAR2_GOOGLE_MAPS_PROVIDERS,
-    ANGULAR2_GOOGLE_MAPS_DIRECTIVES,
-    LazyMapsAPILoaderConfig
+    LazyMapsAPILoaderConfig, AgmCoreModule
 } from "angular2-google-maps/core";
 import {AdnetActions} from "./adnet/AdnetActions";
 import {AUTH_PROVIDERS} from "./services/AuthService";
@@ -139,6 +137,7 @@ import {AdnetNetworkPackageViewer} from "./comps/app1/adnet/network/AdnetNetwork
 import {AdnetNetworkPackageTarget} from "./comps/app1/adnet/network/AdnetNetworkPackageTarget";
 import {AdnetNetworkPackageProps} from "./comps/app1/adnet/network/AdnetNetworkPackageProps";
 import {AdnetNetworkPackageContent} from "./comps/app1/adnet/network/AdnetNetworkPackageContent";
+import {DropdownModule} from "../jspm_packages/npm/ng2-bootstrap@1.1.1/components/dropdown/dropdown.module";
 
 export enum ServerMode {
     CLOUD,
@@ -226,7 +225,10 @@ var googleKey = function () {
     return config;
 }
 
-var modules = [CommBroker, AUTH_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
+// var modules = [CommBroker, AUTH_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
+
+
+var modules = [CommBroker, AUTH_PROVIDERS,
     {provide: LazyMapsAPILoaderConfig, useFactory: () => googleKey()},
     {provide: AppStore, useFactory: Lib.StoreFactory({notify, appdb, business, stations, reseller, adnet, orders})},
     {provide: StoreService, useClass: StoreService},
@@ -244,11 +246,11 @@ var modules = [CommBroker, AUTH_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
     {provide: "OFFLINE_ENV", useValue: false},
     {provide: CharCount}];
 
-//DROPDOWN_DIRECTIVES
-var decelerations = [Main, RatesTable, UsersDetails, LoginPanel, Menu, MenuItem, Account, Whitelabel, Apps, App1, Users, Adnet, Privileges, Dashboard, Logout, Orders, Filemenu, FilemenuItem, Logo, LogoCompany, Footer, BlurForwarder, InputEdit, ANGULAR2_GOOGLE_MAPS_DIRECTIVES, OrderBy, SortBy, FilterPipe, AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, ServerStats, ServerAvg, StationsMap, StationsGrid, StationDetails, ImgLoader, Ng2Highcharts, AdnetConfigCustomer, AdnetConfig, StationSnapshot, OrderDetails, SimpleList, PrivilegesDetails, ModalDialog, Infobox, UserStorage, Loading, Samplelist, SIMPLEGRID_DIRECTIVES, UserInfo, AddUser, ChangePass, MODAL_DIRECTIVES, Ng2Highstocks, Ng2Highmaps, SimpleGridSortableHeader, SimpleGridRecord, SimpleGridData, SimplelistEditable, AdnetConfigTargetStations, AdnetConfigTargetProps, AdnetLocation, MapAddress, AdnetNetwork, AdnetNetworkCustomerSelector, AdnetNetworkPackageEditor, AdnetNetworkPackageViewer, AdnetNetworkPackageTarget, AdnetNetworkPackageProps, AdnetNetworkPackageContent];
+// ANGULAR2_GOOGLE_MAPS_DIRECTIVES
+var decelerations = [Main, RatesTable, UsersDetails, LoginPanel, Menu, MenuItem, Account, Whitelabel, Apps, App1, Users, Adnet, Privileges, Dashboard, Logout, Orders, Filemenu, FilemenuItem, Logo, LogoCompany, Footer, BlurForwarder, InputEdit, OrderBy, SortBy, FilterPipe, AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, ServerStats, ServerAvg, StationsMap, StationsGrid, StationDetails, ImgLoader, Ng2Highcharts, AdnetConfigCustomer, AdnetConfig, StationSnapshot, OrderDetails, SimpleList, PrivilegesDetails, ModalDialog, Infobox, UserStorage, Loading, Samplelist, SIMPLEGRID_DIRECTIVES, UserInfo, AddUser, ChangePass, MODAL_DIRECTIVES, Ng2Highstocks, Ng2Highmaps, SimpleGridSortableHeader, SimpleGridRecord, SimpleGridData, SimplelistEditable, AdnetConfigTargetStations, AdnetConfigTargetProps, AdnetLocation, MapAddress, AdnetNetwork, AdnetNetworkCustomerSelector, AdnetNetworkPackageEditor, AdnetNetworkPackageViewer, AdnetNetworkPackageTarget, AdnetNetworkPackageProps, AdnetNetworkPackageContent];
 
 @NgModule({
-    imports: [BrowserModule, FormsModule, JsonpModule, HttpModule, ReactiveFormsModule, routing],
+    imports: [BrowserModule, AgmCoreModule.forRoot(), FormsModule, JsonpModule, HttpModule, ReactiveFormsModule, DropdownModule, routing],
     providers: [modules],
     declarations: decelerations,
     bootstrap: [Main],

@@ -484,7 +484,7 @@ SystemJS.config({
         "@angular/platform-browser": "npm:@angular/platform-browser@2.0.0-rc.6",
         "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.0.0-rc.6",
         "@angular/forms": "npm:@angular/forms@2.0.0-rc.6",
-        "angular2-google-maps": "npm:angular2-google-maps@0.10.0",
+        "angular2-google-maps": "npm:angular2-google-maps@0.14.0/core",
         "jquery": "npm:jquery@2.2.4",
         "angular-core": "npm:@angular/core@2.0.0-rc.6",
         "angular-platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.0.0-rc.6",
@@ -555,7 +555,7 @@ SystemJS.config({
                 "is-regex": "npm:is-regex@1.0.3"
             }
         },
-        "npm:angular2-google-maps@0.10.0": {
+        "npm:angular2-google-maps@0.14.0": {
             "map": {
                 "@angular/common": "npm:@angular/common@2.0.0-rc.6",
                 "@angular/compiler": "npm:@angular/compiler@2.0.0-rc.6",
