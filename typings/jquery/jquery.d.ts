@@ -2930,6 +2930,7 @@ interface JQuery {
      * @param selector A string containing a selector expression to match elements against.
      */
     find(selector:string): JQuery;
+    find(toClass:string, selector:any): JQuery;
     /**
      * Get the descendants of each element in the current set of matched elements, filtered by a selector, jQuery object, or element.
      *

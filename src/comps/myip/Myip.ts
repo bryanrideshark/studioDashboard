@@ -1,9 +1,8 @@
 import {Component} from "@angular/core";
-import {Consts} from "../../Conts";
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/operator/do';
-import {Http} from '@angular/http';
+import {Observable} from "rxjs/Observable";
+import "rxjs/add/operator/do";
 import {AsyncSubject} from "rxjs/Rx";
+import {Http} from "@angular/http";
 
 interface IIpAddress {
     ip: string;
@@ -18,10 +17,10 @@ interface IIpAddress {
     `
 })
 export class MyIp {
-    private ipAddress:string;
-    private subject:AsyncSubject<IIpAddress>;
+    private ipAddress: string;
+    private subject: AsyncSubject<IIpAddress>;
 
-    constructor(private http:Http) {
+    constructor(private http: Http) {
 
         // Demonstrates AsyncSubject where the first call will go out to server to grab your
         // ip, but 2nd call (via timeout) will grab it directly from the Subject never needing
@@ -30,8 +29,8 @@ export class MyIp {
             this.ipAddress = JSON.parse(result._body).ip;
         });
 
-        setTimeout(e=> {
-            this.getMyIp('https://secure.digitalsignage.com/getIp').subscribe(result=> {
+        setTimeout(e => {
+            this.getMyIp('https://secure.digitalsignage.com/getIp').subscribe(result => {
                 this.ipAddress = JSON.parse(result._body).ip;
             });
         }, 2000)

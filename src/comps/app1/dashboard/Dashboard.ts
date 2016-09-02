@@ -7,9 +7,9 @@ import {AuthService} from "../../../services/AuthService";
 import {StationModel} from "../../../stations/StationModel";
 import {CommBroker, IMessage} from "../../../services/CommBroker";
 import {Consts} from "../../../Conts";
-import {FormControl} from "@angular/forms";
 import {ModalComponent} from "../../ng2-bs3-modal/components/modal";
 import * as _ from "lodash";
+import {FormControl} from "@angular/forms";
 
 type stationComponentMode = "map" | "grid";
 

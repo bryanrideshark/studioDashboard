@@ -1,7 +1,6 @@
 import {Component, ViewChild, ElementRef} from '@angular/core'
 import {SimpleList, ISimpleListItem} from "../../simplelist/SimpleList";
 import {AppStore} from "angular2-redux-util";
-import {DROPDOWN_DIRECTIVES} from "ng2-bootstrap/ng2-bootstrap";
 import {BusinessAction} from "../../../business/BusinessAction";
 import {AddUser} from "./AddUser";
 import {MODAL_DIRECTIVES} from "../../ng2-bs3-modal/ng2-bs3-modal";

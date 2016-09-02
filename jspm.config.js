@@ -9,7 +9,7 @@ SystemJS.config({
             "net": "github:jspm/nodelibs-net@0.2.0-alpha",
             "systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@0.5.9",
             "tty": "github:jspm/nodelibs-tty@0.2.0-alpha",
-            "ng2-bootstrap": "npm:ng2-bootstrap@1.0.24"
+            "ng2-bootstrap": "npm:ng2-bootstrap@1.1.1"
         },
         "packages": {
             "github:capaj/systemjs-hot-reloader@0.5.9": {
@@ -19,7 +19,7 @@ SystemJS.config({
                     "weakee": "npm:weakee@1.0.0"
                 }
             },
-            "npm:ng2-bootstrap@1.0.24": {
+            "npm:ng2-bootstrap@1.1.1": {
                 "map": {
                     "moment": "npm:moment@2.13.0"
                 }
@@ -468,9 +468,9 @@ SystemJS.config({
         "core-js": "npm:core-js@1.2.6",
         "gulp-util": "npm:gulp-util@3.0.7",
         "twbs/bootstrap": "github:twbs/bootstrap@3.3.6",
-        "@angular/http": "npm:@angular/http@2.0.0-rc.5",
-        "@angular/router": "npm:@angular/router@3.0.0-rc.1",
-        "angular-router": "npm:@angular/router@2.0.0-rc.5"
+        "@angular/http": "npm:@angular/http@2.0.0-rc.6/bundles/http.umd",
+        "@angular/router": "npm:@angular/router@3.0.0-rc.2",
+        "angular-router": "npm:@angular/router@3.0.0-rc.2"
     }
 });
 
@@ -481,21 +481,21 @@ SystemJS.config({
         "github:*/*.json"
     ],
     map: {
-        "@angular/platform-browser": "npm:@angular/platform-browser@2.0.0-rc.5",
-        "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.0.0-rc.5",
-        "@angular/forms": "npm:@angular/forms@0.3.0",
+        "@angular/platform-browser": "npm:@angular/platform-browser@2.0.0-rc.6",
+        "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.0.0-rc.6",
+        "@angular/forms": "npm:@angular/forms@2.0.0-rc.6",
         "angular2-google-maps": "npm:angular2-google-maps@0.10.0",
         "jquery": "npm:jquery@2.2.4",
-        "angular-core": "npm:@angular/core@2.0.0-rc.5",
-        "angular-platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.0.0-rc.5",
-        "angular-http": "npm:@angular/http@2.0.0-rc.5",
-        "router": "npm:@angular/router@3.0.0-rc.1",
-        "@angular/common": "npm:@angular/common@2.0.0-rc.5",
-        "@angular/compiler": "npm:@angular/compiler@2.0.0-rc.5",
-        "angular-platform-browser": "npm:@angular/platform-browser@2.0.0-rc.5",
-        "angular-common": "npm:@angular/common@2.0.0-rc.5",
-        "@angular/core": "npm:@angular/core@2.0.0-rc.5",
-        "angular-compiler": "npm:@angular/compiler@2.0.0-rc.5",
+        "angular-core": "npm:@angular/core@2.0.0-rc.6",
+        "angular-platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.0.0-rc.6",
+        "angular-http": "npm:@angular/http@2.0.0-rc.6",
+        "router": "npm:@angular/router@3.0.0-rc.2",
+        "@angular/common": "npm:@angular/common@2.0.0-rc.6",
+        "@angular/compiler": "npm:@angular/compiler@2.0.0-rc.6",
+        "angular-platform-browser": "npm:@angular/platform-browser@2.0.0-rc.6",
+        "angular-common": "npm:@angular/common@2.0.0-rc.6",
+        "@angular/core": "npm:@angular/core@2.0.0-rc.6",
+        "angular-compiler": "npm:@angular/compiler@2.0.0-rc.6",
         "redux-thunk": "npm:redux-thunk@2.1.0",
         "angular2-redux-util": "npm:angular2-redux-util@0.8.64",
         "angular2-polyfill": "npm:angular2-polyfill@0.0.2",
@@ -526,7 +526,7 @@ SystemJS.config({
         "redux": "npm:redux@3.5.2",
         "reflect-metadata": "npm:reflect-metadata@0.1.3",
         "reselect": "npm:reselect@2.5.1",
-        "rxjs": "npm:rxjs@5.0.0-beta.6",
+        "rxjs": "npm:rxjs@5.0.0-beta.11",
         "stream": "github:jspm/nodelibs-stream@0.2.0-alpha",
         "string_decoder": "github:jspm/nodelibs-string_decoder@0.2.0-alpha",
         "text": "github:systemjs/plugin-text@0.0.4",
@@ -538,7 +538,7 @@ SystemJS.config({
         "util": "github:jspm/nodelibs-util@0.2.0-alpha",
         "vm": "github:jspm/nodelibs-vm@0.2.0-alpha",
         "xml2js": "npm:xml2js@0.4.16",
-        "zone.js": "npm:zone.js@0.6.12"
+        "zone.js": "npm:zone.js@0.6.17"
     },
     packages: {
         "npm:clean-css@3.4.14": {
@@ -557,16 +557,16 @@ SystemJS.config({
         },
         "npm:angular2-google-maps@0.10.0": {
             "map": {
-                "@angular/common": "npm:@angular/common@2.0.0-rc.5",
-                "@angular/compiler": "npm:@angular/compiler@2.0.0-rc.5",
-                "@angular/core": "npm:@angular/core@2.0.0-rc.5",
-                "@angular/platform-browser": "npm:@angular/platform-browser@2.0.0-rc.5",
-                "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.0.0-rc.5",
+                "@angular/common": "npm:@angular/common@2.0.0-rc.6",
+                "@angular/compiler": "npm:@angular/compiler@2.0.0-rc.6",
+                "@angular/core": "npm:@angular/core@2.0.0-rc.6",
+                "@angular/platform-browser": "npm:@angular/platform-browser@2.0.0-rc.6",
+                "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.0.0-rc.6",
                 "es6-promise": "npm:es6-promise@3.2.1",
                 "es6-shim": "npm:es6-shim@0.35.1",
                 "reflect-metadata": "npm:reflect-metadata@0.1.3",
                 "rxjs": "npm:rxjs@5.0.0-beta.6",
-                "zone.js": "npm:zone.js@0.6.12"
+                "zone.js": "npm:zone.js@0.6.17"
             }
         },
         "github:jspm/nodelibs-http@0.2.0-alpha": {
@@ -832,6 +832,11 @@ SystemJS.config({
         "npm:xmlbuilder@4.2.1": {
             "map": {
                 "lodash": "npm:lodash@4.5.1"
+            }
+        },
+        "npm:rxjs@5.0.0-beta.11": {
+            "map": {
+                "symbol-observable": "npm:symbol-observable@1.0.2"
             }
         }
     }

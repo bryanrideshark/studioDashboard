@@ -1,4 +1,4 @@
-import {Injectable, provide, Inject, forwardRef} from "@angular/core";
+import {Injectable, Inject, forwardRef} from "@angular/core";
 import {Router, ActivatedRouteSnapshot, RouterStateSnapshot} from "@angular/router";
 import {AppStore} from "angular2-redux-util";
 import {LocalStorage} from "./LocalStorage";
@@ -20,20 +20,20 @@ export enum FlagsAuth {
 
 @Injectable()
 export class AuthService {
-    private ubsub:()=>void;
-    private m_authenticated:boolean = false;
-    private m_pendingNotify:any;
+    private ubsub: ()=>void;
+    private m_authenticated: boolean = false;
+    private m_pendingNotify: any;
 
-    constructor(private router:Router,
-                @Inject(forwardRef(() => AppStore)) private appStore:AppStore,
-                @Inject(forwardRef(() => AppdbAction)) private appdbAction:AppdbAction,
-                @Inject(forwardRef(() => LocalStorage)) private localStorage:LocalStorage,
-                @Inject(forwardRef(() => StoreService)) private storeService:StoreService) {
+    constructor(private router: Router,
+                @Inject(forwardRef(() => AppStore)) private appStore: AppStore,
+                @Inject(forwardRef(() => AppdbAction)) private appdbAction: AppdbAction,
+                @Inject(forwardRef(() => LocalStorage)) private localStorage: LocalStorage,
+                @Inject(forwardRef(() => StoreService)) private storeService: StoreService) {
         this.listenStore();
     }
 
     private listenStore() {
-        this.ubsub = this.appStore.sub((credentials:Map<string,any>) => {
+        this.ubsub = this.appStore.sub((credentials: Map<string,any>) => {
             this.m_authenticated = credentials.get('authenticated');
             var user = credentials.get('user');
             var pass = credentials.get('pass');
@@ -69,7 +69,7 @@ export class AuthService {
     }
 
     private onAuthFail() {
-        setTimeout(()=> {
+        setTimeout(() => {
             bootbox.hideAll();
             this.localStorage.setItem('remember_me', {
                 u: '',
@@ -80,7 +80,7 @@ export class AuthService {
         return false;
     }
 
-    public authUser(i_user?:string, i_pass?:string, i_remember?:string):void {
+    public authUser(i_user?: string, i_pass?: string, i_remember?: string): void {
         bootbox.dialog({
             closeButton: false,
             title: "Please wait, Authenticating...",
@@ -98,7 +98,7 @@ export class AuthService {
         this.appdbAction.createDispatcher(this.appdbAction.authenticateUser)(i_user.trim(), i_pass.trim(), i_remember);
     }
 
-    public getLocalstoreCred():{u:string, p:string, r:string} {
+    public getLocalstoreCred(): {u: string, p: string, r: string} {
         var credentials = this.localStorage.getItem('remember_me');
         if (!credentials)
             return {u: '', p: '', r: ''};
@@ -109,7 +109,7 @@ export class AuthService {
         }
     }
 
-    public checkAccess():Promise<any> {
+    public checkAccess(): Promise<any> {
         // let injector:Injector = appInjService();
         // let router:Router = injector.get(Router);
         let target = ['/Login'];
@@ -140,7 +140,7 @@ export class AuthService {
         });
     }
 
-    public canActivate(activatedRouteSnapshot:ActivatedRouteSnapshot, routerStateSnapshot:RouterStateSnapshot):Observable<boolean> {
+    public canActivate(activatedRouteSnapshot: ActivatedRouteSnapshot, routerStateSnapshot: RouterStateSnapshot): Observable<boolean> {
         return Observable
             .fromPromise(this.checkAccess())
             .do(result => {
@@ -154,4 +154,4 @@ export class AuthService {
     }
 }
 
-export const AUTH_PROVIDERS:Array<any> = [provide(AuthService, {useClass: AuthService})];
+export const AUTH_PROVIDERS: Array<any> = [{provide: AuthService, useClass: AuthService}];

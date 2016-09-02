@@ -1,10 +1,17 @@
-import {Component, ViewContainerRef} from '@angular/core';
-import {BrowserDomAdapter} from '@angular/platform-browser/src/browser/browser_adapter';
+import {
+    Component,
+    ViewContainerRef,
+    Inject
+} from "@angular/core";
 import {FilemenuItem} from "./FilemenuItem";
-import {Router, ActivatedRoute, UrlTree, NavigationStart} from "@angular/router";
+import {
+    Router,
+    ActivatedRoute,
+    NavigationStart
+} from "@angular/router";
 import {CommBroker} from "../../services/CommBroker";
 import {Consts} from "../../Conts";
-import {Main} from "../../../src/App";
+import {DOCUMENT} from "@angular/platform-browser";
 
 /**
  Filemenu manages the top header file menu per application as it mutates it's content depending
@@ -34,15 +41,14 @@ import {Main} from "../../../src/App";
     `
 })
 export class Filemenu {
-    private m_items:FilemenuItem[];
-    private m_renderedItems:any[];
-    private m_fileMenuWrap:any;
-    private m_commBroker:CommBroker;
-    private el:any;
-    private viewContainer:ViewContainerRef;
-    private dom = new BrowserDomAdapter();
+    private m_items: FilemenuItem[];
+    private m_renderedItems: any[];
+    private m_fileMenuWrap: any;
+    private m_commBroker: CommBroker;
+    private el: any;
+    private viewContainer: ViewContainerRef;
 
-    constructor(viewContainer:ViewContainerRef, private router:Router, commBroker:CommBroker) {
+    constructor(viewContainer: ViewContainerRef, @Inject(DOCUMENT) private dom, private router: Router, private activatedRoute: ActivatedRoute, commBroker: CommBroker) {
         var self = this;
         self.m_commBroker = commBroker;
         self.m_items = [];
@@ -51,32 +57,67 @@ export class Filemenu {
         self.el = viewContainer.element.nativeElement;
         self.m_fileMenuWrap = self.dom.getElementsByClassName(self.el, 'm_fileMenuWrap');
 
-
-        this.router.events.subscribe((navigationStart:NavigationStart)=> {
+        this.router.events.subscribe((navigationStart: NavigationStart) => {
+            return;
             // var currentRoute:string = this.router.serializeUrl(navigationStart.url);
-            var currentRoute:string = navigationStart.url;
-            currentRoute = currentRoute.replace(/\//, '');
-            self.m_renderedItems = [];
-            for (var item in self.m_items) {
-                var currRoute = self.m_items[item]['app'].replace(/\/\.\*/, '');
-                if (currentRoute.indexOf(currRoute) > -1)
-                    self.m_renderedItems.push(self.m_items[item]);
-            }
-            if (self.m_renderedItems.length == 0) {
-                jQuery(self.m_fileMenuWrap).fadeOut('slow', function () {
-                    //notify ng2 of the changes so we comply with change strategy
-                    self.dom.setStyle(self.el, 'opacity', '0');
-                });
-            } else {
-                jQuery(self.m_fileMenuWrap).fadeIn('slow', function () {
-                    //notify ng2 of the changes so we comply with change strategy
-                    self.dom.setStyle(self.el, 'opacity', '1');
-                });
-
-                let app:Main = self.m_commBroker.getService(Consts.Services().App);
-                app.appResized();
-            }
+            // currentRoute = currentRoute.replace(/\//,'');
+            // self.m_renderedItems = [];
+            // for (var item in self.m_items) {
+            //     if (self.m_items[item]['app'] == currentRoute)
+            //         self.m_renderedItems.push(self.m_items[item]);
+            // }
+            // if (self.m_renderedItems.length == 0) {
+            //     jQuery(self.m_fileMenuWrap).fadeOut('slow', function () {
+            //         //notify ng2 of the changes so we comply with change strategy
+            //         self.dom.setStyle(self.el, 'opacity', '0');
+            //     });
+            // } else {
+            //     jQuery(self.m_fileMenuWrap).fadeIn('slow', function () {
+            //         //notify ng2 of the changes so we comply with change strategy
+            //         self.dom.setStyle(self.el, 'opacity', '1');
+            //     });
+            //
+            //     let app:App = self.m_commBroker.getService(Consts.Services().App);
+            //     app.appResized();
+            // }
         })
+
+
+        // const teamActivatedRoute = router.routerState(activeRoute);
+        // var teamId = teamActivatedRoute.params.map(r => r.id);
+
+        // var sub = this.activeRoute
+        //     .params
+        //     .subscribe(params => {
+        //         let id = +params['id'];
+        //     });
+        // this.router.events.subscribe((urlTree:UrlTree)=>{
+        //     console.log(urlTree);
+        // })
+
+        // router.changes.subscribe(function (currentRoute) {
+        // //router.subscribe(function (currentRoute) {
+        //     self.m_renderedItems = [];
+        //     for (var item in self.m_items) {
+        //         if (self.m_items[item]['app'] == currentRoute)
+        //             self.m_renderedItems.push(self.m_items[item]);
+        //     }
+        //     if (self.m_renderedItems.length == 0) {
+        //         jQuery(self.m_fileMenuWrap).fadeOut('slow', function () {
+        //             //notify ng2 of the changes so we comply with change strategy
+        //             self.dom.setStyle(self.el, 'opacity', '0');
+        //         });
+        //     } else {
+        //         jQuery(self.m_fileMenuWrap).fadeIn('slow', function () {
+        //             //notify ng2 of the changes so we comply with change strategy
+        //             self.dom.setStyle(self.el, 'opacity', '1');
+        //         });
+        //
+        //         let app:App = self.m_commBroker.getService(Consts.Services().App);
+        //         app.appResized();
+        //     }
+        //     //console.log(`Route ${currentRoute}`);
+        // });
 
         jQuery('.navbar-nav').css({
             display: 'block'
@@ -119,7 +160,7 @@ export class Filemenu {
         return false;
     }
 
-    public addFileMenuItem(i_item:FilemenuItem):void {
+    public addFileMenuItem(i_item: FilemenuItem): void {
         this.m_items.push(i_item);
     }
 }

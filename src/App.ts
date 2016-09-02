@@ -80,7 +80,6 @@ import {UsersDetails} from "./comps/app1/users/UsersDetails";
 import {LoginPanel} from "./comps/entry/LoginPanel";
 import {Menu} from "./comps/sidemenu/Menu";
 import {MenuItem} from "./comps/sidemenu/MenuItem";
-import {Sliderpanel} from "./comps/sliderpanel/Sliderpanel";
 import {Whitelabel} from "./comps/app1/whitelabel/Whitelabel";
 import {Apps} from "./comps/app1/apps/Apps";
 import {Privileges} from "./comps/app1/privileges/Privileges";
@@ -101,8 +100,7 @@ import {AdnetConfigCustomer} from "./comps/app1/adnet/config/AdnetConfigCustomer
 import {AdnetConfig} from "./comps/app1/adnet/config/AdnetConfig";
 import {AdnetConfigTargets} from "./comps/app1/adnet/targets/AdnetConfigTargets";
 import {AdnetConfigRates} from "./comps/app1/adnet/rates/AdnetConfigRates";
-import {RatingComponent} from "../jspm_packages/npm/ng2-bootstrap@1.0.24/components/rating/rating.component";
-import {DROPDOWN_DIRECTIVES} from "../jspm_packages/npm/ng2-bootstrap@1.0.24/components/dropdown";
+// import {DROPDOWN_DIRECTIVES} from "../jspm_packages/npm/ng2-bootstrap@1.0.24/components/dropdown";
 import {MODAL_DIRECTIVES} from "./comps/ng2-bs3-modal/ng2-bs3-modal";
 import {Infobox} from "./comps/infobox/Infobox";
 import {StationsGrid} from "./comps/app1/dashboard/StationsGrid";
@@ -228,7 +226,7 @@ var googleKey = function () {
     return config;
 }
 
-var modules = [AUTH_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
+var modules = [CommBroker, AUTH_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
     {provide: LazyMapsAPILoaderConfig, useFactory: () => googleKey()},
     {provide: AppStore, useFactory: Lib.StoreFactory({notify, appdb, business, stations, reseller, adnet, orders})},
     {provide: StoreService, useClass: StoreService},
@@ -246,11 +244,12 @@ var modules = [AUTH_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
     {provide: "OFFLINE_ENV", useValue: false},
     {provide: CharCount}];
 
-var decelerations = [Main, RatesTable, UsersDetails, LoginPanel, Menu, MenuItem, Sliderpanel, Account, Whitelabel, Apps, App1, Users, Adnet, Privileges, Dashboard, Logout, Orders, Filemenu, FilemenuItem, Logo, LogoCompany, Footer, BlurForwarder, InputEdit, ANGULAR2_GOOGLE_MAPS_DIRECTIVES, OrderBy, SortBy, FilterPipe, AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, RatingComponent, ServerStats, ServerAvg, StationsMap, StationsGrid, StationDetails, ImgLoader, Ng2Highcharts, AdnetConfigCustomer, AdnetConfig, StationSnapshot, OrderDetails, SimpleList, PrivilegesDetails, ModalDialog, Infobox, UserStorage, Loading, Samplelist, DROPDOWN_DIRECTIVES, SIMPLEGRID_DIRECTIVES, UserInfo, AddUser, ChangePass, MODAL_DIRECTIVES, Ng2Highstocks, Ng2Highmaps, SimpleGridSortableHeader, SimpleGridRecord, SimpleGridData, SimplelistEditable, AdnetConfigTargetStations, AdnetConfigTargetProps, AdnetLocation, MapAddress, AdnetNetwork, AdnetNetworkCustomerSelector, AdnetNetworkPackageEditor, AdnetNetworkPackageViewer, AdnetNetworkPackageTarget, AdnetNetworkPackageProps, AdnetNetworkPackageContent];
+//DROPDOWN_DIRECTIVES
+var decelerations = [Main, RatesTable, UsersDetails, LoginPanel, Menu, MenuItem, Account, Whitelabel, Apps, App1, Users, Adnet, Privileges, Dashboard, Logout, Orders, Filemenu, FilemenuItem, Logo, LogoCompany, Footer, BlurForwarder, InputEdit, ANGULAR2_GOOGLE_MAPS_DIRECTIVES, OrderBy, SortBy, FilterPipe, AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, ServerStats, ServerAvg, StationsMap, StationsGrid, StationDetails, ImgLoader, Ng2Highcharts, AdnetConfigCustomer, AdnetConfig, StationSnapshot, OrderDetails, SimpleList, PrivilegesDetails, ModalDialog, Infobox, UserStorage, Loading, Samplelist, SIMPLEGRID_DIRECTIVES, UserInfo, AddUser, ChangePass, MODAL_DIRECTIVES, Ng2Highstocks, Ng2Highmaps, SimpleGridSortableHeader, SimpleGridRecord, SimpleGridData, SimplelistEditable, AdnetConfigTargetStations, AdnetConfigTargetProps, AdnetLocation, MapAddress, AdnetNetwork, AdnetNetworkCustomerSelector, AdnetNetworkPackageEditor, AdnetNetworkPackageViewer, AdnetNetworkPackageTarget, AdnetNetworkPackageProps, AdnetNetworkPackageContent];
 
 @NgModule({
     imports: [BrowserModule, FormsModule, JsonpModule, HttpModule, ReactiveFormsModule, routing],
-    providers: [CommBroker, ...modules],
+    providers: [modules],
     declarations: decelerations,
     bootstrap: [Main],
 })

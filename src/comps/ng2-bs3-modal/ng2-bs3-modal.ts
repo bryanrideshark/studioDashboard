@@ -10,7 +10,7 @@ export * from './components/modal-header';
 export * from './components/modal-body';
 export * from './components/modal-footer';
 
-export const MODAL_DIRECTIVES: Type[] = [
+export const MODAL_DIRECTIVES: any = [
     ModalComponent,
     ModalHeaderComponent,
     ModalBodyComponent,
