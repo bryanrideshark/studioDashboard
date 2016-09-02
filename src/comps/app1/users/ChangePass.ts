@@ -37,9 +37,9 @@ export class ChangePass {
 
     private areEqual(group:FormGroup) {
         let valid = true, val;
-        for (name in group.controls) {
+        for (var name in group.controls) {
             if (val === undefined) {
-                val = group.controls[name].value
+                val = group.controls[name].value;
                 if (val.length < 4) {
                     valid = false;
                     break;

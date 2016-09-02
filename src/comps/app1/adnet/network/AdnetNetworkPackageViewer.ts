@@ -28,7 +28,6 @@ export class AdnetNetworkPackageViewer {
             this.targets = i_adTargets;
             this.filterPackages();
         }, 'adnet.targets');
-
         this.filterPackages();
     }
 
@@ -58,6 +57,7 @@ export class AdnetNetworkPackageViewer {
     private packages: List<AdnetPackageModel>
     private packagesFiltered: List<AdnetPackageModel>
     private pairOutgoing: boolean
+    private packageNames:string = '';
 
     private onAdd(event) {
     }
@@ -68,6 +68,8 @@ export class AdnetNetworkPackageViewer {
     private filterPackages() {
         if (!this.targets || !this.packages || !this.adnetCustomerModel)
             return;
+
+        this.packageNames = '';
 
         this.packagesFiltered = List<AdnetPackageModel>();
         if (this.pairOutgoing) {
@@ -81,7 +83,9 @@ export class AdnetNetworkPackageViewer {
                         var adnetTargetCustomerId = i_adnetTargetModel.getCustomerId();
                         this.adnetPairModels.forEach((i_adnetPairModels: AdnetPairModel) => {
                             if (adnetTargetCustomerId == i_adnetPairModels.getToCustomerId()) {
-                                console.log(i_package.getName() + ' ' + i_adnetPairModels.getToCustomerId());
+                                // console.log(i_package.getName() + ' ' + i_adnetPairModels.getToCustomerId());
+                                this.packageNames = `${this.packageNames} ${i_package.getName()}`;
+
                             }
                         })
                     }
@@ -105,7 +109,8 @@ export class AdnetNetworkPackageViewer {
                             var pkgName = i_package.getName()
                             var pkgCustId = i_package.getCustomerId();
                             if (pkgCustId == custId && cusTotId == custIdSel) {
-                                console.log(pkgName + ' ' + i_adnetPairModels.getCustomerId());
+                                // console.log(pkgName + ' ' + i_adnetPairModels.getCustomerId());
+                                this.packageNames = `${this.packageNames} ${i_package.getName()} ${i_package.getId()}`;
                             }
                         })
                     }

@@ -79,7 +79,7 @@ export class AddUser {
 
     private areEqual(group:FormGroup) {
         let valid = true, val;
-        for (name in group.controls) {
+        for (var name in group.controls) {
             if (val === undefined) {
                 val = group.controls[name].value
                 if (val.length < 4) {
