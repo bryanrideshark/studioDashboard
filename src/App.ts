@@ -98,7 +98,6 @@ import {AdnetConfigCustomer} from "./comps/app1/adnet/config/AdnetConfigCustomer
 import {AdnetConfig} from "./comps/app1/adnet/config/AdnetConfig";
 import {AdnetConfigTargets} from "./comps/app1/adnet/targets/AdnetConfigTargets";
 import {AdnetConfigRates} from "./comps/app1/adnet/rates/AdnetConfigRates";
-// import {DROPDOWN_DIRECTIVES} from "../jspm_packages/npm/ng2-bootstrap@1.0.24/components/dropdown";
 import {MODAL_DIRECTIVES} from "./comps/ng2-bs3-modal/ng2-bs3-modal";
 import {Infobox} from "./comps/infobox/Infobox";
 import {StationsGrid} from "./comps/app1/dashboard/StationsGrid";
