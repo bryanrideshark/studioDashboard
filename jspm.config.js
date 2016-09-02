@@ -555,20 +555,6 @@ SystemJS.config({
                 "is-regex": "npm:is-regex@1.0.3"
             }
         },
-        "npm:angular2-google-maps@0.14.0": {
-            "map": {
-                "@angular/common": "npm:@angular/common@2.0.0-rc.6",
-                "@angular/compiler": "npm:@angular/compiler@2.0.0-rc.6",
-                "@angular/core": "npm:@angular/core@2.0.0-rc.6",
-                "@angular/platform-browser": "npm:@angular/platform-browser@2.0.0-rc.6",
-                "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.0.0-rc.6",
-                "es6-promise": "npm:es6-promise@3.2.1",
-                "es6-shim": "npm:es6-shim@0.35.1",
-                "reflect-metadata": "npm:reflect-metadata@0.1.3",
-                "rxjs": "npm:rxjs@5.0.0-beta.6",
-                "zone.js": "npm:zone.js@0.6.17"
-            }
-        },
         "github:jspm/nodelibs-http@0.2.0-alpha": {
             "map": {
                 "http-browserify": "npm:stream-http@2.3.0"

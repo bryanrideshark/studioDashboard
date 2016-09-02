@@ -99,7 +99,7 @@
       "angular-platform-browser": "npm:@angular/platform-browser@2.0.0-rc.6",
       "angular-platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@^2.0.0-rc.6",
       "@angular/forms": "npm:@angular/forms@2.0.0-rc.6",
-      "angular2-google-maps": "npm:angular2-google-maps@^0.14.0",
+      "angular2-google-maps": "npm:angular2-google-maps@^0.14.0/core",
       "angular2-polyfill": "npm:angular2-polyfill@^0.0.2",
       "angular2-redux-util": "npm:angular2-redux-util@^0.8.64",
       "angular2-uuid": "npm:angular2-uuid@^1.0.6",
@@ -372,6 +372,7 @@
     }
   },
   "dependencies": {
+    "angular2-google-maps": "^0.14.0",
     "crypto": "0.0.3",
     "jquery": "^2.2.4",
     "lodash": "^4.13.1",
