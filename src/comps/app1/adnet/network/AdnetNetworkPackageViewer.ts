@@ -122,9 +122,11 @@ export class AdnetNetworkPackageViewer {
         }
     }
 
-    private processAdnetPackageName() {
+    public sort:{field:string, desc:boolean} = {field: null, desc: false};
+
+    private processAdnetPackageField(i_function:string) {
         return (i_adnetPackageModel:AdnetPackageModel) => {
-            return i_adnetPackageModel.getName();
+            return i_adnetPackageModel[i_function]();
         }
     }
 

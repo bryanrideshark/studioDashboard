@@ -18,6 +18,34 @@ export class AdnetPackageModel extends StoreModel {
         return this.getKey('Value').customerId;
     }
 
+    public playMode() {
+        return this.getKey('Value').playMode;
+    }
+
+    public startDate() {
+        return this.getKey('Value').startDate;
+    }
+
+    public endDate() {
+        return this.getKey('Value').endDate;
+    }
+
+    public daysMask() {
+        return this.getKey('Value').daysMask;
+    }
+
+    public hourStart() {
+        return this.getKey('Value').hourStart;
+    }
+
+    public hourEnd() {
+        return this.getKey('Value').hourEnd;
+    }
+
+    public channel() {
+        return this.getKey('Value').channel;
+    }
+
     public deleted() {
         return this.getKey('Value').deleted;
     }
