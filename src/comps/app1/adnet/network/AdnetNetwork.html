@@ -7,22 +7,26 @@
     <div class="col-xs-10">
         <tabs style="height: 500px">
             <tab [tabtitle]="'Packages'">
-                <div class="row">
+                <div class="row" *ngIf="pairsOutgoing == true && this.pairsSelected && this.pairsSelected.size > 1">
                     <div class="col-xs-3">
                         <AdnetNetworkPackageEditor
-                                *ngIf="pairsOutgoing == true && this.pairsSelected && this.pairsSelected.size > 1"
                                 [setPairOutgoing]="pairsOutgoing"
                                 [setAdnetPairModels]="pairsSelected"
                                 [setAdnetCustomerModel]="adnetCustomerModel">
                         </AdnetNetworkPackageEditor>
+                    </div>
+                    <div class="bgYellow col-xs-6">
+                    </div>
+                    <div class="bgRed col-xs-3">
+                    </div>
+                </div>
+                <div class="row" *ngIf="pairsOutgoing == false || (this.pairsSelected && this.pairsSelected.size == 1)">
+                    <div class="bgYellow col-xs-8">
                         <AdnetNetworkPackageViewer
-                                *ngIf="pairsOutgoing == false || (this.pairsSelected && this.pairsSelected.size == 1)"
                                 [setPairOutgoing]="pairsOutgoing"
                                 [setAdnetPairModels]="pairsSelected"
                                 [setAdnetCustomerModel]="adnetCustomerModel">
                         </AdnetNetworkPackageViewer>
-                    </div>
-                    <div class="bgYellow col-xs-5">
                     </div>
                     <div class="bgRed col-xs-4">
                     </div>
