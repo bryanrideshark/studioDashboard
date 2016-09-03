@@ -15,15 +15,14 @@
         </tr>
         </thead>
         <tbody>
-        <!--<tr class="simpleGridRecord" simpleGridRecord *ngFor="let item of packagesFiltered | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">-->
         <tr class="simpleGridRecord" simpleGridRecord *ngFor="let item of packagesFiltered | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">
-            <td style="width: 10%" simpleGridData [processField]="processAdnetPackageField('getName')" [item]="item"></td>
-            <td style="width: 10%" simpleGridData [processField]="processAdnetPackageField('playMode')" [item]="item"></td>
-            <td style="width: 10%" simpleGridData [processField]="processAdnetPackageField('channel')" [item]="item"></td>
-            <td style="width: 10%" simpleGridData [processField]="processAdnetPackageField('startDate')" [item]="item"></td>
-            <td style="width: 10%" simpleGridData [processField]="processAdnetPackageField('endDate')" [item]="item"></td>
-            <td style="width: 10%" simpleGridData [processField]="processAdnetPackageField('hourStart')" [item]="item"></td>
-            <td style="width: 10%" simpleGridData [processField]="processAdnetPackageField('hourEnd')" [item]="item"></td>
+            <td style="width: 14%" simpleGridData [processField]="processAdnetPackageField('getName')" [item]="item"></td>
+            <td style="width: 14%" simpleGridData [processField]="processAdnetPackageField('playMode')" [item]="item"></td>
+            <td style="width: 14%" simpleGridData [processField]="processAdnetPackageField('channel')" [item]="item"></td>
+            <td style="width: 14%" simpleGridData [processField]="processAdnetPackageField('startDate')" [item]="item"></td>
+            <td style="width: 14%" simpleGridData [processField]="processAdnetPackageField('endDate')" [item]="item"></td>
+            <td style="width: 14%" simpleGridData [processField]="processAdnetPackageField('hourStart')" [item]="item"></td>
+            <td style="width: 14%" simpleGridData [processField]="processAdnetPackageField('hourEnd')" [item]="item"></td>
         </tr>
         </tbody>
     </simpleGridTable>
