@@ -21,32 +21,34 @@ export class AdnetNetworkPackageViewer {
         this.packages = this.appStore.getState().adnet.getIn(['packages']) || {};
         this.unsub1 = this.appStore.sub((i_adPackages: List<AdnetPackageModel>) => {
             this.packages = i_adPackages;
-            this.filterPackages();
+            this.onFilterPackages();
         }, 'adnet.packages');
+
         this.targets = this.appStore.getState().adnet.getIn(['targets']) || {};
         this.unsub2 = this.appStore.sub((i_adTargets: List<AdnetTargetModel>) => {
             this.targets = i_adTargets;
-            this.filterPackages();
+            this.onFilterPackages();
         }, 'adnet.targets');
-        this.filterPackages();
+
+        this.onFilterPackages();
     }
 
     @Input()
     set setPairOutgoing(i_setPairOutgoing: boolean) {
         this.pairOutgoing = i_setPairOutgoing;
-        this.filterPackages();
+        this.onFilterPackages();
     }
 
     @Input()
     set setAdnetCustomerModel(i_adnetCustomerModel: AdnetCustomerModel) {
         this.adnetCustomerModel = i_adnetCustomerModel;
-        this.filterPackages();
+        this.onFilterPackages();
     }
 
     @Input()
     set setAdnetPairModels(i_adnetPairModels: List<AdnetPairModel>) {
         this.adnetPairModels = i_adnetPairModels;
-        this.filterPackages();
+        this.onFilterPackages();
     }
 
     private unsub1: Function;
@@ -57,7 +59,6 @@ export class AdnetNetworkPackageViewer {
     private packages: List<AdnetPackageModel>
     private packagesFiltered: List<AdnetPackageModel>
     private pairOutgoing: boolean
-    private packageNames:string = '';
 
     private onAdd(event) {
     }
@@ -65,15 +66,16 @@ export class AdnetNetworkPackageViewer {
     private onRemove(event) {
     }
 
-    private filterPackages() {
+    private onFilterPackages() {
         if (!this.targets || !this.packages || !this.adnetCustomerModel)
             return;
 
-        this.packageNames = '';
+        // this.packageNames = '';
 
         this.packagesFiltered = List<AdnetPackageModel>();
+        var uniqueIds = [];
         if (this.pairOutgoing) {
-            /** Outgoing ads **/
+            /** Outgoing ads, reverse engineer from targets  **/
             this.packages.forEach((i_package: AdnetPackageModel) => {
                 if (i_package.deleted() == true)
                     return;
@@ -83,9 +85,10 @@ export class AdnetNetworkPackageViewer {
                         var adnetTargetCustomerId = i_adnetTargetModel.getCustomerId();
                         this.adnetPairModels.forEach((i_adnetPairModels: AdnetPairModel) => {
                             if (adnetTargetCustomerId == i_adnetPairModels.getToCustomerId()) {
-                                // console.log(i_package.getName() + ' ' + i_adnetPairModels.getToCustomerId());
-                                this.packageNames = `${this.packageNames} ${i_package.getName()}`;
-
+                                if (uniqueIds.indexOf(i_package.getId()) == -1) {
+                                    uniqueIds.push(i_package.getId())
+                                    this.packagesFiltered = this.packagesFiltered.push(i_package);
+                                }
                             }
                         })
                     }
@@ -99,33 +102,37 @@ export class AdnetNetworkPackageViewer {
                 var targetsIds = i_package.getTargetIds();
                 this.targets.forEach((i_adnetTargetModel: AdnetTargetModel) => {
                     if (targetsIds.indexOf(i_adnetTargetModel.getId()) > -1) {
-                        var adnetTargetCustomerId = i_adnetTargetModel.getCustomerId();
                         this.adnetPairModels.forEach((i_adnetPairModels: AdnetPairModel) => {
                             if (i_adnetPairModels.active() == false && i_adnetPairModels.autoActivated() == false)
                                 return;
                             var cusTotId = i_adnetPairModels.getToCustomerId();
                             var custId = i_adnetPairModels.getCustomerId();
                             var custIdSel = this.adnetCustomerModel.customerId();
-                            var pkgName = i_package.getName()
                             var pkgCustId = i_package.getCustomerId();
                             if (pkgCustId == custId && cusTotId == custIdSel) {
-                                // console.log(pkgName + ' ' + i_adnetPairModels.getCustomerId());
-                                this.packageNames = `${this.packageNames} ${i_package.getName()} ${i_package.getId()}`;
+                                if (uniqueIds.indexOf(i_package.getId()) == -1) {
+                                    uniqueIds.push(i_package.getId())
+                                    this.packagesFiltered = this.packagesFiltered.push(i_package);
+                                }
                             }
                         })
                     }
                 });
             })
         }
-
     }
 
-
-    private getId(i_adnetPackageModel: AdnetPackageModel) {
-        if (!i_adnetPackageModel)
-            return;
-        return i_adnetPackageModel.getId();
+    private processAdnetPackageName() {
+        return (i_adnetPackageModel:AdnetPackageModel) => {
+            return i_adnetPackageModel.getName();
+        }
     }
+
+    // private getId(i_adnetPackageModel: AdnetPackageModel) {
+    //     if (!i_adnetPackageModel)
+    //         return;
+    //     return i_adnetPackageModel.getId();
+    // }
 
     private onSelecting(event) {
 

@@ -1,1 +1,27 @@
-<h4>{{packageNames}}</h4>
+<!--<ul>-->
+    <!--<li *ngFor="let item of packagesFiltered">{{item.getName()}} {{item.getId()}}</li>-->
+<!--</ul>-->
+<div>
+    <simpleGridTable>
+        <thead>
+        <tr>
+            <th>name</th>
+            <th>duration</th>
+            <th>repetition</th>
+            <th>percent</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--<tr class="simpleGridRecord" simpleGridRecord *ngFor="let item of packagesFiltered | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">-->
+        <tr class="simpleGridRecord" simpleGridRecord *ngFor="let item of packagesFiltered; let index=index" [item]="item" [index]="index">
+            <td style="width: 10%" simpleGridData [processField]="processAdnetPackageName()" [item]="item"></td>
+            <td style="width: 10%" simpleGridData [processField]="processAdnetPackageName()" [item]="item"></td>
+            <td style="width: 10%" simpleGridData [processField]="processAdnetPackageName()" [item]="item"></td>
+            <td style="width: 10%" simpleGridData [processField]="processAdnetPackageName()" [item]="item"></td>
+            <!--<td style="width: 10%" simpleGridDataImage color="dodgerblue" [field]="item.getIcon(item)" [item]="item"></td>-->
+            <!--<td style="width: 70%" simpleGridData field="appName" [item]="item"></td>-->
+            <!--<td style="width: 20%" simpleGridDataChecks slideMode="true" [item]="item" [checkboxes]="getInstalledStatus(item)" (changed)="onAppInstalledChange($event,index)"></td>-->
+        </tr>
+        </tbody>
+    </simpleGridTable>
+</div>
