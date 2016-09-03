@@ -74,7 +74,7 @@
     "rimraf": "^2.4.4",
     "rsync": "^0.4.0",
     "run-sequence": "^1.1.5",
-    "rxjs": "5.0.0-beta.2",
+    "rxjs": "5.0.0-beta.11",
     "superstatic": "^4.0.1",
     "ts-loader": "^0.7.2",
     "tsc": "^1.20150623.0",
@@ -99,7 +99,7 @@
       "angular-platform-browser": "npm:@angular/platform-browser@2.0.0-rc.6",
       "angular-platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@^2.0.0-rc.6",
       "@angular/forms": "npm:@angular/forms@2.0.0-rc.6",
-      "angular2-google-maps": "npm:angular2-google-maps@^0.14.0/core",
+      "angular2-google-maps": "npm:angular2-google-maps@^0.14.0",
       "angular2-polyfill": "npm:angular2-polyfill@^0.0.2",
       "angular2-redux-util": "npm:angular2-redux-util@^0.8.64",
       "angular2-uuid": "npm:angular2-uuid@^1.0.6",
@@ -377,7 +377,7 @@
     "jquery": "^2.2.4",
     "lodash": "^4.13.1",
     "ng2-bootstrap": "^1.0",
-    "rxjs": "^5.0.0-beta.6",
+    "rxjs": "^5.0.0-beta.11",
     "typescript": "^2.0.2",
     "zone.js": "^0.6.12"
   }
