@@ -199,8 +199,7 @@ export class SimpleList {
         this.cd.markForCheck();
     }
 
-    // public getSelected(): ISimpleListItem | { [key: string]: ISimpleListItem } {
-    public getSelected(): ISimpleListItem {
+    public getSelected(): ISimpleListItem | { [key: string]: ISimpleListItem } {
         if (this.multiSelect)
             return this.m_metadata;
         for (let v in this.m_metadata) {

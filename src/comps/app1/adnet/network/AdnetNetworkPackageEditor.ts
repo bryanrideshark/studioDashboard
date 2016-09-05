@@ -84,7 +84,7 @@ export class AdnetNetworkPackageEditor {
     }
 
     private onSelecting(event) {
-        var orderSelected:ISimpleListItem = this.simpleList.getSelected();
+        var orderSelected:ISimpleListItem = this.simpleList.getSelected() as ISimpleListItem;
         this.selectedAdnetPackageModel = orderSelected.item;
     }
 

@@ -4,6 +4,7 @@ import * as _ from "lodash";
 import {SebmGoogleMap} from "angular2-google-maps/core";
 
 interface marker {
+    instance: StationModel,
     id: number;
     lat: number;
     lng: number;
@@ -73,7 +74,7 @@ export class StationsMap {
     }
 
     clickedMarker(marker: marker, index: number) {
-        this.onStationSelected.emit(marker.id);
+        this.onStationSelected.emit(marker.instance);
     }
 
     mapClicked($event: MouseEvent) {
@@ -122,12 +123,13 @@ export class StationsMap {
             if (_.isEmpty(geoLocation) || geoLocation.lat == 0 && geoLocation.lon == 0)
                 return;
             this.markers.push({
+                instance: i_station,
                 id: i_station.getStationId(),
                 name: i_station.getKey('name'),
                 color: i_station.getConnectionIcon('color'),
                 lat: +geoLocation.lat,
                 lng: +geoLocation.lon,
-                label: String(c++),
+                label: '',
                 draggable: false
             })
         });
