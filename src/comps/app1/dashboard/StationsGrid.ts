@@ -1,4 +1,13 @@
-import {Component, Input, Output, ViewChild, EventEmitter, ChangeDetectionStrategy, OnChanges, SimpleChange} from '@angular/core'
+import {
+    Component,
+    Input,
+    Output,
+    ViewChild,
+    EventEmitter,
+    ChangeDetectionStrategy,
+    OnChanges,
+    SimpleChange
+} from '@angular/core'
 import {OrderBy} from "../../../pipes/OrderBy";
 import {SIMPLEGRID_DIRECTIVES} from "../../simplegrid/SimpleGrid";
 import {MODAL_DIRECTIVES} from "../../ng2-bs3-modal/ng2-bs3-modal";
@@ -28,7 +37,8 @@ import {SimpleGridRecord} from "../../simplegrid/SimpleGridRecord";
              <div class="col-xs-12">
                 <div (click)="$event.preventDefault()" style="position: relative; top: 10px">
                     <div>
-                      <a class="btns stationProps" href="#" (click)="!userSimpleGridTable || userSimpleGridTable.getSelected() == null ? '' : launchStationModal()" 
+                      <a class="btns stationProps" href="#" 
+                        (click)="!userSimpleGridTable || userSimpleGridTable.getSelected() == null ? '' : launchStationModal()" 
                         [ngClass]="{disabled: !userSimpleGridTable || userSimpleGridTable.getSelected() == null}" href="#">
                         <span class="fa fa-cogs"></span>
                       </a>
@@ -52,7 +62,6 @@ import {SimpleGridRecord} from "../../simplegrid/SimpleGridRecord";
                     </thead>
                     <tbody>
                     <tr class="simpleGridRecord" (onDoubleClicked)="onDoubleClicked($event)" simpleGridRecord *ngFor="let item of m_stations | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">
-                    <!--<tr class="simpleGridRecord" (onDoubleClicked)="onDoubleClicked($event)" simpleGridRecord *ngFor="let item of m_stations; let index=index" [item]="item" [index]="index">-->
                       <td style="width: 5%" simpleGridDataImage [color]="item.getConnectionIcon('color')" [field]="item.getConnectionIcon('icon')" [item]="item"></td>
                       <td style="width: 5%" simpleGridDataImage color="dodgerblue" [field]="item.getWatchDogConnection()" [item]="item"></td>
                       <td style="width: 25%" simpleGridData editable="false" field="name" [item]="item"></td>
@@ -75,7 +84,7 @@ import {SimpleGridRecord} from "../../simplegrid/SimpleGridRecord";
 export class StationsGrid {
 
     @ViewChild(SimpleGridTable)
-    simpleGridTable:SimpleGridTable
+    simpleGridTable: SimpleGridTable
 
     @Input()
     set stations(i_stations) {
@@ -83,24 +92,25 @@ export class StationsGrid {
     }
 
     @Output()
-    onStationSelected:EventEmitter<any> = new EventEmitter();
+    onStationSelected: EventEmitter<StationModel> = new EventEmitter<StationModel>();
 
-
-    private onDoubleClicked(event){
-        this.launchStationModal();
+    private onDoubleClicked(event) {
+        this.launchStationModal(event.item);
     }
 
-    private launchStationModal() {
-        var stationModel:StationModel = this.selectedStation();
+    private launchStationModal(i_stationModel?: StationModel) {
+        if (!i_stationModel)
+            i_stationModel = this.selectedStation();
+        //console.log('A ' + i_stationModel.getStationName() + ' ' + i_stationModel.getStationId());
         // this.modalAddUserSample.open('lg');
         // alert(stationModel.getKey('businessId'));
-        this.onStationSelected.emit(stationModel.getStationId())
+        this.onStationSelected.emit(i_stationModel)
     }
 
-    private selectedStation():StationModel {
+    private selectedStation(): StationModel {
         if (!this.simpleGridTable)
             return null;
-        let selected:SimpleGridRecord = this.simpleGridTable.getSelected();
+        let selected: SimpleGridRecord = this.simpleGridTable.getSelected();
         return selected ? this.simpleGridTable.getSelected().item : '';
     }
 
@@ -109,7 +119,7 @@ export class StationsGrid {
     }
 
     private m_stations;
-    public sort:{field:string, desc:boolean} = {field: null, desc: false};
+    public sort: {field: string, desc: boolean} = {field: null, desc: false};
 
 }
 

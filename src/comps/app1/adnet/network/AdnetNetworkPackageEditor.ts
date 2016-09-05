@@ -61,6 +61,12 @@ export class AdnetNetworkPackageEditor {
 
     }
 
+    private processAdnetPackageField(i_function:string) {
+        return (i_adnetPackageModel:AdnetPackageModel) => {
+            return i_adnetPackageModel[i_function]();
+        }
+    }
+
     private filterPackages() {
         if (!this.packages || !this.adnetCustomerModel)
             return;

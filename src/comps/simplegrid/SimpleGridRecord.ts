@@ -32,10 +32,16 @@ export class SimpleGridRecord {
     @Output()
     onDoubleClicked:EventEmitter<any> = new EventEmitter();
 
+    @Output()
+    onClicked:EventEmitter<any> = new EventEmitter();
+
     @HostListener('dblclick', ['$event'])
     doubleClicked(event) {
         this.setSelected();
-        this.onDoubleClicked.emit({target: event.target});
+        this.onDoubleClicked.emit({
+            target: event.target,
+            item: this.item ? this.item : null
+        });
         return true;
     }
 
@@ -44,6 +50,10 @@ export class SimpleGridRecord {
         if (!this.selectable)
             return;
         this.setSelected();
+        this.onClicked.emit({
+            target: event.target,
+            item: this.item ? this.item : null
+        });
         return true;
     }
 

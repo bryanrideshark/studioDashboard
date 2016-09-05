@@ -29,11 +29,11 @@ type stationComponentMode = "map" | "grid";
 
 export class Dashboard {
 
-    constructor(private authService:AuthService,
-                private appStore:AppStore,
-                private appDbActions:AppdbAction,
-                private cd:ChangeDetectorRef,
-                private commBroker:CommBroker) {
+    constructor(private authService: AuthService,
+                private appStore: AppStore,
+                private appDbActions: AppdbAction,
+                private cd: ChangeDetectorRef,
+                private commBroker: CommBroker) {
         this.serverStats = [];
         this.serverStatsCategories = [];
         this.serverAvgResponse = 0;
@@ -53,22 +53,22 @@ export class Dashboard {
     }
 
     @ViewChild('modalStationDetails')
-    modalStationDetails:ModalComponent;
+    modalStationDetails: ModalComponent;
 
-    private selectedStation:StationModel;
-    private screensOnline:string = 'screens online: 0';
-    private screensOffline:string = 'screens offline: 0';
-    private stationComponentMode:stationComponentMode = 'grid';
-    private totalFilteredPlayers:number = 0;
-    private businessNameControl:FormControl = new FormControl();
-    private stations:Map<string, List<StationModel>>;
-    private unsubs:Array<()=>void> = [];
+    private selectedStation: StationModel;
+    private screensOnline: string = 'screens online: 0';
+    private screensOffline: string = 'screens offline: 0';
+    private stationComponentMode: stationComponentMode = 'grid';
+    private totalFilteredPlayers: number = 0;
+    private businessNameControl: FormControl = new FormControl();
+    private stations: Map<string, List<StationModel>>;
+    private unsubs: Array<()=>void> = [];
     private businessStats = {};
     private serverStats;
-    private errorLoadingStations:boolean = false;
+    private errorLoadingStations: boolean = false;
     private serverAvgResponse;
     private serverStatsCategories;
-    private stationsFiltered:List<StationModel>;
+    private stationsFiltered: List<StationModel>;
     private stationsFilteredBy = {
         connection: 'all',
         name: 'all',
@@ -83,7 +83,7 @@ export class Dashboard {
     };
 
     private listenStationsErrors() {
-        this.commBroker.onEvent(Consts.Events().STATIONS_NETWORK_ERROR).subscribe((e:IMessage)=> {
+        this.commBroker.onEvent(Consts.Events().STATIONS_NETWORK_ERROR).subscribe((e: IMessage) => {
             this.errorLoadingStations = true;
         });
     }
@@ -99,7 +99,7 @@ export class Dashboard {
         this.stations = this.appStore.getState().stations;
         this.initStationsFilter();
         this.onStationsFilterSelected('connection', 'all', 1000);
-        unsub = this.appStore.sub((stations:Map<string, List<StationModel>>) => {
+        unsub = this.appStore.sub((stations: Map<string, List<StationModel>>) => {
             this.stations = stations;
             this.initStationsFilter();
             //this.onStationsFilterSelected('connection', 'all', 1000);
@@ -109,7 +109,7 @@ export class Dashboard {
 
         /** business stats **/
         this.businessStats = this.appStore.getState().business.getIn(['businessStats']) || {};
-        unsub = this.appStore.sub((i_businesses:Map<string,any>) => {
+        unsub = this.appStore.sub((i_businesses: Map<string,any>) => {
             this.businessStats = i_businesses;
         }, 'business.businessStats');
         this.unsubs.push(unsub);
@@ -117,13 +117,13 @@ export class Dashboard {
         /** servers response stats **/
         var serversStatus = this.appStore.getState().appdb.getIn(['serversStatus']);
         this.loadServerStats(serversStatus);
-        unsub = this.appStore.sub((serversStatus:Map<string,any>) => {
+        unsub = this.appStore.sub((serversStatus: Map<string,any>) => {
             this.loadServerStats(serversStatus);
         }, 'appdb.serversStatus', false);
         this.unsubs.push(unsub);
     }
 
-    private loadServerStats(serversStatus:Map<string,any>) {
+    private loadServerStats(serversStatus: Map<string,any>) {
         if (!serversStatus)
             return;
         var self = this;
@@ -132,10 +132,10 @@ export class Dashboard {
         this.serverStats = [];
         this.serverStatsCategories = [];
         var servers = ['galaxy'];
-        this.appStore.getState().stations.forEach((v, server)=> {
+        this.appStore.getState().stations.forEach((v, server) => {
             servers.push(server.split('.')[0]);
         });
-        serversStatus.forEach((value, key)=> {
+        serversStatus.forEach((value, key) => {
             // only show servers that user has stations on
             if (servers.indexOf(key) > -1) {
                 self.serverStatsCategories.push(key);
@@ -147,7 +147,7 @@ export class Dashboard {
         this.serverAvgResponse = t / c;
     }
 
-    private onStationComponentSelect(stationComponentMode:stationComponentMode) {
+    private onStationComponentSelect(stationComponentMode: stationComponentMode) {
         this.stationComponentMode = stationComponentMode;
         switch (stationComponentMode) {
             case 'map': {
@@ -160,8 +160,8 @@ export class Dashboard {
     }
 
     private initStationsFilter() {
-        this.stations.forEach((stationList:List<StationModel>, source)=> {
-            stationList.forEach((i_station:StationModel)=> {
+        this.stations.forEach((stationList: List<StationModel>, source) => {
+            stationList.forEach((i_station: StationModel) => {
                 this.stationsFilter['os'].push(i_station.getKey('os'));
                 this.stationsFilter['appVersion'].push(i_station.getKey('appVersion'));
                 this.stationsFilter['airVersion'].push(i_station.getKey('airVersion'));
@@ -180,15 +180,15 @@ export class Dashboard {
 
     private setStationsFiltered() {
 
-        setTimeout(()=> {
+        setTimeout(() => {
             var stationsFiltered = List<StationModel>();
             var screensOnline = 0;
             var screensOffline = 0;
             var score;
             var STATION_SCORE = 5;
 
-            this.stations.forEach((stationList:List<StationModel>, source)=> {
-                stationList.forEach((i_station:StationModel)=> {
+            this.stations.forEach((stationList: List<StationModel>, source) => {
+                stationList.forEach((i_station: StationModel) => {
                     score = 0;
                     var os = i_station.getKey('os');
                     var appVersion = i_station.getKey('appVersion');
@@ -220,7 +220,7 @@ export class Dashboard {
         }, 1000)
     }
 
-    private onStationsFilterSelected(filterType, filterValue, delay:number) {
+    private onStationsFilterSelected(filterType, filterValue, delay: number) {
         if (filterType == 'connection') {
             if (filterValue == 'connected') {
                 filterValue = '1'
@@ -236,31 +236,34 @@ export class Dashboard {
         this.setStationsFiltered();
     }
 
-    private onStationModalOpen(stationId) {
-        this.stationsFiltered.forEach((stationModel:StationModel)=> {
-            if (stationModel.getStationId() == stationId) {
-                this.selectedStation = stationModel;
-                this.modalStationDetails.open('lg');
-            }
-        });
+    private onStationModalOpen(i_stationModel: StationModel) {
+        this.selectedStation = i_stationModel;
+        this.modalStationDetails.open('lg');
+        // this.stationsFiltered.forEach((stationModel:StationModel)=> {
+        //     if (stationModel.getStationId() == stationId) {
+        //         console.log('B ' + stationModel.getStationName() + ' ' + stationModel.getStationId());
+        //         console.log('C ' + stationModel.getStationId() + ' ' + stationId);
+        //         this.selectedStation = stationModel;
+        //         this.modalStationDetails.open('lg');
+        //     }
+        // });
     }
 
     private listenBusinessNameFilter() {
         return this.businessNameControl.valueChanges
             .debounceTime(250)
             .distinctUntilChanged()
-            .subscribe(value=> {
+            .subscribe(value => {
                 this.onStationsFilterSelected('name', value, 100);
             });
     }
 
     private ngOnDestroy() {
-        this.unsubs.forEach((unsub:()=>void)=> {
+        this.unsubs.forEach((unsub: ()=>void) => {
             unsub();
         })
     }
 }
-
 
 // import {createSelector} from 'reselect';
 // const stationSelector = createSelector(function (state) {
