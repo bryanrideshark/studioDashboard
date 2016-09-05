@@ -16,11 +16,14 @@
                         </AdnetNetworkPackageEditor>
                     </div>
                     <div class="col-xs-6">
-                        <AdnetNetworkPackageContent
+                        <AdnetNetworkPackageContent #adnetNetworkPackageContent
                                 [setAdnetPackageModels]="adnetNetworkPackageEditor.selectedAdnetPackageModel">
                         </AdnetNetworkPackageContent>
                     </div>
                     <div class="bgRed col-xs-3">
+                        <AdnetNetworkPackageContentProps
+                            [setAdnetContentModels]="adnetNetworkPackageContent.selectedAdnetContentModel">
+                        </AdnetNetworkPackageContentProps>
                     </div>
                 </div>
                 <div class="row" *ngIf="pairsOutgoing == false || (this.pairsSelected && this.pairsSelected.size == 1)">

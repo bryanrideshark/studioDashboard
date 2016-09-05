@@ -54,7 +54,7 @@ export class AdnetNetworkPackageContent {
     }
 
     private onContentSelect(i_content:AdnetContentModel){
-        console.log(i_content.getName());
+        this.selectedAdnetContentModel = i_content;
     }
 
     private processAdnetPackageField(i_function:string) {
@@ -65,5 +65,6 @@ export class AdnetNetworkPackageContent {
 
     private adnetContents: List<AdnetContentModel>;
     private adnetPackageModels: AdnetPackageModel;
+    public selectedAdnetContentModel: AdnetContentModel;
     public sort: {field: string, desc: boolean} = {field: null, desc: false};
 }
