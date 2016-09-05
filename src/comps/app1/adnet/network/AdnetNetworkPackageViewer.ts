@@ -69,9 +69,6 @@ export class AdnetNetworkPackageViewer {
     private onFilterPackages() {
         if (!this.targets || !this.packages || !this.adnetCustomerModel)
             return;
-
-        // this.packageNames = '';
-
         this.packagesFiltered = List<AdnetPackageModel>();
         var uniqueIds = [];
         if (this.pairOutgoing) {

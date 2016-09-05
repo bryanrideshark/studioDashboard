@@ -30,14 +30,15 @@ export class SimpleList {
     }
 
     private filter: string = '';
-    private m_icon:string;
-    private m_iconCallback: ((a:number,b:any) => string);
+    private m_icon: string;
+    private m_iconCallback: ((a: number, b: any) => string);
     private m_iconInstanceOfFunction: boolean;
     private m_editing: boolean = false;
     private m_iconSelected: string = '';
     private m_iconSelectedIndex: number = -1;
     private m_iconSelectedMode: boolean = false;
     private m_metadata: any = {};
+    // private m_metadata: { [key: string]: ISimpleListItem } = {};
 
     ngAfterViewInit() {
         // if (this.simpleListEditable)
@@ -72,7 +73,7 @@ export class SimpleList {
     }
 
     @Input()
-    set iconCallback(i_iconCallback: ((a:number,b:any) => string)) {
+    set iconCallback(i_iconCallback: ((a: number, b: any) => string)) {
         this.m_iconCallback = i_iconCallback;
     }
 
@@ -145,7 +146,7 @@ export class SimpleList {
             return;
         for (let id in this.m_metadata)
             this.m_metadata[id].selected = true;
-        this.list.forEach((i_item)=> {
+        this.list.forEach((i_item) => {
             this.selected.emit(this.m_metadata);
         })
     }
@@ -154,7 +155,7 @@ export class SimpleList {
         var self = this;
         // this.m_editClickPending = true;
         this.m_iconSelectedIndex = index;
-        setTimeout(()=> {
+        setTimeout(() => {
             let match = _.find(self.m_metadata, (i: any) => i.index == index);
             // console.log(match.item.getBusinessId() + ' ' + match.item.getKey('name'));
             this.iconClicked.emit({
@@ -198,8 +199,14 @@ export class SimpleList {
         this.cd.markForCheck();
     }
 
-    public getSelected() {
-        return this.m_metadata;
+    //public getSelected(): ISimpleListItem | { [key: string]: ISimpleListItem } {
+    public getSelected(): ISimpleListItem {
+        if (this.multiSelect)
+            return this.m_metadata;
+        for (let v in this.m_metadata) {
+            if (this.m_metadata[v].selected == true)
+                return this.m_metadata[v];
+        }
     }
 
     public set selectedIconIndex(i_index) {

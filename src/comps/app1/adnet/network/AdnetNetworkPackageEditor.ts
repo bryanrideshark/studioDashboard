@@ -1,9 +1,10 @@
-import {Component, Input} from "@angular/core";
+import {Component, Input, ViewChild} from "@angular/core";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
 import {List} from "immutable";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 import {AppStore} from "angular2-redux-util";
+import {SimpleList, ISimpleListItem} from "../../../simplelist/Simplelist";
 
 @Component({
     selector: 'AdnetNetworkPackageEditor',
@@ -26,6 +27,9 @@ export class AdnetNetworkPackageEditor {
         this.filterPackages();
     }
 
+    @ViewChild(SimpleList)
+    simpleList:SimpleList;
+
     @Input()
     set setPairOutgoing(i_setPairOutgoing: boolean) {
         this.pairOutgoing = i_setPairOutgoing;
@@ -46,7 +50,8 @@ export class AdnetNetworkPackageEditor {
     private adnetCustomerModel: AdnetCustomerModel;
     private packages: List<AdnetPackageModel>
     private packagesFiltered: List<AdnetPackageModel>
-    private pairOutgoing: boolean
+    private pairOutgoing: boolean;
+    public selectedAdnetPackageModel:AdnetPackageModel;
 
     private onAdd(event) {
 
@@ -66,7 +71,6 @@ export class AdnetNetworkPackageEditor {
         })
     }
 
-
     private getId(i_adnetPackageModel: AdnetPackageModel) {
         if (!i_adnetPackageModel)
             return;
@@ -74,23 +78,13 @@ export class AdnetNetworkPackageEditor {
     }
 
     private onSelecting(event) {
-
+        var orderSelected:ISimpleListItem = this.simpleList.getSelected();
+        this.selectedAdnetPackageModel = orderSelected.item;
     }
 
     private getName(i_adnetPackageModel: AdnetPackageModel) {
         if (i_adnetPackageModel)
             return i_adnetPackageModel.getName();
-        // var self = this;
-        // return (i_adnetPairModel: AdnetPairModel) => {
-        //     var customers: List<AdnetCustomerModel> = self.appStore.getState().adnet.getIn(['customers']);
-        //     if (this.outgoing) {
-        //         var index = this.getIndex(customers, i_adnetPairModel.getToCustomerId())
-        //     } else {
-        //         var index = this.getIndex(customers, i_adnetPairModel.getCustomerId())
-        //     }
-        //     var customer: AdnetCustomerModel = customers.get(index);
-        //     return customer.getName();
-        // }
     }
 
     private ngOnDestroy() {

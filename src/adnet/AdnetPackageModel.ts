@@ -14,6 +14,10 @@ export class AdnetPackageModel extends StoreModel {
         return this.getKey('Value').label;
     }
 
+    public getContent():Array<any> {
+        return this.getKey('Value').contents;
+    }
+
     public getCustomerId() {
         return this.getKey('Value').customerId;
     }

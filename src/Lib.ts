@@ -1,6 +1,6 @@
 /** Common Library **/
 
-import {Injectable} from '@angular/core';
+import {Injectable, ComponentMetadata} from '@angular/core';
 import {createStore, combineReducers, applyMiddleware, compose} from "redux";
 //import * as thunkMiddleware from 'redux-thunk';
 import thunkMiddleware from 'redux-thunk';
@@ -39,6 +39,14 @@ export class Lib {
         if (value === 1 || value === "true" || value === "True" || value === true)
             return 1;
         return value;
+    }
+
+    static GetCompSelector(i_constructor){
+        var annotations = Reflect.getMetadata('annotations', i_constructor);
+        var componentMetadata = annotations.find(annotation => {
+            return (annotation instanceof ComponentMetadata);
+        });
+        return componentMetadata.selector;
     }
 
     static CleanCharForXml(value:any):any {

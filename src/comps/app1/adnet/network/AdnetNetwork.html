@@ -9,13 +9,16 @@
             <tab [tabtitle]="'Packages'">
                 <div class="row" *ngIf="pairsOutgoing == true && this.pairsSelected && this.pairsSelected.size > 1">
                     <div class="col-xs-3">
-                        <AdnetNetworkPackageEditor
+                        <AdnetNetworkPackageEditor #adnetNetworkPackageEditor
                                 [setPairOutgoing]="pairsOutgoing"
                                 [setAdnetPairModels]="pairsSelected"
                                 [setAdnetCustomerModel]="adnetCustomerModel">
                         </AdnetNetworkPackageEditor>
                     </div>
-                    <div class="bgYellow col-xs-6">
+                    <div>
+                        <AdnetNetworkPackageContent
+                                [setAdnetPackageModels]="adnetNetworkPackageEditor.selectedAdnetPackageModel">
+                        </AdnetNetworkPackageContent>
                     </div>
                     <div class="bgRed col-xs-3">
                     </div>

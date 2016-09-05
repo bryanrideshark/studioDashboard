@@ -193,7 +193,7 @@ export class Users {
         this.businessesListFiltered = this.businessesList.filter((businessModel:BusinessModel)=> {
             var businessId = businessModel.getBusinessId();
             return businessSelected[businessId] && businessSelected[businessId].selected;
-        }) as List<any>;
+        }) as List<BusinessModel>;
 
         let arr = [];
         this.businessesListFiltered.forEach((businessModel:BusinessModel)=> {
