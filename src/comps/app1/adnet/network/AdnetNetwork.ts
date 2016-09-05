@@ -7,11 +7,6 @@ import {IPairSelect} from "./AdnetNetworkCustomerSelector";
 @Component({
     selector: 'AdnetNetwork',
     moduleId: __moduleName,
-    styles: [`
-        .bgGreen { background-color: green}
-        .bgYellow { background-color: yellow}
-        .bgRed { background-color: red}
-    `],
     templateUrl: 'AdnetNetwork.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })

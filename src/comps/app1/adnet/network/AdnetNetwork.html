@@ -5,8 +5,9 @@
         </AdnetNetworkCustomerSelector>
     </div>
     <div class="col-xs-10">
-        <tabs style="height: 500px">
+        <tabs>
             <tab [tabtitle]="'Packages'">
+
                 <div class="row" *ngIf="pairsOutgoing == true && this.pairsSelected && this.pairsSelected.size > 1">
                     <div class="col-xs-3">
                         <AdnetNetworkPackageEditor #adnetNetworkPackageEditor
@@ -16,16 +17,23 @@
                         </AdnetNetworkPackageEditor>
                     </div>
                     <div class="col-xs-6">
-                        <AdnetNetworkPackageContent #adnetNetworkPackageContent
-                                [setAdnetPackageModels]="adnetNetworkPackageEditor.selectedAdnetPackageModel">
-                        </AdnetNetworkPackageContent>
+                        <div style="min-height: 300px; overflow-y: scroll; height: 300px">
+                            <AdnetNetworkPackageContent #adnetNetworkPackageContent
+                                                        [setAdnetPackageModels]="adnetNetworkPackageEditor.selectedAdnetPackageModel">
+                            </AdnetNetworkPackageContent>
+                        </div>
+                        <hr/>
+                        <h5>targets</h5>
                     </div>
-                    <div class="bgRed col-xs-3">
-                        <AdnetNetworkPackageContentProps
-                            [setAdnetContentModels]="adnetNetworkPackageContent.selectedAdnetContentModel">
-                        </AdnetNetworkPackageContentProps>
+                    <div class="col-xs-3">
+                        <div class="bgGreen" style="height: 100%">
+                            <AdnetNetworkPackageContentProps
+                                    [setAdnetContentModels]="adnetNetworkPackageContent.selectedAdnetContentModel">
+                            </AdnetNetworkPackageContentProps>
+                        </div>
                     </div>
                 </div>
+
                 <div class="row" *ngIf="pairsOutgoing == false || (this.pairsSelected && this.pairsSelected.size == 1)">
                     <div class="col-xs-9">
                         <AdnetNetworkPackageViewer
