@@ -1,10 +1,11 @@
 import {Component, Input, ChangeDetectionStrategy} from "@angular/core";
 import {FormControl, FormGroup, FormBuilder} from "@angular/forms";
-import * as _ from "lodash";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {AppStore} from "angular2-redux-util";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {AdnetContentModel} from "../../../../adnet/AdnetContentModel";
+import {Lib} from "../../../../Lib";
+import * as _ from "lodash";
 
 @Component({
     selector: 'AdnetNetworkPackageContentProps',
@@ -14,46 +15,55 @@ import {AdnetContentModel} from "../../../../adnet/AdnetContentModel";
     },
     moduleId: __moduleName,
     template: `<div>
-    <form [formGroup]="contGroup">
-        <div class="row">
-            <div class="inner userGeneral">
-                <div class="panel panel-default tallPanel">
-                    <div class="panel-heading">properties
-                        <i style="font-size: 1.8em" class="fa fa-cog pull-right"></i>
+                <form novalidate autocomplete="off" [formGroup]="contGroup">
+                    <div class="row">
+                        <div class="inner userGeneral">
+                            <div class="panel panel-default tallPanel">
+                                <div class="panel-heading">properties
+                                    <i style="font-size: 1.8em" class="fa fa-cog pull-right"></i>
+                                </div>
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        maintain aspect ratio
+                                        <div class="material-switch pull-right">
+                                            <input (change)="onFormChange(customerNetwork2.checked)"
+                                                   [formControl]="contGroup.controls['label']"
+                                                   id="customerNetwork2" #customerNetwork2
+                                                   name="customerNetwork2" type="checkbox"/>
+                                            <label for="customerNetwork2" class="label-primary"></label>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                                            <input [formControl]="contGroup.controls['label']" required
+                                                   pattern="[0-9]|[a-z]+"
+                                                   type="text" class="form-csasontrol" minlength="3" maxlength="15"
+                                                   placeholder="duration">
+                                                   <div *ngIf="!contGroup.controls['label'].valid" class="alert alert-warning alert-dismissible" role="alert">
+                                                        <strong>Warning!</strong> please use valid entry
+                                                   </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-circle-o-notch"></i></span>
+                                            <input type="number" [formControl]="contGroup.controls['label2']" min="0"
+                                                   class="form-control"
+                                                   placeholder="repetitions">
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            maintain aspect ratio
-                            <div class="material-switch pull-right">
-                                <input (change)="onFormChange(customerNetwork2.checked)"
-                                       formControlName="customerNetwork2"
-                                       id="customerNetwork2" #customerNetwork2
-                                       name="customerNetwork2" type="checkbox"/>
-                                <label for="customerNetwork2" class="label-primary"></label>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-                                <input [formControl]="contGroup.controls['label']" min="0" type="number" class="form-control"
-                                       placeholder="duration">
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-circle-o-notch"></i></span>
-                                <input type="number" [formControl]="contGroup.controls['label']" min="0" class="form-control"
-                                       placeholder="repetitions">
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+                </form>
             </div>
-        </div>
-    </form>
-</div>
     `,
     styles: [`
+        input.ng-invalid {
+            border-right: 10px solid red;
+        }
         .material-switch {
             position: relative;
             padding-top: 10px;
@@ -72,8 +82,8 @@ export class AdnetNetworkPackageContentProps {
                 private adnetAction: AdnetActions) {
 
         this.contGroup = fb.group({
-            'label': [''],
-            'customerNetwork2': ['']
+            'label': ['foo'],
+            'label2': ['bar']
         });
         _.forEach(this.contGroup.controls, (value, key: string) => {
             this.formInputs[key] = this.contGroup.controls[key] as FormControl;
@@ -97,9 +107,10 @@ export class AdnetNetworkPackageContentProps {
     }
 
     private updateSore() {
-        // setTimeout(() => {
-        //     this.appStore.dispatch(this.adnetAction.saveCustomerInfo(Lib.CleanCharForXml(this.contGroup.value), this.customerModel.customerId()))
-        // }, 1)
+        setTimeout(() => {
+            console.log(this.contGroup.status + ' ' + JSON.stringify(Lib.CleanCharForXml(this.contGroup.value)));
+            // this.appStore.dispatch(this.adnetAction.saveCustomerInfo(Lib.CleanCharForXml(this.contGroup.value), this.customerModel.customerId()))
+        }, 1)
     }
 
     private renderFormInputs() {
@@ -111,5 +122,7 @@ export class AdnetNetworkPackageContentProps {
         });
     };
 }
+
+
 
 
