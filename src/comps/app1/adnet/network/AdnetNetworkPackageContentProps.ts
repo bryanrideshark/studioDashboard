@@ -38,11 +38,8 @@ import * as _ from "lodash";
                                             <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
                                             <input [formControl]="contGroup.controls['label']" required
                                                    pattern="[0-9]|[a-z]+"
-                                                   type="text" class="form-csasontrol" minlength="3" maxlength="15"
+                                                   type="text" class="form-control" minlength="3" maxlength="15"
                                                    placeholder="duration">
-                                                   <div *ngIf="!contGroup.controls['label'].valid" class="alert alert-warning alert-dismissible" role="alert">
-                                                        <strong>Warning!</strong> please use valid entry
-                                                   </div>
                                         </div>
                                     </li>
                                     <li class="list-group-item">
@@ -83,7 +80,7 @@ export class AdnetNetworkPackageContentProps {
 
         this.contGroup = fb.group({
             'label': ['foo'],
-            'label2': ['bar']
+            'label2': ['123']
         });
         _.forEach(this.contGroup.controls, (value, key: string) => {
             this.formInputs[key] = this.contGroup.controls[key] as FormControl;
@@ -98,7 +95,6 @@ export class AdnetNetworkPackageContentProps {
     }
 
     private adnetContentModels: AdnetContentModel;
-    private customerModel: AdnetCustomerModel;
     private contGroup: FormGroup;
     private formInputs = {};
 
@@ -114,10 +110,10 @@ export class AdnetNetworkPackageContentProps {
     }
 
     private renderFormInputs() {
-        if (!this.customerModel)
+        if (!this.adnetContentModels)
             return;
         _.forEach(this.formInputs, (value, key: string) => {
-            var data = this.customerModel.getKey('Value')[key];
+            var data = this.adnetContentModels.getKey('Value')[key];
             this.formInputs[key].setValue(data)
         });
     };
