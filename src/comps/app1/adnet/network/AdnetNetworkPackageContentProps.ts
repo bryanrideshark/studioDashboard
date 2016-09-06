@@ -2,7 +2,6 @@ import {Component, Input, ChangeDetectionStrategy} from "@angular/core";
 import {FormControl, FormGroup, FormBuilder} from "@angular/forms";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {AppStore} from "angular2-redux-util";
-import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {AdnetContentModel} from "../../../../adnet/AdnetContentModel";
 import {Lib} from "../../../../Lib";
 import * as _ from "lodash";
@@ -14,50 +13,14 @@ import * as _ from "lodash";
         '(input-blur)': 'onFormChange($event)'
     },
     moduleId: __moduleName,
-    template: `<div>
-                <form novalidate autocomplete="off" [formGroup]="contGroup">
-                    <div class="row">
-                        <div class="inner userGeneral">
-                            <div class="panel panel-default tallPanel">
-                                <div class="panel-heading">properties
-                                    <i style="font-size: 1.8em" class="fa fa-cog pull-right"></i>
-                                </div>
-                                <ul class="list-group">
-                                    <li class="list-group-item">
-                                        maintain aspect ratio
-                                        <div class="material-switch pull-right">
-                                            <input (change)="onFormChange(customerNetwork2.checked)"
-                                                   [formControl]="contGroup.controls['label']"
-                                                   id="customerNetwork2" #customerNetwork2
-                                                   name="customerNetwork2" type="checkbox"/>
-                                            <label for="customerNetwork2" class="label-primary"></label>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-                                            <input [formControl]="contGroup.controls['label']" required
-                                                   pattern="[0-9]|[a-z]+"
-                                                   type="text" class="form-control" minlength="3" maxlength="15"
-                                                   placeholder="duration">
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-circle-o-notch"></i></span>
-                                            <input type="number" [formControl]="contGroup.controls['label2']" min="0"
-                                                   class="form-control"
-                                                   placeholder="repetitions">
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-    `,
+    templateUrl: 'AdnetNetworkPackageContentProps.html',
     styles: [`
+        .list-group-item {
+            background-color: #f5f5f5;
+        }
+        .greyish {
+            background-color: #f5f5f5;
+        }
         input.ng-invalid {
             border-right: 10px solid red;
         }
@@ -79,8 +42,9 @@ export class AdnetNetworkPackageContentProps {
                 private adnetAction: AdnetActions) {
 
         this.contGroup = fb.group({
-            'label': ['foo'],
-            'label2': ['123']
+            'maintainAspectRatio': [''],
+            'duration': ['10'],
+            'reparationsPerHour': ['60']
         });
         _.forEach(this.contGroup.controls, (value, key: string) => {
             this.formInputs[key] = this.contGroup.controls[key] as FormControl;
@@ -91,7 +55,7 @@ export class AdnetNetworkPackageContentProps {
     set setAdnetContentModels(i_adnetContentModels: AdnetContentModel) {
         this.adnetContentModels = i_adnetContentModels;
         if (this.adnetContentModels)
-            console.log(this.adnetContentModels.getName());
+            this.renderFormInputs();
     }
 
     private adnetContentModels: AdnetContentModel;
@@ -118,7 +82,3 @@ export class AdnetNetworkPackageContentProps {
         });
     };
 }
-
-
-
-
