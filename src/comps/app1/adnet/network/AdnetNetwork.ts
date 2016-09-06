@@ -4,6 +4,12 @@ import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
 import {List} from 'immutable';
 import {IPairSelect} from "./AdnetNetworkCustomerSelector";
 
+export enum AdnetNetworkPropSelector {
+    CONTENT,
+    PACKAGE,
+    RESOURCE
+}
+
 @Component({
     selector: 'AdnetNetwork',
     moduleId: __moduleName,
@@ -20,11 +26,16 @@ export class AdnetNetwork {
             this.adnetCustomerId = this.adnetCustomerModel.customerId();
     }
 
+    private adnetNetworkPropSelector = AdnetNetworkPropSelector;
+    private propSelector = AdnetNetworkPropSelector.CONTENT;
     private adnetCustomerId: number = -1;
     private adnetCustomerModel: AdnetCustomerModel;
     private pairsSelected: List<AdnetPairModel>;
     private pairsOutgoing: boolean;
 
+    private onPropSelected(event){
+        this.propSelector = event;
+    }
     private onPairSelected(event: IPairSelect) {
         this.pairsSelected = event.pairs;
         this.pairsOutgoing = event.pairsOutgoing;

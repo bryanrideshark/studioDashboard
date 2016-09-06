@@ -1,0 +1,19 @@
+.list-group-item {
+    background-color: #f5f5f5;
+}
+.greyish {
+    background-color: #f5f5f5;
+}
+input.ng-invalid {
+    border-right: 10px solid red;
+}
+.material-switch {
+    position: relative;
+    padding-top: 10px;
+}
+.input-group {
+    padding-top: 10px;
+}
+i {
+    width: 20px;
+}

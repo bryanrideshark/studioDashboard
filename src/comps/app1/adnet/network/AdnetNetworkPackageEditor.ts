@@ -1,10 +1,11 @@
-import {Component, Input, ViewChild} from "@angular/core";
+import {Component, Input, ViewChild, EventEmitter, Output} from "@angular/core";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
 import {List} from "immutable";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 import {AppStore} from "angular2-redux-util";
 import {SimpleList, ISimpleListItem} from "../../../simplelist/Simplelist";
+import {AdnetNetworkPropSelector} from "./AdnetNetwork";
 
 @Component({
     selector: 'AdnetNetworkPackageEditor',
@@ -46,6 +47,9 @@ export class AdnetNetworkPackageEditor {
     @Input()
     setAdnetPairModels: List<AdnetPairModel>
 
+    @Output()
+    onPropSelected:EventEmitter<number> = new EventEmitter<number>();
+
     private unsub: Function;
     private adnetCustomerModel: AdnetCustomerModel;
     private packages: List<AdnetPackageModel>
@@ -86,6 +90,8 @@ export class AdnetNetworkPackageEditor {
     private onSelecting(event) {
         var orderSelected:ISimpleListItem = this.simpleList.getSelected() as ISimpleListItem;
         this.selectedAdnetPackageModel = orderSelected.item;
+        this.onPropSelected.emit(AdnetNetworkPropSelector.PACKAGE)
+
     }
 
     private getName(i_adnetPackageModel: AdnetPackageModel) {

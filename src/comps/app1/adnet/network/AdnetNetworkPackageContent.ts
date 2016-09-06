@@ -1,8 +1,9 @@
-import {Component, ChangeDetectionStrategy, Input, ViewChild} from "@angular/core";
+import {Component, ChangeDetectionStrategy, Input, ViewChild, EventEmitter, Output} from "@angular/core";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 import {AdnetContentModel} from "../../../../adnet/AdnetContentModel";
 import {List} from 'immutable';
 import {SimpleGridTable} from "../../../simplegrid/SimpleGridTable";
+import {AdnetNetworkPropSelector} from "./AdnetNetwork";
 
 @Component({
     selector: 'AdnetNetworkPackageContent',
@@ -53,8 +54,12 @@ export class AdnetNetworkPackageContent {
         this.simpleGridTable.deselect();
     }
 
+    @Output()
+    onPropSelected:EventEmitter<number> = new EventEmitter<number>();
+
     private onContentSelect(i_content:AdnetContentModel){
         this.selectedAdnetContentModel = i_content;
+        this.onPropSelected.emit(AdnetNetworkPropSelector.CONTENT)
     }
 
     private processAdnetPackageField(i_function:string) {

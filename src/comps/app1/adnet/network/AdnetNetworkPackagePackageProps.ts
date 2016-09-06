@@ -8,13 +8,13 @@ import * as _ from "lodash";
 
 @Component({
     moduleId: __moduleName,
-    selector: 'AdnetNetworkPackageContentProps',
+    selector: 'AdnetNetworkPackagePackageProps',
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {'(input-blur)': 'onFormChange($event)'},
-    templateUrl: 'AdnetNetworkPackageContentProps.html',
+    templateUrl: 'AdnetNetworkPackagePackageProps.html',
     styleUrls: ['AdnetNetworkPackageCommonStyles.css']
 })
-export class AdnetNetworkPackageContentProps {
+export class AdnetNetworkPackagePackageProps {
     constructor(private fb: FormBuilder, private appStore: AppStore, private adnetAction: AdnetActions) {
 
         this.contGroup = fb.group({

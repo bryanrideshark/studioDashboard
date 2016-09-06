@@ -7,18 +7,19 @@
     <div class="col-xs-10">
         <tabs>
             <tab [tabtitle]="'Packages'">
-
                 <div class="row" *ngIf="pairsOutgoing == true && this.pairsSelected && this.pairsSelected.size > 1">
                     <div class="col-xs-3">
                         <AdnetNetworkPackageEditor #adnetNetworkPackageEditor
-                                [setPairOutgoing]="pairsOutgoing"
-                                [setAdnetPairModels]="pairsSelected"
-                                [setAdnetCustomerModel]="adnetCustomerModel">
+                                                   (onPropSelected)="onPropSelected($event)"
+                                                   [setPairOutgoing]="pairsOutgoing"
+                                                   [setAdnetPairModels]="pairsSelected"
+                                                   [setAdnetCustomerModel]="adnetCustomerModel">
                         </AdnetNetworkPackageEditor>
                     </div>
                     <div class="col-xs-6">
                         <div style="min-height: 300px; overflow-y: scroll; height: 300px">
                             <AdnetNetworkPackageContent #adnetNetworkPackageContent
+                                                        (onPropSelected)="onPropSelected($event)"
                                                         [setAdnetPackageModels]="adnetNetworkPackageEditor.selectedAdnetPackageModel">
                             </AdnetNetworkPackageContent>
                         </div>
@@ -26,10 +27,19 @@
                         <h5>targets</h5>
                     </div>
                     <div class="col-xs-3">
-                        <div class="bgGreen" style="height: 100%">
-                            <AdnetNetworkPackageContentProps
-                                    [setAdnetContentModels]="adnetNetworkPackageContent.selectedAdnetContentModel">
-                            </AdnetNetworkPackageContentProps>
+                        <div style="height: 100%">
+                            <div [ngSwitch]="propSelector">
+                                <div *ngSwitchCase="adnetNetworkPropSelector.CONTENT">
+                                    <AdnetNetworkPackageContentProps
+                                            [setAdnetContentModels]="adnetNetworkPackageContent.selectedAdnetContentModel">
+                                    </AdnetNetworkPackageContentProps>
+                                </div>
+                                <div *ngSwitchCase="adnetNetworkPropSelector.PACKAGE">
+                                    <AdnetNetworkPackagePackageProps
+                                            [setAdnetContentModels]="adnetNetworkPackageContent.selectedAdnetContentModel">
+                                    </AdnetNetworkPackagePackageProps>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
