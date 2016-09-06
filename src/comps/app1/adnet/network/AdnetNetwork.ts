@@ -10,6 +10,10 @@ export enum AdnetNetworkPropSelector {
     RESOURCE
 }
 
+export interface IAdNetworkPropSelectedEvent {
+    selected:AdnetNetworkPropSelector
+}
+
 @Component({
     selector: 'AdnetNetwork',
     moduleId: __moduleName,
@@ -27,15 +31,16 @@ export class AdnetNetwork {
     }
 
     private adnetNetworkPropSelector = AdnetNetworkPropSelector;
-    private propSelector = AdnetNetworkPropSelector.CONTENT;
+    private propSelector:AdnetNetworkPropSelector = AdnetNetworkPropSelector.CONTENT;
     private adnetCustomerId: number = -1;
     private adnetCustomerModel: AdnetCustomerModel;
     private pairsSelected: List<AdnetPairModel>;
     private pairsOutgoing: boolean;
 
-    private onPropSelected(event){
-        this.propSelector = event;
+    private onPropSelected(event:IAdNetworkPropSelectedEvent){
+        this.propSelector = event.selected;
     }
+
     private onPairSelected(event: IPairSelect) {
         this.pairsSelected = event.pairs;
         this.pairsOutgoing = event.pairsOutgoing;

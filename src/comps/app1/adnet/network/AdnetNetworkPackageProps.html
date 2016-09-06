@@ -6,8 +6,18 @@
                     <div class="panel-heading">package properties
                         <i style="font-size: 1.8em" class="fa fa-cog pull-right"></i>
                     </div>
-                    <div *ngIf="adnetContentModels">
+                    <div *ngIf="adnetPackageModels">
+                        {{packageName}}
                         <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                                    <input [formControl]="contGroup.controls['duration']" required
+                                           type="text" pattern="^[a-zA-Z0-9_. ]*$" class="form-control" min="3" max="60"
+                                           placeholder="name">
+                                </div>
+                            </li>
+
                             <li class="list-group-item">
                                 maintain aspect ratio
                                 <div class="material-switch pull-right">

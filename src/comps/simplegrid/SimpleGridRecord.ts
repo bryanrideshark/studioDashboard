@@ -71,7 +71,7 @@ export class SimpleGridRecord {
 
     ngOnInit() {
         var selected:SimpleGridRecord = this.m_table.getSelected();
-        // even though the index is same as this, the Immutable data model
+        // even though the index is same as this, the Immutable data propSelectedModel
         // is out of sync inside table, so we need to update to latest version of this
         if (selected && selected.m_index == this.index)
             this.setSelected();

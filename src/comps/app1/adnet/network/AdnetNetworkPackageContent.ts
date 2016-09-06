@@ -3,7 +3,7 @@ import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 import {AdnetContentModel} from "../../../../adnet/AdnetContentModel";
 import {List} from 'immutable';
 import {SimpleGridTable} from "../../../simplegrid/SimpleGridTable";
-import {AdnetNetworkPropSelector} from "./AdnetNetwork";
+import {AdnetNetworkPropSelector, IAdNetworkPropSelectedEvent} from "./AdnetNetwork";
 
 @Component({
     selector: 'AdnetNetworkPackageContent',
@@ -55,11 +55,13 @@ export class AdnetNetworkPackageContent {
     }
 
     @Output()
-    onPropSelected:EventEmitter<number> = new EventEmitter<number>();
+    onPropSelected:EventEmitter<IAdNetworkPropSelectedEvent> = new EventEmitter<IAdNetworkPropSelectedEvent>();
 
     private onContentSelect(i_content:AdnetContentModel){
         this.selectedAdnetContentModel = i_content;
-        this.onPropSelected.emit(AdnetNetworkPropSelector.CONTENT)
+        this.onPropSelected.emit({
+            selected: AdnetNetworkPropSelector.CONTENT
+        })
     }
 
     private processAdnetPackageField(i_function:string) {

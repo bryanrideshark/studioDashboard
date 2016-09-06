@@ -5,7 +5,7 @@ import {List} from "immutable";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 import {AppStore} from "angular2-redux-util";
 import {SimpleList, ISimpleListItem} from "../../../simplelist/Simplelist";
-import {AdnetNetworkPropSelector} from "./AdnetNetwork";
+import {AdnetNetworkPropSelector, IAdNetworkPropSelectedEvent} from "./AdnetNetwork";
 
 @Component({
     selector: 'AdnetNetworkPackageEditor',
@@ -48,7 +48,7 @@ export class AdnetNetworkPackageEditor {
     setAdnetPairModels: List<AdnetPairModel>
 
     @Output()
-    onPropSelected:EventEmitter<number> = new EventEmitter<number>();
+    onPropSelected:EventEmitter<IAdNetworkPropSelectedEvent> = new EventEmitter<IAdNetworkPropSelectedEvent>();
 
     private unsub: Function;
     private adnetCustomerModel: AdnetCustomerModel;
@@ -90,7 +90,9 @@ export class AdnetNetworkPackageEditor {
     private onSelecting(event) {
         var orderSelected:ISimpleListItem = this.simpleList.getSelected() as ISimpleListItem;
         this.selectedAdnetPackageModel = orderSelected.item;
-        this.onPropSelected.emit(AdnetNetworkPropSelector.PACKAGE)
+        this.onPropSelected.emit({
+            selected: AdnetNetworkPropSelector.PACKAGE
+        })
 
     }
 

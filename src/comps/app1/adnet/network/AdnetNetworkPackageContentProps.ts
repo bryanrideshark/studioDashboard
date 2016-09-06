@@ -27,6 +27,7 @@ export class AdnetNetworkPackageContentProps {
         })
     }
 
+    //todo: make sure that when we update ContentModel, the id is unique across all packages, otherwise we may need to pass in Package id as well
     @Input()
     set setAdnetContentModels(i_adnetContentModels: AdnetContentModel) {
         this.adnetContentModels = i_adnetContentModels;

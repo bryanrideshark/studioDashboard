@@ -35,9 +35,11 @@
                                     </AdnetNetworkPackageContentProps>
                                 </div>
                                 <div *ngSwitchCase="adnetNetworkPropSelector.PACKAGE">
-                                    <AdnetNetworkPackagePackageProps
-                                            [setAdnetContentModels]="adnetNetworkPackageContent.selectedAdnetContentModel">
-                                    </AdnetNetworkPackagePackageProps>
+                                    <AdnetNetworkPackageProps
+                                            [setAdnetPackageModels]="adnetNetworkPackageEditor.selectedAdnetPackageModel">
+                                    </AdnetNetworkPackageProps>
+                                </div>
+                                <div *ngSwitchCase="adnetNetworkPropSelector.RESOURCE">
                                 </div>
                             </div>
                         </div>
