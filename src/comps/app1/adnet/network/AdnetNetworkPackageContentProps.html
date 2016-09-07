@@ -6,9 +6,9 @@
                     <div class="panel-heading">content properties
                         <i style="font-size: 1.8em" class="fa fa-cog pull-right"></i>
                     </div>
-                    <div *ngIf="adnetContentModels">
+                    <div style="padding-top: 5px" *ngIf="adnetContentModels">
                         <ul class="list-group">
-                            <li class="list-group-item">
+                            <li style="padding-bottom: 5px" class="list-group-item">
                                 maintain aspect ratio
                                 <div class="material-switch pull-right">
                                     <input (change)="onFormChange(customerNetwork2.checked)"
@@ -20,7 +20,7 @@
                             </li>
                             <li class="list-group-item">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                                    <span class="input-group-addon">duration</span>
                                     <input [formControl]="contGroup.controls['duration']" required
                                            type="number" class="form-control" min="3" max="60"
                                            placeholder="duration">
@@ -28,7 +28,7 @@
                             </li>
                             <li class="list-group-item">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-circle-o-notch"></i></span>
+                                    <span class="input-group-addon">repetition</span>
                                     <input type="number" [formControl]="contGroup.controls['reparationsPerHour']"
                                            type="number" class="form-control" min="1" max="1200"
                                            class="form-control"

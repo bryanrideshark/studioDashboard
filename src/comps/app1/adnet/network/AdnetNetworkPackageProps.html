@@ -7,19 +7,111 @@
                         <i style="font-size: 1.8em" class="fa fa-cog pull-right"></i>
                     </div>
                     <div *ngIf="adnetPackageModels">
-                        {{packageName}}
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-                                    <input [formControl]="contGroup.controls['duration']" required
-                                           type="text" pattern="^[a-zA-Z0-9_. ]*$" class="form-control" min="3" max="60"
-                                           placeholder="name">
+                        <li class="list-group-item">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                     name</span>
+                                <input [formControl]="contGroup.controls['duration']" required
+                                       type="text" pattern="^[a-zA-Z0-9_. ]*$" class="form-control" min="3" max="60"
+                                       placeholder="name">
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    mode</span>
+                                <select [formControl]="contGroup.controls['duration']" class="form-control">
+                                    <option>aaa</option>
+                                    <option>aaa</option>
+                                    <option>aaa</option>
+                                    <!--<option [value]="rate.getId()" [selected]="getSelectedRate(rate)" *ngFor="let rate of filteredRates">{{rate.getName()}}</option>-->
+                                    <!--<option *ngFor="let item of stationsFilter['os'] | sortBy">{{item}}</option>-->
+                                </select>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    channel</span>
+                                <select [formControl]="contGroup.controls['duration']" class="form-control">
+                                    <option>aaa</option>
+                                    <option>aaa</option>
+                                    <option>aaa</option>
+                                    <!--<option [value]="rate.getId()" [selected]="getSelectedRate(rate)" *ngFor="let rate of filteredRates">{{rate.getName()}}</option>-->
+                                    <!--<option *ngFor="let item of stationsFilter['os'] | sortBy">{{item}}</option>-->
+                                </select>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    start</span>
+                                <select [formControl]="contGroup.controls['duration']" class="form-control">
+                                    <option>aaa</option>
+                                    <option>aaa</option>
+                                    <option>aaa</option>
+                                    <!--<option [value]="rate.getId()" [selected]="getSelectedRate(rate)" *ngFor="let rate of filteredRates">{{rate.getName()}}</option>-->
+                                    <!--<option *ngFor="let item of stationsFilter['os'] | sortBy">{{item}}</option>-->
+                                </select>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    end</span>
+                                <select [formControl]="contGroup.controls['duration']" class="form-control">
+                                    <option>aaa</option>
+                                    <option>aaa</option>
+                                    <option>aaa</option>
+                                    <!--<option [value]="rate.getId()" [selected]="getSelectedRate(rate)" *ngFor="let rate of filteredRates">{{rate.getName()}}</option>-->
+                                    <!--<option *ngFor="let item of stationsFilter['os'] | sortBy">{{item}}</option>-->
+                                </select>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    from</span>
+                                <select [formControl]="contGroup.controls['duration']" class="form-control">
+                                    <option>aaa</option>
+                                    <option>aaa</option>
+                                    <option>aaa</option>
+                                    <!--<option [value]="rate.getId()" [selected]="getSelectedRate(rate)" *ngFor="let rate of filteredRates">{{rate.getName()}}</option>-->
+                                    <!--<option *ngFor="let item of stationsFilter['os'] | sortBy">{{item}}</option>-->
+                                </select>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    to</span>
+                                <select [formControl]="contGroup.controls['duration']" class="form-control">
+                                    <option>aaa</option>
+                                    <option>aaa</option>
+                                    <option>aaa</option>
+                                    <!--<option [value]="rate.getId()" [selected]="getSelectedRate(rate)" *ngFor="let rate of filteredRates">{{rate.getName()}}</option>-->
+                                    <!--<option *ngFor="let item of stationsFilter['os'] | sortBy">{{item}}</option>-->
+                                </select>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="" style="width: 100%">
+                                <div class="centerDays input-group" style="width: 245px">
+                                    <div *ngFor="let item of ['MON','TUE','WED','THR','FRI','SAT','SUN']">
+                                        <div style="width: 30px" class="pull-left noSpace">
+                                            <label style="font-size: 0.7em" class="noSpace">{{item}}</label>
+                                            <br/>
+                                            <Input (click)="onClick()" #checkInputs type="checkbox"
+                                                   [checked]="item" value="{{item}}" class="noSpace pull-left" style="margin-right: 2px">
+                                        </div>
+                                    </div>
                                 </div>
-                            </li>
-
+                            </div>
+                        </li>
+                        <ul class="list-group">
+                            <p></p>
                             <li class="list-group-item">
-                                maintain aspect ratio
+                                associate siblings
                                 <div class="material-switch pull-right">
                                     <input (change)="onFormChange(customerNetwork2.checked)"
                                            [formControl]="contGroup.controls['maintainAspectRatio']"
@@ -27,23 +119,9 @@
                                            name="customerNetwork2" type="checkbox"/>
                                     <label for="customerNetwork2" class="label-primary"></label>
                                 </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-                                    <input [formControl]="contGroup.controls['duration']" required
-                                           type="number" class="form-control" min="3" max="60"
-                                           placeholder="duration">
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-circle-o-notch"></i></span>
-                                    <input type="number" [formControl]="contGroup.controls['reparationsPerHour']"
-                                           type="number" class="form-control" min="1" max="1200"
-                                           class="form-control"
-                                           placeholder="repetitions">
-                                </div>
+                                <input style="margin-top: 10px" [formControl]="contGroup.controls['duration']"
+                                       type="text" class="form-control"
+                                       placeholder="sibling search string">
                             </li>
                         </ul>
                     </div>

@@ -34,12 +34,6 @@ export class AdnetNetworkPackageProps {
         if (!this.adnetPackageModels)
             return;
         this.packageName =  this.adnetPackageModels.getName();
-        // var contents = this.adnetPackageModels.getContents();
-        // this.adnetContents = List<AdnetContentModel>()
-        // for (let content of contents) {
-        //     var adnetContentModel: AdnetContentModel = new AdnetContentModel(content);
-        //     this.adnetContents = this.adnetContents.push(adnetContentModel);
-        // }
         // this.simpleGridTable.deselect();
     }
 
