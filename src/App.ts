@@ -13,7 +13,7 @@
  ****************************************************************/
 
 import "zone.js/dist/zone";
-import "zone.js/dist/long-stack-trace-zone";
+//import "zone.js/dist/long-stack-trace-zone"; // removed 9-7-2016
 import "reflect-metadata";
 import {Router} from "@angular/router";
 import {routing} from "./App.routes";

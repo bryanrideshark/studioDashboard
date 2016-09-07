@@ -67,11 +67,27 @@ export class AdnetNetworkPackageProps {
         }, 1)
     }
 
+    private getOptionField(key, index){
+        if (!this.adnetPackageModels)
+            return;
+        var value = this.adnetPackageModels.getKey('Value')[key];
+        if (value==index)
+            return 'selected'
+        return '';
+
+    }
+
     private renderFormInputs() {
         if (!this.adnetPackageModels)
             return;
         _.forEach(this.formInputs, (value, key: string) => {
-            var data = this.adnetPackageModels.getKey('Value')[key];
+            var data;
+            if (key=='daysMask'){
+                data = this.adnetPackageModels.getKey('Value')[key];
+                data = Lib.GetAccessMask(data)
+            } else {
+                data = this.adnetPackageModels.getKey('Value')[key];
+            }
             this.formInputs[key].setValue(data)
         });
     };
