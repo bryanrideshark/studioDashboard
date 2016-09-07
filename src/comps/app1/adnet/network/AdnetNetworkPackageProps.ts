@@ -7,7 +7,7 @@ import {Lib} from "../../../../Lib";
 import * as _ from "lodash";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 import * as moment_ from 'moment';
-export const moment =  moment_["default"];
+export const moment = moment_["default"];
 
 
 @Component({
@@ -88,17 +88,42 @@ export class AdnetNetworkPackageProps {
     private renderFormInputs() {
         if (!this.adnetPackageModels)
             return;
-        setTimeout(()=>{})
+
+        const processDate = (key) => {
+            var data = this.adnetPackageModels.getKey('Value')[key];
+            if (data) {
+                var epoc = data.match(/Date\((.*)\)/)
+                if (epoc[1]) {
+                    var date = epoc[1].split('+')[0]
+                    var time = epoc[1].split('+')[1]
+                    //todo: workaround, adding one day since off 1 day from Alon, see why???
+                    data = moment(Number(date)).add(1,'day');
+                    return moment(data).format('YYYY-MM-DD');
+                }
+            } else {
+                return '';
+            }
+        }
         _.forEach(this.formInputs, (value, key: string) => {
             var data;
-            // if (key=='daysMask'){
-            //     data = this.adnetPackageModels.getKey('Value')[key];
-            //     data = Lib.GetAccessMask(data)
-            // } else {
-            //     data = this.adnetPackageModels.getKey('Value')[key];
-            // }
-            data = this.adnetPackageModels.getKey('Value')[key];
+            switch (key) {
+                case 'daysMask': {
+                    data = this.adnetPackageModels.getKey('Value')[key];
+                    data = Lib.GetAccessMask(data)
+                    break;
+                }
+                case 'startDate': {
+                }
+                case 'endDate': {
+                    data = processDate(key);
+                    break;
+                }
+                default: {
+                    data = this.adnetPackageModels.getKey('Value')[key];
+                }
+            }
             this.formInputs[key].setValue(data)
         });
     };
 }
+
