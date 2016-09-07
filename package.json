@@ -59,7 +59,7 @@
     "json-loader": "^0.5.3",
     "live-server": "^0.9.0",
     "lodash": "^3.10.1",
-    "moment": "^2.11.2",
+    "moment": "^2.14.1",
     "ng2-bootstrap": "^1.1.1",
     "ng2-highcharts": "^0.2.4",
     "npm": "^3.5.3",

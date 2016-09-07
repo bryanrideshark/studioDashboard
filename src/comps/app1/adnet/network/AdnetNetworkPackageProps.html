@@ -31,86 +31,87 @@
                                     </select>
                                 </div>
                             </li>
+                            <li class="list-group-item">
+                                <div class="input-group">
+                                <span class="input-group-addon">
+                                    channel</span>
+                                    <select [formControl]="contGroup.controls['channel']" class="form-control">
+                                        <option *ngFor="let item of ['CH 0','CH 1', 'CH 2', 'CH 3'];
+                                                let index=index"
+                                                [selected]="getOptionField('channel',index)">
+                                            {{item}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </li>
+                            <li class="list-group-item" style="overflow-x: hidden">
+                                <div class="input-group">
+                            <span class="input-group-addon">
+                            start</span>
+                                    <input [formControl]="contGroup.controls['startDate']" required type="date"
+                                           class="form-control">
+                                </div>
+                            </li>
+                            <li class="list-group-item" style="overflow-x: hidden">
+                                <div class="input-group">
+                            <span class="input-group-addon">
+                            end</span>
+                                    <input [formControl]="contGroup.controls['endDate']" required type="date"
+                                           class="form-control">
+                                </div>
+                            </li>
                             <!--<li class="list-group-item">-->
-                                <!--<div class="input-group">-->
-                                <!--<span class="input-group-addon">-->
-                                    <!--channel</span>-->
-                                    <!--<select [formControl]="contGroup.controls['channel']" class="form-control">-->
-                                        <!--<option>CH 1</option>-->
-                                        <!--<option>CH 2</option>-->
-                                        <!--<option>CH 3</option>-->
-                                        <!--<option>CH 4</option>-->
-                                    <!--</select>-->
-                                <!--</div>-->
-                            <!--</li>-->
-                            <!--<li class="list-group-item" style="overflow-x: hidden">-->
-                                <!--<div class="input-group">-->
-                                <!--<span class="input-group-addon">-->
-                                    <!--start</span>-->
-                                    <!--<input [formControl]="contGroup.controls['startDate']" required type="date"-->
-                                           <!--class="form-control">-->
-                                <!--</div>-->
-                            <!--</li>-->
-                            <!--<li class="list-group-item" style="overflow-x: hidden">-->
-                                <!--<div class="input-group">-->
-                                <!--<span class="input-group-addon">-->
-                                    <!--end</span>-->
-                                    <!--<input [formControl]="contGroup.controls['endDate']" required type="date"-->
-                                           <!--class="form-control">-->
-                                <!--</div>-->
-                            <!--</li>-->
-                            <!--<li class="list-group-item">-->
-                                <!--<div class="input-group">-->
-                                <!--<span class="input-group-addon">-->
-                                    <!--from</span>-->
-                                    <!--<select [formControl]="contGroup.controls['hourStart']" class="form-control">-->
-                                        <!--<option *ngFor="let hour of hours">-->
-                                            <!--{{hour}}:00-->
-                                        <!--</option>-->
+                            <!--<div class="input-group">-->
+                            <!--<span class="input-group-addon">-->
+                            <!--from</span>-->
+                            <!--<select [formControl]="contGroup.controls['hourStart']" class="form-control">-->
+                            <!--<option *ngFor="let hour of hours">-->
+                            <!--{{hour}}:00-->
+                            <!--</option>-->
 
-                                    <!--</select>-->
-                                <!--</div>-->
+                            <!--</select>-->
+                            <!--</div>-->
                             <!--</li>-->
                             <!--<li class="list-group-item">-->
-                                <!--<div class="input-group">-->
-                                <!--<span class="input-group-addon">-->
-                                    <!--to</span>-->
-                                    <!--<select [formControl]="contGroup.controls['hourEnd']" class="form-control">-->
-                                        <!--<option *ngFor="let hour of hours">-->
-                                            <!--{{hour}}:00-->
-                                        <!--</option>-->
-                                    <!--</select>-->
-                                <!--</div>-->
+                            <!--<div class="input-group">-->
+                            <!--<span class="input-group-addon">-->
+                            <!--to</span>-->
+                            <!--<select [formControl]="contGroup.controls['hourEnd']" class="form-control">-->
+                            <!--<option *ngFor="let hour of hours">-->
+                            <!--{{hour}}:00-->
+                            <!--</option>-->
+                            <!--</select>-->
+                            <!--</div>-->
                             <!--</li>-->
                             <!--<li class="list-group-item">-->
-                                <!--<div class="" style="width: 100%">-->
-                                    <!--<div class="centerDays input-group" style="width: 245px">-->
-                                        <!--<div *ngFor="let item of ['MON','TUE','WED','THR','FRI','SAT','SUN']">-->
-                                            <!--<div style="width: 30px" class="pull-left noSpace">-->
-                                                <!--<label style="font-size: 0.7em" class="noSpace">{{item}}</label>-->
-                                                <!--<br/>-->
-                                                <!--<input (click)="onClick()" type="checkbox"-->
-                                                       <!--[formControl]="contGroup.controls['daysMask']" required-->
-                                                       <!--[checked]="item" value="{{item}}" class="noSpace pull-left"-->
-                                                       <!--style="margin-right: 2px">-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                <!--</div>-->
+                            <!--<div class="" style="width: 100%">-->
+                            <!--<div class="centerDays input-group" style="width: 245px">-->
+                            <!--<div *ngFor="let item of ['MON','TUE','WED','THR','FRI','SAT','SUN']">-->
+                            <!--<div style="width: 30px" class="pull-left noSpace">-->
+                            <!--<label style="font-size: 0.7em" class="noSpace">{{item}}</label>-->
+                            <!--<br/>-->
+                            <!--<input (click)="onClick()" type="checkbox"-->
+                            <!--[formControl]="contGroup.controls['daysMask']" required-->
+                            <!--[checked]="item" value="{{item}}" class="noSpace pull-left"-->
+                            <!--style="margin-right: 2px">-->
+                            <!--</div>-->
+                            <!--</div>-->
+                            <!--</div>-->
+                            <!--</div>-->
                             <!--</li>-->
                             <!--<p></p>-->
                             <!--<li class="list-group-item">-->
-                                <!--associate siblings-->
-                                <!--<div class="material-switch pull-right">-->
-                                    <!--<input (change)="onFormChange(customerNetwork2.checked)"-->
-                                           <!--[formControl]="contGroup.controls['autoAddSiblings']"-->
-                                           <!--id="customerNetwork2" #customerNetwork2-->
-                                           <!--name="customerNetwork2" type="checkbox"/>-->
-                                    <!--<label for="customerNetwork2" class="label-primary"></label>-->
-                                <!--</div>-->
-                                <!--<input style="margin-top: 10px" [formControl]="contGroup.controls['siblingsKey']"-->
-                                       <!--type="text" class="form-control"-->
-                                       <!--placeholder="sibling search string">-->
+                            <!--associate siblings-->
+                            <!--<div class="material-switch pull-right">-->
+                            <!--<input (change)="onFormChange(customerNetwork2.checked)"-->
+                            <!--[formControl]="contGroup.controls['autoAddSiblings']"-->
+                            <!--id="customerNetwork2" #customerNetwork2-->
+                            <!--name="customerNetwork2" type="checkbox"/>-->
+                            <!--<label for="customerNetwork2" class="label-primary"></label>-->
+                            <!--</div>-->
+                            <!--<input style="margin-top: 10px" [formControl]="contGroup.controls['siblingsKey']"-->
+                            <!--type="text" class="form-control"-->
+                            <!--placeholder="sibling search string">-->
                             <!--</li>-->
                         </ul>
                     </div>

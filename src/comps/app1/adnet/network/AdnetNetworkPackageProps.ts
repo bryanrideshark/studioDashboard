@@ -6,11 +6,13 @@ import {AdnetContentModel} from "../../../../adnet/AdnetContentModel";
 import {Lib} from "../../../../Lib";
 import * as _ from "lodash";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
+import * as moment_ from 'moment';
+export const moment =  moment_["default"];
+
 
 @Component({
     moduleId: __moduleName,
     selector: 'AdnetNetworkPackageProps',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     host: {'(input-blur)': 'onFormChange($event)'},
     templateUrl: 'AdnetNetworkPackageProps.html',
     styleUrls: ['AdnetNetworkPackageCommonStyles.css']
@@ -18,22 +20,28 @@ import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 export class AdnetNetworkPackageProps {
     constructor(private fb: FormBuilder, private appStore: AppStore, private adnetAction: AdnetActions) {
 
+
+        //var a = moment().unix().format()
+        // console.log(moment.now());
+        // console.log(moment().format('dddd'));
+        // console.log(moment().startOf('day').fromNow());
+
         this.contGroup = fb.group({
             'autoAddSiblings': [''],
-            'channel':[''],
-            'contents':[''],
-            'customerId':[''],
-            'daysMask':[''],
-            'deleted':[''],
-            'enabled':[''],
-            'endDate':[''],
-            'hourEnd':[''],
-            'hourStart':[''],
-            'label':[''],
-            'modified':[''],
-            'playMode':[''],
-            'siblingsKey':[''],
-            'startDate':[''],
+            'channel': [''],
+            'contents': [''],
+            'customerId': [''],
+            'daysMask': [''],
+            'deleted': [''],
+            'enabled': [''],
+            'endDate': [''],
+            'hourEnd': [''],
+            'hourStart': [''],
+            'label': [''],
+            'modified': [''],
+            'playMode': [''],
+            'siblingsKey': [''],
+            'startDate': [''],
         });
         _.forEach(this.contGroup.controls, (value, key: string) => {
             this.formInputs[key] = this.contGroup.controls[key] as FormControl;
@@ -53,7 +61,7 @@ export class AdnetNetworkPackageProps {
     private contGroup: FormGroup;
     private formInputs = {};
     private packageName = '';
-    private hours = ['00','01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23'];
+    private hours = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'];
 
     private onFormChange(event) {
         this.updateSore();
@@ -67,11 +75,11 @@ export class AdnetNetworkPackageProps {
         }, 1)
     }
 
-    private getOptionField(key, index){
+    private getOptionField(key, index) {
         if (!this.adnetPackageModels)
             return;
         var value = this.adnetPackageModels.getKey('Value')[key];
-        if (value==index)
+        if (value == index)
             return 'selected'
         return '';
 
@@ -80,14 +88,16 @@ export class AdnetNetworkPackageProps {
     private renderFormInputs() {
         if (!this.adnetPackageModels)
             return;
+        setTimeout(()=>{})
         _.forEach(this.formInputs, (value, key: string) => {
             var data;
-            if (key=='daysMask'){
-                data = this.adnetPackageModels.getKey('Value')[key];
-                data = Lib.GetAccessMask(data)
-            } else {
-                data = this.adnetPackageModels.getKey('Value')[key];
-            }
+            // if (key=='daysMask'){
+            //     data = this.adnetPackageModels.getKey('Value')[key];
+            //     data = Lib.GetAccessMask(data)
+            // } else {
+            //     data = this.adnetPackageModels.getKey('Value')[key];
+            // }
+            data = this.adnetPackageModels.getKey('Value')[key];
             this.formInputs[key].setValue(data)
         });
     };
