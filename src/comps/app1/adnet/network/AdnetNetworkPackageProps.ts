@@ -19,9 +19,21 @@ export class AdnetNetworkPackageProps {
     constructor(private fb: FormBuilder, private appStore: AppStore, private adnetAction: AdnetActions) {
 
         this.contGroup = fb.group({
-            'maintainAspectRatio': [''],
-            'duration': ['10'],
-            'reparationsPerHour': ['60']
+            'autoAddSiblings': [''],
+            'channel':[''],
+            'contents':[''],
+            'customerId':[''],
+            'daysMask':[''],
+            'deleted':[''],
+            'enabled':[''],
+            'endDate':[''],
+            'hourEnd':[''],
+            'hourStart':[''],
+            'label':[''],
+            'modified':[''],
+            'playMode':[''],
+            'siblingsKey':[''],
+            'startDate':[''],
         });
         _.forEach(this.contGroup.controls, (value, key: string) => {
             this.formInputs[key] = this.contGroup.controls[key] as FormControl;
@@ -31,9 +43,8 @@ export class AdnetNetworkPackageProps {
     @Input()
     set setAdnetPackageModels(i_adnetPackageModels: AdnetPackageModel) {
         this.adnetPackageModels = i_adnetPackageModels;
-        if (!this.adnetPackageModels)
-            return;
-        this.packageName =  this.adnetPackageModels.getName();
+        //this.packageName =  this.adnetPackageModels.getName();
+        this.renderFormInputs();
         // this.simpleGridTable.deselect();
     }
 
@@ -42,6 +53,7 @@ export class AdnetNetworkPackageProps {
     private contGroup: FormGroup;
     private formInputs = {};
     private packageName = '';
+    private hours = ['00','01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23'];
 
     private onFormChange(event) {
         this.updateSore();
@@ -56,10 +68,10 @@ export class AdnetNetworkPackageProps {
     }
 
     private renderFormInputs() {
-        if (!this.adnetContentModels)
+        if (!this.adnetPackageModels)
             return;
         _.forEach(this.formInputs, (value, key: string) => {
-            var data = this.adnetContentModels.getKey('Value')[key];
+            var data = this.adnetPackageModels.getKey('Value')[key];
             this.formInputs[key].setValue(data)
         });
     };

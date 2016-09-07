@@ -2,7 +2,7 @@
     <form novalidate autocomplete="off" [formGroup]="contGroup">
         <div class="row">
             <div class="inner userGeneral">
-                <div class="panel panel-default greyish" style="height: 100%; margin-right: 10px">
+                <div class="panel panel-default greyish" style="height: 100%; padding-right: 10px">
                     <div class="panel-heading">package properties
                         <i style="font-size: 1.8em" class="fa fa-cog pull-right"></i>
                     </div>
@@ -11,7 +11,7 @@
                             <div class="input-group">
                                 <span class="input-group-addon">
                                      name</span>
-                                <input [formControl]="contGroup.controls['duration']" required
+                                <input [formControl]="contGroup.controls['label']" required
                                        type="text" pattern="^[a-zA-Z0-9_. ]*$" class="form-control" min="3" max="60"
                                        placeholder="name">
                             </div>
@@ -20,10 +20,10 @@
                             <div class="input-group">
                                 <span class="input-group-addon">
                                     mode</span>
-                                <select [formControl]="contGroup.controls['duration']" class="form-control">
-                                    <option>aaa</option>
-                                    <option>aaa</option>
-                                    <option>aaa</option>
+                                <select [formControl]="contGroup.controls['playMode']" class="form-control">
+                                    <option>Time sharing</option>
+                                    <option>Location based</option>
+                                    <option>Assets</option>
                                     <!--<option [value]="rate.getId()" [selected]="getSelectedRate(rate)" *ngFor="let rate of filteredRates">{{rate.getName()}}</option>-->
                                     <!--<option *ngFor="let item of stationsFilter['os'] | sortBy">{{item}}</option>-->
                                 </select>
@@ -33,50 +33,39 @@
                             <div class="input-group">
                                 <span class="input-group-addon">
                                     channel</span>
-                                <select [formControl]="contGroup.controls['duration']" class="form-control">
-                                    <option>aaa</option>
-                                    <option>aaa</option>
-                                    <option>aaa</option>
+                                <select [formControl]="contGroup.controls['channel']" class="form-control">
+                                    <option>CH 1</option>
+                                    <option>CH 2</option>
+                                    <option>CH 3</option>
+                                    <option>CH 4</option>
                                     <!--<option [value]="rate.getId()" [selected]="getSelectedRate(rate)" *ngFor="let rate of filteredRates">{{rate.getName()}}</option>-->
                                     <!--<option *ngFor="let item of stationsFilter['os'] | sortBy">{{item}}</option>-->
                                 </select>
                             </div>
                         </li>
-                        <li class="list-group-item">
+                        <li class="list-group-item" style="overflow-x: hidden">
                             <div class="input-group">
                                 <span class="input-group-addon">
                                     start</span>
-                                <select [formControl]="contGroup.controls['duration']" class="form-control">
-                                    <option>aaa</option>
-                                    <option>aaa</option>
-                                    <option>aaa</option>
-                                    <!--<option [value]="rate.getId()" [selected]="getSelectedRate(rate)" *ngFor="let rate of filteredRates">{{rate.getName()}}</option>-->
-                                    <!--<option *ngFor="let item of stationsFilter['os'] | sortBy">{{item}}</option>-->
-                                </select>
+                                <input [formControl]="contGroup.controls['startDate']" required type="date" class="form-control">
                             </div>
                         </li>
-                        <li class="list-group-item">
+                        <li class="list-group-item" style="overflow-x: hidden">
                             <div class="input-group">
                                 <span class="input-group-addon">
                                     end</span>
-                                <select [formControl]="contGroup.controls['duration']" class="form-control">
-                                    <option>aaa</option>
-                                    <option>aaa</option>
-                                    <option>aaa</option>
-                                    <!--<option [value]="rate.getId()" [selected]="getSelectedRate(rate)" *ngFor="let rate of filteredRates">{{rate.getName()}}</option>-->
-                                    <!--<option *ngFor="let item of stationsFilter['os'] | sortBy">{{item}}</option>-->
-                                </select>
+                                <input [formControl]="contGroup.controls['endDate']" required type="date" class="form-control">
                             </div>
                         </li>
                         <li class="list-group-item">
                             <div class="input-group">
                                 <span class="input-group-addon">
                                     from</span>
-                                <select [formControl]="contGroup.controls['duration']" class="form-control">
-                                    <option>aaa</option>
-                                    <option>aaa</option>
-                                    <option>aaa</option>
-                                    <!--<option [value]="rate.getId()" [selected]="getSelectedRate(rate)" *ngFor="let rate of filteredRates">{{rate.getName()}}</option>-->
+                                <select [formControl]="contGroup.controls['hourStart']" class="form-control">
+                                    <option *ngFor="let hour of hours">
+                                        {{hour}}:00
+                                    </option>
+                                    <!--<option [value]="rate.getId()" [selected]="getSelectedRate(rate)" *ngFor="let hour of [0,1,2,3,4,5,7,8,9,10,11,12,13,14,15,16.17,18,19,20,21,22,23]">-->
                                     <!--<option *ngFor="let item of stationsFilter['os'] | sortBy">{{item}}</option>-->
                                 </select>
                             </div>
@@ -85,11 +74,11 @@
                             <div class="input-group">
                                 <span class="input-group-addon">
                                     to</span>
-                                <select [formControl]="contGroup.controls['duration']" class="form-control">
-                                    <option>aaa</option>
-                                    <option>aaa</option>
-                                    <option>aaa</option>
-                                    <!--<option [value]="rate.getId()" [selected]="getSelectedRate(rate)" *ngFor="let rate of filteredRates">{{rate.getName()}}</option>-->
+                                <select [formControl]="contGroup.controls['hourEnd']" class="form-control">
+                                    <option *ngFor="let hour of hours">
+                                        {{hour}}:00
+                                    </option>
+                                    <!--<option [value]="rate.getId()" [selected]="getSelectedRate(rate)" *ngFor="let hour of [0,1,2,3,4,5,7,8,9,10,11,12,13,14,15,16.17,18,19,20,21,22,23]">-->
                                     <!--<option *ngFor="let item of stationsFilter['os'] | sortBy">{{item}}</option>-->
                                 </select>
                             </div>
@@ -101,7 +90,8 @@
                                         <div style="width: 30px" class="pull-left noSpace">
                                             <label style="font-size: 0.7em" class="noSpace">{{item}}</label>
                                             <br/>
-                                            <Input (click)="onClick()" #checkInputs type="checkbox"
+                                            <Input (click)="onClick()" type="checkbox"
+                                                   [formControl]="contGroup.controls['daysMask']" required
                                                    [checked]="item" value="{{item}}" class="noSpace pull-left" style="margin-right: 2px">
                                         </div>
                                     </div>
@@ -114,12 +104,12 @@
                                 associate siblings
                                 <div class="material-switch pull-right">
                                     <input (change)="onFormChange(customerNetwork2.checked)"
-                                           [formControl]="contGroup.controls['maintainAspectRatio']"
+                                           [formControl]="contGroup.controls['autoAddSiblings']"
                                            id="customerNetwork2" #customerNetwork2
                                            name="customerNetwork2" type="checkbox"/>
                                     <label for="customerNetwork2" class="label-primary"></label>
                                 </div>
-                                <input style="margin-top: 10px" [formControl]="contGroup.controls['duration']"
+                                <input style="margin-top: 10px" [formControl]="contGroup.controls['siblingsKey']"
                                        type="text" class="form-control"
                                        placeholder="sibling search string">
                             </li>
