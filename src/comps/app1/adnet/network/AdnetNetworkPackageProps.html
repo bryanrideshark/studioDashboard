@@ -25,6 +25,7 @@
                                     <select [formControl]="contGroup.controls['playMode']" class="form-control">
                                         <option *ngFor="let item of ['Time sharing','Location based','Assets'];
                                                 let index=index"
+                                                [value]="index"
                                                 [selected]="getOptionField('playMode',index)">
                                             {{item}}
                                         </option>
@@ -36,8 +37,8 @@
                                 <span class="input-group-addon">
                                     channel</span>
                                     <select [formControl]="contGroup.controls['channel']" class="form-control">
-                                        <option *ngFor="let item of ['CH 0','CH 1', 'CH 2', 'CH 3'];
-                                                let index=index"
+                                        <option *ngFor="let item of ['CH 0','CH 1', 'CH 2', 'CH 3']; let index=index"
+                                                [value]="index"
                                                 [selected]="getOptionField('channel',index)">
                                             {{item}}
                                         </option>
@@ -60,29 +61,34 @@
                                            class="form-control">
                                 </div>
                             </li>
-                            <!--<li class="list-group-item">-->
-                            <!--<div class="input-group">-->
-                            <!--<span class="input-group-addon">-->
-                            <!--from</span>-->
-                            <!--<select [formControl]="contGroup.controls['hourStart']" class="form-control">-->
-                            <!--<option *ngFor="let hour of hours">-->
-                            <!--{{hour}}:00-->
-                            <!--</option>-->
+                            <li class="list-group-item">
+                                <div class="input-group">
+                            <span class="input-group-addon">
+                            from</span>
+                                    <select [formControl]="contGroup.controls['hourStart']" class="form-control">
+                                        <option *ngFor="let hour of hours; let index=index"
+                                                [value]="index"
+                                                [selected]="getOptionField('hourStart',index)">
+                                            {{hour}}:00
+                                        </option>
 
-                            <!--</select>-->
-                            <!--</div>-->
-                            <!--</li>-->
-                            <!--<li class="list-group-item">-->
-                            <!--<div class="input-group">-->
-                            <!--<span class="input-group-addon">-->
-                            <!--to</span>-->
-                            <!--<select [formControl]="contGroup.controls['hourEnd']" class="form-control">-->
-                            <!--<option *ngFor="let hour of hours">-->
-                            <!--{{hour}}:00-->
-                            <!--</option>-->
-                            <!--</select>-->
-                            <!--</div>-->
-                            <!--</li>-->
+                                    </select>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="input-group">
+                            <span class="input-group-addon">
+                            to</span>
+                                    <select [formControl]="contGroup.controls['hourEnd']" class="form-control">
+                                        <option *ngFor="let hour of hours; let index=index"
+                                                [value]="index"
+                                                [selected]="getOptionField('hourEnd',index)">
+                                            {{hour}}:00
+                                        </option>
+
+                                    </select>
+                                </div>
+                            </li>
                             <!--<li class="list-group-item">-->
                             <!--<div class="" style="width: 100%">-->
                             <!--<div class="centerDays input-group" style="width: 245px">-->

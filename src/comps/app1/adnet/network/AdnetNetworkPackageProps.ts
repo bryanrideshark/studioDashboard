@@ -6,13 +6,14 @@ import {AdnetContentModel} from "../../../../adnet/AdnetContentModel";
 import {Lib} from "../../../../Lib";
 import * as _ from "lodash";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
-import * as moment_ from 'moment';
+import * as moment_ from "moment";
 export const moment = moment_["default"];
 
 
 @Component({
     moduleId: __moduleName,
     selector: 'AdnetNetworkPackageProps',
+    changeDetection: ChangeDetectionStrategy.OnPush,
     host: {'(input-blur)': 'onFormChange($event)'},
     templateUrl: 'AdnetNetworkPackageProps.html',
     styleUrls: ['AdnetNetworkPackageCommonStyles.css']
@@ -79,8 +80,11 @@ export class AdnetNetworkPackageProps {
         if (!this.adnetPackageModels)
             return;
         var value = this.adnetPackageModels.getKey('Value')[key];
-        if (value == index)
+        if (value == index) {
+            // this.cd.detectChanges();
             return 'selected'
+        }
+
         return '';
 
     }
@@ -97,7 +101,7 @@ export class AdnetNetworkPackageProps {
                     var date = epoc[1].split('+')[0]
                     var time = epoc[1].split('+')[1]
                     //todo: workaround, adding one day since off 1 day from Alon, see why???
-                    data = moment(Number(date)).add(1,'day');
+                    data = moment(Number(date)).add(1, 'day');
                     return moment(data).format('YYYY-MM-DD');
                 }
             } else {
