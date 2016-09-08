@@ -1,31 +1,24 @@
-import {Component, Input, ChangeDetectionStrategy} from "@angular/core";
+import {Component, Input, QueryList, ViewChildren} from "@angular/core";
 import {FormControl, FormGroup, FormBuilder} from "@angular/forms";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {AppStore} from "angular2-redux-util";
-import {AdnetContentModel} from "../../../../adnet/AdnetContentModel";
 import {Lib} from "../../../../Lib";
 import * as _ from "lodash";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 import * as moment_ from "moment";
+import {List} from "immutable";
 export const moment = moment_["default"];
-
 
 @Component({
     moduleId: __moduleName,
     selector: 'AdnetNetworkPackageProps',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    //changeDetection: ChangeDetectionStrategy.OnPush,
     host: {'(input-blur)': 'onFormChange($event)'},
     templateUrl: 'AdnetNetworkPackageProps.html',
     styleUrls: ['AdnetNetworkPackageCommonStyles.css']
 })
 export class AdnetNetworkPackageProps {
     constructor(private fb: FormBuilder, private appStore: AppStore, private adnetAction: AdnetActions) {
-
-
-        //var a = moment().unix().format()
-        // console.log(moment.now());
-        // console.log(moment().format('dddd'));
-        // console.log(moment().startOf('day').fromNow());
 
         this.contGroup = fb.group({
             'autoAddSiblings': [''],
@@ -51,14 +44,19 @@ export class AdnetNetworkPackageProps {
 
     @Input()
     set setAdnetPackageModels(i_adnetPackageModels: AdnetPackageModel) {
+        if (!i_adnetPackageModels)
+            return;
         this.adnetPackageModels = i_adnetPackageModels;
-        //this.packageName =  this.adnetPackageModels.getName();
+        this.adnetPackageDays = Lib.GetADaysMask(this.adnetPackageModels.daysMask());
         this.renderFormInputs();
         // this.simpleGridTable.deselect();
     }
 
+    @ViewChildren('checkInputs')
+    inputs: QueryList<any>
+
     private adnetPackageModels: AdnetPackageModel;
-    private adnetContentModels: AdnetContentModel;
+    private adnetPackageDays: List<any> = List<any>()
     private contGroup: FormGroup;
     private formInputs = {};
     private packageName = '';
@@ -68,12 +66,30 @@ export class AdnetNetworkPackageProps {
         this.updateSore();
     }
 
+    private numToDay(num) {
+        var days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+        return days[num];
+    }
+
     private updateSore() {
         setTimeout(() => {
             //todo: update store on changes of content props
-            console.log(this.contGroup.status + ' ' + JSON.stringify(Lib.CleanCharForXml(this.contGroup.value)));
+            // todo: Lib.CleanCharForXml add support for nested array
+            // console.log(this.contGroup.status + ' ' + JSON.stringify(Lib.CleanCharForXml(this.contGroup.value)));
             // this.appStore.dispatch(this.adnetAction.saveCustomerInfo(Lib.CleanCharForXml(this.contGroup.value), this.customerModel.customerId()))
         }, 1)
+    }
+
+    private onUpdateDays(e) {
+        // this.cdr.detach();
+        let values = []
+        this.inputs.map(v => {
+            values.push(v.nativeElement.checked);
+        });
+        //this.changed.emit({item: this.m_storeModel, value: values});
+        var updateDaysMask = Lib.ComputeMask(values);
+        console.log('update days mask ' + updateDaysMask);
+        return true;
     }
 
     private getOptionField(key, index) {
@@ -103,6 +119,13 @@ export class AdnetNetworkPackageProps {
                     //todo: workaround, adding one day since off 1 day from Alon, see why???
                     data = moment(Number(date)).add(1, 'day');
                     return moment(data).format('YYYY-MM-DD');
+
+                    // moment examples
+                    // var a = moment().unix().format()
+                    // console.log(moment.now());
+                    // console.log(moment().format('dddd'));
+                    // console.log(moment().startOf('day').fromNow());
+
                 }
             } else {
                 return '';
@@ -111,11 +134,6 @@ export class AdnetNetworkPackageProps {
         _.forEach(this.formInputs, (value, key: string) => {
             var data;
             switch (key) {
-                case 'daysMask': {
-                    data = this.adnetPackageModels.getKey('Value')[key];
-                    data = Lib.GetAccessMask(data)
-                    break;
-                }
                 case 'startDate': {
                 }
                 case 'endDate': {
@@ -130,4 +148,3 @@ export class AdnetNetworkPackageProps {
         });
     };
 }
-

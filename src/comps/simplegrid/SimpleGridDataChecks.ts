@@ -1,10 +1,7 @@
-import {
-    Component, Input, ChangeDetectionStrategy, Output, EventEmitter, ViewChildren, QueryList, HostListener,
-    ChangeDetectorRef
-} from '@angular/core'
+import {Component, Input, Output, EventEmitter, ViewChildren, QueryList, ChangeDetectorRef} from "@angular/core";
 import {List} from "immutable";
 import {StoreModel} from "../../models/StoreModel";
-import * as _ from 'lodash'
+import * as _ from "lodash";
 
 @Component({
     selector: 'td[simpleGridDataChecks]',
@@ -33,37 +30,37 @@ import * as _ from 'lodash'
     `
 })
 export class SimpleGridDataChecks {
-    constructor(private cdr:ChangeDetectorRef) {
+    constructor(private cdr: ChangeDetectorRef) {
     }
 
     private m_checkId = _.uniqueId('slideCheck');
-    private m_checkboxes:List<any>
-    private m_storeModel:StoreModel;
+    private m_checkboxes: List<any>
+    private m_storeModel: StoreModel;
 
     @ViewChildren('checkInputs')
-    inputs:QueryList<any>
+    inputs: QueryList<any>
 
     @Input()
-    set checkboxes(i_checkboxes:List<any>) {
+    set checkboxes(i_checkboxes: List<any>) {
         this.m_checkboxes = i_checkboxes
     }
 
     @Input()
-    set item(i_storeModel:StoreModel) {
+    set item(i_storeModel: StoreModel) {
         this.m_storeModel = i_storeModel
     }
 
     @Input()
-    slideMode:boolean = false;
+    slideMode: boolean = false;
 
     @Output()
-    changed:EventEmitter<any> = new EventEmitter();
+    changed: EventEmitter<any> = new EventEmitter();
 
     //@HostListener('click', ['$event'])
     private onClick(e) {
         this.cdr.detach();
         let values = []
-        this.inputs.map(v=> {
+        this.inputs.map(v => {
             values.push(v.nativeElement.checked);
         });
         this.changed.emit({item: this.m_storeModel, value: values});

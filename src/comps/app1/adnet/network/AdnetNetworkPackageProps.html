@@ -89,36 +89,38 @@
                                     </select>
                                 </div>
                             </li>
-                            <!--<li class="list-group-item">-->
-                            <!--<div class="" style="width: 100%">-->
-                            <!--<div class="centerDays input-group" style="width: 245px">-->
-                            <!--<div *ngFor="let item of ['MON','TUE','WED','THR','FRI','SAT','SUN']">-->
-                            <!--<div style="width: 30px" class="pull-left noSpace">-->
-                            <!--<label style="font-size: 0.7em" class="noSpace">{{item}}</label>-->
-                            <!--<br/>-->
-                            <!--<input (click)="onClick()" type="checkbox"-->
-                            <!--[formControl]="contGroup.controls['daysMask']" required-->
-                            <!--[checked]="item" value="{{item}}" class="noSpace pull-left"-->
-                            <!--style="margin-right: 2px">-->
-                            <!--</div>-->
-                            <!--</div>-->
-                            <!--</div>-->
-                            <!--</div>-->
-                            <!--</li>-->
-                            <!--<p></p>-->
-                            <!--<li class="list-group-item">-->
-                            <!--associate siblings-->
-                            <!--<div class="material-switch pull-right">-->
-                            <!--<input (change)="onFormChange(customerNetwork2.checked)"-->
-                            <!--[formControl]="contGroup.controls['autoAddSiblings']"-->
-                            <!--id="customerNetwork2" #customerNetwork2-->
-                            <!--name="customerNetwork2" type="checkbox"/>-->
-                            <!--<label for="customerNetwork2" class="label-primary"></label>-->
-                            <!--</div>-->
-                            <!--<input style="margin-top: 10px" [formControl]="contGroup.controls['siblingsKey']"-->
-                            <!--type="text" class="form-control"-->
-                            <!--placeholder="sibling search string">-->
-                            <!--</li>-->
+                            <br/>
+                            <h5 class="noSpace"> Days of the week</h5>
+                            <li class="list-group-item">
+                                <div class="" style="width: 100%">
+                                    <div class="centerDays input-group" style="width: 245px">
+                                        <div *ngFor="let item of adnetPackageDays;let index = index">
+                                            <div style="width: 30px" class="pull-left noSpace">
+                                                <label style="font-size: 0.7em" class="noSpace">{{numToDay(index)}}</label>
+                                                <br/>
+                                                <input #checkInputs (click)="onUpdateDays()" type="checkbox"
+                                                       [checked]="item" value="{{item}}" class="noSpace pull-left"
+                                                       style="margin-right: 2px">
+                                                <!--[formControl]="contGroup.controls['daysMask']" required-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <p></p>
+                            <li class="list-group-item">
+                                associate siblings
+                                <div class="material-switch pull-right">
+                                    <input (change)="onFormChange(customerNetwork2.checked)"
+                                           [formControl]="contGroup.controls['autoAddSiblings']"
+                                           id="customerNetwork2" #customerNetwork2
+                                           name="customerNetwork2" type="checkbox"/>
+                                    <label for="customerNetwork2" class="label-primary"></label>
+                                </div>
+                                <input style="margin-top: 10px" [formControl]="contGroup.controls['siblingsKey']"
+                                       type="text" class="form-control"
+                                       placeholder="sibling search string">
+                            </li>
                         </ul>
                     </div>
                 </div>

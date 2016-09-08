@@ -170,7 +170,7 @@ export class UsersDetails {
         var name = businessUser.getName();
         var privilegeId = businessUser.privilegeId();
         var accessMask = event.value;
-        var computedAccessMask = Lib.ComputeAccessMask(accessMask);
+        var computedAccessMask = Lib.ComputeMask(accessMask);
         this.appStore.dispatch(this.businessActions.updateBusinessUserAccess(businessId, name, computedAccessMask, privilegeId));
     }
 

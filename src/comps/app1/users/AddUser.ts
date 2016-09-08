@@ -114,7 +114,7 @@ export class AddUser {
             }
         })
         let privilegeId = '-1';
-        let computedAccessMask = Lib.ComputeAccessMask(accessKeys);
+        let computedAccessMask = Lib.ComputeMask(accessKeys);
         var privileges:Array<PrivelegesModel> = this.appStore.getState().reseller.getIn(['privileges']);
         privileges.forEach((privelegesModel:PrivelegesModel)=> {
             if (privelegesModel.getName() == this.privilegeName) {
