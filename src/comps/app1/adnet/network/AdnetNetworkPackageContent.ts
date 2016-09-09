@@ -9,6 +9,7 @@ import {AdnetNetworkPropSelector, IAdNetworkPropSelectedEvent} from "./AdnetNetw
     selector: 'AdnetNetworkPackageContent',
     moduleId: __moduleName,
     template: `
+            <small>content</small>
             <div>
                 <simpleGridTable #simpleGridR>
                     <thead>

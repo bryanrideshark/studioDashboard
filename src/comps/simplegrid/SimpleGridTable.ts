@@ -36,6 +36,8 @@ export class SimpleGridTable {
 
     public deselect(){
         this.selected = null;
+        if (!this.simpleGridRecord)
+            return;
         this.simpleGridRecord.map((i_simpleGridRecord:SimpleGridRecord) => {
             i_simpleGridRecord.selectedClass = false;
         })
