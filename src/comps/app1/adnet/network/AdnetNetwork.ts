@@ -3,6 +3,7 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
 import {List} from 'immutable';
 import {IPairSelect} from "./AdnetNetworkCustomerSelector";
+import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 
 export enum AdnetNetworkPropSelector {
     CONTENT,
@@ -36,9 +37,14 @@ export class AdnetNetwork {
     private adnetCustomerModel: AdnetCustomerModel;
     private pairsSelected: List<AdnetPairModel>;
     private pairsOutgoing: boolean;
+    private selectedAdnetTargetModels:List<AdnetTargetModel>;
 
     private onPropSelected(event:IAdNetworkPropSelectedEvent){
         this.propSelector = event.selected;
+    }
+
+    private onAdnetTargetsSelected(i_adnetTargetModels:List<AdnetTargetModel>){
+        this.selectedAdnetTargetModels = i_adnetTargetModels;
     }
 
     private onPairSelected(event: IPairSelect) {

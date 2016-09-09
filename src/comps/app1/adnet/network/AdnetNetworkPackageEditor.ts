@@ -6,6 +6,7 @@ import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 import {AppStore} from "angular2-redux-util";
 import {SimpleList, ISimpleListItem} from "../../../simplelist/Simplelist";
 import {AdnetNetworkPropSelector, IAdNetworkPropSelectedEvent} from "./AdnetNetwork";
+import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 
 @Component({
     selector: 'AdnetNetworkPackageEditor',
@@ -23,39 +24,44 @@ export class AdnetNetworkPackageEditor {
         this.packages = this.appStore.getState().adnet.getIn(['packages']) || {};
         this.unsub = this.appStore.sub((i_adPackages: List<AdnetPackageModel>) => {
             this.packages = i_adPackages;
-            this.filterPackages();
+            this.onFilterPackages();
         }, 'adnet.packages');
-        this.filterPackages();
+        this.onFilterPackages();
     }
 
     @ViewChild(SimpleList)
-    simpleList:SimpleList;
+    simpleList: SimpleList;
 
     @Input()
     set setPairOutgoing(i_setPairOutgoing: boolean) {
         this.pairOutgoing = i_setPairOutgoing;
         if (this.pairOutgoing == true)
-            this.filterPackages();
+            this.onFilterPackages();
     }
 
     @Input()
     set setAdnetCustomerModel(i_adnetCustomerModel: AdnetCustomerModel) {
         this.adnetCustomerModel = i_adnetCustomerModel;
-        this.filterPackages();
+        this.onFilterPackages();
     }
 
     @Input()
     setAdnetPairModels: List<AdnetPairModel>
 
     @Output()
-    onPropSelected:EventEmitter<IAdNetworkPropSelectedEvent> = new EventEmitter<IAdNetworkPropSelectedEvent>();
+    onPropSelected: EventEmitter<IAdNetworkPropSelectedEvent> = new EventEmitter<IAdNetworkPropSelectedEvent>();
+
+    @Output()
+    onAdnetTargetsSelected: EventEmitter<List<AdnetTargetModel>> = new EventEmitter<List<AdnetTargetModel>>();
+
 
     private unsub: Function;
     private adnetCustomerModel: AdnetCustomerModel;
     private packages: List<AdnetPackageModel>
     private packagesFiltered: List<AdnetPackageModel>
     private pairOutgoing: boolean;
-    public selectedAdnetPackageModel:AdnetPackageModel;
+    public selectedAdnetPackageModel: AdnetPackageModel;
+    //public selectedAdnetTargetModels: List<AdnetTargetModel>;
 
     private onAdd(event) {
 
@@ -65,13 +71,13 @@ export class AdnetNetworkPackageEditor {
 
     }
 
-    private processAdnetPackageField(i_function:string) {
-        return (i_adnetPackageModel:AdnetPackageModel) => {
+    private processAdnetPackageField(i_function: string) {
+        return (i_adnetPackageModel: AdnetPackageModel) => {
             return i_adnetPackageModel[i_function]();
         }
     }
 
-    private filterPackages() {
+    private onFilterPackages() {
         if (!this.packages || !this.adnetCustomerModel)
             return;
         this.packagesFiltered = List<AdnetPackageModel>();
@@ -88,11 +94,18 @@ export class AdnetNetworkPackageEditor {
     }
 
     private onSelecting(event) {
-        var orderSelected:ISimpleListItem = this.simpleList.getSelected() as ISimpleListItem;
-        this.selectedAdnetPackageModel = orderSelected.item;
-        this.onPropSelected.emit({
-            selected: AdnetNetworkPropSelector.PACKAGE
-        })
+        var itemSelected: ISimpleListItem = this.simpleList.getSelected() as ISimpleListItem;
+        this.selectedAdnetPackageModel = itemSelected.item;
+
+        var targetsIds = this.selectedAdnetPackageModel.getTargetIds();
+        var targets: List<AdnetTargetModel> = this.appStore.getState().adnet.getIn(['targets']) || {};
+
+        var selectedAdnetTargetModels = targets.filter((i_adnetTargetModel: AdnetTargetModel) => {
+            return (targetsIds.indexOf(i_adnetTargetModel.getId()) > -1)
+        }) as List<AdnetTargetModel>;
+
+        this.onPropSelected.emit({selected: AdnetNetworkPropSelector.PACKAGE})
+        this.onAdnetTargetsSelected.emit(selectedAdnetTargetModels);
 
     }
 
