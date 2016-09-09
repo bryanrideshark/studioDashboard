@@ -25,7 +25,9 @@
                             </AdnetNetworkPackageContent>
                         </div>
                         <hr/>
-                        <AdnetNetworkTarget [setAdnetTargetModels]="selectedAdnetTargetModels">
+                        <AdnetNetworkTarget [setAdnetTargetModels]="selectedAdnetTargetModels"
+                                            (onPropSelected)="onPropSelected($event)"
+                                            (onTargetSelected)="onTargetSelected($event)">
                         </AdnetNetworkTarget>
                     </div>
                     <div class="col-xs-3">
@@ -42,6 +44,10 @@
                                     </AdnetNetworkPackageProps>
                                 </div>
                                 <div *ngSwitchCase="adnetNetworkPropSelector.RESOURCE">
+                                    <small>resource properties</small>
+                                </div>
+                                <div *ngSwitchCase="adnetNetworkPropSelector.TARGET">
+                                    <small>target properties</small>
                                 </div>
                             </div>
                         </div>

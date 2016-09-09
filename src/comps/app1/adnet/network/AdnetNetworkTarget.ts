@@ -1,41 +1,41 @@
-import {Component, ChangeDetectionStrategy, Input, ViewChild} from "@angular/core";
+import {Component, ChangeDetectionStrategy, Input, ViewChild, Output, EventEmitter} from "@angular/core";
 import {Lib} from "../../../../Lib";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {List} from 'immutable';
 import {SimpleGridTable} from "../../../simplegrid/SimpleGridTable";
+import {IAdNetworkPropSelectedEvent, AdnetNetworkPropSelector} from "./AdnetNetwork";
 
 @Component({
     selector: 'AdnetNetworkTarget',
     changeDetection: ChangeDetectionStrategy.OnPush,
     moduleId: __moduleName,
-    template: `
-            <small>targets</small>
-            <div>
-                <simpleGridTable>
-                    <thead>
-                    <tr>
-                        <th [sortableHeader]="['Value','customerId']" [sort]="sort">customer</th>
-                        <th [sortableHeader]="['Value','type']" [sort]="sort">type</th>
-                        <th [sortableHeader]="['Value','label']" [sort]="sort">name</th>
-                        <th [sortableHeader]="['Value','keys']" [sort]="sort">keys</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr class="simpleGridRecord" simpleGridRecord
-                        *ngFor="let item of adnetPackageModels | OrderBy:sort.field:sort.desc; let index=index" [item]="item"
-                        [index]="index">
-                        <td style="width: 14%" simpleGridData [processField]="processAdnetPackageField('getCustomerId')"
-                            [item]="item"></td>
-                        <td style="width: 14%" simpleGridData [processField]="processAdnetPackageField('getTargetTypeName')"
-                            [item]="item"></td>
-                        <td style="width: 14%" simpleGridData [processField]="processAdnetPackageField('getName')"
-                            [item]="item"></td>
-                        <td style="width: 14%" simpleGridData [processField]="processAdnetPackageField('getKeys')"
-                            [item]="item"></td>
-                    </tr>
-                    </tbody>
-                </simpleGridTable>
-            </div>
+    template: `<small>targets</small>
+<div>
+    <simpleGridTable>
+        <thead>
+        <tr>
+            <th [sortableHeader]="['Value','customerId']" [sort]="sort">customer</th>
+            <th [sortableHeader]="['Value','type']" [sort]="sort">type</th>
+            <th [sortableHeader]="['Value','label']" [sort]="sort">name</th>
+            <th [sortableHeader]="['Value','keys']" [sort]="sort">keys</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="simpleGridRecord" simpleGridRecord (onClicked)="onGridSelected($event)"
+            *ngFor="let item of adnetPackageModels | OrderBy:sort.field:sort.desc; let index=index" [item]="item"
+            [index]="index">
+            <td style="width: 14%" simpleGridData [processField]="processAdnetPackageField('getCustomerId')"
+                [item]="item"></td>
+            <td style="width: 14%" simpleGridData [processField]="processAdnetPackageField('getTargetTypeName')"
+                [item]="item"></td>
+            <td style="width: 14%" simpleGridData [processField]="processAdnetPackageField('getName')"
+                [item]="item"></td>
+            <td style="width: 14%" simpleGridData [processField]="processAdnetPackageField('getKeys')"
+                [item]="item"></td>
+        </tr>
+        </tbody>
+    </simpleGridTable>
+</div>
     `
 })
 
@@ -50,6 +50,13 @@ export class AdnetNetworkTarget {
         this.simpleGridTable.deselect();
     }
 
+    @Output()
+    onAdnetTargetSelected:EventEmitter<AdnetTargetModel> = new EventEmitter<AdnetTargetModel>();
+
+    @Output()
+    onPropSelected: EventEmitter<IAdNetworkPropSelectedEvent> = new EventEmitter<IAdNetworkPropSelectedEvent>();
+
+
     @ViewChild(SimpleGridTable)
     simpleGridTable:SimpleGridTable;
 
@@ -63,9 +70,10 @@ export class AdnetNetworkTarget {
         }
     }
 
-
-
-
+    private onGridSelected(i_adnetTargetModel:AdnetTargetModel){
+        this.onAdnetTargetSelected.emit(i_adnetTargetModel);
+        this.onPropSelected.emit({selected: AdnetNetworkPropSelector.TARGET})
+    }
 }
 
 

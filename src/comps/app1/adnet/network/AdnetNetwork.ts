@@ -8,7 +8,8 @@ import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 export enum AdnetNetworkPropSelector {
     CONTENT,
     PACKAGE,
-    RESOURCE
+    RESOURCE,
+    TARGET
 }
 
 export interface IAdNetworkPropSelectedEvent {
@@ -37,6 +38,7 @@ export class AdnetNetwork {
     private adnetCustomerModel: AdnetCustomerModel;
     private pairsSelected: List<AdnetPairModel>;
     private pairsOutgoing: boolean;
+    private selectedAdnetTargetModel:AdnetTargetModel;
     private selectedAdnetTargetModels:List<AdnetTargetModel>;
 
     private onPropSelected(event:IAdNetworkPropSelectedEvent){
@@ -50,5 +52,9 @@ export class AdnetNetwork {
     private onPairSelected(event: IPairSelect) {
         this.pairsSelected = event.pairs;
         this.pairsOutgoing = event.pairsOutgoing;
+    }
+
+    private onTargetSelected(i_adnetTargetModel:AdnetTargetModel){
+        this.selectedAdnetTargetModel = i_adnetTargetModel;
     }
 }

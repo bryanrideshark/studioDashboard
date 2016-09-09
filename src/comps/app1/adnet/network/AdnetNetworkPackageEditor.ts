@@ -106,7 +106,6 @@ export class AdnetNetworkPackageEditor {
 
         this.onPropSelected.emit({selected: AdnetNetworkPropSelector.PACKAGE})
         this.onAdnetTargetsSelected.emit(selectedAdnetTargetModels);
-
     }
 
     private getName(i_adnetPackageModel: AdnetPackageModel) {
