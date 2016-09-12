@@ -16,7 +16,7 @@ import * as _ from "lodash";
 })
 export class AdnetNetworkPackageContentProps {
     constructor(private fb: FormBuilder, private appStore: AppStore, private adnetAction: AdnetActions) {
-
+        this['me'] = Lib.GetCompSelector(this.constructor)
         this.contGroup = fb.group({
             'maintainAspectRatio': [''],
             'duration': ['10'],

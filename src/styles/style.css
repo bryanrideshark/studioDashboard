@@ -116,11 +116,7 @@ aside > aside > div > ul > li {
     z-index: 999;
 }
 
-small {
-    color: darkgray;
-    text-transform: uppercase;
-    display: block;
-}
+
 
 .appMenu li {
     cursor: pointer;
@@ -954,3 +950,17 @@ Language selector
     background-color: #c9302c;
 }
 
+small {
+    font-size: 0.9em;
+    display: block;
+}
+
+small.debug {
+    color: darkgray;
+    /*display: none; !important;*/
+}
+small.release {
+    text-transform: lowercase;
+    color: #4c4c4c;
+    display: none; !important;
+}

@@ -7,6 +7,7 @@ import {AppStore} from "angular2-redux-util";
 import {SimpleList, ISimpleListItem} from "../../../simplelist/Simplelist";
 import {AdnetNetworkPropSelector, IAdNetworkPropSelectedEvent} from "./AdnetNetwork";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
+import {Lib} from "../../../../Lib";
 
 @Component({
     selector: 'AdnetNetworkPackageEditor',
@@ -18,6 +19,7 @@ import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 export class AdnetNetworkPackageEditor {
 
     constructor(private appStore: AppStore) {
+        this['me'] = Lib.GetCompSelector(this.constructor)
     }
 
     ngOnInit() {

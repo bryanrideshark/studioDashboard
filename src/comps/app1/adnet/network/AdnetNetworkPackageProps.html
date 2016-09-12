@@ -3,8 +3,11 @@
         <div class="row">
             <div class="inner userGeneral">
                 <div class="panel panel-default greyish" style="height: 100%; padding-right: 10px">
-                    <div class="panel-heading">package properties
-                        <i style="font-size: 1.8em" class="fa fa-cog pull-right"></i>
+                    <div class="panel-heading">
+                        <small class="release">package properties
+                            <i style="font-size: 1.4em" class="fa fa-cog pull-right"></i>
+                        </small>
+                        <small class="debug">{{me}}</small>
                     </div>
                     <div *ngIf="adnetPackageModels">
                         <ul class="list-group">
@@ -96,7 +99,8 @@
                                     <div class="centerDays input-group" style="width: 245px">
                                         <div *ngFor="let item of adnetPackageDays;let index = index">
                                             <div style="width: 30px" class="pull-left noSpace">
-                                                <label style="font-size: 0.7em" class="noSpace">{{numToDay(index)}}</label>
+                                                <label style="font-size: 0.7em"
+                                                       class="noSpace">{{numToDay(index)}}</label>
                                                 <br/>
                                                 <input #checkInputs (click)="onUpdateDays()" type="checkbox"
                                                        [checked]="item" value="{{item}}" class="noSpace pull-left"

@@ -19,7 +19,7 @@ export const moment = moment_["default"];
 })
 export class AdnetNetworkPackageProps {
     constructor(private fb: FormBuilder, private appStore: AppStore, private adnetAction: AdnetActions) {
-
+        this['me'] = Lib.GetCompSelector(this.constructor)
         this.contGroup = fb.group({
             'autoAddSiblings': [''],
             'channel': [''],

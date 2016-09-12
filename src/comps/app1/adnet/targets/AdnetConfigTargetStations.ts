@@ -9,6 +9,7 @@ import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {List} from "immutable";
 import {ISimpleListItem, SimpleList} from "../../../simplelist/Simplelist";
 import * as _ from "lodash";
+import {Lib} from "../../../../Lib";
 
 @Component({
     selector: 'AdnetConfigTargetStations',
@@ -19,6 +20,7 @@ import * as _ from "lodash";
 })
 export class AdnetConfigTargetStations {
     constructor(private appStore: AppStore, private adnetAction: AdnetActions, private cd: ChangeDetectorRef) {
+        this['me'] = Lib.GetCompSelector(this.constructor)
     }
 
     @ViewChild(SimpleList)

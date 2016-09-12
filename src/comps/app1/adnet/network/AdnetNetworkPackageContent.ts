@@ -4,12 +4,13 @@ import {AdnetContentModel} from "../../../../adnet/AdnetContentModel";
 import {List} from 'immutable';
 import {SimpleGridTable} from "../../../simplegrid/SimpleGridTable";
 import {AdnetNetworkPropSelector, IAdNetworkPropSelectedEvent} from "./AdnetNetwork";
+import {Lib} from "../../../../Lib";
 
 @Component({
     selector: 'AdnetNetworkPackageContent',
     moduleId: __moduleName,
     template: `
-            <small>content</small>
+            <small class="release">content</small><small class="debug">{{me}}</small>
             <div>
                 <simpleGridTable #simpleGridR>
                     <thead>
@@ -36,6 +37,7 @@ import {AdnetNetworkPropSelector, IAdNetworkPropSelectedEvent} from "./AdnetNetw
 
 export class AdnetNetworkPackageContent {
     constructor() {
+        this['me'] = Lib.GetCompSelector(this.constructor)
     }
 
     @ViewChild(SimpleGridTable)

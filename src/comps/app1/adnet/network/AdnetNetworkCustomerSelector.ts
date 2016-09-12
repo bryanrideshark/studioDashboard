@@ -9,6 +9,7 @@ import {Observable} from "rxjs/Observable";
 import {Observer} from "rxjs/Observer";
 import {Subscription} from "rxjs/Subscription";
 import * as _ from 'lodash';
+import {Lib} from "../../../../Lib";
 
 export interface IPairSelect {
     pairs: List<AdnetPairModel>,
@@ -19,7 +20,8 @@ export interface IPairSelect {
     selector: 'AdnetNetworkCustomerSelector',
     moduleId: __moduleName,
     styles: [`.mn {margin-left: 4px; width: 80%; } option { font-size: 16px; }`],
-    template: `            
+    template: `   
+            <small class="debug">{{me}}</small>
             <select style="font-family:'FontAwesome', Arial;" (change)="onChanges($event)" class="mn form-control custom longInput">
                 <option>&#xf112; Outgoing</option>
                 <option>&#xf064; Incoming</option>
@@ -47,6 +49,7 @@ export interface IPairSelect {
 
 export class AdnetNetworkCustomerSelector {
     constructor(private appStore: AppStore) {
+        this['me'] = Lib.GetCompSelector(this.constructor)
     }
 
     ngOnInit() {

@@ -9,7 +9,7 @@ import {IAdNetworkPropSelectedEvent, AdnetNetworkPropSelector} from "./AdnetNetw
     selector: 'AdnetNetworkTarget',
     changeDetection: ChangeDetectionStrategy.OnPush,
     moduleId: __moduleName,
-    template: `<small>targets</small>
+    template: `<small class="release">targets</small><small class="debug">{{me}}</small>
 <div>
     <simpleGridTable>
         <thead>
@@ -41,7 +41,7 @@ import {IAdNetworkPropSelectedEvent, AdnetNetworkPropSelector} from "./AdnetNetw
 
 export class AdnetNetworkTarget {
     constructor() {
-        this.me = Lib.GetCompSelector(this.constructor)
+        this['me'] = Lib.GetCompSelector(this.constructor)
     }
 
     @Input()
@@ -62,7 +62,6 @@ export class AdnetNetworkTarget {
 
     protected adnetPackageModels: List<AdnetTargetModel>
     public sort:{field:string, desc:boolean} = {field: null, desc: false};
-    private me: string;
 
     private processAdnetPackageField(i_function: string) {
         return (i_adnetTargetModel: AdnetTargetModel) => {

@@ -8,19 +8,23 @@ import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {MapAddress} from "../../../mapaddress/MapAddress";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import * as _ from 'lodash';
+import {Lib} from "../../../../Lib";
 
 @Component({
     selector: 'AdnetLocation',
     moduleId: __moduleName,
-    template: `<MapAddress #mapAddress (onChange)="onUpdatedStationCoords($event)"></MapAddress>
-               <stationsMap #stationsMap (onMapClicked)="onUpdatedStationCoords($event)" 
+    template: `
+                <small class="debug">{{me}}</small>
+                <MapAddress #mapAddress (onChange)="onUpdatedStationCoords($event)"></MapAddress>
+                <stationsMap #stationsMap (onMapClicked)="onUpdatedStationCoords($event)" 
                    *ngIf="stationComponentMode=='map'" [stations]="stations">
-               </stationsMap>`
+                </stationsMap>`
 })
 
 export class AdnetLocation {
 
     constructor(private appStore: AppStore, private adnetAction: AdnetActions) {
+        this['me'] = Lib.GetCompSelector(this.constructor)
     }
 
     @ViewChild(StationsMap)

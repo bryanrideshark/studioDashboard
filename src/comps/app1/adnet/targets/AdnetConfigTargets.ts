@@ -3,6 +3,7 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {List} from 'immutable';
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {AppStore} from "angular2-redux-util";
+import {Lib} from "../../../../Lib";
 
 @Component({
     selector: 'AdnetConfigTargets',
@@ -13,6 +14,7 @@ import {AppStore} from "angular2-redux-util";
 export class AdnetConfigTargets {
 
     constructor(private appStore:AppStore){
+        this['me'] = Lib.GetCompSelector(this.constructor)
     }
 
     ngOnInit() {

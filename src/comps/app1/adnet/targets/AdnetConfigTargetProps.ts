@@ -42,6 +42,8 @@ export class AdnetConfigTargetProps {
                 private cd:ChangeDetectorRef,
                 private adnetAction: AdnetActions) {
 
+        this['me'] = Lib.GetCompSelector(this.constructor)
+
         this.contGroup = fb.group({
             'enabled': [''],
             'label': [''],

@@ -1,20 +1,17 @@
-import {Component, ViewChild, ElementRef} from '@angular/core'
+import {Component, ViewChild, ElementRef} from "@angular/core";
 import {SimpleList, ISimpleListItem} from "../../simplelist/SimpleList";
 import {AppStore} from "angular2-redux-util";
 import {BusinessAction} from "../../../business/BusinessAction";
-import {AddUser} from "./AddUser";
-import {MODAL_DIRECTIVES} from "../../ng2-bs3-modal/ng2-bs3-modal";
 import {ModalComponent} from "../../ng2-bs3-modal/components/modal";
 import {BusinessModel} from "../../../business/BusinessModel";
 import {UsersDetails} from "./UsersDetails";
 import {BusinessUser} from "../../../business/BusinessUser";
-import {Loading} from "../../loading/Loading";
-import {List} from 'immutable';
+import {List} from "immutable";
 import {PrivelegesModel} from "../../../reseller/PrivelegesModel";
-import {Samplelist} from "./Samplelist";
 import {SampleModel} from "../../../business/SampleModel";
-import * as bootbox from 'bootbox';
-import * as _ from 'lodash'
+import * as bootbox from "bootbox";
+import * as _ from "lodash";
+import {Lib} from "../../../Lib";
 
 @Component({
     selector: 'Users',
@@ -30,69 +27,70 @@ import * as _ from 'lodash'
 
 export class Users {
 
-    constructor(private appStore:AppStore, private businessAction:BusinessAction) {
+    constructor(private appStore: AppStore, private businessAction: BusinessAction) {
+        this['me'] = Lib.GetCompSelector(this.constructor)
         var i_businesses = this.appStore.getState().business;
         var i_reseller = this.appStore.getState().reseller;
         this.businessesList = i_businesses.getIn(['businesses']);
-        this.unsub = this.appStore.sub((i_businesses:List<BusinessModel>) => {
+        this.unsub = this.appStore.sub((i_businesses: List<BusinessModel>) => {
             this.businessesList = i_businesses;
         }, 'business.businesses');
 
         this.samples = i_businesses.getIn(['samples']);
-        this.unsub = this.appStore.sub((i_samples:List<SampleModel>) => {
+        this.unsub = this.appStore.sub((i_samples: List<SampleModel>) => {
             this.samples = i_samples;
         }, 'business.samples');
 
         this.businessesUsers = i_businesses.getIn(['businessUsers']);
-        this.unsub2 = this.appStore.sub((businessUsers:List<BusinessUser>) => {
+        this.unsub2 = this.appStore.sub((businessUsers: List<BusinessUser>) => {
             this.businessesUsers = businessUsers;
             this.onFilteredSelection();
         }, 'business.businessUsers');
 
         this.priveleges = i_reseller.getIn(['privileges']);
-        this.unsub3 = this.appStore.sub((privelegesModel:List<PrivelegesModel>) => {
+        this.unsub3 = this.appStore.sub((privelegesModel: List<PrivelegesModel>) => {
             this.priveleges = privelegesModel;
         }, 'reseller.privileges');
     }
 
     @ViewChild('simpleList')
-    simpleList:SimpleList;
+    simpleList: SimpleList;
 
     @ViewChild('modalSamples')
-    modalSamples:ModalComponent;
+    modalSamples: ModalComponent;
 
     @ViewChild('modalAddUserClean')
-    modalAddUserClean:ModalComponent;
+    modalAddUserClean: ModalComponent;
 
     @ViewChild('modalAddUserSamples')
-    modalAddUserSamples:ModalComponent;
+    modalAddUserSamples: ModalComponent;
 
     @ViewChild('importUserName')
-    importUserName:ElementRef;
+    importUserName: ElementRef;
 
     @ViewChild('importUserPass')
-    importUserPass:ElementRef;
+    importUserPass: ElementRef;
 
     @ViewChild('modalAddUserExisting')
-    modalAddUserExisting:ModalComponent;
+    modalAddUserExisting: ModalComponent;
 
     @ViewChild(UsersDetails)
-    usersDetails:UsersDetails;
+    usersDetails: UsersDetails;
 
-    private businessesList:List<BusinessModel> = List<BusinessModel>();
-    private samples:List<SampleModel> = List<SampleModel>();
-    private businessesListFiltered:List<BusinessModel>
-    private businessUsersListFiltered:List<BusinessUser>;
-    private businessesUsers:List<BusinessUser>
-    private priveleges:List<PrivelegesModel>
-    private showUserInfo:Object = null;
-    private selectedSampleBusinessId:number = -1;
-    private unsub:Function;
-    private unsub2:Function;
-    private unsub3:Function;
+    private businessesList: List<BusinessModel> = List<BusinessModel>();
+    private samples: List<SampleModel> = List<SampleModel>();
+    private businessesListFiltered: List<BusinessModel>
+    private businessUsersListFiltered: List<BusinessUser>;
+    private businessesUsers: List<BusinessUser>
+    private priveleges: List<PrivelegesModel>
+    private showUserInfo: Object = null;
+    private selectedSampleBusinessId: number = -1;
+    private unsub: Function;
+    private unsub2: Function;
+    private unsub3: Function;
     private accounts = ['Add new account from sample', 'Add new account from blank', 'Import existing account'];
 
-    private onAddUser(choice, fromSample:boolean = false) {
+    private onAddUser(choice, fromSample: boolean = false) {
         switch (choice) {
             case this.accounts[0]: {
                 this.modalSamples.open('lg');
@@ -119,7 +117,7 @@ export class Users {
     private onRemoveUser() {
         if (!this.businessesListFiltered || this.businessesListFiltered.size != 1)
             return
-        var businessModel:BusinessModel = this.businessesListFiltered.first();
+        var businessModel: BusinessModel = this.businessesListFiltered.first();
         let businessId = businessModel.getBusinessId();
 
         bootbox.prompt({
@@ -166,7 +164,7 @@ export class Users {
         this.modalAddUserExisting.close();
     }
 
-    private getSelectedBusinessId():number {
+    private getSelectedBusinessId(): number {
         if (!this.businessUsersListFiltered)
             return -1;
         var first = this.businessesListFiltered.first();
@@ -175,11 +173,11 @@ export class Users {
         return first.getBusinessId();
     }
 
-    private getSelectedSampleBusinessId():number {
+    private getSelectedSampleBusinessId(): number {
         return this.selectedSampleBusinessId;
     }
 
-    private onShowUserInfo(selectedBusiness:ISimpleListItem) {
+    private onShowUserInfo(selectedBusiness: ISimpleListItem) {
         this.onFilteredSelection();
         this.showUserInfo = selectedBusiness;
     }
@@ -190,15 +188,15 @@ export class Users {
             return;
         var businessSelected = this.simpleList.getSelected();
 
-        this.businessesListFiltered = this.businessesList.filter((businessModel:BusinessModel)=> {
+        this.businessesListFiltered = this.businessesList.filter((businessModel: BusinessModel) => {
             var businessId = businessModel.getBusinessId();
             return businessSelected[businessId] && businessSelected[businessId].selected;
         }) as List<BusinessModel>;
 
         let arr = [];
-        this.businessesListFiltered.forEach((businessModel:BusinessModel)=> {
+        this.businessesListFiltered.forEach((businessModel: BusinessModel) => {
             let businessModelId = businessModel.getBusinessId();
-            this.businessesUsers.forEach((businessUser:BusinessUser) => {
+            this.businessesUsers.forEach((businessUser: BusinessUser) => {
                 var businessUserId = businessUser.getBusinessId();
                 if (businessUserId == businessModelId) {
                     arr.push(businessUser);
@@ -208,13 +206,13 @@ export class Users {
         this.businessUsersListFiltered = List<BusinessUser>(arr);
     }
 
-    private getBusinesses(businessItem:BusinessModel) {
+    private getBusinesses(businessItem: BusinessModel) {
         // console.log(Math.random());
         return businessItem.getKey('name');
     }
 
     private getBusinessesId() {
-        return (businessItem:BusinessModel)=> {
+        return (businessItem: BusinessModel) => {
             return businessItem.getKey('businessId');
         }
     }

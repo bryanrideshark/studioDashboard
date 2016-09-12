@@ -1,0 +1,45 @@
+<div>
+    <form novalidate autocomplete="off" [formGroup]="contGroup">
+        <div class="row">
+            <div class="inner userGeneral">
+                <div class="panel panel-default tallPanel">
+                    <div class="panel-heading">
+                        <small class="release">target properties
+                            <i style="font-size: 1.4em" class="fa fa-cog pull-right"></i>
+                        </small>
+                        <small class="debug">{{me}}</small>
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            maintain aspect ratio
+                            <div class="material-switch pull-right">
+                                <input (change)="onFormChange(customerNetwork2.checked)"
+                                       [formControl]="contGroup.controls['maintainAspectRatio']"
+                                       id="customerNetwork2" #customerNetwork2
+                                       name="customerNetwork2" type="checkbox"/>
+                                <label for="customerNetwork2" class="label-primary"></label>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                                <input [formControl]="contGroup.controls['duration']" required
+                                       pattern="[0-9]|[a-z]+"
+                                       type="text" class="form-control" minlength="3" maxlength="15"
+                                       placeholder="duration">
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-circle-o-notch"></i></span>
+                                <input type="number" [formControl]="contGroup.controls['reparationsPerHour']" min="0"
+                                       class="form-control"
+                                       placeholder="repetitions">
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
