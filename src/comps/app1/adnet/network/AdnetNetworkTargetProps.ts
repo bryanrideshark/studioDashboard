@@ -4,6 +4,8 @@ import {AppStore} from "angular2-redux-util";
 import {Lib} from "../../../../Lib";
 import * as _ from "lodash";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
+import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
+import {List} from "immutable";
 
 @Component({
     selector: 'AdnetNetworkTargetProps',
@@ -13,7 +15,7 @@ import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
     },
     moduleId: __moduleName,
     templateUrl: 'AdnetNetworkTargetProps.html',
-    styles: [`
+    styles: [`        
         input.ng-invalid {
             border-right: 10px solid red;
         }
@@ -47,11 +49,24 @@ export class AdnetNetworkTargetProps {
     @Input()
     set setAdnetTargetModel(i_adnetTargetModel: AdnetTargetModel) {
         this.adnetTargetModel = i_adnetTargetModel;
-        if (this.adnetTargetModel)
-            this.renderFormInputs();
+        if (!this.adnetTargetModel)
+            return;
+
+        var customerId = this.adnetTargetModel.getCustomerId();
+        var customersList:List<AdnetCustomerModel> = this.appStore.getState().adnet.getIn(['customers']) || {};
+        var customerModel:AdnetCustomerModel = customersList.filter((adnetCustomerModel: AdnetCustomerModel) => {
+            return customerId == adnetCustomerModel.customerId();
+        }).first() as AdnetCustomerModel;
+
+        console.log(this.adnetTargetModel.getCustomerId());
+        console.log(customerModel.customerId());
+
+
+        this.renderFormInputs();
     }
 
     private adnetTargetModel: AdnetTargetModel;
+    private adnetCustomerModel: AdnetCustomerModel;
     private contGroup: FormGroup;
     private formInputs = {};
 
@@ -62,7 +77,7 @@ export class AdnetNetworkTargetProps {
     private updateSore() {
         setTimeout(() => {
             console.log(this.contGroup.status + ' ' + JSON.stringify(Lib.CleanCharForXml(this.contGroup.value)));
-            // this.appStore.dispatch(this.adnetAction.saveCustomerInfo(Lib.CleanCharForXml(this.contGroup.value), this.customerModel.customerId()))
+            //this.appStore.dispatch(this.adnetAction.saveCustomerInfo(Lib.CleanCharForXml(this.contGroup.value), this.customerModel.customerId()))
         }, 1)
     }
 
@@ -75,3 +90,4 @@ export class AdnetNetworkTargetProps {
         });
     };
 }
+

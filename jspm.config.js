@@ -42,9 +42,6 @@ SystemJS.config({
         "StudioDashboard": {
             "main": "StudioDashboard.js"
         },
-        "angular2-google-maps": {
-            "defaultExtension": "js"
-        },
         "highcharts/modules/map": {
             "defaultExtension": "js"
         },
@@ -470,7 +467,8 @@ SystemJS.config({
         "twbs/bootstrap": "github:twbs/bootstrap@3.3.6",
         "@angular/http": "npm:@angular/http@2.0.0-rc.6/bundles/http.umd",
         "@angular/router": "npm:@angular/router@3.0.0-rc.2",
-        "angular-router": "npm:@angular/router@3.0.0-rc.2"
+        "angular-router": "npm:@angular/router@3.0.0-rc.2",
+        "angular2-google-maps": "npm:angular2-google-maps@0.14.0"
     }
 });
 
@@ -484,7 +482,6 @@ SystemJS.config({
         "@angular/platform-browser": "npm:@angular/platform-browser@2.0.0-rc.6",
         "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.0.0-rc.6",
         "@angular/forms": "npm:@angular/forms@2.0.0-rc.6",
-        "angular2-google-maps": "npm:angular2-google-maps@0.14.0/core",
         "jquery": "npm:jquery@2.2.4",
         "angular-core": "npm:@angular/core@2.0.0-rc.6",
         "angular-platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.0.0-rc.6",

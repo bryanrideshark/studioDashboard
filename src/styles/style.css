@@ -964,3 +964,7 @@ small.release {
     color: #4c4c4c;
     display: none; !important;
 }
+
+.panel-title  {
+    font-size: 0.9em;
+}

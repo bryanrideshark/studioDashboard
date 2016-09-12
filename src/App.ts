@@ -67,7 +67,7 @@ import {LogoCompany} from "./comps/logo/LogoCompany";
 import {Observable} from "rxjs/Rx";
 import {
     LazyMapsAPILoaderConfig, AgmCoreModule
-} from "angular2-google-maps/core";
+} from "angular2-google-maps/core/core.umd.js";
 import {AdnetActions} from "./adnet/AdnetActions";
 import {AUTH_PROVIDERS} from "./services/AuthService";
 import {BrowserModule} from "@angular/platform-browser";
@@ -139,13 +139,8 @@ import {AdnetNetworkPackageContentProps} from "./comps/app1/adnet/network/AdnetN
 import {AdnetNetworkTarget} from "./comps/app1/adnet/network/AdnetNetworkTarget";
 import {AdnetNetworkTargetProps} from "./comps/app1/adnet/network/AdnetNetworkTargetProps";
 import {DropdownModule} from 'ng2-bootstrap/ng2-bootstrap';
+import {AccordionModule} from 'ng2-bootstrap/ng2-bootstrap';
 import {RatingModule} from 'ng2-bootstrap/ng2-bootstrap';
-
-// import {RatingModule} from "../jspm_packages/npm/ng2-bootstrap@1.1.2/components/rating/rating.module";
-// import {RatingComponent} from "../jspm_packages/npm/ng2-bootstrap@1.1.2/components/rating/rating.component";
-// import {RatingModule} from 'ng2-bootstrap/ng2-bootstrap';
-// import {DropdownModule} from "../jspm_packages/npm/ng2-bootstrap@1.1.2/components/dropdown/dropdown.module";
-// import {RatingComponent} from "../jspm_packages/npm/ng2-bootstrap@1.1.1/components/rating/rating.component";
 //import "zone.js/dist/long-stack-trace-zone"; // removed 9-7-2016
 
 export enum ServerMode {
@@ -234,10 +229,7 @@ var googleKey = function () {
     return config;
 }
 
-// var modules = [CommBroker, AUTH_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
-
-
-var modules = [CommBroker, AUTH_PROVIDERS,
+var providing = [CommBroker, AUTH_PROVIDERS,
     {provide: LazyMapsAPILoaderConfig, useFactory: () => googleKey()},
     {provide: AppStore, useFactory: Lib.StoreFactory({notify, appdb, business, stations, reseller, adnet, orders})},
     {provide: StoreService, useClass: StoreService},
@@ -258,14 +250,14 @@ var modules = [CommBroker, AUTH_PROVIDERS,
 var decelerations = [Main, RatesTable, UsersDetails, LoginPanel, Menu, MenuItem, Account, Whitelabel, Apps, App1, Users, Adnet, Privileges, Dashboard, Logout, Orders, Filemenu, FilemenuItem, Logo, LogoCompany, Footer, BlurForwarder, InputEdit, OrderBy, SortBy, FilterPipe, AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, ServerStats, ServerAvg, StationsMap, StationsGrid, StationDetails, ImgLoader, Ng2Highcharts, AdnetConfigCustomer, AdnetConfig, StationSnapshot, OrderDetails, SimpleList, PrivilegesDetails, ModalDialog, Infobox, UserStorage, Loading, Samplelist, SIMPLEGRID_DIRECTIVES, UserInfo, AddUser, ChangePass, MODAL_DIRECTIVES, Ng2Highstocks, Ng2Highmaps, SimpleGridSortableHeader, SimpleGridRecord, SimpleGridData, SimplelistEditable, AdnetConfigTargetStations, AdnetConfigTargetProps, AdnetLocation, MapAddress, AdnetNetwork, AdnetNetworkCustomerSelector, AdnetNetworkPackageEditor, AdnetNetworkPackageViewer, AdnetNetworkPackageTarget, AdnetNetworkPackageProps, AdnetNetworkPackageContent, AdnetNetworkPackageContentProps, AdnetNetworkTarget, AdnetNetworkTargetProps];
 
 @NgModule({
-    imports: [BrowserModule, AgmCoreModule.forRoot(), FormsModule, JsonpModule, HttpModule, ReactiveFormsModule, DropdownModule, RatingModule, routing],
-    providers: [modules],
+    imports: [BrowserModule, AgmCoreModule.forRoot(), JsonpModule, HttpModule, ReactiveFormsModule, FormsModule, DropdownModule, RatingModule, AccordionModule, routing],
+    providers: [providing],
     declarations: decelerations,
     bootstrap: [Main],
 })
 export class App {
 }
-platformBrowserDynamic().bootstrapModule(App, modules).then((appRef: NgModuleRef<any>) => {
+platformBrowserDynamic().bootstrapModule(App, providing).then((appRef: NgModuleRef<any>) => {
     appInjService(appRef.injector);
 });
 
@@ -274,7 +266,7 @@ window['hr'] && window['hr'].on('change', (fileName) => {
         var newBody = document.createElement('body')
         newBody.appendChild(document.createElement('app'))
         document.body = newBody;
-        platformBrowserDynamic().bootstrapModule(App, modules).then((appRef: NgModuleRef<any>) => {
+        platformBrowserDynamic().bootstrapModule(App, providing).then((appRef: NgModuleRef<any>) => {
             appInjService(appRef.injector);
         });
     }

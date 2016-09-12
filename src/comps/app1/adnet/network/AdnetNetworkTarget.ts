@@ -23,7 +23,7 @@ import {ISimpleGridEdit} from "../../../simplegrid/SimpleGrid";
         </thead>
         <tbody>
         <tr class="simpleGridRecord" simpleGridRecord (onClicked)="onGridSelected($event)"
-            *ngFor="let item of adnetPackageModels | OrderBy:sort.field:sort.desc; let index=index" [item]="item"
+            *ngFor="let item of adnetTargetModels | OrderBy:sort.field:sort.desc; let index=index" [item]="item"
             [index]="index">
             <td style="width: 14%" simpleGridData [processField]="processAdnetPackageField('getCustomerId')"
                 [item]="item"></td>
@@ -47,7 +47,7 @@ export class AdnetNetworkTarget {
 
     @Input()
     set setAdnetTargetModels(i_adnetTargetModels: List<AdnetTargetModel>) {
-        this.adnetPackageModels = i_adnetTargetModels;
+        this.adnetTargetModels = i_adnetTargetModels;
         this.simpleGridTable.deselect();
     }
 
@@ -61,7 +61,7 @@ export class AdnetNetworkTarget {
     @ViewChild(SimpleGridTable)
     simpleGridTable:SimpleGridTable;
 
-    protected adnetPackageModels: List<AdnetTargetModel>
+    private adnetTargetModels: List<AdnetTargetModel>
     public sort:{field:string, desc:boolean} = {field: null, desc: false};
 
     private processAdnetPackageField(i_function: string) {
@@ -71,6 +71,8 @@ export class AdnetNetworkTarget {
     }
 
     private onGridSelected(simpleGridEdit:ISimpleGridEdit){
+        var trg = simpleGridEdit.item as AdnetTargetModel;
+        // console.log(trg.getCustomerId());
         this.onAdnetTargetSelected.emit(simpleGridEdit.item as AdnetTargetModel);
         this.onPropSelected.emit({selected: AdnetNetworkPropSelector.TARGET})
     }
