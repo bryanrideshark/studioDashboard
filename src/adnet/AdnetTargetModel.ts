@@ -45,6 +45,10 @@ export class AdnetTargetModel extends StoreModel {
         return this.getKey('Value').keys;
     }
 
+    public getComments() {
+        return this.getKey('Value').comments;
+    }
+
     // 0 stations
     // 2 websites
     public getTargetType() {

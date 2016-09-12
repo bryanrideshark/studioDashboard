@@ -1,5 +1,4 @@
 <div>
-    <form novalidate autocomplete="off" [formGroup]="contGroup">
         <div class="row">
             <div class="inner userGeneral">
                 <div class="panel panel-default tallPanel">
@@ -9,32 +8,31 @@
                         </small>
                         <small class="debug">{{me}}</small>
                     </div>
-
                     <accordion [closeOthers]="true">
                         <accordion-group [isOpen]="true" heading="customer">
-                            <!--<rating ngModel></rating>-->
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-                                <input [formControl]="contGroup.controls['duration']" required
-                                       pattern="[0-9]|[a-z]+"
-                                       type="text" class="form-control" minlength="3" maxlength="15"
-                                       placeholder="duration">
-                            </div>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-circle-o-notch"></i></span>
-                                <input type="number" [formControl]="contGroup.controls['reparationsPerHour']" min="0"
-                                       class="form-control"
-                                       placeholder="repetitions">
-                            </div>
+                            <ul style="font-size: 0.9em" *ngIf="adnetCustomerModel" class="list-group noSpace">
+                                <li class="list-group-item"><label>feedback:</label>
+                                    <div *ngFor="let item of adnetCustomerModel.reviewRateArr()">
+                                        <i class="fa fa-star pull-left"></i>
+                                    </div>
+                                    <div class="clearfix">
+                                    </div>
+                                </li>
+                                <li class="list-group-item">contact: {{adnetCustomerModel.getContact()}}</li>
+                                <li class="list-group-item">name: {{adnetCustomerModel.getName()}}</li>
+                                <li class="list-group-item">cell: {{adnetCustomerModel.contactCell()}}</li>
+                                <li class="list-group-item">comments: {{adnetCustomerModel.comments()}}</li>
+                                <li class="list-group-item">website: {{adnetCustomerModel.website()}}</li>
+                            </ul>
                         </accordion-group>
-                        <!--<accordion-group *ngFor="let item of [1,2,3]" [heading]="item">-->
-                        <!--{{ item }}-->
-                        <!--</accordion-group>-->
                         <accordion-group heading="station">
+                            <ul style="font-size: 0.9em" *ngIf="adnetTargetModel" class="list-group noSpace">
+                                <li class="list-group-item">name: {{adnetTargetModel.getName()}}</li>
+                                <li class="list-group-item">keys: {{adnetTargetModel.getKeys()}}</li>
+                                <li class="list-group-item">comments: {{adnetTargetModel.getComments()}}</li>
+                            </ul>
                         </accordion-group>
                         <accordion-group heading="rate">
-                        </accordion-group>
-                        <accordion-group heading="location">
                         </accordion-group>
                     </accordion>
 
@@ -42,5 +40,4 @@
                 </div>
             </div>
         </div>
-    </form>
 </div>

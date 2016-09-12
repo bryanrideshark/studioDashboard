@@ -1,5 +1,5 @@
-import {Component, Input, ChangeDetectionStrategy} from "@angular/core";
-import {FormControl, FormGroup, FormBuilder} from "@angular/forms";
+import {Component, Input, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild} from "@angular/core";
+import {FormControl, FormGroup, FormBuilder, ControlValueAccessor} from "@angular/forms";
 import {AppStore} from "angular2-redux-util";
 import {Lib} from "../../../../Lib";
 import * as _ from "lodash";
@@ -37,9 +37,9 @@ export class AdnetNetworkTargetProps {
 
         this['me'] = Lib.GetCompSelector(this.constructor)
         this.contGroup = fb.group({
-            'maintainAspectRatio': [''],
-            'duration': ['10'],
-            'reparationsPerHour': ['60']
+            'keys': [''],
+            'comments': [''],
+            'rate': ['']
         });
         _.forEach(this.contGroup.controls, (value, key: string) => {
             this.formInputs[key] = this.contGroup.controls[key] as FormControl;
@@ -51,18 +51,13 @@ export class AdnetNetworkTargetProps {
         this.adnetTargetModel = i_adnetTargetModel;
         if (!this.adnetTargetModel)
             return;
-
         var customerId = this.adnetTargetModel.getCustomerId();
-        var customersList:List<AdnetCustomerModel> = this.appStore.getState().adnet.getIn(['customers']) || {};
-        var customerModel:AdnetCustomerModel = customersList.filter((adnetCustomerModel: AdnetCustomerModel) => {
+        var customersList: List<AdnetCustomerModel> = this.appStore.getState().adnet.getIn(['customers']) || {};
+        this.adnetCustomerModel = customersList.filter((adnetCustomerModel: AdnetCustomerModel) => {
             return customerId == adnetCustomerModel.customerId();
         }).first() as AdnetCustomerModel;
+        // this.renderFormInputs();
 
-        console.log(this.adnetTargetModel.getCustomerId());
-        console.log(customerModel.customerId());
-
-
-        this.renderFormInputs();
     }
 
     private adnetTargetModel: AdnetTargetModel;
@@ -70,9 +65,20 @@ export class AdnetNetworkTargetProps {
     private contGroup: FormGroup;
     private formInputs = {};
 
-    private onFormChange(event) {
-        this.updateSore();
-    }
+    // private onFormChange(event) {
+    //     this.updateSore();
+    // }
+
+    // private getRate(ratingComponent: ControlValueAccessor) {
+    //     console.log(this.ratingComp);
+    //     var v = this.adnetCustomerModel.reviewRate();
+    //
+    //     setTimeout(() => {
+    //         ratingComponent.writeValue(v);
+    //         this.cd.detectChanges();
+    //     }, 1000)
+    //     return Math.floor(v);
+    // }
 
     private updateSore() {
         setTimeout(() => {
