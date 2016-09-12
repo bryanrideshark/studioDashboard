@@ -4,6 +4,7 @@ import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {List} from 'immutable';
 import {SimpleGridTable} from "../../../simplegrid/SimpleGridTable";
 import {IAdNetworkPropSelectedEvent, AdnetNetworkPropSelector} from "./AdnetNetwork";
+import {ISimpleGridEdit} from "../../../simplegrid/SimpleGrid";
 
 @Component({
     selector: 'AdnetNetworkTarget',
@@ -69,8 +70,8 @@ export class AdnetNetworkTarget {
         }
     }
 
-    private onGridSelected(i_adnetTargetModel:AdnetTargetModel){
-        this.onAdnetTargetSelected.emit(i_adnetTargetModel);
+    private onGridSelected(simpleGridEdit:ISimpleGridEdit){
+        this.onAdnetTargetSelected.emit(simpleGridEdit.item as AdnetTargetModel);
         this.onPropSelected.emit({selected: AdnetNetworkPropSelector.TARGET})
     }
 }

@@ -60,7 +60,7 @@
     "live-server": "^0.9.0",
     "lodash": "^3.10.1",
     "moment": "^2.14.1",
-    "ng2-bootstrap": "^1.1.1",
+    "ng2-bootstrap": "^1.1.2",
     "ng2-highcharts": "^0.2.4",
     "npm": "^3.5.3",
     "object-path": "^0.9.2",
@@ -126,7 +126,7 @@
     },
     "devDependencies": {
       "net": "github:jspm/nodelibs-net@^0.2.0-alpha",
-      "ng2-bootstrap": "npm:ng2-bootstrap@1.1.1",
+      "ng2-bootstrap": "npm:ng2-bootstrap@1.1.2",
       "systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@^0.5.9",
       "tty": "github:jspm/nodelibs-tty@^0.2.0-alpha"
     },
@@ -312,6 +312,9 @@
         "format": "amd"
       },
       "npm:moment@2.13.0": {
+        "jspmNodeConversion": false
+      },
+      "npm:moment@2.14.1": {
         "jspmNodeConversion": false
       },
       "npm:ms@0.7.1": {

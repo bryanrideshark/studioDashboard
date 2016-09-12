@@ -11,14 +11,7 @@
                     </div>
                     <ul class="list-group">
                         <li class="list-group-item">
-                            maintain aspect ratio
-                            <div class="material-switch pull-right">
-                                <input (change)="onFormChange(customerNetwork2.checked)"
-                                       [formControl]="contGroup.controls['maintainAspectRatio']"
-                                       id="customerNetwork2" #customerNetwork2
-                                       name="customerNetwork2" type="checkbox"/>
-                                <label for="customerNetwork2" class="label-primary"></label>
-                            </div>
+                            <rating></rating>
                         </li>
                         <li class="list-group-item">
                             <div class="input-group">

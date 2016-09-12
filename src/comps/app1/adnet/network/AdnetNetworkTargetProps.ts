@@ -1,10 +1,9 @@
 import {Component, Input, ChangeDetectionStrategy} from "@angular/core";
 import {FormControl, FormGroup, FormBuilder} from "@angular/forms";
-import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {AppStore} from "angular2-redux-util";
-import {AdnetContentModel} from "../../../../adnet/AdnetContentModel";
 import {Lib} from "../../../../Lib";
 import * as _ from "lodash";
+import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 
 @Component({
     selector: 'AdnetNetworkTargetProps',
@@ -32,8 +31,7 @@ import * as _ from "lodash";
 })
 export class AdnetNetworkTargetProps {
     constructor(private fb: FormBuilder,
-                private appStore: AppStore,
-                private adnetAction: AdnetActions) {
+                private appStore: AppStore) {
 
         this['me'] = Lib.GetCompSelector(this.constructor)
         this.contGroup = fb.group({
@@ -47,13 +45,13 @@ export class AdnetNetworkTargetProps {
     }
 
     @Input()
-    set setAdnetContentModels(i_adnetContentModels: AdnetContentModel) {
-        this.adnetContentModels = i_adnetContentModels;
-        if (this.adnetContentModels)
+    set setAdnetTargetModel(i_adnetTargetModel: AdnetTargetModel) {
+        this.adnetTargetModel = i_adnetTargetModel;
+        if (this.adnetTargetModel)
             this.renderFormInputs();
     }
 
-    private adnetContentModels: AdnetContentModel;
+    private adnetTargetModel: AdnetTargetModel;
     private contGroup: FormGroup;
     private formInputs = {};
 
@@ -69,10 +67,10 @@ export class AdnetNetworkTargetProps {
     }
 
     private renderFormInputs() {
-        if (!this.adnetContentModels)
+        if (!this.adnetTargetModel)
             return;
         _.forEach(this.formInputs, (value, key: string) => {
-            var data = this.adnetContentModels.getKey('Value')[key];
+            var data = this.adnetTargetModel.getKey('Value')[key];
             this.formInputs[key].setValue(data)
         });
     };
