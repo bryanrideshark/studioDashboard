@@ -12,8 +12,8 @@
                         <accordion-group [isOpen]="true" heading="customer">
                             <ul style="font-size: 0.9em" *ngIf="adnetCustomerModel" class="list-group noSpace">
                                 <li class="list-group-item"><label>feedback:</label>
-                                    <div *ngFor="let item of adnetCustomerModel.reviewRateArr()">
-                                        <i class="fa fa-star pull-left"></i>
+                                    <div *ngFor="let item of adnetCustomerModel.reviewRateArr(); let index=index">
+                                        <i class="fa {{getReviewIcon(item,index)}} pull-left"></i>
                                     </div>
                                     <div class="clearfix">
                                     </div>

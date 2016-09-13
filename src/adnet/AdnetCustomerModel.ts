@@ -45,7 +45,7 @@ export class AdnetCustomerModel extends StoreModel {
 
     public reviewRateArr(): Array<number> {
         var v = this.getKey('Value').reviewRate;
-        return _.range(Math.floor(v));
+        return _.range(Math.ceil(v));
     }
 
     public website() {

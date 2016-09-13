@@ -65,20 +65,15 @@ export class AdnetNetworkTargetProps {
     private contGroup: FormGroup;
     private formInputs = {};
 
-    // private onFormChange(event) {
-    //     this.updateSore();
-    // }
-
-    // private getRate(ratingComponent: ControlValueAccessor) {
-    //     console.log(this.ratingComp);
-    //     var v = this.adnetCustomerModel.reviewRate();
-    //
-    //     setTimeout(() => {
-    //         ratingComponent.writeValue(v);
-    //         this.cd.detectChanges();
-    //     }, 1000)
-    //     return Math.floor(v);
-    // }
+    private getReviewIcon(item, index): string {
+        var reviewRate = this.adnetCustomerModel.reviewRate();
+        reviewRate = reviewRate - index;
+        if (reviewRate <= 0)
+            return 'fa-star-o';
+        if (reviewRate > 0 && reviewRate < 1)
+            return 'fa-star-half-o';
+        return 'fa-star';
+    }
 
     private updateSore() {
         setTimeout(() => {

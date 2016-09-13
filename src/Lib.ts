@@ -49,6 +49,10 @@ export class Lib {
         return componentMetadata.selector;
     }
 
+    static IsRound(number:number){
+        return (Math.floor(number) == number)
+    }
+
     static CleanCharForXml(value:any):any {
         var clean = function (value:string) {
             if (_.isUndefined(value))
