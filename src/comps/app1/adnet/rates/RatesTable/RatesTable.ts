@@ -5,6 +5,7 @@ import {
 import * as _ from "lodash";
 import {SimpleList} from "../../../../simplelist/Simplelist";
 import {AdnetRateModel} from "../../../../../adnet/AdnetRateModel";
+import {Lib} from "../../../../../Lib";
 
 @Component({
     selector: 'RatesTable',
@@ -28,6 +29,7 @@ import {AdnetRateModel} from "../../../../../adnet/AdnetRateModel";
 export class RatesTable {
 
     constructor(private el: ElementRef) {
+        this['me'] = Lib.GetCompSelector(this.constructor)
     }
 
     ngOnInit() {

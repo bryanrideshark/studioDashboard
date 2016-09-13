@@ -131,7 +131,7 @@ export class AdnetConfigTargetProps {
         if (!this.targetModel)
             return;
         _.forEach(this.formInputs, (value, key: string) => {
-            if (key=='rateId') // don't set <select/> controls
+            if (key=='rateId') // don't set <select/> controls as will cause odd bugs in selections when using List
                 return;
             var data = this.targetModel.getKey('Value')[key];
             this.formInputs[key].setValue(data)

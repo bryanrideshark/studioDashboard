@@ -14,7 +14,8 @@
                     (selected)="onSelection()" [content]="getContent"></SimpleList>
     </div>
     <div class="col-xs-9">
-        <RatesTable [hidden]="!selectedAdnetRateModel" [rates]="selectedAdnetRateModel" (onRateChange)="onRateChange($event)"></RatesTable>
+        <RatesTable [hidden]="!selectedAdnetRateModel" [rates]="selectedAdnetRateModel"
+                    (onRateChange)="onRateChange($event)"></RatesTable>
     </div>
 </div>
 

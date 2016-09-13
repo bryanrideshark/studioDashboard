@@ -26,7 +26,7 @@ export class AdnetConfigRates {
     }
 
     @Input()
-    set adnetCustomerModel(i_adnetCustomerModel:AdnetCustomerModel) {
+    set adnetCustomerModel(i_adnetCustomerModel: AdnetCustomerModel) {
         this.resetSelection();
         this.selectedAdnetCustomerModel = i_adnetCustomerModel
         this.updFilteredRates();
@@ -36,12 +36,12 @@ export class AdnetConfigRates {
     simpleList: SimpleList;
 
     private unsub: Function;
-    private selectedAdnetCustomerModel:AdnetCustomerModel;
+    private selectedAdnetCustomerModel: AdnetCustomerModel;
     private selectedAdnetRateModel: AdnetRateModel;
     private rates: List<AdnetRateModel> = List<AdnetRateModel>();
     private filteredRates: List<AdnetRateModel> = List<AdnetRateModel>();
 
-    private resetSelection(){
+    private resetSelection() {
         this.selectedAdnetRateModel = null;
         if (this.simpleList)
             this.simpleList.deselect();
@@ -51,7 +51,7 @@ export class AdnetConfigRates {
         if (!this.filteredRates)
             return;
         var selected: {} = this.simpleList.getSelected();
-        _.forEach(selected, (simpleItem: ISimpleListItem)=> {
+        _.forEach(selected, (simpleItem: ISimpleListItem) => {
             if (simpleItem.selected) {
                 this.selectedAdnetRateModel = simpleItem.item;
                 return;
@@ -60,7 +60,7 @@ export class AdnetConfigRates {
     }
 
     private onAddRate() {
-        this.appStore.dispatch(this.adnetAction.addAdnetRateTable(this.selectedAdnetCustomerModel.customerId()));
+        this.appStore.dispatch(this.adnetAction.addAdnetRateTable(this.selectedAdnetCustomerModel.getId()));
     }
 
     private onRemoveRate() {
@@ -83,7 +83,9 @@ export class AdnetConfigRates {
     private updFilteredRates() {
         if (this.rates && this.selectedAdnetCustomerModel) {
             this.filteredRates = List<AdnetRateModel>();
-            this.rates.forEach((i_adnetRateModel: AdnetRateModel)=> {
+            this.rates.forEach((i_adnetRateModel: AdnetRateModel) => {
+                if (i_adnetRateModel==undefined)
+                    console.log(11);
                 if (i_adnetRateModel.customerId() == this.selectedAdnetCustomerModel.customerId()) {
                     this.filteredRates = this.filteredRates.push(i_adnetRateModel)
                 }
