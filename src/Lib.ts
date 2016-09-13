@@ -1,23 +1,23 @@
 /** Common Library **/
 
-import {Injectable, ComponentMetadata} from '@angular/core';
+import {Injectable, Component} from "@angular/core";
 import {createStore, combineReducers, applyMiddleware, compose} from "redux";
-//import * as thunkMiddleware from 'redux-thunk';
-import thunkMiddleware from 'redux-thunk';
+import thunkMiddleware from "redux-thunk";
 import {AppStore} from "angular2-redux-util";
-import {List, Map} from 'immutable';
-import {LoggerMiddleware} from "angular2-redux-util";
-import {BusinessUser} from "./business/BusinessUser";
+import * as Immutable from "immutable";
+import {List, Map} from "immutable";
 import {PrivelegesModel} from "./reseller/PrivelegesModel";
-import * as Immutable from 'immutable'
-import * as _ from 'lodash'
-import * as xml2js from 'xml2js'
+import * as _ from "lodash";
+import * as xml2js from "xml2js";
+//import {LoggerMiddleware} from "angular2-redux-util";
+//import {BusinessUser} from "./business/BusinessUser";
+//import * as thunkMiddleware from 'redux-thunk';
 
 
 @Injectable()
 export class Lib {
 
-    static StoreFactory(reducerList:Object) {
+    static StoreFactory(reducerList: Object) {
         return () => {
             const reducers = combineReducers(reducerList);
             //const middlewareEnhancer = applyMiddleware(<any>thunkMiddleware, LoggerMiddleware); // to enable logger
@@ -31,7 +31,7 @@ export class Lib {
         };
     }
 
-    static BooleanToNumber(value:any):any {
+    static BooleanToNumber(value: any): any {
         if (_.isUndefined(value) || _.isNull(value))
             return 0;
         if (value === "0" || value === 'false' || value === "False" || value === false)
@@ -41,20 +41,22 @@ export class Lib {
         return value;
     }
 
-    static GetCompSelector(i_constructor){
+    static GetCompSelector(i_constructor) {
+        if (!Lib.DevMode())
+            return;
         var annotations = Reflect.getMetadata('annotations', i_constructor);
         var componentMetadata = annotations.find(annotation => {
-            return (annotation instanceof ComponentMetadata);
+            return (annotation instanceof Component);
         });
         return componentMetadata.selector;
     }
 
-    static IsRound(number:number){
+    static IsRound(number: number) {
         return (Math.floor(number) == number)
     }
 
-    static CleanCharForXml(value:any):any {
-        var clean = function (value:string) {
+    static CleanCharForXml(value: any): any {
+        var clean = function (value: string) {
             if (_.isUndefined(value))
                 return '';
             if (_.isNull(value))
@@ -89,13 +91,13 @@ export class Lib {
             return value;
         if (_.isString(value))
             return clean(value);
-        _.forEach(value, (v, k)=> {
+        _.forEach(value, (v, k) => {
             value[k] = clean(v);
         });
         return value;
     }
 
-    static MapOfIndex(map:Map<string,any>, index:number, position:"first" | "last"):string {
+    static MapOfIndex(map: Map<string,any>, index: number, position: "first" | "last"): string {
         var mapJs = map.toJS();
         var mapJsPairs = _.toPairs(mapJs);
         var offset = position == 'first' ? 0 : 1;
@@ -119,17 +121,17 @@ export class Lib {
      * @param callBack
      * @constructor
      */
-    static PrivilegesXmlTemplate(defaultValues:boolean, selPrivId:string, appStore:AppStore = null, callBack:(err, result)=>any) {
+    static PrivilegesXmlTemplate(defaultValues: boolean, selPrivId: string, appStore: AppStore = null, callBack: (err, result)=>any) {
         // const parseString = require('xml2js').parseString;
         const parseString = xml2js.parseString;
 
-        var getAttributeGroup = (tableName:string, attribute:string) => {
+        var getAttributeGroup = (tableName: string, attribute: string) => {
             if (_.isNull(appStore) || defaultValues)
                 return 1;
             var result = 0;
             var reseller = appStore.getState().reseller;
             var privileges = reseller.getIn(['privileges']);
-            privileges.forEach((i_privelegesModel:PrivelegesModel, counter)=> {
+            privileges.forEach((i_privelegesModel: PrivelegesModel, counter) => {
                 if (i_privelegesModel.getPrivelegesId() == selPrivId) {
                     i_privelegesModel.getColumns().forEach((group, c) => {
                         if (group.get('tableName') == tableName)
@@ -140,13 +142,13 @@ export class Lib {
             return result;
         }
 
-        var getPrivilegesTable = (tableName:string, attribute:string) => {
+        var getPrivilegesTable = (tableName: string, attribute: string) => {
             if (_.isNull(appStore) || defaultValues)
                 return 7;
             var result = 0;
             var reseller = appStore.getState().reseller;
             var privileges = reseller.getIn(['privileges']);
-            privileges.forEach((i_privelegesModel:PrivelegesModel, counter)=> {
+            privileges.forEach((i_privelegesModel: PrivelegesModel, counter) => {
                 if (i_privelegesModel.getPrivelegesId() == selPrivId) {
                     i_privelegesModel.getColumns().forEach((group, c) => {
                         if (group.get('tableName') == tableName)
@@ -224,21 +226,21 @@ export class Lib {
 
     }
 
-    static Base64(){
+    static Base64() {
 
         var _PADCHAR = "=",
             _ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",
             _VERSION = "1.0";
 
 
-        function _getbyte64( s, i ) {
+        function _getbyte64(s, i) {
             // This is oddly fast, except on Chrome/V8.
             // Minimal or no improvement in performance by using a
             // object with properties mapping chars to value (eg. 'A': 0)
 
-            var idx = _ALPHA.indexOf( s.charAt( i ) );
+            var idx = _ALPHA.indexOf(s.charAt(i));
 
-            if ( idx === -1 ) {
+            if (idx === -1) {
                 throw "Cannot decode base64";
             }
 
@@ -246,27 +248,27 @@ export class Lib {
         }
 
 
-        function _decode( s ) {
+        function _decode(s) {
             var pads = 0,
                 i,
                 b10,
                 imax = s.length,
                 x = [];
 
-            s = String( s );
+            s = String(s);
 
-            if ( imax === 0 ) {
+            if (imax === 0) {
                 return s;
             }
 
-            if ( imax % 4 !== 0 ) {
+            if (imax % 4 !== 0) {
                 throw "Cannot decode base64";
             }
 
-            if ( s.charAt( imax - 1 ) === _PADCHAR ) {
+            if (s.charAt(imax - 1) === _PADCHAR) {
                 pads = 1;
 
-                if ( s.charAt( imax - 2 ) === _PADCHAR ) {
+                if (s.charAt(imax - 2) === _PADCHAR) {
                     pads = 2;
                 }
 
@@ -274,31 +276,31 @@ export class Lib {
                 imax -= 4;
             }
 
-            for ( i = 0; i < imax; i += 4 ) {
-                b10 = ( _getbyte64( s, i ) << 18 ) | ( _getbyte64( s, i + 1 ) << 12 ) | ( _getbyte64( s, i + 2 ) << 6 ) | _getbyte64( s, i + 3 );
-                x.push( String.fromCharCode( b10 >> 16, ( b10 >> 8 ) & 0xff, b10 & 0xff ) );
+            for (i = 0; i < imax; i += 4) {
+                b10 = ( _getbyte64(s, i) << 18 ) | ( _getbyte64(s, i + 1) << 12 ) | ( _getbyte64(s, i + 2) << 6 ) | _getbyte64(s, i + 3);
+                x.push(String.fromCharCode(b10 >> 16, ( b10 >> 8 ) & 0xff, b10 & 0xff));
             }
 
-            switch ( pads ) {
+            switch (pads) {
                 case 1:
-                    b10 = ( _getbyte64( s, i ) << 18 ) | ( _getbyte64( s, i + 1 ) << 12 ) | ( _getbyte64( s, i + 2 ) << 6 );
-                    x.push( String.fromCharCode( b10 >> 16, ( b10 >> 8 ) & 0xff ) );
+                    b10 = ( _getbyte64(s, i) << 18 ) | ( _getbyte64(s, i + 1) << 12 ) | ( _getbyte64(s, i + 2) << 6 );
+                    x.push(String.fromCharCode(b10 >> 16, ( b10 >> 8 ) & 0xff));
                     break;
 
                 case 2:
-                    b10 = ( _getbyte64( s, i ) << 18) | ( _getbyte64( s, i + 1 ) << 12 );
-                    x.push( String.fromCharCode( b10 >> 16 ) );
+                    b10 = ( _getbyte64(s, i) << 18) | ( _getbyte64(s, i + 1) << 12 );
+                    x.push(String.fromCharCode(b10 >> 16));
                     break;
             }
 
-            return x.join( "" );
+            return x.join("");
         }
 
 
-        function _getbyte( s, i ) {
-            var x = s.charCodeAt( i );
+        function _getbyte(s, i) {
+            var x = s.charCodeAt(i);
 
-            if ( x > 255 ) {
+            if (x > 255) {
                 throw "INVALID_CHARACTER_ERR: DOM Exception 5";
             }
 
@@ -306,43 +308,43 @@ export class Lib {
         }
 
 
-        function _encode( s ) {
-            if ( arguments.length !== 1 ) {
+        function _encode(s) {
+            if (arguments.length !== 1) {
                 throw "SyntaxError: exactly one argument required";
             }
 
-            s = String( s );
+            s = String(s);
 
             var i,
                 b10,
                 x = [],
                 imax = s.length - s.length % 3;
 
-            if ( s.length === 0 ) {
+            if (s.length === 0) {
                 return s;
             }
 
-            for ( i = 0; i < imax; i += 3 ) {
-                b10 = ( _getbyte( s, i ) << 16 ) | ( _getbyte( s, i + 1 ) << 8 ) | _getbyte( s, i + 2 );
-                x.push( _ALPHA.charAt( b10 >> 18 ) );
-                x.push( _ALPHA.charAt( ( b10 >> 12 ) & 0x3F ) );
-                x.push( _ALPHA.charAt( ( b10 >> 6 ) & 0x3f ) );
-                x.push( _ALPHA.charAt( b10 & 0x3f ) );
+            for (i = 0; i < imax; i += 3) {
+                b10 = ( _getbyte(s, i) << 16 ) | ( _getbyte(s, i + 1) << 8 ) | _getbyte(s, i + 2);
+                x.push(_ALPHA.charAt(b10 >> 18));
+                x.push(_ALPHA.charAt(( b10 >> 12 ) & 0x3F));
+                x.push(_ALPHA.charAt(( b10 >> 6 ) & 0x3f));
+                x.push(_ALPHA.charAt(b10 & 0x3f));
             }
 
-            switch ( s.length - imax ) {
+            switch (s.length - imax) {
                 case 1:
-                    b10 = _getbyte( s, i ) << 16;
-                    x.push( _ALPHA.charAt( b10 >> 18 ) + _ALPHA.charAt( ( b10 >> 12 ) & 0x3F ) + _PADCHAR + _PADCHAR );
+                    b10 = _getbyte(s, i) << 16;
+                    x.push(_ALPHA.charAt(b10 >> 18) + _ALPHA.charAt(( b10 >> 12 ) & 0x3F) + _PADCHAR + _PADCHAR);
                     break;
 
                 case 2:
-                    b10 = ( _getbyte( s, i ) << 16 ) | ( _getbyte( s, i + 1 ) << 8 );
-                    x.push( _ALPHA.charAt( b10 >> 18 ) + _ALPHA.charAt( ( b10 >> 12 ) & 0x3F ) + _ALPHA.charAt( ( b10 >> 6 ) & 0x3f ) + _PADCHAR );
+                    b10 = ( _getbyte(s, i) << 16 ) | ( _getbyte(s, i + 1) << 8 );
+                    x.push(_ALPHA.charAt(b10 >> 18) + _ALPHA.charAt(( b10 >> 12 ) & 0x3F) + _ALPHA.charAt(( b10 >> 6 ) & 0x3f) + _PADCHAR);
                     break;
             }
 
-            return x.join( "" );
+            return x.join("");
         }
 
 
@@ -353,7 +355,7 @@ export class Lib {
         };
     }
 
-    static AppsXmlTemplate(callBack:(err, result)=>any) {
+    static AppsXmlTemplate(callBack: (err, result)=>any) {
         // const parseString = require('xml2js').parseString;
         const parseString = xml2js.parseString;
         var xmlData = `
@@ -767,7 +769,7 @@ export class Lib {
         });
     }
 
-    static LoadComponentAsync(name:string, path:string) {
+    static LoadComponentAsync(name: string, path: string) {
 
         return System.import(path).then(c => c[name]);
 
@@ -783,9 +785,9 @@ export class Lib {
     }
 
 
-    static ConstructImmutableFromTable(path):Array<any> {
+    static ConstructImmutableFromTable(path): Array<any> {
         var arr = [];
-        path.forEach((member)=> {
+        path.forEach((member) => {
             var obj = {};
             obj[member._attr.name] = {
                 table: {}
@@ -803,10 +805,10 @@ export class Lib {
         return arr;
     }
 
-    static ComputeMask(accessMask):number {
+    static ComputeMask(accessMask): number {
         var bits = [1, 2, 4, 8, 16, 32, 64, 128];
         var computedAccessMask = 0;
-        accessMask.forEach(value=> {
+        accessMask.forEach(value => {
             var bit = bits.shift();
             if (value)
                 computedAccessMask = computedAccessMask + bit;
@@ -815,7 +817,7 @@ export class Lib {
         return computedAccessMask;
     }
 
-    static GetAccessMask(accessMask):List<any> {
+    static GetAccessMask(accessMask): List<any> {
         var checks = List();
         var bits = [1, 2, 4, 8, 16, 32, 64, 128];
         for (var i = 0; i < bits.length; i++) {
@@ -825,7 +827,7 @@ export class Lib {
         return checks;
     }
 
-    static GetADaysMask(accessMask):List<any> {
+    static GetADaysMask(accessMask): List<any> {
         var checks = List();
         var bits = [1, 2, 4, 8, 16, 32, 64];
         for (var i = 0; i < bits.length; i++) {
@@ -839,7 +841,7 @@ export class Lib {
         console.log(new Date().toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1") + ': ' + msg);
     }
 
-    static guid():string {
+    static guid(): string {
         function s4() {
             return Math.floor((1 + Math.random()) * 0x10000)
                 .toString(16)
@@ -857,7 +859,7 @@ export class Lib {
         return result
     };
 
-    static DevMode():boolean {
+    static DevMode(): boolean {
         if (window.location.href.indexOf('localhost') > -1) {
             return true;
         } else {
@@ -865,7 +867,7 @@ export class Lib {
         }
     }
 
-    static GetSamples():Object {
+    static GetSamples(): Object {
         return {
             1019: 'Sushi Restaurant,pro',
             1029: 'food menu board,pro',
@@ -1024,8 +1026,8 @@ export class Lib {
                 childrenAsArray: true // force children into arrays
             };
 
-            var prefixMatch:any = new RegExp('(?!xmlns)^.*:/');
-            var trimMatch:any = new RegExp('^\s+|\s+$g');
+            var prefixMatch: any = new RegExp('(?!xmlns)^.*:/');
+            var trimMatch: any = new RegExp('^\s+|\s+$g');
 
             this.grokType = function (sValue) {
                 if (/^\s*$/.test(sValue)) {

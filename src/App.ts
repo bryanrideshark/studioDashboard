@@ -187,7 +187,7 @@ export class Main {
     }
 
     private m_styleService: StyleService;
-    private version = '1.605.rc6';
+    private version = '1.685.rc7';
 
     private checkPlatform() {
         switch (platform.name.toLowerCase()) {
