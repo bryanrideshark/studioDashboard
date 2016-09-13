@@ -1,4 +1,4 @@
-import {Component, Input, QueryList, ViewChildren} from "@angular/core";
+import {Component, Input, QueryList, ViewChildren, ChangeDetectionStrategy} from "@angular/core";
 import {FormControl, FormGroup, FormBuilder} from "@angular/forms";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {AppStore} from "angular2-redux-util";
@@ -12,7 +12,7 @@ export const moment = moment_["default"];
 @Component({
     moduleId: __moduleName,
     selector: 'AdnetNetworkPackageProps',
-    //changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     host: {'(input-blur)': 'onFormChange($event)'},
     templateUrl: 'AdnetNetworkPackageProps.html',
     styleUrls: ['AdnetNetworkPackageCommonStyles.css']

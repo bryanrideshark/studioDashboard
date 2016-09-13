@@ -1,5 +1,5 @@
 import {StoreModel} from "../models/StoreModel";
-import * as _ from 'lodash';
+import * as _ from "lodash";
 export class AdnetCustomerModel extends StoreModel {
 
     constructor(data: any = {}) {
@@ -50,5 +50,13 @@ export class AdnetCustomerModel extends StoreModel {
 
     public website() {
         return this.getKey('Value').website;
+    }
+
+    public locationLat() {
+        return this.getKey('Value').locationLat;
+    }
+
+    public locationLng() {
+        return this.getKey('Value').locationLng;
     }
 }

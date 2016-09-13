@@ -39,7 +39,7 @@ export class AdnetConfigTargetProps {
 
     constructor(private fb: FormBuilder,
                 private appStore: AppStore,
-                private cd:ChangeDetectorRef,
+                private cd: ChangeDetectorRef,
                 private adnetAction: AdnetActions) {
 
         this['me'] = Lib.GetCompSelector(this.constructor)
@@ -47,7 +47,7 @@ export class AdnetConfigTargetProps {
         this.contGroup = fb.group({
             'enabled': [''],
             'label': [''],
-            'hRate': [''],
+            'rateId': [''],
             'keys': [''],
             'targetDomain': [''],
             'locationLat': [''],
@@ -57,7 +57,7 @@ export class AdnetConfigTargetProps {
             'standardTimeOffset': [''],
             'url': ['']
         });
-        _.forEach(this.contGroup.controls, (value, key: string)=> {
+        _.forEach(this.contGroup.controls, (value, key: string) => {
             this.formInputs[key] = this.contGroup.controls[key] as FormControl;
         })
     }
@@ -98,7 +98,7 @@ export class AdnetConfigTargetProps {
     private updFilteredRates() {
         if (this.rates && this.adnetCustomerModel) {
             this.filteredRates = List<AdnetRateModel>();
-            this.rates.forEach((i_adnetRateModel: AdnetRateModel)=> {
+            this.rates.forEach((i_adnetRateModel: AdnetRateModel) => {
                 if (i_adnetRateModel.customerId() == this.adnetCustomerModel.customerId()) {
                     this.filteredRates = this.filteredRates.push(i_adnetRateModel)
                 }
@@ -107,7 +107,9 @@ export class AdnetConfigTargetProps {
         this.cd.markForCheck();
     }
 
-    private getSelectedRate(adnetRateModel:AdnetRateModel) {
+    private getSelectedRate(adnetRateModel: AdnetRateModel) {
+        if (!adnetRateModel)
+            return;
         if (adnetRateModel.getId() == this.targetModel.getRateId())
             return 'selected'
         return '';
@@ -118,7 +120,7 @@ export class AdnetConfigTargetProps {
     }
 
     private updateSore() {
-        setTimeout(()=> {
+        setTimeout(() => {
             let payload = Lib.CleanCharForXml(this.contGroup.value);
             payload.customerId = this.adnetCustomerModel.customerId();
             this.appStore.dispatch(this.adnetAction.saveTargetInfo(payload, this.targetModel.getId()))
@@ -128,7 +130,9 @@ export class AdnetConfigTargetProps {
     private renderFormInputs() {
         if (!this.targetModel)
             return;
-        _.forEach(this.formInputs, (value, key: string)=> {
+        _.forEach(this.formInputs, (value, key: string) => {
+            if (key=='rateId') // don't set <select/> controls
+                return;
             var data = this.targetModel.getKey('Value')[key];
             this.formInputs[key].setValue(data)
         });

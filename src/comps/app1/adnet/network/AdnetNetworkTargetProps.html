@@ -30,9 +30,12 @@
                                 <li class="list-group-item">name: {{adnetTargetModel.getName()}}</li>
                                 <li class="list-group-item">keys: {{adnetTargetModel.getKeys()}}</li>
                                 <li class="list-group-item">comments: {{adnetTargetModel.getComments()}}</li>
+                                <li class="list-group-item">lat: {{adnetCustomerModel.locationLat()}}</li>
+                                <li class="list-group-item">lng: {{adnetCustomerModel.locationLng()}}</li>
+                                <li class="list-group-item">
+                                    <button class="btn btn-default" (click)="onShowRates()">show rates</button>
+                                </li>
                             </ul>
-                        </accordion-group>
-                        <accordion-group heading="rate">
                         </accordion-group>
                     </accordion>
 

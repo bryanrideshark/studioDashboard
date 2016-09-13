@@ -1,11 +1,12 @@
-import {Component, Input, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild} from "@angular/core";
-import {FormControl, FormGroup, FormBuilder, ControlValueAccessor} from "@angular/forms";
+import {Component, Input, ChangeDetectionStrategy} from "@angular/core";
+import {FormControl, FormGroup, FormBuilder} from "@angular/forms";
 import {AppStore} from "angular2-redux-util";
 import {Lib} from "../../../../Lib";
 import * as _ from "lodash";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {List} from "immutable";
+import {AdnetRateModel} from "../../../../adnet/AdnetRateModel";
 
 @Component({
     selector: 'AdnetNetworkTargetProps',
@@ -56,8 +57,6 @@ export class AdnetNetworkTargetProps {
         this.adnetCustomerModel = customersList.filter((adnetCustomerModel: AdnetCustomerModel) => {
             return customerId == adnetCustomerModel.customerId();
         }).first() as AdnetCustomerModel;
-        // this.renderFormInputs();
-
     }
 
     private adnetTargetModel: AdnetTargetModel;
@@ -73,6 +72,17 @@ export class AdnetNetworkTargetProps {
         if (reviewRate > 0 && reviewRate < 1)
             return 'fa-star-half-o';
         return 'fa-star';
+    }
+
+    private onShowRates() {
+        var rateId = this.adnetTargetModel.getRateId();
+        if (rateId == 0)
+            return
+        var customersList: List<AdnetRateModel> = this.appStore.getState().adnet.getIn(['rates']) || {};
+        var adnetRateModel = customersList.filter((adnetRateTable: AdnetRateModel) => {
+            return rateId == adnetRateTable.getId();
+        }).first() as AdnetRateModel;
+        console.log(adnetRateModel.rateMap());
     }
 
     private updateSore() {
