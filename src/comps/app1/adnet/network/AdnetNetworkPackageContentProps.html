@@ -70,7 +70,16 @@
                             </li>
                             <li class="list-group-item">
                                 <div class="input-group">
-                                    <img class="img-responsive" [src]="imgSource"/>
+                                    <div *ngIf="!videoSource">
+                                        <img class="img-responsive" [src]="imgSource"/>
+                                    </div>
+                                    <div *ngIf="videoSource">
+                                        <h5>video</h5>
+                                        <video class="img-responsive" autoplay>
+                                            <source [src]="videoSource" type="video/mp4">
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    </div>
                                 </div>
                             </li>
 
