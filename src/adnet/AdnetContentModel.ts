@@ -13,6 +13,10 @@ export class AdnetContentModel extends StoreModel {
         return this.getKey('Value').contentLabel;
     }
 
+    public getContentUrl() {
+        return this.getKey('Value').contentUrl;
+    }
+
     public duration() {
         return this.getKey('Value').duration;
     }

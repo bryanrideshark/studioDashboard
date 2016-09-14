@@ -20,7 +20,10 @@ export class AdnetNetworkPackageContentProps {
         this.contGroup = fb.group({
             'maintainAspectRatio': [''],
             'duration': ['10'],
-            'reparationsPerHour': ['60']
+            'reparationsPerHour': ['60'],
+            'locationLat': [''],
+            'locationLng': [''],
+            'locationRadios': [''],
         });
         _.forEach(this.contGroup.controls, (value, key: string) => {
             this.formInputs[key] = this.contGroup.controls[key] as FormControl;
@@ -38,6 +41,7 @@ export class AdnetNetworkPackageContentProps {
     private adnetContentModels: AdnetContentModel;
     private contGroup: FormGroup;
     private formInputs = {};
+    private imgSource = '';
 
     private onFormChange(event) {
         this.updateSore();
@@ -56,6 +60,19 @@ export class AdnetNetworkPackageContentProps {
             return;
         _.forEach(this.formInputs, (value, key: string) => {
             var data = this.adnetContentModels.getKey('Value')[key];
+            if (key = 'contentUrl') {
+                var url = this.adnetContentModels.getContentUrl()
+                var res = url.match(/(?!.*[.](?:jpg|jpeg|png)$).*/ig);
+                if (res[0].length <= 4) {
+                    this.imgSource = this.adnetContentModels.getContentUrl();
+                } else {
+                    var url = this.adnetContentModels.getContentUrl();
+                    jQuery.get(url, data => {
+                        this.imgSource = data.url;
+                    })
+                }
+                return;
+            }
             this.formInputs[key].setValue(data)
         });
     };

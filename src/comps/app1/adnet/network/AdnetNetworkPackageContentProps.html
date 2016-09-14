@@ -38,6 +38,42 @@
                                            placeholder="repetitions">
                                 </div>
                             </li>
+
+                            <li class="list-group-item">
+                                <div class="input-group">
+                                    <span class="input-group-addon">location</span>
+                                    <input type="number" [formControl]="contGroup.controls['locationLat']"
+                                           type="number" class="form-control" min="1"
+                                           class="form-control"
+                                           placeholder="lat">
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="input-group">
+                                    <span class="input-group-addon">location</span>
+                                    <input type="number" [formControl]="contGroup.controls['locationLng']"
+                                           type="number" class="form-control" min="1"
+                                           class="form-control"
+                                           placeholder="lng">
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="input-group">
+                                    <span class="input-group-addon">location</span>
+                                    <input type="number" [formControl]="contGroup.controls['locationRadios']"
+                                           type="number" class="form-control" min="1"
+                                           class="form-control"
+                                           placeholder="radius">
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="input-group">
+                                    <img class="img-responsive" [src]="imgSource"/>
+                                </div>
+                            </li>
+
                         </ul>
                     </div>
                 </div>
