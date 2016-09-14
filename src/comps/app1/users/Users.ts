@@ -1,4 +1,4 @@
-import {Component, ViewChild, ElementRef} from "@angular/core";
+import {Component, ViewChild, ElementRef, trigger, transition, animate, state, style} from "@angular/core";
 import {SimpleList, ISimpleListItem} from "../../simplelist/SimpleList";
 import {AppStore} from "angular2-redux-util";
 import {BusinessAction} from "../../../business/BusinessAction";
@@ -18,7 +18,33 @@ import {Lib} from "../../../Lib";
     moduleId: __moduleName,
     styleUrls: ['Users.css'],
     templateUrl: 'Users.html',
+    host: {
+        '[@routeAnimation]': 'true',
+        '[style.display]': "'block'"
+    },
+    animations: [
+        trigger('routeAnimation', [
+            state('*', style({opacity: 1})),
+            transition('void => *', [
+                style({opacity: 0}),
+                animate(333)
+            ]),
+            transition('* => void', animate(333, style({opacity: 0})))
+        ])
+    ]
 })
+
+// for slide animation use:
+// animations: [
+//     trigger('routeAnimation', [
+//         state('*', style({transform: 'translateX(0)', opacity: 1})),
+//         transition('void => *', [
+//             style({transform: 'translateX(-100%)', opacity: 0}),
+//             animate(1000)
+//         ]),
+//         transition('* => void', animate(333, style({transform: 'translateX(100%)', opacity: 0})))
+//     ])
+// ]
 // styleUrls: ['../comps/app1/users/Users.css'],
 // templateUrl: '/src/comps/app1/users/Users.html'
 // moduleId: __moduleName,

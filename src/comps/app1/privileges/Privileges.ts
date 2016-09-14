@@ -1,14 +1,22 @@
-import {Component, Input, Output, EventEmitter, ViewChild} from '@angular/core'
-import {Loading} from "../../loading/Loading";
-import {SimpleList, ISimpleListItem} from "../../simplelist/Simplelist";
+import {
+    Component,
+    Input,
+    Output,
+    EventEmitter,
+    ViewChild,
+    trigger,
+    transition,
+    animate,
+    state,
+    style
+} from "@angular/core";
+import {SimpleList} from "../../simplelist/Simplelist";
 import {PrivelegesModel} from "../../../reseller/PrivelegesModel";
-import {List} from 'immutable';
+import {List} from "immutable";
 import {AppStore} from "angular2-redux-util";
 import {AuthService} from "../../../services/AuthService";
-import {appInjService} from "../../../services/AppInjService";
-import {PrivilegesDetails} from "./PrivilegesDetails";
 import {ResellerAction} from "../../../reseller/ResellerAction";
-import * as bootbox from 'bootbox';
+import * as bootbox from "bootbox";
 
 @Component({
     selector: 'privileges',
@@ -32,6 +40,21 @@ import * as bootbox from 'bootbox';
         cursor: default;
       }
     `],
+    host: {
+        '[@routeAnimation]': 'true',
+        '[style.display]': "'block'",
+        '[style.position]': "'absolute'"
+    },
+    animations: [
+        trigger('routeAnimation', [
+            state('*', style({opacity: 1})),
+            transition('void => *', [
+                style({opacity: 0}),
+                animate(333)
+            ]),
+            transition('* => void', animate(333, style({opacity: 0})))
+        ])
+    ],
     template: `
         <div class="row">
              <div class="col-xs-3">
@@ -65,38 +88,38 @@ import * as bootbox from 'bootbox';
 })
 export class Privileges {
 
-    constructor(private appStore:AppStore, private resellerAction:ResellerAction, private authService:AuthService) {
+    constructor(private appStore: AppStore, private resellerAction: ResellerAction, private authService: AuthService) {
         var i_reseller = this.appStore.getState().reseller;
 
         this.privilegeDefault = i_reseller.getIn(['privilegeDefault']);
-        this.unsub = this.appStore.sub((privilegeDefault:number) => {
+        this.unsub = this.appStore.sub((privilegeDefault: number) => {
             this.privilegeDefault = privilegeDefault;
         }, 'reseller.privilegeDefault');
 
         this.privelegesList = i_reseller.getIn(['privileges']);
-        this.unsub = this.appStore.sub((privelegesModel:List<PrivelegesModel>) => {
+        this.unsub = this.appStore.sub((privelegesModel: List<PrivelegesModel>) => {
             this.privelegesList = privelegesModel;
             this.onPrivilegeSelected();
         }, 'reseller.privileges');
     }
 
     @ViewChild(SimpleList)
-    simpleList:SimpleList;
+    simpleList: SimpleList;
 
     @Input()
     parts = [];
     @Input()
-    partsInCart:string;
+    partsInCart: string;
 
     @Output()
-    addToCart:EventEmitter<any> = new EventEmitter();
+    addToCart: EventEmitter<any> = new EventEmitter();
 
     private unsub;
-    private privelegesList:List<PrivelegesModel>
-    private privelegesModelSelected:PrivelegesModel;
-    private privilegeDefault:number;
+    private privelegesList: List<PrivelegesModel>
+    private privelegesModelSelected: PrivelegesModel;
+    private privilegeDefault: number;
 
-    private onPrivilegeRenamed(event:{item:PrivelegesModel, value:string}) {
+    private onPrivilegeRenamed(event: {item: PrivelegesModel, value: string}) {
         if (event.value.trim().length == 0)
             return;
         var privilegeId = event.item.getPrivelegesId();
@@ -115,25 +138,25 @@ export class Privileges {
         if (!this.simpleList)
             return;
         var selected = this.simpleList.getSelected();
-        var selectedList:List<PrivelegesModel> = this.privelegesList.filter((privelegesModel:PrivelegesModel)=> {
+        var selectedList: List<PrivelegesModel> = this.privelegesList.filter((privelegesModel: PrivelegesModel) => {
             var privelegesId = privelegesModel.getPrivelegesId();
             return selected[privelegesId] && selected[privelegesId].selected;
         }) as List<PrivelegesModel>;
         this.privelegesModelSelected = selectedList.first();
     }
 
-    private getPrivilege(privelegesModel:PrivelegesModel) {
+    private getPrivilege(privelegesModel: PrivelegesModel) {
         return privelegesModel.getName();
     }
 
     private getPrivilegeId() {
-        return (privilegeModel:PrivelegesModel)=> {
+        return (privilegeModel: PrivelegesModel) => {
             return privilegeModel.getPrivelegesId();
         }
     }
 
     private getDefaultPrivilege() {
-        return (index, privelegesModel:PrivelegesModel)=> {
+        return (index, privelegesModel: PrivelegesModel) => {
             if (privelegesModel.getPrivelegesId() == this.privilegeDefault)
                 return true
             return false;

@@ -1,16 +1,35 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef} from "@angular/core";
-import {AuthService} from "../../../services/AuthService";
-import {appInjService} from "../../../services/AppInjService";
+import {
+    Component,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    trigger,
+    transition,
+    animate,
+    state,
+    style
+} from "@angular/core";
 import {AppModel} from "../../../reseller/AppModel";
 import {List} from "immutable";
 import {AppStore} from "angular2-redux-util";
 import {ResellerAction} from "../../../reseller/ResellerAction";
-import {SIMPLEGRID_DIRECTIVES} from "../../simplegrid/SimpleGrid";
-import {OrderBy} from "../../../pipes/OrderBy";
 // import {ComponentInstruction} from "@angular/router";
 
 @Component({
     selector: 'apps',
+    host: {
+        '[@routeAnimation]': 'true',
+        '[style.display]': "'block'"
+    },
+    animations: [
+        trigger('routeAnimation', [
+            state('*', style({opacity: 1})),
+            transition('void => *', [
+                style({opacity: 0}),
+                animate(333)
+            ]),
+            transition('* => void', animate(333, style({opacity: 0})))
+        ])
+    ],
     template: `
         <div *ngIf="apps && apps.size > 0">
           <simpleGridTable>
@@ -36,7 +55,7 @@ import {OrderBy} from "../../../pipes/OrderBy";
 
 export class Apps {
 
-    constructor(private appStore:AppStore, private resellerAction:ResellerAction, private ref:ChangeDetectorRef) {
+    constructor(private appStore: AppStore, private resellerAction: ResellerAction, private ref: ChangeDetectorRef) {
         var i_reseller = this.appStore.getState().reseller;
         this.apps = i_reseller.getIn(['apps']);
         this.unsub = this.appStore.sub((apps) => {
@@ -45,18 +64,18 @@ export class Apps {
         }, 'reseller.apps');
     }
 
-    private sort:{field:string, desc:boolean} = {field: null, desc: false};
-    private apps:List<AppModel>;
+    private sort: {field: string, desc: boolean} = {field: null, desc: false};
+    private apps: List<AppModel>;
     private unsub;
 
-    private getInstalledStatus(item:AppModel) {
+    private getInstalledStatus(item: AppModel) {
         return [Number(item.getInstalled())];
     }
 
     private onAppInstalledChange(event, index) {
         // let animation of slide complete
-        setTimeout(()=> {
-            this.appStore.dispatch(this.resellerAction.appStatus(event.item, event.value["0"]));            
+        setTimeout(() => {
+            this.appStore.dispatch(this.resellerAction.appStatus(event.item, event.value["0"]));
         }, 1000)
     }
 

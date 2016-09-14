@@ -6,17 +6,18 @@ import {
     ElementRef,
     NgZone,
     ViewChildren,
-    QueryList
+    QueryList,
+    trigger,
+    transition,
+    animate,
+    state,
+    style
 } from "@angular/core";
 import {Router} from "@angular/router";
-import {Tab} from "../../tabs/tab";
-import {Tabs} from "../../tabs/tabs";
 import {WhitelabelModel} from "../../../reseller/WhitelabelModel";
 import {ResellerAction} from "../../../reseller/ResellerAction";
 import {AppStore} from "angular2-redux-util";
 import {FormGroup, FormControl, FormBuilder} from "@angular/forms";
-import {BlurForwarder} from "../../blurforwarder/BlurForwarder";
-import {Loading} from "../../loading/Loading";
 import {Lib} from "../../../Lib";
 import {ImgLoader} from "../../imgloader/ImgLoader";
 import * as _ from "lodash";
@@ -26,22 +27,34 @@ import * as bootbox from "bootbox";
     selector: 'whitelabel',
     styleUrls: [`../comps/app1/whitelabel/Whitelabel.css`],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    templateUrl: '/src/comps/app1/whitelabel/Whitelabel.html',
     host: {
-        '(input-blur)': 'onInputBlur($event)'
+        '(input-blur)': 'onInputBlur($event)',
+        '[@routeAnimation]': 'true',
+        '[style.display]': "'block'"
     },
-    templateUrl: '/src/comps/app1/whitelabel/Whitelabel.html'
+    animations: [
+        trigger('routeAnimation', [
+            state('*', style({opacity: 1})),
+            transition('void => *', [
+                style({opacity: 0}),
+                animate(333)
+            ]),
+            transition('* => void', animate(333, style({opacity: 0})))
+        ])
+    ],
 })
 export class Whitelabel {
 
-    constructor(private appStore:AppStore,
-                private fb:FormBuilder,
-                private cd:ChangeDetectorRef,
-                private router:Router,
-                private zone:NgZone,
-                private resellerAction:ResellerAction) {
+    constructor(private appStore: AppStore,
+                private fb: FormBuilder,
+                private cd: ChangeDetectorRef,
+                private router: Router,
+                private zone: NgZone,
+                private resellerAction: ResellerAction) {
         var i_reseller = this.appStore.getState().reseller;
         this.whitelabelModel = i_reseller.getIn(['whitelabel']);
-        this.unsub = this.appStore.sub((whitelabelModel:WhitelabelModel) => {
+        this.unsub = this.appStore.sub((whitelabelModel: WhitelabelModel) => {
             this.whitelabelModel = whitelabelModel;
             this.renderFormInputs();
         }, 'reseller.whitelabel');
@@ -66,7 +79,7 @@ export class Whitelabel {
             'bannerEmbedReference': [''],
             'createAccountOption': ['']
         });
-        _.forEach(this.contGroup.controls, (value, key:string)=> {
+        _.forEach(this.contGroup.controls, (value, key: string) => {
             this.formInputs[key] = this.contGroup.controls[key] as FormControl;
         })
         this.renderFormInputs();
@@ -81,33 +94,33 @@ export class Whitelabel {
         }
     }
 
-    @ViewChild('fileName') fileName:ElementRef;
-    @ViewChild('imgLoaderLogo') imgLoaderLogo:ImgLoader;
-    @ViewChild('imgLoaderSplash') imgLoaderSplash:ImgLoader;
-    @ViewChild('#imgLoaderSplash') a:any;
-    @ViewChild(ImgLoader) b:any;
-    @ViewChild('ImgLoader') c:any;
+    @ViewChild('fileName') fileName: ElementRef;
+    @ViewChild('imgLoaderLogo') imgLoaderLogo: ImgLoader;
+    @ViewChild('imgLoaderSplash') imgLoaderSplash: ImgLoader;
+    @ViewChild('#imgLoaderSplash') a: any;
+    @ViewChild(ImgLoader) b: any;
+    @ViewChild('ImgLoader') c: any;
 
     @ViewChildren('ImgLoader')
-    d:QueryList<any>;
+    d: QueryList<any>;
 
     @ViewChildren('imgLoader')
-    e:QueryList<any>;
+    e: QueryList<any>;
 
     @ViewChildren(ImgLoader)
-    f:QueryList<any>;
+    f: QueryList<any>;
 
     private formInputs = {};
-    private contGroup:FormGroup;
-    private whitelabelModel:WhitelabelModel;
+    private contGroup: FormGroup;
+    private whitelabelModel: WhitelabelModel;
     private unsub;
     private stylesObj;
 
     private onInputBlur(event) {
-        setTimeout(()=>this.appStore.dispatch(this.resellerAction.saveWhiteLabel(Lib.CleanCharForXml(this.contGroup.value))), 1);
+        setTimeout(() => this.appStore.dispatch(this.resellerAction.saveWhiteLabel(Lib.CleanCharForXml(this.contGroup.value))), 1);
     }
 
-    private getImageUrl(i_type):Array<string> {
+    private getImageUrl(i_type): Array<string> {
         if (!this.whitelabelModel)
             return [];
 
@@ -122,7 +135,7 @@ export class Whitelabel {
         }
     }
 
-    private getBusinessInfo(field):string {
+    private getBusinessInfo(field): string {
         if (!this.whitelabelModel)
             return '';
         return this.appStore.getsKey('reseller', 'whitelabel', field);
@@ -138,7 +151,7 @@ export class Whitelabel {
             if (httpRequest.status == 200) {
                 if (httpRequest.response == 'true') {
                     bootbox.alert('File uploaded successfully...');
-                    self.f.map((imgLoader:ImgLoader) => {
+                    self.f.map((imgLoader: ImgLoader) => {
                         imgLoader.reloadImage();
                     });
 
@@ -176,7 +189,7 @@ export class Whitelabel {
         var pass = this.appStore.getState().appdb.get('credentials').get('pass');
         formData.append("userName", user);
         formData.append("password", pass);
-        var appdb:Map<string,any> = this.appStore.getState().appdb;
+        var appdb: Map<string,any> = this.appStore.getState().appdb;
         var url = appdb.get('appBaseUrlUser').split('ResellerService')[0];
         httpRequest.open("POST", `${url}/ResourceUpload.ashx`);
         httpRequest.send(formData);
@@ -201,7 +214,7 @@ export class Whitelabel {
     }
 
     private renderFormInputs() {
-        _.forEach(this.formInputs, (value, key:string)=> {
+        _.forEach(this.formInputs, (value, key: string) => {
             var value = this.whitelabelModel.getKey(key);
             value = Lib.BooleanToNumber(value);
             this.formInputs[key].setValue(value);
@@ -217,7 +230,7 @@ export class Whitelabel {
             value = false;
             bootbox.alert('Branding will not be set as this account is inactive, be sure to update the billing info to reactivate the account!');
         }
-        setTimeout(()=> {
+        setTimeout(() => {
             this.appStore.dispatch(this.resellerAction.saveWhiteLabel({whitelabelEnabled: value}))
             this.cd.markForCheck();
         }, 1)

@@ -1,4 +1,4 @@
-import {Component, ViewChild, ChangeDetectorRef} from "@angular/core";
+import {Component, ViewChild, ChangeDetectorRef, trigger, transition, animate, state, style} from "@angular/core";
 import {List, Map} from "immutable";
 import {AppStore} from "angular2-redux-util";
 import {BusinessAction} from "../../../business/BusinessAction";
@@ -15,6 +15,20 @@ type stationComponentMode = "map" | "grid";
 
 @Component({
     selector: 'Dashboard',
+    host: {
+        '[@routeAnimation]': 'true',
+        '[style.display]': "'block'"
+    },
+    animations: [
+        trigger('routeAnimation', [
+            state('*', style({opacity: 1})),
+            transition('void => *', [
+                style({opacity: 0}),
+                animate(333)
+            ]),
+            transition('* => void', animate(333, style({opacity: 0})))
+        ])
+    ],
     styles: [`      
       * {
              border-radius: 0 !important;

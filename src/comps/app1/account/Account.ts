@@ -1,22 +1,14 @@
-import {Component, ChangeDetectionStrategy} from "@angular/core";
-import {AuthService} from "../../../services/AuthService";
-import {appInjService} from "../../../services/AppInjService";
-import {Tab} from "../../tabs/tab";
-import {Tabs} from "../../tabs/tabs";
+import {Component, ChangeDetectionStrategy, trigger, transition, animate, state, style} from "@angular/core";
 import {WhitelabelModel} from "../../../reseller/WhitelabelModel";
 import {ResellerAction} from "../../../reseller/ResellerAction";
 import {AppStore} from "angular2-redux-util";
-import {BlurForwarder} from "../../blurforwarder/BlurForwarder";
-import {Loading} from "../../loading/Loading";
 import {List} from "immutable";
 import {Lib} from "../../../Lib";
 import {AccountModel} from "../../../reseller/AccountModel";
 import {CreditService} from "../../../services/CreditService";
-import {InputEdit} from "../../../comps/inputedit/InputEdit";
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import * as _ from "lodash";
 import * as bootbox from "bootbox";
-
 
 @Component({
     selector: 'accounts',
@@ -27,19 +19,31 @@ import * as bootbox from "bootbox";
         }
     `],
     host: {
-        '(input-blur)': 'onInputBlur($event)'
+        '(input-blur)': 'onInputBlur($event)',
+        '[@routeAnimation]': 'true',
+        '[style.display]': "'block'"
     },
+    animations: [
+        trigger('routeAnimation', [
+            state('*', style({opacity: 1})),
+            transition('void => *', [
+                style({opacity: 0}),
+                animate(333)
+            ]),
+            transition('* => void', animate(333, style({opacity: 0})))
+        ])
+    ],
     changeDetection: ChangeDetectionStrategy.Default,
     templateUrl: `/src/comps/app1/account/Account.html`
 })
 
 export class Account {
-    constructor(private creditService:CreditService, private appStore:AppStore, private fb:FormBuilder, private resellerAction:ResellerAction) {
+    constructor(private creditService: CreditService, private appStore: AppStore, private fb: FormBuilder, private resellerAction: ResellerAction) {
         var i_reseller = this.appStore.getState().reseller;
 
         /** Whitelabel **/
         this.whitelabelModel = i_reseller.getIn(['whitelabel']);
-        this.unsub = this.appStore.sub((whitelabelModel:WhitelabelModel) => {
+        this.unsub = this.appStore.sub((whitelabelModel: WhitelabelModel) => {
             this.whitelabelModel = whitelabelModel;
             //this.renderFormInputs();
         }, 'reseller.whitelabel');
@@ -47,7 +51,7 @@ export class Account {
         /** Accounts **/
         this.accountModels = i_reseller.getIn(['accounts']);
         this.renderFormInputs();
-        this.unsub = this.appStore.sub((accountModels:List<AccountModel>) => {
+        this.unsub = this.appStore.sub((accountModels: List<AccountModel>) => {
             this.accountModels = accountModels;
             this.renderFormInputs();
         }, 'reseller.accounts');
@@ -92,7 +96,7 @@ export class Account {
             'contact_cellPhone': [''],
             'contact_email': ['']
         });
-        _.forEach(this.contGroup.controls, (value, key:string)=> {
+        _.forEach(this.contGroup.controls, (value, key: string) => {
             this.formInputs[key] = this.contGroup.controls[key] as FormControl;
         })
         this.renderFormInputs();
@@ -118,12 +122,12 @@ export class Account {
     private userName = '';
     private businessId = '';
     private payerId = '';
-    private whiteLabelEnabled:boolean = true;
+    private whiteLabelEnabled: boolean = true;
     private formInputs = {};
-    private contGroup:FormGroup;
-    private whitelabelModel:WhitelabelModel;
-    private accountModels:List<AccountModel>;
-    private PAY_SUBSCRIBER:number = 4;
+    private contGroup: FormGroup;
+    private whitelabelModel: WhitelabelModel;
+    private accountModels: List<AccountModel>;
+    private PAY_SUBSCRIBER: number = 4;
     private unsub;
     private stylesObj = {
         editIcon: {
@@ -146,12 +150,12 @@ export class Account {
     }
 
     private onInputBlur(event) {
-        setTimeout(()=>this.appStore.dispatch(this.resellerAction.saveAccountInfo(Lib.CleanCharForXml(this.contGroup.value))), 1);
+        setTimeout(() => this.appStore.dispatch(this.resellerAction.saveAccountInfo(Lib.CleanCharForXml(this.contGroup.value))), 1);
     }
 
     private onSubmit(value) {
         //setTimeout(()=>console.log(JSON.stringify(this.contGroup.value)), 1);
-        setTimeout(()=>this.appStore.dispatch(this.resellerAction.saveAccountInfo(Lib.CleanCharForXml(this.contGroup.value))), 1);
+        setTimeout(() => this.appStore.dispatch(this.resellerAction.saveAccountInfo(Lib.CleanCharForXml(this.contGroup.value))), 1);
     }
 
     private renderFormInputs() {
@@ -162,18 +166,15 @@ export class Account {
         this.businessId = this.appStore.getState().reseller.getIn(['whitelabel']).getKey('businessId');
         this.payerId = this.appStore.getState().reseller.getIn(['whitelabel']).getKey('payerId');
 
-        this.accountModels.forEach((accountModel:AccountModel)=> {
-            var type:string = accountModel.getType().toLowerCase();
+        this.accountModels.forEach((accountModel: AccountModel) => {
+            var type: string = accountModel.getType().toLowerCase();
             switch (type) {
-                case 'contact':
-                {
+                case 'contact': {
                 }
-                case 'shipping':
-                {
+                case 'shipping': {
                 }
-                case 'billing':
-                {
-                    _.forEach(this.formInputs, (value, key:string)=> {
+                case 'billing': {
+                    _.forEach(this.formInputs, (value, key: string) => {
                         if (_.isUndefined(key))
                             return;
                         var table = key.split('_')[0];
@@ -185,8 +186,7 @@ export class Account {
                     })
                     break;
                 }
-                case 'recurring':
-                {
+                case 'recurring': {
                     break;
                 }
             }
@@ -201,7 +201,7 @@ export class Account {
         var result = '';
         if (!this.accountModels)
             return result;
-        this.accountModels.forEach((accountModel:AccountModel)=> {
+        this.accountModels.forEach((accountModel: AccountModel) => {
             if (accountModel.getType() == modelType && result == '') {
                 result = accountModel.getKey(key);
                 return;
@@ -210,7 +210,7 @@ export class Account {
         return result;
     }
 
-    private getRecurringValue(key):any {
+    private getRecurringValue(key): any {
         if (!this.accountModels)
             return '';
         var value = this.getAccountModelKey('Recurring', key);
@@ -218,21 +218,19 @@ export class Account {
             value = '';
 
         switch (key) {
-            case 'recurringMode':
-            {
+            case 'recurringMode': {
                 // annual subscriber paying
                 if (value == '' && this.isAccountActive() && this.payerId == '-2')
                     return 'ANNUAL';
                 // 0 = disabled | 1 = CC | 2 = PayPal
                 if (value == '')
                     return value;
-                var payment = _.find(this.payments, (k)=> {
+                var payment = _.find(this.payments, (k) => {
                     return Number(k.index) == Number(value);
                 })
                 return payment.index;
             }
-            case 'paymentStatus':
-            {
+            case 'paymentStatus': {
                 // annual subscriber paying: 0 = failed | 1 = passed
                 if (value == '' && this.isAccountActive())
                     return true;
@@ -240,8 +238,7 @@ export class Account {
                     return value;
                 return (value == '1' ? true : false);
             }
-            case 'lastPayment':
-            {
+            case 'lastPayment': {
                 if (value == '')
                     return value;
                 return value.split(' ')[0];
@@ -251,20 +248,19 @@ export class Account {
 
     private onPaymentChanged(event) {
         var payment = event.target.value;
-        payment = _.find(this.payments, (k)=> {
+        payment = _.find(this.payments, (k) => {
             return k.name == payment;
         })
         var recurringMode = this.getRecurringValue('recurringMode');
         switch (payment.name) {
-            case 'disable':
-            {
+            case 'disable': {
                 bootbox.prompt(`are you sure you want to cancel your current subscription? type [DELETE_NOW] to cancel association of all your screens`, (result) => {
                     if (result == 'DELETE_NOW') {
                         this.appStore.dispatch(this.resellerAction.updateAccountInfo({"recurring_recurringMode": 0}));
                         this.onSubmit(null);
                     } else {
                         this.appStore.dispatch(this.resellerAction.updateAccountInfo({"recurring_recurringMode": 0}));
-                        setTimeout(()=> {
+                        setTimeout(() => {
                             this.appStore.dispatch(this.resellerAction.updateAccountInfo({"recurring_recurringMode": recurringMode}));
                             this.onSubmit(null);
                         }, 1)
@@ -272,14 +268,12 @@ export class Account {
                 });
                 break;
             }
-            case 'credit card':
-            {
+            case 'credit card': {
                 this.appStore.dispatch(this.resellerAction.updateAccountInfo({"recurring_recurringMode": payment.index}));
                 this.onSubmit(null);
                 break;
             }
-            case 'paypal':
-            {
+            case 'paypal': {
                 bootbox.dialog({
                     message: "for new accounts only, please allow 24 hours for your account to be activated",
                     title: "Pay with PayPal",
@@ -289,7 +283,7 @@ export class Account {
                             label: "Cancel",
                             callback: () => {
                                 this.appStore.dispatch(this.resellerAction.updateAccountInfo({"recurring_recurringMode": 0}));
-                                setTimeout(()=> {
+                                setTimeout(() => {
                                     this.appStore.dispatch(this.resellerAction.updateAccountInfo({"recurring_recurringMode": recurringMode}));
                                     this.onSubmit(null);
                                 }, 1)
@@ -301,7 +295,7 @@ export class Account {
                             callback: () => {
                                 if (!this.onPaypalConnect()) {
                                     this.appStore.dispatch(this.resellerAction.updateAccountInfo({"recurring_recurringMode": 0}));
-                                    setTimeout(()=> {
+                                    setTimeout(() => {
                                         this.appStore.dispatch(this.resellerAction.updateAccountInfo({"recurring_recurringMode": recurringMode}));
                                         this.onSubmit(null);
                                     }, 1)
@@ -318,7 +312,7 @@ export class Account {
         }
     }
 
-    private onPaypalConnect():boolean {
+    private onPaypalConnect(): boolean {
         var url = `https://galaxy.signage.me/WebService/CreateResellerRecurring.aspx?resellerId=${this.businessId }`;
         var newWin = window.open(url, '_blank');
         if (!newWin || newWin.closed || typeof newWin.closed == 'undefined') {
@@ -335,7 +329,7 @@ export class Account {
         return '';
     }
 
-    private isAccountActive():boolean {
+    private isAccountActive(): boolean {
         return this.resellerAction.getResellerIsActive();
     }
 
