@@ -1,4 +1,4 @@
-import {Component, Input, ChangeDetectionStrategy} from "@angular/core";
+import {Component, Input, ChangeDetectionStrategy, ViewChild} from "@angular/core";
 import {FormControl, FormGroup, FormBuilder} from "@angular/forms";
 import {AppStore} from "angular2-redux-util";
 import {Lib} from "../../../../Lib";
@@ -7,6 +7,7 @@ import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {List} from "immutable";
 import {AdnetRateModel} from "../../../../adnet/AdnetRateModel";
+import {ModalComponent} from "../../../ng2-bs3-modal/components/modal";
 
 @Component({
     selector: 'AdnetNetworkTargetProps',
@@ -47,6 +48,9 @@ export class AdnetNetworkTargetProps {
         })
     }
 
+    @ViewChild('modalRateTable')
+    modalRateTable: ModalComponent;
+
     @Input()
     set setAdnetTargetModel(i_adnetTargetModel: AdnetTargetModel) {
         this.adnetTargetModel = i_adnetTargetModel;
@@ -61,6 +65,7 @@ export class AdnetNetworkTargetProps {
 
     private adnetTargetModel: AdnetTargetModel;
     private adnetCustomerModel: AdnetCustomerModel;
+    private adnetRateModel: AdnetRateModel;
     private contGroup: FormGroup;
     private formInputs = {};
 
@@ -74,15 +79,18 @@ export class AdnetNetworkTargetProps {
         return 'fa-star';
     }
 
+    private onModalClose(event){}
+
     private onShowRates() {
         var rateId = this.adnetTargetModel.getRateId();
         if (rateId == 0)
             return
         var customersList: List<AdnetRateModel> = this.appStore.getState().adnet.getIn(['rates']) || {};
-        var adnetRateModel = customersList.filter((adnetRateTable: AdnetRateModel) => {
+        this.adnetRateModel = customersList.filter((adnetRateTable: AdnetRateModel) => {
             return rateId == adnetRateTable.getId();
         }).first() as AdnetRateModel;
-        console.log(adnetRateModel.rateMap());
+        console.log(this.adnetRateModel.rateMap());
+        this.modalRateTable.open('lg');
     }
 
     private updateSore() {

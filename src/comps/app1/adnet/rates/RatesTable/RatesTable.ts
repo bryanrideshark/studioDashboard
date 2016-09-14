@@ -38,6 +38,7 @@ export class RatesTable {
 
     @Output() onRateChange = new EventEmitter()
 
+    @Input() readOnly:boolean = false;
 
     @Input()
     set rates(i_adnetRateModel: AdnetRateModel) {
@@ -65,10 +66,14 @@ export class RatesTable {
 
 
     private onColor(i_color) {
+        if (this.readOnly)
+            return;
         this.selectedColor = i_color;
     }
 
     private onUpdateRate() {
+        if (this.readOnly)
+            return;
         var rateTable = this.getRateTable();
         _.forEach(this.adHourlyRate, (k, v)=> {
             if (_.isNaN(Number(k))){
@@ -177,6 +182,8 @@ export class RatesTable {
         this.rateGridContainer.off('mouseenter');
 
         this.rateGridContainer.on('click', '.square', function () {
+            if (self.readOnly)
+                return;
             jQuery(this).removeClass('blue');
             jQuery(this).removeClass('red');
             jQuery(this).removeClass('green');
@@ -188,6 +195,8 @@ export class RatesTable {
             this.onUpdateRate();
         }, 500);
         this.rateGridContainer.on('mouseenter', '.square', function (e) {
+            if (self.readOnly)
+                return;
             if (e['buttons'] == 1) {
                 jQuery(this).removeClass('blue');
                 jQuery(this).removeClass('red');

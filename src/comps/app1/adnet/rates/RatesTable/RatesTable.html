@@ -2,31 +2,31 @@
     <!--<button (click)="getRateTable()" class="btn-primary">Save</button>-->
     <small class="debug">{{me}}</small>
     <div *ngIf="adnetRateModel" class="well well-sm text-center">
-        <h5>set hourly advertisement charge rates</h5>
+        <h5>hourly advertisement charge rates</h5>
         <div class="btn-group" data-toggle="buttons">
 
             <label (click)="onColor('orange')" class="btn btn-warning active">
-                <input type="radio" name="options" autocomplete="off">
+                <input [disabled]="readOnly" type="radio" name="options" autocomplete="off">
                 <span class="fa fa-check"></span>
-                <input class="rateInput" [(ngModel)]="adHourlyRate[0]" (change)="onUpdateRate()">
+                <input [disabled]="readOnly" class="rateInput" [(ngModel)]="adHourlyRate[0]" (change)="onUpdateRate()">
             </label>
 
             <label (click)="onColor('green')" class="btn btn-success">
-                <input type="radio" name="options" autocomplete="off">
+                <input [disabled]="readOnly" type="radio" name="options" autocomplete="off">
                 <span class="fa fa-check"></span>
-                <input class="rateInput" [(ngModel)]="adHourlyRate[1]" (change)="onUpdateRate()">
+                <input [disabled]="readOnly" class="rateInput" [(ngModel)]="adHourlyRate[1]" (change)="onUpdateRate()">
             </label>
 
             <label (click)="onColor('blue')" class="btn btn-info">
-                <input type="radio" name="options" autocomplete="off">
+                <input [disabled]="readOnly" type="radio" name="options" autocomplete="off">
                 <span class="fa fa-check"></span>
-                <input class="rateInput" [(ngModel)]="adHourlyRate[2]" (change)="onUpdateRate()">
+                <input [disabled]="readOnly" class="rateInput" [(ngModel)]="adHourlyRate[2]" (change)="onUpdateRate()">
             </label>
 
             <label (click)="onColor('red')" class="btn btn-danger">
-                <input type="radio" name="options" autocomplete="off">
+                <input [disabled]="readOnly" type="radio" name="options" autocomplete="off">
                 <span class="fa fa-check"></span>
-                <input class="rateInput" [(ngModel)]="adHourlyRate[3]" (change)="onUpdateRate()">
+                <input [disabled]="readOnly" class="rateInput" [(ngModel)]="adHourlyRate[3]" (change)="onUpdateRate()">
             </label>
         </div>
     </div>
