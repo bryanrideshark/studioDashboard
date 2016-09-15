@@ -16,13 +16,13 @@
         "jspm_packages/npm/angular2-redux-util@0.8.64"
       ],
       "@angular/forms": [
-        "jspm_packages/npm/@angular/forms@2.0.0-rc.7"
+        "jspm_packages/npm/@angular/forms@2.0.0"
       ],
       "@angular/router": [
-        "jspm_packages/npm/@angular/router@3.0.0-rc.3"
+        "jspm_packages/npm/@angular/router@3.0.0"
       ],
       "@angular/*": [
-        "jspm_packages/npm/@angular/*@2.0.0-rc.7"
+        "jspm_packages/npm/@angular/*@2.0.0"
       ],
       "redux-thunk": [
         "jspm_packages/npm/redux-thunk@2.1.0"
