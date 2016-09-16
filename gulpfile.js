@@ -61,10 +61,9 @@ gulp.task("production", function (callback) {
         "x_bundle",
         "x_minify",
         "x_target",
-        "x_clear_remote",
-        "x_rsync",
-        //'x_open_server_bundle',
-        "x_rsync",
+        //"x_clear_remote",
+        //"x_rsync",
+        //"x_rsync",
         function (error) {
             if (error) {
                 console.log(error.message);
@@ -74,6 +73,8 @@ gulp.task("production", function (callback) {
             callback(error);
         });
 });
+
+////'x_open_server_bundle',
 
 /** launch the systemjs development server, files are kept raw
  * run it from the command line via:
@@ -120,7 +121,7 @@ gulp.task('x_rsync', function () {
 
 
 /** Monster Signage **/
-// gulp.task('x_rsync', function () {
+// gulp.task('_rsync', function () {
 //     var rsync = Rsync.build({
 //         source: '/cygdrive/c/msweb/studioDashboard/dist/',
 //         destination: 'Sean@digitalsignage.com:/var/www/sites/monstersignage/htdocs',
