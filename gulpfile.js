@@ -48,7 +48,6 @@ var paths = {
  * public commands
  *********************/
 
-
 gulp.task("production", function (callback) {
     runSequence(
         "x_removeOffline",
@@ -61,9 +60,9 @@ gulp.task("production", function (callback) {
         "x_bundle",
         "x_minify",
         "x_target",
-        //"x_clear_remote",
-        //"x_rsync",
-        //"x_rsync",
+        // "x_clear_remote",
+        // "x_rsync",
+        // "x_rsync",
         function (error) {
             if (error) {
                 console.log(error.message);
@@ -211,6 +210,7 @@ gulp.task('x_build-ts', function () {
 /** bundle the app with jspm **/
 // 0.16 jspm bundle-sfx src/App.js ./dist/index.js --skip-source-maps
 // 0.17 jspm bundle src/App.js ./dist/index.js --skip-source-maps
+
 gulp.task("x_bundle",
     shell.task(["jspm bundle src/App.js " + paths.dist + "/" + paths.targetJS + ' --skip-source-maps'])
 );
@@ -376,10 +376,12 @@ gulp.task("x_copy", function () {
     gulp.src(paths.sourcesToCopy).pipe(gulp.dest(paths.dist));
 });
 
+
+
 gulp.task("x_minify", function () {
     gulp.src(paths.targetJS, {cwd: paths.dist})
-        .pipe(uglify({mangle: false}))
         .pipe(concat("index.min.js"))
+        .pipe(uglify({mangle: false}))
         .pipe(gulp.dest(paths.bundleHTML));
 });
 
