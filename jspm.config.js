@@ -406,34 +406,34 @@ SystemJS.config({
                 }
             }
         },
-        "@angular/common": {
-            "main": "index.js",
-            "defaultExtension": "js"
-        },
-        "@angular/compiler": {
-            "main": "index.js",
-            "defaultExtension": "js"
-        },
-        "@angular/core": {
-            "main": "index.js",
-            "defaultExtension": "js"
-        },
-        "@angular/http": {
-            "main": "index.js",
-            "defaultExtension": "js"
-        },
-        "@angular/platform-browser": {
-            "main": "index.js",
-            "defaultExtension": "js"
-        },
-        "@angular/platform-browser-dynamic": {
-            "main": "index.js",
-            "defaultExtension": "js"
-        },
-        "@angular/router": {
-            "main": "index.js",
-            "defaultExtension": "js"
-        },
+        // "@angular/common": {
+        //     "main": "index.js",
+        //     "defaultExtension": "js"
+        // },
+        // "@angular/compiler": {
+        //     "main": "index.js",
+        //     "defaultExtension": "js"
+        // },
+        // "@angular/core": {
+        //     "main": "index.js",
+        //     "defaultExtension": "js"
+        // },
+        // "@angular/http": {
+        //     "main": "index.js",
+        //     "defaultExtension": "js"
+        // },
+        // "@angular/platform-browser": {
+        //     "main": "index.js",
+        //     "defaultExtension": "js"
+        // },
+        // "@angular/platform-browser-dynamic": {
+        //     "main": "index.js",
+        //     "defaultExtension": "js"
+        // },
+        // "@angular/router": {
+        //     "main": "index.js",
+        //     "defaultExtension": "js"
+        // },
         "npm:readable-stream@2.0.5": {
             "map": {
                 "core-util-is": "npm:core-util-is@1.0.2",

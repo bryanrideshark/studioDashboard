@@ -16,7 +16,30 @@ import {Lib} from "../../../../Lib";
     changeDetection: ChangeDetectionStrategy.OnPush,
     moduleId: __moduleName,
     templateUrl: 'AdnetConfigTargetStations.html',
-    styleUrls: ['adnetConfigTargetStations.css']
+    styles: [`
+        .row {
+            padding: 15px;
+        }
+        
+        .btns {
+            padding: 0 10px 10px 0px;
+            font-size: 1.8em;
+            color: #313131;
+        }
+        
+        .btns:hover {
+            color: red;
+        }
+        
+        .enabled {
+            opacity: 1
+        }
+        
+        .disabled {
+            opacity: 0.2;
+            cursor: default;
+        }
+        `]
 })
 export class AdnetConfigTargetStations {
     constructor(private appStore: AppStore, private adnetAction: AdnetActions, private cd: ChangeDetectorRef) {
