@@ -7,23 +7,11 @@ SystemJS.config({
     devConfig: {
         "map": {
             "net": "github:jspm/nodelibs-net@0.2.0-alpha",
-            "systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@0.5.9",
+            "systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@0.6.0",
             "tty": "github:jspm/nodelibs-tty@0.2.0-alpha",
             "ng2-bootstrap": "npm:ng2-bootstrap@1.1.2"
         },
         "packages": {
-            "github:capaj/systemjs-hot-reloader@0.5.9": {
-                "map": {
-                    "debug": "npm:debug@2.2.0",
-                    "socket.io-client": "github:socketio/socket.io-client@1.4.6",
-                    "weakee": "npm:weakee@1.0.0"
-                }
-            },
-            "npm:debug@2.2.0": {
-                "map": {
-                    "ms": "npm:ms@0.7.1"
-                }
-            },
             "npm:ng2-bootstrap@1.1.2": {
                 "map": {
                     "moment": "npm:moment@2.14.1"
@@ -406,34 +394,6 @@ SystemJS.config({
                 }
             }
         },
-        // "@angular/common": {
-        //     "main": "index.js",
-        //     "defaultExtension": "js"
-        // },
-        // "@angular/compiler": {
-        //     "main": "index.js",
-        //     "defaultExtension": "js"
-        // },
-        // "@angular/core": {
-        //     "main": "index.js",
-        //     "defaultExtension": "js"
-        // },
-        // "@angular/http": {
-        //     "main": "index.js",
-        //     "defaultExtension": "js"
-        // },
-        // "@angular/platform-browser": {
-        //     "main": "index.js",
-        //     "defaultExtension": "js"
-        // },
-        // "@angular/platform-browser-dynamic": {
-        //     "main": "index.js",
-        //     "defaultExtension": "js"
-        // },
-        // "@angular/router": {
-        //     "main": "index.js",
-        //     "defaultExtension": "js"
-        // },
         "npm:readable-stream@2.0.5": {
             "map": {
                 "core-util-is": "npm:core-util-is@1.0.2",
@@ -474,6 +434,7 @@ SystemJS.config({
         "github:*/*.json"
     ],
     map: {
+        "capaj/systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@0.6.0",
         "constants": "github:jspm/nodelibs-constants@0.2.0-alpha",
         "crypto": "github:jspm/nodelibs-crypto@0.2.0-alpha",
         "angular2-google-maps": "npm:angular2-google-maps@0.14.0",
@@ -981,6 +942,18 @@ SystemJS.config({
                 "core-util-is": "npm:core-util-is@1.0.2",
                 "util-deprecate": "npm:util-deprecate@1.0.2",
                 "process-nextick-args": "npm:process-nextick-args@1.0.7"
+            }
+        },
+        "github:capaj/systemjs-hot-reloader@0.6.0": {
+            "map": {
+                "debug": "npm:debug@2.2.0",
+                "socket.io-client": "github:socketio/socket.io-client@1.4.8",
+                "weakee": "npm:weakee@1.0.0"
+            }
+        },
+        "npm:debug@2.2.0": {
+            "map": {
+                "ms": "npm:ms@0.7.1"
             }
         }
     }
