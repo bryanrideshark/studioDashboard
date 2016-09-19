@@ -10,6 +10,7 @@ SystemJS.config({
             "systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@0.6.0",
             "tty": "github:jspm/nodelibs-tty@0.2.0-alpha",
             "ng2-bootstrap": "npm:ng2-bootstrap@1.1.2"
+
         },
         "packages": {
             "npm:ng2-bootstrap@1.1.2": {
@@ -388,9 +389,6 @@ SystemJS.config({
                 },
                 "*.ts": {
                     "loader": "ts"
-                },
-                "*.css": {
-                    "loader": "css"
                 }
             }
         },
@@ -423,7 +421,8 @@ SystemJS.config({
         "@angular/http": "npm:@angular/http@2.0.0/bundles/http.umd",
         "@angular/router": "npm:@angular/router@3.0.0",
         "angular-router": "npm:@angular/router@3.0.0",
-        "ts": "npm:plugin-typescript@5.1.2"
+        "ts": "npm:plugin-typescript@5.1.2",
+        "css": "github:systemjs/plugin-css@0.1.27"
     }
 });
 
@@ -462,7 +461,6 @@ SystemJS.config({
         "buffer": "github:jspm/nodelibs-buffer@0.2.0-alpha",
         "child_process": "github:jspm/nodelibs-child_process@0.2.0-alpha",
         "clean-css": "npm:clean-css@3.4.14",
-        "css": "github:systemjs/plugin-css@0.1.22",
         "events": "github:jspm/nodelibs-events@0.2.0-alpha",
         "fs": "github:jspm/nodelibs-fs@0.2.0-alpha",
         "highcharts": "npm:highcharts@4.2.5",
@@ -485,7 +483,7 @@ SystemJS.config({
         "rxjs": "npm:rxjs@5.0.0-beta.12",
         "stream": "github:jspm/nodelibs-stream@0.2.0-alpha",
         "string_decoder": "github:jspm/nodelibs-string_decoder@0.2.0-alpha",
-        "text": "github:systemjs/plugin-text@0.0.4",
+        "text": "github:systemjs/plugin-text@0.0.9",
         "timers": "github:jspm/nodelibs-timers@0.2.0-alpha",
         "typescript": "npm:typescript@1.8.10",
         "underscore": "npm:underscore@1.8.3",
@@ -737,7 +735,7 @@ SystemJS.config({
         },
         "npm:timers-browserify@1.4.2": {
             "map": {
-                "process": "npm:process@0.11.3"
+                "process": "npm:process@0.11.9"
             }
         },
         "npm:url@0.11.0": {

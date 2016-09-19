@@ -29,6 +29,22 @@ declare var assert:any;
 declare var module:any;
 declare var thunkMiddleware:any;
 
+declare module '*!text' {
+    var _: string;
+    export default  _;
+}
+
+declare module '*!css' {
+    var _: string;
+    export default  _;
+}
+
+declare module '*!' {
+    var _: string;
+    export default  _;
+}
+
+
 declare module Reflect {
     function apply(target: Function, thisArgument: any, argumentsList: ArrayLike<any>): any;
     function construct(target: Function, argumentsList: ArrayLike<any>): any;

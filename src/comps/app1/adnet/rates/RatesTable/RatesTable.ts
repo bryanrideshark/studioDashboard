@@ -6,24 +6,15 @@ import * as _ from "lodash";
 import {SimpleList} from "../../../../simplelist/Simplelist";
 import {AdnetRateModel} from "../../../../../adnet/AdnetRateModel";
 import {Lib} from "../../../../../Lib";
+import RatesTableTemplate from './RatesTable.html!text';
+import RatesTableStyle from './RatesTable.css!text';
 
 @Component({
     selector: 'RatesTable',
     moduleId: __moduleName,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    styles: [`
-        .rateInput {
-            width: 40px; 
-            color: #0f0f0f;
-        }
-        .btn span.fa {    			
-            opacity: 0;				
-        }
-        .btn.active span.fa {				
-            opacity: 1;				
-        }
-    `],
-    templateUrl: 'RatesTable.html'
+    styles: [RatesTableStyle],
+    template: RatesTableTemplate
 })
 
 export class RatesTable {

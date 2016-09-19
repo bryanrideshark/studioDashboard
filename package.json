@@ -106,7 +106,6 @@
       "bootbox": "npm:bootbox@^4.4.0",
       "capaj/systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@^0.6.0",
       "clean-css": "npm:clean-css@^3.4.12",
-      "css": "github:systemjs/plugin-css@^0.1.20",
       "highcharts": "npm:highcharts@^4.2.2",
       "immutable": "npm:immutable@^3.7.6",
       "is-equal": "npm:is-equal@^1.4.2",
@@ -119,7 +118,7 @@
       "redux-thunk": "npm:redux-thunk@2.1.0",
       "reselect": "npm:reselect@^2.0.3",
       "router": "npm:@angular/router@3.0.0",
-      "text": "github:systemjs/plugin-text@^0.0.4",
+      "text": "github:systemjs/plugin-text@^0.0.9",
       "typescript": "npm:typescript@^1.9",
       "underscore": "npm:underscore@^1.8.3",
       "xml2js": "npm:xml2js@^0.4.16"
@@ -403,4 +402,5 @@
     "typescript": "^2.0.2",
     "zone.js": "^0.6.21"
   }
-}
+}
+
