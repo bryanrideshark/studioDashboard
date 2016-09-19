@@ -208,8 +208,9 @@ gulp.task('x_build-ts', function () {
 });
 
 /** bundle the app with jspm **/
-// 0.16 jspm bundle-sfx src/App.js ./dist/index.js --skip-source-maps
-// 0.17 jspm bundle src/App.js ./dist/index.js --skip-source-maps
+// 0.16 jspm: bundle-sfx src/App.js ./dist/index.js --skip-source-maps
+// 0.17 jspm: bundle src/App.js ./dist/index.js --skip-source-maps
+// 0.17 rollup: shell.task(["jspm build src/App.js " + paths.dist + "/" + paths.targetJS + ' --format global --skip-source-maps'])
 
 gulp.task("x_bundle",
     shell.task(["jspm bundle src/App.js " + paths.dist + "/" + paths.targetJS + ' --skip-source-maps'])

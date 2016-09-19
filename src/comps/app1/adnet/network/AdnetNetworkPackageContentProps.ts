@@ -41,9 +41,7 @@ export class AdnetNetworkPackageContentProps {
     private adnetContentModels: AdnetContentModel;
     private contGroup: FormGroup;
     private formInputs = {};
-    private imgSource = '';
-    // private videoSource = 'https://pluto.signage.me/Resources/business419212/resources/7.mp4';
-    private videoSource;
+    private resource:string = '';
 
     private onFormChange(event) {
         this.updateSore();
@@ -60,24 +58,9 @@ export class AdnetNetworkPackageContentProps {
     private renderFormInputs() {
         if (!this.adnetContentModels)
             return;
+        this.resource = this.adnetContentModels.getContentUrl()
         _.forEach(this.formInputs, (value, key: string) => {
             var data = this.adnetContentModels.getKey('Value')[key];
-            if (key = 'contentUrl') {
-                var url = this.adnetContentModels.getContentUrl()
-                var res = url.match(/(?!.*[.](?:jpg|jpeg|png)$).*/ig);
-                if (res[0].length <= 4) {
-                    this.videoSource = null;
-                    this.imgSource = this.adnetContentModels.getContentUrl();
-                } else {
-                    var url = this.adnetContentModels.getContentUrl();
-                    this.videoSource = 'https://pluto.signage.me/Resources/business419212/resources/7.mp4';
-                    this.imgSource = '';
-                    // jQuery.get(url, data => {
-                    //     this.videoSource = 'https://pluto.signage.me/Resources/business419212/resources/7.mp4';
-                    // })
-                }
-                return;
-            }
             this.formInputs[key].setValue(data)
         });
     };
