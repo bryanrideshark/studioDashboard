@@ -1,10 +1,19 @@
-import {Component, ChangeDetectionStrategy, Input, ViewChild, EventEmitter, Output} from "@angular/core";
+import {
+    Component,
+    ChangeDetectionStrategy,
+    Input,
+    ViewChild,
+    EventEmitter,
+    Output,
+    ChangeDetectorRef
+} from "@angular/core";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 import {AdnetContentModel} from "../../../../adnet/AdnetContentModel";
 import {List} from 'immutable';
 import {SimpleGridTable} from "../../../simplegrid/SimpleGridTable";
 import {AdnetNetworkPropSelector, IAdNetworkPropSelectedEvent} from "./AdnetNetwork";
 import {Lib} from "../../../../Lib";
+import {AdnetPackagePlayMode} from "./AdnetNetworkPackageProps";
 
 @Component({
     selector: 'AdnetNetworkPackageContent',
@@ -15,18 +24,61 @@ import {Lib} from "../../../../Lib";
                 <simpleGridTable #simpleGridR>
                     <thead>
                     <tr>
-                        <th [sortableHeader]="['Value','contentLabel']" [sort]="sort">name</th>
-                        <th [sortableHeader]="['Value','duration']" [sort]="sort">duration</th>
-                        <th [sortableHeader]="['Value','reparationsPerHour']" [sort]="sort">repetition</th>
-                        <th [sortableHeader]="['Value','percentage']" [sort]="sort">percentage</th>
+                        <th *ngIf="
+                            adnetPackagePlayMode== AdnetPackagePlayMode.TIME ||
+                            adnetPackagePlayMode== AdnetPackagePlayMode.LOCATION || 
+                            adnetPackagePlayMode== AdnetPackagePlayMode.ASSETS"
+                         [sortableHeader]="['Value','contentLabel']" [sort]="sort">name</th>
+                        <th *ngIf="
+                            adnetPackagePlayMode== AdnetPackagePlayMode.TIME ||
+                            adnetPackagePlayMode== AdnetPackagePlayMode.LOCATION || 
+                            adnetPackagePlayMode== AdnetPackagePlayMode.ASSETS"
+                             [sortableHeader]="['Value','duration']" [sort]="sort">duration</th>
+                        <th *ngIf="
+                            adnetPackagePlayMode== AdnetPackagePlayMode.TIME"
+                             [sortableHeader]="['Value','reparationsPerHour']" [sort]="sort">repetition</th>
+                        <th *ngIf="
+                            adnetPackagePlayMode== AdnetPackagePlayMode.TIME"
+                             [sortableHeader]="['Value','percentage']" [sort]="sort">percentage</th>
+                        <th *ngIf="
+                            adnetPackagePlayMode== AdnetPackagePlayMode.LOCATION" 
+                             [sortableHeader]="['Value','locationLat']" [sort]="sort">lat</th>
+                        <th *ngIf="
+                            adnetPackagePlayMode== AdnetPackagePlayMode.LOCATION" 
+                             [sortableHeader]="['Value','locationLng']" [sort]="sort">lng</th>
+                        <th *ngIf="
+                            adnetPackagePlayMode== AdnetPackagePlayMode.LOCATION" 
+                             [sortableHeader]="['Value','locationRadios']" [sort]="sort">radius</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr class="simpleGridRecord" (onClicked)="onContentSelect(item)" simpleGridRecord *ngFor="let item of adnetContents | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">
-                        <td style="width: 25%" simpleGridData [processField]="processAdnetPackageField('getName')" [item]="item"></td>
-                        <td style="width: 25%" simpleGridData [processField]="processAdnetPackageField('duration')" [item]="item"></td>
-                        <td style="width: 25%" simpleGridData [processField]="processAdnetPackageField('repetition')" [item]="item"></td>
-                        <td style="width: 25%" simpleGridData [processField]="processAdnetPackageField('percentage')" [item]="item"></td>
+                        <td 
+                         *ngIf="
+                            adnetPackagePlayMode== AdnetPackagePlayMode.TIME ||
+                            adnetPackagePlayMode== AdnetPackagePlayMode.LOCATION || 
+                            adnetPackagePlayMode== AdnetPackagePlayMode.ASSETS"
+                            style="width: 25%" simpleGridData [processField]="processAdnetPackageField('getName')" [item]="item"></td>
+                        <td *ngIf="
+                            adnetPackagePlayMode== AdnetPackagePlayMode.TIME ||
+                            adnetPackagePlayMode== AdnetPackagePlayMode.LOCATION || 
+                            adnetPackagePlayMode== AdnetPackagePlayMode.ASSETS"
+                            simpleGridData [processField]="processAdnetPackageField('duration')" [item]="item"></td>
+                        <td *ngIf="
+                            adnetPackagePlayMode== AdnetPackagePlayMode.TIME"
+                            simpleGridData [processField]="processAdnetPackageField('repetition')" [item]="item"></td>
+                        <td *ngIf="
+                            adnetPackagePlayMode== AdnetPackagePlayMode.TIME"
+                            simpleGridData [processField]="processAdnetPackageField('percentage')" [item]="item"></td>
+                        <td *ngIf="
+                            adnetPackagePlayMode== AdnetPackagePlayMode.LOCATION" 
+                            simpleGridData [processField]="processAdnetPackageField('locationLat')" [item]="item"></td>
+                        <td *ngIf="
+                            adnetPackagePlayMode== AdnetPackagePlayMode.LOCATION" 
+                            simpleGridData [processField]="processAdnetPackageField('locationLng')" [item]="item"></td>
+                        <td *ngIf="
+                            adnetPackagePlayMode== AdnetPackagePlayMode.LOCATION" 
+                            simpleGridData [processField]="processAdnetPackageField('locationRadios')" [item]="item"></td>
                     </tr>
                     </tbody>
                 </simpleGridTable>
@@ -57,6 +109,11 @@ export class AdnetNetworkPackageContent {
         this.simpleGridTable.deselect();
     }
 
+    @Input()
+    set setAdnetPackagePlayMode(i_setAdnetPackagePlayMode: AdnetPackagePlayMode) {
+        this.adnetPackagePlayMode = i_setAdnetPackagePlayMode;
+    }
+
     @Output()
     onPropSelected:EventEmitter<IAdNetworkPropSelectedEvent> = new EventEmitter<IAdNetworkPropSelectedEvent>();
 
@@ -73,6 +130,8 @@ export class AdnetNetworkPackageContent {
         }
     }
 
+    private AdnetPackagePlayMode = AdnetPackagePlayMode;
+    private adnetPackagePlayMode:AdnetPackagePlayMode;
     private adnetContents: List<AdnetContentModel>;
     private adnetPackageModels: AdnetPackageModel;
     public selectedAdnetContentModel: AdnetContentModel;

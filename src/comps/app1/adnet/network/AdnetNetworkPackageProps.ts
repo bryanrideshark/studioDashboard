@@ -1,5 +1,17 @@
-import {Component, Input, QueryList, ViewChildren, ChangeDetectionStrategy} from "@angular/core";
-import {FormControl, FormGroup, FormBuilder} from "@angular/forms";
+import {
+    Component,
+    Input,
+    QueryList,
+    ViewChildren,
+    ChangeDetectionStrategy,
+    EventEmitter,
+    Output
+} from "@angular/core";
+import {
+    FormControl,
+    FormGroup,
+    FormBuilder
+} from "@angular/forms";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {AppStore} from "angular2-redux-util";
 import {Lib} from "../../../../Lib";
@@ -8,6 +20,8 @@ import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 import * as moment_ from "moment";
 import {List} from "immutable";
 export const moment = moment_["default"];
+
+export enum AdnetPackagePlayMode {TIME, LOCATION, ASSETS}
 
 @Component({
     moduleId: __moduleName,
@@ -42,6 +56,9 @@ export class AdnetNetworkPackageProps {
         })
     }
 
+    @Output()
+    playModeChanged:EventEmitter<AdnetPackagePlayMode> = new EventEmitter<AdnetPackagePlayMode>();
+
     @Input()
     set setAdnetPackageModels(i_adnetPackageModels: AdnetPackageModel) {
         if (!i_adnetPackageModels)
@@ -52,8 +69,7 @@ export class AdnetNetworkPackageProps {
         // this.simpleGridTable.deselect();
     }
 
-    @ViewChildren('checkInputs')
-    inputs: QueryList<any>
+    @ViewChildren('checkInputs') inputs: QueryList<any>
 
     private adnetPackageModels: AdnetPackageModel;
     private adnetPackageDays: List<any> = List<any>()
@@ -64,6 +80,11 @@ export class AdnetNetworkPackageProps {
 
     private onFormChange(event) {
         this.updateSore();
+    }
+
+    private onModelChanged(event) {
+        this.playModeChanged.emit(event.target.value);
+        //AdnetPackagePlayMode
     }
 
     private numToDay(num) {
@@ -148,3 +169,6 @@ export class AdnetNetworkPackageProps {
         });
     };
 }
+
+
+

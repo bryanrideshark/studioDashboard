@@ -21,6 +21,7 @@
                         <div style="min-height: 300px; overflow-y: scroll; height: 300px">
                             <AdnetNetworkPackageContent #adnetNetworkPackageContent
                                                         (onPropSelected)="onPropSelected($event)"
+                                                        [setAdnetPackagePlayMode]="selectedAdnetPackagePlayMode"
                                                         [setAdnetPackageModels]="adnetNetworkPackageEditor.selectedAdnetPackageModel">
                             </AdnetNetworkPackageContent>
                         </div>
@@ -40,6 +41,7 @@
                                 </div>
                                 <div *ngSwitchCase="adnetNetworkPropSelector.PACKAGE">
                                     <AdnetNetworkPackageProps
+                                            (playModeChanged)="onPlayModeChanged($event)"
                                             [setAdnetPackageModels]="adnetNetworkPackageEditor.selectedAdnetPackageModel">
                                     </AdnetNetworkPackageProps>
                                 </div>
@@ -47,7 +49,7 @@
                                     <small>resource properties</small>
                                 </div>
                                 <div *ngSwitchCase="adnetNetworkPropSelector.TARGET">
-                                    <AdnetNetworkTargetProps [setAdnetTargetModel]="selectedAdnetTargetModel">
+                                    <AdnetNetworkTargetProps     [setAdnetTargetModel]="selectedAdnetTargetModel">
                                     </AdnetNetworkTargetProps>
                                 </div>
                             </div>

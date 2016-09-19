@@ -29,4 +29,18 @@ export class AdnetContentModel extends StoreModel {
         //todo: need to compute
         return 'TBA';
     }
+
+    public locationLat() {
+        return this.getKey('Value').locationLat;
+    }
+
+    public locationLng() {
+        return this.getKey('Value').locationLng;
+    }
+
+    public locationRadios() {
+        return this.getKey('Value').locationRadios;
+    }
 }
+
+
