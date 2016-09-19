@@ -34,15 +34,15 @@ declare module '*!text' {
     export default  _;
 }
 
-declare module '*!css' {
-    var _: string;
-    export default  _;
-}
-
-declare module '*!' {
-    var _: string;
-    export default  _;
-}
+// declare module '*!css' {
+//     var _: string;
+//     export default  _;
+// }
+//
+// declare module '*!' {
+//     var _: string;
+//     export default  _;
+// }
 
 
 declare module Reflect {
