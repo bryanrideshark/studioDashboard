@@ -142,7 +142,6 @@ import {DropdownModule} from 'ng2-bootstrap/ng2-bootstrap';
 import {AccordionModule} from 'ng2-bootstrap/ng2-bootstrap';
 import {ResourceViewer} from "./comps/resourceviewer/ResourceViewer";
 import AppTemplate from './App.html!text';
-
 //import "zone.js/dist/long-stack-trace-zone"; // removed 9-7-2016
 
 export enum ServerMode {
@@ -190,7 +189,7 @@ export class Main {
     }
 
     private m_styleService: StyleService;
-    private version = '2.13';
+    private version = '2.14';
 
     private checkPlatform() {
         switch (platform.name.toLowerCase()) {
