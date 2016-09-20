@@ -8,12 +8,14 @@ import {SimpleList, ISimpleListItem} from "../../../simplelist/Simplelist";
 import {AdnetNetworkPropSelector, IAdNetworkPropSelectedEvent} from "./AdnetNetwork";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {Lib} from "../../../../Lib";
+import AdnetNetworkPackageEditorTemplate from './AdnetNetworkPackageEditor.html!text';
+import AdnetNetworkPackageEditorStyle from './AdnetNetworkPackageEditor.css!text';
 
 @Component({
     selector: 'AdnetNetworkPackageEditor',
     moduleId: __moduleName,
-    styleUrls: ['AdnetNetworkPackageEditor.css'],
-    templateUrl: 'AdnetNetworkPackageEditor.html'
+    styles: [AdnetNetworkPackageEditorStyle],
+    template: AdnetNetworkPackageEditorTemplate
 })
 
 export class AdnetNetworkPackageEditor {

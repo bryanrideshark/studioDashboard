@@ -10,12 +10,15 @@ import {AppStore} from "angular2-redux-util";
 import * as bootbox from "bootbox";
 import * as _ from 'lodash';
 import {Lib} from "../../../Lib";
+import UserInfoTemplate from './UserInfo.html!text';
+import UserInfoStyle from './UserInfo.html!text';
 
 @Component({
     selector: 'UserInfo',
-    templateUrl: `/src/comps/app1/users/UserInfo.html`,
+    moduleId: __moduleName,
+    template: UserInfoTemplate,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    styleUrls: [`../comps/app1/users/UserInfo.css`]
+    styles: [UserInfoStyle]
 
 })
 export class UserInfo {

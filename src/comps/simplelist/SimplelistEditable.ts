@@ -1,4 +1,5 @@
 import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, ApplicationRef} from "@angular/core";
+import SimplelistStyle from './Simplelist.css!text'
 
 @Component({
     selector: 'simpleListEditable',
@@ -8,7 +9,7 @@ import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeD
                 <input #editInput *ngIf="m_editing && editable" [(ngModel)]="m_value" class="li-content pull-left"  value="{{getContent(item)}}" />
                 <span *ngIf="editable" (click)="onEdit(true)" class="editable fa {{m_icon}} pull-right"></span>
     `,
-    styleUrls: ['Simplelist.css'],
+    styles: [SimplelistStyle],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SimplelistEditable {

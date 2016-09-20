@@ -9,9 +9,11 @@ import {CreditService} from "../../../services/CreditService";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import * as _ from "lodash";
 import * as bootbox from "bootbox";
+import AccountTemplate from './Account.html!text'
 
 @Component({
     selector: 'accounts',
+    moduleId: __moduleName,
     providers: [CreditService],
     styles: [`
         .faded {
@@ -34,7 +36,7 @@ import * as bootbox from "bootbox";
         ])
     ],
     changeDetection: ChangeDetectionStrategy.Default,
-    templateUrl: `/src/comps/app1/account/Account.html`
+    template: AccountTemplate
 })
 
 export class Account {

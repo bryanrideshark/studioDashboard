@@ -4,11 +4,12 @@ import {List} from 'immutable';
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {AppStore} from "angular2-redux-util";
 import {Lib} from "../../../../Lib";
+import AdnetConfigTargetsTemplate from './AdnetConfigTargets.html!text';
 
 @Component({
     selector: 'AdnetConfigTargets',
     moduleId: __moduleName,
-    templateUrl: 'AdnetConfigTargets.html'
+    template: AdnetConfigTargetsTemplate
 
 })
 export class AdnetConfigTargets {

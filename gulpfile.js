@@ -100,8 +100,8 @@ gulp.task('typedocs', function (done) {
 gulp.task('x_rsync', function () {
     var rsync = Rsync.build({
         source: '/cygdrive/c/msweb/studioDashboard/dist/',
-        destination: 'Sean@digitalsignage.com:/var/www/sites/dynasite/htdocs/_msportal/_js/_node/public/',
-        exclude: ['*.bat', '*.iml', '.gitignore', '.git', '.idea/']
+        destination: 'Sean@digitalsignage.com:/var/www/sites/dynasite/htdocs/_msportal/_js/_node/_dash/',
+        exclude: ['*.bat', '*.iml', '.gitignore', '.git', 'node_modules/', '.idea/']
     });
     rsync.set('progress');
     rsync.flags('avzp');
@@ -225,7 +225,7 @@ gulp.task("x_docs_chown2",
 );
 
 gulp.task("x_clear_remote",
-    shell.task(["ssh root@digitalsignage.com rm -r -f /var/www/sites/dynasite/htdocs/_msportal/_js/_node/public/src"])
+    shell.task(["ssh root@digitalsignage.com rm -r -f /var/www/sites/dynasite/htdocs/_msportal/_js/_node/_dash/src"])
 );
 
 
@@ -392,8 +392,8 @@ var finalIndex = '' +
     '<script src="jspm.config.js"></script>' +
     '<script src="./index.min.js"></script>' +
     '<script>' +
-    'SystemJS.import("src/App.js")' +
-    '.catch(function (e) { console.error(e,"error system.js " + e); }) ' +
+        'SystemJS.import("src/App.js")' +
+        '.catch(function (e) { console.error(e,"error system.js " + e); }) ' +
     '</script>'
 
 // update index.html to point to the minified bundle

@@ -8,11 +8,12 @@ import {AppStore} from "angular2-redux-util";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {AdnetRateModel} from "../../../../adnet/AdnetRateModel";
+import AdnetConfigTargetPropsTemplate from './AdnetConfigTargetProps.html!text';
 
 @Component({
     selector: 'AdnetConfigTargetProps',
     moduleId: __moduleName,
-    templateUrl: 'AdnetConfigTargetProps.html',
+    template: AdnetConfigTargetPropsTemplate,
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
         '(input-blur)': 'onChangeSharing($event)'

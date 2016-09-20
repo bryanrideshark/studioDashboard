@@ -5,11 +5,12 @@ import {List} from "immutable";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 import {AppStore} from "angular2-redux-util";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
+import AdnetNetworkPackageViewerTemplate from './AdnetNetworkPackageViewer.html!text';
 
 @Component({
     selector: 'AdnetNetworkPackageViewer',
     moduleId: __moduleName,
-    templateUrl: 'AdnetNetworkPackageViewer.html'
+    template: AdnetNetworkPackageViewerTemplate
 })
 
 export class AdnetNetworkPackageViewer {

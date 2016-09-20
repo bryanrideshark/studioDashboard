@@ -5,12 +5,15 @@ import {AppStore} from "angular2-redux-util";
 import {BusinessAction} from "../../../business/BusinessAction";
 import {BusinessUser} from "../../../business/BusinessUser";
 import {ModalComponent} from "../../ng2-bs3-modal/components/modal";
+import ChangePassTemplate from './ChangePass.html!text'
+import ChangePassStyle from './ChangePass.css!text'
 
 @Component({
     selector: 'changePass',
-    templateUrl: '/src/comps/app1/users/ChangePass.html',
+    moduleId: __moduleName,
+    template: ChangePassTemplate,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    styleUrls: ['../comps/app1/users/ChangePass.css']
+    styles: [ChangePassStyle]
 })
 
 /**

@@ -12,12 +12,14 @@ import {SampleModel} from "../../../business/SampleModel";
 import * as bootbox from "bootbox";
 import * as _ from "lodash";
 import {Lib} from "../../../Lib";
+import UsersTemplate from './Users.html!text';
+import UsersStyle from './Users.css!text';
 
 @Component({
     selector: 'Users',
     moduleId: __moduleName,
-    styleUrls: ['Users.css'],
-    templateUrl: 'Users.html',
+    styles: [UsersStyle],
+    template: UsersTemplate,
     host: {
         '[@routeAnimation]': 'true',
         '[style.display]': "'block'"

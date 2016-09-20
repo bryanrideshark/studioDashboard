@@ -141,6 +141,8 @@ import {AdnetNetworkTargetProps} from "./comps/app1/adnet/network/AdnetNetworkTa
 import {DropdownModule} from 'ng2-bootstrap/ng2-bootstrap';
 import {AccordionModule} from 'ng2-bootstrap/ng2-bootstrap';
 import {ResourceViewer} from "./comps/resourceviewer/ResourceViewer";
+import AppTemplate from './App.html!text';
+
 //import "zone.js/dist/long-stack-trace-zone"; // removed 9-7-2016
 
 export enum ServerMode {
@@ -157,7 +159,7 @@ export enum ServerMode {
     selector: 'app',
     encapsulation: ViewEncapsulation.Emulated,
     providers: [StyleService, AppdbAction],
-    templateUrl: '/src/App.html'
+    template: AppTemplate
 })
 
 export class Main {
@@ -188,7 +190,7 @@ export class Main {
     }
 
     private m_styleService: StyleService;
-    private version = '2.12';
+    private version = '2.13';
 
     private checkPlatform() {
         switch (platform.name.toLowerCase()) {

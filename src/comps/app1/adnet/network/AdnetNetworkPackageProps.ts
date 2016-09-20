@@ -19,8 +19,10 @@ import * as _ from "lodash";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 import * as moment_ from "moment";
 import {List} from "immutable";
-export const moment = moment_["default"];
+import AdnetNetworkPackagePropsTemplate from './AdnetNetworkPackageProps.html!text';
+import AdnetNetworkPackageCommonStylesStyle from './AdnetNetworkPackageCommonStyles.css!text';
 
+export const moment = moment_["default"];
 export enum AdnetPackagePlayMode {TIME, LOCATION, ASSETS}
 
 @Component({
@@ -28,8 +30,8 @@ export enum AdnetPackagePlayMode {TIME, LOCATION, ASSETS}
     selector: 'AdnetNetworkPackageProps',
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {'(input-blur)': 'onFormChange($event)'},
-    templateUrl: 'AdnetNetworkPackageProps.html',
-    styleUrls: ['AdnetNetworkPackageCommonStyles.css']
+    template: AdnetNetworkPackagePropsTemplate,
+    styles: [AdnetNetworkPackageCommonStylesStyle]
 })
 export class AdnetNetworkPackageProps {
     constructor(private fb: FormBuilder, private appStore: AppStore, private adnetAction: AdnetActions) {

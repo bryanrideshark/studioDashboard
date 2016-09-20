@@ -7,12 +7,14 @@ import {AdnetRateModel} from "../../../../adnet/AdnetRateModel";
 import {RatesTable} from "./RatesTable/RatesTable";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
+import AdnetConfigRatesTemplate from './AdnetConfigRates.html!text';
+import AdnetConfigRatesStyle from './AdnetConfigRates.css!text';
 
 @Component({
     selector: 'AdnetConfigRates',
     moduleId: __moduleName,
-    styleUrls: ['AdnetConfigRates.css'],
-    templateUrl: 'AdnetConfigRates.html'
+    styles: [AdnetConfigRatesStyle],
+    template: AdnetConfigRatesTemplate
 })
 
 export class AdnetConfigRates {

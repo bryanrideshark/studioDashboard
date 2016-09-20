@@ -1,12 +1,15 @@
 import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnChanges, SimpleChange} from '@angular/core'
 import {SampleModel} from "../../../business/SampleModel";
 import {List} from 'immutable';
+import SamplelistTemplate from './Samplelist.html!text';
+import SamplelistStyle from './Samplelist.css!text';
 
 @Component({
     selector: 'Samplelist',
+    moduleId: __moduleName,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    templateUrl: '/src/comps/app1/users/Samplelist.html',
-    styleUrls: ['../comps/app1/users/Samplelist.css']
+    template: SamplelistTemplate,
+    styles: [SamplelistStyle]
 })
 export class Samplelist {
 

@@ -1,13 +1,24 @@
-import {Component, ChangeDetectionStrategy, Input, ContentChildren, QueryList} from "@angular/core";
-import {SimpleGridSortableHeader} from "./SimpleGridSortableHeader";
-import {OrderBy} from "../../pipes/OrderBy";
+import {
+    Component,
+    ChangeDetectionStrategy,
+    Input,
+    ContentChildren,
+    QueryList
+} from "@angular/core";
 import {SimpleGridRecord} from "./SimpleGridRecord";
-import {SimpleGridData} from "./SimpleGridData";
 
 @Component({
     selector: 'simpleGridTable',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    styleUrls: [`../comps/simplegrid/SimpleGrid.css`],
+    styles: [`
+        .simpleTable {
+            background-color: white;
+        }
+        
+        * {
+            font-size: 0.9em;
+        }
+    `],
     template: `
         <table class="table simpleTable">
             <ng-content></ng-content>
@@ -16,34 +27,31 @@ import {SimpleGridData} from "./SimpleGridData";
 })
 
 export class SimpleGridTable {
-    @Input()
-    sort;
+    @Input() sort;
 
-    @Input()
-    list;
+    @Input() list;
 
     private selected;
 
-    @ContentChildren(SimpleGridRecord)
-    simpleGridRecord:QueryList<SimpleGridRecord>;
+    @ContentChildren(SimpleGridRecord) simpleGridRecord: QueryList<SimpleGridRecord>;
 
-    public setSelected(i_selected:SimpleGridRecord) {
+    public setSelected(i_selected: SimpleGridRecord) {
         this.deselect();
         this.selected = i_selected;
         // var rec = i_selected.item;
         // console.log(`user selected ${rec.getBusinessId()}  ${rec.getName()} ${rec.getAccessMask()}`);
     }
 
-    public deselect(){
+    public deselect() {
         this.selected = null;
         if (!this.simpleGridRecord)
             return;
-        this.simpleGridRecord.map((i_simpleGridRecord:SimpleGridRecord) => {
+        this.simpleGridRecord.map((i_simpleGridRecord: SimpleGridRecord) => {
             i_simpleGridRecord.selectedClass = false;
         })
     }
 
-    public getSelected():SimpleGridRecord {
+    public getSelected(): SimpleGridRecord {
         return this.selected;
     }
 }

@@ -6,12 +6,14 @@ import {Tabs} from "../../tabs/tabs";
 import {Tab} from "../../tabs/tab";
 import {BusinessAction} from "../../../business/BusinessAction";
 import {StationSnapshot} from "./StationSnapshot";
+import StationDetailsTemplate from './StationDetails.html!text';
+import StationDetailsStyle from './StationDetails.css!text';
 
 @Component({
     selector: 'stationDetails',
     moduleId: __moduleName,
-    templateUrl: 'StationDetails.html',
-    styleUrls: ['StationDetails.css'],
+    template: StationDetailsTemplate,
+    styles: [StationDetailsStyle],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 

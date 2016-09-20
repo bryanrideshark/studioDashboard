@@ -22,12 +22,16 @@ import {Lib} from "../../../Lib";
 import {ImgLoader} from "../../imgloader/ImgLoader";
 import * as _ from "lodash";
 import * as bootbox from "bootbox";
+import WhitelabelTemplate from './Whitelabel.html!text';
+import WhitelabelStyle from './Whitelabel.css!text';
+
 
 @Component({
     selector: 'whitelabel',
-    styleUrls: [`../comps/app1/whitelabel/Whitelabel.css`],
+    moduleId: __moduleName,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    templateUrl: '/src/comps/app1/whitelabel/Whitelabel.html',
+    template: WhitelabelTemplate,
+    styles: [WhitelabelStyle],
     host: {
         '(input-blur)': 'onInputBlur($event)',
         '[@routeAnimation]': 'true',

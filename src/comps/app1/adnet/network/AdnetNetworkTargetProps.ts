@@ -8,6 +8,7 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {List} from "immutable";
 import {AdnetRateModel} from "../../../../adnet/AdnetRateModel";
 import {ModalComponent} from "../../../ng2-bs3-modal/components/modal";
+import AdnetNetworkTargetPropsTemplate from './AdnetNetworkTargetProps.html!text';
 
 @Component({
     selector: 'AdnetNetworkTargetProps',
@@ -16,7 +17,7 @@ import {ModalComponent} from "../../../ng2-bs3-modal/components/modal";
         '(input-blur)': 'onFormChange($event)'
     },
     moduleId: __moduleName,
-    templateUrl: 'AdnetNetworkTargetProps.html',
+    template: AdnetNetworkTargetPropsTemplate,
     styles: [`        
         input.ng-invalid {
             border-right: 10px solid red;

@@ -8,12 +8,15 @@ import {BusinessAction} from "../../../business/BusinessAction";
 import {PrivelegesModel} from "../../../reseller/PrivelegesModel";
 import {ModalComponent} from "../../ng2-bs3-modal/components/modal";
 import * as _ from 'lodash'
+import AddUserTemplate from './AddUser.html!text';
+import AddUserStyle from './AddUser.css!text';
 
 @Component({
     selector: 'addUser',
+    moduleId: __moduleName,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    templateUrl: '/src/comps/app1/users/AddUser.html',
-    styleUrls: ['../comps/app1/users/AddUser.css']
+    template: AddUserTemplate,
+    styles: [AddUserStyle]
 })
 
 /**

@@ -5,14 +5,16 @@ import {AppStore} from "angular2-redux-util";
 import {AdnetContentModel} from "../../../../adnet/AdnetContentModel";
 import {Lib} from "../../../../Lib";
 import * as _ from "lodash";
+import AdnetNetworkPackageContentPropsTemplate from './AdnetNetworkPackageContentProps.html!text';
+import AdnetNetworkPackageCommonStylesStyle from './AdnetNetworkPackageCommonStyles.css!text';
 
 @Component({
-    moduleId: __moduleName,
     selector: 'AdnetNetworkPackageContentProps',
+    moduleId: __moduleName,
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {'(input-blur)': 'onFormChange($event)'},
-    templateUrl: 'AdnetNetworkPackageContentProps.html',
-    styleUrls: ['AdnetNetworkPackageCommonStyles.css']
+    template: AdnetNetworkPackageContentPropsTemplate,
+    styles: [AdnetNetworkPackageCommonStylesStyle]
 })
 export class AdnetNetworkPackageContentProps {
     constructor(private fb: FormBuilder, private appStore: AppStore, private adnetAction: AdnetActions) {

@@ -7,12 +7,14 @@ import {Loading} from "../../loading/Loading";
 import {OrderDetailModel} from "./OrderDetailModel";
 import {CharCount} from "../../../pipes/CharCount";
 import {SIMPLEGRID_DIRECTIVES} from "../../simplegrid/SimpleGrid";
+import OrderDetailsTemplate from './OrderDetails.html!text'
+import OrderDetailsStyle from './OrderDetails.css!text'
 
 @Component({
     selector: 'OrderDetails',
     moduleId: __moduleName,
-    styleUrls: ['OrderDetails.css'],
-    templateUrl: 'OrderDetails.html',
+    styles: [OrderDetailsStyle],
+    template: OrderDetailsTemplate,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 

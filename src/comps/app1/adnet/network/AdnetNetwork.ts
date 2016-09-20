@@ -5,6 +5,7 @@ import {List} from 'immutable';
 import {IPairSelect} from "./AdnetNetworkCustomerSelector";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {AdnetPackagePlayMode} from "./AdnetNetworkPackageProps";
+import AdnetNetworkTemplate from './AdnetNetwork.html!text';
 
 export enum AdnetNetworkPropSelector {
     CONTENT,
@@ -20,7 +21,7 @@ export interface IAdNetworkPropSelectedEvent {
 @Component({
     selector: 'AdnetNetwork',
     moduleId: __moduleName,
-    templateUrl: 'AdnetNetwork.html',
+    template: AdnetNetworkTemplate,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
