@@ -1,21 +1,23 @@
-import {Component, ChangeDetectionStrategy, Input} from "@angular/core";
+import {
+    Component,
+    ChangeDetectionStrategy,
+    Input
+} from "@angular/core";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
-import {List} from 'immutable';
+import {List} from "immutable";
 import {IPairSelect} from "./AdnetNetworkCustomerSelector";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {AdnetPackagePlayMode} from "./AdnetNetworkPackageProps";
-import AdnetNetworkTemplate from './AdnetNetwork.html!text';
+import AdnetNetworkTemplate from "./AdnetNetwork.html!text";
+import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 
 export enum AdnetNetworkPropSelector {
-    CONTENT,
-    PACKAGE,
-    RESOURCE,
-    TARGET
+    CONTENT, PACKAGE, RESOURCE, TARGET
 }
 
 export interface IAdNetworkPropSelectedEvent {
-    selected:AdnetNetworkPropSelector
+    selected: AdnetNetworkPropSelector
 }
 
 @Component({
@@ -35,24 +37,28 @@ export class AdnetNetwork {
     }
 
     private adnetNetworkPropSelector = AdnetNetworkPropSelector;
-    private propSelector:AdnetNetworkPropSelector = AdnetNetworkPropSelector.CONTENT;
+    private propSelector: AdnetNetworkPropSelector = AdnetNetworkPropSelector.CONTENT;
     private adnetCustomerId: number = -1;
     private adnetCustomerModel: AdnetCustomerModel;
     private pairsSelected: List<AdnetPairModel>;
     private pairsOutgoing: boolean;
-    private selectedAdnetTargetModel:AdnetTargetModel;
-    private selectedAdnetTargetModels:List<AdnetTargetModel>;
-    private selectedAdnetPackagePlayMode:AdnetPackagePlayMode;
+    private selectedAdnetTargetModel: AdnetTargetModel;
+    private selectedAdnetTargetModels: List<AdnetTargetModel>;
+    private selectedAdnetPackagePlayMode: AdnetPackagePlayMode;
 
-    private onPlayModeChanged(event:AdnetPackagePlayMode){
+    private onSetPlayMode(event: AdnetPackagePlayMode) {
         this.selectedAdnetPackagePlayMode = event;
     }
 
-    private onPropSelected(event:IAdNetworkPropSelectedEvent){
+    private onAdnetPackageSelected(event: AdnetPackageModel) {
+        this.onSetPlayMode(event.playMode());
+    }
+
+    private onPropSelected(event: IAdNetworkPropSelectedEvent) {
         this.propSelector = event.selected;
     }
 
-    private onAdnetTargetsSelected(i_adnetTargetModels:List<AdnetTargetModel>){
+    private onAdnetTargetsSelected(i_adnetTargetModels: List<AdnetTargetModel>) {
         this.selectedAdnetTargetModels = i_adnetTargetModels;
     }
 
@@ -61,7 +67,7 @@ export class AdnetNetwork {
         this.pairsOutgoing = event.pairsOutgoing;
     }
 
-    private onTargetSelected(i_adnetTargetModel:AdnetTargetModel){
+    private onTargetSelected(i_adnetTargetModel: AdnetTargetModel) {
         this.selectedAdnetTargetModel = i_adnetTargetModel;
     }
 }

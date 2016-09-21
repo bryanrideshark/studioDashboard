@@ -56,6 +56,9 @@ export class AdnetNetworkPackageEditor {
     onPropSelected: EventEmitter<IAdNetworkPropSelectedEvent> = new EventEmitter<IAdNetworkPropSelectedEvent>();
 
     @Output()
+    onAdnetPacakgedSelected: EventEmitter<AdnetPackageModel> = new EventEmitter<AdnetPackageModel>();
+
+    @Output()
     onAdnetTargetsSelected: EventEmitter<List<AdnetTargetModel>> = new EventEmitter<List<AdnetTargetModel>>();
 
 
@@ -109,6 +112,7 @@ export class AdnetNetworkPackageEditor {
         }) as List<AdnetTargetModel>;
 
         this.onPropSelected.emit({selected: AdnetNetworkPropSelector.PACKAGE})
+        this.onAdnetPacakgedSelected.emit(this.selectedAdnetPackageModel)
         this.onAdnetTargetsSelected.emit(selectedAdnetTargetModels);
     }
 

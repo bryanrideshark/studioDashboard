@@ -12,6 +12,7 @@
                         <AdnetNetworkPackageEditor #adnetNetworkPackageEditor
                                                    (onPropSelected)="onPropSelected($event)"
                                                    (onAdnetTargetsSelected)="onAdnetTargetsSelected($event)"
+                                                   (onAdnetPacakgedSelected)="onAdnetPackageSelected($event)"
                                                    [setPairOutgoing]="pairsOutgoing"
                                                    [setAdnetPairModels]="pairsSelected"
                                                    [setAdnetCustomerModel]="adnetCustomerModel">
@@ -41,7 +42,7 @@
                                 </div>
                                 <div *ngSwitchCase="adnetNetworkPropSelector.PACKAGE">
                                     <AdnetNetworkPackageProps
-                                            (playModeChanged)="onPlayModeChanged($event)"
+                                            (playModeChanged)="onSetPlayMode($event)"
                                             [setAdnetPackageModels]="adnetNetworkPackageEditor.selectedAdnetPackageModel">
                                     </AdnetNetworkPackageProps>
                                 </div>
@@ -92,3 +93,4 @@
         </tabs>
     </div>
 </div>
+
