@@ -17,8 +17,6 @@
   "author": "Sean Levy",
   "license": "MIT",
   "devDependencies": {
-    "http-server": "^0.9",
-    "chokidar-socket-emitter": "^0.5",
     "angular-cli": "0.0.*",
     "angular2-uuid": "^1.0.6",
     "autoprefixer": "^6.2.3",
@@ -26,6 +24,7 @@
     "bootstrap": "^3.3.5",
     "browser-sync": "^2.11.1",
     "chalk": "^1.1.1",
+    "chokidar-socket-emitter": "^0.5",
     "crypto": "0.0.3",
     "css-loader": "^0.23.1",
     "es6-module-loader": "^0.17.8",
@@ -52,6 +51,7 @@
     "gulp-watch": "^4.2.4",
     "highcharts": "^4.2.1",
     "html-loader": "^0.4.0",
+    "http-server": "^0.9",
     "immutable": "^3.7.6",
     "install": "^0.4.1",
     "is-equal": "^1.4.2",
@@ -404,4 +404,3 @@
     "zone.js": "^0.6.21"
   }
 }
-

@@ -2,23 +2,42 @@
 <!--<small>mode: {{pairOutgoing ? 'outgoing' : 'incoming' }}</small>-->
 <small class="release">Package editor</small>
 <small class="debug">{{me}}</small>
-<div style="position: relative; top: 10px">
-    <div (click)="$event.preventDefault()">
-        <a class="btns" (click)="onAdd($event)" href="#">
-            <span class="fa fa-plus"></span>
-        </a>
-        <a class="btns" (click)="onRemove($event)"
-           [ngClass]="{disabled: !privelegesModelSelected}" href="#">
+
+
+<div style="">
+    <accordion [closeOthers]="true">
+        <accordion-group [isOpen]="true" heading="packages">
+
+            <div style="position: relative; top: 1px">
+                <div (click)="$event.preventDefault()">
+                    <a class="btns" (click)="onAdd($event)" href="#">
+                        <span class="fa fa-plus"></span>
+                    </a>
+                    <a class="btns" (click)="onRemove($event)"
+                       [ngClass]="{disabled: !privelegesModelSelected}" href="#">
             <span class="fa fa-remove">
             </span>
-        </a>
-    </div>
-</div>
+                    </a>
+                </div>
+            </div>
 
-<div style="padding-left: 20px">
-    <SimpleList #simpleList [list]="packagesFiltered"
-                (selected)="onSelecting($event)"
-                [multiSelect]="false"
-                [contentId]="getId" [content]="getName">
-    </SimpleList>
+            <SimpleList #simpleList [list]="packagesFiltered"
+                        (selected)="onSelecting($event)"
+                        [multiSelect]="false"
+                        [contentId]="getId" [content]="getName">
+            </SimpleList>
+        </accordion-group>
+        <accordion-group heading="resources">
+            <h5>coming soon...999</h5>
+        </accordion-group>
+        <accordion-group heading="google drive">
+            <h5>coming soon...</h5>
+        </accordion-group>
+        <accordion-group heading="dropbox">
+            <h5>coming soon...</h5>
+        </accordion-group>
+        <accordion-group heading="targets">
+            <h5>coming soon...</h5>
+        </accordion-group>
+    </accordion>
 </div>

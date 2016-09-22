@@ -90,7 +90,7 @@ export class AdnetNetworkTargetProps {
         this.adnetRateModel = customersList.filter((adnetRateTable: AdnetRateModel) => {
             return rateId == adnetRateTable.getId();
         }).first() as AdnetRateModel;
-        console.log(this.adnetRateModel.rateMap());
+        // console.log(this.adnetRateModel.rateMap());
         this.modalRateTable.open('lg');
     }
 

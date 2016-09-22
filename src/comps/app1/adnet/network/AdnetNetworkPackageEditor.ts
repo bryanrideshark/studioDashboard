@@ -15,7 +15,8 @@ import AdnetNetworkPackageEditorStyle from './AdnetNetworkPackageEditor.css!text
     selector: 'AdnetNetworkPackageEditor',
     moduleId: __moduleName,
     styles: [AdnetNetworkPackageEditorStyle],
-    template: AdnetNetworkPackageEditorTemplate
+    template: AdnetNetworkPackageEditorTemplate,
+    templateUrl: './AdnetNetworkPackageEditor.html'
 })
 
 export class AdnetNetworkPackageEditor {
