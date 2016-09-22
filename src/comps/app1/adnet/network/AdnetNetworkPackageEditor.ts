@@ -24,12 +24,12 @@ import {Lib} from "../../../../Lib";
 //import AdnetNetworkPackageEditorStyle from './AdnetNetworkPackageEditor.css!text'; /*prod*/
 
 @Component({
-    selector: 'AdnetNetworkPackageEditor',
 //	styles: [AdnetNetworkPackageEditorStyle], /*prod*/
 //	template: AdnetNetworkPackageEditorTemplate, /*prod*/
+    selector: 'AdnetNetworkPackageEditor',
     templateUrl: './AdnetNetworkPackageEditor.html', /*dev*/
     styleUrls: ['./AdnetNetworkPackageEditor.css'], /*dev*/
-    moduleId: __moduleName,
+    moduleId: __moduleName
 })
 
 export class AdnetNetworkPackageEditor {
