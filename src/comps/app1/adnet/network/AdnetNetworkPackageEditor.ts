@@ -1,22 +1,35 @@
-import {Component, Input, ViewChild, EventEmitter, Output} from "@angular/core";
+import {
+    Component,
+    Input,
+    ViewChild,
+    EventEmitter,
+    Output
+} from "@angular/core";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
 import {List} from "immutable";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 import {AppStore} from "angular2-redux-util";
-import {SimpleList, ISimpleListItem} from "../../../simplelist/Simplelist";
-import {AdnetNetworkPropSelector, IAdNetworkPropSelectedEvent} from "./AdnetNetwork";
+import {
+    SimpleList,
+    ISimpleListItem
+} from "../../../simplelist/Simplelist";
+import {
+    AdnetNetworkPropSelector,
+    IAdNetworkPropSelectedEvent
+} from "./AdnetNetwork";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {Lib} from "../../../../Lib";
-import AdnetNetworkPackageEditorTemplate from './AdnetNetworkPackageEditor.html!text';
-import AdnetNetworkPackageEditorStyle from './AdnetNetworkPackageEditor.css!text';
+//import AdnetNetworkPackageEditorTemplate from './AdnetNetworkPackageEditor.html!text'; /*prod*/
+//import AdnetNetworkPackageEditorStyle from './AdnetNetworkPackageEditor.css!text'; /*prod*/
 
 @Component({
     selector: 'AdnetNetworkPackageEditor',
+//	styles: [AdnetNetworkPackageEditorStyle], /*prod*/
+//	template: AdnetNetworkPackageEditorTemplate, /*prod*/
+    templateUrl: './AdnetNetworkPackageEditor.html', /*dev*/
+    styleUrls: ['./AdnetNetworkPackageEditor.css'], /*dev*/
     moduleId: __moduleName,
-    styles: [AdnetNetworkPackageEditorStyle],
-    template: AdnetNetworkPackageEditorTemplate,
-    templateUrl: './AdnetNetworkPackageEditor.html'
 })
 
 export class AdnetNetworkPackageEditor {
@@ -34,8 +47,7 @@ export class AdnetNetworkPackageEditor {
         this.onFilterPackages();
     }
 
-    @ViewChild(SimpleList)
-    simpleList: SimpleList;
+    @ViewChild(SimpleList) simpleList: SimpleList;
 
     @Input()
     set setPairOutgoing(i_setPairOutgoing: boolean) {
@@ -50,17 +62,13 @@ export class AdnetNetworkPackageEditor {
         this.onFilterPackages();
     }
 
-    @Input()
-    setAdnetPairModels: List<AdnetPairModel>
+    @Input() setAdnetPairModels: List<AdnetPairModel>
 
-    @Output()
-    onPropSelected: EventEmitter<IAdNetworkPropSelectedEvent> = new EventEmitter<IAdNetworkPropSelectedEvent>();
+    @Output() onPropSelected: EventEmitter<IAdNetworkPropSelectedEvent> = new EventEmitter<IAdNetworkPropSelectedEvent>();
 
-    @Output()
-    onAdnetPacakgedSelected: EventEmitter<AdnetPackageModel> = new EventEmitter<AdnetPackageModel>();
+    @Output() onAdnetPacakgedSelected: EventEmitter<AdnetPackageModel> = new EventEmitter<AdnetPackageModel>();
 
-    @Output()
-    onAdnetTargetsSelected: EventEmitter<List<AdnetTargetModel>> = new EventEmitter<List<AdnetTargetModel>>();
+    @Output() onAdnetTargetsSelected: EventEmitter<List<AdnetTargetModel>> = new EventEmitter<List<AdnetTargetModel>>();
 
 
     private unsub: Function;

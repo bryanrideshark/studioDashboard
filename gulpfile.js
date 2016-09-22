@@ -7,6 +7,7 @@ var tslint = require('gulp-tslint');
 var typedoc = require("gulp-typedoc");
 var superstatic = require('superstatic');
 var shell = require("gulp-shell");
+var commentSwap = require("gulp-comment-swap");
 var Rsync = require('rsync');
 var opn = require('opn');
 var typescript = require('gulp-typescript');
@@ -20,6 +21,7 @@ var uglify = require("gulp-uglify");
 var tslintStylish = require('gulp-tslint-stylish');
 var util = require('gulp-util');
 
+
 //var commentSwap = require('gulp-comment-swap');
 //var tsc = require('gulp-typescript');
 
@@ -28,6 +30,24 @@ var util = require('gulp-util');
 // jspm bundle App.ts dev-bundle.js --watch
 // https://github.com/jspm/jspm.io/pull/43/files?short_path=4cea63c#diff-4cea63c9d39d3e90a68b25b0030e90aa
 
+
+gulp.task('x_import_dev', function (done) {
+    gulp.src('./src/**/*.ts')
+        .pipe(commentSwap(new RegExp('/\\*prod\\*/'),new RegExp('/\\*dev\\*/'))).on('error', function(err){
+            console.log('gulp-swap error: ' + err);
+         })
+        .pipe(gulp.dest('./src'));
+    done()
+});
+
+gulp.task('x_import_prod', function (done) {
+    gulp.src('./src/**/*.ts')
+        .pipe(commentSwap(new RegExp('/\\*dev\\*/'),new RegExp('/\\*prod\\*/'))).on('error', function(err){
+        console.log('gulp-swap error: ' + err);
+    })
+        .pipe(gulp.dest('./src'));
+    done()
+});
 
 /** Typescript configuration **/
 var paths = {
@@ -54,6 +74,7 @@ gulp.task("production", function (callback) {
         "x_clean",
         "x_assets",
         "x_jspm",
+        "x_import_prod",
         "x_copy_files",
         "x_build-ts",
         "x_copy",
@@ -63,6 +84,7 @@ gulp.task("production", function (callback) {
         "x_clear_remote",
         "x_rsync",
         "x_rsync",
+        "x_import_dev",
         function (error) {
             if (error) {
                 console.log(error.message);
