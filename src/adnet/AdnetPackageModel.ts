@@ -1,10 +1,13 @@
 import {StoreModel} from "../models/StoreModel";
+import {AdnetPackagePlayMode} from "../comps/app1/adnet/network/AdnetNetwork";
 
 export class AdnetPackageModel extends StoreModel {
 
     constructor(data: any = {}) {
         super(data);
     }
+
+    // private adnetPackagePlayMode:AdnetPackagePlayMode;
 
     public getId() {
         return this.getKey('Key');
@@ -24,6 +27,20 @@ export class AdnetPackageModel extends StoreModel {
 
     public playMode() {
         return this.getKey('Value').playMode;
+    }
+
+    public playModeName() {
+        var mode:AdnetPackagePlayMode = this.getKey('Value').playMode;
+        switch (mode){
+            case AdnetPackagePlayMode.ASSETS:
+                return "asset"
+            case AdnetPackagePlayMode.LOCATION:
+                return "location"
+            case AdnetPackagePlayMode.TIME:
+                return "time"
+        }
+
+
     }
 
     public startDate() {

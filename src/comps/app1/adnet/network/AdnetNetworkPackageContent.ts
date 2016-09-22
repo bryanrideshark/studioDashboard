@@ -13,10 +13,10 @@ import {List} from 'immutable';
 import {SimpleGridTable} from "../../../simplegrid/SimpleGridTable";
 import {
     AdnetNetworkPropSelector,
-    IAdNetworkPropSelectedEvent
+    IAdNetworkPropSelectedEvent,
+    AdnetPackagePlayMode
 } from "./AdnetNetwork";
 import {Lib} from "../../../../Lib";
-import {AdnetPackagePlayMode} from "./AdnetNetworkPackageProps";
 import * as _ from 'lodash';
 
 @Component({

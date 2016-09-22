@@ -1,21 +1,27 @@
-import {Component, Input} from "@angular/core";
+import {
+    Component,
+    Input
+} from "@angular/core";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
 import {List} from "immutable";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 import {AppStore} from "angular2-redux-util";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
-import AdnetNetworkPackageViewerTemplate from './AdnetNetworkPackageViewer.html!text';
+import {Lib} from "../../../../Lib";
+// import AdnetNetworkPackageViewerTemplate from "./AdnetNetworkPackageViewer.html!text"; /*prod*/
 
 @Component({
+//	template: AdnetNetworkPackageViewerTemplate, /*prod*/
     selector: 'AdnetNetworkPackageViewer',
     moduleId: __moduleName,
-    template: AdnetNetworkPackageViewerTemplate
+    templateUrl: './AdnetNetworkPackageViewer.html' /*dev*/
 })
 
 export class AdnetNetworkPackageViewer {
 
     constructor(private appStore: AppStore) {
+        this['me'] = Lib.GetCompSelector(this.constructor)
     }
 
     ngOnInit() {
@@ -60,6 +66,14 @@ export class AdnetNetworkPackageViewer {
     private packages: List<AdnetPackageModel>
     private packagesFiltered: List<AdnetPackageModel>
     private pairOutgoing: boolean
+
+    private setAccessMask(event) {
+    }
+
+    private getAccessMask(i_adnetPackageModel: AdnetPackageModel) {
+        var accessMask = i_adnetPackageModel.daysMask();
+        return Lib.GetADaysMask(accessMask);
+    }
 
     private onAdd(event) {
     }
@@ -120,10 +134,13 @@ export class AdnetNetworkPackageViewer {
         }
     }
 
-    public sort:{field:string, desc:boolean} = {field: null, desc: false};
+    public sort: {field: string, desc: boolean} = {
+        field: null,
+        desc: false
+    };
 
-    private processAdnetPackageField(i_function:string) {
-        return (i_adnetPackageModel:AdnetPackageModel) => {
+    private processAdnetPackageField(i_function: string) {
+        return (i_adnetPackageModel: AdnetPackageModel) => {
             return i_adnetPackageModel[i_function]();
         }
     }

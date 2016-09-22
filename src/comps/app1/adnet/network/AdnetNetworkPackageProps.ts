@@ -21,9 +21,9 @@ import * as moment_ from "moment";
 import {List} from "immutable";
 import AdnetNetworkPackagePropsTemplate from './AdnetNetworkPackageProps.html!text';
 import AdnetNetworkPackageCommonStylesStyle from './AdnetNetworkPackageCommonStyles.css!text';
+import {AdnetPackagePlayMode} from "./AdnetNetwork";
 
 export const moment = moment_["default"];
-export enum AdnetPackagePlayMode {TIME, LOCATION, ASSETS}
 
 @Component({
     moduleId: __moduleName,

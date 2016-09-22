@@ -8,12 +8,15 @@ import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
 import {List} from "immutable";
 import {IPairSelect} from "./AdnetNetworkCustomerSelector";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
-import {AdnetPackagePlayMode} from "./AdnetNetworkPackageProps";
 import AdnetNetworkTemplate from "./AdnetNetwork.html!text";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 
 export enum AdnetNetworkPropSelector {
     CONTENT, PACKAGE, RESOURCE, TARGET
+}
+
+export enum AdnetPackagePlayMode {
+    TIME, LOCATION, ASSETS
 }
 
 export interface IAdNetworkPropSelectedEvent {
@@ -28,6 +31,10 @@ export interface IAdNetworkPropSelectedEvent {
 })
 
 export class AdnetNetwork {
+
+    // constructor(@Inject(forwardRef(() => AdnetActions)) private adnetAction: AdnetActions){
+    //     console.log(adnetAction);
+    // }
 
     @Input()
     set setAdnetCustomerModel(i_adnetCustomerModel: AdnetCustomerModel) {
