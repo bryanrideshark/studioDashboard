@@ -17,7 +17,7 @@ import {ResellerAction} from "../../../reseller/ResellerAction";
 @Component({
     selector: 'apps',
     host: {
-        '[@routeAnimation]': 'true',
+        '[@routeAnimation]': 'false',
         '[style.display]': "'block'"
     },
     animations: [

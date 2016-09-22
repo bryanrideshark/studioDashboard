@@ -18,7 +18,7 @@ type stationComponentMode = "map" | "grid";
     selector: 'Dashboard',
     moduleId: __moduleName,
     host: {
-        '[@routeAnimation]': 'true',
+        '[@routeAnimation]': 'false',
         '[style.display]': "'block'"
     },
     animations: [

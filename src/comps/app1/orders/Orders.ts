@@ -13,7 +13,7 @@ import OrdersTemplate from './Orders.html!text';
     moduleId: __moduleName,
     template: OrdersTemplate,
     host: {
-        '[@routeAnimation]': 'true',
+        '[@routeAnimation]': 'false',
         '[style.display]': "'block'"
     },
     animations: [

@@ -22,7 +22,7 @@ import AccountTemplate from './Account.html!text'
     `],
     host: {
         '(input-blur)': 'onInputBlur($event)',
-        '[@routeAnimation]': 'true',
+        '[@routeAnimation]': 'false',
         '[style.display]': "'block'"
     },
     animations: [

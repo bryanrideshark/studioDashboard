@@ -41,7 +41,7 @@ import * as bootbox from "bootbox";
       }
     `],
     host: {
-        '[@routeAnimation]': 'true',
+        '[@routeAnimation]': 'false',
         '[style.display]': "'block'",
         '[style.position]': "'absolute'"
     },

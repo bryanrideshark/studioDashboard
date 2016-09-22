@@ -6,7 +6,7 @@ import {List} from "immutable";
 @Component({
     selector: 'Adnet',
     host: {
-        '[@routeAnimation]': 'true',
+        '[@routeAnimation]': 'false',
         '[style.display]': "'block'"
     },
     animations: [

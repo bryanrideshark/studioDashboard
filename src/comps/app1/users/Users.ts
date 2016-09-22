@@ -21,7 +21,7 @@ import UsersStyle from './Users.css!text';
     styles: [UsersStyle],
     template: UsersTemplate,
     host: {
-        '[@routeAnimation]': 'true',
+        '[@routeAnimation]': 'false',
         '[style.display]': "'block'"
     },
     animations: [

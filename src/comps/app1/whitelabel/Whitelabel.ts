@@ -34,7 +34,7 @@ import WhitelabelStyle from './Whitelabel.css!text';
     styles: [WhitelabelStyle],
     host: {
         '(input-blur)': 'onInputBlur($event)',
-        '[@routeAnimation]': 'true',
+        '[@routeAnimation]': 'false',
         '[style.display]': "'block'"
     },
     animations: [
