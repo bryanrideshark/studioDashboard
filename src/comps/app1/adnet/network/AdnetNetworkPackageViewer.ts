@@ -139,6 +139,17 @@ export class AdnetNetworkPackageViewer {
         desc: false
     };
 
+    private getCustomerName() {
+        return (i_adnetPackageModel: AdnetPackageModel) => {
+            var customerId = i_adnetPackageModel.getCustomerId();
+            var customersList: List<AdnetCustomerModel> = this.appStore.getState().adnet.getIn(['customers']) || {};
+            this.adnetCustomerModel = customersList.filter((adnetCustomerModel: AdnetCustomerModel) => {
+                return customerId == adnetCustomerModel.customerId();
+            }).first() as AdnetCustomerModel;
+            return this.adnetCustomerModel.getName();
+        }
+    }
+
     private processAdnetPackageField(i_function: string) {
         return (i_adnetPackageModel: AdnetPackageModel) => {
             return i_adnetPackageModel[i_function]();
