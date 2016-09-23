@@ -1,7 +1,9 @@
 import {
     Component,
     Input,
-    ViewChild
+    ViewChild,
+    Output,
+    EventEmitter
 } from "@angular/core";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
@@ -25,7 +27,7 @@ import {SimpleGridTable} from "../../../simplegrid/SimpleGridTable";
             width: 40px;
         }
         .width-lr {
-            width: 400px !important;
+            min-width: 200px !important;
         }
     `],
     templateUrl: './AdnetNetworkPackageViewer.html' /*dev*/
@@ -73,6 +75,10 @@ export class AdnetNetworkPackageViewer {
         this.adnetPairModels = i_adnetPairModels;
         this.onFilterPackages();
     }
+
+    @Output()
+    onAdnetPackageViewSelected:EventEmitter<AdnetPackageModel> = new EventEmitter<AdnetPackageModel>();
+
 
     private unsub1: Function;
     private unsub2: Function;
@@ -189,30 +195,13 @@ export class AdnetNetworkPackageViewer {
         }
     }
 
-    // private getId(i_adnetPackageModel: AdnetPackageModel) {
-    //     if (!i_adnetPackageModel)
-    //         return;
-    //     return i_adnetPackageModel.getId();
-    // }
-
-    private onSelecting(event) {
-
+    private onContentSelect(event) {
+        this.onAdnetPackageViewSelected.emit(<AdnetPackageModel>event)
     }
 
     private getName(i_adnetPackageModel: AdnetPackageModel) {
         if (i_adnetPackageModel)
             return i_adnetPackageModel.getName();
-        // var self = this;
-        // return (i_adnetPairModel: AdnetPairModel) => {
-        //     var customers: List<AdnetCustomerModel> = self.appStore.getState().adnet.getIn(['customers']);
-        //     if (this.outgoing) {
-        //         var index = this.getIndex(customers, i_adnetPairModel.getToCustomerId())
-        //     } else {
-        //         var index = this.getIndex(customers, i_adnetPairModel.getCustomerId())
-        //     }
-        //     var customer: AdnetCustomerModel = customers.get(index);
-        //     return customer.getName();
-        // }
     }
 
     private ngOnDestroy() {

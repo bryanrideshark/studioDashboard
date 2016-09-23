@@ -62,6 +62,10 @@ export class AdnetNetwork {
         this.onSetPlayMode(event.playMode());
     }
 
+    private onAdnetPackageViewSelected(event: AdnetPackageModel) {
+        console.log(event);
+    }
+
     private onPropSelected(event: IAdNetworkPropSelectedEvent) {
         this.propSelector = event.selected;
     }
