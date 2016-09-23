@@ -39,15 +39,6 @@ export class AdnetNetwork {
     //     console.log(adnetAction);
     // }
 
-    constructor(){
-        setTimeout(()=>{
-            console.log(this.localAdnetNetworkPackageEditor);
-        },2000)
-    }
-
-    @ViewChild(AdnetNetworkPackageEditor)
-    localAdnetNetworkPackageEditor:AdnetNetworkPackageEditor;
-
     @Input()
     set setAdnetCustomerModel(i_adnetCustomerModel: AdnetCustomerModel) {
         this.adnetCustomerModel = i_adnetCustomerModel;
