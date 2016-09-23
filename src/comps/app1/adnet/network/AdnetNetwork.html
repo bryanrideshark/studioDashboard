@@ -72,7 +72,11 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-6">
-                                <AdnetNetworkPackageContent></AdnetNetworkPackageContent>
+                                <AdnetNetworkPackageContent #adnetNetworkPackageView
+                                                            (onPropSelected)="onPropSelected($event)"
+                                                            [setAdnetPackagePlayMode]="selectedAdnetPackagePlayMode"
+                                                            [setAdnetPackageModels]="selectedAdnetPackageViewModel">
+                                </AdnetNetworkPackageContent>
                             </div>
                             <div class="col-xs-6">
                                 <AdnetNetworkTarget></AdnetNetworkTarget>

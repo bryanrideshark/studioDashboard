@@ -1,7 +1,8 @@
 import {
     Component,
     ChangeDetectionStrategy,
-    Input
+    Input,
+    ViewChild
 } from "@angular/core";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
@@ -9,6 +10,7 @@ import {List} from "immutable";
 import {IPairSelect} from "./AdnetNetworkCustomerSelector";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
+import {AdnetNetworkPackageEditor} from "./AdnetNetworkPackageEditor";
 // import AdnetNetworkTemplate from "./AdnetNetwork.html!text"; /*prod*/
 
 export enum AdnetNetworkPropSelector {
@@ -37,6 +39,15 @@ export class AdnetNetwork {
     //     console.log(adnetAction);
     // }
 
+    constructor(){
+        setTimeout(()=>{
+            console.log(this.localAdnetNetworkPackageEditor);
+        },2000)
+    }
+
+    @ViewChild(AdnetNetworkPackageEditor)
+    localAdnetNetworkPackageEditor:AdnetNetworkPackageEditor;
+
     @Input()
     set setAdnetCustomerModel(i_adnetCustomerModel: AdnetCustomerModel) {
         this.adnetCustomerModel = i_adnetCustomerModel;
@@ -64,6 +75,7 @@ export class AdnetNetwork {
     }
 
     private onAdnetPackageViewSelected(event: AdnetPackageModel) {
+        this.onSetPlayMode(event.playMode());
         this.selectedAdnetPackageViewModel = event;
     }
 
