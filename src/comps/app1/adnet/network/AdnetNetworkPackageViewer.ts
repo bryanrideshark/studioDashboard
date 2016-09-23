@@ -17,6 +17,17 @@ import {SimpleGridTable} from "../../../simplegrid/SimpleGridTable";
 //	template: AdnetNetworkPackageViewerTemplate, /*prod*/
     selector: 'AdnetNetworkPackageViewer',
     moduleId: __moduleName,
+    styles: [`
+        .width-sm {
+            width: 10px !important;
+        } 
+        .width-md {
+            width: 40px;
+        }
+        .width-lr {
+            width: 400px !important;
+        }
+    `],
     templateUrl: './AdnetNetworkPackageViewer.html' /*dev*/
 })
 
@@ -42,8 +53,7 @@ export class AdnetNetworkPackageViewer {
         this.onFilterPackages();
     }
 
-    @ViewChild(SimpleGridTable)
-    simpleGridTable: SimpleGridTable
+    @ViewChild(SimpleGridTable) simpleGridTable: SimpleGridTable
 
     @Input()
     set setPairOutgoing(i_setPairOutgoing: boolean) {
@@ -158,7 +168,24 @@ export class AdnetNetworkPackageViewer {
 
     private processAdnetPackageField(i_function: string) {
         return (i_adnetPackageModel: AdnetPackageModel) => {
-            return i_adnetPackageModel[i_function]();
+
+            switch (i_function) {
+                case 'startDate': {
+                }
+                case 'endDate': {
+                    var data = i_adnetPackageModel[i_function]()
+                    return Lib.ProcessDateField(data);
+                }
+                case 'hourStart': {
+                }
+                case 'hourEnd': {
+                    var data = i_adnetPackageModel[i_function]()
+                    return Lib.ProcessHourStartEnd(data, i_function);
+                }
+                default: {
+                    return i_adnetPackageModel[i_function]();
+                }
+            }
         }
     }
 

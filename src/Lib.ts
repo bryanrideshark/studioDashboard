@@ -40,7 +40,7 @@ export class Lib {
      * @constructor
      */
     static ProcessDateField(dateString: string): any {
-        if (!dateString)
+        if (_.isUndefined(dateString))
             return '';
         var epoc = dateString.match(/Date\((.*)\)/)
         if (epoc[1]) {
@@ -56,6 +56,14 @@ export class Lib {
             // console.log(moment().startOf('day').fromNow());
 
         }
+    }
+
+    static ProcessHourStartEnd(value: string, key:string): any {
+        if (_.isUndefined(!value))
+            return '';
+        if (key =='hourStart')
+            return `${value}:00`;
+        return `${value}:59`;
     }
 
     static BooleanToNumber(value: any): any {
