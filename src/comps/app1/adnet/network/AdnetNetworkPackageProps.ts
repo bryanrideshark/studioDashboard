@@ -17,13 +17,13 @@ import {AppStore} from "angular2-redux-util";
 import {Lib} from "../../../../Lib";
 import * as _ from "lodash";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
-import * as moment_ from "moment";
+// import * as moment_ from "moment";
 import {List} from "immutable";
 import AdnetNetworkPackagePropsTemplate from './AdnetNetworkPackageProps.html!text';
 import AdnetNetworkPackageCommonStylesStyle from './AdnetNetworkPackageCommonStyles.css!text';
 import {AdnetPackagePlayMode} from "./AdnetNetwork";
 
-export const moment = moment_["default"];
+// export const moment = moment_["default"];
 
 @Component({
     moduleId: __moduleName,
@@ -131,36 +131,14 @@ export class AdnetNetworkPackageProps {
     private renderFormInputs() {
         if (!this.adnetPackageModels)
             return;
-
-        const processDate = (key) => {
-            var data = this.adnetPackageModels.getKey('Value')[key];
-            if (data) {
-                var epoc = data.match(/Date\((.*)\)/)
-                if (epoc[1]) {
-                    var date = epoc[1].split('+')[0]
-                    var time = epoc[1].split('+')[1]
-                    //todo: workaround, adding one day since off 1 day from Alon, see why???
-                    data = moment(Number(date)).add(1, 'day');
-                    return moment(data).format('YYYY-MM-DD');
-
-                    // moment examples
-                    // var a = moment().unix().format()
-                    // console.log(moment.now());
-                    // console.log(moment().format('dddd'));
-                    // console.log(moment().startOf('day').fromNow());
-
-                }
-            } else {
-                return '';
-            }
-        }
         _.forEach(this.formInputs, (value, key: string) => {
             var data;
             switch (key) {
                 case 'startDate': {
                 }
                 case 'endDate': {
-                    data = processDate(key);
+                    var data = this.adnetPackageModels.getKey('Value')[key];
+                    data = Lib.ProcessDateField(data);
                     break;
                 }
                 default: {

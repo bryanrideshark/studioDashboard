@@ -1,6 +1,7 @@
 import {
     Component,
-    Input
+    Input,
+    ViewChild
 } from "@angular/core";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
@@ -9,6 +10,7 @@ import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 import {AppStore} from "angular2-redux-util";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {Lib} from "../../../../Lib";
+import {SimpleGridTable} from "../../../simplegrid/SimpleGridTable";
 // import AdnetNetworkPackageViewerTemplate from "./AdnetNetworkPackageViewer.html!text"; /*prod*/
 
 @Component({
@@ -40,6 +42,9 @@ export class AdnetNetworkPackageViewer {
         this.onFilterPackages();
     }
 
+    @ViewChild(SimpleGridTable)
+    simpleGridTable: SimpleGridTable
+
     @Input()
     set setPairOutgoing(i_setPairOutgoing: boolean) {
         this.pairOutgoing = i_setPairOutgoing;
@@ -54,6 +59,7 @@ export class AdnetNetworkPackageViewer {
 
     @Input()
     set setAdnetPairModels(i_adnetPairModels: List<AdnetPairModel>) {
+        this.simpleGridTable.deselect();
         this.adnetPairModels = i_adnetPairModels;
         this.onFilterPackages();
     }

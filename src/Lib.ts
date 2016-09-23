@@ -9,10 +9,12 @@ import {List, Map} from "immutable";
 import {PrivelegesModel} from "./reseller/PrivelegesModel";
 import * as _ from "lodash";
 import * as xml2js from "xml2js";
+import * as moment_ from "moment";
 //import {LoggerMiddleware} from "angular2-redux-util";
 //import {BusinessUser} from "./business/BusinessUser";
 //import * as thunkMiddleware from 'redux-thunk';
 
+export const moment = moment_["default"];
 
 @Injectable()
 export class Lib {
@@ -29,6 +31,31 @@ export class Lib {
             const reduxAppStore = createStoreWithEnhancers(reducers);
             return new AppStore(reduxAppStore);
         };
+    }
+
+    /**
+     *
+     * @param dateString format of date + time: /Date(1469923200000+0000)/"
+     * @returns {any}
+     * @constructor
+     */
+    static ProcessDateField(dateString: string): any {
+        if (!dateString)
+            return '';
+        var epoc = dateString.match(/Date\((.*)\)/)
+        if (epoc[1]) {
+            var date = epoc[1].split('+')[0]
+            var time = epoc[1].split('+')[1]
+            //todo: workaround, adding one day since off 1 day from Alon, see why???
+            var result = moment(Number(date)).add(1, 'day');
+            return moment(result).format('YYYY-MM-DD');
+            /** moment examples **/
+            // var a = moment().unix().format()
+            // console.log(moment.now());
+            // console.log(moment().format('dddd'));
+            // console.log(moment().startOf('day').fromNow());
+
+        }
     }
 
     static BooleanToNumber(value: any): any {
