@@ -8,7 +8,7 @@
         <tabs>
             <tab [tabtitle]="'Packages'">
                 <div class="row" *ngIf="pairsOutgoing == true && this.pairsSelected && this.pairsSelected.size > 1">
-                    <div class="col-xs-3" style="padding: 30px">
+                    <div class="col-xs-3">
                         <AdnetNetworkPackageEditor #adnetNetworkPackageEditor
                                                    (onPropSelected)="onPropSelected($event)"
                                                    (onAdnetTargetsSelected)="onAdnetTargetsSelected($event)"
@@ -32,7 +32,7 @@
                                             (onAdnetTargetSelected)="onTargetSelected($event)">
                         </AdnetNetworkTarget>
                     </div>
-                    <div class="col-xs-3" style="padding: 30px">
+                    <div class="col-xs-3" style="padding-left: 30px; padding-right: 30px">
                         <div style="height: 100%">
                             <div [ngSwitch]="propSelector">
                                 <div *ngSwitchCase="adnetNetworkPropSelector.CONTENT">
@@ -60,17 +60,26 @@
 
                 <div class="row" *ngIf="pairsOutgoing == false || (this.pairsSelected && this.pairsSelected.size == 1)">
                     <div class="col-xs-9">
-                        <div style="overflow-x: scroll">
-                            <AdnetNetworkPackageViewer
-                                    (onAdnetPackageViewSelected)="onAdnetPackageViewSelected($event)"
-                                    [setPairOutgoing]="pairsOutgoing"
-                                    [setAdnetPairModels]="pairsSelected"
-                                    [setAdnetCustomerModel]="adnetCustomerModel">
-                            </AdnetNetworkPackageViewer>
+                        <div style="min-height: 300px; overflow-y: scroll; height: 300px">
+                            <div style="overflow-x: scroll">
+                                <AdnetNetworkPackageViewer
+                                        (onAdnetPackageViewSelected)="onAdnetPackageViewSelected($event)"
+                                        [setPairOutgoing]="pairsOutgoing"
+                                        [setAdnetPairModels]="pairsSelected"
+                                        [setAdnetCustomerModel]="adnetCustomerModel">
+                                </AdnetNetworkPackageViewer>
+                            </div>
                         </div>
-
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <AdnetNetworkPackageContent></AdnetNetworkPackageContent>
+                            </div>
+                            <div class="col-xs-6">
+                                <AdnetNetworkTarget></AdnetNetworkTarget>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-xs-3" style="padding: 30px">
+                    <div class="col-xs-3" style="padding-left: 30px; padding-right: 30px">
                         <div class="row">
                             <AdnetNetworkPackageViewProps [setAdnetPackageModel]="selectedAdnetPackageViewModel">
                             </AdnetNetworkPackageViewProps>
