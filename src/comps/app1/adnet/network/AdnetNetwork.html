@@ -8,7 +8,7 @@
         <tabs>
             <tab [tabtitle]="'Packages'">
                 <div class="row" *ngIf="pairsOutgoing == true && this.pairsSelected && this.pairsSelected.size > 1">
-                    <div class="col-xs-3">
+                    <div class="col-xs-3" style="padding: 30px">
                         <AdnetNetworkPackageEditor #adnetNetworkPackageEditor
                                                    (onPropSelected)="onPropSelected($event)"
                                                    (onAdnetTargetsSelected)="onAdnetTargetsSelected($event)"
@@ -32,7 +32,7 @@
                                             (onAdnetTargetSelected)="onTargetSelected($event)">
                         </AdnetNetworkTarget>
                     </div>
-                    <div class="col-xs-3">
+                    <div class="col-xs-3" style="padding: 30px">
                         <div style="height: 100%">
                             <div [ngSwitch]="propSelector">
                                 <div *ngSwitchCase="adnetNetworkPropSelector.CONTENT">
@@ -70,9 +70,19 @@
                         </div>
 
                     </div>
-                    <div class="bgRed col-xs-3">
-                        <h2 class="row" *ngIf="pairsOutgoing == false">prop in</h2>
-                        <h2 class="row" *ngIf="pairsOutgoing == true">prop out</h2>
+                    <div class="col-xs-3" style="padding: 30px">
+                        <div class="row">
+                            <AdnetNetworkPackageViewProps [setAdnetPackageModel]="selectedAdnetPackageViewModel">
+                            </AdnetNetworkPackageViewProps>
+                        </div>
+                        <!--<div class="row" *ngIf="pairsOutgoing == false">-->
+                            <!--<AdnetNetworkPackageViewProps [setAdnetPackageModel]="selectedAdnetPackageViewModel">-->
+                            <!--</AdnetNetworkPackageViewProps>-->
+                        <!--</div>-->
+                        <!--<div class="row" *ngIf="pairsOutgoing == true">-->
+                            <!--<AdnetNetworkPackageViewProps [setAdnetPackageModel]="selectedAdnetPackageViewModel">-->
+                            <!--</AdnetNetworkPackageViewProps>-->
+                        <!--</div>-->
                     </div>
                 </div>
             </tab>

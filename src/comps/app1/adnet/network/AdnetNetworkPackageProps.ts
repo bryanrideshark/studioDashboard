@@ -17,13 +17,10 @@ import {AppStore} from "angular2-redux-util";
 import {Lib} from "../../../../Lib";
 import * as _ from "lodash";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
-// import * as moment_ from "moment";
 import {List} from "immutable";
 import AdnetNetworkPackagePropsTemplate from './AdnetNetworkPackageProps.html!text';
 import AdnetNetworkPackageCommonStylesStyle from './AdnetNetworkPackageCommonStyles.css!text';
 import {AdnetPackagePlayMode} from "./AdnetNetwork";
-
-// export const moment = moment_["default"];
 
 @Component({
     moduleId: __moduleName,
