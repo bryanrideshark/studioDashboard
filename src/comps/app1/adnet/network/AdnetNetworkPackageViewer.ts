@@ -143,10 +143,10 @@ export class AdnetNetworkPackageViewer {
         return (i_adnetPackageModel: AdnetPackageModel) => {
             var customerId = i_adnetPackageModel.getCustomerId();
             var customersList: List<AdnetCustomerModel> = this.appStore.getState().adnet.getIn(['customers']) || {};
-            this.adnetCustomerModel = customersList.filter((adnetCustomerModel: AdnetCustomerModel) => {
+            var adnetCustomerModel: AdnetCustomerModel = customersList.filter((adnetCustomerModel: AdnetCustomerModel) => {
                 return customerId == adnetCustomerModel.customerId();
             }).first() as AdnetCustomerModel;
-            return this.adnetCustomerModel.getName();
+            return adnetCustomerModel.getName();
         }
     }
 

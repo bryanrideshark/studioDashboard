@@ -67,27 +67,28 @@
                         </AdnetNetworkPackageViewer>
                     </div>
                     <div class="bgRed col-xs-3">
-                        <h2>aaa</h2>
+                        <h2 class="row" *ngIf="pairsOutgoing == false">prop in</h2>
+                        <h2 class="row" *ngIf="pairsOutgoing == true">prop out</h2>
                     </div>
                 </div>
             </tab>
             <tab [tabtitle]="'Targets'">
                 <div class="row">
-                    <div class="bgGreen col-xs-2">aa</div>
-                    <div class="bgYellow col-xs-2">bb</div>
-                    <div class="bgRed col-xs-8">cc</div>
+                    <div class="bgGreen col-xs-2">B</div>
+                    <div class="bgYellow col-xs-2">C</div>
+                    <div class="bgRed col-xs-8">D</div>
                 </div>
             </tab>
             <tab [tabtitle]="'Estimates'">
                 <div class="row">
-                    <div class="bgGreen col-xs-6">aaa</div>
-                    <div class="bgYellow col-xs-6">bbb</div>
+                    <div class="bgGreen col-xs-6">E</div>
+                    <div class="bgYellow col-xs-6">F</div>
                 </div>
             </tab>
             <tab [tabtitle]="'Reports'">
                 <div class="row">
-                    <div class="bgGreen col-xs-5">aaaa</div>
-                    <div class="bgYellow col-xs-7">bbbb</div>
+                    <div class="bgGreen col-xs-5">G</div>
+                    <div class="bgYellow col-xs-7">H</div>
                 </div>
             </tab>
         </tabs>

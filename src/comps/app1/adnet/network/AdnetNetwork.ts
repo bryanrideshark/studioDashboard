@@ -8,8 +8,8 @@ import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
 import {List} from "immutable";
 import {IPairSelect} from "./AdnetNetworkCustomerSelector";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
-import AdnetNetworkTemplate from "./AdnetNetwork.html!text";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
+// import AdnetNetworkTemplate from "./AdnetNetwork.html!text"; /*prod*/
 
 export enum AdnetNetworkPropSelector {
     CONTENT, PACKAGE, RESOURCE, TARGET
@@ -24,9 +24,10 @@ export interface IAdNetworkPropSelectedEvent {
 }
 
 @Component({
+//	template: AdnetNetworkTemplate, /*prod*/
     selector: 'AdnetNetwork',
     moduleId: __moduleName,
-    template: AdnetNetworkTemplate,
+    templateUrl: './AdnetNetwork.html', /*dev*/
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
