@@ -70,13 +70,16 @@
                                 </AdnetNetworkPackageViewer>
                             </div>
                         </div>
+                        <hr/>
                         <div class="row">
                             <div class="col-xs-6">
-                                <AdnetNetworkPackageContent #adnetNetworkPackageView
-                                                            (onPropSelected)="onPropSelected($event)"
-                                                            [setAdnetPackagePlayMode]="selectedAdnetPackagePlayMode"
-                                                            [setAdnetPackageModels]="selectedAdnetPackageViewModel">
-                                </AdnetNetworkPackageContent>
+                                <div style="overflow-y: auto">
+                                    <AdnetNetworkPackageContent #adnetNetworkPackageView
+                                                                (onPropSelected)="onPropSelected($event)"
+                                                                [setAdnetPackagePlayMode]="selectedAdnetPackagePlayMode"
+                                                                [setAdnetPackageModels]="selectedAdnetPackageViewModel">
+                                    </AdnetNetworkPackageContent>
+                                </div>
                             </div>
                             <div class="col-xs-6">
                                 <AdnetNetworkTarget></AdnetNetworkTarget>
