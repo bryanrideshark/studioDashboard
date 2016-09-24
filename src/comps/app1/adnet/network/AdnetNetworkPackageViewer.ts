@@ -76,9 +76,9 @@ export class AdnetNetworkPackageViewer {
         this.onFilterPackages();
     }
 
-    @Output()
-    onAdnetPackageViewSelected:EventEmitter<AdnetPackageModel> = new EventEmitter<AdnetPackageModel>();
+    @Output() onAdnetPackageViewSelected: EventEmitter<AdnetPackageModel> = new EventEmitter<AdnetPackageModel>();
 
+    @Output() onAdnetTargetsSelected: EventEmitter<List<AdnetTargetModel>> = new EventEmitter<List<AdnetTargetModel>>();
 
     private unsub1: Function;
     private unsub2: Function;
@@ -195,8 +195,19 @@ export class AdnetNetworkPackageViewer {
         }
     }
 
-    private onContentSelect(event) {
-        this.onAdnetPackageViewSelected.emit(<AdnetPackageModel>event)
+    private onContentSelect(adnetPackageModel: AdnetPackageModel) {
+        var targetsIds = adnetPackageModel.getTargetIds();
+        var targets: List<AdnetTargetModel> = this.appStore.getState().adnet.getIn(['targets']) || {};
+        console.log('aaa '+ this.adnetCustomerModel.getId());
+        var selectedAdnetTargetModels = targets.filter((i_adnetTargetModel: AdnetTargetModel) => {
+            if (i_adnetTargetModel.getField('enabled') == false)
+                return false;
+            if (i_adnetTargetModel.getCustomerId() != this.adnetPairModels.first().getToCustomerId())
+                return false;
+            return (targetsIds.indexOf(i_adnetTargetModel.getId()) > -1)
+        }) as List<AdnetTargetModel>;
+        this.onAdnetTargetsSelected.emit(selectedAdnetTargetModels);
+        this.onAdnetPackageViewSelected.emit(<AdnetPackageModel>adnetPackageModel)
     }
 
     private getName(i_adnetPackageModel: AdnetPackageModel) {

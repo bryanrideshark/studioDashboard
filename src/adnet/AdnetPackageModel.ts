@@ -75,6 +75,8 @@ export class AdnetPackageModel extends StoreModel {
         var result:Array<number> = [];
         var targets:Array<any> = this.getKey('Value').targets;
         targets.forEach((k,v)=>{
+            if (k.Value.deleted==true)
+                return;
             result.push(k.Value.targetId);
         })
         return result;
