@@ -198,7 +198,6 @@ export class AdnetNetworkPackageViewer {
     private onContentSelect(adnetPackageModel: AdnetPackageModel) {
         var targetsIds = adnetPackageModel.getTargetIds();
         var targets: List<AdnetTargetModel> = this.appStore.getState().adnet.getIn(['targets']) || {};
-        console.log('aaa '+ this.adnetCustomerModel.getId());
         var selectedAdnetTargetModels = targets.filter((i_adnetTargetModel: AdnetTargetModel) => {
             if (i_adnetTargetModel.getField('enabled') == false)
                 return false;
