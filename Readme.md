@@ -63,7 +63,8 @@ Installation (currently using jspm beta 0.17):
 ```
 git clone https://github.com/born2net/studioDashboard.git
 cd studioDashboard
-npm install jspm@beta -g
+npm install -g jspm@beta
+npm install -g gulp
 npm install
 ```
 
