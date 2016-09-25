@@ -15,6 +15,7 @@ import {
     AdnetNetworkPropSelector
 } from "./AdnetNetwork";
 import {ISimpleGridEdit} from "../../../simplegrid/SimpleGrid";
+import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 
 @Component({
     selector: 'AdnetNetworkTarget',
@@ -23,7 +24,7 @@ import {ISimpleGridEdit} from "../../../simplegrid/SimpleGrid";
     template: `
         <small class="release">targets</small>
         <small class="debug">{{me}}</small>
-        <div>
+        <div [hidden]="!adnetPackageModels">
             <simpleGridTable>
                 <thead>
                 <tr>
@@ -57,10 +58,18 @@ export class AdnetNetworkTarget {
         this['me'] = Lib.GetCompSelector(this.constructor)
     }
 
+    // @Input() hideIfNoAdnetPackageModels:boolean = false;
+
     @Input()
     set setAdnetTargetModels(i_adnetTargetModels: List<AdnetTargetModel>) {
         this.adnetTargetModels = i_adnetTargetModels;
-        this.simpleGridTable.deselect();
+    }
+
+    @Input()
+    set setAdnetPackageModels(i_adnetPackageModels: AdnetPackageModel) {
+        this.adnetPackageModels = i_adnetPackageModels;
+        if (!this.adnetPackageModels)
+            return;
     }
 
     @Output() onAdnetTargetSelected: EventEmitter<AdnetTargetModel> = new EventEmitter<AdnetTargetModel>();
@@ -70,6 +79,8 @@ export class AdnetNetworkTarget {
     @ViewChild(SimpleGridTable) simpleGridTable: SimpleGridTable;
 
     private adnetTargetModels: List<AdnetTargetModel>
+    private adnetPackageModels: AdnetPackageModel;
+
     public sort: {field: string, desc: boolean} = {
         field: null,
         desc: false
@@ -88,6 +99,9 @@ export class AdnetNetworkTarget {
         this.onPropSelected.emit({selected: AdnetNetworkPropSelector.TARGET})
     }
 }
+
+
+
 
 
 

@@ -24,7 +24,7 @@ import * as _ from 'lodash';
     moduleId: __moduleName,
     template: `
             <small class="release">content</small><small class="debug">{{me}}</small>
-            <div>
+            <div [hidden]="!adnetPackageModels">
                 <simpleGridTable #simpleGridR>
                     <thead>
                     <tr>
@@ -144,3 +144,5 @@ export class AdnetNetworkPackageContent {
         desc: false
     };
 }
+
+

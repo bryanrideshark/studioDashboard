@@ -83,7 +83,8 @@
                             </div>
                             <div class="col-xs-6">
                                 <div style="overflow-y: auto">
-                                    <AdnetNetworkTarget [setAdnetTargetModels]="selectedAdnetTargetModels">
+                                    <AdnetNetworkTarget [setAdnetTargetModels]="selectedAdnetTargetModels"
+                                                        [setAdnetPackageModels]="selectedAdnetPackageViewModel">
                                     </AdnetNetworkTarget>
                                 </div>
                             </div>
@@ -94,14 +95,6 @@
                             <AdnetNetworkPackageViewProps [setAdnetPackageModel]="selectedAdnetPackageViewModel">
                             </AdnetNetworkPackageViewProps>
                         </div>
-                        <!--<div class="row" *ngIf="pairsOutgoing == false">-->
-                            <!--<AdnetNetworkPackageViewProps [setAdnetPackageModel]="selectedAdnetPackageViewModel">-->
-                            <!--</AdnetNetworkPackageViewProps>-->
-                        <!--</div>-->
-                        <!--<div class="row" *ngIf="pairsOutgoing == true">-->
-                            <!--<AdnetNetworkPackageViewProps [setAdnetPackageModel]="selectedAdnetPackageViewModel">-->
-                            <!--</AdnetNetworkPackageViewProps>-->
-                        <!--</div>-->
                     </div>
                 </div>
             </tab>
