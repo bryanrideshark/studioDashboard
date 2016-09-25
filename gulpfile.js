@@ -21,7 +21,6 @@ var uglify = require("gulp-uglify");
 var tslintStylish = require('gulp-tslint-stylish');
 var util = require('gulp-util');
 
-
 //var commentSwap = require('gulp-comment-swap');
 //var tsc = require('gulp-typescript');
 
