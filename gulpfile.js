@@ -10,8 +10,8 @@ var shell = require("gulp-shell");
 var commentSwap = require("gulp-comment-swap");
 var Rsync = require('rsync');
 var opn = require('opn');
-var typescript = require('gulp-typescript');
-var tsProject = typescript.createProject('tsconfig.json');
+var ts = require('gulp-typescript');
+var tsProject = ts.createProject('tsconfig.json');
 var sourcemaps = require('gulp-sourcemaps');
 var rimraf = require("gulp-rimraf");
 var replace = require("gulp-replace");
@@ -222,11 +222,9 @@ gulp.task("x_typedocs", function () {
 
 /** Transpile TypeScript files **/
 gulp.task('x_build-ts', function () {
-    return gulp.src('./src/**/*.ts')
-        .pipe(sourcemaps.init())
-        .pipe(typescript(tsProject))
-        .pipe(sourcemaps.write())
-        .pipe(gulp.dest('./src'));
+    var tsResult = tsProject.src()
+        .pipe(tsProject());
+    return tsResult.js.pipe(gulp.dest('./src'));
 });
 
 /** bundle the app with jspm **/
