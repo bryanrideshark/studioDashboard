@@ -55,20 +55,22 @@ export class AdnetNetwork {
     private selectedAdnetTargetModel: AdnetTargetModel;
     private selectedAdnetTargetModels: List<AdnetTargetModel>;
     private selectedAdnetPackagePlayMode: AdnetPackagePlayMode;
-    private selectedAdnetPackageViewModel: AdnetPackageModel;
+    // private selectedAdnetPackageViewModel: AdnetPackageModel;
+    private selectedAdnetPackageModel: AdnetPackageModel;
 
     private onSetPlayMode(event: AdnetPackagePlayMode) {
         this.selectedAdnetPackagePlayMode = event;
     }
 
     private onAdnetPackageSelected(event: AdnetPackageModel) {
+        this.selectedAdnetPackageModel = event;
         this.onSetPlayMode(event.playMode());
     }
 
-    private onAdnetPackageViewSelected(event: AdnetPackageModel) {
-        this.onSetPlayMode(event.playMode());
-        this.selectedAdnetPackageViewModel = event;
-    }
+    // private onAdnetPackageViewSelected(event: AdnetPackageModel) {
+    //     this.onSetPlayMode(event.playMode());
+    //     this.selectedAdnetPackageViewModel = event;
+    // }
 
     private onPropSelected(event: IAdNetworkPropSelectedEvent) {
         this.propSelector = event.selected;
@@ -79,7 +81,7 @@ export class AdnetNetwork {
     }
 
     private onPairSelected(event: IPairSelect) {
-        this.selectedAdnetPackageViewModel = null;
+        this.selectedAdnetPackageModel = null;
         this.pairsSelected = event.pairs;
         this.pairsOutgoing = event.pairsOutgoing;
     }
