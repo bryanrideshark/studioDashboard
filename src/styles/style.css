@@ -957,12 +957,12 @@ small {
 
 small.debug {
     color: darkgray;
-    /*display: none; !important;*/
+    display: none; !important;
 }
 small.release {
     text-transform: lowercase;
     color: #4c4c4c;
-    display: none; !important;
+    /*display: none; !important;*/
 }
 
 .panel-title  {

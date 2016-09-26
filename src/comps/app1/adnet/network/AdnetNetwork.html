@@ -88,8 +88,10 @@
                                 <div style="overflow-y: auto">
                                     <AdnetNetworkTarget [setAdnetTargetModels]="selectedAdnetTargetModels"
                                                         [setAdnetPackageModels]="selectedAdnetPackageModel"
-                                                        (onPropSelected)="onPropSelected($event)">
+                                                        (onPropSelected)="onPropSelected($event)"
+                                                        (onAdnetTargetSelected)="onTargetSelected($event)">
                                     </AdnetNetworkTarget>
+
                                 </div>
                             </div>
                         </div>
@@ -108,7 +110,8 @@
                                     </AdnetNetworkPackageContentProps>
                                 </div>
                                 <div *ngSwitchCase="adnetNetworkPropSelector.TARGET">
-                                    <h5>AdnetNetworkTarget props</h5>
+                                    <AdnetNetworkTargetProps [setAdnetTargetModel]="selectedAdnetTargetModel">
+                                    </AdnetNetworkTargetProps>
                                 </div>
                                 <div *ngSwitchCase="adnetNetworkPropSelector.PACKAGE_VIEW">
                                     <AdnetNetworkPackageViewProps [setAdnetPackageModel]="selectedAdnetPackageModel">
