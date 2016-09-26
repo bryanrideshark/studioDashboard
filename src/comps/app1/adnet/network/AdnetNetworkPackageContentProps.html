@@ -10,7 +10,7 @@
                         <small class="debug">{{me}}</small>
                     </div>
                     <div style="padding-top: 5px" *ngIf="adnetContentModels">
-                        <ul class="list-group">
+                        <ul *ngIf="!showResourceOnly" class="list-group">
                             <li style="padding-bottom: 5px" class="list-group-item">
                                 maintain aspect ratio
                                 <div class="material-switch pull-right">
@@ -67,6 +67,14 @@
                                            placeholder="radius">
                                 </div>
                             </li>
+                            <li class="list-group-item">
+                                <div class="input-group">
+                                    <ResourceViewer [resource]="resource"></ResourceViewer>
+                                </div>
+                            </li>
+
+                        </ul>
+                        <ul *ngIf="showResourceOnly" class="list-group">
                             <li class="list-group-item">
                                 <div class="input-group">
                                     <ResourceViewer [resource]="resource"></ResourceViewer>

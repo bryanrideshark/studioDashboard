@@ -20,8 +20,8 @@
                     </div>
                     <div class="col-xs-6">
                         <div style="min-height: 300px; overflow-y: scroll; height: 300px">
-                            <AdnetNetworkPackageContent #adnetNetworkPackageContent
-                                                        (onPropSelected)="onPropSelected($event)"
+                            <AdnetNetworkPackageContent (onPropSelected)="onPropSelected($event)"
+                                                        (onAdnetContentSelected)="onAdnetContentSelected($event)"
                                                         [setAdnetPackagePlayMode]="selectedAdnetPackagePlayMode"
                                                         [setAdnetPackageModels]="selectedAdnetPackageModel">
                             </AdnetNetworkPackageContent>
@@ -38,7 +38,7 @@
                             <div [ngSwitch]="propSelector">
                                 <div *ngSwitchCase="adnetNetworkPropSelector.CONTENT">
                                     <AdnetNetworkPackageContentProps
-                                            [setAdnetContentModels]="adnetNetworkPackageContent.selectedAdnetContentModel">
+                                            [setAdnetContentModels]="selectedAdnetContentModel">
                                     </AdnetNetworkPackageContentProps>
                                 </div>
                                 <div *ngSwitchCase="adnetNetworkPropSelector.PACKAGE">
@@ -78,6 +78,7 @@
                             <div class="col-xs-6">
                                 <div style="overflow-y: auto">
                                     <AdnetNetworkPackageContent (onPropSelected)="onPropSelected($event)"
+                                                                (onAdnetContentSelected)="onAdnetContentSelected($event)"
                                                                 [setAdnetPackagePlayMode]="selectedAdnetPackagePlayMode"
                                                                 [setAdnetPackageModels]="selectedAdnetPackageModel">
                                     </AdnetNetworkPackageContent>
@@ -101,7 +102,10 @@
                                     </AdnetNetworkPairProps>
                                 </div>
                                 <div *ngSwitchCase="adnetNetworkPropSelector.CONTENT">
-                                    <h5>AdnetNetworkPackageContent props</h5>
+                                    <AdnetNetworkPackageContentProps
+                                            [showResourceOnly]="true"
+                                            [setAdnetContentModels]="selectedAdnetContentModel">
+                                    </AdnetNetworkPackageContentProps>
                                 </div>
                                 <div *ngSwitchCase="adnetNetworkPropSelector.TARGET">
                                     <h5>AdnetNetworkTarget props</h5>

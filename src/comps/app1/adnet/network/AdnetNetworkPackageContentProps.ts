@@ -40,6 +40,8 @@ export class AdnetNetworkPackageContentProps {
             this.renderFormInputs();
     }
 
+    @Input() showResourceOnly:boolean = false;
+
     private adnetContentModels: AdnetContentModel;
     private contGroup: FormGroup;
     private formInputs = {};

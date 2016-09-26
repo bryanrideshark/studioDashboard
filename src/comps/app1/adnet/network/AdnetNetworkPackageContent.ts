@@ -121,8 +121,11 @@ export class AdnetNetworkPackageContent {
 
     @Output() onPropSelected: EventEmitter<IAdNetworkPropSelectedEvent> = new EventEmitter<IAdNetworkPropSelectedEvent>();
 
+    @Output() onAdnetContentSelected: EventEmitter<AdnetContentModel> = new EventEmitter<AdnetContentModel>();
+
     private onContentSelect(i_content: AdnetContentModel) {
         this.selectedAdnetContentModel = i_content;
+        this.onAdnetContentSelected.emit(i_content);
         this.onPropSelected.emit({
             selected: AdnetNetworkPropSelector.CONTENT
         })
