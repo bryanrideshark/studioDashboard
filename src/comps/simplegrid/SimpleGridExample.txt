@@ -2,11 +2,6 @@ import {
     Component,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    trigger,
-    transition,
-    animate,
-    state,
-    style
 } from "@angular/core";
 import {AppModel} from "../../../reseller/AppModel";
 import {List} from "immutable";
@@ -20,16 +15,6 @@ import {ResellerAction} from "../../../reseller/ResellerAction";
         // '[@routeAnimation]': 'true',
         '[style.display]': "'block'"
     },
-    animations: [
-        // trigger('routeAnimation', [
-        //     state('*', style({opacity: 1})),
-        //     transition('void => *', [
-        //         style({opacity: 0}),
-        //         animate(333)
-        //     ]),
-        //     transition('* => void', animate(333, style({opacity: 0})))
-        // ])
-    ],
     template: `
         <div *ngIf="apps && apps.size > 0">
           <simpleGridTable>
@@ -73,10 +58,7 @@ export class Apps {
     }
 
     private onAppInstalledChange(event, index) {
-        // let animation of slide complete
-        setTimeout(() => {
-            this.appStore.dispatch(this.resellerAction.appStatus(event.item, event.value["0"]));
-        }, 1000)
+      this.appStore.dispatch(this.resellerAction.appStatus(event.item, event.value["0"]));
     }
 
     private ngOnDestroy() {
