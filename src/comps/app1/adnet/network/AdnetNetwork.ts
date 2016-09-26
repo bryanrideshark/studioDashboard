@@ -14,7 +14,7 @@ import {AdnetNetworkPackageEditor} from "./AdnetNetworkPackageEditor";
 // import AdnetNetworkTemplate from "./AdnetNetwork.html!text"; /*prod*/
 
 export enum AdnetNetworkPropSelector {
-    CONTENT, PACKAGE, RESOURCE, TARGET
+    CONTENT, PACKAGE, RESOURCE, TARGET, PAIR, NONE, PACKAGE_VIEW
 }
 
 export enum AdnetPackagePlayMode {
@@ -78,6 +78,9 @@ export class AdnetNetwork {
         this.selectedAdnetPackageModel = null;
         this.pairsSelected = event.pairs;
         this.pairsOutgoing = event.pairsOutgoing;
+
+        // if (this.pairsSelected && this.pairsSelected.size==1)
+        //     this.onPropSelected({selected: AdnetNetworkPropSelector.PAIR})
     }
 
     private onTargetSelected(i_adnetTargetModel: AdnetTargetModel) {

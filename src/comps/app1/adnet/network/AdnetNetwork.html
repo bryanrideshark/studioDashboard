@@ -1,6 +1,7 @@
 <div *ngIf="adnetCustomerModel" class="row">
     <div class="col-xs-2">
         <AdnetNetworkCustomerSelector (onPairsSelected)="onPairSelected($event)"
+                                      (onPropSelected)="onPropSelected($event)"
                                       [setAdnetCustomerModel]="adnetCustomerModel">
         </AdnetNetworkCustomerSelector>
     </div>
@@ -50,7 +51,7 @@
                                     <small>resource properties</small>
                                 </div>
                                 <div *ngSwitchCase="adnetNetworkPropSelector.TARGET">
-                                    <AdnetNetworkTargetProps     [setAdnetTargetModel]="selectedAdnetTargetModel">
+                                    <AdnetNetworkTargetProps [setAdnetTargetModel]="selectedAdnetTargetModel">
                                     </AdnetNetworkTargetProps>
                                 </div>
                             </div>
@@ -65,6 +66,7 @@
                                 <AdnetNetworkPackageViewer
                                         (onAdnetPackageViewSelected)="onAdnetPackageSelected($event)"
                                         (onAdnetTargetsSelected)="onAdnetTargetsSelected($event)"
+                                        (onPropSelected)="onPropSelected($event)"
                                         [setPairOutgoing]="pairsOutgoing"
                                         [setAdnetPairModels]="pairsSelected"
                                         [setAdnetCustomerModel]="adnetCustomerModel">
@@ -92,8 +94,18 @@
                     </div>
                     <div class="col-xs-3" style="padding-left: 30px; padding-right: 30px">
                         <div class="row">
-                            <AdnetNetworkPackageViewProps [setAdnetPackageModel]="selectedAdnetPackageModel">
-                            </AdnetNetworkPackageViewProps>
+                            <div [ngSwitch]="propSelector">
+                                <div *ngSwitchCase="adnetNetworkPropSelector.PAIR">
+                                    <AdnetNetworkPairProps [setPairOutgoing]="pairsOutgoing">
+                                    </AdnetNetworkPairProps>
+                                </div>
+                                <div *ngSwitchCase="adnetNetworkPropSelector.PACKAGE_VIEW">
+                                    <AdnetNetworkPackageViewProps [setAdnetPackageModel]="selectedAdnetPackageModel">
+                                    </AdnetNetworkPackageViewProps>
+                                </div>
+                            </div>
+
+
                         </div>
                     </div>
                 </div>

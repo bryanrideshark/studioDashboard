@@ -13,6 +13,10 @@ import {AppStore} from "angular2-redux-util";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {Lib} from "../../../../Lib";
 import {SimpleGridTable} from "../../../simplegrid/SimpleGridTable";
+import {
+    IAdNetworkPropSelectedEvent,
+    AdnetNetworkPropSelector
+} from "./AdnetNetwork";
 // import AdnetNetworkPackageViewerTemplate from "./AdnetNetworkPackageViewer.html!text"; /*prod*/
 
 @Component({
@@ -79,6 +83,8 @@ export class AdnetNetworkPackageViewer {
     @Output() onAdnetPackageViewSelected: EventEmitter<AdnetPackageModel> = new EventEmitter<AdnetPackageModel>();
 
     @Output() onAdnetTargetsSelected: EventEmitter<List<AdnetTargetModel>> = new EventEmitter<List<AdnetTargetModel>>();
+
+    @Output() onPropSelected: EventEmitter<IAdNetworkPropSelectedEvent> = new EventEmitter<IAdNetworkPropSelectedEvent>();
 
     private unsub1: Function;
     private unsub2: Function;
@@ -207,6 +213,9 @@ export class AdnetNetworkPackageViewer {
         }) as List<AdnetTargetModel>;
         this.onAdnetTargetsSelected.emit(selectedAdnetTargetModels);
         this.onAdnetPackageViewSelected.emit(<AdnetPackageModel>adnetPackageModel)
+        this.onPropSelected.emit({
+            selected: AdnetNetworkPropSelector.PACKAGE_VIEW
+        })
     }
 
     private getName(i_adnetPackageModel: AdnetPackageModel) {

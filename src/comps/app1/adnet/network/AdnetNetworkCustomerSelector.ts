@@ -1,4 +1,11 @@
-import {Component, ChangeDetectionStrategy, Input, ViewChild, Output, EventEmitter} from "@angular/core";
+import {
+    Component,
+    ChangeDetectionStrategy,
+    Input,
+    ViewChild,
+    Output,
+    EventEmitter
+} from "@angular/core";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
 import {List} from 'immutable';
@@ -10,6 +17,10 @@ import {Observer} from "rxjs/Observer";
 import {Subscription} from "rxjs/Subscription";
 import * as _ from 'lodash';
 import {Lib} from "../../../../Lib";
+import {
+    IAdNetworkPropSelectedEvent,
+    AdnetNetworkPropSelector
+} from "./AdnetNetwork";
 
 export interface IPairSelect {
     pairs: List<AdnetPairModel>,
@@ -64,11 +75,11 @@ export class AdnetNetworkCustomerSelector {
         this.selectAllDelayed();
     }
 
-    @ViewChild('simpleListOutgoing')
-    simpleListOutgoing: SimpleList;
+    @ViewChild('simpleListOutgoing') simpleListOutgoing: SimpleList;
 
-    @ViewChild('simpleListIncoming')
-    simpleListIncoming: SimpleList;
+    @ViewChild('simpleListIncoming') simpleListIncoming: SimpleList;
+
+    @Output() onPropSelected: EventEmitter<IAdNetworkPropSelectedEvent> = new EventEmitter<IAdNetworkPropSelectedEvent>();
 
     @Input()
     set setAdnetCustomerModel(i_adnetCustomerModel: AdnetCustomerModel) {
@@ -79,8 +90,7 @@ export class AdnetNetworkCustomerSelector {
         }
     }
 
-    @Output()
-    onPairsSelected: EventEmitter<IPairSelect> = new EventEmitter<IPairSelect>();
+    @Output() onPairsSelected: EventEmitter<IPairSelect> = new EventEmitter<IPairSelect>();
 
     private obs: Subscription;
     private observer: Observer<any>;
@@ -183,6 +193,10 @@ export class AdnetNetworkCustomerSelector {
             pairsOutgoing: this.outgoing
         }
         this.onPairsSelected.emit(<IPairSelect>data);
+        if (this.pairsSelected && this.pairsSelected.size == 1)
+            this.onPropSelected.emit({selected: AdnetNetworkPropSelector.PAIR})
+        if (this.pairsSelected && this.pairsSelected.size > 1)
+            this.onPropSelected.emit({selected: AdnetNetworkPropSelector.NONE})
     }
 
     private ngOnDestroy() {
