@@ -1,14 +1,14 @@
-import {Component, Input, OnDestroy, ChangeDetectionStrategy, ViewContainerRef} from "@angular/core";
+import {
+    Component,
+    Input,
+    OnDestroy,
+    ChangeDetectionStrategy,
+    ViewContainerRef
+} from "@angular/core";
 import {AppStore} from "angular2-redux-util";
-import * as OrderActions from "./OrdersAction";
-import {OrderModel} from "./OrderModel";
-import {AuthService} from "../../../services/AuthService";
-import {Loading} from "../../loading/Loading";
 import {OrderDetailModel} from "./OrderDetailModel";
-import {CharCount} from "../../../pipes/CharCount";
-import {SIMPLEGRID_DIRECTIVES} from "../../simplegrid/SimpleGrid";
-import OrderDetailsTemplate from './OrderDetails.html!text'
-import OrderDetailsStyle from './OrderDetails.css!text'
+import OrderDetailsTemplate from "./OrderDetails.html!text";
+import OrderDetailsStyle from "./OrderDetails.css!text";
 
 @Component({
     selector: 'OrderDetails',
@@ -20,7 +20,7 @@ import OrderDetailsStyle from './OrderDetails.css!text'
 
 export class OrderDetails implements OnDestroy {
 
-    constructor(private appStore:AppStore, private viewContainer:ViewContainerRef) {
+    constructor(private appStore: AppStore, private viewContainer: ViewContainerRef) {
 
         // var i_orders = this.appStore.getState().orders;
         // this.orderList = i_orders.getIn(['customerOrders']);
@@ -31,7 +31,7 @@ export class OrderDetails implements OnDestroy {
         this.el = this.viewContainer.element.nativeElement;
 
         //var statusOrder = i_orders.getIn(['statusOrder']);
-        this.unsub2 = this.appStore.sub((orderDetailModel:OrderDetailModel) => {
+        this.unsub2 = this.appStore.sub((orderDetailModel: OrderDetailModel) => {
             var status = orderDetailModel.getStatus();
             if (status == 'subscription') {
                 this.showProgress = false;
@@ -60,9 +60,9 @@ export class OrderDetails implements OnDestroy {
 
     }
 
-    private el:HTMLElement;
+    private el: HTMLElement;
 
-    @Input() set onSelectedOrder(order:OrderDetailModel) {
+    @Input() set onSelectedOrder(order: OrderDetailModel) {
         if (!order)
             return;
         this.selectedOrder = order;
@@ -82,26 +82,26 @@ export class OrderDetails implements OnDestroy {
         }
     };
 
-    private subtotal:number = 0;
-    private tax:number = 0;
-    private discount:number = 0;
-    private shipping:number = 0;
-    private total:number = 0;
-    private products:Array<any>;
-    private showProgress:boolean = false;
-    private steps:Array<boolean> = [true, true, true, true];
-    private stepsDescription:Array<string> = ['new order', 'approved', 'processing', 'shipped'];
-    private selectedOrder:OrderDetailModel;
-    private loading:boolean = false;
-    private unsub1:Function;
-    private unsub2:Function;
+    private subtotal: number = 0;
+    private tax: number = 0;
+    private discount: number = 0;
+    private shipping: number = 0;
+    private total: number = 0;
+    private products: Array<any>;
+    private showProgress: boolean = false;
+    private steps: Array<boolean> = [true, true, true, true];
+    private stepsDescription: Array<string> = ['new order', 'approved', 'processing', 'shipped'];
+    private selectedOrder: OrderDetailModel;
+    private loading: boolean = false;
+    private unsub1: Function;
+    private unsub2: Function;
     // private orderList:List<OrderModel> = List<OrderModel>();
 
     printElem() {
         var self = this;
         this.showProgress = false;
         var mywindow = window.open('', self.selectedOrder.getDate(), 'height=400,width=600');
-        setTimeout(()=>{
+        setTimeout(() => {
             var printContents = self.el.innerHTML;
             //var mywindow = window.open('', self.selectedOrder.getDate(), 'height=400,width=600');
             mywindow.document.write(`<html><head><title>${self.selectedOrder.getOrderId()}</title>`);
@@ -114,7 +114,7 @@ export class OrderDetails implements OnDestroy {
             mywindow.focus(); // necessary for IE >= 10
             mywindow.print();
             mywindow.close();
-        },1000)
+        }, 1000)
         return true;
     }
 
@@ -138,7 +138,7 @@ export class OrderDetails implements OnDestroy {
     }
 
     private tableTotal(field) {
-        var v:any = field.product_count * field.price;
+        var v: any = field.product_count * field.price;
         return parseFloat(v);
     }
 

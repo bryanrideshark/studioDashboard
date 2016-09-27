@@ -4,21 +4,15 @@ import {
     Output,
     ViewChild,
     EventEmitter,
-    ChangeDetectionStrategy,
-    OnChanges,
-    SimpleChange
-} from '@angular/core'
-import {OrderBy} from "../../../pipes/OrderBy";
-import {SIMPLEGRID_DIRECTIVES} from "../../simplegrid/SimpleGrid";
-import {MODAL_DIRECTIVES} from "../../ng2-bs3-modal/ng2-bs3-modal";
-import {SimpleGridTable} from "../../simplegrid/SimpleGridTable";
+    ChangeDetectionStrategy
+} from "@angular/core";
 import {StationModel} from "../../../stations/StationModel";
-import {SimpleGridRecord} from "../../simplegrid/SimpleGridRecord";
+import {SimpleGridTable} from "../../simplegridmodule/SimpleGridTable";
+import {SimpleGridRecord} from "../../simplegridmodule/SimpleGridRecord";
 
 @Component({
     selector: 'stationsGrid',
-    styles: [
-        `
+    styles: [`
             .disabled {
                opacity: 0.2;
                cursor: default;
@@ -30,8 +24,7 @@ import {SimpleGridRecord} from "../../simplegrid/SimpleGridRecord";
                 left: 2px;
                 font-size: 1.2em;
              }
-        `
-    ],
+        `],
     template: `
         <div class="row">
              <div class="col-xs-12">
@@ -83,16 +76,14 @@ import {SimpleGridRecord} from "../../simplegrid/SimpleGridRecord";
 })
 export class StationsGrid {
 
-    @ViewChild(SimpleGridTable)
-    simpleGridTable: SimpleGridTable
+    @ViewChild(SimpleGridTable) simpleGridTable: SimpleGridTable
 
     @Input()
     set stations(i_stations) {
         this.m_stations = i_stations;
     }
 
-    @Output()
-    onStationSelected: EventEmitter<StationModel> = new EventEmitter<StationModel>();
+    @Output() onStationSelected: EventEmitter<StationModel> = new EventEmitter<StationModel>();
 
     private onDoubleClicked(event) {
         this.launchStationModal(event.item);
@@ -119,7 +110,10 @@ export class StationsGrid {
     }
 
     private m_stations;
-    public sort: {field: string, desc: boolean} = {field: null, desc: false};
+    public sort: {field: string, desc: boolean} = {
+        field: null,
+        desc: false
+    };
 
 }
 

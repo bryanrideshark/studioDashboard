@@ -10,7 +10,6 @@ import {
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 import {AdnetContentModel} from "../../../../adnet/AdnetContentModel";
 import {List} from 'immutable';
-import {SimpleGridTable} from "../../../simplegrid/SimpleGridTable";
 import {
     AdnetNetworkPropSelector,
     IAdNetworkPropSelectedEvent,
@@ -18,6 +17,7 @@ import {
 } from "./AdnetNetwork";
 import {Lib} from "../../../../Lib";
 import * as _ from 'lodash';
+import {SimpleGridTable} from "../../../simplegridmodule/SimpleGridTable";
 
 @Component({
     selector: 'AdnetNetworkPackageContent',

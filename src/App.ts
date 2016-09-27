@@ -92,7 +92,6 @@ import {Users} from "./comps/app1/users/Users";
 import {Adnet} from "./comps/app1/adnet/Adnet";
 import {App1} from "./comps/app1/App1";
 import {RatesTable} from "./comps/app1/adnet/rates/RatesTable/RatesTable";
-import {SIMPLEGRID_DIRECTIVES} from "./comps/simplegrid/SimpleGrid";
 import {AdnetConfigCustomer} from "./comps/app1/adnet/config/AdnetConfigCustomer";
 import {AdnetConfig} from "./comps/app1/adnet/config/AdnetConfig";
 import {AdnetConfigTargets} from "./comps/app1/adnet/targets/AdnetConfigTargets";
@@ -117,9 +116,9 @@ import {Samplelist} from "./comps/app1/users/SampleList";
 import {ImgLoader} from "./comps/imgloader/ImgLoader";
 import {Ng2Highmaps} from "./comps/ng2-highcharts/src/directives/ng2-highmaps";
 import {Ng2Highstocks} from "./comps/ng2-highcharts/src/directives/ng2-highstocks";
-import {SimpleGridSortableHeader} from "./comps/simplegrid/SimpleGridSortableHeader";
-import {SimpleGridRecord} from "./comps/simplegrid/SimpleGridRecord";
-import {SimpleGridData} from "./comps/simplegrid/SimpleGridData";
+// import {SimpleGridSortableHeader} from "./comps/simplegrid/SimpleGridSortableHeader";
+// import {SimpleGridRecord} from "./comps/simplegrid/SimpleGridRecord";
+// import {SimpleGridData} from "./comps/simplegrid/SimpleGridData";
 import {SimplelistEditable} from "./comps/simplelist/SimplelistEditable";
 import {OrderBy} from "./pipes/OrderBy";
 import {SortBy} from "./pipes/SortBy";
@@ -144,6 +143,7 @@ import {ResourceViewer} from "./comps/resourceviewer/ResourceViewer";
 import AppTemplate from './App.html!text';
 import {AdnetNetworkPackageViewProps} from "./comps/app1/adnet/network/AdnetNetworkPackageViewProps";
 import {AdnetNetworkPairProps} from "./comps/app1/adnet/network/AdnetNetworkPairProps";
+import {SimpleGridModule} from "./comps/simplegridmodule/SimpleGridModule";
 //import "zone.js/dist/long-stack-trace-zone"; // removed 9-7-2016
 
 export enum ServerMode {
@@ -191,7 +191,7 @@ export class Main {
     }
 
     private m_styleService: StyleService;
-    private version = '2.20';
+    private version = '2.21';
 
     private checkPlatform() {
         switch (platform.name.toLowerCase()) {
@@ -250,10 +250,10 @@ var providing = [CommBroker, AUTH_PROVIDERS,
     {provide: "OFFLINE_ENV", useValue: false},
     {provide: CharCount}];
 
-var decelerations = [Main, RatesTable, UsersDetails, LoginPanel, Menu, MenuItem, Account, Whitelabel, Apps, App1, Users, Adnet, Privileges, Dashboard, Logout, Orders, Filemenu, FilemenuItem, Logo, LogoCompany, Footer, BlurForwarder, InputEdit, OrderBy, SortBy, FilterPipe, AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, ServerStats, ServerAvg, StationsMap, StationsGrid, StationDetails, ImgLoader, Ng2Highcharts, AdnetConfigCustomer, AdnetConfig, StationSnapshot, OrderDetails, SimpleList, PrivilegesDetails, ModalDialog, Infobox, UserStorage, Loading, Samplelist, SIMPLEGRID_DIRECTIVES, UserInfo, AddUser, ChangePass, MODAL_DIRECTIVES, Ng2Highstocks, Ng2Highmaps, SimpleGridSortableHeader, SimpleGridRecord, SimpleGridData, SimplelistEditable, AdnetConfigTargetStations, AdnetConfigTargetProps, AdnetLocation, MapAddress, AdnetNetwork, AdnetNetworkCustomerSelector, AdnetNetworkPackageEditor, AdnetNetworkPackageViewer, AdnetNetworkPackageTarget, AdnetNetworkPackageProps, AdnetNetworkPackageContent, AdnetNetworkPackageContentProps, AdnetNetworkTarget, AdnetNetworkTargetProps, ResourceViewer, AdnetNetworkPackageViewProps, AdnetNetworkPairProps];
+var decelerations = [Main, RatesTable, UsersDetails, LoginPanel, Menu, MenuItem, Account, Whitelabel, Apps, App1, Users, Adnet, Privileges, Dashboard, Logout, Orders, Filemenu, FilemenuItem, Logo, LogoCompany, Footer, BlurForwarder, InputEdit, OrderBy, SortBy, FilterPipe, AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, ServerStats, ServerAvg, StationsMap, StationsGrid, StationDetails, ImgLoader, Ng2Highcharts, AdnetConfigCustomer, AdnetConfig, StationSnapshot, OrderDetails, SimpleList, PrivilegesDetails, ModalDialog, Infobox, UserStorage, Loading, Samplelist, UserInfo, AddUser, ChangePass, MODAL_DIRECTIVES, Ng2Highstocks, Ng2Highmaps, SimplelistEditable, AdnetConfigTargetStations, AdnetConfigTargetProps, AdnetLocation, MapAddress, AdnetNetwork, AdnetNetworkCustomerSelector, AdnetNetworkPackageEditor, AdnetNetworkPackageViewer, AdnetNetworkPackageTarget, AdnetNetworkPackageProps, AdnetNetworkPackageContent, AdnetNetworkPackageContentProps, AdnetNetworkTarget, AdnetNetworkTargetProps, ResourceViewer, AdnetNetworkPackageViewProps, AdnetNetworkPairProps];
 
 @NgModule({
-    imports: [BrowserModule, AgmCoreModule.forRoot(), JsonpModule, HttpModule, ReactiveFormsModule, FormsModule, DropdownModule, AccordionModule, routing],
+    imports: [BrowserModule, SimpleGridModule.forRoot(), AgmCoreModule.forRoot(), JsonpModule, HttpModule, ReactiveFormsModule, FormsModule, DropdownModule, AccordionModule, routing],
     providers: [providing],
     declarations: decelerations,
     bootstrap: [Main],

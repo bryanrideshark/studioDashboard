@@ -9,13 +9,13 @@ import {
 import {Lib} from "../../../../Lib";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {List} from 'immutable';
-import {SimpleGridTable} from "../../../simplegrid/SimpleGridTable";
 import {
     IAdNetworkPropSelectedEvent,
     AdnetNetworkPropSelector
 } from "./AdnetNetwork";
-import {ISimpleGridEdit} from "../../../simplegrid/SimpleGrid";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
+import {SimpleGridTable} from "../../../simplegridmodule/SimpleGridTable";
+import {ISimpleGridEdit} from "../../../simplegridmodule/SimpleGridModule";
 
 @Component({
     selector: 'AdnetNetworkTarget',

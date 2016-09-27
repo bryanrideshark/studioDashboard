@@ -12,11 +12,11 @@ import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 import {AppStore} from "angular2-redux-util";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {Lib} from "../../../../Lib";
-import {SimpleGridTable} from "../../../simplegrid/SimpleGridTable";
 import {
     IAdNetworkPropSelectedEvent,
     AdnetNetworkPropSelector
 } from "./AdnetNetwork";
+import {SimpleGridTable} from "../../../simplegridmodule/SimpleGridTable";
 // import AdnetNetworkPackageViewerTemplate from "./AdnetNetworkPackageViewer.html!text"; /*prod*/
 
 @Component({
