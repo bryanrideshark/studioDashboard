@@ -100,7 +100,8 @@
                         <div class="row">
                             <div [ngSwitch]="propSelector">
                                 <div *ngSwitchCase="adnetNetworkPropSelector.PAIR">
-                                    <AdnetNetworkPairProps [setPairOutgoing]="pairsOutgoing">
+                                    <AdnetNetworkPairProps [setPairOutgoing]="pairsOutgoing"
+                                                           [setAdnetPairModels]="pairsSelected">
                                     </AdnetNetworkPairProps>
                                 </div>
                                 <div *ngSwitchCase="adnetNetworkPropSelector.CONTENT">
