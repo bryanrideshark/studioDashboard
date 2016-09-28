@@ -8,7 +8,7 @@ import {
 } from "@angular/core";
 import {Lib} from "../../../../Lib";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
-import {List} from 'immutable';
+import {List} from "immutable";
 import {
     IAdNetworkPropSelectedEvent,
     AdnetNetworkPropSelector
@@ -18,6 +18,7 @@ import {SimpleGridTable} from "../../../simplegridmodule/SimpleGridTable";
 import {ISimpleGridEdit} from "../../../simplegridmodule/SimpleGridModule";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
 import {AppStore} from "angular2-redux-util";
+import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 
 @Component({
     selector: 'AdnetNetworkTarget',
@@ -56,7 +57,7 @@ import {AppStore} from "angular2-redux-util";
 })
 
 export class AdnetNetworkTarget {
-    constructor(private appStore:AppStore) {
+    constructor(private appStore: AppStore) {
         this['me'] = Lib.GetCompSelector(this.constructor)
     }
 
@@ -73,20 +74,24 @@ export class AdnetNetworkTarget {
     }
 
     @Input()
+    set setPairOutgoing(i_setPairOutgoing: boolean) {
+        this.pairOutgoing = i_setPairOutgoing;
+        if (!this.adnetPairModels)
+            return;
+        this.filterTargets();
+    }
+
+    @Input()
     set setAdnetPairModels(i_adnetPairModels: List<AdnetPairModel>) {
         this.adnetPairModels = i_adnetPairModels;
         if (!this.adnetPairModels)
             return;
-        var customerIds: Array<number> = [];
-        this.adnetPairModels.forEach((i_adnetPairModels:AdnetPairModel)=>{
-            customerIds.push(i_adnetPairModels.getToCustomerId());
-        })
-        var targets: List<AdnetTargetModel> = this.appStore.getState().adnet.getIn(['targets']) || {};
-        this.adnetTargetModels = targets.filter((i_adnetTargetModel: AdnetTargetModel) => {
-            return (customerIds.indexOf(i_adnetTargetModel.getCustomerId()) > -1)
-        }) as List<AdnetTargetModel>;
-        console.log(this.adnetTargetModels);
+        this.filterTargets();
+    }
 
+    @Input()
+    set setAdnetCustomerModel(i_adnetCustomerModel: AdnetCustomerModel) {
+        this.adnetCustomerModel = i_adnetCustomerModel;
     }
 
     @Output() onAdnetTargetSelected: EventEmitter<AdnetTargetModel> = new EventEmitter<AdnetTargetModel>();
@@ -95,14 +100,76 @@ export class AdnetNetworkTarget {
 
     @ViewChild(SimpleGridTable) simpleGridTable: SimpleGridTable;
 
+    private adnetCustomerModel: AdnetCustomerModel;
     private adnetTargetModels: List<AdnetTargetModel>
     private adnetPairModels: List<AdnetPairModel>;
     private adnetPackageModels: AdnetPackageModel;
+    private pairOutgoing: boolean;
 
     public sort: {field: string, desc: boolean} = {
         field: null,
         desc: false
     };
+
+    private filterTargets() {
+        var customerIds: Array<number> = [];
+        this.adnetTargetModels = List<AdnetTargetModel>();
+        var packages: List<AdnetPackageModel> = this.appStore.getState().adnet.getIn(['packages']) || {};
+        var targets: List<AdnetTargetModel> = this.appStore.getState().adnet.getIn(['targets']) || {};
+        var uniqueIds = [];
+
+        /** Outgoing ads  **/
+        if (this.pairOutgoing) {
+            packages.forEach((i_package: AdnetPackageModel) => {
+                if (i_package.deleted() == true)
+                    return;
+                var targetsIds = i_package.getTargetIds();
+                targets.forEach((i_adnetTargetModel: AdnetTargetModel) => {
+                    if (targetsIds.indexOf(i_adnetTargetModel.getId()) > -1) {
+                        var adnetTargetCustomerId = i_adnetTargetModel.getCustomerId();
+                        this.adnetPairModels.forEach((i_adnetPairModels: AdnetPairModel) => {
+                            if (adnetTargetCustomerId == i_adnetPairModels.getToCustomerId()) {
+                                this.adnetTargetModels = this.adnetTargetModels.push(i_adnetTargetModel);
+                                // if (uniqueIds.indexOf(i_package.getId()) == -1) {
+                                //     uniqueIds.push(i_package.getId())
+                                //     this.adnetTargetModels = this.adnetTargetModels.push(i_adnetTargetModel);
+                                // }
+                            }
+                        })
+                    }
+                });
+            });
+        } else {
+            /** incoming ads  **/
+            packages.forEach((i_package: AdnetPackageModel) => {
+                if (i_package.deleted() == true)
+                    return;
+                var targetsIds = i_package.getTargetIds();
+                targets.forEach((i_adnetTargetModel: AdnetTargetModel) => {
+                    if (targetsIds.indexOf(i_adnetTargetModel.getId()) > -1) {
+                        this.adnetPairModels.forEach((i_adnetPairModels: AdnetPairModel) => {
+                            //todo: give an option for active and autoActivated on / off in UI
+                            // if (i_adnetPairModels.active() == false && i_adnetPairModels.autoActivated() == false)
+                            //     return;
+                            //todo: give an enabled on / off in UI
+                            if (i_adnetTargetModel.getEnabled()==false)
+                                return;
+                            var cusTotId = i_adnetPairModels.getToCustomerId();
+                            var custId = i_adnetPairModels.getCustomerId();
+                            var custIdSel = this.adnetCustomerModel.customerId();
+                            var pkgCustId = i_package.getCustomerId();
+                            if (pkgCustId == custId && cusTotId == custIdSel) {
+                                if (uniqueIds.indexOf(i_adnetTargetModel.getId()) == -1) {
+                                    uniqueIds.push(i_adnetTargetModel.getId())
+                                    this.adnetTargetModels = this.adnetTargetModels.push(i_adnetTargetModel)
+                                }
+                            }
+                        })
+                    }
+                });
+            })
+        }
+    }
 
     private processAdnetPackageField(i_function: string) {
         return (i_adnetTargetModel: AdnetTargetModel) => {
@@ -121,5 +188,54 @@ export class AdnetNetworkTarget {
 
 
 
+// this.adnetPairModels.forEach((i_adnetPairModels: AdnetPairModel) => {
+//     customerIds.push(i_adnetPairModels.getToCustomerId());
+// })
+// var targets: List<AdnetTargetModel> = this.appStore.getState().adnet.getIn(['targets']) || {};
+// this.adnetTargetModels = targets.filter((i_adnetTargetModel: AdnetTargetModel) => {
+//     //todo: give an option for active and autoActivated on / off in UI
+//     if (i_adnetTargetModel.getEnabled()==false || i_adnetTargetModel.getDeleted() == true)
+//         return false;
+//     if (customerIds.indexOf(i_adnetTargetModel.getCustomerId()) > -1){
+//         console.log(i_adnetTargetModel);
+//     }
+//     return (customerIds.indexOf(i_adnetTargetModel.getCustomerId()) > -1)
+// }) as List<AdnetTargetModel>;
 
+
+
+// var custIdSel = this.adnetCustomerModel.customerId();
+//
+// this.adnetPairModels.forEach((i_adnetPairModels: AdnetPairModel) => {
+//     customerIds.push(i_adnetPairModels.getToCustomerId());
+    // var cusTotId = i_adnetPairModels.getToCustomerId();
+    //var custId = i_adnetPairModels.getCustomerId();
+    // var custIdSel = this.adnetCustomerModel.customerId();
+    // var pkgCustId = i_package.getCustomerId();
+    //
+    // if (pkgCustId == custId && cusTotId == custIdSel) {
+    //
+    // }
+
+
+// })
+
+
+
+
+// this.adnetTargetModels = targets.filter((i_adnetTargetModel: AdnetTargetModel) => {
+//     if (custIdSel == i_adnetTargetModel.getCustomerId()){
+//         var foundPackages  = packages.filter((i_adnetPackageModel: AdnetPackageModel) => {
+//             var targetsIds = i_adnetPackageModel.getTargetIds();
+//             if (targetsIds.indexOf(i_adnetTargetModel.getId()) > -1){
+//                 var customerId = i_adnetPackageModel.getCustomerId();
+//                 if (customerId == i_adnetTargetModel.getCustomerId())
+//                     return true;
+//             }
+//             return false;
+//         });
+//         if (foundPackages && foundPackages.size > 0)
+//             return true
+//     }
+// }) as List<AdnetTargetModel>;
 

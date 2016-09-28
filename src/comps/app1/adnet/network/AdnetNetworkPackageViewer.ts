@@ -143,6 +143,7 @@ export class AdnetNetworkPackageViewer {
                 this.targets.forEach((i_adnetTargetModel: AdnetTargetModel) => {
                     if (targetsIds.indexOf(i_adnetTargetModel.getId()) > -1) {
                         this.adnetPairModels.forEach((i_adnetPairModels: AdnetPairModel) => {
+                            //todo: give an option for active and autoActivated on / off in UI
                             // if (i_adnetPairModels.active() == false && i_adnetPairModels.autoActivated() == false)
                             //     return;
                             var cusTotId = i_adnetPairModels.getToCustomerId();

@@ -13,6 +13,14 @@ export class AdnetTargetModel extends StoreModel {
         return this.getKey('Value').label;
     }
 
+    public getEnabled() {
+        return this.getKey('Value').enabled;
+    }
+
+    public getDeleted() {
+        return this.getKey('Value').deleted;
+    }
+
     public getCoordinates() {
         var lat = this.getKey('Value').locationLat;
         var lng = this.getKey('Value').locationLng;
