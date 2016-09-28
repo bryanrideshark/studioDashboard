@@ -27,7 +27,7 @@
                             </AdnetNetworkPackageContent>
                         </div>
                         <hr/>
-                        <AdnetNetworkTarget [setAdnetTargetModels]="selectedAdnetTargetModels"
+                        <AdnetNetworkTarget [setAdnetTargetModels]="selectedAdnetTargetModels_pkg"
                                             [setAdnetPackageModels]="selectedAdnetPackageModel"
                                             (onPropSelected)="onPropSelected($event)"
                                             (onAdnetTargetSelected)="onTargetSelected($event)">
@@ -86,7 +86,7 @@
                             </div>
                             <div class="col-xs-6">
                                 <div style="overflow-y: auto">
-                                    <AdnetNetworkTarget [setAdnetTargetModels]="selectedAdnetTargetModels"
+                                    <AdnetNetworkTarget [setAdnetTargetModels]="selectedAdnetTargetModels_pkg"
                                                         [setAdnetPackageModels]="selectedAdnetPackageModel"
                                                         (onPropSelected)="onPropSelected($event)"
                                                         (onAdnetTargetSelected)="onTargetSelected($event)">
@@ -125,9 +125,26 @@
             </tab>
             <tab [tabtitle]="'Targets'">
                 <div class="row">
-                    <div class="bgGreen col-xs-2">B</div>
-                    <div class="bgYellow col-xs-2">C</div>
-                    <div class="bgRed col-xs-8">D</div>
+                    <div class="col-xs-3">
+                        <div style="min-height: 300px; overflow-y: scroll; height: 300px">
+                            <div style="overflow-x: scroll">
+                                <AdnetNetworkTarget [setAdnetPairModels]="pairsSelected">
+                                </AdnetNetworkTarget>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div style="min-height: 300px; overflow-y: scroll; height: 300px">
+                            <div style="overflow-x: scroll">
+                                <AdnetNetworkPackageViewer></AdnetNetworkPackageViewer>
+                            </div>
+                        </div>
+
+                        <AdnetNetworkPackageContent></AdnetNetworkPackageContent>
+                    </div>
+                    <div class="col-xs-3">
+                        <h5>props</h5>
+                    </div>
                 </div>
             </tab>
             <tab [tabtitle]="'Estimates'">

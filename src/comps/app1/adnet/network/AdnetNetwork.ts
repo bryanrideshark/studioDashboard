@@ -52,7 +52,8 @@ export class AdnetNetwork {
     private pairsSelected: List<AdnetPairModel>;
     private pairsOutgoing: boolean;
     private selectedAdnetTargetModel: AdnetTargetModel;
-    private selectedAdnetTargetModels: List<AdnetTargetModel>;
+    private selectedAdnetTargetModels_pkg: List<AdnetTargetModel>; // for packages tab
+    private selectedAdnetTargetModels_trg: List<AdnetTargetModel>; // for view tab
     private selectedAdnetPackagePlayMode: AdnetPackagePlayMode;
     private selectedAdnetPackageModel: AdnetPackageModel;
     private selectedAdnetContentModel: AdnetContentModel;
@@ -75,7 +76,7 @@ export class AdnetNetwork {
     }
 
     private onAdnetTargetsSelected(i_adnetTargetModels: List<AdnetTargetModel>) {
-        this.selectedAdnetTargetModels = i_adnetTargetModels;
+        this.selectedAdnetTargetModels_pkg = i_adnetTargetModels;
     }
 
     private onPairSelected(event: IPairSelect) {
