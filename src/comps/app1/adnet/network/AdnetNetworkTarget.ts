@@ -112,7 +112,6 @@ export class AdnetNetworkTarget {
     };
 
     private filterTargets() {
-        var customerIds: Array<number> = [];
         this.adnetTargetModels = List<AdnetTargetModel>();
         var packages: List<AdnetPackageModel> = this.appStore.getState().adnet.getIn(['packages']) || {};
         var targets: List<AdnetTargetModel> = this.appStore.getState().adnet.getIn(['targets']) || {};
@@ -184,58 +183,3 @@ export class AdnetNetworkTarget {
         this.onPropSelected.emit({selected: AdnetNetworkPropSelector.TARGET})
     }
 }
-
-
-
-
-// this.adnetPairModels.forEach((i_adnetPairModels: AdnetPairModel) => {
-//     customerIds.push(i_adnetPairModels.getToCustomerId());
-// })
-// var targets: List<AdnetTargetModel> = this.appStore.getState().adnet.getIn(['targets']) || {};
-// this.adnetTargetModels = targets.filter((i_adnetTargetModel: AdnetTargetModel) => {
-//     //todo: give an option for active and autoActivated on / off in UI
-//     if (i_adnetTargetModel.getEnabled()==false || i_adnetTargetModel.getDeleted() == true)
-//         return false;
-//     if (customerIds.indexOf(i_adnetTargetModel.getCustomerId()) > -1){
-//         console.log(i_adnetTargetModel);
-//     }
-//     return (customerIds.indexOf(i_adnetTargetModel.getCustomerId()) > -1)
-// }) as List<AdnetTargetModel>;
-
-
-
-// var custIdSel = this.adnetCustomerModel.customerId();
-//
-// this.adnetPairModels.forEach((i_adnetPairModels: AdnetPairModel) => {
-//     customerIds.push(i_adnetPairModels.getToCustomerId());
-    // var cusTotId = i_adnetPairModels.getToCustomerId();
-    //var custId = i_adnetPairModels.getCustomerId();
-    // var custIdSel = this.adnetCustomerModel.customerId();
-    // var pkgCustId = i_package.getCustomerId();
-    //
-    // if (pkgCustId == custId && cusTotId == custIdSel) {
-    //
-    // }
-
-
-// })
-
-
-
-
-// this.adnetTargetModels = targets.filter((i_adnetTargetModel: AdnetTargetModel) => {
-//     if (custIdSel == i_adnetTargetModel.getCustomerId()){
-//         var foundPackages  = packages.filter((i_adnetPackageModel: AdnetPackageModel) => {
-//             var targetsIds = i_adnetPackageModel.getTargetIds();
-//             if (targetsIds.indexOf(i_adnetTargetModel.getId()) > -1){
-//                 var customerId = i_adnetPackageModel.getCustomerId();
-//                 if (customerId == i_adnetTargetModel.getCustomerId())
-//                     return true;
-//             }
-//             return false;
-//         });
-//         if (foundPackages && foundPackages.size > 0)
-//             return true
-//     }
-// }) as List<AdnetTargetModel>;
-
