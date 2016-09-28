@@ -143,6 +143,12 @@ export class AdnetNetworkPackageProps {
                 }
             }
             this.formInputs[key].setValue(data)
+            // var enabled = this.formInputs['enabled'].value;
+            // if (enabled){
+            //     this.formInputs[key].enable();
+            // } else {
+            //     this.formInputs[key].disable();
+            // }
         });
     };
 }
