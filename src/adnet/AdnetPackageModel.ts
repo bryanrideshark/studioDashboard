@@ -71,6 +71,10 @@ export class AdnetPackageModel extends StoreModel {
         return this.getKey('Value').deleted;
     }
 
+    public enabled() {
+        return this.getKey('Value').enabled;
+    }
+
     public getTargetIds(): Array<number> {
         var result:Array<number> = [];
         var targets:Array<any> = this.getKey('Value').targets;

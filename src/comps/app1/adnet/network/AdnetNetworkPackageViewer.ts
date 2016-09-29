@@ -80,6 +80,14 @@ export class AdnetNetworkPackageViewer {
         this.onFilterPackages();
     }
 
+    @Input()
+    set setAdnetTargetModel(i_adnetTargetModel: AdnetTargetModel) {
+        this.adnetTargetModel = i_adnetTargetModel;
+        if (!this.adnetTargetModel)
+            return;
+        this.onFilterPackages();
+    }
+
     @Output() onAdnetPackageViewSelected: EventEmitter<AdnetPackageModel> = new EventEmitter<AdnetPackageModel>();
 
     @Output() onAdnetTargetsSelected: EventEmitter<List<AdnetTargetModel>> = new EventEmitter<List<AdnetTargetModel>>();
@@ -92,6 +100,7 @@ export class AdnetNetworkPackageViewer {
     private adnetPairModels: List<AdnetPairModel>;
     private targets: List<AdnetTargetModel>
     private packages: List<AdnetPackageModel>
+    private adnetTargetModel: AdnetTargetModel;
     private packagesFiltered: List<AdnetPackageModel>
     private pairOutgoing: boolean
 
@@ -110,7 +119,7 @@ export class AdnetNetworkPackageViewer {
     }
 
     private onFilterPackages() {
-        if (!this.targets || !this.packages || !this.adnetCustomerModel)
+        if (!this.targets || !this.packages || !this.adnetCustomerModel || !this.adnetPairModels)
             return;
         this.packagesFiltered = List<AdnetPackageModel>();
         var uniqueIds = [];
@@ -118,6 +127,8 @@ export class AdnetNetworkPackageViewer {
             /** Outgoing ads, reverse engineer from targets  **/
             this.packages.forEach((i_package: AdnetPackageModel) => {
                 if (i_package.deleted() == true)
+                    return;
+                if (i_package.enabled() != true)
                     return;
                 var targetsIds = i_package.getTargetIds();
                 this.targets.forEach((i_adnetTargetModel: AdnetTargetModel) => {
@@ -127,7 +138,13 @@ export class AdnetNetworkPackageViewer {
                             if (adnetTargetCustomerId == i_adnetPairModels.getToCustomerId()) {
                                 if (uniqueIds.indexOf(i_package.getId()) == -1) {
                                     uniqueIds.push(i_package.getId())
-                                    this.packagesFiltered = this.packagesFiltered.push(i_package);
+                                    /** if input adnetTargetModel passed in further filter by it **/
+                                    if (this.adnetTargetModel){
+                                        if (i_package.getTargetIds().indexOf(this.adnetTargetModel.getId()) > -1)
+                                            this.packagesFiltered = this.packagesFiltered.push(i_package);
+                                    } else {
+                                        this.packagesFiltered = this.packagesFiltered.push(i_package);
+                                    }
                                 }
                             }
                         })
@@ -138,6 +155,8 @@ export class AdnetNetworkPackageViewer {
             /** Incoming ads **/
             this.packages.forEach((i_package: AdnetPackageModel) => {
                 if (i_package.deleted() == true)
+                    return;
+                if (i_package.enabled() != true)
                     return;
                 var targetsIds = i_package.getTargetIds();
                 this.targets.forEach((i_adnetTargetModel: AdnetTargetModel) => {
@@ -153,7 +172,13 @@ export class AdnetNetworkPackageViewer {
                             if (pkgCustId == custId && cusTotId == custIdSel) {
                                 if (uniqueIds.indexOf(i_package.getId()) == -1) {
                                     uniqueIds.push(i_package.getId())
-                                    this.packagesFiltered = this.packagesFiltered.push(i_package);
+                                    /** if input adnetTargetModel passed in further filter by it **/
+                                    if (this.adnetTargetModel){
+                                        if (i_package.getTargetIds().indexOf(this.adnetTargetModel.getId()) > -1)
+                                            this.packagesFiltered = this.packagesFiltered.push(i_package);
+                                    } else {
+                                        this.packagesFiltered = this.packagesFiltered.push(i_package);
+                                    }
                                 }
                             }
                         })
