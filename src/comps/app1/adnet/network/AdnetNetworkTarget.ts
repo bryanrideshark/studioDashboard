@@ -68,6 +68,7 @@ export class AdnetNetworkTarget {
 
     @Input()
     set setAdnetPackageModels(i_adnetPackageModels: AdnetPackageModel) {
+        this.simpleGridTable.deselect();
         this.adnetPackageModels = i_adnetPackageModels;
         if (!this.adnetPackageModels)
             return;
@@ -83,6 +84,7 @@ export class AdnetNetworkTarget {
 
     @Input()
     set setAdnetPairModels(i_adnetPairModels: List<AdnetPairModel>) {
+        this.simpleGridTable.deselect();
         this.adnetPairModels = i_adnetPairModels;
         if (!this.adnetPairModels)
             return;
