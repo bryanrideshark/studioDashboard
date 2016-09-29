@@ -27,10 +27,11 @@
                             </AdnetNetworkPackageContent>
                         </div>
                         <hr/>
-                        <AdnetNetworkTarget [setAdnetTargetModels]="selectedAdnetTargetModels_pkg"
+                        <h2>A</h2>
+                        <AdnetNetworkTarget [setAdnetTargetModels]="selectedAdnetTargetModels"
                                             [setAdnetPackageModels]="selectedAdnetPackageModel"
                                             (onPropSelected)="onPropSelected($event)"
-                                            (onAdnetTargetSelected)="onTargetSelected($event)">
+                                            (onAdnetTargetSelected)="onAdnetTargetSelected($event)">
                         </AdnetNetworkTarget>
                     </div>
                     <div class="col-xs-3" style="padding-left: 30px; padding-right: 30px">
@@ -86,10 +87,11 @@
                             </div>
                             <div class="col-xs-6">
                                 <div style="overflow-y: auto">
-                                    <AdnetNetworkTarget [setAdnetTargetModels]="selectedAdnetTargetModels_pkg"
+                                    <h2>B</h2>
+                                    <AdnetNetworkTarget [setAdnetTargetModels]="selectedAdnetTargetModels"
                                                         [setAdnetPackageModels]="selectedAdnetPackageModel"
                                                         (onPropSelected)="onPropSelected($event)"
-                                                        (onAdnetTargetSelected)="onTargetSelected($event)">
+                                                        (onAdnetTargetSelected)="onAdnetTargetSelected($event)">
                                     </AdnetNetworkTarget>
 
                                 </div>
@@ -128,6 +130,7 @@
                     <div class="col-xs-3">
                         <div style="min-height: 300px; overflow-y: scroll; height: 300px">
                             <div style="overflow-x: scroll">
+                                <h2>C</h2>
                                 <AdnetNetworkTarget [setAdnetPairModels]="pairsSelected"
                                                     [setAdnetCustomerModel]="adnetCustomerModel"
                                                     [setPairOutgoing]="pairsOutgoing">
