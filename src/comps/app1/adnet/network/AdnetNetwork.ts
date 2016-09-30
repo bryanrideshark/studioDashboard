@@ -81,12 +81,6 @@ export class AdnetNetwork {
     }
 
     private onPropSelected(tab: TabType, event: IAdNetworkPropSelectedEvent) {
-        //todo: need to, fix AdnetNetworkCustomerSelector to call per proper tab selection onPropSelected('????
-        // <AdnetNetworkCustomerSelector (onPairsSelected)="onPairSelected($event)"
-        // (onPropSelected)="onPropSelected('packagesTab', $event)"
-        //     [setAdnetCustomerModel]="adnetCustomerModel">
-        //     </AdnetNetworkCustomerSelector>
-        
         switch (tab) {
             case 'packagesTab': {
                 this.propSelectorPackageTab = event.selected;
