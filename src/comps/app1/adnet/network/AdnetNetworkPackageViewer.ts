@@ -61,6 +61,8 @@ export class AdnetNetworkPackageViewer {
 
     @ViewChild(SimpleGridTable) simpleGridTable: SimpleGridTable
 
+    @Input() filterByTargetModel:boolean = false;
+
     @Input()
     set setPairOutgoing(i_setPairOutgoing: boolean) {
         this.pairOutgoing = i_setPairOutgoing;
@@ -122,6 +124,8 @@ export class AdnetNetworkPackageViewer {
     private onFilterPackages() {
         if (!this.targets || !this.packages || !this.adnetCustomerModel || !this.adnetPairModels)
             return;
+        if (this.filterByTargetModel && !this.adnetTargetModel)
+            return;
         this.packagesFiltered = List<AdnetPackageModel>();
         var uniqueIds = [];
         if (this.pairOutgoing) {
@@ -139,8 +143,7 @@ export class AdnetNetworkPackageViewer {
                             if (adnetTargetCustomerId == i_adnetPairModels.getToCustomerId()) {
                                 if (uniqueIds.indexOf(i_package.getId()) == -1) {
                                     uniqueIds.push(i_package.getId())
-                                    /** if input adnetTargetModel passed in further filter by it **/
-                                    if (this.adnetTargetModel){
+                                    if (this.filterByTargetModel){
                                         if (i_package.getTargetIds().indexOf(this.adnetTargetModel.getId()) > -1)
                                             this.packagesFiltered = this.packagesFiltered.push(i_package);
                                     } else {
@@ -173,8 +176,7 @@ export class AdnetNetworkPackageViewer {
                             if (pkgCustId == custId && cusTotId == custIdSel) {
                                 if (uniqueIds.indexOf(i_package.getId()) == -1) {
                                     uniqueIds.push(i_package.getId())
-                                    /** if input adnetTargetModel passed in further filter by it **/
-                                    if (this.adnetTargetModel){
+                                    if (this.filterByTargetModel){
                                         if (i_package.getTargetIds().indexOf(this.adnetTargetModel.getId()) > -1)
                                             this.packagesFiltered = this.packagesFiltered.push(i_package);
                                     } else {

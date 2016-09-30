@@ -53,20 +53,31 @@ export class AdnetNetwork {
     private adnetCustomerModel: AdnetCustomerModel;
     private pairsSelected: List<AdnetPairModel>;
     private pairsOutgoing: boolean;
-    private selectedAdnetTargetModel: AdnetTargetModel;
-    private selectedAdnetTargetModels: List<AdnetTargetModel>;
-    private selectedAdnetContentModel: AdnetContentModel;
 
     /** packages tabs specific members **/
+    private selectedAdnetTargetModels: List<AdnetTargetModel>;
     private selectedAdnetPackagePlayMode_tab_packages: AdnetPackagePlayMode;
     private selectedAdnetPackageModel_tab_packages: AdnetPackageModel;
+    private selectedAdnetTargetModel_tab_packages: AdnetTargetModel;
+    private selectedAdnetContentModel_tab_packages: AdnetContentModel;
 
     /**  target tabs specific members **/
     private selectedAdnetPackagePlayMode_tab_targets: AdnetPackagePlayMode;
     private selectedAdnetPackageModel_tab_targets: AdnetPackageModel;
+    private selectedAdnetTargetModel_tab_targets: AdnetTargetModel;
+    private selectedAdnetContentModel_tab_targets: AdnetContentModel;
 
-    private onAdnetContentSelected(event: AdnetContentModel) {
-        this.selectedAdnetContentModel = event;
+    private onAdnetContentSelected(tab:TabType, event: AdnetContentModel) {
+        switch (tab) {
+            case 'packagesTab': {
+                this.selectedAdnetContentModel_tab_packages = event;
+                break;
+            }
+            case 'targetsTab': {
+                this.selectedAdnetContentModel_tab_targets = event;
+                break;
+            }
+        }
     }
 
     private onPropSelected(tab: TabType, event: IAdNetworkPropSelectedEvent) {
@@ -80,7 +91,6 @@ export class AdnetNetwork {
                 break;
             }
         }
-
     }
 
     private onTabActive(tabName:TabType, event:boolean){
@@ -90,7 +100,8 @@ export class AdnetNetwork {
         this.selectedAdnetPackageModel_tab_packages = null;
         this.pairsSelected = event.pairs;
         this.pairsOutgoing = event.pairsOutgoing;
-        this.selectedAdnetTargetModel = null;
+        this.selectedAdnetTargetModel_tab_packages = null;
+        // this.selectedAdnetTargetModel_tab_targets = null;
         this.selectedAdnetPackageModel_tab_targets = null;
     }
 
@@ -98,9 +109,21 @@ export class AdnetNetwork {
         this.selectedAdnetTargetModels = i_adnetTargetModels;
     }
 
-    private onAdnetTargetSelected(i_adnetTargetModel: AdnetTargetModel) {
-        this.selectedAdnetTargetModel = i_adnetTargetModel;
-        this.selectedAdnetPackageModel_tab_targets = null;
+    private onAdnetTargetSelected(tab:TabType, i_adnetTargetModel: AdnetTargetModel) {
+
+        switch (tab) {
+            case 'packagesTab': {
+                this.selectedAdnetTargetModel_tab_packages = i_adnetTargetModel;
+                this.selectedAdnetPackageModel_tab_targets = null;
+                break;
+            }
+            case 'targetsTab': {
+                this.selectedAdnetTargetModel_tab_targets = i_adnetTargetModel;
+                this.selectedAdnetPackageModel_tab_packages = null;
+                this.selectedAdnetPackageModel_tab_targets = null;
+                break;
+            }
+        }
     }
 
     private onSetPlayMode(tab: TabType, event: AdnetPackagePlayMode) {
