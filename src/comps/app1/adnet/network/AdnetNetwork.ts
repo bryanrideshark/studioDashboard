@@ -59,6 +59,29 @@ export class AdnetNetwork {
     private selectedAdnetPackageModelTarget: AdnetPackageModel;
     private selectedAdnetContentModel: AdnetContentModel;
 
+    private onAdnetContentSelected(event: AdnetContentModel) {
+        this.selectedAdnetContentModel = event;
+    }
+
+    private onPropSelected(event: IAdNetworkPropSelectedEvent) {
+        this.propSelector = event.selected;
+    }
+
+    private onPairSelected(event: IPairSelect) {
+        this.selectedAdnetPackageModel = null;
+        this.pairsSelected = event.pairs;
+        this.pairsOutgoing = event.pairsOutgoing;
+    }
+
+    private onAdnetTargetsSelected(i_adnetTargetModels: List<AdnetTargetModel>) {
+        this.selectedAdnetTargetModels = i_adnetTargetModels;
+    }
+
+    private onAdnetTargetSelected(i_adnetTargetModel: AdnetTargetModel) {
+        this.selectedAdnetTargetModel = i_adnetTargetModel;
+        this.selectedAdnetPackageModelTarget = null;
+    }
+
     private onSetPlayMode(tab:string, event: AdnetPackagePlayMode) {
         switch (tab){
             case 'packages': {
@@ -70,43 +93,18 @@ export class AdnetNetwork {
                 break;
             }
         }
-
     }
 
-    private onAdnetContentSelected(event: AdnetContentModel) {
-        this.selectedAdnetContentModel = event;
-    }
-
-    private onPropSelected(event: IAdNetworkPropSelectedEvent) {
-        this.propSelector = event.selected;
-    }
-
-    // packages tab
-    private onAdnetTargetsSelected(i_adnetTargetModels: List<AdnetTargetModel>) {
-        this.selectedAdnetTargetModels = i_adnetTargetModels;
-    }
-
-    // targets tab
-    private onAdnetTargetSelected(i_adnetTargetModel: AdnetTargetModel) {
-        this.selectedAdnetTargetModel = i_adnetTargetModel;
-    }
-
-    // packages tab
+    // unique for packages tab
     private onAdnetPackageSelected(event: AdnetPackageModel) {
         this.selectedAdnetPackageModel = event;
         this.onSetPlayMode('packages',event.playMode());
     }
 
-    // targets tab
+    // unique for targets tab
     private onAdnetPackageSelectedTarget(event: AdnetPackageModel) {
         this.selectedAdnetPackageModelTarget = event;
         this.onSetPlayMode('targets',event.playMode());
-    }
-
-    private onPairSelected(event: IPairSelect) {
-        this.selectedAdnetPackageModel = null;
-        this.pairsSelected = event.pairs;
-        this.pairsOutgoing = event.pairsOutgoing;
     }
 }
 
