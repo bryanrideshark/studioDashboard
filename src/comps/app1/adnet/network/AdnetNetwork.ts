@@ -47,7 +47,7 @@ export class AdnetNetwork {
     }
 
     private adnetNetworkPropSelector = AdnetNetworkPropSelector;
-    private propSelectorNetworkTab: AdnetNetworkPropSelector = AdnetNetworkPropSelector.CONTENT;
+    private propSelectorPackageTab: AdnetNetworkPropSelector = AdnetNetworkPropSelector.CONTENT;
     private propSelectorTargetsTab: AdnetNetworkPropSelector = AdnetNetworkPropSelector.NONE;
     private adnetCustomerId: number = -1;
     private adnetCustomerModel: AdnetCustomerModel;
@@ -86,11 +86,10 @@ export class AdnetNetwork {
         // (onPropSelected)="onPropSelected('packagesTab', $event)"
         //     [setAdnetCustomerModel]="adnetCustomerModel">
         //     </AdnetNetworkCustomerSelector>
-
+        
         switch (tab) {
             case 'packagesTab': {
-                //todo: fix name  propSelectorNetworkTab to propSelectorPackagesTab
-                this.propSelectorNetworkTab = event.selected;
+                this.propSelectorPackageTab = event.selected;
                 break;
             }
             case 'targetsTab': {

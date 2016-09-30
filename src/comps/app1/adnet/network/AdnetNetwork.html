@@ -42,7 +42,7 @@
                     </div>
                     <div class="col-xs-3" style="padding-left: 30px; padding-right: 30px">
                         <div style="height: 100%">
-                            <div [ngSwitch]="propSelectorNetworkTab">
+                            <div [ngSwitch]="propSelectorPackageTab">
                                 <div *ngSwitchCase="adnetNetworkPropSelector.CONTENT">
                                     <AdnetNetworkPackageContentProps
                                             [setAdnetContentModels]="selectedAdnetContentModel_tab_packages">
@@ -105,7 +105,7 @@
                     </div>
                     <div class="col-xs-3" style="padding-left: 30px; padding-right: 30px">
                         <div class="row">
-                            <div [ngSwitch]="propSelectorNetworkTab">
+                            <div [ngSwitch]="propSelectorPackageTab">
                                 <div *ngSwitchCase="adnetNetworkPropSelector.PAIR">
                                     <AdnetNetworkPairProps [setPairOutgoing]="pairsOutgoing"
                                                            [setAdnetPairModels]="pairsSelected">
