@@ -48,7 +48,7 @@ export class AdnetNetwork {
 
     private adnetNetworkPropSelector = AdnetNetworkPropSelector;
     private propSelectorNetworkTab: AdnetNetworkPropSelector = AdnetNetworkPropSelector.CONTENT;
-    private propSelectorPackagesTab: AdnetNetworkPropSelector = AdnetNetworkPropSelector.NONE;
+    private propSelectorTargetsTab: AdnetNetworkPropSelector = AdnetNetworkPropSelector.NONE;
     private adnetCustomerId: number = -1;
     private adnetCustomerModel: AdnetCustomerModel;
     private pairsSelected: List<AdnetPairModel>;
@@ -81,13 +81,20 @@ export class AdnetNetwork {
     }
 
     private onPropSelected(tab: TabType, event: IAdNetworkPropSelectedEvent) {
+        //todo: need to, fix AdnetNetworkCustomerSelector to call per proper tab selection onPropSelected('????
+        // <AdnetNetworkCustomerSelector (onPairsSelected)="onPairSelected($event)"
+        // (onPropSelected)="onPropSelected('packagesTab', $event)"
+        //     [setAdnetCustomerModel]="adnetCustomerModel">
+        //     </AdnetNetworkCustomerSelector>
+
         switch (tab) {
             case 'packagesTab': {
+                //todo: fix name  propSelectorNetworkTab to propSelectorPackagesTab
                 this.propSelectorNetworkTab = event.selected;
                 break;
             }
             case 'targetsTab': {
-                this.propSelectorPackagesTab = event.selected;
+                this.propSelectorTargetsTab = event.selected;
                 break;
             }
         }
