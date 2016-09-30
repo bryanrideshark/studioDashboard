@@ -145,7 +145,7 @@
                                 <AdnetNetworkTarget [setAdnetPairModels]="pairsSelected"
                                                     [setAdnetCustomerModel]="adnetCustomerModel"
                                                     [setPairOutgoing]="pairsOutgoing"
-                                                    (onPropSelected)="onPropSelected('networkTab', $event)"
+                                                    (onPropSelected)="onPropSelected('targetsTab', $event)"
                                                     (onAdnetTargetSelected)="onAdnetTargetSelected($event)">>
                                 </AdnetNetworkTarget>
                             </div>
@@ -164,7 +164,9 @@
                             </div>
                         </div>
 
-                        <AdnetNetworkPackageContent [setAdnetPackageModels]="selectedAdnetPackageModel_tab_targets"
+                        <AdnetNetworkPackageContent (onPropSelected)="onPropSelected('targetsTab', $event)"
+                                                    (onAdnetContentSelected)="onAdnetContentSelected($event)"
+                                                    [setAdnetPackageModels]="selectedAdnetPackageModel_tab_targets"
                                                     [setAdnetPackagePlayMode]="selectedAdnetPackagePlayMode_tab_targets">
                         </AdnetNetworkPackageContent>
                     </div>
@@ -172,10 +174,10 @@
                         <div style="height: 100%">
                             <div [ngSwitch]="propSelectorPackagesTab">
                                 <div *ngSwitchCase="adnetNetworkPropSelector.CONTENT">
-                                    <h1>a</h1>
-                                    <!--<AdnetNetworkPackageContentProps-->
-                                    <!--[setAdnetContentModels]="selectedAdnetContentModel">-->
-                                    <!--</AdnetNetworkPackageContentProps>-->
+                                    <AdnetNetworkPackageContentProps
+                                            [showResourceOnly]="true"
+                                            [setAdnetContentModels]="selectedAdnetContentModel">
+                                    </AdnetNetworkPackageContentProps>
                                 </div>
                                 <div *ngSwitchCase="adnetNetworkPropSelector.PACKAGE">
                                 </div>

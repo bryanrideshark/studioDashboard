@@ -67,13 +67,13 @@ export class AdnetNetwork {
         this.selectedAdnetContentModel = event;
     }
 
-    private onPropSelected(tab: "packagesTab" | "networkTab", event: IAdNetworkPropSelectedEvent) {
+    private onPropSelected(tab: "packagesTab" | "targetsTab", event: IAdNetworkPropSelectedEvent) {
         switch (tab) {
             case 'packagesTab': {
                 this.propSelectorNetworkTab = event.selected;
                 break;
             }
-            case 'networkTab': {
+            case 'targetsTab': {
                 this.propSelectorPackagesTab = event.selected;
                 break;
             }
@@ -89,6 +89,8 @@ export class AdnetNetwork {
         this.selectedAdnetPackageModel_tab_packages = null;
         this.pairsSelected = event.pairs;
         this.pairsOutgoing = event.pairsOutgoing;
+        this.selectedAdnetTargetModel = null;
+        this.selectedAdnetPackageModel_tab_targets = null;
     }
 
     private onAdnetTargetsSelected(i_adnetTargetModels: List<AdnetTargetModel>) {
