@@ -24,6 +24,8 @@ export interface IAdNetworkPropSelectedEvent {
     selected: AdnetNetworkPropSelector
 }
 
+type TabType = "packagesTab" | "targetsTab"
+
 @Component({
 //	template: AdnetNetworkTemplate, /*prod*/
     selector: 'AdnetNetwork',
@@ -67,7 +69,7 @@ export class AdnetNetwork {
         this.selectedAdnetContentModel = event;
     }
 
-    private onPropSelected(tab: "packagesTab" | "targetsTab", event: IAdNetworkPropSelectedEvent) {
+    private onPropSelected(tab: TabType, event: IAdNetworkPropSelectedEvent) {
         switch (tab) {
             case 'packagesTab': {
                 this.propSelectorNetworkTab = event.selected;
@@ -81,8 +83,7 @@ export class AdnetNetwork {
 
     }
 
-    private onTabActive(tabName:string, event:boolean){
-        console.log(tabName, event);
+    private onTabActive(tabName:TabType, event:boolean){
     }
 
     private onPairSelected(event: IPairSelect) {
@@ -102,13 +103,13 @@ export class AdnetNetwork {
         this.selectedAdnetPackageModel_tab_targets = null;
     }
 
-    private onSetPlayMode(tab: string, event: AdnetPackagePlayMode) {
+    private onSetPlayMode(tab: TabType, event: AdnetPackagePlayMode) {
         switch (tab) {
-            case 'packages': {
+            case 'packagesTab': {
                 this.selectedAdnetPackagePlayMode_tab_packages = event;
                 break;
             }
-            case 'targets': {
+            case 'targetsTab': {
                 this.selectedAdnetPackagePlayMode_tab_targets = event;
                 break;
             }
@@ -117,12 +118,12 @@ export class AdnetNetwork {
 
     private onAdnetPackageSelected(event: AdnetPackageModel) {
         this.selectedAdnetPackageModel_tab_packages = event;
-        this.onSetPlayMode('packages', event.playMode());
+        this.onSetPlayMode('packagesTab', event.playMode());
     }
 
     private onAdnetPackageSelectedTarget(event: AdnetPackageModel) {
         this.selectedAdnetPackageModel_tab_targets = event;
-        this.onSetPlayMode('targets', event.playMode());
+        this.onSetPlayMode('targetsTab', event.playMode());
     }
 }
 
