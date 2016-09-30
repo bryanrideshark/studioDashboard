@@ -43,7 +43,7 @@
                                 </div>
                                 <div *ngSwitchCase="adnetNetworkPropSelector.PACKAGE">
                                     <AdnetNetworkPackageProps
-                                            (playModeChanged)="onSetPlayMode($event)"
+                                            (playModeChanged)="onSetPlayMode('packages',$event)"
                                             [setAdnetPackageModels]="selectedAdnetPackageModel">
                                     </AdnetNetworkPackageProps>
                                 </div>
@@ -126,7 +126,7 @@
             <tab [tabtitle]="'Targets'">
                 <div class="row">
                     <div class="col-xs-3">
-                        <div style="min-height: 300px; overflow-y: scroll; height: 300px">
+                        <div style="min-height: 100%; overflow-y: scroll; height: 100%">
                             <div style="overflow-x: scroll">
                                 <AdnetNetworkTarget [setAdnetPairModels]="pairsSelected"
                                                     [setAdnetCustomerModel]="adnetCustomerModel"
@@ -143,12 +143,19 @@
                                         [setPairOutgoing]="pairsOutgoing"
                                         [setAdnetCustomerModel]="adnetCustomerModel"
                                         [setAdnetTargetModel]="selectedAdnetTargetModel"
-                                        [setAdnetPairModels]="pairsSelected">
+                                        [setAdnetPairModels]="pairsSelected"
+                                        (onAdnetPackageViewSelected)="onAdnetPackageSelectedTarget($event)">
                                 </AdnetNetworkPackageViewer>
                             </div>
                         </div>
 
-                        <AdnetNetworkPackageContent></AdnetNetworkPackageContent>
+                        <AdnetNetworkPackageContent [setAdnetPackageModels]="selectedAdnetPackageModelTarget"
+                                                    [setAdnetPackagePlayMode]="selectedAdnetPackagePlayModeTargets">
+                        </AdnetNetworkPackageContent>
+
+                        <!--<AdnetNetworkPackageContent [setAdnetPackagePlayMode]="selectedAdnetPackagePlayMode"-->
+                                                    <!-->-->
+                        <!--</AdnetNetworkPackageContent>-->
                     </div>
                     <div class="col-xs-3">
                         <h5>props</h5>

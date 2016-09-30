@@ -82,6 +82,7 @@ export class AdnetNetworkPackageViewer {
 
     @Input()
     set setAdnetTargetModel(i_adnetTargetModel: AdnetTargetModel) {
+        this.simpleGridTable.deselect();
         this.adnetTargetModel = i_adnetTargetModel;
         if (!this.adnetTargetModel)
             return;

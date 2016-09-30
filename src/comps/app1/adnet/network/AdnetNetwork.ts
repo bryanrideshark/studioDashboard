@@ -54,16 +54,23 @@ export class AdnetNetwork {
     private selectedAdnetTargetModel: AdnetTargetModel;
     private selectedAdnetTargetModels: List<AdnetTargetModel>;
     private selectedAdnetPackagePlayMode: AdnetPackagePlayMode;
+    private selectedAdnetPackagePlayModeTargets: AdnetPackagePlayMode;
     private selectedAdnetPackageModel: AdnetPackageModel;
+    private selectedAdnetPackageModelTarget: AdnetPackageModel;
     private selectedAdnetContentModel: AdnetContentModel;
 
-    private onSetPlayMode(event: AdnetPackagePlayMode) {
-        this.selectedAdnetPackagePlayMode = event;
-    }
+    private onSetPlayMode(tab:string, event: AdnetPackagePlayMode) {
+        switch (tab){
+            case 'packages': {
+                this.selectedAdnetPackagePlayMode = event;
+                break;
+            }
+            case 'targets': {
+                this.selectedAdnetPackagePlayModeTargets = event;
+                break;
+            }
+        }
 
-    private onAdnetPackageSelected(event: AdnetPackageModel) {
-        this.selectedAdnetPackageModel = event;
-        this.onSetPlayMode(event.playMode());
     }
 
     private onAdnetContentSelected(event: AdnetContentModel) {
@@ -74,12 +81,26 @@ export class AdnetNetwork {
         this.propSelector = event.selected;
     }
 
+    // packages tab
     private onAdnetTargetsSelected(i_adnetTargetModels: List<AdnetTargetModel>) {
         this.selectedAdnetTargetModels = i_adnetTargetModels;
     }
 
+    // targets tab
     private onAdnetTargetSelected(i_adnetTargetModel: AdnetTargetModel) {
         this.selectedAdnetTargetModel = i_adnetTargetModel;
+    }
+
+    // packages tab
+    private onAdnetPackageSelected(event: AdnetPackageModel) {
+        this.selectedAdnetPackageModel = event;
+        this.onSetPlayMode('packages',event.playMode());
+    }
+
+    // targets tab
+    private onAdnetPackageSelectedTarget(event: AdnetPackageModel) {
+        this.selectedAdnetPackageModelTarget = event;
+        this.onSetPlayMode('targets',event.playMode());
     }
 
     private onPairSelected(event: IPairSelect) {
