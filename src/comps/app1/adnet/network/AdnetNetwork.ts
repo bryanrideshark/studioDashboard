@@ -46,7 +46,8 @@ export class AdnetNetwork {
     }
 
     private adnetNetworkPropSelector = AdnetNetworkPropSelector;
-    private propSelector: AdnetNetworkPropSelector = AdnetNetworkPropSelector.CONTENT;
+    private propSelectorNetworkTab: AdnetNetworkPropSelector = AdnetNetworkPropSelector.CONTENT;
+    private propSelectorPackagesTab: AdnetNetworkPropSelector = AdnetNetworkPropSelector.NONE;
     private adnetCustomerId: number = -1;
     private adnetCustomerModel: AdnetCustomerModel;
     private pairsSelected: List<AdnetPairModel>;
@@ -63,8 +64,18 @@ export class AdnetNetwork {
         this.selectedAdnetContentModel = event;
     }
 
-    private onPropSelected(event: IAdNetworkPropSelectedEvent) {
-        this.propSelector = event.selected;
+    private onPropSelected(tab: "packagesTab" | "networkTab", event: IAdNetworkPropSelectedEvent) {
+        switch (tab){
+            case 'packagesTab': {
+                this.propSelectorNetworkTab = event.selected;
+                break;
+            }
+            case 'networkTab': {
+                this.propSelectorPackagesTab = event.selected;
+                break;
+            }
+        }
+
     }
 
     private onPairSelected(event: IPairSelect) {

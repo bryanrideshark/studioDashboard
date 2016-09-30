@@ -180,7 +180,6 @@ export class AdnetNetworkTarget {
 
     private onGridSelected(simpleGridEdit: ISimpleGridEdit) {
         // var trg = simpleGridEdit.item as AdnetTargetModel;
-        // console.log(trg.getCustomerId());
         this.onAdnetTargetSelected.emit(simpleGridEdit.item as AdnetTargetModel);
         this.onPropSelected.emit({selected: AdnetNetworkPropSelector.TARGET})
     }
