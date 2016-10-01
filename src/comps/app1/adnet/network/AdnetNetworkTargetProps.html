@@ -8,7 +8,7 @@
                     </small>
                     <small class="debug">{{me}}</small>
                 </div>
-                <accordion [closeOthers]="true">
+                <accordion *ngIf="adnetTargetModel" [closeOthers]="true">
                     <accordion-group [isOpen]="true" heading="customer">
                         <ul style="font-size: 0.9em" *ngIf="adnetCustomerModel" class="list-group noSpace">
                             <li class="list-group-item"><label>feedback:</label>

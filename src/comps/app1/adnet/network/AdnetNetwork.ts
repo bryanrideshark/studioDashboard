@@ -101,7 +101,8 @@ export class AdnetNetwork {
         this.pairsSelected = event.pairs;
         this.pairsOutgoing = event.pairsOutgoing;
         this.selectedAdnetTargetModel_tab_packages = null;
-        // this.selectedAdnetTargetModel_tab_targets = null;
+        this.selectedAdnetTargetModel_tab_targets = null;
+        this.selectedAdnetContentModel_tab_targets = null;
         this.selectedAdnetPackageModel_tab_targets = null;
     }
 
