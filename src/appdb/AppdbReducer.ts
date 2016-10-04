@@ -16,8 +16,11 @@ const appBaseUrlCloud = 'https://secure.digitalsignage.com';
 // d20@ms.com
 // const appBaseUrlAdnet = 'https://adnet.signage.me/adNetService.ashx?command=customerRequest&customerId=18635&customerToken=ec202a94-a66b-4380-85aa-1e73aab59be6&fromChangelistId=0';// d20@ms.com
 
-// sherwin5
+// sherwin5 load
 const appBaseUrlAdnet = 'https://adnet.signage.me/adNetService.ashx?command=customerRequest&customerId=2537&customerToken=82902404-48e2-4cdc-89b9-13b887ef9512&fromChangelistId=0';
+
+// sherwin5 save
+//const appBaseUrlAdnet = 'https://adnet.signage.me/adNetService.ashx?command=customerSubmit&customerId=2537&customerToken=82902404-48e2-4cdc-89b9-13b887ef9512&data={}';
 
 // const adnetCustomerId = 18635;
 //adnetCustomerId: adnetCustomerId,
