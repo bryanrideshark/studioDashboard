@@ -119,20 +119,16 @@ export class AdnetActions extends Actions {
 
     public saveCustomerInfo(data: Object, adnetCustomerId: string) {
         return (dispatch) => {
-            const payloadLocal = {
-                Value: data,
+            const payload = {
+                Value: {},
                 Key: adnetCustomerId
             };
-            const payloadServer = {
-                Value: {
-                    "customerInfo": data
-                },
-                Key: adnetCustomerId
-            };
-            this.saveToServer(payloadServer, adnetCustomerId, (jData) => {
+            payload.Value = {"customerInfo": data};
+            this.saveToServer(payload, adnetCustomerId, (jData) => {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
                     return alert('problem saving to server');
-                dispatch(this.updateAdnetCustomer(payloadLocal))
+                payload.Value = data;
+                dispatch(this.updateAdnetCustomer(payload))
             })
         };
     }
