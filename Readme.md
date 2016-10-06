@@ -79,15 +79,3 @@ License:
 ------------------------------------------------------------------------
 - StudioDashboard is available under GPL V3 https://github.com/born2net/signagestudio_web-lite/blob/master/LICENSE
 
-
-
-
-
-
-
-
-
-release set for June of 2016
-
-License: see license files
-

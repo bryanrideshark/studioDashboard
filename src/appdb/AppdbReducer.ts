@@ -20,7 +20,7 @@ const appBaseUrlCloud = 'https://secure.digitalsignage.com';
 const appBaseUrlAdnet = 'https://adnet.signage.me/adNetService.ashx?command=customerRequest&customerId=2537&customerToken=82902404-48e2-4cdc-89b9-13b887ef9512&fromChangelistId=0';
 
 // sherwin5 save
-//const appBaseUrlAdnet = 'https://adnet.signage.me/adNetService.ashx?command=customerSubmit&customerId=2537&customerToken=82902404-48e2-4cdc-89b9-13b887ef9512&data={}';
+const appBaseUrlAdnetSave = 'https://adnet.signage.me/adNetService.ashx?command=customerSubmit&customerId=2537&customerToken=82902404-48e2-4cdc-89b9-13b887ef9512&data=:DATA:';
 
 // const adnetCustomerId = 18635;
 //adnetCustomerId: adnetCustomerId,
@@ -43,7 +43,8 @@ export default function appdb(state:Map<string, any> = Map<string, any>({}), act
                 },
                 appBaseUrlUser: `${baseUrl}?resellerUserName=${action.user}&resellerPassword=${action.pass}`,
                 appBaseUrlCloud: `${appBaseUrlCloud}/END_POINT/${action.user}/${action.pass}`,
-                appBaseUrlAdnet: `${appBaseUrlAdnet}`
+                appBaseUrlAdnet: `${appBaseUrlAdnet}`,
+                appBaseUrlAdnetSave: `${appBaseUrlAdnetSave}`
             });
         case AppdbAction.APP_INIT:
             return state.merge({

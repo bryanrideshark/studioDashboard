@@ -4,7 +4,6 @@ dist/
 jspm_packages/
 docs/
 node_modules/
-temp/
 src/**/*.map
 src/**/*.js
 src/*.js

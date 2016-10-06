@@ -1,13 +1,17 @@
-import {Injectable, Inject} from "@angular/core";
-import {Actions, AppStore} from "angular2-redux-util";
-import {Map, List} from "immutable";
-import {Observable} from "rxjs/Observable";
+import {
+    Injectable,
+    Inject
+} from "@angular/core";
+import {
+    Actions,
+    AppStore
+} from "angular2-redux-util";
+import {List} from "immutable";
 import "rxjs/add/operator/catch";
 import "rxjs/add/operator/finally";
 import "rxjs/add/observable/throw";
 import {Http} from "@angular/http";
-import * as bootbox from "bootbox";
-import * as _ from 'lodash';
+import * as _ from "lodash";
 import {AdnetCustomerModel} from "./AdnetCustomerModel";
 import {AdnetRateModel} from "./AdnetRateModel";
 import {AdnetTargetModel} from "./AdnetTargetModel";
@@ -32,26 +36,18 @@ export const RENAME_ADNET_RATE_TABLE = 'RENAME_ADNET_RATE_TABLE';
 @Injectable()
 export class AdnetActions extends Actions {
 
-    constructor(@Inject('OFFLINE_ENV') private offlineEnv,
-                private appStore: AppStore,
-                private _http: Http) {
+    constructor(@Inject('OFFLINE_ENV') private offlineEnv, private appStore: AppStore, private _http: Http) {
         super(appStore);
     }
 
-    private saveToServer(data) {
-        // const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnet');
-        // const url = `${baseUrl}`;
-        // this._http.get(url)
-        //     .map(result => {
-        //         var jData: Object = result.json()
-        //         dispatch(this.receivedAdnet(jData));
-        //         var adnetCustomers: List<AdnetCustomerModel> = List<AdnetCustomerModel>();
-        //         for (var adnetCustomer of jData['customers']) {
-        //             const adnetCustomerModel: AdnetCustomerModel = new AdnetCustomerModel(adnetCustomer);
-        //             adnetCustomers = adnetCustomers.push(adnetCustomerModel)
-        //         }
-        //         dispatch(this.receivedCustomers(adnetCustomers));
-        //     }).subscribe()
+    private saveToServer(i_data, i_customerId, i_callBack?: (jData)=>void) {
+        const data = JSON.stringify(i_data.Value);
+        const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetSave').replace(':CUSTOMER_ID:', i_customerId).replace(':DATA:', data);
+        this._http.get(baseUrl)
+            .map(result => {
+                var jData: Object = result.json()
+                if (i_callBack) i_callBack(jData);
+            }).subscribe()
     }
 
     public getAdnet() {
@@ -61,7 +57,7 @@ export class AdnetActions extends Actions {
             const url = `${baseUrl}`;
             // offline not being used currently
             if (this.offlineEnv) {
-                this._http.get('offline/customerRequest.json').subscribe((result)=> {
+                this._http.get('offline/customerRequest.json').subscribe((result) => {
                     var jData: Object = result.json();
                 })
             } else {
@@ -123,12 +119,21 @@ export class AdnetActions extends Actions {
 
     public saveCustomerInfo(data: Object, adnetCustomerId: string) {
         return (dispatch) => {
-            //todo: save to server
-            const payload = {
+            const payloadLocal = {
                 Value: data,
                 Key: adnetCustomerId
             };
-            dispatch(this.updateAdnetCustomer(payload))
+            const payloadServer = {
+                Value: {
+                    "customerInfo": data
+                },
+                Key: adnetCustomerId
+            };
+            this.saveToServer(payloadServer, adnetCustomerId, (jData) => {
+                if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
+                    return alert('problem saving to server');
+                dispatch(this.updateAdnetCustomer(payloadLocal))
+            })
         };
     }
 
@@ -214,6 +219,7 @@ export class AdnetActions extends Actions {
             });
         };
     }
+
     public removeAdnetTarget(id) {
         return (dispatch) => {
             //todo: save to server
@@ -236,7 +242,10 @@ export class AdnetActions extends Actions {
             //todo: save to server
             dispatch({
                 type: RENAME_ADNET_RATE_TABLE,
-                payload: {rateId, newLabel}
+                payload: {
+                    rateId,
+                    newLabel
+                }
             });
         };
     }
