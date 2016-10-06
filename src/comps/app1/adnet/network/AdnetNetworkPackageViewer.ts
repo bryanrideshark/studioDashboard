@@ -196,7 +196,7 @@ export class AdnetNetworkPackageViewer {
         desc: false
     };
 
-    private getCustomerName() {
+    private get getCustomerName() {
         return (i_adnetPackageModel: AdnetPackageModel) => {
             var customerId = i_adnetPackageModel.getCustomerId();
             var customersList: List<AdnetCustomerModel> = this.appStore.getState().adnet.getIn(['customers']) || {};

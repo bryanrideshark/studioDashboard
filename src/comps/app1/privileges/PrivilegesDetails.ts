@@ -44,7 +44,7 @@ enum PrivModeEnum {ADD, DEL, UPD}
                     </thead>
                     <tbody>
                         <tr class="simpleGridRecord" *ngFor="let item of renderPrivilegesTable(privilegesItem); let index=index">
-                            <td style="width: 70%" [editable]="false" simpleGridData [processField]="renderTableName()" [item]="item"></td>
+                            <td style="width: 70%" [editable]="false" simpleGridData [processField]="renderTableName" [item]="item"></td>
                             <td style="width: 10%" (changed)="onPrivilegeChange($event)" [item]="{item: privilegesItem, index: index, PrivModeEnum: PrivModeEnum.DEL}" simpleGridDataChecks [checkboxes]="renderPrivilegesChecks(privilegesItem, index, PrivModeEnum.DEL)"></td>
                             <td style="width: 10%" (changed)="onPrivilegeChange($event)" [item]="{item: privilegesItem, index: index, PrivModeEnum: PrivModeEnum.ADD}" simpleGridDataChecks [checkboxes]="renderPrivilegesChecks(privilegesItem, index, PrivModeEnum.ADD)"></td>
                             <td style="width: 10%" (changed)="onPrivilegeChange($event)" [item]="{item: privilegesItem, index: index, PrivModeEnum: PrivModeEnum.UPD}" simpleGridDataChecks [checkboxes]="renderPrivilegesChecks(privilegesItem, index, PrivModeEnum.UPD)"></td>
@@ -116,7 +116,7 @@ export class PrivilegesDetails {
         return privelegesSystemModel.getColumns();
     }
 
-    private renderTableName() {
+    private get renderTableName() {
         return (field) => {
             return field[0];
         }

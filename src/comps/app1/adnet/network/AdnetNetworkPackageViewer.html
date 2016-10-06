@@ -21,7 +21,7 @@
         <tbody>
         <tr class="simpleGridRecord" (onClicked)="onContentSelect(item)" simpleGridRecord *ngFor="let item of packagesFiltered | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">
             <td class="width-md" simpleGridData [processField]="processAdnetPackageField('getName')" [item]="item"></td>
-            <td class="width-md" simpleGridData [processField]="getCustomerName()" [item]="item"></td>
+            <td class="width-md" simpleGridData [processField]="getCustomerName" [item]="item"></td>
             <td class="width-md" simpleGridData [processField]="processAdnetPackageField('playModeName')" [item]="item"></td>
             <td class="width-md" simpleGridData [processField]="processAdnetPackageField('channel')" [item]="item"></td>
             <td class="width-md" simpleGridData [processField]="processAdnetPackageField('startDate')" [item]="item"></td>
