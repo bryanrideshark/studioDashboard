@@ -77,7 +77,7 @@ Be sure to merge changes and subclass modules to be able to continue and receive
 StoreModel
 ------------------------------------------------------------------------
 
-this happy relies on the AppStore implementation, to learn watch:
+this app relies on the AppStore implementation, to learn watch:
 
 <object width="425" height="350">
   <param name="movie" value="https://www.youtube.com/watch?v=bEkPEnudm7s&feature=youtu.be" />
