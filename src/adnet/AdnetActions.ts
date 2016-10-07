@@ -41,7 +41,8 @@ export class AdnetActions extends Actions {
     }
 
     private saveToServer(i_data, i_customerId, i_callBack?: (jData)=>void) {
-        const data = JSON.stringify(i_data.Value);
+        //todo: fix customer id, now its just fixed, i.e.: doesn't replace anything
+        const data = JSON.stringify(i_data);
         const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetSave').replace(':CUSTOMER_ID:', i_customerId).replace(':DATA:', data);
         this._http.get(baseUrl)
             .map(result => {
@@ -124,9 +125,9 @@ export class AdnetActions extends Actions {
                 Key: adnetCustomerId
             };
             payload.Value = {"customerInfo": data};
-            this.saveToServer(payload, adnetCustomerId, (jData) => {
+            this.saveToServer(payload.Value, adnetCustomerId, (jData) => {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
-                    return alert('problem saving to server');
+                    return alert('problem saving customer info to server');
                 payload.Value = data;
                 dispatch(this.updateAdnetCustomer(payload))
             })
@@ -181,16 +182,19 @@ export class AdnetActions extends Actions {
 
     public addAdnetRateTable(customerId) {
         return (dispatch) => {
+
+
             //todo: save to server
             //todo: get handle and id back from server on save
-            var key = _.uniqueId();
-            const model: AdnetRateModel = new AdnetRateModel({
-                Key: key,
+            // var key = _.uniqueId();
+            var payload = {
+                Key: -1,
                 Value: {
                     customerId: customerId,
                     deleted: false,
-                    id: key,
-                    handle: _.uniqueId(),
+                    id: 0,
+                    handle: 0,
+                    modified: 1,
                     hourRate0: 1,
                     hourRate1: 2,
                     hourRate2: 3,
@@ -198,11 +202,25 @@ export class AdnetActions extends Actions {
                     label: 'new rate',
                     rateMap: '000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'
                 }
-            });
-            dispatch({
-                type: ADD_ADNET_RATE_TABLE,
-                model: model
-            });
+            }
+            const model: AdnetRateModel = new AdnetRateModel(payload);
+
+            var payloadToServer = {
+                "rates": {
+                    "add": [payload.Value]
+                }
+            }
+            this.saveToServer(payloadToServer, customerId, (jData) => {
+                if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
+                    return alert('problem saving rate table to server');
+                var newModel = model.setId(jData.rates.add["0"]);
+                dispatch({
+                    type: ADD_ADNET_RATE_TABLE,
+                    model: newModel
+                });
+            })
+
+
         };
     }
 

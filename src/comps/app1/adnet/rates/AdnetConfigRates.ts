@@ -86,8 +86,6 @@ export class AdnetConfigRates {
         if (this.rates && this.selectedAdnetCustomerModel) {
             this.filteredRates = List<AdnetRateModel>();
             this.rates.forEach((i_adnetRateModel: AdnetRateModel) => {
-                if (i_adnetRateModel==undefined)
-                    console.log(11);
                 if (i_adnetRateModel.customerId() == this.selectedAdnetCustomerModel.customerId()) {
                     this.filteredRates = this.filteredRates.push(i_adnetRateModel)
                 }
