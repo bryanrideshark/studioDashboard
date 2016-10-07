@@ -79,13 +79,8 @@ StoreModel
 
 this app relies on the AppStore implementation, to learn watch:
 
-<object width="425" height="350">
-  <param name="movie" value="https://www.youtube.com/watch?v=bEkPEnudm7s&feature=youtu.be" />
-  <param name="wmode" value="transparent" />
-  <embed src="https://www.youtube.com/watch?v=bEkPEnudm7s&feature=youtu.be"
-         type="application/x-shockwave-flash"
-         wmode="transparent" width="425" height="350" />
-</object>
+[![The Ultimate redux typed store implementation for angular](http://img.youtube.com/vi/StTqXEQ2l-Y/0.jpg)](https://www.youtube.com/watch?v=bEkPEnudm7s&feature=youtu.be "The Ultimate redux typed store implementation for angular")
+
 
 License:
 ------------------------------------------------------------------------
