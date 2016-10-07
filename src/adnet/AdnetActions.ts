@@ -145,10 +145,8 @@ export class AdnetActions extends Actions {
         };
     }
 
-    public addAdnetTarget(customerId) {
+    public addAdnetTarget__(customerId) {
         return (dispatch) => {
-            //todo: save to server
-            //todo: get handle and id back from server on save
             var key = _.uniqueId();
             const model: AdnetTargetModel = new AdnetTargetModel({
                 Key: key,
@@ -176,6 +174,46 @@ export class AdnetActions extends Actions {
                 type: ADD_ADNET_TARGET,
                 model: model
             });
+        };
+    }
+
+    public addAdnetTarget(customerId) {
+        return (dispatch) => {
+            var payload = {
+                Key: -1,
+                Value: {
+                    "id": "-1",
+                    "handle": "0",
+                    "modified": "1",
+                    "customerId": customerId,
+                    "label": "www.yourdomain.com",
+                    "targetType": "2",
+                    "enabled": "false",
+                    "locationLat": "0",
+                    "locationLng": "0",
+                    "targetDomain": "www.yourdomain.com",
+                    "rateId": "-1",
+                    "hRate": "-1",
+                    "keys": "",
+                    "comments": "",
+                    "url": ""
+                }
+            }
+            var model: AdnetTargetModel = new AdnetTargetModel(payload);
+            var payloadToServer = {
+                "targets": {
+                    "add": [payload.Value]
+                }
+            }
+            this.saveToServer(payloadToServer, customerId, (jData) => {
+                if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
+                    return alert('problem saving rate table to server');
+                model = model.setId(jData.targets.add["0"]) as AdnetTargetModel;
+                dispatch({
+                    type: ADD_ADNET_TARGET,
+                    model: model
+                });
+            })
         };
     }
 

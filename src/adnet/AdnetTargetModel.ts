@@ -5,6 +5,10 @@ export class AdnetTargetModel extends StoreModel {
         super(data);
     }
 
+    public setId(value) {
+        return this.setKey<AdnetTargetModel>(AdnetTargetModel,'Key',value);
+    }
+
     public getId() {
         return this.getKey('Key');
     }
