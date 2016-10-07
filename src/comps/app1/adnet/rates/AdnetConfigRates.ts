@@ -16,6 +16,7 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import AdnetConfigRatesTemplate from "./AdnetConfigRates.html!text";
 import AdnetConfigRatesStyle from "./AdnetConfigRates.css!text";
 import * as bootbox from "bootbox";
+import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 
 @Component({
     selector: 'AdnetConfigRates',
@@ -71,8 +72,14 @@ export class AdnetConfigRates {
     }
 
     private isAdnetUsed(): boolean {
-        //todo: check if used
-        return true;
+        var isUsed = false;
+        var rateId = this.selectedAdnetRateModel.getId();
+        var targets: List<AdnetTargetModel> = this.appStore.getState().adnet.getIn(['targets']) || {};
+        targets.forEach((i_adnetTargetModel: AdnetTargetModel) => {
+            if (i_adnetTargetModel.getDeleted() == false && i_adnetTargetModel.getRateId() == rateId)
+                isUsed = true;
+        })
+        return isUsed;
     }
 
     private onRemoveRate() {
