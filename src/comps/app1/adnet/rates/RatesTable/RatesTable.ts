@@ -70,7 +70,6 @@ export class RatesTable {
     private onUpdateRate() {
         if (this.readOnly)
             return;
-        var rateTable = this.getRateTable();
         _.forEach(this.adHourlyRate, (k, v) => {
             if (_.isNaN(Number(k))) {
                 this.adHourlyRate[v] = '1';
@@ -81,8 +80,8 @@ export class RatesTable {
         this.onRateChange.emit({
             rateId: this.adnetRateModel.getId(),
             label: this.adnetRateModel.getName(),
+            rateTable: this.getRateTable(),
             adHourlyRate: this.adHourlyRate,
-            rateTable
         })
     }
 
