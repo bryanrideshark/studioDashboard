@@ -93,7 +93,7 @@ export class AdnetConfigRates {
     }
 
     private onRateChange(event) {
-        this.appStore.dispatch(this.adnetAction.updAdnetRateTable(event));
+        this.appStore.dispatch(this.adnetAction.updAdnetRateTable(event, this.selectedAdnetCustomerModel.getId()));
     }
 
     private onRateRenamed(event) {

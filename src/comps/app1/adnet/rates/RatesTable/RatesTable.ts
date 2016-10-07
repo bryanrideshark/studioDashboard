@@ -1,6 +1,13 @@
 import {
-    Component, Input, ViewChild, ElementRef, ChangeDetectionStrategy, Output, EventEmitter,
-    ViewChildren, QueryList
+    Component,
+    Input,
+    ViewChild,
+    ElementRef,
+    ChangeDetectionStrategy,
+    Output,
+    EventEmitter,
+    ViewChildren,
+    QueryList
 } from "@angular/core";
 import * as _ from "lodash";
 import {SimpleList} from "../../../../simplelist/Simplelist";
@@ -29,7 +36,7 @@ export class RatesTable {
 
     @Output() onRateChange = new EventEmitter()
 
-    @Input() readOnly:boolean = false;
+    @Input() readOnly: boolean = false;
 
     @Input()
     set rates(i_adnetRateModel: AdnetRateModel) {
@@ -44,11 +51,9 @@ export class RatesTable {
         this.adHourlyRate[3] = this.adnetRateModel.rateLevels()[3];
     }
 
-    @ViewChild(SimpleList)
-    simpleList: SimpleList;
+    @ViewChild(SimpleList) simpleList: SimpleList;
 
-    @ViewChildren('input')
-    inputs: QueryList<ElementRef>;
+    @ViewChildren('input') inputs: QueryList<ElementRef>;
 
     private adHourlyRate: Array<string> = [];
     private selectedColor: string = 'orange';
@@ -66,19 +71,24 @@ export class RatesTable {
         if (this.readOnly)
             return;
         var rateTable = this.getRateTable();
-        _.forEach(this.adHourlyRate, (k, v)=> {
-            if (_.isNaN(Number(k))){
+        _.forEach(this.adHourlyRate, (k, v) => {
+            if (_.isNaN(Number(k))) {
                 this.adHourlyRate[v] = '1';
             } else {
                 this.adHourlyRate[v] = String(Number(k))
             }
         });
-        this.onRateChange.emit({rateId: this.adnetRateModel.getId(), adHourlyRate: this.adHourlyRate, rateTable})
+        this.onRateChange.emit({
+            rateId: this.adnetRateModel.getId(),
+            label: this.adnetRateModel.getName(),
+            adHourlyRate: this.adHourlyRate,
+            rateTable
+        })
     }
 
     private getRateTable(): string {
         var rateMap = [];
-        this.rateGridContainer.find('.square').each((index, elem)=> {
+        this.rateGridContainer.find('.square').each((index, elem) => {
             var classColorCode;
             var classColor = jQuery(elem).attr('class').split(' ')[1];
             switch (classColor) {
@@ -154,8 +164,7 @@ export class RatesTable {
                 if (i == 1 && j > 1) {
                     hour = j - 1;
                     var cls = 'borderLessSquare';
-                    if (hour == 0)
-                        hour = ''
+                    if (hour == 0) hour = ''
                 } else {
                     hour = ''
                 }
@@ -182,7 +191,7 @@ export class RatesTable {
             jQuery(this).addClass(self.selectedColor);
             self.onUpdateRate();
         });
-        var upd = _.debounce(()=> {
+        var upd = _.debounce(() => {
             this.onUpdateRate();
         }, 500);
         this.rateGridContainer.on('mouseenter', '.square', function (e) {

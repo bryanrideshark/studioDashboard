@@ -240,10 +240,39 @@ export class AdnetActions extends Actions {
         };
     }
 
-    public updAdnetRateTable(payload) {
+    public updAdnetRateTable(payload:any, customerId: string) {
         return (dispatch) => {
-            //todo: save to server
-            dispatch(this.updateAdnetRateTable(payload))
+            var value = {
+                "id": payload.rateId,
+                "handle": "0",
+                "modified": "1",
+                "customerId": customerId,
+                "label": payload.label,
+                "hourRate0": payload.adHourlyRate["0"],
+                "hourRate1": payload.adHourlyRate["1"],
+                "hourRate2": payload.adHourlyRate["2"],
+                "hourRate3": payload.adHourlyRate["3"],
+                "rateMap": payload.rateTable
+            }
+            var payloadToSave = {
+                Key: payload.rateId,
+                Value: value
+            }
+            var payloadToServer = {
+                "rates": {
+                    "update": [{
+                        "Key": payload.rateId,
+                        "Value": value
+                    }]
+                }
+            }
+            var model: AdnetRateModel = new AdnetRateModel(payloadToSave);
+            this.saveToServer(payloadToServer, customerId, (jData) => {
+                if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
+                    return alert('problem updating rate table to server');
+                model = model.setId(jData.rates.add["0"]) as AdnetRateModel;
+                dispatch(this.updateAdnetRateTable(payload))
+            })
         };
     }
 
