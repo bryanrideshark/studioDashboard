@@ -182,11 +182,6 @@ export class AdnetActions extends Actions {
 
     public addAdnetRateTable(customerId) {
         return (dispatch) => {
-
-
-            //todo: save to server
-            //todo: get handle and id back from server on save
-            // var key = _.uniqueId();
             var payload = {
                 Key: -1,
                 Value: {
@@ -203,8 +198,7 @@ export class AdnetActions extends Actions {
                     rateMap: '000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'
                 }
             }
-            const model: AdnetRateModel = new AdnetRateModel(payload);
-
+            var model: AdnetRateModel = new AdnetRateModel(payload);
             var payloadToServer = {
                 "rates": {
                     "add": [payload.Value]
@@ -213,24 +207,26 @@ export class AdnetActions extends Actions {
             this.saveToServer(payloadToServer, customerId, (jData) => {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
                     return alert('problem saving rate table to server');
-                var newModel = model.setId(jData.rates.add["0"]);
+                model = model.setId(jData.rates.add["0"]) as AdnetRateModel;
                 dispatch({
                     type: ADD_ADNET_RATE_TABLE,
-                    model: newModel
+                    model: model
                 });
             })
-
-
         };
     }
 
-    public removeAdnetRateTable(id) {
+    public removeAdnetRateTable(adnetId, customerId: string) {
         return (dispatch) => {
-            //todo: save to server
-            dispatch({
-                type: REMOVE_ADNET_RATE_TABLE,
-                id: id
-            });
+            var payLoad = {"rates":{"delete":[adnetId]}}
+            this.saveToServer(payLoad, customerId, (jData) => {
+                if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
+                    return alert('problem removing rate table on server');
+                dispatch({
+                    type: REMOVE_ADNET_RATE_TABLE,
+                    id: adnetId
+                });
+            })
         };
     }
 

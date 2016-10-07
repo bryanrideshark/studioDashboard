@@ -68,7 +68,7 @@ export class AdnetConfigRates {
     private onRemoveRate() {
         if (!this.selectedAdnetRateModel)
             return;
-        this.appStore.dispatch(this.adnetAction.removeAdnetRateTable(this.selectedAdnetRateModel.getId()));
+        this.appStore.dispatch(this.adnetAction.removeAdnetRateTable(this.selectedAdnetRateModel.getId(), this.selectedAdnetCustomerModel.getId()));
         this.simpleList.deselect();
         this.selectedAdnetRateModel = null;
     }
