@@ -74,6 +74,18 @@ Customization:
 Keep in mind the StudioDashboard is often released with new updates, so you will lose any changes you make to your code if you overwrite it with our release builds.
 Be sure to merge changes and subclass modules to be able to continue and receive updates without loosing your source changes.
 
+StoreModel
+------------------------------------------------------------------------
+
+this happy relies on the AppStore implementation, to learn watch:
+
+<object width="425" height="350">
+  <param name="movie" value="https://www.youtube.com/watch?v=bEkPEnudm7s&feature=youtu.be" />
+  <param name="wmode" value="transparent" />
+  <embed src="https://www.youtube.com/watch?v=bEkPEnudm7s&feature=youtu.be"
+         type="application/x-shockwave-flash"
+         wmode="transparent" width="425" height="350" />
+</object>
 
 License:
 ------------------------------------------------------------------------

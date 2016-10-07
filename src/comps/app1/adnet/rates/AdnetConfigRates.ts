@@ -1,14 +1,21 @@
-import {Component, ChangeDetectionStrategy, Input, ViewChild, ElementRef} from "@angular/core";
+import {
+    Component,
+    Input,
+    ViewChild
+} from "@angular/core";
 import {AppStore} from "angular2-redux-util";
 import {List} from "immutable";
-import * as _ from 'lodash';
-import {SimpleList, ISimpleListItem} from "../../../simplelist/Simplelist";
+import * as _ from "lodash";
+import {
+    SimpleList,
+    ISimpleListItem
+} from "../../../simplelist/Simplelist";
 import {AdnetRateModel} from "../../../../adnet/AdnetRateModel";
-import {RatesTable} from "./RatesTable/RatesTable";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
-import AdnetConfigRatesTemplate from './AdnetConfigRates.html!text';
-import AdnetConfigRatesStyle from './AdnetConfigRates.css!text';
+import AdnetConfigRatesTemplate from "./AdnetConfigRates.html!text";
+import AdnetConfigRatesStyle from "./AdnetConfigRates.css!text";
+import * as bootbox from "bootbox";
 
 @Component({
     selector: 'AdnetConfigRates',
@@ -34,8 +41,7 @@ export class AdnetConfigRates {
         this.updFilteredRates();
     }
 
-    @ViewChild(SimpleList)
-    simpleList: SimpleList;
+    @ViewChild(SimpleList) simpleList: SimpleList;
 
     private unsub: Function;
     private selectedAdnetCustomerModel: AdnetCustomerModel;
@@ -45,8 +51,7 @@ export class AdnetConfigRates {
 
     private resetSelection() {
         this.selectedAdnetRateModel = null;
-        if (this.simpleList)
-            this.simpleList.deselect();
+        if (this.simpleList) this.simpleList.deselect();
     }
 
     private onSelection() {
@@ -65,9 +70,16 @@ export class AdnetConfigRates {
         this.appStore.dispatch(this.adnetAction.addAdnetRateTable(this.selectedAdnetCustomerModel.getId()));
     }
 
+    private isAdnetUsed(): boolean {
+        //todo: check if used
+        return true;
+    }
+
     private onRemoveRate() {
         if (!this.selectedAdnetRateModel)
             return;
+        if (this.isAdnetUsed())
+            return bootbox.alert('Cant remove a rating table that is currently assigned');
         this.appStore.dispatch(this.adnetAction.removeAdnetRateTable(this.selectedAdnetRateModel.getId(), this.selectedAdnetCustomerModel.getId()));
         this.simpleList.deselect();
         this.selectedAdnetRateModel = null;
