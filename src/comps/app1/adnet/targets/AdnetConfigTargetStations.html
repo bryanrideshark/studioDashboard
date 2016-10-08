@@ -9,6 +9,9 @@
             <a class="btns" (click)="onRemoveWeb($event);$event.preventDefault()" [ngClass]="{disabled: isWebLocation()}" href="#">
                 <span class="fa fa-remove"></span>
             </a>
+            <a class="btns" (click)="$event.preventDefault()" [ngClass]="{disabled: isWebLocation()}" href="#">
+                <span class="fa fa-globe"></span>
+            </a>
         </div>
     </div>
 

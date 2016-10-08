@@ -268,13 +268,30 @@ export class AdnetActions extends Actions {
         };
     }
 
-    public removeAdnetTarget(id) {
+    public removeAdnetTarget__(id) {
         return (dispatch) => {
             //todo: save to server
-            dispatch({
-                type: REMOVE_ADNET_TARGET,
-                id: id
-            });
+
+        };
+    }
+
+    public removeAdnetTarget(payload:any, customerId: string) {
+        return (dispatch) => {
+            var payloadToServer = {
+                "targets": {
+                    "delete": [payload]
+                }
+            }
+            var model: AdnetRateModel = new AdnetRateModel(payloadToServer);
+            this.saveToServer(payloadToServer, customerId, (jData) => {
+                if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
+                    return alert('problem updating rate table to server');
+                model = model.setId(jData.rates.add["0"]) as AdnetRateModel;
+                dispatch({
+                    type: REMOVE_ADNET_TARGET,
+                    id: payload
+                });
+            })
         };
     }
 

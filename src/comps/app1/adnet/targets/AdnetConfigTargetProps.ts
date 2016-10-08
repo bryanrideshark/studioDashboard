@@ -38,6 +38,8 @@ import AdnetConfigTargetPropsTemplate from './AdnetConfigTargetProps.html!text';
 
 export class AdnetConfigTargetProps {
 
+    //todo: add Web view show HTML snippet in UI
+
     constructor(private fb: FormBuilder,
                 private appStore: AppStore,
                 private cd: ChangeDetectorRef,
