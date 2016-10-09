@@ -56,8 +56,7 @@
 
                             <select [formControl]="contGroup.controls['rateId']" class="form-control">
                                 <option></option>
-                                <option *ngFor="let item of filteredRates;
-                                        let index = index"
+                                <option *ngFor="let item of filteredRates; let index = index"
                                         [value]="getRateId(item)"
                                         [selected]="getSelectedRate(item)">
                                     {{item.getName()}}
