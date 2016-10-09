@@ -99,7 +99,7 @@ export class AdnetLocation {
         var payload = this.selectedAdnetTargetModel.getKey('Value');
         payload.locationLat = event['coords'].lat;
         payload.locationLng = event['coords'].lng;
-        this.appStore.dispatch(this.adnetAction.saveTargetInfo(payload, this.selectedAdnetTargetModel.getId()))
+        this.appStore.dispatch(this.adnetAction.saveTargetInfo(payload, this.selectedAdnetTargetModel.getId(), this.adnetCustomerModel.customerId()))
     }
 
     private stationComponentMode: string;

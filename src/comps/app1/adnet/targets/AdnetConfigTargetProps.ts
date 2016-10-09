@@ -110,9 +110,16 @@ export class AdnetConfigTargetProps {
         this.cd.markForCheck();
     }
 
-    private getSelectedRate(adnetRateModel: AdnetRateModel) {
+    private getRateId(adnetRateModel: AdnetRateModel) {
         if (!adnetRateModel)
             return;
+        return adnetRateModel.getId();
+
+    }
+
+    private getSelectedRate(adnetRateModel: AdnetRateModel) {
+        if (!adnetRateModel)
+            return '';
         if (adnetRateModel.getId() == this.targetModel.getRateId())
             return 'selected'
         return '';
@@ -126,16 +133,19 @@ export class AdnetConfigTargetProps {
         setTimeout(() => {
             let payload = Lib.CleanCharForXml(this.contGroup.value);
             payload.customerId = this.adnetCustomerModel.customerId();
-            this.appStore.dispatch(this.adnetAction.saveTargetInfo(payload, this.targetModel.getId()))
+            this.appStore.dispatch(this.adnetAction.saveTargetInfo(payload, this.targetModel.getId(), this.adnetCustomerModel.customerId()))
         }, 1)
     }
 
     private renderFormInputs() {
         if (!this.targetModel)
             return;
-        _.forEach(this.formInputs, (value, key: string) => {
-            if (key=='rateId') // don't set <select/> controls as will cause odd bugs in selections when using List
-                return;
+        _.forEach(this.formInputs, (value:FormControl, key: string) => {
+            // if (key=='rateId') { // don't set <select/> controls as will cause odd bugs in selections when using List
+            //     var d = this.targetModel.getKey('Value')[key];
+            //     console.log(value);
+                //return;
+            // }
             var data = this.targetModel.getKey('Value')[key];
             this.formInputs[key].setValue(data)
         });

@@ -134,46 +134,42 @@ export class AdnetActions extends Actions {
         };
     }
 
-    public saveTargetInfo(data: Object, adnetTargetId: string) {
+    // public saveTargetInfo(data: Object, adnetTargetId: string) {
+    //     return (dispatch) => {
+    //         const payload = {
+    //             Value: data,
+    //             Key: adnetTargetId
+    //         };
+    //         dispatch(this.updateAdnetTarget(payload))
+    //     };
+    // }
+
+    public saveTargetInfo(data: Object, adnetTargetId: string, adnetCustomerId: string) {
         return (dispatch) => {
-            //todo: save to server
+            if (_.isEmpty(data['rateId']))
+                data['rateId'] = 85;
             const payload = {
                 Value: data,
                 Key: adnetTargetId
             };
-            dispatch(this.updateAdnetTarget(payload))
-        };
-    }
-
-    public addAdnetTarget__(customerId) {
-        return (dispatch) => {
-            var key = _.uniqueId();
-            const model: AdnetTargetModel = new AdnetTargetModel({
-                Key: key,
-                Value: {
-                    customerId: customerId,
-                    daylightSavingType: 0,
-                    id: key,
-                    comments: '',
-                    handle: _.uniqueId(),
-                    deleted: false,
-                    enabled: true,
-                    hRate: '',
-                    keys: '',
-                    label: 'web target',
-                    locationLng: 0,
-                    locationLat: 0,
-                    rateId: 0,
-                    standardTimeOffset: 0,
-                    targetDomain: 'example.com',
-                    targetType: 2,
-                    url: '',
+            var payloadToServer = {
+                "targets": {
+                    "update": [{
+                        Key: adnetTargetId,
+                        Value: _.extend(payload.Value,{
+                            id: adnetTargetId,
+                            handle: 0,
+                            modified: 1,
+                            hRate: -1
+                        })
+                    }]
                 }
-            });
-            dispatch({
-                type: ADD_ADNET_TARGET,
-                model: model
-            });
+            }
+            this.saveToServer(payloadToServer, adnetCustomerId, (jData) => {
+                if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
+                    return alert('problem updating targets table on server');
+                dispatch(this.updateAdnetTarget(payload))
+            })
         };
     }
 
@@ -256,7 +252,7 @@ export class AdnetActions extends Actions {
 
     public removeAdnetRateTable(adnetId, customerId: string) {
         return (dispatch) => {
-            var payLoad = {"rates":{"delete":[adnetId]}}
+            var payLoad = {"rates": {"delete": [adnetId]}}
             this.saveToServer(payLoad, customerId, (jData) => {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
                     return alert('problem removing rate table on server');
@@ -268,14 +264,7 @@ export class AdnetActions extends Actions {
         };
     }
 
-    public removeAdnetTarget__(id) {
-        return (dispatch) => {
-            //todo: save to server
-
-        };
-    }
-
-    public removeAdnetTarget(payload:any, customerId: string) {
+    public removeAdnetTarget(payload: any, customerId: string) {
         return (dispatch) => {
             var payloadToServer = {
                 "targets": {
@@ -295,7 +284,7 @@ export class AdnetActions extends Actions {
         };
     }
 
-    public updAdnetRateTable(payload:any, customerId: string) {
+    public updAdnetRateTable(payload: any, customerId: string) {
         return (dispatch) => {
             var value = {
                 "id": payload.rateId,

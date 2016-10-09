@@ -93,6 +93,7 @@ export class AdnetNetworkPackageProps {
 
     private updateSore() {
         setTimeout(() => {
+            console.log(this.contGroup.value);
             //todo: update store on changes of content props
             // todo: Lib.CleanCharForXml add support for nested array
             // console.log(this.contGroup.status + ' ' + JSON.stringify(Lib.CleanCharForXml(this.contGroup.value)));

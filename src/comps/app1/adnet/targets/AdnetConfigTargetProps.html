@@ -58,6 +58,7 @@
                                 <option></option>
                                 <option *ngFor="let item of filteredRates;
                                         let index = index"
+                                        [value]="getRateId(item)"
                                         [selected]="getSelectedRate(item)">
                                     {{item.getName()}}
                                 </option>
