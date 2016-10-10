@@ -147,7 +147,7 @@ export class AdnetActions extends Actions {
     public saveTargetInfo(data: Object, adnetTargetId: string, adnetCustomerId: string) {
         return (dispatch) => {
             if (_.isEmpty(data['rateId']))
-                data['rateId'] = 85;
+                data['rateId'] = -1;
             const payload = {
                 Value: data,
                 Key: adnetTargetId
