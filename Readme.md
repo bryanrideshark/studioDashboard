@@ -81,6 +81,9 @@ this app relies on the AppStore implementation, to learn watch:
 
 [![The Ultimate redux typed store implementation for angular](http://img.youtube.com/vi/bEkPEnudm7s/0.jpg)](https://www.youtube.com/watch?v=bEkPEnudm7s&feature=youtu.be "The Ultimate redux typed store implementation for angular")
 
+For the ultimate Angular 2 kitchen sink visit: 
+https://github.com/born2net/ng2Boilerplate
+
 
 License:
 ------------------------------------------------------------------------
