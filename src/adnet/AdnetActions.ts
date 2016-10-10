@@ -17,8 +17,6 @@ import {AdnetRateModel} from "./AdnetRateModel";
 import {AdnetTargetModel} from "./AdnetTargetModel";
 import {AdnetPairModel} from "./AdnetPairModel";
 import {AdnetPackageModel} from "./AdnetPackageModel";
-import {Observable} from "rxjs/Observable";
-import {Observer} from "rxjs/Observer";
 import {ReplaySubject} from "rxjs/ReplaySubject";
 
 export const RECEIVE_ADNET = 'RECEIVE_ADNET';
