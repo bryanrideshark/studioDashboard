@@ -144,6 +144,7 @@ import AppTemplate from './App.html!text';
 import {AdnetNetworkPackageViewProps} from "./comps/app1/adnet/network/AdnetNetworkPackageViewProps";
 import {AdnetNetworkPairProps} from "./comps/app1/adnet/network/AdnetNetworkPairProps";
 import {SimpleGridModule} from "./comps/simplegridmodule/SimpleGridModule";
+import {AdnetResolver} from "./comps/app1/adnet/targets/AdnetResolver";
 //import "zone.js/dist/long-stack-trace-zone"; // removed 9-7-2016
 
 export enum ServerMode {
@@ -242,6 +243,7 @@ var providing = [CommBroker, AUTH_PROVIDERS,
     {provide: OrdersAction, useClass: OrdersAction},
     {provide: StationsAction, useClass: StationsAction},
     {provide: AppdbAction, useClass: AppdbAction},
+    {provide: AdnetResolver, useClass: AdnetResolver},
     {provide: CreditService, useClass: CreditService},
     {provide: LocalStorage, useClass: LocalStorage},
     {provide: CommBroker, useClass: CommBroker},

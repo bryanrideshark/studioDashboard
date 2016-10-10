@@ -2,6 +2,7 @@ import {Component, trigger, state, style, transition, animate} from "@angular/co
 import {AppStore} from "angular2-redux-util";
 import {AdnetCustomerModel} from "../../../adnet/AdnetCustomerModel";
 import {List} from "immutable";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
     selector: 'Adnet',
@@ -65,6 +66,15 @@ import {List} from "immutable";
 })
 export class Adnet {
 
+    constructor(private appStore: AppStore, private route: ActivatedRoute) {
+        console.log(this.route.snapshot.data['adnetResolver']);
+        var i_adnet = this.appStore.getState().adnet;
+        this.adnetCustomers = i_adnet.getIn(['customers']);
+        this.unsub = this.appStore.sub((i_adnetCustomers: List<AdnetCustomerModel>) => {
+            this.adnetCustomers = i_adnetCustomers
+        }, 'adnet.customers');
+    }
+
     private showState: string = 'active';
     public disabled: boolean = false;
     public status: {isopen: boolean} = {isopen: false};
@@ -85,14 +95,6 @@ export class Adnet {
     }
 
     public toggled(open: boolean): void {
-    }
-
-    constructor(private appStore: AppStore) {
-        var i_adnet = this.appStore.getState().adnet;
-        this.adnetCustomers = i_adnet.getIn(['customers']);
-        this.unsub = this.appStore.sub((i_adnetCustomers: List<AdnetCustomerModel>) => {
-            this.adnetCustomers = i_adnetCustomers
-        }, 'adnet.customers');
     }
 
     private unsub: Function;

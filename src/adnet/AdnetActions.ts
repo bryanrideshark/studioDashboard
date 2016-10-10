@@ -17,6 +17,9 @@ import {AdnetRateModel} from "./AdnetRateModel";
 import {AdnetTargetModel} from "./AdnetTargetModel";
 import {AdnetPairModel} from "./AdnetPairModel";
 import {AdnetPackageModel} from "./AdnetPackageModel";
+import {Observable} from "rxjs/Observable";
+import {Observer} from "rxjs/Observer";
+import {ReplaySubject} from "rxjs/ReplaySubject";
 
 export const RECEIVE_ADNET = 'RECEIVE_ADNET';
 export const RECEIVE_CUSTOMERS = 'RECEIVE_CUSTOMERS';
@@ -38,6 +41,13 @@ export class AdnetActions extends Actions {
 
     constructor(@Inject('OFFLINE_ENV') private offlineEnv, private appStore: AppStore, private _http: Http) {
         super(appStore);
+        this.replaySubject = new ReplaySubject(2 /* buffer size */);
+    }
+
+    private replaySubject: ReplaySubject<any>;
+
+    public onAdnetReady(): ReplaySubject<any> {
+        return this.replaySubject;
     }
 
     private saveToServer(i_data, i_customerId, i_callBack?: (jData)=>void) {
@@ -52,6 +62,7 @@ export class AdnetActions extends Actions {
     }
 
     public getAdnet() {
+        var self = this;
         return (dispatch) => {
             const adnetCustomerId = this.appStore.getState().appdb.get('adnetCustomerId');
             const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnet');
@@ -112,6 +123,8 @@ export class AdnetActions extends Actions {
                             adnetPackageModels = adnetPackageModels.push(adnetPackageModel)
                         }
                         dispatch(this.receivedPackages(adnetPackageModels));
+                        self.replaySubject.next('adNetReady');
+                        this.replaySubject.complete();
 
                     }).subscribe()
             }

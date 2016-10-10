@@ -11,6 +11,7 @@ import {Account} from "./comps/app1/account/Account";
 import {Orders} from "./comps/app1/orders/Orders";
 import {AuthService} from "./services/AuthService";
 import {Adnet} from "./comps/app1/adnet/Adnet";
+import {AdnetResolver} from "./comps/app1/adnet/targets/AdnetResolver";
 
 
 const routes: Routes = [
@@ -35,7 +36,10 @@ const routes: Routes = [
             {path: 'Apps', component: Apps, canActivate: [AuthService]},
             {path: 'Account', component: Account, canActivate: [AuthService]},
             {path: 'Orders', component: Orders, canActivate: [AuthService]},
-            {path: 'Adnet', component: Adnet, canActivate: [AuthService]},
+            {path: 'Adnet', component: Adnet, canActivate: [AuthService],
+                resolve: {
+                adnetResolver: AdnetResolver
+            }},
             {path: 'Logout', component: Logout, canActivate: [AuthService]},
             {path: '**', redirectTo: 'Dashboard'}
         ]
