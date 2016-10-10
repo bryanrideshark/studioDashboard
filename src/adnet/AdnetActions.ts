@@ -146,8 +146,8 @@ export class AdnetActions extends Actions {
 
     public saveTargetInfo(data: Object, adnetTargetId: string, adnetCustomerId: string) {
         return (dispatch) => {
-            if (_.isEmpty(data['rateId']))
-                data['rateId'] = -1;
+            if (_.isUndefined(data['rateId']) || data['rateId'].length == 0) data['rateId'] = -1;
+
             const payload = {
                 Value: data,
                 Key: adnetTargetId
@@ -156,7 +156,7 @@ export class AdnetActions extends Actions {
                 "targets": {
                     "update": [{
                         Key: adnetTargetId,
-                        Value: _.extend(payload.Value,{
+                        Value: _.extend(payload.Value, {
                             id: adnetTargetId,
                             handle: 0,
                             modified: 1,
