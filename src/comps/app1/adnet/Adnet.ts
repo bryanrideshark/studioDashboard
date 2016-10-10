@@ -67,7 +67,7 @@ import {ActivatedRoute} from "@angular/router";
 export class Adnet {
 
     constructor(private appStore: AppStore, private route: ActivatedRoute) {
-        console.log(this.route.snapshot.data['adnetResolver']);
+        //console.log(this.route.snapshot.data['adnetResolver']);
         var i_adnet = this.appStore.getState().adnet;
         this.adnetCustomers = i_adnet.getIn(['customers']);
         this.unsub = this.appStore.sub((i_adnetCustomers: List<AdnetCustomerModel>) => {
