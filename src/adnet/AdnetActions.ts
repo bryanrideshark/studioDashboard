@@ -284,7 +284,7 @@ export class AdnetActions extends Actions {
         };
     }
 
-    public updAdnetRateTable(payload: any, customerId: string) {
+    public updAdnetRateTable(payload: any, customerId: string, renamed?: boolean) {
         return (dispatch) => {
             var value = {
                 "id": payload.rateId,
@@ -316,22 +316,30 @@ export class AdnetActions extends Actions {
                     return alert('problem updating rate table to server');
                 model = model.setId(jData.rates.add["0"]) as AdnetRateModel;
                 dispatch(this.updateAdnetRateTable(payload))
+                if (renamed) {
+                    dispatch({
+                        type: RENAME_ADNET_RATE_TABLE,
+                        payload: {
+                            rateId: payload.rateId,
+                            newLabel: payload.label
+                        }
+                    });
+                }
             })
         };
     }
 
-    public renameAdnetRateTable(rateId: string, newLabel: string) {
-        return (dispatch) => {
-            //todo: save to server
-            dispatch({
-                type: RENAME_ADNET_RATE_TABLE,
-                payload: {
-                    rateId,
-                    newLabel
-                }
-            });
-        };
-    }
+    // public renameAdnetRateTable(rateId: string, newLabel: string) {
+    //     return (dispatch) => {
+    //         dispatch({
+    //             type: RENAME_ADNET_RATE_TABLE,
+    //             payload: {
+    //                 rateId,
+    //                 newLabel
+    //             }
+    //         });
+    //     };
+    // }
 
     public receivedAdnet(payload: any) {
         return {

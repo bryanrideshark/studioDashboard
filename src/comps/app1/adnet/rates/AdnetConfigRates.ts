@@ -17,6 +17,7 @@ import AdnetConfigRatesTemplate from "./AdnetConfigRates.html!text";
 import AdnetConfigRatesStyle from "./AdnetConfigRates.css!text";
 import * as bootbox from "bootbox";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
+import {Lib} from "../../../../Lib";
 
 @Component({
     selector: 'AdnetConfigRates',
@@ -33,6 +34,7 @@ export class AdnetConfigRates {
             this.rates = i_rates;
             this.updFilteredRates();
         }, 'adnet.rates');
+        this['me'] = Lib.GetCompSelector(this.constructor);
     }
 
     @Input()
@@ -97,8 +99,14 @@ export class AdnetConfigRates {
     }
 
     private onRateRenamed(event) {
-        var adnetRateModel: AdnetRateModel = event.item;
-        this.appStore.dispatch(this.adnetAction.renameAdnetRateTable(adnetRateModel.getId(), event.value));
+        var  adnetRateModel:AdnetRateModel = event.item;
+        var updData = {
+            adHourlyRate: adnetRateModel.rateLevels(),
+            rateId: adnetRateModel.getId(),
+            rateTable: adnetRateModel.rateMap(),
+            label: event.value
+        }
+        this.appStore.dispatch(this.adnetAction.updAdnetRateTable(updData, this.selectedAdnetCustomerModel.getId(), true));
     }
 
     private updFilteredRates() {
