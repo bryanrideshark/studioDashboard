@@ -76,7 +76,7 @@ export class AdnetConfigRates {
         var rateId = this.selectedAdnetRateModel.getId();
         var targets: List<AdnetTargetModel> = this.appStore.getState().adnet.getIn(['targets']) || {};
         targets.forEach((i_adnetTargetModel: AdnetTargetModel) => {
-            if (i_adnetTargetModel.getDeleted() == false && i_adnetTargetModel.getRateId() == rateId)
+            if (i_adnetTargetModel.getDeleted() != true && i_adnetTargetModel.getRateId() == rateId)
                 isUsed = true;
         })
         return isUsed;
