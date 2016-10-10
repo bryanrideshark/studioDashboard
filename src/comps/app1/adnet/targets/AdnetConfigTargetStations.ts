@@ -85,6 +85,10 @@ export class AdnetConfigTargetStations {
         this.appStore.dispatch(this.adnetAction.addAdnetTarget(id));
     }
 
+    private onWebPlayerSnippet(){
+
+    }
+
     private onRemoveWeb() {
         if (this.isWebLocation())
             return;
