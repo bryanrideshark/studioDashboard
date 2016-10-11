@@ -22,6 +22,9 @@ import {
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {Lib} from "../../../../Lib";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
+import * as _ from 'lodash';
+import * as bootbox from "bootbox";
+
 //import AdnetNetworkPackageEditorTemplate from './AdnetNetworkPackageEditor.html!text'; /*prod*/
 //import AdnetNetworkPackageEditorStyle from './AdnetNetworkPackageEditor.css!text'; /*prod*/
 
@@ -88,8 +91,15 @@ export class AdnetNetworkPackageEditor {
 
     private onRemove(event) {
         if (!this.selectedAdnetPackageModel) return;
-        this.appStore.dispatch(this.adnetAction.removeAdnetPackage(this.selectedAdnetPackageModel.getId(), this.adnetCustomerModel.customerId()));
-        this.selectedAdnetPackageModel = null;
+        bootbox.confirm({
+            message: "are you sure you want to delete this adnet packages?",
+            callback: (result) => {
+                if (!result)
+                    return;
+                this.appStore.dispatch(this.adnetAction.removeAdnetPackage(this.selectedAdnetPackageModel.getId(), this.adnetCustomerModel.customerId()));
+                this.selectedAdnetPackageModel = null;
+            }
+        });
     }
 
     private processAdnetPackageField(i_function: string) {
