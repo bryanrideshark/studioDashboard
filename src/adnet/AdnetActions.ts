@@ -121,8 +121,13 @@ export class AdnetActions extends Actions {
                             adnetPackageModels = adnetPackageModels.push(adnetPackageModel)
                         }
                         dispatch(this.receivedPackages(adnetPackageModels));
-                        self.replaySubject.next('adNetReady');
-                        this.replaySubject.complete();
+
+                        // enable timer to checkout slow network for loading adnet data
+                        // setTimeout(()=>{
+                            self.replaySubject.next('adNetReady');
+                            this.replaySubject.complete();
+                        // },10000)
+
 
                     }).subscribe()
             }
