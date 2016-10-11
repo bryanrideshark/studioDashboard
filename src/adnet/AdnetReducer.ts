@@ -4,6 +4,7 @@ import {AdnetCustomerModel} from "./AdnetCustomerModel";
 import {AdnetRateModel} from "./AdnetRateModel";
 import {StoreModel} from "../models/StoreModel";
 import {AdnetTargetModel} from "./AdnetTargetModel";
+import {AdnetPackageModel} from "./AdnetPackageModel";
 
 export function adnet(state: Map<string,any> = Map<string,any>(), action: any): Map<string,any> {
 
@@ -70,10 +71,22 @@ export function adnet(state: Map<string,any> = Map<string,any>(), action: any): 
             return state.setIn(['targets'], targets);
         }
 
+        case AdnetActions.ADD_ADNET_PACKAGE: {
+            var packages: List<AdnetPackageModel> = state.getIn(['packages']);
+            packages = packages.push(action.model);
+            return state.setIn(['packages'], packages);
+        }
+
         case AdnetActions.REMOVE_ADNET_RATE_TABLE: {
             var rates: List<AdnetRateModel> = state.getIn(['rates']);
             var updRateList: List<AdnetRateModel> = rates.filter((model: AdnetRateModel) => model.getId() !== action.id) as List<AdnetRateModel>;
             return state.setIn(['rates'], updRateList);
+        }
+
+        case AdnetActions.REMOVE_ADNET_PACKAGE: {
+            var packages: List<AdnetPackageModel> = state.getIn(['packages']);
+            var updPkgList: List<AdnetPackageModel> = packages.filter((model: AdnetPackageModel) => model.getId() !== action.id) as List<AdnetPackageModel>;
+            return state.setIn(['packages'], updPkgList);
         }
 
         case AdnetActions.REMOVE_ADNET_TARGET: {

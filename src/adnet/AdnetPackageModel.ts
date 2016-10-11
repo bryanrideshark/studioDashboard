@@ -13,6 +13,10 @@ export class AdnetPackageModel extends StoreModel {
         return this.getKey('Key');
     }
 
+    public setId(value) {
+        return this.setKey<AdnetPackageModel>(AdnetPackageModel,'Key',value);
+    }
+
     public getName() {
         return this.getKey('Value').label;
     }

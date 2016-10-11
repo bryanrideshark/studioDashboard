@@ -3,7 +3,8 @@ import {
     Input,
     ViewChild,
     EventEmitter,
-    Output
+    Output,
+    ChangeDetectorRef
 } from "@angular/core";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
@@ -20,6 +21,7 @@ import {
 } from "./AdnetNetwork";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {Lib} from "../../../../Lib";
+import {AdnetActions} from "../../../../adnet/AdnetActions";
 //import AdnetNetworkPackageEditorTemplate from './AdnetNetworkPackageEditor.html!text'; /*prod*/
 //import AdnetNetworkPackageEditorStyle from './AdnetNetworkPackageEditor.css!text'; /*prod*/
 
@@ -34,7 +36,7 @@ import {Lib} from "../../../../Lib";
 
 export class AdnetNetworkPackageEditor {
 
-    constructor(private appStore: AppStore) {
+    constructor(private appStore: AppStore, private adnetAction:AdnetActions, private cd:ChangeDetectorRef) {
         this['me'] = Lib.GetCompSelector(this.constructor)
     }
 
@@ -80,11 +82,14 @@ export class AdnetNetworkPackageEditor {
     //public selectedAdnetTargetModels: List<AdnetTargetModel>;
 
     private onAdd(event) {
-
+        var id = this.adnetCustomerModel.customerId();
+        this.appStore.dispatch(this.adnetAction.addAdnetPackages(id));
     }
 
     private onRemove(event) {
-
+        if (!this.selectedAdnetPackageModel) return;
+        this.appStore.dispatch(this.adnetAction.removeAdnetPackage(this.selectedAdnetPackageModel.getId(), this.adnetCustomerModel.customerId()));
+        this.selectedAdnetPackageModel = null;
     }
 
     private processAdnetPackageField(i_function: string) {
@@ -101,6 +106,7 @@ export class AdnetNetworkPackageEditor {
             if (i_package.getCustomerId() == this.adnetCustomerModel.getId())
                 this.packagesFiltered = this.packagesFiltered.push(i_package);
         })
+        this.cd.markForCheck();
     }
 
     private getId(i_adnetPackageModel: AdnetPackageModel) {

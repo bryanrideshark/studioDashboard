@@ -14,7 +14,6 @@ import {Adnet} from "./comps/app1/adnet/Adnet";
 import {AdnetResolver} from "./comps/app1/adnet/targets/AdnetResolver";
 import {AdnetLoader} from "./comps/app1/adnet/AdnetLoader";
 
-
 const routes: Routes = [
     {path: 'Login', component: LoginPanel},
     {path: 'Logout', component: Logout},
