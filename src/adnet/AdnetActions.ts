@@ -64,7 +64,6 @@ export class AdnetActions extends Actions {
     }
 
     public getAdnet() {
-        var self = this;
         return (dispatch) => {
             const adnetCustomerId = this.appStore.getState().appdb.get('adnetCustomerId');
             const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnet');
@@ -128,8 +127,8 @@ export class AdnetActions extends Actions {
 
                         // enable timer to checkout slow network for loading adnet data
                         // setTimeout(()=>{
-                            self.replaySubject.next('adNetReady');
-                            this.replaySubject.complete();
+                        this.replaySubject.next('adNetReady');
+                        this.replaySubject.complete();
                         // },10000)
 
 
@@ -366,7 +365,7 @@ export class AdnetActions extends Actions {
         };
     }
 
-    public updAdnetPackageProps(payload, adnetPackageModel:AdnetPackageModel) {
+    public updAdnetPackageProps(payload, adnetPackageModel: AdnetPackageModel) {
 
 
         return (dispatch) => {
@@ -380,8 +379,8 @@ export class AdnetActions extends Actions {
                 "enabled": payload.enabled,
                 "playMode": payload.playMode,
                 "channel": payload.channel,
-                "startDate": `/Date(${Lib.ProcessDateFieldToUnix(payload.startDate)})/`,
-                "endDate": `/Date(${Lib.ProcessDateFieldToUnix(payload.endDate)})/`,
+                "startDate": `/Date(${Lib.ProcessDateFieldToUnix(payload.startDate, true)})/`,
+                "endDate": `/Date(${Lib.ProcessDateFieldToUnix(payload.endDate, true)})/`,
                 "daysMask": payload.daysMask,
                 "hourStart": payload.hourStart,
                 "hourEnd": payload.hourEnd,
@@ -407,6 +406,8 @@ export class AdnetActions extends Actions {
             this.saveToServer(payloadToServer, customerId, (jData) => {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
                     return alert('problem updating package on server');
+                payloadToSave.Value['startDate'] = `/Date(${Lib.ProcessDateFieldToUnix(payload.startDate, false)})/`;
+                payloadToSave.Value['endDate'] = `/Date(${Lib.ProcessDateFieldToUnix(payload.endDate, false)})/`;
                 payloadToSave.Value['targets'] = adnetPackageModel.getTargets();
                 payloadToSave.Value['contents'] = adnetPackageModel.getContents();
                 dispatch(this.updatePackage(payloadToSave))

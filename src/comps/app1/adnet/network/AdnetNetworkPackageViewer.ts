@@ -215,7 +215,7 @@ export class AdnetNetworkPackageViewer {
                 }
                 case 'endDate': {
                     var data = i_adnetPackageModel[i_function]()
-                    return Lib.ProcessDateField(data);
+                    return Lib.ProcessDateField(data, true);
                 }
                 case 'hourStart': {
                 }

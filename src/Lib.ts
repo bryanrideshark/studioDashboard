@@ -39,22 +39,27 @@ export class Lib {
      * @returns {any}
      * @constructor
      */
-    static ProcessDateField(dateString: string): any {
+    static ProcessDateField(dateString: string, addDay:boolean=false): any {
         if (_.isUndefined(dateString))
             return '';
         var epoc = dateString.match(/Date\((.*)\)/)
         if (epoc[1]) {
             var date = epoc[1].split('+')[0]
             var time = epoc[1].split('+')[1]
-            //todo: workaround, adding one day since off 1 day from Alon, see why???
-            var result = moment(Number(date));//.add(1, 'day');
+            var result;
+            //todo: adding +1 on save to server hack, need to ask Alon
+            if (addDay) {
+                result = moment(Number(date)).add(1, 'day');
+            } else {
+                result = moment(Number(date));
+            }
             return moment(result).format('YYYY-MM-DD');
-            /** moment examples **/
-            // var a = moment().unix().format()
-            // console.log(moment.now());
-            // console.log(moment().format('dddd'));
-            // console.log(moment().startOf('day').fromNow());
-
+            /** moment examples
+            var a = moment().unix().format()
+            console.log(moment.now());
+            console.log(moment().format('dddd'));
+            console.log(moment().startOf('day').fromNow());
+            **/
         }
     }
 
@@ -64,11 +69,15 @@ export class Lib {
      * @returns {any}
      * @constructor
      */
-    static ProcessDateFieldToUnix(dateString: string): any {
+    static ProcessDateFieldToUnix(dateString: string, addDay:boolean=false): any {
         if (_.isUndefined(dateString))
             return '';
-        // return moment(dateString, 'YYYY-MM-DD').add(1, 'day').valueOf();
-        return moment(dateString, 'YYYY-MM-DD').valueOf();
+        //todo: adding +1 on save to server hack, need to ask Alon
+        if (addDay){
+            return moment(dateString, 'YYYY-MM-DD').add(1, 'day').valueOf();
+        } else {
+            return moment(dateString, 'YYYY-MM-DD').valueOf();
+        }
     }
 
     static ProcessHourStartEnd(value: string, key:string): any {

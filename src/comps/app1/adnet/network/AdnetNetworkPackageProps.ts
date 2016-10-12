@@ -132,7 +132,7 @@ export class AdnetNetworkPackageProps {
                 }
                 case 'endDate': {
                     var data = this.adnetPackageModels.getKey('Value')[key];
-                    data = Lib.ProcessDateField(data);
+                    data = Lib.ProcessDateField(data, false);
                     break;
                 }
                 default: {
