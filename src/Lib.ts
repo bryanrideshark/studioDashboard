@@ -67,7 +67,8 @@ export class Lib {
     static ProcessDateFieldToUnix(dateString: string): any {
         if (_.isUndefined(dateString))
             return '';
-        return moment(dateString, 'YYYY-MM-DD').add(1, 'day').valueOf();
+        // return moment(dateString, 'YYYY-MM-DD').add(1, 'day').valueOf();
+        return moment(dateString, 'YYYY-MM-DD').valueOf();
     }
 
     static ProcessHourStartEnd(value: string, key:string): any {

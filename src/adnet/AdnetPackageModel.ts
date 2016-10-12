@@ -44,13 +44,11 @@ export class AdnetPackageModel extends StoreModel {
     }
 
     public startDate() {
-        var s = this.getKey('Value').startDate;
-        return s;
+        return this.getKey('Value').startDate;
     }
 
     public endDate() {
-        var s = this.getKey('Value').endDate;
-        return s;
+        return this.getKey('Value').endDate;
     }
 
     public daysMask() {
