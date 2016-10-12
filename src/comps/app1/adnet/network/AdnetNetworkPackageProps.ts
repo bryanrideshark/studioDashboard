@@ -55,8 +55,7 @@ export class AdnetNetworkPackageProps {
         })
     }
 
-    @Output()
-    playModeChanged:EventEmitter<AdnetPackagePlayMode> = new EventEmitter<AdnetPackagePlayMode>();
+    @Output() playModeChanged: EventEmitter<AdnetPackagePlayMode> = new EventEmitter<AdnetPackagePlayMode>();
 
     @Input()
     set setAdnetPackageModels(i_adnetPackageModels: AdnetPackageModel) {
@@ -93,15 +92,13 @@ export class AdnetNetworkPackageProps {
 
     private updateSore() {
         setTimeout(() => {
-            console.log(this.contGroup.value);
-            //todo: update store on changes of content props
-            // todo: Lib.CleanCharForXml add support for nested array
-            // console.log(this.contGroup.status + ' ' + JSON.stringify(Lib.CleanCharForXml(this.contGroup.value)));
-            // this.appStore.dispatch(this.adnetAction.saveCustomerInfo(Lib.CleanCharForXml(this.contGroup.value), this.customerModel.customerId()))
+            var payload = Lib.CleanCharForXml(this.contGroup.value);
+            payload.daysMask = this.getUpdatedDays();
+            this.appStore.dispatch(this.adnetAction.updAdnetPackageProps(payload, this.adnetPackageModels));
         }, 1)
     }
 
-    private onUpdateDays(e) {
+    private getUpdatedDays() {
         // this.cdr.detach();
         let values = []
         this.inputs.map(v => {
@@ -109,8 +106,7 @@ export class AdnetNetworkPackageProps {
         });
         //this.changed.emit({item: this.m_storeModel, value: values});
         var updateDaysMask = Lib.ComputeMask(values);
-        console.log('update days mask ' + updateDaysMask);
-        return true;
+        return updateDaysMask;
     }
 
     private getOptionField(key, index) {

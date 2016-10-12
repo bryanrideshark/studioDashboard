@@ -47,7 +47,7 @@ export class Lib {
             var date = epoc[1].split('+')[0]
             var time = epoc[1].split('+')[1]
             //todo: workaround, adding one day since off 1 day from Alon, see why???
-            var result = moment(Number(date)).add(1, 'day');
+            var result = moment(Number(date));//.add(1, 'day');
             return moment(result).format('YYYY-MM-DD');
             /** moment examples **/
             // var a = moment().unix().format()
@@ -56,6 +56,18 @@ export class Lib {
             // console.log(moment().startOf('day').fromNow());
 
         }
+    }
+
+    /**
+     *
+     * @param dateString format of date + time: /Date(1469923200000+0000)/"
+     * @returns {any}
+     * @constructor
+     */
+    static ProcessDateFieldToUnix(dateString: string): any {
+        if (_.isUndefined(dateString))
+            return '';
+        return moment(dateString, 'YYYY-MM-DD').add(1, 'day').valueOf();
     }
 
     static ProcessHourStartEnd(value: string, key:string): any {
@@ -127,6 +139,9 @@ export class Lib {
         if (_.isString(value))
             return clean(value);
         _.forEach(value, (v, k) => {
+            // currently we don't support / clean arrays
+            if (_.isArray(value[k]))
+                return value[k] = v;
             value[k] = clean(v);
         });
         return value;

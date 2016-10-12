@@ -14,15 +14,11 @@ export class AdnetPackageModel extends StoreModel {
     }
 
     public setId(value) {
-        return this.setKey<AdnetPackageModel>(AdnetPackageModel,'Key',value);
+        return this.setKey<AdnetPackageModel>(AdnetPackageModel, 'Key', value);
     }
 
     public getName() {
         return this.getKey('Value').label;
-    }
-
-    public getContents():Array<any> {
-        return this.getKey('Value').contents;
     }
 
     public getCustomerId() {
@@ -34,8 +30,8 @@ export class AdnetPackageModel extends StoreModel {
     }
 
     public playModeName() {
-        var mode:AdnetPackagePlayMode = this.getKey('Value').playMode;
-        switch (mode){
+        var mode: AdnetPackagePlayMode = this.getKey('Value').playMode;
+        switch (mode) {
             case AdnetPackagePlayMode.ASSETS:
                 return "asset"
             case AdnetPackagePlayMode.LOCATION:
@@ -48,11 +44,13 @@ export class AdnetPackageModel extends StoreModel {
     }
 
     public startDate() {
-        return this.getKey('Value').startDate;
+        var s = this.getKey('Value').startDate;
+        return s;
     }
 
     public endDate() {
-        return this.getKey('Value').endDate;
+        var s = this.getKey('Value').endDate;
+        return s;
     }
 
     public daysMask() {
@@ -67,6 +65,14 @@ export class AdnetPackageModel extends StoreModel {
         return this.getKey('Value').hourEnd;
     }
 
+    public autoAddSiblings() {
+        return this.getKey('Value').autoAddSiblings;
+    }
+
+    public siblingsKey() {
+        return this.getKey('Value').siblingsKey;
+    }
+
     public channel() {
         return this.getKey('Value').channel;
     }
@@ -79,11 +85,19 @@ export class AdnetPackageModel extends StoreModel {
         return this.getKey('Value').enabled;
     }
 
+    public getContents(): Array<any> {
+        return this.getKey('Value').contents;
+    }
+
+    public getTargets(): Array<number> {
+        return this.getKey('Value').targets;
+    }
+
     public getTargetIds(): Array<number> {
-        var result:Array<number> = [];
-        var targets:Array<any> = this.getKey('Value').targets;
-        targets.forEach((k,v)=>{
-            if (k.Value.deleted==true)
+        var result: Array<number> = [];
+        var targets: Array<any> = this.getKey('Value').targets;
+        targets.forEach((k, v) => {
+            if (k.Value.deleted == true)
                 return;
             result.push(k.Value.targetId);
         })

@@ -113,9 +113,10 @@
                                                 <label style="font-size: 0.7em"
                                                        class="noSpace">{{numToDay(index)}}</label>
                                                 <br/>
-                                                <input #checkInputs (click)="onUpdateDays()" type="checkbox"
+                                                <input #checkInputs type="checkbox"
                                                        [checked]="item" value="{{item}}" class="noSpace pull-left"
                                                        style="margin-right: 2px">
+                                                <!--(click)="onUpdateDays()"-->
                                                 <!--[formControl]="contGroup.controls['daysMask']" required-->
                                             </div>
                                         </div>

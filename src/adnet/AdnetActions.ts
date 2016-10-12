@@ -18,6 +18,7 @@ import {AdnetTargetModel} from "./AdnetTargetModel";
 import {AdnetPairModel} from "./AdnetPairModel";
 import {AdnetPackageModel} from "./AdnetPackageModel";
 import {ReplaySubject} from "rxjs/ReplaySubject";
+import {Lib} from "../Lib";
 
 export const RECEIVE_ADNET = 'RECEIVE_ADNET';
 export const RECEIVE_CUSTOMERS = 'RECEIVE_CUSTOMERS';
@@ -27,6 +28,7 @@ export const RECEIVE_PAIRS = 'RECEIVE_PAIRS';
 export const RECEIVE_PACKAGES = 'RECEIVE_PACKAGES';
 export const UPDATE_ADNET_CUSTOMER = 'UPDATE_ADNET_CUSTOMER';
 export const UPDATE_ADNET_RATE_TABLE = 'UPDATE_ADNET_RATE_TABLE';
+export const UPDATE_ADNET_PACKAGE = 'UPDATE_ADNET_PACKAGE';
 export const UPDATE_ADNET_TARGET = 'UPDATE_ADNET_TARGET';
 export const ADD_ADNET_TARGET = 'ADD_ADNET_TARGET';
 export const ADD_ADNET_PACKAGE = 'ADD_ADNET_PACKAGE';
@@ -353,15 +355,61 @@ export class AdnetActions extends Actions {
                     "delete": [payload]
                 }
             }
-            // var model: AdnetRateModel = new AdnetRateModel(payloadToServer);
             this.saveToServer(payloadToServer, customerId, (jData) => {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
                     return alert('problem updating rate table to server');
-                // model = model.setId(jData.rates.add["0"]) as AdnetRateModel;
                 dispatch({
                     type: REMOVE_ADNET_TARGET,
                     id: payload
                 });
+            })
+        };
+    }
+
+    public updAdnetPackageProps(payload, adnetPackageModel:AdnetPackageModel) {
+
+
+        return (dispatch) => {
+            var customerId = adnetPackageModel.getCustomerId();
+            var value = {
+                "id": adnetPackageModel.getId(),
+                "handle": 1,
+                "modified": 1,
+                "customerId": customerId,
+                "label": payload.label,
+                "enabled": payload.enabled,
+                "playMode": payload.playMode,
+                "channel": payload.channel,
+                "startDate": `/Date(${Lib.ProcessDateFieldToUnix(payload.startDate)})/`,
+                "endDate": `/Date(${Lib.ProcessDateFieldToUnix(payload.endDate)})/`,
+                "daysMask": payload.daysMask,
+                "hourStart": payload.hourStart,
+                "hourEnd": payload.hourEnd,
+                "autoAddSiblings": payload.autoAddSiblings,
+                "siblingsKey": payload.siblingsKey
+
+            }
+            var payloadToServer = {
+                "packages": {
+                    "update": [{
+                        "Key": adnetPackageModel.getId(),
+                        "Value": value
+                    }]
+                }
+            }
+            var payloadToSave = {
+                Key: adnetPackageModel.getId(),
+                Value: value
+            }
+
+            // dispatch(this.updatePackage(payloadToSave))
+
+            this.saveToServer(payloadToServer, customerId, (jData) => {
+                if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
+                    return alert('problem updating package on server');
+                payloadToSave.Value['targets'] = adnetPackageModel.getTargets();
+                payloadToSave.Value['contents'] = adnetPackageModel.getContents();
+                dispatch(this.updatePackage(payloadToSave))
             })
         };
     }
@@ -433,6 +481,13 @@ export class AdnetActions extends Actions {
     private updateAdnetRateTable(payload) {
         return {
             type: UPDATE_ADNET_RATE_TABLE,
+            payload
+        }
+    }
+
+    private updatePackage(payload) {
+        return {
+            type: UPDATE_ADNET_PACKAGE,
             payload
         }
     }
