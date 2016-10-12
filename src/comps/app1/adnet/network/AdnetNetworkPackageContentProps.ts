@@ -1,5 +1,13 @@
-import {Component, Input, ChangeDetectionStrategy} from "@angular/core";
-import {FormControl, FormGroup, FormBuilder} from "@angular/forms";
+import {
+    Component,
+    Input,
+    ChangeDetectionStrategy
+} from "@angular/core";
+import {
+    FormControl,
+    FormGroup,
+    FormBuilder
+} from "@angular/forms";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {AppStore} from "angular2-redux-util";
 import {AdnetContentModel} from "../../../../adnet/AdnetContentModel";
@@ -8,11 +16,12 @@ import * as _ from "lodash";
 import AdnetNetworkPackageContentPropsTemplate from './AdnetNetworkPackageContentProps.html!text';
 import AdnetNetworkPackageCommonStylesStyle from './AdnetNetworkPackageCommonStyles.css!text';
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
+import {List} from "immutable";
 
 @Component({
     selector: 'AdnetNetworkPackageContentProps',
     moduleId: __moduleName,
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    //changeDetection: ChangeDetectionStrategy.OnPush,
     host: {'(input-blur)': 'onFormChange($event)'},
     template: AdnetNetworkPackageContentPropsTemplate,
     styles: [AdnetNetworkPackageCommonStylesStyle]
@@ -31,6 +40,10 @@ export class AdnetNetworkPackageContentProps {
         _.forEach(this.contGroup.controls, (value, key: string) => {
             this.formInputs[key] = this.contGroup.controls[key] as FormControl;
         })
+
+        // this.appStore.sub((i_adPackages: List<AdnetPackageModel>) => {
+        //     this.renderFormInputs();
+        // }, 'adnet.packages');
     }
 
     @Input()
@@ -38,22 +51,24 @@ export class AdnetNetworkPackageContentProps {
         if (!i_adnetPackageModels)
             return;
         this.adnetPackageModels = i_adnetPackageModels;
+        this.renderFormInputs();
     }
 
     @Input()
     set setAdnetContentModels(i_adnetContentModels: AdnetContentModel) {
+        if (!i_adnetContentModels)
+            return;
         this.adnetContentModels = i_adnetContentModels;
-        if (this.adnetContentModels)
-            this.renderFormInputs();
+        this.renderFormInputs();
     }
 
-    @Input() showResourceOnly:boolean = false;
+    @Input() showResourceOnly: boolean = false;
 
     private adnetPackageModels: AdnetPackageModel;
     private adnetContentModels: AdnetContentModel;
     private contGroup: FormGroup;
     private formInputs = {};
-    private resource:string = '';
+    private resource: string = '';
 
     private onFormChange(event) {
         this.updateSore();

@@ -67,7 +67,7 @@ export function adnet(state: Map<string,any> = Map<string,any>(), action: any): 
                     if (contents[index].Key == action.payload.Key){
                         var packageData = i_package.getData().toJS();
                         packageData.Value.contents[index] = action.payload;
-                        adnetPackageModel = new AdnetPackageModel(packageData);
+                        return i_package.setData<AdnetPackageModel>(AdnetPackageModel, packageData)
                     }
                 }
                 return adnetPackageModel;
