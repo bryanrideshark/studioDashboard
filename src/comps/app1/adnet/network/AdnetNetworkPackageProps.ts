@@ -117,9 +117,7 @@ export class AdnetNetworkPackageProps {
             // this.cd.detectChanges();
             return 'selected'
         }
-
         return '';
-
     }
 
     private renderFormInputs() {
@@ -149,6 +147,3 @@ export class AdnetNetworkPackageProps {
         });
     };
 }
-
-
-

@@ -106,6 +106,8 @@ export class AdnetNetworkPackageContent {
         var contents = this.adnetPackageModels.getContents();
         this.adnetContents = List<AdnetContentModel>()
         for (let content of contents) {
+            if (content.Value.deleted)
+                continue;
             var adnetContentModel: AdnetContentModel = new AdnetContentModel(content);
             this.adnetContents = this.adnetContents.push(adnetContentModel);
         }

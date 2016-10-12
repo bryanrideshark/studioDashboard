@@ -7,6 +7,7 @@ import {Lib} from "../../../../Lib";
 import * as _ from "lodash";
 import AdnetNetworkPackageContentPropsTemplate from './AdnetNetworkPackageContentProps.html!text';
 import AdnetNetworkPackageCommonStylesStyle from './AdnetNetworkPackageCommonStyles.css!text';
+import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 
 @Component({
     selector: 'AdnetNetworkPackageContentProps',
@@ -32,7 +33,13 @@ export class AdnetNetworkPackageContentProps {
         })
     }
 
-    //todo: make sure that when we update ContentModel, the id is unique across all packages, otherwise we may need to pass in Package id as well
+    @Input()
+    set setAdnetPackageModels(i_adnetPackageModels: AdnetPackageModel) {
+        if (!i_adnetPackageModels)
+            return;
+        this.adnetPackageModels = i_adnetPackageModels;
+    }
+
     @Input()
     set setAdnetContentModels(i_adnetContentModels: AdnetContentModel) {
         this.adnetContentModels = i_adnetContentModels;
@@ -42,6 +49,7 @@ export class AdnetNetworkPackageContentProps {
 
     @Input() showResourceOnly:boolean = false;
 
+    private adnetPackageModels: AdnetPackageModel;
     private adnetContentModels: AdnetContentModel;
     private contGroup: FormGroup;
     private formInputs = {};
@@ -53,9 +61,8 @@ export class AdnetNetworkPackageContentProps {
 
     private updateSore() {
         setTimeout(() => {
-            //todo: update store on changes of content props
-            console.log(this.contGroup.status + ' ' + JSON.stringify(Lib.CleanCharForXml(this.contGroup.value)));
-            // this.appStore.dispatch(this.adnetAction.saveCustomerInfo(Lib.CleanCharForXml(this.contGroup.value), this.customerModel.customerId()))
+            var payload = Lib.CleanCharForXml(this.contGroup.value);
+            this.appStore.dispatch(this.adnetAction.updAdnetContent(payload, this.adnetContentModels, this.adnetPackageModels));
         }, 1)
     }
 

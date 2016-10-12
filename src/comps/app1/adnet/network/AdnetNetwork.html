@@ -45,6 +45,7 @@
                             <div [ngSwitch]="propSelectorPackageTab">
                                 <div *ngSwitchCase="adnetNetworkPropSelector.CONTENT">
                                     <AdnetNetworkPackageContentProps
+                                            [setAdnetPackageModels]="selectedAdnetPackageModel_tab_packages"
                                             [setAdnetContentModels]="selectedAdnetContentModel_tab_packages">
                                     </AdnetNetworkPackageContentProps>
                                 </div>

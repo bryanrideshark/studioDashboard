@@ -19,6 +19,7 @@ import {AdnetPairModel} from "./AdnetPairModel";
 import {AdnetPackageModel} from "./AdnetPackageModel";
 import {ReplaySubject} from "rxjs/ReplaySubject";
 import {Lib} from "../Lib";
+import {AdnetContentModel} from "./AdnetContentModel";
 
 export const RECEIVE_ADNET = 'RECEIVE_ADNET';
 export const RECEIVE_CUSTOMERS = 'RECEIVE_CUSTOMERS';
@@ -29,6 +30,7 @@ export const RECEIVE_PACKAGES = 'RECEIVE_PACKAGES';
 export const UPDATE_ADNET_CUSTOMER = 'UPDATE_ADNET_CUSTOMER';
 export const UPDATE_ADNET_RATE_TABLE = 'UPDATE_ADNET_RATE_TABLE';
 export const UPDATE_ADNET_PACKAGE = 'UPDATE_ADNET_PACKAGE';
+export const UPDATE_ADNET_PACKAGE_CONTENT = 'UPDATE_ADNET_PACKAGE_CONTENT';
 export const UPDATE_ADNET_TARGET = 'UPDATE_ADNET_TARGET';
 export const ADD_ADNET_TARGET = 'ADD_ADNET_TARGET';
 export const ADD_ADNET_PACKAGE = 'ADD_ADNET_PACKAGE';
@@ -366,8 +368,6 @@ export class AdnetActions extends Actions {
     }
 
     public updAdnetPackageProps(payload, adnetPackageModel: AdnetPackageModel) {
-
-
         return (dispatch) => {
             var customerId = adnetPackageModel.getCustomerId();
             var value = {
@@ -460,17 +460,55 @@ export class AdnetActions extends Actions {
         };
     }
 
-    // public renameAdnetRateTable(rateId: string, newLabel: string) {
-    //     return (dispatch) => {
-    //         dispatch({
-    //             type: RENAME_ADNET_RATE_TABLE,
-    //             payload: {
-    //                 rateId,
-    //                 newLabel
-    //             }
-    //         });
-    //     };
-    // }
+    public updAdnetContent(i_payload: any, i_adnetContentModels:AdnetContentModel, i_adnetPackageModel:AdnetPackageModel) {
+        return (dispatch) => {
+            var customerId = i_adnetPackageModel.getCustomerId();
+            var packageId = i_adnetPackageModel.getId();
+            var contentId = i_adnetContentModels.getId();
+            var payloadToServer = {
+                "packages": {
+                    "update": [{
+                        "Key": packageId,
+                        "Value": {
+                            "id": packageId,
+                            "handle": 0,
+                            "modified": 0,
+                            "customerId": customerId,
+                            "packageContents": {
+                                "update": [{
+                                    "Key": contentId,
+                                    "Value": {
+                                        "id": contentId,
+                                        "handle": 1,
+                                        "modified": 1,
+                                        "duration": i_payload.duration,
+                                        "contentLabel": i_adnetContentModels.getName(),
+                                        "reparationsPerHour": i_payload.reparationsPerHour,
+                                        "contentUrl": i_adnetContentModels.getContentUrl(),
+                                        "contentType": i_adnetContentModels.getType(),
+                                        "contentExt": i_adnetContentModels.getExtension(),
+                                        "maintainAspectRatio": i_payload.maintainAspectRatio,
+                                        "contentVolume": i_adnetContentModels.getVolume(),
+                                        "locationLat": i_payload.locationLat,
+                                        "locationLng": i_payload.locationLng,
+                                        "locationRadios": i_payload.locationRadios
+                                    }
+                                }]
+                            }
+                        }
+                    }]
+                }
+            }
+            var payloadToSave = payloadToServer.packages.update["0"].Value.packageContents.update["0"];
+
+            this.saveToServer(payloadToServer, customerId, (jData) => {
+                if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
+                    return alert('problem updating package content table to server');
+                // model = model.setId(jData.rates.add["0"]) as AdnetRateModel;
+                dispatch(this.updatePackageContent(packageId, payloadToSave))
+            })
+        };
+    }
 
     public receivedAdnet(payload: any) {
         return {
@@ -482,6 +520,14 @@ export class AdnetActions extends Actions {
     private updateAdnetRateTable(payload) {
         return {
             type: UPDATE_ADNET_RATE_TABLE,
+            payload
+        }
+    }
+
+    private updatePackageContent(packageId, payload) {
+        return {
+            type: UPDATE_ADNET_PACKAGE_CONTENT,
+            packageId,
             payload
         }
     }
@@ -542,3 +588,17 @@ export class AdnetActions extends Actions {
         }
     }
 }
+
+
+// public renameAdnetRateTable(rateId: string, newLabel: string) {
+//     return (dispatch) => {
+//         dispatch({
+//             type: RENAME_ADNET_RATE_TABLE,
+//             payload: {
+//                 rateId,
+//                 newLabel
+//             }
+//         });
+//     };
+// }
+

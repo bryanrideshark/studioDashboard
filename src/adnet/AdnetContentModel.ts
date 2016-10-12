@@ -13,6 +13,18 @@ export class AdnetContentModel extends StoreModel {
         return this.getKey('Value').contentLabel;
     }
 
+    public getExtension() {
+        return this.getKey('Value').contentExt;
+    }
+
+    public getType() {
+        return this.getKey('Value').contentType;
+    }
+
+    public getVolume() {
+        return this.getKey('Value').contentVolume;
+    }
+
     public getContentUrl() {
         return this.getKey('Value').contentUrl;
     }
@@ -23,6 +35,10 @@ export class AdnetContentModel extends StoreModel {
 
     public repetition() {
         return this.getKey('Value').reparationsPerHour;
+    }
+
+    public getDeleted() {
+        return this.getKey('Value').deleted;
     }
 
     public percentage() {
