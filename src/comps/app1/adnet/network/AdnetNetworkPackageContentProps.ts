@@ -21,7 +21,7 @@ import {List} from "immutable";
 @Component({
     selector: 'AdnetNetworkPackageContentProps',
     moduleId: __moduleName,
-    //changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     host: {'(input-blur)': 'onFormChange($event)'},
     template: AdnetNetworkPackageContentPropsTemplate,
     styles: [AdnetNetworkPackageCommonStylesStyle]
@@ -40,10 +40,6 @@ export class AdnetNetworkPackageContentProps {
         _.forEach(this.contGroup.controls, (value, key: string) => {
             this.formInputs[key] = this.contGroup.controls[key] as FormControl;
         })
-
-        // this.appStore.sub((i_adPackages: List<AdnetPackageModel>) => {
-        //     this.renderFormInputs();
-        // }, 'adnet.packages');
     }
 
     @Input()

@@ -18,6 +18,7 @@ import {
 import {Lib} from "../../../../Lib";
 import * as _ from 'lodash';
 import {SimpleGridTable} from "../../../simplegridmodule/SimpleGridTable";
+import {AppStore} from "angular2-redux-util";
 
 @Component({
     selector: 'AdnetNetworkPackageContent',
@@ -92,8 +93,13 @@ import {SimpleGridTable} from "../../../simplegridmodule/SimpleGridTable";
 })
 
 export class AdnetNetworkPackageContent {
-    constructor() {
+    constructor(private appStore: AppStore, private cd: ChangeDetectorRef) {
         this['me'] = Lib.GetCompSelector(this.constructor)
+
+        this.appStore.sub((i_adnetPackageModels: List<AdnetPackageModel>) => {
+            this.updateModel(false);
+            this.cd.markForCheck();
+        }, 'adnet.packages');
     }
 
     @ViewChild(SimpleGridTable) simpleGridTable: SimpleGridTable;
@@ -101,17 +107,7 @@ export class AdnetNetworkPackageContent {
     @Input()
     set setAdnetPackageModels(i_adnetPackageModels: AdnetPackageModel) {
         this.adnetPackageModels = i_adnetPackageModels;
-        if (!this.adnetPackageModels)
-            return;
-        var contents = this.adnetPackageModels.getContents();
-        this.adnetContents = List<AdnetContentModel>()
-        for (let content of contents) {
-            if (content.Value.deleted)
-                continue;
-            var adnetContentModel: AdnetContentModel = new AdnetContentModel(content);
-            this.adnetContents = this.adnetContents.push(adnetContentModel);
-        }
-        this.simpleGridTable.deselect();
+        this.updateModel();
     }
 
     @Input()
@@ -124,6 +120,20 @@ export class AdnetNetworkPackageContent {
     @Output() onPropSelected: EventEmitter<IAdNetworkPropSelectedEvent> = new EventEmitter<IAdNetworkPropSelectedEvent>();
 
     @Output() onAdnetContentSelected: EventEmitter<AdnetContentModel> = new EventEmitter<AdnetContentModel>();
+
+    private updateModel(deselect: boolean = true) {
+        if (!this.adnetPackageModels)
+            return
+        var contents = this.adnetPackageModels.getContents();
+        this.adnetContents = List<AdnetContentModel>()
+        for (let content of contents) {
+            if (content.Value.deleted)
+                continue;
+            var adnetContentModel: AdnetContentModel = new AdnetContentModel(content);
+            this.adnetContents = this.adnetContents.push(adnetContentModel);
+        }
+        if (deselect) this.simpleGridTable.deselect();
+    }
 
     private onContentSelect(i_content: AdnetContentModel) {
         this.selectedAdnetContentModel = i_content;
