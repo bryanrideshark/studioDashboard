@@ -1,6 +1,17 @@
 /**
  Custom Form numeric enforcer component compatible with both template and reactive forms
 
+ While <Input type="number> sort of works, it does not prevent the user
+ from still entering invalid values via pasting wrong text, enter the letter 'e'
+ and a number of other ways that users can find to screw your SQL numeric only database entries.
+
+ This simple to use component will make sure you will never get anything but
+ allowed, within your range (+ or -) values... enjoy,
+
+ Sean
+
+=====================
+
  Originally based on examples from:
      http://almerosteyn.com/2016/04/linkup-custom-control-to-ngcontrol-ngmodel
      http://blog.thoughtram.io/angular/2016/07/27/custom-form-controls-in-angular-2.html
