@@ -18,14 +18,14 @@
 
  API:
 
- <InputValidator
+ <InputNumeric
      (onChange)="runMeAndShowValue($event)"
      [defaultValue]="88"
      [textholder]="'numbers please'"
      [counterRangeMin]="-10.5"
      [counterRangeMax]="102"
      [formControl]="someValue">
- </InputValidator>
+ </InputNumeric>
 
  **/
 
@@ -65,7 +65,7 @@ export function createCounterRangeValidator(maxValue, minValue) {
 }
 
 @Component({
-    selector: 'InputValidator',
+    selector: 'InputNumeric',
     host: {
         '(blur)': 'onBlur($event)'
     },
@@ -85,15 +85,15 @@ export function createCounterRangeValidator(maxValue, minValue) {
   `,
     providers: [{
         provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => InputValidator),
+        useExisting: forwardRef(() => InputNumeric),
         multi: true
     }, {
         provide: NG_VALIDATORS,
-        useExisting: forwardRef(() => InputValidator),
+        useExisting: forwardRef(() => InputNumeric),
         multi: true
     }]
 })
-export class InputValidator implements ControlValueAccessor, OnChanges {
+export class InputNumeric implements ControlValueAccessor, OnChanges {
 
     constructor(private elRef: ElementRef, private renderer: Renderer, private cd: ChangeDetectorRef) {
     }

@@ -53,14 +53,14 @@
                                 <div class="input-group">
                                     <span class="input-group-addon">location</span>
 
-                                    <InputValidator
+                                    <InputNumeric
                                             (onChange)="showValue($event)"
                                             [defaultValue]="88"
                                             [textholder]="'lng'"
                                             [counterRangeMin]="-10.5"
                                             [counterRangeMax]="100"
                                             [formControl]="contGroup.controls['locationLng']">
-                                    </InputValidator>
+                                    </InputNumeric>
                                 </div>
                             </li>
                             <li class="list-group-item">
