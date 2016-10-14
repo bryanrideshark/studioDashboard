@@ -52,10 +52,18 @@
                             <li class="list-group-item">
                                 <div class="input-group">
                                     <span class="input-group-addon">location</span>
-                                    <input type="number" [formControl]="contGroup.controls['locationLng']"
-                                           type="number" class="form-control" min="1"
-                                           class="form-control"
-                                           placeholder="lng">
+
+                                    <InputValidator
+                                            [textholder]="'lng'"
+                                            [counterRangeMin]="1"
+                                            [counterRangeMax]="100"
+                                            [formControl]="contGroup.controls['locationLng']">
+                                    </InputValidator>
+
+                                    <!--<input type="number" [formControl]="contGroup.controls['locationLng']"-->
+                                           <!--type="number" class="form-control" min="1"-->
+                                           <!--class="form-control"-->
+                                           <!--placeholder="lng">-->
                                 </div>
                             </li>
                             <li class="list-group-item">
