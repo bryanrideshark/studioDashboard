@@ -1,8 +1,23 @@
-/** Form custom counter component compatible with both template and model forms
- References:
- http://almerosteyn.com/2016/04/linkup-custom-control-to-ngcontrol-ngmodel
- http://blog.thoughtram.io/angular/2016/07/27/custom-form-controls-in-angular-2.html
+/**
+ Custom Form numeric enforcer component compatible with both template and reactive forms
+
+ Originally based on examples from:
+     http://almerosteyn.com/2016/04/linkup-custom-control-to-ngcontrol-ngmodel
+     http://blog.thoughtram.io/angular/2016/07/27/custom-form-controls-in-angular-2.html
+
+ API:
+
+ <InputValidator
+     (onChange)="runMeAndShowValue($event)"
+     [defaultValue]="88"
+     [textholder]="'numbers please'"
+     [counterRangeMin]="-10.5"
+     [counterRangeMax]="102"
+     [formControl]="someValue">
+ </InputValidator>
+
  **/
+
 import {
     Component,
     forwardRef,
@@ -87,8 +102,7 @@ export class InputValidator implements ControlValueAccessor, OnChanges {
         this.placer = i_placer;
     }
 
-    @Output()
-    onChange:EventEmitter<any> = new EventEmitter<any>();
+    @Output() onChange: EventEmitter<any> = new EventEmitter<any>();
 
     ngOnInit() {
         this.writeValue(this.defaultValue);
