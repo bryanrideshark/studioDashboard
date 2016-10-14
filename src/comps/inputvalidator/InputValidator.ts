@@ -5,7 +5,6 @@
  **/
 import {
     Component,
-    OnInit,
     forwardRef,
     Input,
     OnChanges,
@@ -13,16 +12,17 @@ import {
     Renderer,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    ViewChild
-} from '@angular/core';
-import * as _ from 'lodash';
-
+    ViewChild,
+    Output,
+    EventEmitter
+} from "@angular/core";
+import * as _ from "lodash";
 import {
     FormControl,
     ControlValueAccessor,
     NG_VALUE_ACCESSOR,
     NG_VALIDATORS
-} from '@angular/forms';
+} from "@angular/forms";
 
 export function createCounterRangeValidator(maxValue, minValue) {
     return (c: FormControl) => {
@@ -67,34 +67,63 @@ export function createCounterRangeValidator(maxValue, minValue) {
         multi: true
     }]
 })
-export class InputValidator implements ControlValueAccessor, OnChanges  {
-
-    private placer: string = ''
+export class InputValidator implements ControlValueAccessor, OnChanges {
 
     constructor(private elRef: ElementRef, private renderer: Renderer, private cd: ChangeDetectorRef) {
     }
 
-    ngOnInit(){
+    @ViewChild('inputElement') inputElement: ElementRef;
+
+    @Input('counterValue') _counterValue;
+
+    @Input() counterRangeMax;
+
+    @Input() counterRangeMin;
+
+    @Input() defaultValue = 0;
+
+    @Input()
+    set textholder(i_placer: string) {
+        this.placer = i_placer;
+    }
+
+    @Output()
+    onChange:EventEmitter<any> = new EventEmitter<any>();
+
+    ngOnInit() {
         this.writeValue(this.defaultValue);
     }
+
+    private placer: string = ''
 
     onKeyUp(event) {
         var v = event.target.value;
         if (v.length == 0)
             return;
-        this.onBlur(event,true)
+        this.onBlur(event, true)
     }
 
-    onBlur($event, allowOutOfRange: boolean = false) {
+    onBlur($event, fromKeyUp: boolean = false) {
         var n = Number($event.target.value);
         if (_.isNaN(n)) {
-            this.writeValue(this.defaultValue);
-        } else if (!allowOutOfRange && (n > +this.counterRangeMax || n < +this.counterRangeMin)) {
-            this.writeValue(this.defaultValue);
+            n = this.defaultValue;
+            this.writeValue(n);
+        } else if (!fromKeyUp && (n > +this.counterRangeMax || n < +this.counterRangeMin)) {
+            n = this.defaultValue;
+            this.writeValue(n);
         } else {
             this.writeValue(n);
         }
+
+        /** fire custom input-blur so we can easily bind to any changes using our custom BlurForwarder directive **/
         this.renderer.invokeElementMethod(this.elRef.nativeElement, 'dispatchEvent', [new CustomEvent('input-blur', {bubbles: true})]);
+
+        /** fire even for onChange and notify when final value is being delivered **/
+        this.onChange.emit({
+            value: n,
+            finalValue: !fromKeyUp
+        });
+
         // or just
         // el.dispatchEvent(new CustomEvent('input-blur', { bubbles: true }));
         // if you don't care about outside dom compatibility
@@ -105,19 +134,6 @@ export class InputValidator implements ControlValueAccessor, OnChanges  {
     validateFn: any = () => {
     };
 
-    @ViewChild('inputElement') inputElement: ElementRef;
-
-    @Input('counterValue') _counterValue;
-    @Input() counterRangeMax;
-    @Input() counterRangeMin;
-    @Input() defaultValue = 0;
-
-    @Input()
-    set textholder(i_placer: string) {
-        this.placer = i_placer;
-    }
-
-    // @Input() setAdnetPackageModels:AdnetPackageModel;
 
     get counterValue() {
         return this._counterValue;

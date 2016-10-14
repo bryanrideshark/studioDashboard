@@ -86,6 +86,10 @@ export class AdnetNetworkPackageContentProps {
             this.formInputs[key].setValue(data)
         });
     };
+
+    private showValue(e){
+        console.log(JSON.stringify(e));
+    }
 }
 
 

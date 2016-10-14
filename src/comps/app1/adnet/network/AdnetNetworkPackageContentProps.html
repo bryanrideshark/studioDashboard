@@ -54,6 +54,7 @@
                                     <span class="input-group-addon">location</span>
 
                                     <InputValidator
+                                            (onChange)="showValue($event)"
                                             [defaultValue]="88"
                                             [textholder]="'lng'"
                                             [counterRangeMin]="-10.5"
