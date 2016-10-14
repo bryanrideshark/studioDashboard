@@ -42,10 +42,13 @@
                             <li class="list-group-item">
                                 <div class="input-group">
                                     <span class="input-group-addon">location</span>
-                                    <input type="number" [formControl]="contGroup.controls['locationLat']"
-                                           type="number" class="form-control" min="1"
-                                           class="form-control"
-                                           placeholder="lat">
+                                    <InputNumeric
+                                            [defaultValue]="0"
+                                            [textholder]="'lat'"
+                                            [counterRangeMin]="-999"
+                                            [counterRangeMax]="999"
+                                            [formControl]="contGroup.controls['locationLat']">
+                                    </InputNumeric>
                                 </div>
                             </li>
 
@@ -54,10 +57,10 @@
                                     <span class="input-group-addon">location</span>
 
                                     <InputNumeric
-                                            [defaultValue]="88"
+                                            [defaultValue]="0"
                                             [textholder]="'lng'"
-                                            [counterRangeMin]="-10.5"
-                                            [counterRangeMax]="100"
+                                            [counterRangeMin]="-999"
+                                            [counterRangeMax]="999"
                                             [formControl]="contGroup.controls['locationLng']">
                                     </InputNumeric>
                                 </div>
