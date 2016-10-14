@@ -48,6 +48,7 @@ export function createCounterRangeValidator(maxValue, minValue) {
             <input #inputElement
                    (keyup)="onKeyUp($event)"
                    value="{{counterValue}}"
+                   step="any"
                    min="{{counterRangeMin}}"
                    max="{{counterRangeMax}}" 
                    type="number" placeholder="{{placer}}" 
