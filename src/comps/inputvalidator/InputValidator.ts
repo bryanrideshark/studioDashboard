@@ -11,11 +11,18 @@ import {
     OnChanges,
     ElementRef,
     Renderer,
-    ChangeDetectionStrategy
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    ViewChild
 } from '@angular/core';
 import * as _ from 'lodash';
 
-import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
+import {
+    FormControl,
+    ControlValueAccessor,
+    NG_VALUE_ACCESSOR,
+    NG_VALIDATORS
+} from '@angular/forms';
 
 export function createCounterRangeValidator(maxValue, minValue) {
     return (c: FormControl) => {
@@ -27,7 +34,7 @@ export function createCounterRangeValidator(maxValue, minValue) {
             }
         };
         // console.log('value: ' + c.value);
-        return (c.value > +maxValue || c.value < +minValue) ? err: null;
+        return (c.value > +maxValue || c.value < +minValue) ? err : null;
     }
 }
 
@@ -38,52 +45,72 @@ export function createCounterRangeValidator(maxValue, minValue) {
     },
     template: `
         <div (click)="$event.preventDefault()">
-            <input value="{{counterValue}}"
-                   pattern="^[0-9.]*$"
-                   type="number" placeholder="{{placer}}" min="{{counterRangeMin}}" max="{{counterRangeMax}}" 
-                  class="form-control" (blur)="onBlur($event)"/>    
+            <input #inputElement
+                   (keyup)="onKeyUp($event)"
+                   value="{{counterValue}}"
+                   min="{{counterRangeMin}}"
+                   max="{{counterRangeMax}}" 
+                   type="number" placeholder="{{placer}}" 
+                   class="form-control" 
+                   (blur)="onBlur($event)"/>
         </div>
   `,
-    providers: [
-        { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => InputValidator), multi: true },
-        { provide: NG_VALIDATORS, useExisting: forwardRef(() => InputValidator), multi: true }
-    ]
+    providers: [{
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: forwardRef(() => InputValidator),
+        multi: true
+    }, {
+        provide: NG_VALIDATORS,
+        useExisting: forwardRef(() => InputValidator),
+        multi: true
+    }]
 })
 export class InputValidator implements ControlValueAccessor, OnChanges {
 
-    private placer:string = ''
-    constructor(private elRef:ElementRef, private renderer:Renderer) {
+    private placer: string = ''
+
+    constructor(private elRef: ElementRef, private renderer: Renderer, private cd: ChangeDetectorRef) {
     }
 
-    onBlur($event) {
+    onKeyUp(event) {
+        var v = event.target.value;
+        if (v.length == 0)
+            return;
+        this.onBlur(event,true)
+    }
+
+    onBlur($event, allowOutOfRange: boolean = false) {
         var n = Number($event.target.value);
-        if (n < this.counterRangeMin)
-            n = this.counterRangeMin;
-        if (_.isNaN(n))
-            n = 1;
-        if (n < 10) {
-            this.writeValue(1);
+        if (_.isNaN(n)) {
+            this.writeValue(this.defaultValue);
+        } else if (!allowOutOfRange && (n > +this.counterRangeMax || n < +this.counterRangeMin)) {
+            this.writeValue(this.defaultValue);
         } else {
             this.writeValue(n);
         }
-
-        this.renderer.invokeElementMethod(this.elRef.nativeElement,
-            'dispatchEvent', [new CustomEvent('input-blur', {bubbles: true})]);
+        this.renderer.invokeElementMethod(this.elRef.nativeElement, 'dispatchEvent', [new CustomEvent('input-blur', {bubbles: true})]);
         // or just
         // el.dispatchEvent(new CustomEvent('input-blur', { bubbles: true }));
         // if you don't care about webworker compatibility
+        this.cd.markForCheck();
     }
 
     propagateChange: any[] = [];
-    validateFn:any = () => {};
+    validateFn: any = () => {
+    };
+
+    @ViewChild('inputElement') inputElement: ElementRef;
 
     @Input('counterValue') _counterValue = 0;
     @Input() counterRangeMax;
     @Input() counterRangeMin;
+    @Input() defaultValue = 0;
+
     @Input()
-    set textholder(i_placer:string) {
+    set textholder(i_placer: string) {
         this.placer = i_placer;
     }
+
     // @Input() setAdnetPackageModels:AdnetPackageModel;
 
     get counterValue() {
@@ -102,9 +129,11 @@ export class InputValidator implements ControlValueAccessor, OnChanges {
     }
 
     writeValue(value) {
-        if (value) {
-            this.counterValue = value;
-        }
+        if (_.isUndefined(value))
+            return;
+        this.counterValue = value;
+        this.inputElement.nativeElement.value = value;
+
     }
 
     registerOnChange(fn) {
