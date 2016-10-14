@@ -54,16 +54,12 @@
                                     <span class="input-group-addon">location</span>
 
                                     <InputValidator
+                                            [defaultValue]="88"
                                             [textholder]="'lng'"
-                                            [counterRangeMin]="-10"
+                                            [counterRangeMin]="-10.5"
                                             [counterRangeMax]="100"
                                             [formControl]="contGroup.controls['locationLng']">
                                     </InputValidator>
-
-                                    <!--<input type="number" [formControl]="contGroup.controls['locationLng']"-->
-                                           <!--type="number" class="form-control" min="1"-->
-                                           <!--class="form-control"-->
-                                           <!--placeholder="lng">-->
                                 </div>
                             </li>
                             <li class="list-group-item">

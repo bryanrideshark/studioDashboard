@@ -43,6 +43,7 @@ export function createCounterRangeValidator(maxValue, minValue) {
     host: {
         '(blur)': 'onBlur($event)'
     },
+    changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
         <div (click)="$event.preventDefault()">
             <input #inputElement
@@ -66,11 +67,15 @@ export function createCounterRangeValidator(maxValue, minValue) {
         multi: true
     }]
 })
-export class InputValidator implements ControlValueAccessor, OnChanges {
+export class InputValidator implements ControlValueAccessor, OnChanges  {
 
     private placer: string = ''
 
     constructor(private elRef: ElementRef, private renderer: Renderer, private cd: ChangeDetectorRef) {
+    }
+
+    ngOnInit(){
+        this.writeValue(this.defaultValue);
     }
 
     onKeyUp(event) {
@@ -92,7 +97,7 @@ export class InputValidator implements ControlValueAccessor, OnChanges {
         this.renderer.invokeElementMethod(this.elRef.nativeElement, 'dispatchEvent', [new CustomEvent('input-blur', {bubbles: true})]);
         // or just
         // el.dispatchEvent(new CustomEvent('input-blur', { bubbles: true }));
-        // if you don't care about webworker compatibility
+        // if you don't care about outside dom compatibility
         this.cd.markForCheck();
     }
 
@@ -102,7 +107,7 @@ export class InputValidator implements ControlValueAccessor, OnChanges {
 
     @ViewChild('inputElement') inputElement: ElementRef;
 
-    @Input('counterValue') _counterValue = 0;
+    @Input('counterValue') _counterValue;
     @Input() counterRangeMax;
     @Input() counterRangeMin;
     @Input() defaultValue = 0;
@@ -133,6 +138,7 @@ export class InputValidator implements ControlValueAccessor, OnChanges {
         if (_.isUndefined(value))
             return;
         this.counterValue = value;
+        // force update to UI
         this.inputElement.nativeElement.value = value;
 
     }
