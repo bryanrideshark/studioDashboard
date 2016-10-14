@@ -74,11 +74,12 @@ export function createCounterRangeValidator(maxValue, minValue) {
         <div (click)="$event.preventDefault()">
             <input #inputElement
                    (keyup)="onKeyUp($event)"
-                   value="{{counterValue}}"
-                   step="any"
+                   value="{{counterValue}}"                   
                    min="{{counterRangeMin}}"
-                   max="{{counterRangeMax}}" 
-                   type="number" placeholder="{{placer}}" 
+                   max="{{counterRangeMax}}"
+                   placeholder="{{placer}}"
+                   step="any"
+                   type="number"                    
                    class="form-control" 
                    (blur)="onBlur($event)"/>
         </div>
