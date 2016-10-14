@@ -1,12 +1,12 @@
 /**
  Custom Form numeric enforcer component compatible with both template and reactive forms
 
- While <Input type="number> sort of works, it does not prevent the user
+ While <input type="number> sort of works, it does not prevent the user
  from still entering invalid values via pasting wrong text, enter the letter 'e'
  and a number of other ways that users can find to screw your SQL numeric only database entries.
 
  This simple to use component will make sure you will never get anything but
- allowed, within your range (+ or -) values... enjoy,
+ allowed values within your selected range (+, -, decimal point).. enjoy,
 
  Sean
 
