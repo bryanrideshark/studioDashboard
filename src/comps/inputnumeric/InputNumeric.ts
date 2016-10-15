@@ -21,10 +21,10 @@
 /////////////////////////////////// API: ///////////////////////////////////////////
 
  (onChange):                        notify when a change occurred, includes value and if change is from keUp or final value
- [defaultValue]="88"                starting value as well as reset value
+ [defaultValue]="88"                starting value as well as reset value, make sure it falls between your range values
  [step]="0.1"                       options include 'any', 1, 0.1, 0.5 ...
  [round]="true"                     if you set round to true be sure to set step to 1
- [textholder]="'numbers please'"    placement text
+ [textholder]="'numbers please'"    placeholder text
  [counterRangeMin]="-10.5"          min value allowed
  [counterRangeMax]="102"            max value allowed
  [formControl]="someValue">         for reactive forms, or use ngModel

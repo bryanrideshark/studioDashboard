@@ -41,7 +41,7 @@
                                     <InputNumeric
                                             [defaultValue]="1"
                                             [round]="true"
-                                            [textholder]="'duration'"
+                                            [textholder]="'repetitions'"
                                             [step]="1"
                                             [counterRangeMin]="1"
                                             [counterRangeMax]="1200"
@@ -81,10 +81,15 @@
                             <li class="list-group-item">
                                 <div class="input-group">
                                     <span class="input-group-addon">location</span>
-                                    <input type="number" [formControl]="contGroup.controls['locationRadios']"
-                                           type="number" class="form-control" min="1"
-                                           class="form-control"
-                                           placeholder="radius">
+                                    <InputNumeric
+                                            [defaultValue]="10"
+                                            [round]="true"
+                                            [textholder]="'radius'"
+                                            [step]="1"
+                                            [counterRangeMin]="10"
+                                            [counterRangeMax]="1000"
+                                            [formControl]="contGroup.controls['locationRadios']">
+                                    </InputNumeric>
                                 </div>
                             </li>
                             <li class="list-group-item">
