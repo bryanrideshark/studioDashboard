@@ -18,7 +18,7 @@
 
 
 
-/////////////////////////////////// API: ///////////////////////////////////////////
+/////////////////////////////////// api ///////////////////////////////////////////
 
  (onChange):                        notify when a change occurred, includes value and if change is from keUp or final value
  [defaultValue]="88"                starting value as well as reset value, make sure it falls between your range values
@@ -28,6 +28,8 @@
  [counterRangeMin]="-10.5"          min value allowed
  [counterRangeMax]="102"            max value allowed
  [formControl]="someValue">         for reactive forms, or use ngModel
+
+ /////////////////////////////////// example ///////////////////////////////////////////
 
  <InputNumeric
      (onChange)="runMeAndShowValue($event)"
