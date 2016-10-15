@@ -16,11 +16,24 @@
      http://almerosteyn.com/2016/04/linkup-custom-control-to-ngcontrol-ngmodel
      http://blog.thoughtram.io/angular/2016/07/27/custom-form-controls-in-angular-2.html
 
- API:
+
+
+/////////////////////////////////// API: ///////////////////////////////////////////
+
+ (onChange):                        notify when a change occurred, includes value and if change is from keUp or final value
+ [defaultValue]="88"                starting value as well as reset value
+ [step]="0.1"                       options include 'any', 1, 0.1, 0.5 ...
+ [round]="true"                     if you set round to true be sure to set step to 1
+ [textholder]="'numbers please'"    placement text
+ [counterRangeMin]="-10.5"          min value allowed
+ [counterRangeMax]="102"            max value allowed
+ [formControl]="someValue">         for reactive forms, or use ngModel
 
  <InputNumeric
      (onChange)="runMeAndShowValue($event)"
      [defaultValue]="88"
+     [step]="0.1"
+     [round]="true"
      [textholder]="'numbers please'"
      [counterRangeMin]="-10.5"
      [counterRangeMax]="102"
@@ -77,8 +90,8 @@ export function createCounterRangeValidator(maxValue, minValue) {
                    value="{{counterValue}}"                   
                    min="{{counterRangeMin}}"
                    max="{{counterRangeMax}}"
+                   step="{{step}}"
                    placeholder="{{placer}}"
-                   step="any"
                    type="number"                    
                    class="form-control" 
                    (blur)="onBlur($event)"/>
@@ -107,7 +120,11 @@ export class InputNumeric implements ControlValueAccessor, OnChanges {
 
     @Input() counterRangeMin;
 
+    @Input() round:boolean = false;
+
     @Input() defaultValue = 0;
+
+    @Input() step = 1;
 
     @Input()
     set textholder(i_placer: string) {
@@ -179,6 +196,9 @@ export class InputNumeric implements ControlValueAccessor, OnChanges {
     writeValue(value) {
         if (_.isUndefined(value))
             return;
+        if (this.round){
+            value = Math.round(value);
+        }
         this.counterValue = value;
         this.cd.markForCheck();
         // this.inputElement.nativeElement.value = value;
@@ -190,16 +210,6 @@ export class InputNumeric implements ControlValueAccessor, OnChanges {
     }
 
     registerOnTouched(fn) {
-    }
-
-    increase() {
-        this.counterValue++;
-        this.onBlur(null);
-    }
-
-    decrease() {
-        this.counterValue--;
-        this.onBlur(null);
     }
 
     validate(c: FormControl) {
