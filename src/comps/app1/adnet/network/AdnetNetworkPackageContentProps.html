@@ -33,19 +33,20 @@
                                             [counterRangeMax]="60"
                                             [formControl]="contGroup.controls['duration']">
                                     </InputNumeric>
-
-                                    <!--<input [formControl]="contGroup.controls['duration']" required-->
-                                           <!--type="number" class="form-control" min="3" max="60"-->
-                                           <!--placeholder="duration">-->
                                 </div>
                             </li>
                             <li class="list-group-item">
                                 <div class="input-group">
                                     <span class="input-group-addon">repetition</span>
-                                    <input type="number" [formControl]="contGroup.controls['reparationsPerHour']"
-                                           type="number" class="form-control" min="1" max="1200"
-                                           class="form-control"
-                                           placeholder="repetitions">
+                                    <InputNumeric
+                                            [defaultValue]="1"
+                                            [round]="true"
+                                            [textholder]="'duration'"
+                                            [step]="1"
+                                            [counterRangeMin]="1"
+                                            [counterRangeMax]="1200"
+                                            [formControl]="contGroup.controls['reparationsPerHour']">
+                                    </InputNumeric>
                                 </div>
                             </li>
 
