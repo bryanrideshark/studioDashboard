@@ -180,8 +180,9 @@ export class InputNumeric implements ControlValueAccessor, OnChanges {
         if (_.isUndefined(value))
             return;
         this.counterValue = value;
+        this.cd.markForCheck();
         // force update to UI
-        this.inputElement.nativeElement.value = value;
+        // this.inputElement.nativeElement.value = value;
 
     }
 
