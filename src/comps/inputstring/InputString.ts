@@ -20,26 +20,24 @@
 
  /////////////////////////////////// api ///////////////////////////////////////////
 
- (onChange):                        notify when a change occurred, includes value and if change is from keUp or final value
- [defaultValue]="88"                starting value as well as reset value, make sure it falls between your range values
- [step]="0.1"                       options include 'any', 1, 0.1, 0.5 ...
- [safe]="true"                     if you set safe to true be sure to set step to 1
- [textholder]="'numbers please'"    placeholder text
- [stringRangeMin]="-10.5"          min value allowed
- [stringRangeMax]="102"            max value allowed
- [formControl]="someValue">         for reactive forms, or use ngModel
+ (onChange):                       notify when a change occurred, includes value and if change is from keUp or final value
+ [defaultValue]="'FooBar'"         starting value as well as reset value, make sure it falls between your range values
+ [safe]="true"                     allow only safe characters (see Lib.CleanCharForXml)
+ [textholder]="'simple text'"      placeholder text
+ [stringRangeMin]="2"              min value allowed
+ [stringRangeMax]="4"              max value allowed
+ [formControl]="someValue">        for reactive forms, or use ngModel
 
 
  /////////////////////////////////// example ///////////////////////////////////////////
 
  <InputString
  (onChange)="runMeAndShowValue($event)"
- [defaultValue]="88"
- [step]="0.1"
+ [defaultValue]="'FooBar'"
  [safe]="true"
- [textholder]="'numbers please'"
- [stringRangeMin]="-10.5"
- [stringRangeMax]="102"
+ [textholder]="'enter text'"
+ [stringRangeMin]="3"
+ [stringRangeMax]="6">
  [formControl]="someValue">
  </InputString>
  <small [hidden]="contGroup.controls.duration.valid || contGroup.controls.duration.pristine">invalid value</small>
@@ -82,8 +80,7 @@ export function createCounterRangeValidator(maxValue, minValue) {
             }
         };
         // console.log('value: ' + c.value);
-        var res = (c.value.length > +maxValue || c.value.length < +minValue) ? err : null;
-        return res;
+        return (c.value.length > +maxValue || c.value.length < +minValue) ? err : null;
     }
 }
 
