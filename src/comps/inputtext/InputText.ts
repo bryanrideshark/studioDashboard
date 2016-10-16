@@ -1,46 +1,16 @@
 /**
- Custom Form numeric enforcer component compatible with both template and reactive forms
+ Custom Form text / string enforcer component compatible with both template and reactive forms
 
- While <input type="number> sort of works, it does not prevent the user
- from still entering invalid values via pasting wrong text, enter the letter 'e'
- and a number of other ways that users can find to screw your SQL numeric only database entries.
-
- This simple to use component will make sure you will never get anything but
- allowed values within your selected range (+, -, decimal point).. enjoy,
 
  Sean
 
-=====================
+ =====================
 
  Originally based on examples from:
-     http://almerosteyn.com/2016/04/linkup-custom-control-to-ngcontrol-ngmodel
-     http://blog.thoughtram.io/angular/2016/07/27/custom-form-controls-in-angular-2.html
+ http://almerosteyn.com/2016/04/linkup-custom-control-to-ngcontrol-ngmodel
+ http://blog.thoughtram.io/angular/2016/07/27/custom-form-controls-in-angular-2.html
 
 
-
-/////////////////////////////////// api ///////////////////////////////////////////
-
- (onChange):                        notify when a change occurred, includes value and if change is from keUp or final value
- [defaultValue]="88"                starting value as well as reset value, make sure it falls between your range values
- [step]="0.1"                       options include 'any', 1, 0.1, 0.5 ...
- [round]="true"                     if you set round to true be sure to set step to 1
- [textholder]="'numbers please'"    placeholder text
- [counterRangeMin]="-10.5"          min value allowed
- [counterRangeMax]="102"            max value allowed
- [formControl]="someValue">         for reactive forms, or use ngModel
-
- /////////////////////////////////// example ///////////////////////////////////////////
-
- <InputNumeric
-     (onChange)="runMeAndShowValue($event)"
-     [defaultValue]="88"
-     [step]="0.1"
-     [round]="true"
-     [textholder]="'numbers please'"
-     [counterRangeMin]="-10.5"
-     [counterRangeMax]="102"
-     [formControl]="someValue">
- </InputNumeric>
 
  **/
 
@@ -80,7 +50,7 @@ export function createCounterRangeValidator(maxValue, minValue) {
 }
 
 @Component({
-    selector: 'InputNumeric',
+    selector: 'InputText',
     host: {
         '(blur)': 'onBlur($event)'
     },
@@ -94,22 +64,22 @@ export function createCounterRangeValidator(maxValue, minValue) {
                    max="{{counterRangeMax}}"
                    step="{{step}}"
                    placeholder="{{placer}}"
-                   type="number"                    
+                   type="text"                    
                    class="form-control" 
                    (blur)="onBlur($event)"/>
         </div>
   `,
     providers: [{
         provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => InputNumeric),
+        useExisting: forwardRef(() => InputText),
         multi: true
     }, {
         provide: NG_VALIDATORS,
-        useExisting: forwardRef(() => InputNumeric),
+        useExisting: forwardRef(() => InputText),
         multi: true
     }]
 })
-export class InputNumeric implements ControlValueAccessor, OnChanges {
+export class InputText implements ControlValueAccessor, OnChanges {
 
     constructor(private elRef: ElementRef, private renderer: Renderer, private cd: ChangeDetectorRef) {
     }
@@ -153,7 +123,7 @@ export class InputNumeric implements ControlValueAccessor, OnChanges {
         if (_.isNaN(n)) {
             n = this.defaultValue;
             this.writeValue(n);
-        } else if (!fromKeyUp && (this.validateFn({value: n}))) {
+        } else if (!fromKeyUp && (n > +this.counterRangeMax || n < +this.counterRangeMin)) {
             n = this.defaultValue;
             this.writeValue(n);
         } else {
