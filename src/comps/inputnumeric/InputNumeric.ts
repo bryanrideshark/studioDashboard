@@ -41,7 +41,12 @@
      [counterRangeMax]="102"
      [formControl]="someValue">
  </InputNumeric>
+ <small [hidden]="contGroup.controls.duration.valid || contGroup.controls.duration.pristine">invalid value</small>
 
+ and add CSS
+
+ .ng-valid[required] { border-left: 5px solid green; }
+ .ng-invalid { border-left: 5px solid red; }
  **/
 
 import {

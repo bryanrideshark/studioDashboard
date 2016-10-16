@@ -29,6 +29,7 @@
  [stringRangeMax]="102"            max value allowed
  [formControl]="someValue">         for reactive forms, or use ngModel
 
+
  /////////////////////////////////// example ///////////////////////////////////////////
 
  <InputString
@@ -41,7 +42,12 @@
  [stringRangeMax]="102"
  [formControl]="someValue">
  </InputString>
+ <small [hidden]="contGroup.controls.duration.valid || contGroup.controls.duration.pristine">invalid value</small>
 
+ and add CSS
+
+ .ng-valid[required] { border-left: 5px solid green; }
+ .ng-invalid { border-left: 5px solid red; }
  **/
 
 import {
@@ -89,16 +95,19 @@ export function createCounterRangeValidator(maxValue, minValue) {
     template: `
         <div (click)="$event.preventDefault()">
             <input #inputElement
-                    required minlength="3"
+                   required 
                    (keyup)="onKeyUp($event)"
                    value="{{stringValue}}"                   
                    placeholder="{{placer}}"
                    type="text"                    
                    class="form-control" 
                    (blur)="onBlur($event)"/>
-                   <div *ngIf="inputElement.hasError('required')"
-                        class="ui error message">SKU is required
-                   </div>
+                   <!--
+                   you can also use code below to always include an error as part of the component
+                   required minlength="3"
+                   <p *ngIf="!inputElement.checkValidity()">not valid</p>-->
+			         <!--<pre>{{ inputElement.value | json }}-->
+			       <!--</pre>-->
                    
         </div>
   `,
