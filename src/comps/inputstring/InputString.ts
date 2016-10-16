@@ -70,6 +70,7 @@ import {
     NG_VALUE_ACCESSOR,
     NG_VALIDATORS
 } from "@angular/forms";
+import {Lib} from "../../Lib";
 
 export function createCounterRangeValidator(maxValue, minValue) {
     return (c: FormControl) => {
@@ -108,7 +109,6 @@ export function createCounterRangeValidator(maxValue, minValue) {
                    <p *ngIf="!inputElement.checkValidity()">not valid</p>-->
 			         <!--<pre>{{ inputElement.value | json }}-->
 			       <!--</pre>-->
-                   
         </div>
   `,
     providers: [{
@@ -156,7 +156,7 @@ export class InputString implements ControlValueAccessor, OnChanges {
     }
 
     stringFixSafe(i_value){
-        return i_value;
+        return Lib.CleanCharForXml(i_value)
     }
 
     onKeyUp(event) {

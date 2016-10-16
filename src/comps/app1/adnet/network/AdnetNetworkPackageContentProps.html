@@ -25,8 +25,8 @@
                                 <div class="input-group">
                                     <span class="input-group-addon">duration</span>
                                     <InputString
-                                        [formControl]="contGroup.controls['duration']"
-                                        [defaultValue]="'AAAA'"
+                                        [defaultValue]="'FooBar'"
+                                        [safe]="true"
                                         [stringRangeMin]="3"
                                         [stringRangeMax]="6">
                                     </InputString>
