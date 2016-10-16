@@ -24,15 +24,26 @@
                             <li class="list-group-item">
                                 <div class="input-group">
                                     <span class="input-group-addon">duration</span>
-                                    <InputNumeric
-                                            [defaultValue]="5"
-                                            [round]="true"
-                                            [textholder]="'duration'"
-                                            [step]="1"
-                                            [counterRangeMin]="3"
-                                            [counterRangeMax]="60"
-                                            [formControl]="contGroup.controls['duration']">
-                                    </InputNumeric>
+                                    <InputString
+                                        [formControl]="contGroup.controls['duration']"
+                                        [defaultValue]="'AAAA'"
+                                        [stringRangeMin]="3"
+                                        [stringRangeMax]="6">
+                                    </InputString>
+
+                                    <!--<small [hidden]="contGroup.controls['duration'].valid || (contGroup.controls['duration'].pristine)">-->
+                                        <!--Name is required (minimum 5 characters).-->
+                                    <!--</small>-->
+
+                                    <!--<InputNumeric-->
+                                            <!--[defaultValue]="5"-->
+                                            <!--[round]="true"-->
+                                            <!--[textholder]="'duration'"-->
+                                            <!--[step]="1"-->
+                                            <!--[counterRangeMin]="3"-->
+                                            <!--[counterRangeMax]="60"-->
+                                            <!--[formControl]="contGroup.controls['duration']">-->
+                                    <!--</InputNumeric>-->
                                 </div>
                             </li>
                             <li class="list-group-item">

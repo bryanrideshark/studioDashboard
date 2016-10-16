@@ -1,6 +1,12 @@
 /**
- Custom Form text / string enforcer component compatible with both template and reactive forms
+ Custom Form numeric enforcer component compatible with both template and reactive forms
 
+ While <input type="number> sort of works, it does not prevent the user
+ from still entering invalid values via pasting wrong text, enter the letter 'e'
+ and a number of other ways that users can find to screw your SQL numeric only database entries.
+
+ This simple to use component will make sure you will never get anything but
+ allowed values within your selected range (+, -, decimal point).. enjoy,
 
  Sean
 
@@ -11,6 +17,30 @@
  http://blog.thoughtram.io/angular/2016/07/27/custom-form-controls-in-angular-2.html
 
 
+
+ /////////////////////////////////// api ///////////////////////////////////////////
+
+ (onChange):                        notify when a change occurred, includes value and if change is from keUp or final value
+ [defaultValue]="88"                starting value as well as reset value, make sure it falls between your range values
+ [step]="0.1"                       options include 'any', 1, 0.1, 0.5 ...
+ [safe]="true"                     if you set safe to true be sure to set step to 1
+ [textholder]="'numbers please'"    placeholder text
+ [stringRangeMin]="-10.5"          min value allowed
+ [stringRangeMax]="102"            max value allowed
+ [formControl]="someValue">         for reactive forms, or use ngModel
+
+ /////////////////////////////////// example ///////////////////////////////////////////
+
+ <InputString
+ (onChange)="runMeAndShowValue($event)"
+ [defaultValue]="88"
+ [step]="0.1"
+ [safe]="true"
+ [textholder]="'numbers please'"
+ [stringRangeMin]="-10.5"
+ [stringRangeMax]="102"
+ [formControl]="someValue">
+ </InputString>
 
  **/
 
@@ -45,12 +75,13 @@ export function createCounterRangeValidator(maxValue, minValue) {
             }
         };
         // console.log('value: ' + c.value);
-        return (c.value > +maxValue || c.value < +minValue) ? err : null;
+        var res = (c.value.length > +maxValue || c.value.length < +minValue) ? err : null;
+        return res;
     }
 }
 
 @Component({
-    selector: 'InputText',
+    selector: 'InputString',
     host: {
         '(blur)': 'onBlur($event)'
     },
@@ -58,45 +89,45 @@ export function createCounterRangeValidator(maxValue, minValue) {
     template: `
         <div (click)="$event.preventDefault()">
             <input #inputElement
+                    required minlength="3"
                    (keyup)="onKeyUp($event)"
-                   value="{{counterValue}}"                   
-                   min="{{counterRangeMin}}"
-                   max="{{counterRangeMax}}"
-                   step="{{step}}"
+                   value="{{stringValue}}"                   
                    placeholder="{{placer}}"
                    type="text"                    
                    class="form-control" 
                    (blur)="onBlur($event)"/>
+                   <!--<small [hidden]="inputElement.valid || inputElement.pristine" -->
+                        <!--class="text-danger">-->
+                   	    <!--Name is required (minimum 3 characters).-->
+		            <!--</small>-->
         </div>
   `,
     providers: [{
         provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => InputText),
+        useExisting: forwardRef(() => InputString),
         multi: true
     }, {
         provide: NG_VALIDATORS,
-        useExisting: forwardRef(() => InputText),
+        useExisting: forwardRef(() => InputString),
         multi: true
     }]
 })
-export class InputText implements ControlValueAccessor, OnChanges {
+export class InputString implements ControlValueAccessor, OnChanges {
 
     constructor(private elRef: ElementRef, private renderer: Renderer, private cd: ChangeDetectorRef) {
     }
 
     @ViewChild('inputElement') inputElement: ElementRef;
 
-    @Input('counterValue') _counterValue;
+    @Input('stringValue') _stringValue;
 
-    @Input() counterRangeMax;
+    @Input() stringRangeMax;
 
-    @Input() counterRangeMin;
+    @Input() stringRangeMin;
 
-    @Input() round:boolean = false;
+    @Input() safe:boolean = false;
 
-    @Input() defaultValue = 0;
-
-    @Input() step = 1;
+    @Input() defaultValue = '';
 
     @Input()
     set textholder(i_placer: string) {
@@ -111,6 +142,14 @@ export class InputText implements ControlValueAccessor, OnChanges {
 
     private placer: string = ''
 
+    stringFixLength(i_value){
+        return i_value.substr(0, this.stringRangeMax)
+    }
+
+    stringFixSafe(i_value){
+        return i_value;
+    }
+
     onKeyUp(event) {
         var v = event.target.value;
         if (v.length == 0)
@@ -119,15 +158,12 @@ export class InputText implements ControlValueAccessor, OnChanges {
     }
 
     onBlur($event, fromKeyUp: boolean = false) {
-        var n = Number($event.target.value);
-        if (_.isNaN(n)) {
-            n = this.defaultValue;
-            this.writeValue(n);
-        } else if (!fromKeyUp && (n > +this.counterRangeMax || n < +this.counterRangeMin)) {
-            n = this.defaultValue;
-            this.writeValue(n);
+        var s = $event.target.value;
+        if (!fromKeyUp && (this.validateFn({value: s}))) {
+            s = this.stringFixLength(s);
+            this.writeValue(s);
         } else {
-            this.writeValue(n);
+            this.writeValue(s);
         }
 
         /** fire custom input-blur so we can easily bind to any changes using our custom BlurForwarder directive **/
@@ -135,7 +171,7 @@ export class InputText implements ControlValueAccessor, OnChanges {
 
         /** fire even for onChange and notify when final value is being delivered **/
         this.onChange.emit({
-            value: n,
+            value: s,
             finalValue: !fromKeyUp
         });
 
@@ -150,31 +186,30 @@ export class InputText implements ControlValueAccessor, OnChanges {
     };
 
 
-    get counterValue() {
-        return this._counterValue;
+    get stringValue() {
+        return this._stringValue;
     }
 
-    set counterValue(val) {
-        this._counterValue = val;
+    set stringValue(val) {
+        this._stringValue = val;
         this.propagateChange.forEach(fn => fn(val));
     }
 
     ngOnChanges(inputs) {
-        if (inputs.counterRangeMax || inputs.counterRangeMin) {
-            this.validateFn = createCounterRangeValidator(this.counterRangeMax, this.counterRangeMin);
+        if (inputs.stringRangeMax || inputs.stringRangeMin) {
+            this.validateFn = createCounterRangeValidator(this.stringRangeMax, this.stringRangeMin);
         }
     }
 
     writeValue(value) {
         if (_.isUndefined(value))
             return;
-        if (this.round){
-            value = Math.round(value);
+        if (this.safe){
+            value = this.stringFixSafe(value);
         }
-        this.counterValue = value;
+        this.stringValue = value;
         this.cd.markForCheck();
         // this.inputElement.nativeElement.value = value;
-
     }
 
     registerOnChange(fn) {
