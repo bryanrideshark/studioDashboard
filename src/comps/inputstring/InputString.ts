@@ -96,10 +96,10 @@ export function createCounterRangeValidator(maxValue, minValue) {
                    type="text"                    
                    class="form-control" 
                    (blur)="onBlur($event)"/>
-                   <!--<small [hidden]="inputElement.valid || inputElement.pristine" -->
-                        <!--class="text-danger">-->
-                   	    <!--Name is required (minimum 3 characters).-->
-		            <!--</small>-->
+                   <div *ngIf="inputElement.hasError('required')"
+                        class="ui error message">SKU is required
+                   </div>
+                   
         </div>
   `,
     providers: [{
