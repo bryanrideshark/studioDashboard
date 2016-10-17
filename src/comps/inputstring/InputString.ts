@@ -89,6 +89,11 @@ export function createCounterRangeValidator(maxValue, minValue) {
     host: {
         '(blur)': 'onBlur($event)'
     },
+    styles: [`        
+       :host(.ng-invalid input) {
+            border-left: 3px solid red;
+        }
+    `],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
         <div (click)="$event.preventDefault()">

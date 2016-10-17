@@ -11,16 +11,19 @@ const appBaseUrlCloud = 'https://secure.digitalsignage.com';
 //todo: hard coded to one customer account while in dev
 
 // fq5@ms.com
-// const appBaseUrlAdnet = 'https://adnet.signage.me/adNetService.ashx?command=customerRequest&customerId=472&customerToken=7d1f5f73-7159-40af-9bbd-f61ef37b6394&fromChangelistId=0';
+const appBaseUrlAdnet = 'https://adnet.signage.me/adNetService.ashx?command=customerRequest&customerId=472&customerToken=7d1f5f73-7159-40af-9bbd-f61ef37b6394&fromChangelistId=0';
+const appBaseUrlAdnetSave = 'https://adnet.signage.me/adNetService.ashx?command=customerSubmit&customerId=472&customerToken=7d1f5f73-7159-40af-9bbd-f61ef37b6394&data=:DATA:';
 
 // d20@ms.com
 // const appBaseUrlAdnet = 'https://adnet.signage.me/adNetService.ashx?command=customerRequest&customerId=18635&customerToken=ec202a94-a66b-4380-85aa-1e73aab59be6&fromChangelistId=0';// d20@ms.com
 
-// sherwin5 load
-const appBaseUrlAdnet = 'https://adnet.signage.me/adNetService.ashx?command=customerRequest&customerId=2537&customerToken=82902404-48e2-4cdc-89b9-13b887ef9512&fromChangelistId=0';
+// sherwin5 load (bad)
+// const appBaseUrlAdnet = 'https://adnet.signage.me/adNetService.ashx?command=customerRequest&customerId=2537&customerToken=82902404-48e2-4cdc-89b9-13b887ef9512&fromChangelistId=0';
+// const appBaseUrlAdnetSave = 'https://adnet.signage.me/adNetService.ashx?command=customerSubmit&customerId=2537&customerToken=82902404-48e2-4cdc-89b9-13b887ef9512&data=:DATA:';
 
-// sherwin5 save
-const appBaseUrlAdnetSave = 'https://adnet.signage.me/adNetService.ashx?command=customerSubmit&customerId=2537&customerToken=82902404-48e2-4cdc-89b9-13b887ef9512&data=:DATA:';
+// d22@ms.com
+// const appBaseUrlAdnet = 'https://adnet.signage.me/adNetService.ashx?command=customerRequest&customerId=13111&customerToken=60795882-f80b-4569-9ceb-f6de36279306&fromChangelistId=0';
+// const appBaseUrlAdnetSave = 'https://adnet.signage.me/adNetService.ashx?command=customerSubmit&customerId=13111&customerToken=60795882-f80b-4569-9ceb-f6de36279306&data=:DATA:';
 
 // const adnetCustomerId = 18635;
 //adnetCustomerId: adnetCustomerId,

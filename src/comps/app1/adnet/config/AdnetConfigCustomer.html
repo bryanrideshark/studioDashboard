@@ -7,8 +7,19 @@
 
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                    <input [formControl]="contGroup.controls['label']" type="text" class="form-control"
-                           placeholder="Customer name">
+
+                    <InputString
+                            required
+                            [defaultValue]="'adnet user'"
+                            [safe]="true"
+                            [textholder]="'Customer name'"
+                            [stringRangeMin]="3"
+                            [stringRangeMax]="25"
+                            [formControl]="contGroup.controls['label']">
+                    </InputString>
+
+                    <!--<input [formControl]="contGroup.controls['label']" type="text" class="form-control"-->
+                    <!--placeholder="Customer name">-->
                 </div>
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-street-view"></i></span>

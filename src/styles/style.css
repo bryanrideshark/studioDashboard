@@ -968,3 +968,11 @@ small.release {
 .panel-title  {
     font-size: 0.9em;
 }
+
+/*.ng-valid[required] {*/
+    /*border-left: 1px solid #42A948; !* green *!*/
+/*}*/
+
+/*.ng-invalid InputNumeric input {*/
+    /*border-left: 3px solid red; !* red *!*/
+/*}*/

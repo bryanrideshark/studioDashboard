@@ -218,7 +218,6 @@ export class Lib {
             })
             return result;
         }
-
         var xmlData = `
           <Privilege>
               <Groups>
@@ -246,26 +245,42 @@ export class Lib {
                 <Group name="Scripts" visible="${getAttributeGroup('Scripts', 'visible')}">
                   <Tables scripts="${getPrivilegesTable('Scripts', 'scripts')}"/>
                 </Group>
-                <Group name="AdLocal" visible="${getAttributeGroup('AdLocal', 'visible')}">
-                  <Tables ad_local_packages="${getPrivilegesTable('AdLocal', 'ad_local_packages')}" ad_local_contents="${getPrivilegesTable('AdLocal', 'ad_local_contents')}"/>
-                </Group>
-                <Group name="AdOut" visible="${getAttributeGroup('AdOut', 'visible')}" globalSearch="${getAttributeGroup('AdOut', 'globalSearch')}">
-                  <Tables ad_out_packages="${getPrivilegesTable('AdOut', 'ad_out_packages')}" ad_out_package_stations="${getPrivilegesTable('AdOut', 'ad_out_package_stations')}" ad_out_package_contents="${getPrivilegesTable('AdOut', 'ad_out_package_contents')}"/>
-                </Group>
-                <Group name="AdIn" visible="${getAttributeGroup('AdIn', 'visible')}">
-                  <Tables ad_in_domains="${getPrivilegesTable('AdIn', 'ad_in_domains')}" ad_in_domain_businesses="${getPrivilegesTable('AdIn', 'ad_in_domain_businesses')}" ad_in_domain_business_packages="${getPrivilegesTable('AdIn', 'ad_in_domain_business_packages')}" ad_in_domain_business_package_stations="${getPrivilegesTable('AdIn', 'ad_in_domain_business_package_stations')}" ad_rates="${getPrivilegesTable('AdIn', 'ad_rates')}"/>
-                </Group>
-                <Group name="AdRate" visible="${getAttributeGroup('AdRate', 'visible')}">
-                  <Tables ad_rates="${getPrivilegesTable('AdRate', 'ad_rates')}"/>
-                </Group>
-                <Group name="AdAnalytic" visible="${getAttributeGroup('AdAnalytic', 'visible')}">
-                  <Tables/>
-                </Group>
+                <Group name="AdNet" 
+                    visible="${getAttributeGroup('AdNet', 'visible')}" 
+                    profile="${getAttributeGroup('AdNet', 'profile')}"
+                    customerNetwork="${getAttributeGroup('AdNet', 'customerNetwork')}"
+                    resellerNetwork="${getAttributeGroup('AdNet', 'resellerNetwork')}"
+                    globalNetwork="${getAttributeGroup('AdNet', 'globalNetwork')}"
+                    defaultAutoActivate="${getAttributeGroup('AdNet', 'defaultAutoActivate')}"
+                    pairFeedback="${getAttributeGroup('AdNet', 'pairFeedback')}"
+                    pairSetting="${getAttributeGroup('AdNet', 'pairSetting')}"
+                    pairChat="${getAttributeGroup('AdNet', 'pairChat')}"
+                    billing="${getAttributeGroup('AdNet', 'billing')}"
+                    assets="${getAttributeGroup('AdNet', 'assets')}"
+                    >
+                  <Tables 
+                      adnet_rates="${getPrivilegesTable('AdNet', 'adnet_rates')}" 
+                      adnet_targets="${getPrivilegesTable('AdNet', 'adnet_targets')}"
+                      adnet_packages="${getPrivilegesTable('AdNet', 'adnet_packages')}"
+                      adnet_package_contents="${getPrivilegesTable('AdNet', 'adnet_package_contents')}"
+                      adnet_package_targets="${getPrivilegesTable('AdNet', 'adnet_package_targets')}"
+                  />
+                </Group>                
                 <Group name="Music" visible="${getAttributeGroup('Music', 'visible')}">
-                  <Tables music_channels="${getPrivilegesTable('Music', 'music_channels')}" music_channel_songs="${getPrivilegesTable('Music', 'music_channel_songs')}"/>
+                  <Tables 
+                  music_channels="${getPrivilegesTable('Music', 'music_channels')}" 
+                  music_channel_songs="${getPrivilegesTable('Music', 'music_channel_songs')}"/>
                 </Group>
-                <Group name="Stations" visible="${getAttributeGroup('Stations', 'visible')}" stationsNetwork="${getAttributeGroup('Stations', 'stationsNetwork')}" updateOnSave="${getAttributeGroup('Stations', 'updateOnSave')}" lanServer="${getAttributeGroup('Stations', 'lanServer')}" zwave="${getAttributeGroup('Stations', 'zwave')}">
-                  <Tables branch_stations="${getPrivilegesTable('Stations', 'branch_stations')}" station_ads="${getPrivilegesTable('Stations', 'station_ads')}"/>
+                <Group name="Stations"
+                    visible="${getAttributeGroup('Stations', 'visible')}" 
+                    stationsNetwork="${getAttributeGroup('Stations', 'stationsNetwork')}" 
+                    updateOnSave="${getAttributeGroup('Stations', 'updateOnSave')}" 
+                    lanServer="${getAttributeGroup('Stations', 'lanServer')}" 
+                    zwave="${getAttributeGroup('Stations', 'zwave')}"
+                  >
+                  <Tables 
+                    branch_stations="${getPrivilegesTable('Stations', 'branch_stations')}" 
+                    station_ads="${getPrivilegesTable('Stations', 'station_ads')}"/>
                 </Group>
                 <Group name="Changelist" visible="${getAttributeGroup('Changelist', 'visible')}">
                   <Tables/>
@@ -1330,3 +1345,16 @@ if (!Object.assign) {
 
 
 
+//
+// <Group name="AdOut" visible="${getAttributeGroup('AdOut', 'visible')}" globalSearch="${getAttributeGroup('AdOut', 'globalSearch')}">
+// <Tables ad_out_packages="${getPrivilegesTable('AdOut', 'ad_out_packages')}" ad_out_package_stations="${getPrivilegesTable('AdOut', 'ad_out_package_stations')}" ad_out_package_contents="${getPrivilegesTable('AdOut', 'ad_out_package_contents')}"/>
+// </Group>
+// <Group name="AdIn" visible="${getAttributeGroup('AdIn', 'visible')}">
+// <Tables ad_in_domains="${getPrivilegesTable('AdIn', 'ad_in_domains')}" ad_in_domain_businesses="${getPrivilegesTable('AdIn', 'ad_in_domain_businesses')}" ad_in_domain_business_packages="${getPrivilegesTable('AdIn', 'ad_in_domain_business_packages')}" ad_in_domain_business_package_stations="${getPrivilegesTable('AdIn', 'ad_in_domain_business_package_stations')}" ad_rates="${getPrivilegesTable('AdIn', 'ad_rates')}"/>
+// </Group>
+// <Group name="AdRate" visible="${getAttributeGroup('AdRate', 'visible')}">
+// <Tables ad_rates="${getPrivilegesTable('AdRate', 'ad_rates')}"/>
+// </Group>
+// <Group name="AdAnalytic" visible="${getAttributeGroup('AdAnalytic', 'visible')}">
+//     <Tables/>
+//     </Group>

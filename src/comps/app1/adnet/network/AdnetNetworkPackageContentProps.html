@@ -24,23 +24,15 @@
                             <li class="list-group-item">
                                 <div class="input-group">
                                     <span class="input-group-addon">duration</span>
-                                    <InputString
-                                        [defaultValue]="'FooBar'"
-                                        [safe]="true"
-                                        [textholder]="'enter text'"
-                                        [stringRangeMin]="3"
-                                        [stringRangeMax]="6">
-                                    </InputString>
-
-                                    <!--<InputNumeric-->
-                                            <!--[defaultValue]="5"-->
-                                            <!--[round]="true"-->
-                                            <!--[textholder]="'duration'"-->
-                                            <!--[step]="1"-->
-                                            <!--[counterRangeMin]="3"-->
-                                            <!--[counterRangeMax]="60"-->
-                                            <!--[formControl]="contGroup.controls['duration']">-->
-                                    <!--</InputNumeric>-->
+                                    <InputNumeric
+                                            [defaultValue]="5"
+                                            [round]="true"
+                                            [textholder]="'duration'"
+                                            [step]="1"
+                                            [counterRangeMin]="3"
+                                            [counterRangeMax]="60"
+                                            [formControl]="contGroup.controls['duration']">
+                                    </InputNumeric>
                                 </div>
                             </li>
                             <li class="list-group-item">

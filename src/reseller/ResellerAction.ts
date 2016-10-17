@@ -127,6 +127,7 @@ export class ResellerAction extends Actions {
             var url = appdb.get('appBaseUrlUser') + `&command=GetBusinessUserInfo`;
             this._http.get(url)
                 .map(result => {
+                    /** put a debugger here to see/add new privilege**/
                     var xmlData: string = result.text()
                     this.m_parseString(xmlData, {attrkey: '_attr'}, function (err, result) {
                         if (err) {
