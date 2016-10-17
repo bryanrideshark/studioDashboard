@@ -1,12 +1,15 @@
 /**
- Custom Form numeric enforcer component compatible with both template and reactive forms
+ Custom Form string enforcer component compatible with both template and reactive forms
 
- While <input type="number> sort of works, it does not prevent the user
- from still entering invalid values via pasting wrong text, enter the letter 'e'
- and a number of other ways that users can find to screw your SQL numeric only database entries.
+ While <input type="text> sort of works, it does not prevent the user
+ from still entering invalid values via pasting wrong text, enter problematic characters such as &;
+ and a number of other ways that users can find to screw your SQL database entries.
 
  This simple to use component will make sure you will never get anything but
- allowed values within your selected range (+, -, decimal point).. enjoy,
+ allowed values within your selected range (min,max, allowed characters, real time swapping of characters and more).. enjoy,
+
+ currently this library swaps characters using the Lib.CleanCharForXml but
+ you can easily change to any mechanism you like per your app needs.
 
  Sean
 
