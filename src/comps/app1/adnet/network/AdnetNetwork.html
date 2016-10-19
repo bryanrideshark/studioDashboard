@@ -16,7 +16,7 @@
             <!-- **************************************************************** -->
 
             <tab (activated)="onTabActive('packagesTab', $event)" [tabtitle]="'Packages'">
-                <div class="row" *ngIf="(pairsOutgoing == true && this.pairsSelected && this.pairsSelected.size > 1) || pairsOutgoing == true && packageEditMode == true">
+                <div class="row" *ngIf="(this.pairsOutgoing == true && this.pairsSelected && this.pairsSelected.size > 1) || this.pairsOutgoing == true && this.packageEditMode == true">
                     <div class="col-xs-3">
                         <AdnetNetworkPackageEditor (onPropSelected)="onPropSelected('packagesTab', $event)"
                                                    (onAdnetTargetsSelected)="onAdnetTargetsSelected($event)"
@@ -68,7 +68,7 @@
                     </div>
                 </div>
 
-                <div class="row" *ngIf="pairsOutgoing == false || (this.pairsSelected && this.pairsSelected.size == 1)">
+                <div class="row" *ngIf="this.pairsOutgoing == false || (this.pairsSelected && this.pairsSelected.size == 1)">
                     <div class="col-xs-9">
                         <div style="min-height: 300px; overflow-y: scroll; height: 300px">
                             <div style="overflow-x: scroll">
