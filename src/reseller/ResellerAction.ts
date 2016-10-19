@@ -257,10 +257,10 @@ export class ResellerAction extends Actions {
             var accountModelList: List<AccountModel> = List<AccountModel>();
             this._http.get(url)
                 .map(result => {
-                    var xmlData: string = result.text()
+                    var xmlData: string = result.text();
                     this.m_parseString(xmlData, {attrkey: '_attr'}, function (err, result) {
                         if (err) {
-                            bootbox.alert('problem account info')
+                            bootbox.alert('problem with account info');
                             return;
                         }
                         /**

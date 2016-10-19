@@ -30,7 +30,15 @@ export interface IPairSelect {
 @Component({
     selector: 'AdnetNetworkCustomerSelector',
     moduleId: __moduleName,
-    styles: [`.mn {margin-left: 4px; width: 80%; } option { font-size: 16px; }`],
+    styles: [`
+        .mn {margin-left: 4px; width: 80%; } option { font-size: 16px; }
+        .faPlace {
+        padding-right: 10px;
+        font-size: 1.6em;
+        position: relative;
+        top: 2px;
+        }
+`],
     template: `   
             <small class="debug">{{me}}</small>
             <select style="font-family:'FontAwesome', Arial;" (change)="onChanges($event)" class="mn form-control custom longInput">
@@ -38,17 +46,37 @@ export interface IPairSelect {
                 <option>&#xf064; Incoming</option>
             </select>
             <br/>
-            <button (click)="onSelectAll()" class="btn-sm mn btn bg-primary">Select all</button>
+            <button (click)="onEditMode()"
+                [ngClass]="{'btn-primary': packageEditMode}" class="btn-sm mn btn">
+                <div *ngIf="packageEditMode && outgoing == true">
+                    <span class="faPlace fa fa-edit"></span>
+                    edit packages
+                </div>
+                <div style="opacity: 0.3" *ngIf="!packageEditMode && outgoing == true">
+                    <span class="faPlace fa fa-edit"></span>
+                    edit packages                        
+                </div>
+                <div *ngIf="packageEditMode && outgoing == false">
+                    <span class="faPlace fa fa-list"></span>
+                    select all
+                </div>                
+                <div *ngIf="!packageEditMode && outgoing == false">
+                    <span class="faPlace fa fa-list"></span>
+                    select all                        
+                </div>
+            </button>
             <div style="padding-left: 20px">
                <SimpleList *ngIf="outgoing" #simpleListOutgoing
-                    [list]="pairsFilteredOutgoing" 
+                    [list]="pairsFilteredOutgoing"
+                    (itemClicked)="packageEditMode = false"
                     (selected)="onSelecting($event)"
                     [multiSelect]="true" 
                     [contentId]="getPairId" [content]="getPairName()">
                 </SimpleList>
                 
                 <SimpleList *ngIf="!outgoing" #simpleListIncoming 
-                    [list]="pairsFilteredIncoming" 
+                    [list]="pairsFilteredIncoming"
+                    (itemClicked)="packageEditMode = false"
                     (selected)="onSelecting($event)"
                     [multiSelect]="true" 
                     [contentId]="getPairId" [content]="getPairName()">
@@ -81,6 +109,8 @@ export class AdnetNetworkCustomerSelector {
 
     @Output() onPropSelected: EventEmitter<IAdNetworkPropSelectedEvent> = new EventEmitter<IAdNetworkPropSelectedEvent>();
 
+    @Output() onPackageEditMode: EventEmitter<boolean> = new EventEmitter<boolean>();
+
     @Input()
     set setAdnetCustomerModel(i_adnetCustomerModel: AdnetCustomerModel) {
         this.adnetCustomerModel = i_adnetCustomerModel;
@@ -102,6 +132,7 @@ export class AdnetNetworkCustomerSelector {
     private unsub: Function;
     private adnetCustomerId: number = -1;
     private adnetCustomerModel: AdnetCustomerModel;
+    private packageEditMode: boolean = true;
 
     private getIndex(list: List<any>, id: number) {
         return list.findIndex((i: StoreModel) => i['getId']() === id);
@@ -127,7 +158,8 @@ export class AdnetNetworkCustomerSelector {
         this.observer.next(event)
     }
 
-    private onSelectAll() {
+    private onEditMode() {
+        this.packageEditMode = true;
         if (this.simpleListIncoming)
             this.simpleListIncoming.itemAllSelected();
         if (this.simpleListOutgoing)
@@ -161,21 +193,17 @@ export class AdnetNetworkCustomerSelector {
         this.pairsFilteredOutgoing = List<AdnetPairModel>();
         this.pairs.forEach((i_pair: AdnetPairModel) => {
             if (this.outgoing) {
-                if (i_pair.getCustomerId() == this.adnetCustomerId)
-                    this.pairsFilteredOutgoing = this.pairsFilteredOutgoing.push(i_pair);
+                if (i_pair.getCustomerId() == this.adnetCustomerId) this.pairsFilteredOutgoing = this.pairsFilteredOutgoing.push(i_pair);
             } else {
-                if (i_pair.getToCustomerId() == this.adnetCustomerId)
-                    this.pairsFilteredIncoming = this.pairsFilteredIncoming.push(i_pair);
+                if (i_pair.getToCustomerId() == this.adnetCustomerId) this.pairsFilteredIncoming = this.pairsFilteredIncoming.push(i_pair);
             }
         })
     }
 
     private onChanges(event) {
         this.outgoing = !this.outgoing;
-        if (this.simpleListOutgoing)
-            this.simpleListOutgoing.deselect();
-        if (this.simpleListIncoming)
-            this.simpleListIncoming.deselect();
+        if (this.simpleListOutgoing) this.simpleListOutgoing.deselect();
+        if (this.simpleListIncoming) this.simpleListIncoming.deselect();
         this.filterPairs();
         this.announceChange();
         this.selectAllDelayed();
@@ -183,8 +211,8 @@ export class AdnetNetworkCustomerSelector {
 
     private selectAllDelayed() {
         setTimeout(() => {
-            this.onSelectAll();
-        }, 50)
+            this.onEditMode();
+        }, 10)
     }
 
     private announceChange() {
@@ -193,10 +221,14 @@ export class AdnetNetworkCustomerSelector {
             pairsOutgoing: this.outgoing
         }
         this.onPairsSelected.emit(<IPairSelect>data);
-        if (this.pairsSelected && this.pairsSelected.size == 1)
+        if (this.pairsSelected && this.pairsSelected.size == 1){
             this.onPropSelected.emit({selected: AdnetNetworkPropSelector.PAIR})
-        if (this.pairsSelected && this.pairsSelected.size > 1)
+
+        }
+        if (this.pairsSelected && this.pairsSelected.size > 1){
             this.onPropSelected.emit({selected: AdnetNetworkPropSelector.NONE})
+        }
+        this.onPackageEditMode.emit(this.packageEditMode)
     }
 
     private ngOnDestroy() {

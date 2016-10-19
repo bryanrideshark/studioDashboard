@@ -10,23 +10,30 @@ const baseUrl = 'https://galaxy.signage.me/WebService/ResellerService.ashx';
 const appBaseUrlCloud = 'https://secure.digitalsignage.com';
 //todo: hard coded to one customer account while in dev
 
+
+// dev 1
+const adnetCustomerId = '29477'
+const adnetCustomerToken = '5b861c39-a208-4362-91ab-2c9766d7ebc1'
+
 // fq5@ms.com
-const appBaseUrlAdnet = 'https://adnet.signage.me/adNetService.ashx?command=customerRequest&customerId=472&customerToken=7d1f5f73-7159-40af-9bbd-f61ef37b6394&fromChangelistId=0';
-const appBaseUrlAdnetSave = 'https://adnet.signage.me/adNetService.ashx?command=customerSubmit&customerId=472&customerToken=7d1f5f73-7159-40af-9bbd-f61ef37b6394&data=:DATA:';
+// const adnetCustomerId = '472'
+// const adnetCustomerToken = '7d1f5f73-7159-40af-9bbd-f61ef37b6394'
+
+// d17@ms.com
+// const adnetCustomerId = '29238';
+// const adnetCustomerToken '00be859c-fafb-4d69-bbf7-15ba73d8c7fc';
 
 // d20@ms.com
-// const appBaseUrlAdnet = 'https://adnet.signage.me/adNetService.ashx?command=customerRequest&customerId=18635&customerToken=ec202a94-a66b-4380-85aa-1e73aab59be6&fromChangelistId=0';// d20@ms.com
-
-// sherwin5 load (bad)
-// const appBaseUrlAdnet = 'https://adnet.signage.me/adNetService.ashx?command=customerRequest&customerId=2537&customerToken=82902404-48e2-4cdc-89b9-13b887ef9512&fromChangelistId=0';
-// const appBaseUrlAdnetSave = 'https://adnet.signage.me/adNetService.ashx?command=customerSubmit&customerId=2537&customerToken=82902404-48e2-4cdc-89b9-13b887ef9512&data=:DATA:';
+// const adnetCustomerId = '18635'
+// const adnetCustomerToken = 'ec202a94-a66b-4380-85aa-1e73aab59be6';
 
 // d22@ms.com
-// const appBaseUrlAdnet = 'https://adnet.signage.me/adNetService.ashx?command=customerRequest&customerId=13111&customerToken=60795882-f80b-4569-9ceb-f6de36279306&fromChangelistId=0';
-// const appBaseUrlAdnetSave = 'https://adnet.signage.me/adNetService.ashx?command=customerSubmit&customerId=13111&customerToken=60795882-f80b-4569-9ceb-f6de36279306&data=:DATA:';
+// const adnetCustomerId = '13111'
+// const adnetCustomerToken = '60795882-f80b-4569-9ceb-f6de36279306';
 
-// const adnetCustomerId = 18635;
-//adnetCustomerId: adnetCustomerId,
+const appBaseUrlAdnet = `https://adnet.signage.me/adNetService.ashx?command=customerRequest&customerId=${adnetCustomerId}&customerToken=${adnetCustomerToken}&fromChangelistId=0`;
+const appBaseUrlAdnetSave = `https://adnet.signage.me/adNetService.ashx?command=customerSubmit&customerId=${adnetCustomerId}&customerToken=${adnetCustomerToken}&data=:DATA:`;
+
 
 export default function appdb(state:Map<string, any> = Map<string, any>({}), action:any):Map<string, any> {
     switch (action.type) {

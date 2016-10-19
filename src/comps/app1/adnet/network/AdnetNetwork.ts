@@ -53,6 +53,7 @@ export class AdnetNetwork {
     private adnetCustomerModel: AdnetCustomerModel;
     private pairsSelected: List<AdnetPairModel>;
     private pairsOutgoing: boolean;
+    private packageEditMode: boolean = false;
 
     /** packages tabs specific members **/
     private selectedAdnetTargetModels: List<AdnetTargetModel>;
@@ -91,6 +92,10 @@ export class AdnetNetwork {
                 break;
             }
         }
+    }
+
+    private onPackageEditMode(event:boolean){
+        this.packageEditMode = event;
     }
 
     private onTabActive(tabName:TabType, event:boolean){

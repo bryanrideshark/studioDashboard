@@ -1,6 +1,7 @@
 <div *ngIf="adnetCustomerModel" class="row">
     <div class="col-xs-2">
         <AdnetNetworkCustomerSelector (onPairsSelected)="onPairSelected($event)"
+                                      (onPackageEditMode)="onPackageEditMode($event)"
                                       (onPropSelected)="onPropSelected('packagesTab', $event)"
                                       [setAdnetCustomerModel]="adnetCustomerModel">
         </AdnetNetworkCustomerSelector>
@@ -15,7 +16,7 @@
             <!-- **************************************************************** -->
 
             <tab (activated)="onTabActive('packagesTab', $event)" [tabtitle]="'Packages'">
-                <div class="row" *ngIf="pairsOutgoing == true && this.pairsSelected && this.pairsSelected.size > 1">
+                <div class="row" *ngIf="(pairsOutgoing == true && this.pairsSelected && this.pairsSelected.size > 1) || pairsOutgoing == true && packageEditMode == true">
                     <div class="col-xs-3">
                         <AdnetNetworkPackageEditor (onPropSelected)="onPropSelected('packagesTab', $event)"
                                                    (onAdnetTargetsSelected)="onAdnetTargetsSelected($event)"

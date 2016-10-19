@@ -95,16 +95,21 @@ export class SimpleList {
     iconClicked: EventEmitter<any> = new EventEmitter();
 
     @Output()
+    itemClicked: EventEmitter<any> = new EventEmitter();
+
+    @Output()
     selected: EventEmitter<any> = new EventEmitter();
 
     @Output()
     edited: EventEmitter<any> = new EventEmitter();
+
 
     private onEditChanged(event) {
         this.edited.emit((event))
     }
 
     private itemSelected(item, index) {
+        this.itemClicked.emit({item, index});
         let id = this.contentId ? this.contentId(item) : index;
         for (let id in this.m_metadata) {
             this.m_metadata[id] = {
