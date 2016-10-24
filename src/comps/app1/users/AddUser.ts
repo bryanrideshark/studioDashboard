@@ -1,5 +1,10 @@
-import {Component, EventEmitter, ChangeDetectionStrategy, Input} from '@angular/core';
-import {ModalDialog} from "../../modaldialog/ModalDialog";
+import {
+    Component,
+    EventEmitter,
+    ChangeDetectionStrategy,
+    Input,
+    ViewChild
+} from '@angular/core';
 import {BusinessUser} from "../../../business/BusinessUser";
 import {Lib} from "../../../Lib";
 import {FormGroup, Validators, FormControl, FormBuilder} from "@angular/forms";
@@ -10,6 +15,7 @@ import {ModalComponent} from "../../ng2-bs3-modal/components/modal";
 import * as _ from 'lodash'
 import AddUserTemplate from './AddUser.html!text';
 import AddUserStyle from './AddUser.css!text';
+import {ChangePass} from "./ChangePass";
 
 @Component({
     selector: 'addUser',
@@ -37,28 +43,25 @@ export class AddUser {
             accessKeys5: [],
             accessKeys6: [],
             accessKeys7: [],
-            matchingPassword: fb.group({
-                password: ['', Validators.required],
-                confirmPassword: ['', Validators.required]
-            }, {validator: this.areEqual}),
             'privileges': ['', Validators.required]
         });
 
         this.sub = modal.onClose.subscribe(()=> {
             var userNameControl:FormControl = this.notesForm.controls['userName'] as FormControl;
             var businessNameControl:FormControl = this.notesForm.controls['businessName'] as FormControl;
-            this.passwordGroup.controls['password'].setValue('')
-            this.passwordGroup.controls['confirmPassword'].setValue('')
             userNameControl.setValue('')
             businessNameControl.setValue('')
         })
-        this.passwordGroup = this.notesForm.controls['matchingPassword'] as FormControl;
+        // this.passwordGroup = this.notesForm.controls['matchingPassword'] as FormControl;
         this.userName = this.notesForm.controls['userName'] as FormControl;
     }
 
     private accessKeysArr:any = _.times(8, _.uniqueId as any);
     // private accessKeys:Array<boolean> = _.times(8, ()=>false);
     // private accessKeys:FormControl[];
+
+    @ViewChild(ChangePass)
+    changePass:ChangePass;
 
     @Input()
     businessId:number;
@@ -73,7 +76,7 @@ export class AddUser {
     private notesForm:FormGroup;
     private userName:FormControl;
     private businessName:FormControl;
-    private passwordGroup;
+    // private passwordGroup;
     private sub:EventEmitter<any>;
 
     private onKeyChange(event, index) {
@@ -109,6 +112,9 @@ export class AddUser {
     }
 
     private onSubmit(event) {
+        var pass = this.changePass.getPassword();
+        if (_.isNull(pass))
+            return;
         var accessKeys = [];
         _.forEach(event,(value,key:any)=>{
             if (key.indexOf('accessKey') > -1){
@@ -127,7 +133,7 @@ export class AddUser {
         var userData = {
             accessMask: computedAccessMask,
             privilegeId: privilegeId,
-            password: event.matchingPassword.password,
+            password: pass.pass1,
             name: event.userName,
             businessName: event.businessName,
             businessId: this.businessId,

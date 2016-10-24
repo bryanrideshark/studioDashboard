@@ -27,15 +27,7 @@
 					 <input type="text" class="longInput form-control" placeholder="name" required [formControl]="notesForm.controls['userName']">
 				  </li>
 				  <li class="list-group-item">
-					 <div formGroupName="matchingPassword" [class.invalid]="passwordGroup.touched && !passwordGroup.valid">
-						<div *ngIf="!passwordGroup.valid" class="alert alert-warning alert-dismissible" role="alert">
-						  needs matching password 4+ characters
-						</div>
-						<input required id="password" class="longInput form-control" placeholder="password (4+ characters)" type="password" formControlName="password">
-						<input required id="confirmPassword" class="longInput form-control" placeholder="password again" type="password" formControlName="confirmPassword">
-					 </div>
-					 <!--<p>Valid?: {{notesForm.valid}}</p>-->
-					 <!--<pre>{{notesForm.value | json}}</pre>-->
+					  <changePass [showSubmit]="false" [businessUser]=""></changePass>
 				  </li>
 				  <li class="list-group-item">
 					 <!--<input type="text" class="longInput form-control" placeholder="privileges" required [formControl]="notesForm.controls['privileges']">-->
