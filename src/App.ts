@@ -11,6 +11,7 @@
  4. npm run devserver
  *
  ****************************************************************/
+///<reference path="../typings/app.d.ts" />
 
 import "zone.js/dist/zone";
 import "reflect-metadata";

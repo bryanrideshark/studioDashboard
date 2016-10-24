@@ -1,5 +1,3 @@
-///<reference path="../../../typings/app.d.ts" />
-
 import {Component} from "@angular/core";
 import {Consts} from "../../Conts";
 
