@@ -41,7 +41,7 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
                 <tr class="simpleGridRecord" simpleGridRecord (onClicked)="onGridSelected($event)"
                     *ngFor="let item of adnetTargetModels | OrderBy:sort.field:sort.desc; let index=index" [item]="item"
                     [index]="index">
-                    <td style="width: 14%" simpleGridData [processField]="processAdnetPackageField('getCustomerId')"
+                    <td style="width: 14%" simpleGridData [processField]="processAdnetPackageField('getName')"
                         [item]="item"></td>
                     <td style="width: 14%" simpleGridData [processField]="processAdnetPackageField('getTargetTypeName')"
                         [item]="item"></td>
