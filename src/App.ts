@@ -116,6 +116,9 @@ import {Samplelist} from "./comps/app1/users/SampleList";
 import {ImgLoader} from "./comps/imgloader/ImgLoader";
 import {Ng2Highmaps} from "./comps/ng2-highcharts/src/directives/ng2-highmaps";
 import {Ng2Highstocks} from "./comps/ng2-highcharts/src/directives/ng2-highstocks";
+import {TreeModule} from 'angular2-tree-component';
+
+
 // import {SimpleGridSortableHeader} from "./comps/simplegrid/SimpleGridSortableHeader";
 // import {SimpleGridRecord} from "./comps/simplegrid/SimpleGridRecord";
 // import {SimpleGridData} from "./comps/simplegrid/SimpleGridData";
@@ -258,7 +261,7 @@ var providing = [CommBroker, AUTH_PROVIDERS,
 var decelerations = [Main, RatesTable, UsersDetails, LoginPanel, Menu, MenuItem, Account, Whitelabel, Apps, App1, Users, Adnet, Privileges, Dashboard, Logout, Orders, Filemenu, FilemenuItem, Logo, LogoCompany, Footer, BlurForwarder, InputEdit, OrderBy, SortBy, FilterPipe, AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, ServerStats, ServerAvg, StationsMap, StationsGrid, StationDetails, ImgLoader, Ng2Highcharts, AdnetConfigCustomer, AdnetConfig, StationSnapshot, OrderDetails, SimpleList, PrivilegesDetails, ModalDialog, Infobox, UserStorage, Loading, Samplelist, UserInfo, AddUser, ChangePass, MODAL_DIRECTIVES, Ng2Highstocks, Ng2Highmaps, SimplelistEditable, AdnetConfigTargetStations, AdnetConfigTargetProps, AdnetLocation, MapAddress, AdnetNetwork, AdnetNetworkCustomerSelector, AdnetNetworkPackageEditor, AdnetNetworkPackageViewer, AdnetNetworkPackageTarget, AdnetNetworkPackageProps, AdnetNetworkPackageContent, AdnetNetworkPackageContentProps, AdnetNetworkTarget, AdnetNetworkTargetProps, ResourceViewer, AdnetNetworkPackageViewProps, AdnetNetworkPairProps, AdnetLoader, InputNumeric, InputString];
 
 @NgModule({
-    imports: [BrowserModule, SimpleGridModule.forRoot(), AgmCoreModule.forRoot(), JsonpModule, HttpModule, ReactiveFormsModule, FormsModule, DropdownModule, AccordionModule, routing],
+    imports: [BrowserModule, SimpleGridModule.forRoot(), AgmCoreModule.forRoot(), JsonpModule, HttpModule, ReactiveFormsModule, FormsModule, DropdownModule, AccordionModule, routing, TreeModule],
     providers: [providing],
     declarations: decelerations,
     bootstrap: [Main],
