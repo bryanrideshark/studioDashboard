@@ -10,7 +10,6 @@ SystemJS.config({
             "systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@0.6.0",
             "tty": "github:jspm/nodelibs-tty@0.2.0-alpha",
             "ng2-bootstrap": "npm:ng2-bootstrap@1.1.2"
-
         },
         "packages": {
             "npm:ng2-bootstrap@1.1.2": {
@@ -418,11 +417,9 @@ SystemJS.config({
         "core-js": "npm:core-js@2.4.1",
         "gulp-util": "npm:gulp-util@3.0.7",
         "twbs/bootstrap": "github:twbs/bootstrap@3.3.6",
-        "@angular/http": "npm:@angular/http@2.0.0",
         "@angular/router": "npm:@angular/router@3.0.0",
         "angular-router": "npm:@angular/router@3.0.0",
-        "ts": "npm:plugin-typescript@5.1.2",
-        "css": "github:systemjs/plugin-css@0.1.27"
+        "ts": "npm:plugin-typescript@5.1.2"
     }
 });
 
@@ -433,6 +430,9 @@ SystemJS.config({
         "github:*/*.json"
     ],
     map: {
+        "angular2-tree-component": "npm:angular2-tree-component@1.3.5",
+        "@angular/http": "npm:@angular/http@2.0.0",
+        "css": "github:systemjs/plugin-css@0.1.27",
         "capaj/systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@0.6.0",
         "constants": "github:jspm/nodelibs-constants@0.2.0-alpha",
         "crypto": "github:jspm/nodelibs-crypto@0.2.0-alpha",
@@ -478,7 +478,7 @@ SystemJS.config({
         "plugin-typescript": "npm:plugin-typescript@5.1.2",
         "process": "github:jspm/nodelibs-process@0.2.0-alpha",
         "redux": "npm:redux@3.5.2",
-        "reflect-metadata": "npm:reflect-metadata@0.1.3",
+        "reflect-metadata": "npm:reflect-metadata@0.1.8",
         "reselect": "npm:reselect@2.5.1",
         "rxjs": "npm:rxjs@5.0.0-beta.12",
         "stream": "github:jspm/nodelibs-stream@0.2.0-alpha",
@@ -713,9 +713,6 @@ SystemJS.config({
         "npm:punycode@1.3.2": {
             "map": {}
         },
-        "npm:reflect-metadata@0.1.3": {
-            "map": {}
-        },
         "npm:sax@1.2.1": {
             "map": {}
         },
@@ -760,7 +757,7 @@ SystemJS.config({
         },
         "npm:rxjs@5.0.0-beta.12": {
             "map": {
-                "symbol-observable": "npm:symbol-observable@1.0.2"
+                "symbol-observable": "npm:symbol-observable@1.0.4"
             }
         },
         "github:jspm/nodelibs-crypto@0.2.0-alpha": {
@@ -778,7 +775,7 @@ SystemJS.config({
                 "public-encrypt": "npm:public-encrypt@4.0.0",
                 "create-ecdh": "npm:create-ecdh@4.0.0",
                 "randombytes": "npm:randombytes@2.0.3",
-                "pbkdf2": "npm:pbkdf2@3.0.7",
+                "pbkdf2": "npm:pbkdf2@3.0.9",
                 "browserify-sign": "npm:browserify-sign@4.0.0"
             }
         },
@@ -856,8 +853,8 @@ SystemJS.config({
                 "browserify-aes": "npm:browserify-aes@1.0.6",
                 "create-hash": "npm:create-hash@1.1.2",
                 "evp_bytestokey": "npm:evp_bytestokey@1.0.0",
-                "pbkdf2": "npm:pbkdf2@3.0.7",
-                "asn1.js": "npm:asn1.js@4.8.0"
+                "pbkdf2": "npm:pbkdf2@3.0.9",
+                "asn1.js": "npm:asn1.js@4.8.1"
             }
         },
         "npm:browserify-rsa@4.0.1": {
@@ -888,13 +885,6 @@ SystemJS.config({
                 "elliptic": "npm:elliptic@6.3.2"
             }
         },
-        "npm:asn1.js@4.8.0": {
-            "map": {
-                "inherits": "npm:inherits@2.0.3",
-                "bn.js": "npm:bn.js@4.11.6",
-                "minimalistic-assert": "npm:minimalistic-assert@1.0.0"
-            }
-        },
         "npm:des.js@1.0.0": {
             "map": {
                 "inherits": "npm:inherits@2.0.3",
@@ -911,11 +901,6 @@ SystemJS.config({
                 "typescript": "npm:typescript@2.0.2"
             }
         },
-        "npm:pbkdf2@3.0.7": {
-            "map": {
-                "create-hmac": "npm:create-hmac@1.1.4"
-            }
-        },
         "npm:elliptic@6.3.2": {
             "map": {
                 "bn.js": "npm:bn.js@4.11.6",
@@ -927,8 +912,8 @@ SystemJS.config({
         "npm:buffer@4.9.1": {
             "map": {
                 "isarray": "npm:isarray@1.0.0",
-                "base64-js": "npm:base64-js@1.1.2",
-                "ieee754": "npm:ieee754@1.1.6"
+                "base64-js": "npm:base64-js@1.2.0",
+                "ieee754": "npm:ieee754@1.1.8"
             }
         },
         "npm:readable-stream@2.1.5": {
@@ -952,6 +937,29 @@ SystemJS.config({
         "npm:debug@2.2.0": {
             "map": {
                 "ms": "npm:ms@0.7.1"
+            }
+        },
+        "npm:angular2-tree-component@1.3.5": {
+            "map": {
+                "lodash": "npm:lodash@4.16.4",
+                "ts-helpers": "npm:ts-helpers@1.1.2",
+                "es6-promise": "npm:es6-promise@3.3.1",
+                "es6-shim": "npm:es6-shim@0.35.1",
+                "core-js": "npm:core-js@2.4.1",
+                "reflect-metadata": "npm:reflect-metadata@0.1.8",
+                "rxjs": "npm:rxjs@5.0.0-beta.12"
+            }
+        },
+        "npm:pbkdf2@3.0.9": {
+            "map": {
+                "create-hmac": "npm:create-hmac@1.1.4"
+            }
+        },
+        "npm:asn1.js@4.8.1": {
+            "map": {
+                "bn.js": "npm:bn.js@4.11.6",
+                "inherits": "npm:inherits@2.0.3",
+                "minimalistic-assert": "npm:minimalistic-assert@1.0.0"
             }
         }
     }
