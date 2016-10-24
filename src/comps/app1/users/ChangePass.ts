@@ -1,6 +1,5 @@
 import {Component, EventEmitter, ChangeDetectionStrategy, Input} from '@angular/core';
 import {FormGroup, Validators, FormControl, FormBuilder} from "@angular/forms";
-import {ModalDialog} from "../../modaldialog/ModalDialog";
 import {AppStore} from "angular2-redux-util";
 import {BusinessAction} from "../../../business/BusinessAction";
 import {BusinessUser} from "../../../business/BusinessUser";
@@ -22,19 +21,27 @@ import ChangePassStyle from './ChangePass.css!text'
  **/
 export class ChangePass {
 
-    constructor(private appStore:AppStore, private businessActions:BusinessAction, private fb:FormBuilder, private modal:ModalComponent) {
+    constructor(private appStore:AppStore,
+                private businessActions:BusinessAction,
+                private fb:FormBuilder,
+                private modal:ModalComponent) {
         this.notesForm = fb.group({
             matchingPassword: fb.group({
                 password: ['', Validators.required],
                 confirmPassword: ['', Validators.required]
             }, {validator: this.areEqual})
         });
-        this.passwordGroup = this.notesForm.controls['matchingPassword'];
+        this.passwordGroup = this.notesForm.controls['matchingPassword'] as FormControl;
+        this.sub = modal.onClose.subscribe(()=> {
+            this.passwordGroup.controls['password'].setValue('')
+            this.passwordGroup.controls['confirmPassword'].setValue('')
+        })
     }
 
     @Input()
     businessUser:BusinessUser;
 
+    private sub:EventEmitter<any>;
     private notesForm:FormGroup;
     private passwordGroup;
 
@@ -70,6 +77,10 @@ export class ChangePass {
     private onChange(event) {
         if (event.target.value.length < 3)
             console.log('text too short for subject');
+    }
+
+    private ngOnDestroy() {
+        this.sub.unsubscribe();
     }
 }
 

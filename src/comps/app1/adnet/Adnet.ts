@@ -37,7 +37,7 @@ import {ActivatedRoute} from "@angular/router";
             <div (click)="$event.preventDefault()">
               <div class="btn-group" dropdown (onToggle)="toggled($event)" [(isOpen)]="status.isopen">
                   <button id="single-button" type="button" class="btn btn-primary" dropdownToggle>
-                    Select customer 
+                    Select sub-account 
                   <span class="caret"></span>
                 </button>
                   <ul dropdownMenu role="menu" aria-labelledby="single-button">
@@ -118,3 +118,4 @@ export class Adnet {
         this.unsub();
     }
 }
+

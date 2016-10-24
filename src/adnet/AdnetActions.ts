@@ -10,7 +10,10 @@ import {List} from "immutable";
 import "rxjs/add/operator/catch";
 import "rxjs/add/operator/finally";
 import "rxjs/add/observable/throw";
-import {Http} from "@angular/http";
+import {
+    Http,
+    Response
+} from "@angular/http";
 import * as _ from "lodash";
 import {AdnetCustomerModel} from "./AdnetCustomerModel";
 import {AdnetRateModel} from "./AdnetRateModel";
@@ -20,6 +23,10 @@ import {AdnetPackageModel} from "./AdnetPackageModel";
 import {ReplaySubject} from "rxjs/ReplaySubject";
 import {Lib} from "../Lib";
 import {AdnetContentModel} from "./AdnetContentModel";
+import {Observable} from "rxjs/Observable";
+import {CommBroker} from "../services/CommBroker";
+import {Consts} from "../Conts";
+import * as xml2js from 'xml2js'
 
 export const RECEIVE_ADNET = 'RECEIVE_ADNET';
 export const RECEIVE_CUSTOMERS = 'RECEIVE_CUSTOMERS';
@@ -43,15 +50,17 @@ export const RENAME_ADNET_RATE_TABLE = 'RENAME_ADNET_RATE_TABLE';
 @Injectable()
 export class AdnetActions extends Actions {
 
-    constructor(@Inject('OFFLINE_ENV') private offlineEnv, private appStore: AppStore, private _http: Http) {
+    constructor(@Inject('OFFLINE_ENV') private offlineEnv, private appStore: AppStore, private _http: Http, private commBroker:CommBroker) {
         super(appStore);
-        this.replaySubject = new ReplaySubject(2 /* buffer size */);
+        this.m_parseString = xml2js.parseString;
+        this.adnetReady$ = new ReplaySubject(2 /* buffer size */);
     }
 
-    private replaySubject: ReplaySubject<any>;
+    private m_parseString;
+    private adnetReady$: ReplaySubject<any>;
 
     public onAdnetReady(): ReplaySubject<any> {
-        return this.replaySubject;
+        return this.adnetReady$;
     }
 
     private saveToServer(i_data, i_customerId, i_callBack?: (jData)=>void) {
@@ -129,8 +138,8 @@ export class AdnetActions extends Actions {
 
                         // enable timer to checkout slow network for loading adnet data
                         // setTimeout(()=>{
-                        this.replaySubject.next('adNetReady');
-                        this.replaySubject.complete();
+                        this.adnetReady$.next('adNetReady');
+                        this.adnetReady$.complete();
                         // },10000)
 
 
@@ -138,6 +147,48 @@ export class AdnetActions extends Actions {
             }
         };
     }
+
+    // private getAdnetCustomersToken(i_users:Array<string>) {
+    //     return (dispatch)=> {
+    //         var observables:Array<Observable<any>> = [];
+    //         for (let i_userName in i_users) {
+    //             var userName = i_users[userName];
+    //             var url:string = `https://${i_source}/WebService/StationService.asmx/getSocketStatusList?i_businessList=${businesses}`;
+    //             observables.push(this._http.get(url).retry(0).map((res) => {
+    //                 return {xml: res.text(), source: i_source};
+    //             }));
+    //         }
+    //         Observable.forkJoin(observables).subscribe(
+    //             (data:Array<any>) => {
+    //                 data.forEach((i_data)=> {
+    //                     var source = i_data.source;
+    //                     var xmlData:string = i_data.xml;
+    //                     xmlData = xmlData.replace(/&lt;/ig, '<').replace(/&gt;/ig, '>');
+    //                     this.m_parseString(xmlData, {attrkey: '_attr'}, function (err, result) {
+    //
+    //                         //var stations:List<StationModel> = List<StationModel>();
+    //                         //dispatch(self.receiveStations(stations, source));
+    //                     });
+    //                 })
+    //             },
+    //             (err:Response) => {
+    //                 err = err.json();
+    //                 var status = err['currentTarget'].status;
+    //                 var statusText = err['currentTarget'].statusText;
+    //                 this.commBroker.fire({
+    //                     fromInstance: this,
+    //                     event: Consts.Events().STATIONS_NETWORK_ERROR,
+    //                     context: this,
+    //                     message: 'Could not load Adnet customer data'
+    //                 });
+    //             },
+    //             ()=> {
+    //                 // complete
+    //                 //dispatch(self.receiveTotalStations(totalStations));
+    //             }
+    //         );
+    //     }
+    // }
 
     public saveCustomerInfo(data: Object, adnetCustomerId: string) {
         return (dispatch) => {
