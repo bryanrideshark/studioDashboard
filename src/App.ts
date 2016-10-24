@@ -118,11 +118,6 @@ import {ImgLoader} from "./comps/imgloader/ImgLoader";
 import {Ng2Highmaps} from "./comps/ng2-highcharts/src/directives/ng2-highmaps";
 import {Ng2Highstocks} from "./comps/ng2-highcharts/src/directives/ng2-highstocks";
 import {TreeModule} from 'angular2-tree-component';
-
-
-// import {SimpleGridSortableHeader} from "./comps/simplegrid/SimpleGridSortableHeader";
-// import {SimpleGridRecord} from "./comps/simplegrid/SimpleGridRecord";
-// import {SimpleGridData} from "./comps/simplegrid/SimpleGridData";
 import {SimplelistEditable} from "./comps/simplelist/SimplelistEditable";
 import {OrderBy} from "./pipes/OrderBy";
 import {SortBy} from "./pipes/SortBy";
