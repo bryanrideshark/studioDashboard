@@ -75,6 +75,7 @@ export class Adnet {
     constructor(private appStore: AppStore, private route: ActivatedRoute, private adnetActions: AdnetActions, private localStorage: LocalStorage) {
         //console.log(this.route.snapshot.data['adnetResolver']);
 
+        //todo: fix if data in localstore is invalid
         this.adnetCustomerId = this.localStorage.getItem('adnet_customer_id');
         this.adnetTokenId = this.localStorage.getItem('adnet_token_id');
 

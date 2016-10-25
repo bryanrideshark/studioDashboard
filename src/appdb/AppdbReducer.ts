@@ -8,8 +8,6 @@ import * as Immutable from 'immutable'
 // 0 = cloud, 1 = private 2 = hybrid
 const baseUrl = 'https://galaxy.signage.me/WebService/ResellerService.ashx';
 const appBaseUrlCloud = 'https://secure.digitalsignage.com';
-//todo: hard coded to one customer account while in dev
-
 
 // dev 1
 // const adnetCustomerId = '29477'
@@ -35,7 +33,6 @@ const adnetCustomerId = ':ADNET_CUSTOMER_ID:'
 const adnetCustomerToken = ':ADNET_TOKEN_ID:'
 const appBaseUrlAdnet = `https://adnet.signage.me/adNetService.ashx?command=customerRequest&customerId=${adnetCustomerId}&customerToken=${adnetCustomerToken}&fromChangelistId=0`;
 const appBaseUrlAdnetSave = `https://adnet.signage.me/adNetService.ashx?command=customerSubmit&customerId=${adnetCustomerId}&customerToken=${adnetCustomerToken}&data=:DATA:`;
-
 
 export default function appdb(state:Map<string, any> = Map<string, any>({}), action:any):Map<string, any> {
     switch (action.type) {

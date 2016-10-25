@@ -42,7 +42,15 @@ export class StoreService {
             return;
         this.singleton = true;
         this.listenServices();
-        this.appStore.dispatch(this.adnetActions.getAdnet(this.localStorage.getItem('adnet_customer_id'),this.localStorage.getItem('adnet_token_id')));
+
+        //todo: fix if data in localstore is invalid
+        var adnetCustomerId = this.localStorage.getItem('adnet_customer_id');
+        var adnetTokenId = this.localStorage.getItem('adnet_token_id');
+
+        // adnetCustomerId = '29477'
+        // adnetTokenId = '5b861c39-a208-4362-91ab-2c9766d7ebc1'
+
+        this.appStore.dispatch(this.adnetActions.getAdnet(adnetCustomerId,adnetTokenId));
         this.appStore.dispatch(this.resellerAction.getResellerInfo());
         this.appStore.dispatch(this.resellerAction.getAccountInfo());
         this.appStore.dispatch(this.businessActions.fetchBusinesses());

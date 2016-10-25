@@ -102,8 +102,6 @@ export class AdnetActions extends Actions {
             };
         }
         return (dispatch) => {
-            // const adnetCustomerId = this.appStore.getState().appdb.get('adnetCustomerId');
-
             var baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnet');
             baseUrl = baseUrl.replace(/:ADNET_CUSTOMER_ID:/, adnetCustomerId);
             baseUrl = baseUrl.replace(/:ADNET_TOKEN_ID:/, adnetTokenId);
