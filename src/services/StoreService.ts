@@ -12,6 +12,7 @@ import {StationModel} from "../stations/StationModel";
 import {Lib} from "../Lib";
 import * as _ from 'lodash'
 import {OrdersAction} from "../comps/app1/orders/OrdersAction";
+import {LocalStorage} from "./LocalStorage";
 
 @Injectable()
 export class StoreService {
@@ -23,7 +24,8 @@ export class StoreService {
                 @Inject(forwardRef(() => StationsAction)) private stationsAction: StationsAction,
                 @Inject(forwardRef(() => AppdbAction)) private appDbActions: AppdbAction,
                 @Inject('OFFLINE_ENV') private offlineEnv,
-                @Inject(forwardRef(() => CommBroker)) private commBroker: CommBroker) {
+                @Inject(forwardRef(() => CommBroker)) private commBroker: CommBroker,
+                @Inject(forwardRef(() => LocalStorage)) private localStorage: LocalStorage) {
 
         this.appStore.dispatch(this.appDbActions.initAppDb());
     }
@@ -40,7 +42,7 @@ export class StoreService {
             return;
         this.singleton = true;
         this.listenServices();
-        this.appStore.dispatch(this.adnetActions.getAdnet());
+        this.appStore.dispatch(this.adnetActions.getAdnet(this.localStorage.getItem('adnet_customer_id'),this.localStorage.getItem('adnet_token_id')));
         this.appStore.dispatch(this.resellerAction.getResellerInfo());
         this.appStore.dispatch(this.resellerAction.getAccountInfo());
         this.appStore.dispatch(this.businessActions.fetchBusinesses());

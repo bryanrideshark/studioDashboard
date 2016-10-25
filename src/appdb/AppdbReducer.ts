@@ -16,8 +16,8 @@ const appBaseUrlCloud = 'https://secure.digitalsignage.com';
 // const adnetCustomerToken = '5b861c39-a208-4362-91ab-2c9766d7ebc1'
 
 // fq5@ms.com
-const adnetCustomerId = '472'
-const adnetCustomerToken = '7d1f5f73-7159-40af-9bbd-f61ef37b6394'
+// const adnetCustomerId = '472'
+// const adnetCustomerToken = '7d1f5f73-7159-40af-9bbd-f61ef37b6394'
 
 // d17@ms.com
 // const adnetCustomerId = '29238';
@@ -31,6 +31,8 @@ const adnetCustomerToken = '7d1f5f73-7159-40af-9bbd-f61ef37b6394'
 // const adnetCustomerId = '13111'
 // const adnetCustomerToken = '60795882-f80b-4569-9ceb-f6de36279306';
 
+const adnetCustomerId = ':ADNET_CUSTOMER_ID:'
+const adnetCustomerToken = ':ADNET_TOKEN_ID:'
 const appBaseUrlAdnet = `https://adnet.signage.me/adNetService.ashx?command=customerRequest&customerId=${adnetCustomerId}&customerToken=${adnetCustomerToken}&fromChangelistId=0`;
 const appBaseUrlAdnetSave = `https://adnet.signage.me/adNetService.ashx?command=customerSubmit&customerId=${adnetCustomerId}&customerToken=${adnetCustomerToken}&data=:DATA:`;
 

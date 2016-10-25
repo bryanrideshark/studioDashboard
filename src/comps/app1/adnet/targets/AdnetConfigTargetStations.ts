@@ -120,7 +120,7 @@ export class AdnetConfigTargetStations {
     private unsub: Function;
 
     private render() {
-        if (!this.adTargets)
+        if (!this.adTargets || !this.customerModel)
             return;
         this.adTargetsFiltered = List<AdnetTargetModel>();
         this.adTargets.forEach((i_adTarget: AdnetTargetModel)=> {

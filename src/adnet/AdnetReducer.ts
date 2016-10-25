@@ -14,6 +14,15 @@ export function adnet(state: Map<string,any> = Map<string,any>(), action: any): 
 
     switch (action.type) {
 
+        case AdnetActions.RESET_ADNET: {
+            state = state.setIn(['customers'], List());
+            state = state.setIn(['rates'], List());
+            state = state.setIn(['pairs'], List());
+            state = state.setIn(['packages'], List());
+            state = state.setIn(['targets'], List());
+            return state;
+        }
+
         case AdnetActions.RECEIVE_CUSTOMERS: {
             return state.setIn(['customers'], action.customers);
         }

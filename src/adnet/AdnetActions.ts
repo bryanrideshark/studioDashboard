@@ -27,7 +27,9 @@ import {Observable} from "rxjs/Observable";
 import {CommBroker} from "../services/CommBroker";
 import {Consts} from "../Conts";
 import * as xml2js from 'xml2js'
+import {BusinessModel} from "../business/BusinessModel";
 
+export const RESET_ADNET = 'RESET_ADNET';
 export const RECEIVE_ADNET = 'RECEIVE_ADNET';
 export const RECEIVE_CUSTOMERS = 'RECEIVE_CUSTOMERS';
 export const RECEIVE_RATES = 'RECEIVE_RATES';
@@ -50,23 +52,31 @@ export const RENAME_ADNET_RATE_TABLE = 'RENAME_ADNET_RATE_TABLE';
 @Injectable()
 export class AdnetActions extends Actions {
 
-    constructor(@Inject('OFFLINE_ENV') private offlineEnv, private appStore: AppStore, private _http: Http, private commBroker:CommBroker) {
+    constructor(@Inject('OFFLINE_ENV') private offlineEnv, private appStore: AppStore, private _http: Http, private commBroker: CommBroker) {
         super(appStore);
         this.m_parseString = xml2js.parseString;
-        this.adnetReady$ = new ReplaySubject(2 /* buffer size */);
+        this.adnetRouteReady$ = new ReplaySubject(2 /* buffer size */);
+        this.adnetDataReady$ = new ReplaySubject(2 /* buffer size */);
     }
 
     private m_parseString;
-    private adnetReady$: ReplaySubject<any>;
+    private adnetRouteReady$: ReplaySubject<any>;
+    private adnetDataReady$: ReplaySubject<any>;
 
-    public onAdnetReady(): ReplaySubject<any> {
-        return this.adnetReady$;
+    public onAdnetRouteReady(): ReplaySubject<any> {
+        return this.adnetRouteReady$;
+    }
+
+    public onAdnetDataReady(): ReplaySubject<any> {
+        return this.adnetDataReady$;
     }
 
     private saveToServer(i_data, i_customerId, i_callBack?: (jData)=>void) {
-        //todo: fix customer id, now its just fixed, i.e.: doesn't replace anything
+        var businesses: List<BusinessModel> = this.appStore.getState().business.getIn(['businesses']);
+        var businessModel: BusinessModel = businesses.filter((i_businessModel: BusinessModel) => i_businessModel.getAdnetCustomerId() == i_customerId).first() as BusinessModel;
+        var adnetTokenId = businessModel.getAdnetTokenId();
         const data = JSON.stringify(i_data);
-        const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetSave').replace(':CUSTOMER_ID:', i_customerId).replace(':DATA:', data);
+        const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetSave').replace(':ADNET_CUSTOMER_ID:', i_customerId).replace(':ADNET_TOKEN_ID:', adnetTokenId).replace(':DATA:', data);
         this._http.get(baseUrl)
             .map(result => {
                 var jData: Object = result.json()
@@ -74,10 +84,30 @@ export class AdnetActions extends Actions {
             }).subscribe()
     }
 
-    public getAdnet() {
+    public resetAdnet() {
         return (dispatch) => {
-            const adnetCustomerId = this.appStore.getState().appdb.get('adnetCustomerId');
-            const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnet');
+            dispatch({
+                type: RESET_ADNET,
+                payload: {}
+            });
+        };
+    }
+
+    public getAdnet(adnetCustomerId?, adnetTokenId?) {
+        if (_.isUndefined(adnetCustomerId)) {
+            this.adnetRouteReady$.next('adNetReady');
+            this.adnetDataReady$.next('adnetData');
+            this.adnetRouteReady$.complete();
+            return (dispatch) => {
+            };
+        }
+        return (dispatch) => {
+            // const adnetCustomerId = this.appStore.getState().appdb.get('adnetCustomerId');
+
+            var baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnet');
+            baseUrl = baseUrl.replace(/:ADNET_CUSTOMER_ID:/, adnetCustomerId);
+            baseUrl = baseUrl.replace(/:ADNET_TOKEN_ID:/, adnetTokenId);
+
             const url = `${baseUrl}`;
             // offline not being used currently
             if (this.offlineEnv) {
@@ -138,8 +168,12 @@ export class AdnetActions extends Actions {
 
                         // enable timer to checkout slow network for loading adnet data
                         // setTimeout(()=>{
-                        this.adnetReady$.next('adNetReady');
-                        this.adnetReady$.complete();
+                        this.adnetRouteReady$.next('adNetReady');
+                        this.adnetDataReady$.next({
+                            adnetCustomerId,
+                            adnetTokenId
+                        });
+                        this.adnetRouteReady$.complete();
                         // },10000)
 
 
@@ -511,7 +545,7 @@ export class AdnetActions extends Actions {
         };
     }
 
-    public updAdnetContent(i_payload: any, i_adnetContentModels:AdnetContentModel, i_adnetPackageModel:AdnetPackageModel) {
+    public updAdnetContent(i_payload: any, i_adnetContentModels: AdnetContentModel, i_adnetPackageModel: AdnetPackageModel) {
         return (dispatch) => {
             var customerId = i_adnetPackageModel.getCustomerId();
             var packageId = i_adnetPackageModel.getId();
