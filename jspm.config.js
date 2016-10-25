@@ -430,6 +430,7 @@ SystemJS.config({
         "github:*/*.json"
     ],
     map: {
+        "primeng": "npm:primeng@1.0.0-beta.20",
         "angular2-tree-component": "npm:angular2-tree-component@1.3.5",
         "@angular/http": "npm:@angular/http@2.0.0",
         "css": "github:systemjs/plugin-css@0.1.27",
@@ -964,5 +965,3 @@ SystemJS.config({
         }
     }
 });
-
-
