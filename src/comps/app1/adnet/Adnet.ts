@@ -75,7 +75,7 @@ export class Adnet {
     constructor(private appStore: AppStore, private route: ActivatedRoute, private adnetActions: AdnetActions, private localStorage: LocalStorage) {
         //console.log(this.route.snapshot.data['adnetResolver']);
 
-        //todo: fix if data in localstore is invalid
+        //todo: fix data in localstore is invalid
         this.adnetCustomerId = this.localStorage.getItem('adnet_customer_id');
         this.adnetTokenId = this.localStorage.getItem('adnet_token_id');
 
@@ -85,16 +85,10 @@ export class Adnet {
         this.unsub1 = this.appStore.sub((i_businesses: List<BusinessModel>) => {
             this.businesses = i_businesses
         }, 'business.businesses');
-
-
-        // this.unsub3 = this.appStore.sub((i_adnetCustomers: List<AdnetCustomerModel>) => {
-        //     this.adnetCustomers = i_adnetCustomers
-        // }, 'adnet.customers');
     }
 
     private unsub1: Function;
     private unsub2: Subscription;
-    // private unsub3: Function;
     private adnetCustomerId: number = -1;
     private adnetTokenId: number = -1;
     private adnetCustomerName: string = '';
@@ -140,12 +134,13 @@ export class Adnet {
             this.adnetCustomerId = i_businessModel.getAdnetCustomerId();
             this.adnetTokenId = i_businessModel.getAdnetTokenId();
             this.adnetCustomerName = i_businessModel.getName();
+
+            if (_.isUndefined(this.adnetCustomerId) || _.isNull(this.adnetCustomerId) || this.adnetCustomerId < 10 || _.isEmpty(this.adnetCustomerId)) {
+                return bootbox.alert('This must be an old account and so it does not have an adnet token. Please login to it directly at least once so we cab generate an Adnet token for it.')
+            }
             this.localStorage.setItem('adnet_customer_id', this.adnetCustomerId);
             this.localStorage.setItem('adnet_token_id', this.adnetTokenId);
-            if (_.isUndefined(this.adnetTokenId))
-                return bootbox.alert('This must be an old account and so it does not have an adnet token. Please login to it directly at least once so we cab generate an Adnet token for it.')
             this.appStore.dispatch(this.adnetActions.getAdnet(this.adnetCustomerId, this.adnetTokenId));
-            // this.getAdnetData();
             this.showState = 'active'
         }, 110)
     }

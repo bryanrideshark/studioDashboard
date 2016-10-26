@@ -94,90 +94,91 @@ export class AdnetActions extends Actions {
     }
 
     public getAdnet(adnetCustomerId?, adnetTokenId?) {
-        if (_.isUndefined(adnetCustomerId)) {
+        if (!Lib.Exists(adnetCustomerId)) {
             this.adnetRouteReady$.next('adNetReady');
             this.adnetDataReady$.next('adnetData');
             this.adnetRouteReady$.complete();
+            return (dispatch) => {};
+        } else {
             return (dispatch) => {
+                var baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnet');
+                baseUrl = baseUrl.replace(/:ADNET_CUSTOMER_ID:/, adnetCustomerId);
+                baseUrl = baseUrl.replace(/:ADNET_TOKEN_ID:/, adnetTokenId);
+
+                const url = `${baseUrl}`;
+                // offline not being used currently
+                if (this.offlineEnv) {
+                    this._http.get('offline/customerRequest.json').subscribe((result) => {
+                        var jData: Object = result.json();
+                    })
+                } else {
+                    this._http.get(url)
+                        .map(result => {
+                            var jData: Object = result.json()
+                            dispatch(this.receivedAdnet(jData));
+
+                            /** Customers **/
+                            var adnetCustomers: List<AdnetCustomerModel> = List<AdnetCustomerModel>();
+                            for (var adnetCustomer of jData['customers']) {
+                                const adnetCustomerModel: AdnetCustomerModel = new AdnetCustomerModel(adnetCustomer);
+                                adnetCustomers = adnetCustomers.push(adnetCustomerModel)
+                            }
+                            dispatch(this.receivedCustomers(adnetCustomers));
+
+                            /** Rates **/
+                            var adnetRates: List<AdnetRateModel> = List<AdnetRateModel>();
+                            for (var adnetRate of jData['rates']) {
+                                if (adnetRate.Value.deleted == true)
+                                    continue;
+                                const adnetRateModel: AdnetRateModel = new AdnetRateModel(adnetRate);
+                                adnetRates = adnetRates.push(adnetRateModel)
+                            }
+                            dispatch(this.receivedRates(adnetRates));
+
+                            /** Targets **/
+                            var adnetTargets: List<AdnetTargetModel> = List<AdnetTargetModel>();
+                            for (var target of jData['targets']) {
+                                if (target.Value.deleted == true)
+                                    continue;
+                                const adnetTargetModel: AdnetTargetModel = new AdnetTargetModel(target);
+                                adnetTargets = adnetTargets.push(adnetTargetModel)
+                            }
+                            dispatch(this.receivedTargets(adnetTargets));
+
+                            /** Pairs **/
+                            var adnetPairModels: List<AdnetPairModel> = List<AdnetPairModel>();
+                            for (var pair of jData['pairs']) {
+                                const adnetPairModel: AdnetPairModel = new AdnetPairModel(pair);
+                                adnetPairModels = adnetPairModels.push(adnetPairModel)
+                            }
+                            dispatch(this.receivedPairs(adnetPairModels));
+
+                            /** Packages **/
+                            var adnetPackageModels: List<AdnetPackageModel> = List<AdnetPackageModel>();
+                            for (var pkg of jData['packages']) {
+                                if (pkg.Value.deleted == true)
+                                    continue;
+                                const adnetPackageModel: AdnetPackageModel = new AdnetPackageModel(pkg);
+                                adnetPackageModels = adnetPackageModels.push(adnetPackageModel)
+                            }
+                            dispatch(this.receivedPackages(adnetPackageModels));
+
+                            // enable timer to checkout slow network for loading adnet data
+                            // setTimeout(()=>{
+                            this.adnetRouteReady$.next('adNetReady');
+                            this.adnetDataReady$.next({
+                                adnetCustomerId,
+                                adnetTokenId
+                            });
+                            this.adnetRouteReady$.complete();
+                            // },10000)
+
+
+                        }).subscribe()
+                }
             };
+
         }
-        return (dispatch) => {
-            var baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnet');
-            baseUrl = baseUrl.replace(/:ADNET_CUSTOMER_ID:/, adnetCustomerId);
-            baseUrl = baseUrl.replace(/:ADNET_TOKEN_ID:/, adnetTokenId);
-
-            const url = `${baseUrl}`;
-            // offline not being used currently
-            if (this.offlineEnv) {
-                this._http.get('offline/customerRequest.json').subscribe((result) => {
-                    var jData: Object = result.json();
-                })
-            } else {
-                this._http.get(url)
-                    .map(result => {
-                        var jData: Object = result.json()
-                        dispatch(this.receivedAdnet(jData));
-
-                        /** Customers **/
-                        var adnetCustomers: List<AdnetCustomerModel> = List<AdnetCustomerModel>();
-                        for (var adnetCustomer of jData['customers']) {
-                            const adnetCustomerModel: AdnetCustomerModel = new AdnetCustomerModel(adnetCustomer);
-                            adnetCustomers = adnetCustomers.push(adnetCustomerModel)
-                        }
-                        dispatch(this.receivedCustomers(adnetCustomers));
-
-                        /** Rates **/
-                        var adnetRates: List<AdnetRateModel> = List<AdnetRateModel>();
-                        for (var adnetRate of jData['rates']) {
-                            if (adnetRate.Value.deleted == true)
-                                continue;
-                            const adnetRateModel: AdnetRateModel = new AdnetRateModel(adnetRate);
-                            adnetRates = adnetRates.push(adnetRateModel)
-                        }
-                        dispatch(this.receivedRates(adnetRates));
-
-                        /** Targets **/
-                        var adnetTargets: List<AdnetTargetModel> = List<AdnetTargetModel>();
-                        for (var target of jData['targets']) {
-                            if (target.Value.deleted == true)
-                                continue;
-                            const adnetTargetModel: AdnetTargetModel = new AdnetTargetModel(target);
-                            adnetTargets = adnetTargets.push(adnetTargetModel)
-                        }
-                        dispatch(this.receivedTargets(adnetTargets));
-
-                        /** Pairs **/
-                        var adnetPairModels: List<AdnetPairModel> = List<AdnetPairModel>();
-                        for (var pair of jData['pairs']) {
-                            const adnetPairModel: AdnetPairModel = new AdnetPairModel(pair);
-                            adnetPairModels = adnetPairModels.push(adnetPairModel)
-                        }
-                        dispatch(this.receivedPairs(adnetPairModels));
-
-                        /** Packages **/
-                        var adnetPackageModels: List<AdnetPackageModel> = List<AdnetPackageModel>();
-                        for (var pkg of jData['packages']) {
-                            if (pkg.Value.deleted == true)
-                                continue;
-                            const adnetPackageModel: AdnetPackageModel = new AdnetPackageModel(pkg);
-                            adnetPackageModels = adnetPackageModels.push(adnetPackageModel)
-                        }
-                        dispatch(this.receivedPackages(adnetPackageModels));
-
-                        // enable timer to checkout slow network for loading adnet data
-                        // setTimeout(()=>{
-                        this.adnetRouteReady$.next('adNetReady');
-                        this.adnetDataReady$.next({
-                            adnetCustomerId,
-                            adnetTokenId
-                        });
-                        this.adnetRouteReady$.complete();
-                        // },10000)
-
-
-                    }).subscribe()
-            }
-        };
     }
 
     // private getAdnetCustomersToken(i_users:Array<string>) {

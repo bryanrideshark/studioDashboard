@@ -1,11 +1,22 @@
 /** Common Library **/
 
-import {Injectable, Component} from "@angular/core";
-import {createStore, combineReducers, applyMiddleware, compose} from "redux";
+import {
+    Injectable,
+    Component
+} from "@angular/core";
+import {
+    createStore,
+    combineReducers,
+    applyMiddleware,
+    compose
+} from "redux";
 import thunkMiddleware from "redux-thunk";
 import {AppStore} from "angular2-redux-util";
 import * as Immutable from "immutable";
-import {List, Map} from "immutable";
+import {
+    List,
+    Map
+} from "immutable";
 import {PrivelegesModel} from "./reseller/PrivelegesModel";
 import * as _ from "lodash";
 import * as xml2js from "xml2js";
@@ -39,7 +50,7 @@ export class Lib {
      * @returns {any}
      * @constructor
      */
-    static ProcessDateField(dateString: string, addDay:boolean=false): any {
+    static ProcessDateField(dateString: string, addDay: boolean = false): any {
         if (_.isUndefined(dateString))
             return '';
         var epoc = dateString.match(/Date\((.*)\)/)
@@ -55,11 +66,11 @@ export class Lib {
             }
             return moment(result).format('YYYY-MM-DD');
             /** moment examples
-            var a = moment().unix().format()
-            console.log(moment.now());
-            console.log(moment().format('dddd'));
-            console.log(moment().startOf('day').fromNow());
-            **/
+             var a = moment().unix().format()
+             console.log(moment.now());
+             console.log(moment().format('dddd'));
+             console.log(moment().startOf('day').fromNow());
+             **/
         }
     }
 
@@ -69,21 +80,21 @@ export class Lib {
      * @returns {any}
      * @constructor
      */
-    static ProcessDateFieldToUnix(dateString: string, addDay:boolean=false): any {
+    static ProcessDateFieldToUnix(dateString: string, addDay: boolean = false): any {
         if (_.isUndefined(dateString))
             return '';
         //todo: adding +1 on save to server hack, need to ask Alon
-        if (addDay){
+        if (addDay) {
             return moment(dateString, 'YYYY-MM-DD').add(1, 'day').valueOf();
         } else {
             return moment(dateString, 'YYYY-MM-DD').valueOf();
         }
     }
 
-    static ProcessHourStartEnd(value: string, key:string): any {
+    static ProcessHourStartEnd(value: string, key: string): any {
         if (_.isUndefined(!value))
             return '';
-        if (key =='hourStart')
+        if (key == 'hourStart')
             return `${value}:00`;
         return `${value}:59`;
     }
@@ -106,6 +117,18 @@ export class Lib {
             return (annotation instanceof Component);
         });
         return componentMetadata.selector;
+    }
+
+    static Exists(i_value): boolean {
+        if (_.isNaN(i_value))
+            return false;
+        if (_.isUndefined(i_value))
+            return false;
+        if (_.isNull(i_value))
+            return false;
+        if (_.isEmpty(i_value))
+            return false;
+        return true;
     }
 
     static IsRound(number: number) {
@@ -303,9 +326,7 @@ export class Lib {
 
     static Base64() {
 
-        var _PADCHAR = "=",
-            _ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",
-            _VERSION = "1.0";
+        var _PADCHAR = "=", _ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", _VERSION = "1.0";
 
 
         function _getbyte64(s, i) {
@@ -324,11 +345,7 @@ export class Lib {
 
 
         function _decode(s) {
-            var pads = 0,
-                i,
-                b10,
-                imax = s.length,
-                x = [];
+            var pads = 0, i, b10, imax = s.length, x = [];
 
             s = String(s);
 
@@ -390,10 +407,7 @@ export class Lib {
 
             s = String(s);
 
-            var i,
-                b10,
-                x = [],
-                imax = s.length - s.length % 3;
+            var i, b10, x = [], imax = s.length - s.length % 3;
 
             if (s.length === 0) {
                 return s;
@@ -885,8 +899,7 @@ export class Lib {
         var computedAccessMask = 0;
         accessMask.forEach(value => {
             var bit = bits.shift();
-            if (value)
-                computedAccessMask = computedAccessMask + bit;
+            if (value) computedAccessMask = computedAccessMask + bit;
 
         })
         return computedAccessMask;
@@ -923,8 +936,7 @@ export class Lib {
                 .substring(1);
         }
 
-        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-            s4() + '-' + s4() + s4() + s4();
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
     }
 
     static ReduxLoggerMiddleware = store => next => action => {
@@ -1128,9 +1140,7 @@ export class Lib {
                     options[key] = opt[key];
                 }
 
-                var vResult = {},
-                    nLength = 0,
-                    sCollectedTxt = "";
+                var vResult = {}, nLength = 0, sCollectedTxt = "";
 
                 // parse namespace information
                 if (options.xmlns && oXMLParent.namespaceURI) {
@@ -1201,11 +1211,9 @@ export class Lib {
                                     }
                                 }
                             }
-                        } /* nodeType is "CDATASection" (4) */
-                        else if (oNode.nodeType === 3) {
+                        } /* nodeType is "CDATASection" (4) */ else if (oNode.nodeType === 3) {
                             sCollectedTxt += oNode.nodeValue;
-                        } /* nodeType is "Text" (3) */
-                        else if (oNode.nodeType === 1) { /* nodeType is "Element" (1) */
+                        } /* nodeType is "Text" (3) */ else if (oNode.nodeType === 1) { /* nodeType is "Element" (1) */
 
                             if (nLength === 0) {
                                 vResult = {};
@@ -1342,7 +1350,6 @@ if (!Object.assign) {
         }
     });
 }
-
 
 
 //

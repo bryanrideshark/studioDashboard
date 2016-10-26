@@ -184,6 +184,11 @@ export class Main {
 
         // force logout
         // this.localStorage.removeItem('remember_me')
+
+        // delete previous selected adnet customer
+        // this.localStorage.removeItem('adnet_customer_id')
+        // this.localStorage.removeItem('adnet_token_id')
+
         // todo: add logic to as when on each env
         // 0 = cloud, 1 = private 2 = hybrid
         this.checkPlatform();

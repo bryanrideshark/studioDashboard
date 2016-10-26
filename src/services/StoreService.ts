@@ -1,11 +1,18 @@
-import {Injectable, Inject, forwardRef} from "@angular/core";
+import {
+    Injectable,
+    Inject,
+    forwardRef
+} from "@angular/core";
 import {BusinessAction} from "../business/BusinessAction";
 import {AdnetActions} from "../adnet/AdnetActions";
 import {ResellerAction} from "../reseller/ResellerAction";
 import {AppdbAction} from "../appdb/AppdbAction";
 import {AppStore} from "angular2-redux-util";
 import {StationsAction} from "../stations/StationsAction";
-import {List, Map} from 'immutable';
+import {
+    List,
+    Map
+} from 'immutable';
 import {CommBroker} from "./CommBroker";
 import {Consts} from "../Conts";
 import {StationModel} from "../stations/StationModel";
@@ -16,16 +23,7 @@ import {LocalStorage} from "./LocalStorage";
 
 @Injectable()
 export class StoreService {
-    constructor(@Inject(forwardRef(() => AppStore)) private appStore: AppStore,
-                @Inject(forwardRef(() => BusinessAction)) private businessActions: BusinessAction,
-                @Inject(forwardRef(() => AdnetActions)) private adnetActions: AdnetActions,
-                @Inject(forwardRef(() => OrdersAction)) private ordersActions: OrdersAction,
-                @Inject(forwardRef(() => ResellerAction)) private resellerAction: ResellerAction,
-                @Inject(forwardRef(() => StationsAction)) private stationsAction: StationsAction,
-                @Inject(forwardRef(() => AppdbAction)) private appDbActions: AppdbAction,
-                @Inject('OFFLINE_ENV') private offlineEnv,
-                @Inject(forwardRef(() => CommBroker)) private commBroker: CommBroker,
-                @Inject(forwardRef(() => LocalStorage)) private localStorage: LocalStorage) {
+    constructor(@Inject(forwardRef(() => AppStore)) private appStore: AppStore, @Inject(forwardRef(() => BusinessAction)) private businessActions: BusinessAction, @Inject(forwardRef(() => AdnetActions)) private adnetActions: AdnetActions, @Inject(forwardRef(() => OrdersAction)) private ordersActions: OrdersAction, @Inject(forwardRef(() => ResellerAction)) private resellerAction: ResellerAction, @Inject(forwardRef(() => StationsAction)) private stationsAction: StationsAction, @Inject(forwardRef(() => AppdbAction)) private appDbActions: AppdbAction, @Inject('OFFLINE_ENV') private offlineEnv, @Inject(forwardRef(() => CommBroker)) private commBroker: CommBroker, @Inject(forwardRef(() => LocalStorage)) private localStorage: LocalStorage) {
 
         this.appStore.dispatch(this.appDbActions.initAppDb());
     }
@@ -43,14 +41,13 @@ export class StoreService {
         this.singleton = true;
         this.listenServices();
 
-        //todo: fix if data in localstore is invalid
         var adnetCustomerId = this.localStorage.getItem('adnet_customer_id');
         var adnetTokenId = this.localStorage.getItem('adnet_token_id');
-
-        // adnetCustomerId = '29477'
-        // adnetTokenId = '5b861c39-a208-4362-91ab-2c9766d7ebc1'
-
-        this.appStore.dispatch(this.adnetActions.getAdnet(adnetCustomerId,adnetTokenId));
+        if (!Lib.Exists(adnetCustomerId)) {
+            this.appStore.dispatch(this.adnetActions.getAdnet(null));
+        } else {
+            this.appStore.dispatch(this.adnetActions.getAdnet(adnetCustomerId, adnetTokenId));
+        }
         this.appStore.dispatch(this.resellerAction.getResellerInfo());
         this.appStore.dispatch(this.resellerAction.getAccountInfo());
         this.appStore.dispatch(this.businessActions.fetchBusinesses());
@@ -62,7 +59,7 @@ export class StoreService {
         if (this.running)
             return;
         this.running = true;
-        setInterval(()=> {
+        setInterval(() => {
             this.appStore.dispatch(this.appDbActions.serverStatus());
             this.fetchStations()
         }, 5000);
@@ -102,18 +99,16 @@ export class StoreService {
 
         /** (5) received station status **/
         this.appStore.sub((serversStatus: Map<string,any>) => {
-            if (!Lib.DevMode())
-                this.initPollServices();
+            if (!Lib.DevMode()) this.initPollServices();
         }, 'appdb.serversStatus', false);
     }
 
     private fetchStations() {
         var sources: Map<string,any> = this.appStore.getState().business.getIn(['businessSources']).getData();
         var config = {}
-        sources.forEach((i_businesses: List<string>, source)=> {
+        sources.forEach((i_businesses: List<string>, source) => {
             let businesses = i_businesses.toArray();
-            if (this.knownServers.indexOf(source) > -1)
-                config[source] = businesses;
+            if (this.knownServers.indexOf(source) > -1) config[source] = businesses;
 
         });
         this.appStore.dispatch(this.stationsAction.getStationsInfo(config));
