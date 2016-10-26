@@ -6,29 +6,9 @@ import * as OrdersAction from "../comps/app1/orders/OrdersAction";
 import * as Immutable from 'immutable'
 // todo: add logic to as when on each env
 // 0 = cloud, 1 = private 2 = hybrid
+
 const baseUrl = 'https://galaxy.signage.me/WebService/ResellerService.ashx';
 const appBaseUrlCloud = 'https://secure.digitalsignage.com';
-
-// dev 1
-// const adnetCustomerId = '29477'
-// const adnetCustomerToken = '5b861c39-a208-4362-91ab-2c9766d7ebc1'
-
-// fq5@ms.com
-// const adnetCustomerId = '472'
-// const adnetCustomerToken = '7d1f5f73-7159-40af-9bbd-f61ef37b6394'
-
-// d17@ms.com
-// const adnetCustomerId = '29238';
-// const adnetCustomerToken '00be859c-fafb-4d69-bbf7-15ba73d8c7fc';
-
-// d20@ms.com
-// const adnetCustomerId = '18635'
-// const adnetCustomerToken = 'ec202a94-a66b-4380-85aa-1e73aab59be6';
-
-// d22@ms.com
-// const adnetCustomerId = '13111'
-// const adnetCustomerToken = '60795882-f80b-4569-9ceb-f6de36279306';
-
 const adnetCustomerId = ':ADNET_CUSTOMER_ID:'
 const adnetCustomerToken = ':ADNET_TOKEN_ID:'
 const appBaseUrlAdnet = `https://adnet.signage.me/adNetService.ashx?command=customerRequest&customerId=${adnetCustomerId}&customerToken=${adnetCustomerToken}&fromChangelistId=0`;

@@ -1,57 +1,89 @@
-import {Component, ChangeDetectionStrategy} from "@angular/core";
+import {
+    Component,
+    ChangeDetectionStrategy
+} from "@angular/core";
 import {Lib} from "src/Lib";
-//import MyCompTemplate from './MyComp.html!text'; /*prod*/
-//import MyCompStyle from './MyComp.css!text'; /*prod*/
+import {LocalStorage} from "../../services/LocalStorage";
 
 @Component({
-//	styles: [MyCompStyle], /*prod*/
-//	template: MyCompTemplate, /*prod*/
-//  template: `
-//            <small class="release">package properties
-//                <i style="font-size: 1.4em" class="fa fa-cog pull-right"></i>
-//            </small>
-//            <small class="debug">{{me}}</small>
-//            `,
     selector: 'Dropbox',
-    template: `<h1>Dropbox</h1>
-                    <Tree [nodes]="nodes"></Tree>
-                    <!--<p-tree [value]="files"></p-tree>-->
-                `,
+    styles: [`
+        button {
+        width: 33.3%;
+        }
+     `],
+    template: `
+            <div style="width: 100%" class="btn-group" role="group">
+                <button  style="padding: 9px" type="button" class="btn btn-default">
+                  <span class="fa fa-refresh"></span>
+                </button>
+                <button  style="padding: 9px" type="button" class="b btn btn-default">
+                  <span class="fa fa-minus"></span>
+                </button>
+                <button  style="padding: 9px" type="button" class=" btn btn-default">
+                  <span style="color: green" class="fa fa-check-square"></span>
+                </button>
+                <h2 style="display: inline; position: relative; top: -3px; left: 10px">{{totalFilteredPlayers}}</h2>
+            </div>
+            <br/>
+            <input class="form-control" style="width: 99.9%" type="password" (blur)="onToken($event)" [(ngModel)]="token"/>
+            <br/>
+            <Tree [nodes]="nodes"></Tree>
+            <!--<p-tree [value]="files"></p-tree>-->
+    `,
     moduleId: __moduleName
 })
 
 
 export class Dropbox {
-    constructor() {
-        this.me = Lib.GetCompSelector(this.constructor)
-    }
-    private me:string;
-
-
-    nodes = [
-        {
-            id: 1,
-            name: 'root1',
-            children: [
-                { id: 2, name: 'child1' },
-                { id: 3, name: 'child2' }
-            ]
-        },
-        {
-            id: 4,
-            name: 'root2',
-            children: [
-                { id: 5, name: 'child2.1' },
-                {
-                    id: 6,
-                    name: 'child2.2',
-                    children: [
-                        { id: 7, name: 'subsub' }
-                    ]
-                }
-            ]
+    constructor(private localStorage: LocalStorage) {
+        this.me = Lib.GetCompSelector(this.constructor);
+        if (this.localStorage.getItem('dropbox_key')) {
+            this.token = this.localStorage.getItem('dropbox_key');
+            this.renderTree();
         }
-    ];
+
+
+    }
+
+    private me: string;
+    private token;
+
+    private onToken(event) {
+        if (event.target.value.length > 20)
+            this.localStorage.setItem('dropbox_key', event.target.value);
+    }
+
+    private renderTree() {
+
+    }
+
+
+    nodes = [{
+        id: 1,
+        name: 'root1',
+        children: [{
+            id: 2,
+            name: 'child1'
+        }, {
+            id: 3,
+            name: 'child2'
+        }]
+    }, {
+        id: 4,
+        name: 'root2',
+        children: [{
+            id: 5,
+            name: 'child2.1'
+        }, {
+            id: 6,
+            name: 'child2.2',
+            children: [{
+                id: 7,
+                name: 'subsub'
+            }]
+        }]
+    }];
 
 
     // files: TreeNode[] = [
