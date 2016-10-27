@@ -149,9 +149,10 @@ import {AdnetLoader} from "./comps/app1/adnet/AdnetLoader";
 import {InputNumeric} from "./comps/inputnumeric/InputNumeric";
 import {InputString} from "./comps/inputstring/InputString";
 import {InputTextModule} from 'primeng/primeng';
-// import {TreeModule} from 'angular2-tree-component';
 import {Dropbox} from "./comps/dropbox/Dropbox";
 import {TreeModule} from 'primeng/primeng';
+// import {TreeModule} from 'angular2-tree-component';
+
 
 
 
