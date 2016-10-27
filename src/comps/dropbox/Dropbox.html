@@ -14,7 +14,7 @@
 <br/>
 <input placeholder="paste Dropbox token" class="form-control" style="width: 99.9%" type="password" (blur)="onTokenChange($event)" [(ngModel)]="token"/>
 <br/>
-<div style="margin-top:8px">Selected Node: {{selectedFile ? selectedFile.label : 'none'}}</div>
+<!--<div style="margin-top:8px">Selected Node: {{selectedFile ? selectedFile.label : 'none'}}</div>-->
 <div style="height: 200px; width: 100%; overflow: scroll">
     <p-tree [value]="nodes" selectionMode="single" [(selection)]="selectedFile"
             (onNodeSelect)="nodeSelect($event)" (onNodeUnselect)="nodeUnselect($event)">
