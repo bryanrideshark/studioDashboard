@@ -46,7 +46,7 @@ export class Dropbox {
     }
 
     private onAddResource(f) {
-        console.log(f.fileName.file);
+        this.loadFile(f.fileName.file);
     }
 
     private nodeSelect(event) {
@@ -84,6 +84,21 @@ export class Dropbox {
                         fileRoot: Lib.FileTailName(fileName.file)
                     });
                 })
+                this.cd.markForCheck();
+            }).subscribe();
+    }
+
+    private loadFile(i_path) {
+        const url = `https://secure.digitalsignage.com/DropboxFileLink/${this.token}${i_path}`;
+        return this._http.get(url)
+            .catch((err) => {
+                return Observable.throw(err);
+            })
+            .finally(() => {
+            })
+            .map((result: any) => {
+                var f = result.json();
+                console.log(f.url);
                 this.cd.markForCheck();
             }).subscribe();
     }
@@ -155,3 +170,35 @@ export class Dropbox {
         this.cd.markForCheck();
     }
 }
+
+// var a = {
+//     "packages": {
+//         "update": [{
+//             "Key": 3344,
+//             "Value": {
+//                 "id": "3344",
+//                 "handle": "2",
+//                 "modified": "0",
+//                 "customerId": "3402",
+//                 "packageContents": {
+//                     "add": [{
+//                         "id": "-1",
+//                         "handle": "5",
+//                         "modified": "1",
+//                         "contentLabel": "/abc/LaunchScreen-Center.png",
+//                         "duration": 10,
+//                         "reparationsPerHour": 60,
+//                         "contentUrl": "http://secure.digitalsignage.com/DropboxFileLink/ff990135-ffe7-4c1e-b5ee-fddfdb203775/abc/LaunchScreen-Center.png",
+//                         "contentType": 2,
+//                         "contentExt": "",
+//                         "maintainAspectRatio": "false",
+//                         "contentVolume": "1",
+//                         "locationLat": 0,
+//                         "locationLng": 0,
+//                         "locationRadios": 0
+//                     }]
+//                 }
+//             }
+//         }]
+//     }
+// }
