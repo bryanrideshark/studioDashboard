@@ -38,7 +38,11 @@ import {TreeComponent} from "angular2-tree-component";
             <input class="form-control" style="width: 99.9%" type="password" (blur)="onTokenChange($event)" [(ngModel)]="token"/>
             <br/>
             <Tree [nodes]="nodes"></Tree>
-            <p-tree [value]="nodes"></p-tree>
+            <p-tree [value]="nodes" selectionMode="single" [(selection)]="selectedFile" 
+                (onNodeSelect)="nodeSelect($event)" (onNodeUnselect)="nodeUnselect($event)">
+            </p-tree>
+            <div style="margin-top:8px">Selected Node: {{selectedFile ? selectedFile.label : 'none'}}</div>
+
     `,
     moduleId: __moduleName
 })
@@ -52,6 +56,16 @@ export class Dropbox {
             this.renderTree();
         }
     }
+    selectedFile: TreeNode;
+
+    nodeUnselect(event) {
+        console.log({severity: 'info', summary: 'Node Unselected', detail: event.node.label});
+    }
+
+    nodeSelect(event) {
+        console.log({severity: 'info', summary: 'Node Selected', detail: event.node.label});
+    }
+
 
     private me: string;
     private token;
