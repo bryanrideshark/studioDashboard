@@ -119,6 +119,11 @@ export class Lib {
         return componentMetadata.selector;
     }
 
+    static FileTailName(fileName){
+        var a = fileName.split('/');
+        var b = a.length;
+        return a[b-1];
+    }
     static Exists(i_value): boolean {
         if (_.isNaN(i_value))
             return false;

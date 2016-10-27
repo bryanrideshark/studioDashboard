@@ -15,36 +15,58 @@ import {TreeNode} from 'primeng/primeng';
     changeDetection: ChangeDetectionStrategy.Default,
     styles: [`
         button {
-        width: 33.3%;
+            width: 33.3%;
+        }
+        .btn-small i {
+            position: relative;
+            top: -2px;
+            left: -5px;
+        }
+        .btn-small {
+            width: 25px;
+            height: 25px;
+            padding-right: 5px;
+        }
+        li {
+            font-size: 0.9em;
         }
      `],
     template: `
             <div style="width: 100%" class="btn-group" role="group">
-                <button (click)="refreshTree()"  style="padding: 9px" type="button" class="btn btn-default">
-                  <span class="fa fa-refresh"></span>
+                <button (click)="refreshTree()" style="padding: 9px" type="button" class="btn btn-default">
+                    <span class="fa fa-refresh"></span>
                 </button>
-                <button  style="padding: 9px" type="button" class="b btn btn-default">
-                  <span class="fa fa-minus"></span>
+                <button style="padding: 9px" type="button" class="b btn btn-default">
+                    <span class="fa fa-minus"></span>
                 </button>
-                <button  style="padding: 9px" type="button" class=" btn btn-default">
-                  <span *ngIf="accountValidity" style="color: green" class="fa fa-check-square"></span>
-                  <span *ngIf="!accountValidity" style="color: red" class="fa fa-minus-square "></span>
+                <button style="padding: 9px" type="button" class=" btn btn-default">
+                    <span *ngIf="accountValidity" style="color: green" class="fa fa-check-square"></span>
+                    <span *ngIf="!accountValidity" style="color: red" class="fa fa-minus-square "></span>
                 </button>
                 <h2 style="display: inline; position: relative; top: -3px; left: 10px">{{totalFilteredPlayers}}</h2>
             </div>
             <br/>
             <input class="form-control" style="width: 99.9%" type="password" (blur)="onTokenChange($event)" [(ngModel)]="token"/>
             <br/>
-            <div style="margin-top:8px">Selected Node: {{selectedFile ? selectedFile.label : 'none'}}</div>
-            <div style="height: 200px; overflow-y: scroll">
-                <p-tree [value]="nodes" selectionMode="single" [(selection)]="selectedFile" 
-                    (onNodeSelect)="nodeSelect($event)" (onNodeUnselect)="nodeUnselect($event)">
+            <!--<div style="margin-top:8px">Selected Node: {{selectedFile ? selectedFile.label : 'none'}}</div>-->
+            <div style="height: 200px; width: 100%; overflow: scroll">
+                <p-tree [value]="nodes" selectionMode="single" [(selection)]="selectedFile"
+                        (onNodeSelect)="nodeSelect($event)" (onNodeUnselect)="nodeUnselect($event)">
                 </p-tree>
+            </div>
+            <div style="height: 200px; width: 100%; overflow: scroll">
+                <ul class="list-group">
+                    <li class="list-group-item" *ngFor="let fileName of files">
+                        <button (click)="onAddResource(fileName)" href="#" class="btn btn-small">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                        {{fileName}}
+                    </li>
+                </ul>
             </div>
     `,
     moduleId: __moduleName
 })
-
 
 export class Dropbox {
     constructor(private _http: Http, private localStorage: LocalStorage, private cd: ChangeDetectorRef) {
@@ -54,24 +76,29 @@ export class Dropbox {
             this.renderTree();
         }
     }
-    selectedFile: TreeNode;
 
-    nodeUnselect(event) {
-        console.log({severity: 'info', summary: 'Node Unselected', detail: event.node.label});
-    }
-
-    nodeSelect(event) {
-        var url = `https://secure.digitalsignage.com/DropboxFiles/${this.token}${event.node.path}`;
-        console.log(url);
-    }
-
-
+    private selectedFile: TreeNode;
+    private files = [];
+    private nodes = []
     private me: string;
     private token;
     private accountValidity: boolean = false;
 
-    // @ViewChild(TreeComponent)
-    // private tree: TreeComponent;
+    private nodeUnselect(event) {
+        console.log({
+            severity: 'info',
+            summary: 'Node Unselected',
+            detail: event.node.label
+        });
+    }
+
+    private onAddResource(fileName){
+        console.log(fileName);
+    }
+
+    private nodeSelect(event) {
+        this.loadFiles(event.node.path);
+    }
 
     private onTokenChange(event) {
         if (event.target.value.length < 20)
@@ -80,12 +107,34 @@ export class Dropbox {
         this.renderTree();
     }
 
-    private refreshTree(){
+    private refreshTree() {
         this.nodes = [];
+        this.files = [];
         this.renderTree();
     }
 
-    private renderTree(i_folder: {} = {name: '', path: '/'}, i_start: boolean = true) {
+    private loadFiles(i_path) {
+        this.files = [];
+        const url = `https://secure.digitalsignage.com/DropboxFiles/${this.token}${i_path}`;
+        return this._http.get(url)
+            .catch((err) => {
+                return Observable.throw(err);
+            })
+            .finally(() => {
+            })
+            .map((result: any) => {
+                var f = result.json();
+                f.forEach((fileName) => {
+                    this.files.push(Lib.FileTailName(fileName.file));
+                })
+                this.cd.markForCheck();
+            }).subscribe();
+    }
+
+    private renderTree(i_folder: {} = {
+        name: '',
+        path: '/'
+    }, i_start: boolean = true) {
         this.checkToken((status) => {
             if (!status)
                 return;
@@ -104,24 +153,15 @@ export class Dropbox {
                         var o = Object.create(null, {});
                         o.name = folder.replace(/\//, '');
                         o.path = folder;
-                        o.label = o.name;
-
-                        var a = o.name.split('/');
-                        var b = a.length;
-                        o.label = a[b-1];
-                        // o.name = o.path;
-
-
+                        o.label = Lib.FileTailName(o.name);
                         if (i_start) {
                             this.nodes.push(o);
                         } else {
                             if (!i_folder['children'])
                                 i_folder['children'] = [];
-                            var dirs = o.name.split('/')
-                            o.name = dirs[dirs.length - 1];
+                            o.name = Lib.FileTailName(o.name);
                             i_folder['children'].push(o);
                         }
-                        // this.tree.treeModel.update()
                         this.renderTree(o, false);
                     })
                     this.cd.markForCheck();
@@ -153,32 +193,12 @@ export class Dropbox {
 
     private updateAccountValidity(i_value) {
         this.accountValidity = i_value;
+        if (!i_value)
+            this.files = [];
         this.cd.markForCheck();
     }
 
-    nodes = []
-
-
 
 }
-// var getFilesInFolder = (i_folder:{})=>{
-//     if (!i_folder['name'])
-//         i_folder['name'] = '';
-//     const url = `https://secure.digitalsignage.com/DropboxFiles/${this.token}/${i_folder['name']}`;
-//     return this._http.get(url)
-//         .catch((err) => {
-//             return Observable.throw(err);
-//         })
-//         .finally(() => {
-//         })
-//         .map((result: any) => {
-//             var files: Array<string> = result.json();
-//             i_folder['children'] = [];
-//             i_folder['children'].push(files);
-//             this.cd.markForCheck();
-//         }).subscribe();
-// }
 
-// if (i_start==true)
-//     getFilesInFolder(this.nodes);
-//aa
+
