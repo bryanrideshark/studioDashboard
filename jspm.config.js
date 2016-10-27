@@ -430,7 +430,7 @@ SystemJS.config({
         "github:*/*.json"
     ],
     map: {
-        "primeng": "npm:primeng@1.0.0-beta.20",
+        "primeng": "npm:primeng@1.0.0-beta.21",
         "@angular/http": "npm:@angular/http@2.0.0",
         "css": "github:systemjs/plugin-css@0.1.27",
         "capaj/systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@0.6.0",
