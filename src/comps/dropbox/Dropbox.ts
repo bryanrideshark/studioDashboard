@@ -22,7 +22,7 @@ import {TreeComponent} from "angular2-tree-component";
      `],
     template: `
             <div style="width: 100%" class="btn-group" role="group">
-                <button (click)="renderTree()"  style="padding: 9px" type="button" class="btn btn-default">
+                <button (click)="refreshTree()"  style="padding: 9px" type="button" class="btn btn-default">
                   <span class="fa fa-refresh"></span>
                 </button>
                 <button  style="padding: 9px" type="button" class="b btn btn-default">
@@ -37,12 +37,13 @@ import {TreeComponent} from "angular2-tree-component";
             <br/>
             <input class="form-control" style="width: 99.9%" type="password" (blur)="onTokenChange($event)" [(ngModel)]="token"/>
             <br/>
-            <Tree [nodes]="nodes"></Tree>
-            <p-tree [value]="nodes" selectionMode="single" [(selection)]="selectedFile" 
-                (onNodeSelect)="nodeSelect($event)" (onNodeUnselect)="nodeUnselect($event)">
-            </p-tree>
+            <!--<Tree [nodes]="nodes"></Tree>-->
             <div style="margin-top:8px">Selected Node: {{selectedFile ? selectedFile.label : 'none'}}</div>
-
+            <div style="height: 200px; overflow-y: scroll">
+                <p-tree [value]="nodes" selectionMode="single" [(selection)]="selectedFile" 
+                    (onNodeSelect)="nodeSelect($event)" (onNodeUnselect)="nodeUnselect($event)">
+                </p-tree>
+            </div>
     `,
     moduleId: __moduleName
 })
@@ -63,7 +64,8 @@ export class Dropbox {
     }
 
     nodeSelect(event) {
-        console.log({severity: 'info', summary: 'Node Selected', detail: event.node.label});
+        var url = `https://secure.digitalsignage.com/DropboxFiles/${this.token}${event.node.path}`;
+        console.log(url);
     }
 
 
@@ -71,14 +73,18 @@ export class Dropbox {
     private token;
     private accountValidity: boolean = false;
 
-    @ViewChild(TreeComponent)
-    private tree: TreeComponent;
-
+    // @ViewChild(TreeComponent)
+    // private tree: TreeComponent;
 
     private onTokenChange(event) {
         if (event.target.value.length < 20)
             return;
         this.localStorage.setItem('dropbox_key', event.target.value);
+        this.renderTree();
+    }
+
+    private refreshTree(){
+        this.nodes = [];
         this.renderTree();
     }
 
@@ -118,7 +124,7 @@ export class Dropbox {
                             o.name = dirs[dirs.length - 1];
                             i_folder['children'].push(o);
                         }
-                        this.tree.treeModel.update()
+                        // this.tree.treeModel.update()
                         this.renderTree(o, false);
                     })
                     this.cd.markForCheck();
@@ -156,88 +162,7 @@ export class Dropbox {
     nodes = []
 
 
-    // nodes = [{
-    //     id: 1,
-    //     name: 'root1',
-    //     children: [{
-    //         id: 2,
-    //         name: 'child1'
-    //     }, {
-    //         id: 3,
-    //         name: 'child2'
-    //     }]
-    // }, {
-    //     id: 4,
-    //     name: 'root2',
-    //     children: [{
-    //         id: 5,
-    //         name: 'child2.1'
-    //     }, {
-    //         id: 6,
-    //         name: 'child2.2',
-    //         children: [{
-    //             id: 7,
-    //             name: 'subsub'
-    //         }]
-    //     }]
-    // }];
 
-
-    files: TreeNode[] = [
-        {
-            "data": [
-                {
-                    "label": "Documents",
-                    "data": "Documents Folder",
-                    "expandedIcon": "fa-folder-open",
-                    "collapsedIcon": "fa-folder",
-                    "children": [{
-                        "label": "Work",
-                        "data": "Work Folder",
-                        "expandedIcon": "fa-folder-open",
-                        "collapsedIcon": "fa-folder",
-                        "children": [{
-                            "label": "Expenses.doc",
-                            "icon": "fa-file-word-o",
-                            "data": "Expenses Document"
-                        }, {
-                            "label": "Resume.doc",
-                            "icon": "fa-file-word-o",
-                            "data": "Resume Document"
-                        }]
-                    },
-                        {
-                            "label": "Home",
-                            "data": "Home Folder",
-                            "expandedIcon": "fa-folder-open",
-                            "collapsedIcon": "fa-folder",
-                            "children": [{
-                                "label": "Invoices.txt",
-                                "icon": "fa-file-word-o",
-                                "data": "Invoices for this month"
-                            }]
-                        }]
-                },
-                {
-                    "label": "Pictures",
-                    "data": "Pictures Folder",
-                    "expandedIcon": "fa-folder-open",
-                    "collapsedIcon": "fa-folder",
-                    "children": [
-                        {
-                            "label": "barcelona.jpg",
-                            "icon": "fa-file-image-o",
-                            "data": "Barcelona Photo"
-                        },
-                        {
-                            "label": "primeui.png",
-                            "icon": "fa-file-image-o",
-                            "data": "PrimeUI Logo"
-                        }]
-                }
-            ]
-        }
-    ]
 }
 // var getFilesInFolder = (i_folder:{})=>{
 //     if (!i_folder['name'])
