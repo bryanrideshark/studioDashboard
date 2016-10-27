@@ -419,8 +419,7 @@ SystemJS.config({
         "twbs/bootstrap": "github:twbs/bootstrap@3.3.6",
         "@angular/router": "npm:@angular/router@3.1.2",
         "angular-router": "npm:@angular/router@3.1.2",
-        "ts": "npm:plugin-typescript@5.1.2",
-        "primeng": "npm:primeng@1.0.0-beta.20"
+        "ts": "npm:plugin-typescript@5.1.2"
     }
 });
 
@@ -445,7 +444,7 @@ SystemJS.config({
         "angular-core": "npm:@angular/core@2.1.2",
         "angular-platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.1.2",
         "angular-http": "npm:@angular/http@2.1.2",
-        "router": "npm:@angular/router@3.0.0",
+        "router": "npm:@angular/router@3.1.2",
         "@angular/common": "npm:@angular/common@2.1.2",
         "@angular/compiler": "npm:@angular/compiler@2.1.2",
         "angular-platform-browser": "npm:@angular/platform-browser@2.1.2",
@@ -954,3 +953,7 @@ SystemJS.config({
         }
     }
 });
+
+
+
+//v1
