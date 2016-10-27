@@ -1,71 +1,24 @@
 import {
     Component,
     ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    ViewChild
+    ChangeDetectorRef
 } from "@angular/core";
 import {Lib} from "src/Lib";
 import {LocalStorage} from "../../services/LocalStorage";
 import {Http} from "@angular/http";
 import {Observable} from "rxjs/Observable";
-import {TreeNode} from 'primeng/primeng';
+import {TreeNode} from "primeng/primeng";
+//import DropboxTemplate from './Dropbox.html!text'; /*prod*/
+//import DropboxStyle from './Dropbox.css!text'; /*prod*/
 
 @Component({
+//  styles: [DropboxStyle], /*prod*/
+//  template: DropboxTemplate, /*prod*/
     selector: 'Dropbox',
     changeDetection: ChangeDetectionStrategy.Default,
-    styles: [`
-        button {
-            width: 33.3%;
-        }
-        .btn-small i {
-            position: relative;
-            top: -2px;
-            left: -5px;
-        }
-        .btn-small {
-            width: 25px;
-            height: 25px;
-            padding-right: 5px;
-        }
-        li {
-            font-size: 0.9em;
-        }
-     `],
-    template: `
-            <div style="width: 100%" class="btn-group" role="group">
-                <button (click)="refreshTree()" style="padding: 9px" type="button" class="btn btn-default">
-                    <span class="fa fa-refresh"></span>
-                </button>
-                <button style="padding: 9px" type="button" class="b btn btn-default">
-                    <span class="fa fa-minus"></span>
-                </button>
-                <button style="padding: 9px" type="button" class=" btn btn-default">
-                    <span *ngIf="accountValidity" style="color: green" class="fa fa-check-square"></span>
-                    <span *ngIf="!accountValidity" style="color: red" class="fa fa-minus-square "></span>
-                </button>
-                <h2 style="display: inline; position: relative; top: -3px; left: 10px">{{totalFilteredPlayers}}</h2>
-            </div>
-            <br/>
-            <input class="form-control" style="width: 99.9%" type="password" (blur)="onTokenChange($event)" [(ngModel)]="token"/>
-            <br/>
-            <!--<div style="margin-top:8px">Selected Node: {{selectedFile ? selectedFile.label : 'none'}}</div>-->
-            <div style="height: 200px; width: 100%; overflow: scroll">
-                <p-tree [value]="nodes" selectionMode="single" [(selection)]="selectedFile"
-                        (onNodeSelect)="nodeSelect($event)" (onNodeUnselect)="nodeUnselect($event)">
-                </p-tree>
-            </div>
-            <div style="height: 200px; width: 100%; overflow: scroll">
-                <ul class="list-group">
-                    <li class="list-group-item" *ngFor="let fileName of files">
-                        <button (click)="onAddResource(fileName)" href="#" class="btn btn-small">
-                            <i class="fa fa-plus"></i>
-                        </button>
-                        {{fileName}}
-                    </li>
-                </ul>
-            </div>
-    `,
-    moduleId: __moduleName
+    templateUrl: './Dropbox.html', /*dev*/
+    styleUrls: ['./Dropbox.css'], /*dev*/
+    moduleId: __moduleName,
 })
 
 export class Dropbox {
@@ -92,8 +45,8 @@ export class Dropbox {
         });
     }
 
-    private onAddResource(fileName){
-        console.log(fileName);
+    private onAddResource(f) {
+        console.log(f.fileName.file);
     }
 
     private nodeSelect(event) {
@@ -125,7 +78,11 @@ export class Dropbox {
             .map((result: any) => {
                 var f = result.json();
                 f.forEach((fileName) => {
-                    this.files.push(Lib.FileTailName(fileName.file));
+                    this.files.push({
+                        path: i_path,
+                        fileName: fileName,
+                        fileRoot: Lib.FileTailName(fileName.file)
+                    });
                 })
                 this.cd.markForCheck();
             }).subscribe();
@@ -197,8 +154,4 @@ export class Dropbox {
             this.files = [];
         this.cd.markForCheck();
     }
-
-
 }
-
-
