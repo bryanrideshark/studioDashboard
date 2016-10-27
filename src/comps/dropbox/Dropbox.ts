@@ -1,7 +1,8 @@
 import {
     Component,
     ChangeDetectionStrategy,
-    ChangeDetectorRef
+    ChangeDetectorRef,
+    ViewChild
 } from "@angular/core";
 import {Lib} from "src/Lib";
 import {LocalStorage} from "../../services/LocalStorage";
@@ -9,6 +10,7 @@ import {Http} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 import * as _ from 'lodash';
 import {TreeNode} from 'primeng/primeng';
+import {TreeComponent} from "angular2-tree-component";
 
 @Component({
     selector: 'Dropbox',
@@ -20,7 +22,7 @@ import {TreeNode} from 'primeng/primeng';
      `],
     template: `
             <div style="width: 100%" class="btn-group" role="group">
-                <button (click)="refresh()"  style="padding: 9px" type="button" class="btn btn-default">
+                <button (click)="renderTree()"  style="padding: 9px" type="button" class="btn btn-default">
                   <span class="fa fa-refresh"></span>
                 </button>
                 <button  style="padding: 9px" type="button" class="b btn btn-default">
@@ -55,88 +57,9 @@ export class Dropbox {
     private token;
     private accountValidity: boolean = false;
 
-    private refresh() {
-        console.log(this.nodes);
-        var a = JSON.stringify(this.nodes);
-        this.nodes = JSON.parse(a)
-        // this.nodes = [{
-        //     name: 'root1',
-        //     children: [{
-        //         name: 'child1'
-        //     }, {
-        //         name: 'child2'
-        //     }]
-        // }, {
-        //     name: 'root2',
-        //     children: [{
-        //         name: 'child2.1'
-        //     }, {
-        //         name: 'child2.2',
-        //         children: [{
-        //             name: 'subsub'
-        //         }]
-        //     }]
-        // }];
-        // this.nodes = [{
-        //     "name": "Camera Uploads",
-        //     "id": 0.847493314966749
-        // }, {
-        //     "name": "icons",
-        //     "id": 0.6112438279016996
-        // }, {
-        //     "name": "Public",
-        //     "id": 0.5698881344606346,
-        //     "children": []
-        // }, {
-        //     "name": "ScenesThumbnails",
-        //     "id": 0.5058557712692944,
-        //     "children": [{
-        //         "name": "Catalog",
-        //         "id": 0.6858089093372179
-        //     }, {
-        //         "name": "Clocks",
-        //         "id": 0.08159777717161387
-        //     }, {
-        //         "name": "Directory",
-        //         "id": 0.8477346312226623
-        //     }, {
-        //         "name": "Food Menu",
-        //         "id": 0.22730813226462
-        //     }, {
-        //         "name": "Generic",
-        //         "id": 0.870499072214203
-        //     }, {
-        //         "name": "Hospitality",
-        //         "id": 0.6575229856608689
-        //     }, {
-        //         "name": "Medical",
-        //         "id": 0.5275764594848011
-        //     }, {
-        //         "name": "Spa",
-        //         "id": 0.5354921093523624
-        //     }, {
-        //         "name": "Special Event",
-        //         "id": 0.42057998645209804
-        //     }, {
-        //         "name": "Sports",
-        //         "id": 0.7414530924893032
-        //     }, {
-        //         "name": "Stock",
-        //         "id": 0.035732473404250564
-        //     }, {
-        //         "name": "Transit",
-        //         "id": 0.17417703568476628
-        //     }, {
-        //         "name": "Weather",
-        //         "id": 0.4296740436130506
-        //     }]
-        // }, {
-        //     "name": "test",
-        //     "id": 0.35958166124184254,
-        //     "children": []
-        // }]
-        this.cd.markForCheck();
-    }
+    @ViewChild(TreeComponent)
+    private tree: TreeComponent;
+
 
     private onTokenChange(event) {
         if (event.target.value.length < 20)
@@ -145,17 +68,11 @@ export class Dropbox {
         this.renderTree();
     }
 
-    private renderTree(i_folder: {} = {name: ''}, i_start: boolean = true) {
+    private renderTree(i_folder: {} = {name: '', path: '/'}, i_start: boolean = true) {
         this.checkToken((status) => {
             if (!status)
                 return;
-            var url;
-            if (i_folder['path']){
-                url = `https://secure.digitalsignage.com/DropboxFolders/${this.token}${i_folder['path']}`;
-            } else {
-                url = `https://secure.digitalsignage.com/DropboxFolders/${this.token}/${i_folder['name']}`;
-            }
-
+            var url = `https://secure.digitalsignage.com/DropboxFolders/${this.token}${i_folder['path']}`;
             this._http.get(url)
                 .catch((err) => {
                     return Observable.throw(err);
@@ -167,10 +84,17 @@ export class Dropbox {
                         this.nodes = [];
                     var folders: Array<string> = result.json();
                     folders.forEach((folder, idx) => {
-                        var o = {
-                            name: folder.replace(/\//, ''),
-                            path: folder
-                        }
+                        var o = Object.create(null, {});
+                        o.name = folder.replace(/\//, '');
+                        o.path = folder;
+                        o.label = o.name;
+
+                        var a = o.name.split('/');
+                        var b = a.length;
+                        o.label = a[b-1];
+                        // o.name = o.path;
+
+
                         if (i_start) {
                             this.nodes.push(o);
                         } else {
@@ -180,6 +104,7 @@ export class Dropbox {
                             o.name = dirs[dirs.length - 1];
                             i_folder['children'].push(o);
                         }
+                        this.tree.treeModel.update()
                         this.renderTree(o, false);
                     })
                     this.cd.markForCheck();
