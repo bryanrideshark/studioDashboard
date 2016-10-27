@@ -8,9 +8,7 @@ import {Lib} from "src/Lib";
 import {LocalStorage} from "../../services/LocalStorage";
 import {Http} from "@angular/http";
 import {Observable} from "rxjs/Observable";
-import * as _ from 'lodash';
 import {TreeNode} from 'primeng/primeng';
-import {TreeComponent} from "angular2-tree-component";
 
 @Component({
     selector: 'Dropbox',
@@ -37,7 +35,6 @@ import {TreeComponent} from "angular2-tree-component";
             <br/>
             <input class="form-control" style="width: 99.9%" type="password" (blur)="onTokenChange($event)" [(ngModel)]="token"/>
             <br/>
-            <!--<Tree [nodes]="nodes"></Tree>-->
             <div style="margin-top:8px">Selected Node: {{selectedFile ? selectedFile.label : 'none'}}</div>
             <div style="height: 200px; overflow-y: scroll">
                 <p-tree [value]="nodes" selectionMode="single" [(selection)]="selectedFile" 

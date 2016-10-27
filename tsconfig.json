@@ -27,9 +27,6 @@
       "redux-thunk": [
         "jspm_packages/npm/redux-thunk@2.1.0"
       ],
-      "angular2-tree-component": [
-        "jspm_packages/npm/angular2-tree-component@1.3.5"
-      ],
       "primeng/primeng": [
         "jspm_packages/npm/primeng@1.0.0-beta.20/primeng"
       ],

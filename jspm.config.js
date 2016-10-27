@@ -431,7 +431,6 @@ SystemJS.config({
     ],
     map: {
         "primeng": "npm:primeng@1.0.0-beta.20",
-        "angular2-tree-component": "npm:angular2-tree-component@1.3.5",
         "@angular/http": "npm:@angular/http@2.0.0",
         "css": "github:systemjs/plugin-css@0.1.27",
         "capaj/systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@0.6.0",
@@ -938,17 +937,6 @@ SystemJS.config({
         "npm:debug@2.2.0": {
             "map": {
                 "ms": "npm:ms@0.7.1"
-            }
-        },
-        "npm:angular2-tree-component@1.3.5": {
-            "map": {
-                "lodash": "npm:lodash@4.16.4",
-                "ts-helpers": "npm:ts-helpers@1.1.2",
-                "es6-promise": "npm:es6-promise@3.3.1",
-                "es6-shim": "npm:es6-shim@0.35.1",
-                "core-js": "npm:core-js@2.4.1",
-                "reflect-metadata": "npm:reflect-metadata@0.1.8",
-                "rxjs": "npm:rxjs@5.0.0-beta.12"
             }
         },
         "npm:pbkdf2@3.0.9": {
