@@ -419,7 +419,8 @@ SystemJS.config({
         "twbs/bootstrap": "github:twbs/bootstrap@3.3.6",
         "@angular/router": "npm:@angular/router@3.1.2",
         "angular-router": "npm:@angular/router@3.1.2",
-        "ts": "npm:plugin-typescript@5.1.2"
+        "ts": "npm:plugin-typescript@5.1.2",
+        "primeng": "npm:primeng@1.0.0-beta.20"
     }
 });
 
@@ -953,6 +954,3 @@ SystemJS.config({
         }
     }
 });
-
-
-
