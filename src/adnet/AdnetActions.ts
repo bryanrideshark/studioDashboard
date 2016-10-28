@@ -50,6 +50,13 @@ export const REMOVE_ADNET_TARGET = 'REMOVE_ADNET_TARGET';
 export const REMOVE_ADNET_PACKAGE = 'REMOVE_ADNET_PACKAGE';
 export const RENAME_ADNET_RATE_TABLE = 'RENAME_ADNET_RATE_TABLE';
 
+export enum ContentTypeEnum {
+    RESOURCE,
+    GOOGLE,
+    DROPBOX
+}
+
+
 @Injectable()
 export class AdnetActions extends Actions {
 
@@ -99,7 +106,8 @@ export class AdnetActions extends Actions {
             this.adnetRouteReady$.next('adNetReady');
             this.adnetDataReady$.next('adnetData');
             this.adnetRouteReady$.complete();
-            return (dispatch) => {};
+            return (dispatch) => {
+            };
         } else {
             return (dispatch) => {
                 var baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnet');
@@ -491,6 +499,7 @@ export class AdnetActions extends Actions {
         };
     }
 
+    //todo: When adding dropbox resources, StudioPro hangs on it, need Alon to put a debug and see why
     public updAdnetContentProps(i_payload: any, i_adnetContentModels: AdnetContentModel, i_adnetPackageModel: AdnetPackageModel) {
         return (dispatch) => {
             var customerId = i_adnetPackageModel.getCustomerId();
@@ -541,11 +550,9 @@ export class AdnetActions extends Actions {
         };
     }
 
-    public addAdnetPackageContent(payload, adnetPackageModel: AdnetPackageModel) {
+    public addAdnetPackageContent(payload, adnetPackageModel: AdnetPackageModel, contentType:ContentTypeEnum) {
         return (dispatch) => {
-            //todo: fix contentType once I know what it supposed to be from Alon
             var customerId = adnetPackageModel.getCustomerId();
-            var id = adnetPackageModel.getId();
             var value = {
                 "id": adnetPackageModel.getId(),
                 "handle": 0,
@@ -556,11 +563,11 @@ export class AdnetActions extends Actions {
                         "id": "-1",
                         "handle": "1",
                         "modified": "1",
-                        "contentLabel": Lib.FileTailName(payload.url,2).replace(/%20/,' '),
+                        "contentLabel": Lib.FileTailName(payload.url, 2).replace(/%20/, ' '),
                         "duration": 10,
                         "reparationsPerHour": 60,
                         "contentUrl": payload.url,
-                        "contentType": 2,
+                        "contentType": contentType,
                         "contentExt": "",
                         "maintainAspectRatio": "false",
                         "contentVolume": "1",
@@ -676,3 +683,128 @@ export class AdnetActions extends Actions {
     }
 }
 
+//
+// var a = {
+//     "packages": {
+//         "update": [{
+//             "Key": 3393,
+//             "Value": {
+//                 "id": "3393",
+//                 "handle": "25",
+//                 "modified": "0",
+//                 "customerId": "3402",
+//                 "packageContents": {
+//                     "update": [{
+//                         "Key": 9559,
+//                         "Value": {
+//                             "id": "9559",
+//                             "handle": "84",
+//                             "modified": "1",
+//                             "contentLabel": "YamahaWaveRunner",
+//                             "duration": 58,
+//                             "reparationsPerHour": 60,
+//                             "contentUrl": "http://eris.signage.me/Resources/business315757/resources/444.flv",
+//                             "contentType": 0,
+//                             "contentExt": "",
+//                             "maintainAspectRatio": "false",
+//                             "contentVolume": "1",
+//                             "locationLat": 0,
+//                             "locationLng": 0,
+//                             "locationRadios": 10
+//                         }
+//                     }, {
+//                         "Key": 9560,
+//                         "Value": {
+//                             "id": "9560",
+//                             "handle": "85",
+//                             "modified": "1",
+//                             "contentLabel": "BigBuckTestHD",
+//                             "duration": 8,
+//                             "reparationsPerHour": 60,
+//                             "contentUrl": "http://eris.signage.me/Resources/business315757/resources/447.mp4",
+//                             "contentType": 0,
+//                             "contentExt": "",
+//                             "maintainAspectRatio": "false",
+//                             "contentVolume": "1",
+//                             "locationLat": 0,
+//                             "locationLng": 0,
+//                             "locationRadios": 10
+//                         }
+//                     }, {
+//                         "Key": 9555,
+//                         "Value": {
+//                             "id": "9555",
+//                             "handle": "86",
+//                             "modified": "1",
+//                             "contentLabel": "download",
+//                             "duration": 9,
+//                             "reparationsPerHour": 60,
+//                             "contentUrl": "http://eris.signage.me/Resources/business315757/resources/598.png",
+//                             "contentType": 0,
+//                             "contentExt": "",
+//                             "maintainAspectRatio": "false",
+//                             "contentVolume": "1",
+//                             "locationLat": 0,
+//                             "locationLng": 0,
+//                             "locationRadios": 10
+//                         }
+//                     }, {
+//                         "Key": 9557,
+//                         "Value": {
+//                             "id": "9557",
+//                             "handle": "87",
+//                             "modified": "1",
+//                             "contentLabel": "/icons/336.png",
+//                             "duration": 9,
+//                             "reparationsPerHour": 60,
+//                             "contentUrl": "http://secure.digitalsignage.com/DropboxFileLink/ff990135-ffe7-4c1e-b5ee-fddfdb203775/icons/336.png",
+//                             "contentType": 2,
+//                             "contentExt": "",
+//                             "maintainAspectRatio": "false",
+//                             "contentVolume": "1",
+//                             "locationLat": 0,
+//                             "locationLng": 0,
+//                             "locationRadios": 10
+//                         }
+//                     }, {
+//                         "Key": 9556,
+//                         "Value": {
+//                             "id": "9556",
+//                             "handle": "88",
+//                             "modified": "1",
+//                             "contentLabel": "img",
+//                             "duration": 10,
+//                             "reparationsPerHour": 61,
+//                             "contentUrl": "http://eris.signage.me/Resources/business315757/resources/597.svg",
+//                             "contentType": 0,
+//                             "contentExt": "",
+//                             "maintainAspectRatio": "false",
+//                             "contentVolume": "1",
+//                             "locationLat": 0,
+//                             "locationLng": 0,
+//                             "locationRadios": 10
+//                         }
+//                     }, {
+//                         "Key": 9558,
+//                         "Value": {
+//                             "id": "9558",
+//                             "handle": "89",
+//                             "modified": "1",
+//                             "contentLabel": "IMG_5919.JPG",
+//                             "duration": 11,
+//                             "reparationsPerHour": 58,
+//                             "contentUrl": "http://secure.digitalsignage.com/GoogleAjaxFileLink/66571266-d2b3-4efa-af12-b896f764e857/0BzjCWQm-h-s8WnRlcmtURmdBSEk",
+//                             "contentType": 1,
+//                             "contentExt": "JPG",
+//                             "maintainAspectRatio": "false",
+//                             "contentVolume": "1",
+//                             "locationLat": 0,
+//                             "locationLng": 0,
+//                             "locationRadios": 10
+//                         }
+//                     }]
+//                 }
+//             }
+//         }]
+//     }
+// }

@@ -55,9 +55,9 @@ export class AdnetNetworkPackageContentProps {
 
     @Input()
     set setAdnetContentModels(i_adnetContentModels: AdnetContentModel) {
+        this.adnetContentModels = i_adnetContentModels;
         if (!i_adnetContentModels)
             return;
-        this.adnetContentModels = i_adnetContentModels;
         this.renderFormInputs();
     }
 

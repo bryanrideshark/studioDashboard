@@ -59,9 +59,9 @@ export class AdnetNetworkPackageProps {
 
     @Input()
     set setAdnetPackageModels(i_adnetPackageModels: AdnetPackageModel) {
+        this.adnetPackageModels = i_adnetPackageModels;
         if (!i_adnetPackageModels)
             return;
-        this.adnetPackageModels = i_adnetPackageModels;
         this.adnetPackageDays = Lib.GetADaysMask(this.adnetPackageModels.daysMask());
         this.renderFormInputs();
         // this.simpleGridTable.deselect();

@@ -147,6 +147,11 @@ export class AdnetNetwork {
 
     private onAdnetPackageSelected(event: AdnetPackageModel) {
         this.selectedAdnetPackageModel_tab_packages = event;
+        if (!event){
+            this.selectedAdnetPackageModel_tab_packages = null;
+            this.selectedAdnetContentModel_tab_packages = null;
+            return;
+        }
         this.onSetPlayMode('packagesTab', event.playMode());
     }
 

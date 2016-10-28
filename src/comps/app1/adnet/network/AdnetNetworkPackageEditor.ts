@@ -22,6 +22,7 @@ import {
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {Lib} from "../../../../Lib";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
+import {ContentTypeEnum} from "../../../../adnet/AdnetActions";
 import * as _ from 'lodash';
 import * as bootbox from "bootbox";
 import {TreeNode} from 'primeng/primeng';
@@ -99,6 +100,7 @@ export class AdnetNetworkPackageEditor {
                     return;
                 this.appStore.dispatch(this.adnetAction.removeAdnetPackage(this.selectedAdnetPackageModel.getId(), this.adnetCustomerModel.customerId()));
                 this.selectedAdnetPackageModel = null;
+                this.onAdnetPacakgedSelected.emit(null);
             }
         });
     }
@@ -145,7 +147,7 @@ export class AdnetNetworkPackageEditor {
     private onDropboxFileSelected(event) {
         if (!this.selectedAdnetPackageModel)
             return bootbox.alert('first select a Package from the above accordion Packages tab, to add this file onto your selected package');
-        this.appStore.dispatch(this.adnetAction.addAdnetPackageContent(event, this.selectedAdnetPackageModel));
+        this.appStore.dispatch(this.adnetAction.addAdnetPackageContent(event, this.selectedAdnetPackageModel, ContentTypeEnum.DROPBOX));
     }
 
     private getName(i_adnetPackageModel: AdnetPackageModel) {
