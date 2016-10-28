@@ -22,9 +22,20 @@ import {AppStore} from "angular2-redux-util";
 
 @Component({
     selector: 'AdnetNetworkPackageContent',
+    styles: [`
+    .disabled {
+        opacity: 0.2;
+        cursor: default;
+    }
+    `],
     moduleId: __moduleName,
     template: `
-            <small class="release">content</small><small class="debug">{{me}}</small>
+            <small class="release pull-right">content</small><small class="debug">{{me}}</small>
+            <a class="pull-right" style="position: relative; top: 5px; right: 6px" 
+                (click)="$event.preventDefault(); onRemoveContent($event)" 
+                    [ngClass]="{disabled: !selectedAdnetContentModel}" href="#">
+                <span class="remove fa fa-lg fa-times-circle"></span>
+            </a>
             <div [hidden]="!adnetPackageModels">
                 <simpleGridTable #simpleGridR>
                     <thead>
@@ -107,8 +118,8 @@ export class AdnetNetworkPackageContent {
     @Input()
     set setAdnetPackageModels(i_adnetPackageModels: AdnetPackageModel) {
         this.adnetPackageModels = i_adnetPackageModels;
-        if (this.adnetPackageModels)
-            console.log('selected adnet package ' + this.adnetPackageModels.getId());
+        // if (this.adnetPackageModels)
+        //     console.log('selected adnet package ' + this.adnetPackageModels.getId());
         this.updateModel();
     }
 
@@ -123,6 +134,11 @@ export class AdnetNetworkPackageContent {
 
     @Output() onAdnetContentSelected: EventEmitter<AdnetContentModel> = new EventEmitter<AdnetContentModel>();
 
+    private onRemoveContent(event) {
+        console.log('removing content ' + this.selectedAdnetContentModel.getId());
+
+    }
+
     private updateModel(deselect: boolean = true) {
         if (!this.adnetPackageModels)
             return
@@ -134,7 +150,10 @@ export class AdnetNetworkPackageContent {
             var adnetContentModel: AdnetContentModel = new AdnetContentModel(content);
             this.adnetContents = this.adnetContents.push(adnetContentModel);
         }
-        if (deselect) this.simpleGridTable.deselect();
+        if (deselect) {
+            this.simpleGridTable.deselect();
+            this.selectedAdnetContentModel = null;
+        }
     }
 
     private onContentSelect(i_content: AdnetContentModel) {
