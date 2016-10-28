@@ -107,6 +107,8 @@ export class AdnetNetworkPackageContent {
     @Input()
     set setAdnetPackageModels(i_adnetPackageModels: AdnetPackageModel) {
         this.adnetPackageModels = i_adnetPackageModels;
+        if (this.adnetPackageModels)
+            console.log('selected adnet package ' + this.adnetPackageModels.getId());
         this.updateModel();
     }
 

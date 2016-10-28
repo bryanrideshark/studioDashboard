@@ -1,7 +1,9 @@
 import {
     Component,
     ChangeDetectionStrategy,
-    ChangeDetectorRef
+    ChangeDetectorRef,
+    EventEmitter,
+    Output
 } from "@angular/core";
 import {Lib} from "src/Lib";
 import {LocalStorage} from "../../services/LocalStorage";
@@ -29,6 +31,9 @@ export class Dropbox {
             this.renderTree();
         }
     }
+
+    @Output()
+    onFileLinkSelected: EventEmitter<Object> = new EventEmitter<Object>();
 
     private selectedFile: TreeNode;
     private files = [];
@@ -81,7 +86,7 @@ export class Dropbox {
                     this.files.push({
                         path: i_path,
                         fileName: fileName,
-                        fileRoot: Lib.FileTailName(fileName.file)
+                        fileRoot: Lib.FileTailName(fileName.file,1)
                     });
                 })
                 this.cd.markForCheck();
@@ -98,7 +103,7 @@ export class Dropbox {
             })
             .map((result: any) => {
                 var f = result.json();
-                console.log(f.url);
+                this.onFileLinkSelected.emit(f);
                 this.cd.markForCheck();
             }).subscribe();
     }
@@ -125,13 +130,13 @@ export class Dropbox {
                         var o = Object.create(null, {});
                         o.name = folder.replace(/\//, '');
                         o.path = folder;
-                        o.label = Lib.FileTailName(o.name);
+                        o.label = Lib.FileTailName(o.name,1);
                         if (i_start) {
                             this.nodes.push(o);
                         } else {
                             if (!i_folder['children'])
                                 i_folder['children'] = [];
-                            o.name = Lib.FileTailName(o.name);
+                            o.name = Lib.FileTailName(o.name,1);
                             i_folder['children'].push(o);
                         }
                         this.renderTree(o, false);
@@ -170,35 +175,3 @@ export class Dropbox {
         this.cd.markForCheck();
     }
 }
-
-// var a = {
-//     "packages": {
-//         "update": [{
-//             "Key": 3344,
-//             "Value": {
-//                 "id": "3344",
-//                 "handle": "2",
-//                 "modified": "0",
-//                 "customerId": "3402",
-//                 "packageContents": {
-//                     "add": [{
-//                         "id": "-1",
-//                         "handle": "5",
-//                         "modified": "1",
-//                         "contentLabel": "/abc/LaunchScreen-Center.png",
-//                         "duration": 10,
-//                         "reparationsPerHour": 60,
-//                         "contentUrl": "http://secure.digitalsignage.com/DropboxFileLink/ff990135-ffe7-4c1e-b5ee-fddfdb203775/abc/LaunchScreen-Center.png",
-//                         "contentType": 2,
-//                         "contentExt": "",
-//                         "maintainAspectRatio": "false",
-//                         "contentVolume": "1",
-//                         "locationLat": 0,
-//                         "locationLng": 0,
-//                         "locationRadios": 0
-//                     }]
-//                 }
-//             }
-//         }]
-//     }
-// }

@@ -40,7 +40,7 @@ import {TreeNode} from 'primeng/primeng';
 
 export class AdnetNetworkPackageEditor {
 
-    constructor(private appStore: AppStore, private adnetAction:AdnetActions, private cd:ChangeDetectorRef) {
+    constructor(private appStore: AppStore, private adnetAction: AdnetActions, private cd: ChangeDetectorRef) {
         this['me'] = Lib.GetCompSelector(this.constructor)
     }
 
@@ -140,6 +140,12 @@ export class AdnetNetworkPackageEditor {
         this.onPropSelected.emit({selected: AdnetNetworkPropSelector.PACKAGE})
         this.onAdnetPacakgedSelected.emit(this.selectedAdnetPackageModel)
         this.onAdnetTargetsSelected.emit(selectedAdnetTargetModels);
+    }
+
+    private onDropboxFileSelected(event) {
+        if (!this.selectedAdnetPackageModel)
+            return bootbox.alert('first select a Package from the above accordion Packages tab, to add this file onto your selected package');
+        this.appStore.dispatch(this.adnetAction.addAdnetPackageContent(event, this.selectedAdnetPackageModel));
     }
 
     private getName(i_adnetPackageModel: AdnetPackageModel) {

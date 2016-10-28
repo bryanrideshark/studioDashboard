@@ -84,6 +84,16 @@ export function adnet(state: Map<string,any> = Map<string,any>(), action: any): 
             return state.setIn(['packages'], packages);
         }
 
+        case AdnetActions.ADD_ADNET_PACKAGE_CONTENT: {
+            var packages: List<AdnetPackageModel> = state.getIn(['packages'])
+            packages = packages.update(getIndex(packages, action.payload.Key), (i_package: AdnetPackageModel) => {
+                var packageData = i_package.getData().toJS();
+                packageData.Value.contents.push(action.payload);
+                return i_package.setData<AdnetPackageModel>(AdnetPackageModel, packageData)
+            });
+            return state.setIn(['packages'], packages);
+        }
+
         case AdnetActions.UPDATE_ADNET_TARGET: {
             var targets: List<AdnetTargetModel> = state.getIn(['targets'])
             targets = targets.update(getIndex(targets, action.payload.Key), (target: AdnetTargetModel) => {

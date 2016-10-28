@@ -19,6 +19,8 @@ import AdnetNetworkPackageCommonStylesStyle from './AdnetNetworkPackageCommonSty
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 import {List} from "immutable";
 
+//todo: add volume property control of contentType == video
+
 @Component({
     selector: 'AdnetNetworkPackageContentProps',
     moduleId: __moduleName,
@@ -74,7 +76,7 @@ export class AdnetNetworkPackageContentProps {
     private updateSore() {
         setTimeout(() => {
             var payload = Lib.CleanCharForXml(this.contGroup.value);
-            this.appStore.dispatch(this.adnetAction.updAdnetContent(payload, this.adnetContentModels, this.adnetPackageModels));
+            this.appStore.dispatch(this.adnetAction.updAdnetContentProps(payload, this.adnetContentModels, this.adnetPackageModels));
         }, 1)
     }
 

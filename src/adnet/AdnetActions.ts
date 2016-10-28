@@ -43,6 +43,7 @@ export const UPDATE_ADNET_PACKAGE_CONTENT = 'UPDATE_ADNET_PACKAGE_CONTENT';
 export const UPDATE_ADNET_TARGET = 'UPDATE_ADNET_TARGET';
 export const ADD_ADNET_TARGET = 'ADD_ADNET_TARGET';
 export const ADD_ADNET_PACKAGE = 'ADD_ADNET_PACKAGE';
+export const ADD_ADNET_PACKAGE_CONTENT = 'ADD_ADNET_PACKAGE_CONTENT';
 export const ADD_ADNET_RATE_TABLE = 'ADD_ADNET_RATE_TABLE';
 export const REMOVE_ADNET_RATE_TABLE = 'REMOVE_ADNET_RATE_TABLE';
 export const REMOVE_ADNET_TARGET = 'REMOVE_ADNET_TARGET';
@@ -181,48 +182,6 @@ export class AdnetActions extends Actions {
         }
     }
 
-    // private getAdnetCustomersToken(i_users:Array<string>) {
-    //     return (dispatch)=> {
-    //         var observables:Array<Observable<any>> = [];
-    //         for (let i_userName in i_users) {
-    //             var userName = i_users[userName];
-    //             var url:string = `https://${i_source}/WebService/StationService.asmx/getSocketStatusList?i_businessList=${businesses}`;
-    //             observables.push(this._http.get(url).retry(0).map((res) => {
-    //                 return {xml: res.text(), source: i_source};
-    //             }));
-    //         }
-    //         Observable.forkJoin(observables).subscribe(
-    //             (data:Array<any>) => {
-    //                 data.forEach((i_data)=> {
-    //                     var source = i_data.source;
-    //                     var xmlData:string = i_data.xml;
-    //                     xmlData = xmlData.replace(/&lt;/ig, '<').replace(/&gt;/ig, '>');
-    //                     this.m_parseString(xmlData, {attrkey: '_attr'}, function (err, result) {
-    //
-    //                         //var stations:List<StationModel> = List<StationModel>();
-    //                         //dispatch(self.receiveStations(stations, source));
-    //                     });
-    //                 })
-    //             },
-    //             (err:Response) => {
-    //                 err = err.json();
-    //                 var status = err['currentTarget'].status;
-    //                 var statusText = err['currentTarget'].statusText;
-    //                 this.commBroker.fire({
-    //                     fromInstance: this,
-    //                     event: Consts.Events().STATIONS_NETWORK_ERROR,
-    //                     context: this,
-    //                     message: 'Could not load Adnet customer data'
-    //                 });
-    //             },
-    //             ()=> {
-    //                 // complete
-    //                 //dispatch(self.receiveTotalStations(totalStations));
-    //             }
-    //         );
-    //     }
-    // }
-
     public saveCustomerInfo(data: Object, adnetCustomerId: string) {
         return (dispatch) => {
             const payload = {
@@ -238,16 +197,6 @@ export class AdnetActions extends Actions {
             })
         };
     }
-
-    // public saveTargetInfo(data: Object, adnetTargetId: string) {
-    //     return (dispatch) => {
-    //         const payload = {
-    //             Value: data,
-    //             Key: adnetTargetId
-    //         };
-    //         dispatch(this.updateAdnetTarget(payload))
-    //     };
-    // }
 
     public saveTargetInfo(data: Object, adnetTargetId: string, adnetCustomerId: string) {
         return (dispatch) => {
@@ -485,8 +434,6 @@ export class AdnetActions extends Actions {
                 Value: value
             }
 
-            // dispatch(this.updatePackage(payloadToSave))
-
             this.saveToServer(payloadToServer, customerId, (jData) => {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
                     return alert('problem updating package on server');
@@ -544,7 +491,7 @@ export class AdnetActions extends Actions {
         };
     }
 
-    public updAdnetContent(i_payload: any, i_adnetContentModels: AdnetContentModel, i_adnetPackageModel: AdnetPackageModel) {
+    public updAdnetContentProps(i_payload: any, i_adnetContentModels: AdnetContentModel, i_adnetPackageModel: AdnetPackageModel) {
         return (dispatch) => {
             var customerId = i_adnetPackageModel.getCustomerId();
             var packageId = i_adnetPackageModel.getId();
@@ -589,7 +536,56 @@ export class AdnetActions extends Actions {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
                     return alert('problem updating package content table to server');
                 // model = model.setId(jData.rates.add["0"]) as AdnetRateModel;
-                dispatch(this.updatePackageContent(packageId, payloadToSave))
+                dispatch(this.updatePackageContentProps(packageId, payloadToSave))
+            })
+        };
+    }
+
+    public addAdnetPackageContent(payload, adnetPackageModel: AdnetPackageModel) {
+        return (dispatch) => {
+            //todo: fix contentType once I know what it supposed to be from Alon
+            var customerId = adnetPackageModel.getCustomerId();
+            var id = adnetPackageModel.getId();
+            var value = {
+                "id": adnetPackageModel.getId(),
+                "handle": 0,
+                "modified": 0,
+                "customerId": customerId,
+                "packageContents": {
+                    "add": [{
+                        "id": "-1",
+                        "handle": "1",
+                        "modified": "1",
+                        "contentLabel": Lib.FileTailName(payload.url,2).replace(/%20/,' '),
+                        "duration": 10,
+                        "reparationsPerHour": 60,
+                        "contentUrl": payload.url,
+                        "contentType": 2,
+                        "contentExt": "",
+                        "maintainAspectRatio": "false",
+                        "contentVolume": "1",
+                        "locationLat": 0,
+                        "locationLng": 0,
+                        "locationRadios": 0
+                    }]
+                }
+            }
+            var payloadToServer = {
+                "packages": {
+                    "update": [{
+                        "Key": adnetPackageModel.getId(),
+                        "Value": value
+                    }]
+                }
+            }
+            var payloadToSave = {
+                Key: adnetPackageModel.getId(),
+                Value: value.packageContents.add[0]
+            }
+            this.saveToServer(payloadToServer, customerId, (jData) => {
+                if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
+                    return alert('problem adding package on server');
+                dispatch(this.addPackageContent(payloadToSave))
             })
         };
     }
@@ -608,10 +604,17 @@ export class AdnetActions extends Actions {
         }
     }
 
-    private updatePackageContent(packageId, payload) {
+    private updatePackageContentProps(packageId, payload) {
         return {
             type: UPDATE_ADNET_PACKAGE_CONTENT,
             packageId,
+            payload
+        }
+    }
+
+    private addPackageContent(payload) {
+        return {
+            type: ADD_ADNET_PACKAGE_CONTENT,
             payload
         }
     }
@@ -672,17 +675,4 @@ export class AdnetActions extends Actions {
         }
     }
 }
-
-
-// public renameAdnetRateTable(rateId: string, newLabel: string) {
-//     return (dispatch) => {
-//         dispatch({
-//             type: RENAME_ADNET_RATE_TABLE,
-//             payload: {
-//                 rateId,
-//                 newLabel
-//             }
-//         });
-//     };
-// }
 
