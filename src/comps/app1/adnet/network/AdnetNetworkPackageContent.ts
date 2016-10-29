@@ -19,6 +19,7 @@ import {Lib} from "../../../../Lib";
 import * as _ from 'lodash';
 import {SimpleGridTable} from "../../../simplegridmodule/SimpleGridTable";
 import {AppStore} from "angular2-redux-util";
+import {AdnetActions} from "../../../../adnet/AdnetActions";
 
 @Component({
     selector: 'AdnetNetworkPackageContent',
@@ -104,7 +105,7 @@ import {AppStore} from "angular2-redux-util";
 })
 
 export class AdnetNetworkPackageContent {
-    constructor(private appStore: AppStore, private cd: ChangeDetectorRef) {
+    constructor(private appStore: AppStore, private adnetActions:AdnetActions, private cd: ChangeDetectorRef) {
         this['me'] = Lib.GetCompSelector(this.constructor)
 
         this.appStore.sub((i_adnetPackageModels: List<AdnetPackageModel>) => {
@@ -135,8 +136,12 @@ export class AdnetNetworkPackageContent {
     @Output() onAdnetContentSelected: EventEmitter<AdnetContentModel> = new EventEmitter<AdnetContentModel>();
 
     private onRemoveContent(event) {
+        if (!this.selectedAdnetContentModel)
+            return;
         console.log('removing content ' + this.selectedAdnetContentModel.getId());
-
+        this.appStore.dispatch(this.adnetActions.removeAdnetPackageContent(this.adnetPackageModels,this.selectedAdnetContentModel.getId()));
+        this.updateModel(true);
+        this.onAdnetContentSelected.emit(null);
     }
 
     private updateModel(deselect: boolean = true) {
@@ -144,10 +149,11 @@ export class AdnetNetworkPackageContent {
             return
         var contents = this.adnetPackageModels.getContents();
         this.adnetContents = List<AdnetContentModel>()
-        for (let content of contents) {
-            if (content.Value.deleted)
+        for (let content in contents) {
+            var data = contents[content];
+            if (data.Value && data.Value.deleted)
                 continue;
-            var adnetContentModel: AdnetContentModel = new AdnetContentModel(content);
+            var adnetContentModel: AdnetContentModel = new AdnetContentModel(data);
             this.adnetContents = this.adnetContents.push(adnetContentModel);
         }
         if (deselect) {

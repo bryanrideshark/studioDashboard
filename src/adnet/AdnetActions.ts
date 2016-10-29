@@ -48,6 +48,7 @@ export const ADD_ADNET_RATE_TABLE = 'ADD_ADNET_RATE_TABLE';
 export const REMOVE_ADNET_RATE_TABLE = 'REMOVE_ADNET_RATE_TABLE';
 export const REMOVE_ADNET_TARGET = 'REMOVE_ADNET_TARGET';
 export const REMOVE_ADNET_PACKAGE = 'REMOVE_ADNET_PACKAGE';
+export const REMOVE_ADNET_PACKAGE_CONTENT = 'REMOVE_ADNET_PACKAGE_CONTENT';
 export const RENAME_ADNET_RATE_TABLE = 'RENAME_ADNET_RATE_TABLE';
 
 export enum ContentTypeEnum {
@@ -299,6 +300,36 @@ export class AdnetActions extends Actions {
         };
     }
 
+    public removeAdnetPackageContent(adnetPackageModel: AdnetPackageModel, contentId: number) {
+        return (dispatch) => {
+            var customerId = adnetPackageModel.getCustomerId();
+            var value = {
+                "id": adnetPackageModel.getId(),
+                "handle": "0",
+                "modified": "0",
+                "customerId": customerId,
+                "packageContents": {"delete": [contentId]}
+            }
+            var payloadToServer = {
+                "packages": {
+                    "update": [{
+                        "Key": adnetPackageModel.getId(),
+                        "Value": value
+                    }]
+                }
+            }
+            var payloadToSave = {
+                Key: adnetPackageModel.getId(),
+                Value: value
+            }
+            this.saveToServer(payloadToServer, customerId, (jData) => {
+                if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
+                    return alert('problem removing package content on server');
+                dispatch(this.removePackageContent(payloadToSave))
+            })
+        };
+    }
+
     public addAdnetTarget(customerId) {
         return (dispatch) => {
             var payload = {
@@ -499,7 +530,6 @@ export class AdnetActions extends Actions {
         };
     }
 
-    //todo: When adding dropbox resources, StudioPro hangs on it, need Alon to put a debug and see why
     public updAdnetContentProps(i_payload: any, i_adnetContentModels: AdnetContentModel, i_adnetPackageModel: AdnetPackageModel) {
         return (dispatch) => {
             var customerId = i_adnetPackageModel.getCustomerId();
@@ -550,7 +580,40 @@ export class AdnetActions extends Actions {
         };
     }
 
-    public addAdnetPackageContent(payload, adnetPackageModel: AdnetPackageModel, contentType:ContentTypeEnum) {
+    public addAdnetPackageContent(payload, adnetPackageModel: AdnetPackageModel, contentType: ContentTypeEnum) {
+
+        // var a = {
+        //     "packages": {
+        //         "update": [{
+        //             "Key": 3422,
+        //             "Value": {
+        //                 "id": "3422",
+        //                 "handle": "17",
+        //                 "modified": "0",
+        //                 "customerId": "13111",
+        //                 "packageContents": {
+        //                     "add": [{
+        //                         "id": "-1",
+        //                         "handle": "205",
+        //                         "modified": "1",
+        //                         "contentLabel": "/icons/336.png",
+        //                         "duration": 10,
+        //                         "reparationsPerHour": 60,
+        //                         "contentUrl": "http://secure.digitalsignage.com/DropboxFileLink/ff990135-ffe7-4c1e-b5ee-fddfdb203775/icons/336.png",
+        //                         "contentType": 2,
+        //                         "contentExt": "",
+        //                         "maintainAspectRatio": "false",
+        //                         "contentVolume": "1",
+        //                         "locationLat": 0,
+        //                         "locationLng": 0,
+        //                         "locationRadios": 0
+        //                     }]
+        //                 }
+        //             }
+        //         }]
+        //     }
+        // }
+
         return (dispatch) => {
             var customerId = adnetPackageModel.getCustomerId();
             var value = {
@@ -561,7 +624,7 @@ export class AdnetActions extends Actions {
                 "packageContents": {
                     "add": [{
                         "id": "-1",
-                        "handle": "1",
+                        "handle": "0",
                         "modified": "1",
                         "contentLabel": Lib.FileTailName(payload.url, 2).replace(/%20/, ' '),
                         "duration": 10,
@@ -592,7 +655,9 @@ export class AdnetActions extends Actions {
             this.saveToServer(payloadToServer, customerId, (jData) => {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
                     return alert('problem adding package on server');
-                dispatch(this.addPackageContent(payloadToSave))
+                payloadToSave.Key = jData.packages.update["0"].contentIds["0"];
+                payloadToSave.Value.id = jData.packages.update["0"].contentIds["0"];
+                dispatch(this.addPackageContent(adnetPackageModel.getId(), payloadToSave))
             })
         };
     }
@@ -619,16 +684,24 @@ export class AdnetActions extends Actions {
         }
     }
 
-    private addPackageContent(payload) {
+    private addPackageContent(packageId, payload) {
         return {
             type: ADD_ADNET_PACKAGE_CONTENT,
-            payload
+            payload,
+            packageId
         }
     }
 
     private updatePackage(payload) {
         return {
             type: UPDATE_ADNET_PACKAGE,
+            payload
+        }
+    }
+
+    private removePackageContent(payload) {
+        return {
+            type: REMOVE_ADNET_PACKAGE_CONTENT,
             payload
         }
     }
@@ -683,128 +756,36 @@ export class AdnetActions extends Actions {
     }
 }
 
-//
-// var a = {
-//     "packages": {
-//         "update": [{
-//             "Key": 3393,
-//             "Value": {
-//                 "id": "3393",
-//                 "handle": "25",
-//                 "modified": "0",
-//                 "customerId": "3402",
-//                 "packageContents": {
-//                     "update": [{
-//                         "Key": 9559,
-//                         "Value": {
-//                             "id": "9559",
-//                             "handle": "84",
-//                             "modified": "1",
-//                             "contentLabel": "YamahaWaveRunner",
-//                             "duration": 58,
-//                             "reparationsPerHour": 60,
-//                             "contentUrl": "http://eris.signage.me/Resources/business315757/resources/444.flv",
-//                             "contentType": 0,
-//                             "contentExt": "",
-//                             "maintainAspectRatio": "false",
-//                             "contentVolume": "1",
-//                             "locationLat": 0,
-//                             "locationLng": 0,
-//                             "locationRadios": 10
-//                         }
-//                     }, {
-//                         "Key": 9560,
-//                         "Value": {
-//                             "id": "9560",
-//                             "handle": "85",
-//                             "modified": "1",
-//                             "contentLabel": "BigBuckTestHD",
-//                             "duration": 8,
-//                             "reparationsPerHour": 60,
-//                             "contentUrl": "http://eris.signage.me/Resources/business315757/resources/447.mp4",
-//                             "contentType": 0,
-//                             "contentExt": "",
-//                             "maintainAspectRatio": "false",
-//                             "contentVolume": "1",
-//                             "locationLat": 0,
-//                             "locationLng": 0,
-//                             "locationRadios": 10
-//                         }
-//                     }, {
-//                         "Key": 9555,
-//                         "Value": {
-//                             "id": "9555",
-//                             "handle": "86",
-//                             "modified": "1",
-//                             "contentLabel": "download",
-//                             "duration": 9,
-//                             "reparationsPerHour": 60,
-//                             "contentUrl": "http://eris.signage.me/Resources/business315757/resources/598.png",
-//                             "contentType": 0,
-//                             "contentExt": "",
-//                             "maintainAspectRatio": "false",
-//                             "contentVolume": "1",
-//                             "locationLat": 0,
-//                             "locationLng": 0,
-//                             "locationRadios": 10
-//                         }
-//                     }, {
-//                         "Key": 9557,
-//                         "Value": {
-//                             "id": "9557",
-//                             "handle": "87",
-//                             "modified": "1",
-//                             "contentLabel": "/icons/336.png",
-//                             "duration": 9,
-//                             "reparationsPerHour": 60,
-//                             "contentUrl": "http://secure.digitalsignage.com/DropboxFileLink/ff990135-ffe7-4c1e-b5ee-fddfdb203775/icons/336.png",
-//                             "contentType": 2,
-//                             "contentExt": "",
-//                             "maintainAspectRatio": "false",
-//                             "contentVolume": "1",
-//                             "locationLat": 0,
-//                             "locationLng": 0,
-//                             "locationRadios": 10
-//                         }
-//                     }, {
-//                         "Key": 9556,
-//                         "Value": {
-//                             "id": "9556",
-//                             "handle": "88",
-//                             "modified": "1",
-//                             "contentLabel": "img",
-//                             "duration": 10,
-//                             "reparationsPerHour": 61,
-//                             "contentUrl": "http://eris.signage.me/Resources/business315757/resources/597.svg",
-//                             "contentType": 0,
-//                             "contentExt": "",
-//                             "maintainAspectRatio": "false",
-//                             "contentVolume": "1",
-//                             "locationLat": 0,
-//                             "locationLng": 0,
-//                             "locationRadios": 10
-//                         }
-//                     }, {
-//                         "Key": 9558,
-//                         "Value": {
-//                             "id": "9558",
-//                             "handle": "89",
-//                             "modified": "1",
-//                             "contentLabel": "IMG_5919.JPG",
-//                             "duration": 11,
-//                             "reparationsPerHour": 58,
-//                             "contentUrl": "http://secure.digitalsignage.com/GoogleAjaxFileLink/66571266-d2b3-4efa-af12-b896f764e857/0BzjCWQm-h-s8WnRlcmtURmdBSEk",
-//                             "contentType": 1,
-//                             "contentExt": "JPG",
-//                             "maintainAspectRatio": "false",
-//                             "contentVolume": "1",
-//                             "locationLat": 0,
-//                             "locationLng": 0,
-//                             "locationRadios": 10
-//                         }
-//                     }]
-//                 }
-//             }
-//         }]
-//     }
-// }
+var a = {
+    "packages": {
+        "update": [{
+            "Key": 3422,
+            "Value": {
+                "id": "3422",
+                "handle": "17",
+                "modified": "0",
+                "customerId": "13111",
+                "packageContents": {
+                    "add": [{
+                        "id": "-1",
+                        "handle": "205",
+                        "modified": "1",
+                        "contentLabel": "/icons/336.png",
+                        "duration": 10,
+                        "reparationsPerHour": 60,
+                        "contentUrl": "http://secure.digitalsignage.com/DropboxFileLink/ff990135-ffe7-4c1e-b5ee-fddfdb203775/icons/336.png",
+                        "contentType": 2,
+                        "contentExt": "",
+                        "maintainAspectRatio": "false",
+                        "contentVolume": "1",
+                        "locationLat": 0,
+                        "locationLng": 0,
+                        "locationRadios": 0
+                    }]
+                }
+            }
+        }]
+    }
+}
+
+

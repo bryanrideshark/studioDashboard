@@ -1,4 +1,7 @@
-import {List, Map} from "immutable";
+import {
+    List,
+    Map
+} from "immutable";
 import * as AdnetActions from "./AdnetActions";
 import {AdnetCustomerModel} from "./AdnetCustomerModel";
 import {AdnetRateModel} from "./AdnetRateModel";
@@ -72,8 +75,8 @@ export function adnet(state: Map<string,any> = Map<string,any>(), action: any): 
             var adnetPackageModel;
             packages = packages.update(getIndex(packages, action.packageId), (i_package: AdnetPackageModel) => {
                 var contents = i_package.getContents();
-                for (var index in contents){
-                    if (contents[index].Key == action.payload.Key){
+                for (var index in contents) {
+                    if (contents[index].Key == action.payload.Key) {
                         var packageData = i_package.getData().toJS();
                         packageData.Value.contents[index] = action.payload;
                         return i_package.setData<AdnetPackageModel>(AdnetPackageModel, packageData)
@@ -84,9 +87,30 @@ export function adnet(state: Map<string,any> = Map<string,any>(), action: any): 
             return state.setIn(['packages'], packages);
         }
 
+        case AdnetActions.REMOVE_ADNET_PACKAGE_CONTENT: {
+            var packages: List<AdnetPackageModel> = state.getIn(['packages'])
+            var adnetPackageModel;
+            packages = packages.update(getIndex(packages, action.payload.Key), (i_package: AdnetPackageModel) => {
+                var contents = i_package.getContents();
+                for (var i = 0; i < contents.length; i++) {
+                    var content = contents[i];
+                    if (content.Value.deleted)
+                        continue;
+                    if (content.Key != Number(action.payload.Value.packageContents.delete[0]))
+                        continue;
+                    contents.splice(i,1);
+                    var packageData = i_package.getData().toJS();
+                    packageData.Value.contents = contents;
+                    return i_package.setData<AdnetPackageModel>(AdnetPackageModel, packageData)
+                }
+                return adnetPackageModel;
+            });
+            return state.setIn(['packages'], packages);
+        }
+
         case AdnetActions.ADD_ADNET_PACKAGE_CONTENT: {
             var packages: List<AdnetPackageModel> = state.getIn(['packages'])
-            packages = packages.update(getIndex(packages, action.payload.Key), (i_package: AdnetPackageModel) => {
+            packages = packages.update(getIndex(packages, action.packageId), (i_package: AdnetPackageModel) => {
                 var packageData = i_package.getData().toJS();
                 packageData.Value.contents.push(action.payload);
                 return i_package.setData<AdnetPackageModel>(AdnetPackageModel, packageData)
