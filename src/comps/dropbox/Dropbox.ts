@@ -18,8 +18,8 @@ import {TreeNode} from "primeng/primeng";
 //  template: DropboxTemplate, /*prod*/
     selector: 'Dropbox',
     changeDetection: ChangeDetectionStrategy.Default,
-    templateUrl: './Dropbox.html', /*dev*/
-    styleUrls: ['./Dropbox.css'], /*dev*/
+	    templateUrl: './Dropbox.html', /*dev*/
+	    styleUrls: ['./Dropbox.css'], /*dev*/
     moduleId: __moduleName,
 })
 

@@ -9,7 +9,7 @@ import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 @Component({
 //	template: AdnetNetworkPackageViewPropsTemplate, /*prod*/
     selector: 'AdnetNetworkPackageViewProps',
-    templateUrl: './AdnetNetworkPackageViewProps.html', /*dev*/
+	    templateUrl: './AdnetNetworkPackageViewProps.html', /*dev*/
     styles: [`
         
     `],

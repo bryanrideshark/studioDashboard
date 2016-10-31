@@ -34,7 +34,7 @@ import {SimpleGridTable} from "../../../simplegridmodule/SimpleGridTable";
             min-width: 200px !important;
         }
     `],
-    templateUrl: './AdnetNetworkPackageViewer.html' /*dev*/
+	    templateUrl: './AdnetNetworkPackageViewer.html' /*dev*/
 })
 
 export class AdnetNetworkPackageViewer {

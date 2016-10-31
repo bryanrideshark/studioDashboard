@@ -30,7 +30,7 @@ type TabType = "packagesTab" | "targetsTab"
 //	template: AdnetNetworkTemplate, /*prod*/
     selector: 'AdnetNetwork',
     moduleId: __moduleName,
-    templateUrl: './AdnetNetwork.html', /*dev*/
+	    templateUrl: './AdnetNetwork.html', /*dev*/
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
