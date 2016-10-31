@@ -21,6 +21,8 @@ import {PrivelegesModel} from "./reseller/PrivelegesModel";
 import * as _ from "lodash";
 import * as xml2js from "xml2js";
 import * as moment_ from "moment";
+import * as bootbox from 'bootbox';
+
 //import {LoggerMiddleware} from "angular2-redux-util";
 //import {BusinessUser} from "./business/BusinessUser";
 //import * as thunkMiddleware from 'redux-thunk';
@@ -119,11 +121,17 @@ export class Lib {
         return componentMetadata.selector;
     }
 
-    static FileTailName(fileName:string, level:number){
+    static FileTailName(fileName: string, level: number) {
         var arr = fileName.split('/');
         var size = arr.length;
-        var c = arr.slice(0-level,size)
+        var c = arr.slice(0 - level, size)
         return c.join('/');
+    }
+
+    static BootboxHide(i_time = 1500) {
+        setTimeout(() => {
+            bootbox.hideAll();
+        }, i_time)
     }
 
     static Exists(i_value): boolean {

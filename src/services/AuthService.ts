@@ -3,11 +3,15 @@ import {Router, ActivatedRouteSnapshot, RouterStateSnapshot} from "@angular/rout
 import {AppStore} from "angular2-redux-util";
 import {LocalStorage} from "./LocalStorage";
 import {StoreService} from "./StoreService";
-import {AppdbAction} from "../appdb/AppdbAction";
+import {
+    AppdbAction,
+    AuthState
+} from "../appdb/AppdbAction";
 import 'rxjs/add/observable/fromPromise';
 import {Observable} from 'rxjs/Observable';
 import * as bootbox from "bootbox";
 import Map = Immutable.Map;
+import {Lib} from "../Lib";
 
 
 export enum FlagsAuth {
@@ -15,13 +19,14 @@ export enum FlagsAuth {
     AuthFailEnterprise,
     WrongPass,
     NotEnterprise,
-    Enterprise
+    Enterprise,
+    WrongTwoFactor
 }
 
 @Injectable()
 export class AuthService {
     private ubsub: ()=>void;
-    private m_authenticated: boolean = false;
+    private m_authState: AuthState;
     private m_pendingNotify: any;
 
     constructor(private router: Router,
@@ -34,23 +39,33 @@ export class AuthService {
 
     private listenStore() {
         this.ubsub = this.appStore.sub((credentials: Map<string,any>) => {
-            this.m_authenticated = credentials.get('authenticated');
+            this.m_authState = credentials.get('authenticated');
             var user = credentials.get('user');
             var pass = credentials.get('pass');
             var remember = credentials.get('remember');
 
-            if (this.m_authenticated) {
-                this.onAuthPass(user, pass, remember);
-            } else {
-                this.onAuthFail();
+            switch (this.m_authState){
+                case AuthState.FAIL: {
+                    this.onAuthFail();
+                    break;
+                }
+                case AuthState.PASS: {
+                    this.onAuthPass(user, pass, remember);
+                    break;
+                }
+                case AuthState.TWO_FACTOR: {
+                    this.onAuthPass(user, pass, remember);
+                    console.log('doing two factor');
+                    break;
+                }
             }
             if (this.m_pendingNotify)
-                this.m_pendingNotify(this.m_authenticated)
+                this.m_pendingNotify(this.m_authState)
         }, 'appdb.credentials', false);
     }
 
     private onAuthPass(i_user, i_pass, i_remember) {
-        bootbox.hideAll();
+        Lib.BootboxHide();
         if (i_remember) {
             this.localStorage.setItem('remember_me', {
                 u: i_user,
@@ -70,7 +85,7 @@ export class AuthService {
 
     private onAuthFail() {
         setTimeout(() => {
-            bootbox.hideAll();
+            Lib.BootboxHide();
             this.localStorage.setItem('remember_me', {
                 u: '',
                 p: '',
@@ -78,6 +93,11 @@ export class AuthService {
             });
         }, 1000);
         return false;
+    }
+
+    public authTwoFactor(){
+        console.log('grab data from redux');
+        this.appStore.dispatch(this.appdbAction.authenticateTwoFactor(123,'123'));
     }
 
     public authUser(i_user?: string, i_pass?: string, i_remember?: string): void {
@@ -114,14 +134,21 @@ export class AuthService {
         // let router:Router = injector.get(Router);
         let target = ['/Login'];
 
-        if (this.m_authenticated)
-            return Promise.resolve(true);
-
+        switch (this.m_authState){
+            case AuthState.FAIL: {
+                break;
+            }
+            case AuthState.PASS: {
+                return Promise.resolve(true);
+            }
+            case AuthState.TWO_FACTOR: {
+                return Promise.resolve(true);
+            }
+        }
         if (this.getLocalstoreCred().u == '') {
             this.router.navigate(target);
             return Promise.resolve(false);
         }
-
         return new Promise((resolve) => {
             var credentials = this.localStorage.getItem('remember_me');
             var user = credentials.u;
@@ -130,11 +157,22 @@ export class AuthService {
 
             this.appdbAction.createDispatcher(this.appdbAction.authenticateUser)(user, pass, remember);
 
-            this.m_pendingNotify = (status) => {
-                resolve(status);
-                if (!status) {
-                    this.router.navigate(target);
-                    resolve(false);
+            this.m_pendingNotify = (i_authState:AuthState) => {
+
+                switch (i_authState){
+                    case AuthState.FAIL: {
+                        resolve(false);
+                        break;
+                    }
+                    case AuthState.PASS: {
+                        this.router.navigate(target);
+                        resolve(true);
+                        break;
+                    }
+                    case AuthState.TWO_FACTOR: {
+                        console.log(3333);
+                        break;
+                    }
                 }
             }
         });
