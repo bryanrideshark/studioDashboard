@@ -8,12 +8,11 @@ import {
 } from "angular2-redux-util";
 import {Http} from "@angular/http";
 import {FlagsAuth} from "../services/AuthService";
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/merge';
-import 'rxjs/add/operator/debounceTime';
-
-import * as xml2js from 'xml2js'
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/mergeMap";
+import "rxjs/add/operator/merge";
+import "rxjs/add/operator/debounceTime";
+import * as xml2js from "xml2js";
 import {Observable} from "rxjs/Observable";
 
 export const APP_INIT = 'APP_INIT';
@@ -44,6 +43,13 @@ export class AppdbAction extends Actions {
     }
 
     public authenticateTwoFactor(i_businessId, i_token) {
+        //todo: debug
+        // return (dispatch) => {
+        //     dispatch({
+        //         type: TWO_FACTOR_SERVER_RESULT,
+        //         status: true
+        //     })
+        // };
         return (dispatch) => {
             const url = `https://secure.digitalsignage.com/twoFactorValidate?businessId=${i_businessId}&token=${i_token}`;
             this._http.get(url)
@@ -55,6 +61,15 @@ export class AppdbAction extends Actions {
                     })
                 }).subscribe()
         };
+    }
+
+    public getQrCodeTwoFactor(i_user, i_pass, i_cb) {
+        const url = `https://secure.digitalsignage.com:442/twoFactorGenQr?resellerName=${i_user}&resellerPassword=${i_pass}`;
+        this._http.get(url)
+            .map(result => {
+                var qr = result.text();
+                i_cb(qr);
+            }).subscribe()
     }
 
     public authenticateUser(i_user, i_pass, i_remember) {
