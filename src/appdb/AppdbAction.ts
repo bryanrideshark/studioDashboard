@@ -22,7 +22,7 @@ export const CLOUD_SERVERS = 'CLOUD_SERVERS';
 export const AUTH_PASS = 'AUTH_PASS';
 export const AUTH_PASS_WAIT_TWO_FACTOR = 'AUTH_PASS_WAIT_TWO_FACTOR';
 export const AUTH_FAIL = 'AUTH_FAIL';
-export const TWO_FACTOR_STATUS = 'TWO_FACTOR_STATUS';
+export const TWO_FACTOR_SERVER_RESULT = 'TWO_FACTOR_SERVER_RESULT';
 
 export enum AuthState {
     FAIL,
@@ -46,10 +46,10 @@ export class AppdbAction extends Actions {
     public authenticateTwoFactor(i_businesId, i_token) {
         return (dispatch) => {
 
-            // sim network call
+            // todo: two factor network call
             setTimeout(()=>{
                 dispatch({
-                    type: TWO_FACTOR_STATUS,
+                    type: TWO_FACTOR_SERVER_RESULT,
                     status: true
                 })
             },2000)

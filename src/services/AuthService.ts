@@ -95,8 +95,7 @@ export class AuthService {
         return false;
     }
 
-    public authTwoFactor(){
-        console.log('grab data from redux');
+    public authServerTwoFactor(){
         this.appStore.dispatch(this.appdbAction.authenticateTwoFactor(123,'123'));
     }
 

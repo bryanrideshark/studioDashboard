@@ -27,10 +27,11 @@ export default function appdb(state: Map<string, any> = Map<string, any>({}), ac
                 }
             });
 
-        // case AppdbAction.AUTH_PASS_WAIT_TWO_FACTOR:
-        //     return state.merge({
-        //         twoFactor: {enabled: true}
-        //     });
+        case AppdbAction.APP_INIT:
+            return state.merge({
+                appStartTime: Date.now(),
+                appBaseUrl: `${baseUrl}`
+            });
 
         case AppdbAction.AUTH_FAIL:
         case AppdbAction.AUTH_PASS_WAIT_TWO_FACTOR:
@@ -50,13 +51,7 @@ export default function appdb(state: Map<string, any> = Map<string, any>({}), ac
                 appBaseUrlAdnetSave: `${appBaseUrlAdnetSave}`
             });
 
-        case AppdbAction.APP_INIT:
-            return state.merge({
-                appStartTime: Date.now(),
-                appBaseUrl: `${baseUrl}`
-            });
-
-        case AppdbAction.TWO_FACTOR_STATUS:
+        case AppdbAction.TWO_FACTOR_SERVER_RESULT:
             return state.set('twoFactorStatus', {
                 'status': action.status,
                 'twoFactorStatusReceived': Date.now()

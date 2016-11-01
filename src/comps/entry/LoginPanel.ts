@@ -4,6 +4,7 @@ import {
     ViewChild,
     ElementRef,
     Renderer,
+    keyframes,
     trigger,
     state,
     style,
@@ -29,6 +30,7 @@ import {Lib} from "../../Lib";
     selector: 'LoginPanel',
     providers: [BusinessAction, LocalStorage],
     animations: [
+
         trigger('loginState', [
             state('inactive', style({
                 backgroundColor: 'red',
@@ -46,6 +48,18 @@ import {Lib} from "../../Lib";
             })),
             transition('* => active', animate('600ms ease-out')),
             transition('* => inactive', animate('2000ms ease-out'))
+        ]),
+        trigger('showTwoFactor', [
+            state('true', style({
+                transform: 'scale(1)'
+            })),
+            transition(':enter', [
+                animate('1s 2s cubic-bezier(0.455,0.03,0.515,0.955)', keyframes([
+                    style({opacity: 0, transform: 'translateX(-400px)'}),
+                    style({opacity: 1, transform: 'translateX(0)'})
+                ]))
+            ]),
+            transition(':leave', animate('500ms cubic-bezier(.17,.67,.83,.67)'))
         ])
     ],
     template: `
@@ -56,8 +70,7 @@ import {Lib} from "../../Lib";
                     <h2 class="form-signin-heading"></h2>     
                     <input (keyup.enter)="passFocus()" #userName id="userName" spellcheck="false" type="text" name="m_user" [(ngModel)]="m_user" class="input-underline input-lg form-control" placeholder="user name" required autofocus>
                     <input (keyup.enter)="authUser()" #userPass id="userPass" type="password" [(ngModel)]="m_pass" name="m_pass" class="input-underline input-lg form-control" placeholder="password" required>
-                    <div *ngIf="m_showTwoFactor">
-
+                    <div [@showTwoFactor]="m_showTwoFactor" *ngIf="m_showTwoFactor">
                         <br/>     
                         <br/>
                         <span style="color: #989898; position: relative; left: -40px; top: 34px" class="fa fa-key fa-2x pull-right"></span>
@@ -66,7 +79,7 @@ import {Lib} from "../../Lib";
                         <br/>
                     </div>
                     <br/> 
-                    <a id="loginButton"  (click)="authUser()" type="submit" class="btn rounded-btn"> enterprise member login
+                    <a id="loginButton" (click)="authUser()" type="submit" class="btn rounded-btn"> enterprise member login
                      <span *ngIf="m_showTwoFactor" style="font-size: 9px; max-height: 15px; display: block; padding: 0; margin: 0; position: relative; top: -20px">with Google authenticator</span>
                     </a>&nbsp;
                     <!--<a type="submit" class="btn rounded-btn"> Register</a> -->
@@ -101,8 +114,8 @@ export class LoginPanel {
 
     constructor(private appStore: AppStore, private localStorage: LocalStorage, private renderer: Renderer, private router: Router, private authService: AuthService) {
         this.m_router = router;
-        this.m_user = '';
-        this.m_pass = '';
+        this.m_user = 'reseller@ms.com';
+        this.m_pass = '123123';
         this.m_rememberMe = this.authService.getLocalstoreCred().r;
 
         this.m_unsub = appStore.sub((credentials: Map<string,any>) => {
@@ -158,7 +171,7 @@ export class LoginPanel {
                 title: 'Checking two factor authentication',
                 message: 'please wait...'
             });
-            this.authService.authTwoFactor();
+            this.authService.authServerTwoFactor();
         } else {
             this.authService.authUser(this.m_user, this.m_pass, this.m_rememberMe);
         }
