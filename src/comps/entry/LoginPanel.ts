@@ -55,8 +55,14 @@ import {Lib} from "../../Lib";
             })),
             transition(':enter', [
                 animate('1s 2s cubic-bezier(0.455,0.03,0.515,0.955)', keyframes([
-                    style({opacity: 0, transform: 'translateX(-400px)'}),
-                    style({opacity: 1, transform: 'translateX(0)'})
+                    style({
+                        opacity: 0,
+                        transform: 'translateX(-400px)'
+                    }),
+                    style({
+                        opacity: 1,
+                        transform: 'translateX(0)'
+                    })
                 ]))
             ]),
             transition(':leave', animate('500ms cubic-bezier(.17,.67,.83,.67)'))
@@ -171,7 +177,8 @@ export class LoginPanel {
                 title: 'Checking two factor authentication',
                 message: 'please wait...'
             });
-            this.authService.authServerTwoFactor();
+            var businessId = this.appStore.getState().appdb.get('credentials').get('businessId');
+            this.authService.authServerTwoFactor(businessId, this.m_twoFactor);
         } else {
             this.authService.authUser(this.m_user, this.m_pass, this.m_rememberMe);
         }

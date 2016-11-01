@@ -1,5 +1,13 @@
-import {Injectable, Inject, forwardRef} from "@angular/core";
-import {Router, ActivatedRouteSnapshot, RouterStateSnapshot} from "@angular/router";
+import {
+    Injectable,
+    Inject,
+    forwardRef
+} from "@angular/core";
+import {
+    Router,
+    ActivatedRouteSnapshot,
+    RouterStateSnapshot
+} from "@angular/router";
 import {AppStore} from "angular2-redux-util";
 import {LocalStorage} from "./LocalStorage";
 import {StoreService} from "./StoreService";
@@ -44,7 +52,7 @@ export class AuthService {
             var pass = credentials.get('pass');
             var remember = credentials.get('remember');
 
-            switch (this.m_authState){
+            switch (this.m_authState) {
                 case AuthState.FAIL: {
                     this.onAuthFail();
                     break;
@@ -95,8 +103,8 @@ export class AuthService {
         return false;
     }
 
-    public authServerTwoFactor(){
-        this.appStore.dispatch(this.appdbAction.authenticateTwoFactor(123,'123'));
+    public authServerTwoFactor(i_businessId, i_token) {
+        this.appStore.dispatch(this.appdbAction.authenticateTwoFactor(i_businessId, i_token));
     }
 
     public authUser(i_user?: string, i_pass?: string, i_remember?: string): void {
@@ -120,7 +128,11 @@ export class AuthService {
     public getLocalstoreCred(): {u: string, p: string, r: string} {
         var credentials = this.localStorage.getItem('remember_me');
         if (!credentials)
-            return {u: '', p: '', r: ''};
+            return {
+                u: '',
+                p: '',
+                r: ''
+            };
         return {
             u: credentials.u,
             p: credentials.p,
@@ -133,7 +145,7 @@ export class AuthService {
         // let router:Router = injector.get(Router);
         let target = ['/Login'];
 
-        switch (this.m_authState){
+        switch (this.m_authState) {
             case AuthState.FAIL: {
                 break;
             }
@@ -156,9 +168,9 @@ export class AuthService {
 
             this.appdbAction.createDispatcher(this.appdbAction.authenticateUser)(user, pass, remember);
 
-            this.m_pendingNotify = (i_authState:AuthState) => {
+            this.m_pendingNotify = (i_authState: AuthState) => {
 
-                switch (i_authState){
+                switch (i_authState) {
                     case AuthState.FAIL: {
                         resolve(false);
                         break;
@@ -191,4 +203,7 @@ export class AuthService {
     }
 }
 
-export const AUTH_PROVIDERS: Array<any> = [{provide: AuthService, useClass: AuthService}];
+export const AUTH_PROVIDERS: Array<any> = [{
+    provide: AuthService,
+    useClass: AuthService
+}];

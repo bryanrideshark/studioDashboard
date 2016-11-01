@@ -43,35 +43,17 @@ export class AppdbAction extends Actions {
         this.parseString = xml2js.parseString;
     }
 
-    public authenticateTwoFactor(i_businesId, i_token) {
+    public authenticateTwoFactor(i_businessId, i_token) {
         return (dispatch) => {
-
-            // todo: two factor network call
-            setTimeout(()=>{
-                dispatch({
-                    type: TWO_FACTOR_SERVER_RESULT,
-                    status: true
-                })
-            },2000)
-
-
-            // const baseUrl = this.appStore.getState().appdb.get('appBaseUrl');
-            // const url = `${baseUrl}?command=GetCustomers&resellerUserName=${i_user}&resellerPassword=${i_pass}`;
-            // if (this.offlineEnv) {
-            //     this._http.get('offline/getCustomers.xml').subscribe((result) => {
-            //         var xmlData: string = result.text()
-            //         processXml(xmlData);
-            //     })
-            //     this._http.get('offline/customerRequest.json').subscribe((result) => {
-            //         var jData: string = result.json();
-            //     })
-            // } else {
-            //     this._http.get(url)
-            //         .map(result => {
-            //             var xmlData: string = result.text()
-            //             processXml(xmlData);
-            //         }).subscribe()
-            // }
+            const url = `https://secure.digitalsignage.com/twoFactorValidate?businessId=${i_businessId}&token=${i_token}`;
+            this._http.get(url)
+                .map(result => {
+                    var jData = result.json();
+                    dispatch({
+                        type: TWO_FACTOR_SERVER_RESULT,
+                        status: jData.result
+                    })
+                }).subscribe()
         };
     }
 
