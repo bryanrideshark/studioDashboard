@@ -114,8 +114,8 @@ export class LoginPanel {
 
     constructor(private appStore: AppStore, private localStorage: LocalStorage, private renderer: Renderer, private router: Router, private authService: AuthService) {
         this.m_router = router;
-        this.m_user = 'reseller@ms.com';
-        this.m_pass = '123123';
+        this.m_user = '';
+        this.m_pass = '';
         this.m_rememberMe = this.authService.getLocalstoreCred().r;
 
         this.m_unsub = appStore.sub((credentials: Map<string,any>) => {
