@@ -42,7 +42,7 @@ export class AppdbAction extends Actions {
         this.parseString = xml2js.parseString;
     }
 
-    public authenticateTwoFactor(i_businessId, i_token) {
+    public authenticateTwoFactor(i_businessId, i_token, i_cb?:Function) {
         //todo: debug
         // return (dispatch) => {
         //     dispatch({
@@ -54,17 +54,21 @@ export class AppdbAction extends Actions {
             const url = `https://secure.digitalsignage.com/twoFactorValidate?businessId=${i_businessId}&token=${i_token}`;
             this._http.get(url)
                 .map(result => {
-                    var jData = result.json();
-                    dispatch({
+                    var jData = {
                         type: TWO_FACTOR_SERVER_RESULT,
-                        status: jData.result
-                    })
+                        status: result.json().result
+                    }
+                    if (i_cb){
+                        i_cb(jData)
+                    } else {
+                        dispatch(jData)
+                    }
                 }).subscribe()
         };
     }
 
     public getQrCodeTwoFactor(i_user, i_pass, i_cb) {
-        const url = `https://secure.digitalsignage.com:442/twoFactorGenQr?resellerName=${i_user}&resellerPassword=${i_pass}`;
+        const url = `https://secure.digitalsignage.com/twoFactorGenQr?resellerName=${i_user}&resellerPassword=${i_pass}`;
         this._http.get(url)
             .map(result => {
                 var qr = result.text();
