@@ -15,6 +15,7 @@ import {Lib} from "../../Lib";
 import * as _ from "lodash";
 import {AppdbAction} from "../../appdb/AppdbAction";
 import * as bootbox from 'bootbox';
+import {LocalStorage} from "../../services/LocalStorage";
 
 @Component({
     selector: 'Twofactor',
@@ -32,10 +33,10 @@ import * as bootbox from 'bootbox';
                                 <small class="debug">{{me}}</small>
                                 </div>
                                 <ul class="list-group">
-                                    <li class="list-group-item">
-                                        Two factor login with Google authenticator
+                                    <li *ngIf="twoFactorStatus" class="list-group-item">
+                                        Two factor login with Google Authenticator
                                         <div class="material-switch pull-right">
-                                            <input (change)="onFormChange(customerNetwork2.checked)"
+                                            <input (change)="onChangeStatus(customerNetwork2.checked)"
                                                    [formControl]="contGroup.controls['TwofactorCont']"
                                                    id="customerNetwork2" #customerNetwork2
                                                    name="customerNetwork2" type="checkbox"/>
@@ -49,8 +50,8 @@ import * as bootbox from 'bootbox';
                 </form>
             </div>
             <div>
-                <div *ngIf="showTwoFactorConfig">
-                    <input #activate type="text" class="longInput form-control" placeholder="scan with Google authenticator and enter token">
+                <div *ngIf="!twoFactorStatus">
+                    <input #activate type="text" class="longInput form-control" placeholder="scan with Google Authenticator and enter token">
                     <button (click)="onActivate()" style="margin-top: 5px" class="btn btn-primary pull-right">activate</button>
                 </div>
             </div>
@@ -59,6 +60,7 @@ import * as bootbox from 'bootbox';
 })
 export class Twofactor {
     constructor(private fb: FormBuilder,
+                private localStorage: LocalStorage,
                 private el: ElementRef,
                 private cd: ChangeDetectorRef,
                 private appdbAction: AppdbAction,
@@ -70,39 +72,51 @@ export class Twofactor {
         _.forEach(this.contGroup.controls, (value, key: string) => {
             this.formInputs[key] = this.contGroup.controls[key] as FormControl;
         })
-
-
-        var twoFactorStatus = this.appStore.getState().appdb.get('twoFactorStatus') || {};
-        this.unsub = this.appStore.sub((twoFactorStatus) => {
-            console.log(twoFactorStatus);
+        var twoFactorStatus = this.twoFactorStatus = this.appStore.getState().appdb.get('twoFactorStatus');
+        if (_.isUndefined(twoFactorStatus)) {
+            this.twoFactorStatus = false;
+        } else {
+            this.twoFactorStatus = twoFactorStatus.status;
+        }
+        this.unsub = this.appStore.sub(i_twoFactorStatus => {
+            this.twoFactorStatus = i_twoFactorStatus;
+            this.changeTwoFactorStatus(i_twoFactorStatus.status);
         }, 'appdb.twoFactorStatus');
 
-
-        if (!_.isUndefined(this.appStore.getState().appdb.get('showTwoFactorConfig'))) {
-            this.showTwoFactorConfig = this.appStore.getState().appdb.get('showTwoFactorConfig').status;
-        } else {
-            this.showTwoFactorConfig = false;
-        }
-        this.formInputs['TwofactorCont'].setValue(this.showTwoFactorConfig)
+        this.renderFormInputs();
     }
 
     @ViewChild('activate')
     activateToken;
 
-    private showTwoFactorConfig: boolean;
+    private twoFactorStatus: boolean;
     private contGroup: FormGroup;
     private formInputs = {};
     private unsub;
 
+    private changeTwoFactorStatus(enabled: boolean) {
+        if (enabled) {
+            bootbox.alert('Congratulations, activated');
+            this.twoFactorStatus = true;
+            this.removeQrCode();
+            this.cd.markForCheck();
+            this.localStorage.removeItem('remember_me');
+            this.renderFormInputs();
+        } else {
+            bootbox.alert('wrong token entered');
+        }
+    }
+
     private onActivate() {
         if (this.activateToken.nativeElement.value.length < 6)
             return bootbox.alert('token is too short');
-        this.authServerTwoFactor(this.activateToken.nativeElement.value);
+        this.appStore.dispatch(this.appdbAction.authenticateTwoFactor(this.activateToken.nativeElement.value, true));
     }
 
-    private getQrCode() {
-        this.appdbAction.getQrCodeTwoFactor('reseller@ms.com', '', (qrCode) => {
-            this.removeSVGs();
+    private addQrCode() {
+        this.removeQrCode();
+        this.appdbAction.getQrCodeTwoFactor((qrCode) => {
+            this.removeQrCode();
             jQuery(this.el.nativeElement).append(qrCode);
             var svg = jQuery(this.el.nativeElement).find('svg').get(0);
             // var w = svg.width.baseVal.value;
@@ -113,42 +127,30 @@ export class Twofactor {
         })
     }
 
-    public authServerTwoFactor(i_token) {
-        var businessId = this.appStore.getsKey('reseller', 'whitelabel', 'businessId')
-        this.appStore.dispatch(this.appdbAction.authenticateTwoFactor(businessId, i_token, (result) => {
-            if (result.status) {
-                bootbox.alert('Congratulations, activated');
-                this.showTwoFactorConfig = false;
-                this.removeSVGs();
-                this.cd.markForCheck();
-            } else {
-                bootbox.alert('wrong token entered');
-            }
-        }));
-    }
-
-    private removeSVGs() {
+    private removeQrCode() {
         jQuery(this.el.nativeElement).find('svg').remove();
     }
 
-    private onFormChange(event: boolean) {
-        this.showTwoFactorConfig = event;
-        if (event) {
-            this.getQrCode()
+    private onChangeStatus(i_twoFactorStatus: boolean) {
+        this.twoFactorStatus = i_twoFactorStatus;
+        if (this.twoFactorStatus) {
+            this.removeQrCode();
         } else {
-            this.removeSVGs();
+            this.addQrCode();
+            bootbox.alert('Token removed, be sure to delete the entry now from Google Authenticator as it is no longer valid');
         }
-        this.updateSore();
     }
 
-    private updateSore() {
-        setTimeout(() => {
-            console.log(this.contGroup.status + ' ' + JSON.stringify(Lib.CleanCharForXml(this.contGroup.value)));
-            // this.appStore.dispatch(this.adnetAction.saveCustomerInfo(Lib.CleanCharForXml(this.contGroup.value), this.customerModel.customerId()))
-        }, 1)
+    private renderFormInputs() {
+        this.formInputs['TwofactorCont'].setValue(this.twoFactorStatus);
+        if (this.twoFactorStatus) {
+            this.removeQrCode();
+        } else {
+            this.addQrCode();
+        }
     }
 
-    ngOnDestroy(){
+    ngOnDestroy() {
         this.unsub();
     }
 }

@@ -22,6 +22,7 @@ export const AUTH_PASS = 'AUTH_PASS';
 export const AUTH_PASS_WAIT_TWO_FACTOR = 'AUTH_PASS_WAIT_TWO_FACTOR';
 export const AUTH_FAIL = 'AUTH_FAIL';
 export const TWO_FACTOR_SERVER_RESULT = 'TWO_FACTOR_SERVER_RESULT';
+import {appBaseUrlCloud} from '../appdb/AppdbReducer';
 
 export enum AuthState {
     FAIL,
@@ -42,7 +43,42 @@ export class AppdbAction extends Actions {
         this.parseString = xml2js.parseString;
     }
 
-    public authenticateTwoFactor(i_businessId, i_token, i_cb?:Function) {
+    public initAppDb() {
+        return {
+            type: APP_INIT,
+            value: Date.now()
+        };
+    }
+
+    public serverStatus() {
+        return (dispatch) => {
+            this._http.get(`https://secure.digitalsignage.com/msPingServersGuest`)
+                .map(result => {
+                    result = result.json();
+                    dispatch({
+                        type: SERVERS_STATUS,
+                        payload: result
+                    });
+                }).subscribe();
+            return;
+        };
+    }
+
+    public getCloudServers() {
+        return (dispatch) => {
+            this._http.get('https://secure.digitalsignage.com/getActiveCloudServers')
+                .map(result => {
+                    result = result.json();
+                    dispatch({
+                        type: CLOUD_SERVERS,
+                        payload: result
+                    });
+                }).subscribe();
+            return;
+        };
+    }
+
+    public authenticateTwoFactor(i_token: string, i_enable: boolean, i_cb?: Function) {
         //todo: debug
         // return (dispatch) => {
         //     dispatch({
@@ -51,24 +87,21 @@ export class AppdbAction extends Actions {
         //     })
         // };
         return (dispatch) => {
-            const url = `https://secure.digitalsignage.com/twoFactorValidate?businessId=${i_businessId}&token=${i_token}`;
+            var appdb: Map<string,any> = this.appStore.getState().appdb;
+            var url = appdb.get('appBaseUrlCloud').replace('END_POINT', 'twoFactor') + `/${i_token}/${i_enable}`
             this._http.get(url)
                 .map(result => {
-                    var jData = {
+                    dispatch({
                         type: TWO_FACTOR_SERVER_RESULT,
                         status: result.json().result
-                    }
-                    if (i_cb){
-                        i_cb(jData)
-                    } else {
-                        dispatch(jData)
-                    }
+                    })
                 }).subscribe()
         };
     }
 
-    public getQrCodeTwoFactor(i_user, i_pass, i_cb) {
-        const url = `https://secure.digitalsignage.com/twoFactorGenQr?resellerName=${i_user}&resellerPassword=${i_pass}`;
+    public getQrCodeTwoFactor(i_cb) {
+        var appdb: Map<string,any> = this.appStore.getState().appdb;
+        var url = appdb.get('appBaseUrlCloud').replace('END_POINT', 'twoFactorGenQr');
         this._http.get(url)
             .map(result => {
                 var qr = result.text();
@@ -79,7 +112,6 @@ export class AppdbAction extends Actions {
     public authenticateUser(i_user, i_pass, i_remember) {
         var self = this;
         return (dispatch) => {
-
             var processXml = (xmlData) => {
                 this.parseString(xmlData, {attrkey: 'attr'}, function (err, result) {
                     if (!result) {
@@ -120,7 +152,6 @@ export class AppdbAction extends Actions {
                                 reason: FlagsAuth.Enterprise
                             });
                         })
-
                     }
                 });
             }
@@ -146,42 +177,8 @@ export class AppdbAction extends Actions {
     }
 
     private twoFactorCheck(i_user, i_pass): Observable<any> {
-        return this._http.get(`https://secure.digitalsignage.com/twoFactorCheck?resellerName=${i_user}&resellerPassword=${i_pass}`)
+        var url = `${appBaseUrlCloud}/twoFactorCheck/${i_user}/${i_pass}`;
+        return this._http.get(url)
             .map(result => result = result.json());
-    }
-
-    public serverStatus() {
-        return (dispatch) => {
-            this._http.get(`https://secure.digitalsignage.com/msPingServersGuest`)
-                .map(result => {
-                    result = result.json();
-                    dispatch({
-                        type: SERVERS_STATUS,
-                        payload: result
-                    });
-                }).subscribe();
-            return;
-        };
-    }
-
-    public getCloudServers() {
-        return (dispatch) => {
-            this._http.get('https://secure.digitalsignage.com/getActiveCloudServers')
-                .map(result => {
-                    result = result.json();
-                    dispatch({
-                        type: CLOUD_SERVERS,
-                        payload: result
-                    });
-                }).subscribe();
-            return;
-        };
-    }
-
-    public initAppDb() {
-        return {
-            type: APP_INIT,
-            value: Date.now()
-        };
     }
 }

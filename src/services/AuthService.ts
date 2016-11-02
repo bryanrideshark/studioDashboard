@@ -103,8 +103,8 @@ export class AuthService {
         return false;
     }
 
-    public authServerTwoFactor(i_businessId, i_token) {
-        this.appStore.dispatch(this.appdbAction.authenticateTwoFactor(i_businessId, i_token));
+    public authServerTwoFactor(i_token) {
+        this.appStore.dispatch(this.appdbAction.authenticateTwoFactor(i_token, false));
     }
 
     public authUser(i_user?: string, i_pass?: string, i_remember?: string): void {

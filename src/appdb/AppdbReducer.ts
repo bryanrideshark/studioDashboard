@@ -1,20 +1,17 @@
-import {Map} from 'immutable';
-
+import {Map} from "immutable";
 import * as AppdbAction from "../appdb/AppdbAction";
 import * as StationsAction from "../stations/StationsAction";
 import * as OrdersAction from "../comps/app1/orders/OrdersAction";
-import * as Immutable from 'immutable'
-import * as _ from 'lodash';
 
 // todo: add logic to as when on each env
 // 0 = cloud, 1 = private 2 = hybrid
 
 const baseUrl = 'https://galaxy.signage.me/WebService/ResellerService.ashx';
-const appBaseUrlCloud = 'https://secure.digitalsignage.com';
 const adnetCustomerId = ':ADNET_CUSTOMER_ID:'
 const adnetCustomerToken = ':ADNET_TOKEN_ID:'
 const appBaseUrlAdnet = `https://adnet.signage.me/adNetService.ashx?command=customerRequest&customerId=${adnetCustomerId}&customerToken=${adnetCustomerToken}&fromChangelistId=0`;
 const appBaseUrlAdnetSave = `https://adnet.signage.me/adNetService.ashx?command=customerSubmit&customerId=${adnetCustomerId}&customerToken=${adnetCustomerToken}&data=:DATA:`;
+export const appBaseUrlCloud = 'https://secure.digitalsignage.com';
 
 export default function appdb(state: Map<string, any> = Map<string, any>({}), action: any): Map<string, any> {
     switch (action.type) {

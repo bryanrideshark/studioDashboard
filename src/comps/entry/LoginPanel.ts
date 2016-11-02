@@ -120,7 +120,7 @@ export class LoginPanel {
 
     constructor(private appStore: AppStore, private localStorage: LocalStorage, private renderer: Renderer, private router: Router, private authService: AuthService) {
         this.m_router = router;
-        this.m_user = 'reseller@ms.com';
+        this.m_user = '';
         this.m_pass = '';
         this.m_rememberMe = this.authService.getLocalstoreCred().r;
 
@@ -179,7 +179,7 @@ export class LoginPanel {
             });
             // var businessId = this.appStore.getState().appdb.get('credentials').get('businessId');
             var businessId = this.appStore.getsKey('reseller', 'whitelabel', 'businessId');
-            this.authService.authServerTwoFactor(businessId, this.m_twoFactor);
+            this.authService.authServerTwoFactor(this.m_twoFactor);
         } else {
             this.authService.authUser(this.m_user, this.m_pass, this.m_rememberMe);
         }
