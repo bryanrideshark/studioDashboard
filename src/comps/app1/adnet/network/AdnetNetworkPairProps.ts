@@ -113,6 +113,8 @@ export class AdnetNetworkPairProps {
 
     @Input()
     set setAdnetPairModels(i_adnetPairModel: List<AdnetPairModel>) {
+        if (!i_adnetPairModel)
+            return;
         this.adnetPairModel = i_adnetPairModel.first();
         if (this.adnetPairModel)
             this.renderFormInputs();

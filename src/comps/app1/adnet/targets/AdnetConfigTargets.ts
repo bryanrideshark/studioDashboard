@@ -1,10 +1,13 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {
+    Component,
+    Input
+} from "@angular/core";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
-import {List} from 'immutable';
+import {List} from "immutable";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {AppStore} from "angular2-redux-util";
-import {Lib} from "../../../../Lib";
-import AdnetConfigTargetsTemplate from './AdnetConfigTargets.html!text';
+import AdnetConfigTargetsTemplate from "./AdnetConfigTargets.html!text";
+import {Compbaser} from "../../../compbaser/Compbaser";
 
 @Component({
     selector: 'AdnetConfigTargets',
@@ -12,21 +15,23 @@ import AdnetConfigTargetsTemplate from './AdnetConfigTargets.html!text';
     template: AdnetConfigTargetsTemplate
 
 })
-export class AdnetConfigTargets {
+export class AdnetConfigTargets extends Compbaser {
 
-    constructor(private appStore:AppStore){
-        this['me'] = Lib.GetCompSelector(this.constructor)
+    constructor(private appStore: AppStore) {
+        super();
     }
 
     ngOnInit() {
-        this.unsub = this.appStore.sub((i_adTargets: List<AdnetTargetModel>) => {
-            i_adTargets.forEach((i_adTarget:AdnetTargetModel)=>{
-                if (this.adnetTargetModel && i_adTarget.getId() == this.adnetTargetModel.getId()){
-                    this.adnetTargetModel = i_adTarget;
-                    return;
-                }
-            })
-        }, 'adnet.targets');
+        this.callOnDestroy(
+            this.appStore.sub((i_adTargets: List<AdnetTargetModel>) => {
+                i_adTargets.forEach((i_adTarget: AdnetTargetModel) => {
+                    if (this.adnetTargetModel && i_adTarget.getId() == this.adnetTargetModel.getId()) {
+                        this.adnetTargetModel = i_adTarget;
+                        return;
+                    }
+                })
+            }, 'adnet.targets')
+        );
     }
 
     @Input()
@@ -34,15 +39,35 @@ export class AdnetConfigTargets {
         this.customerModel = i_adnetCustomerModel;
     }
 
-    private unsub: Function;
     private customerModel: AdnetCustomerModel;
     public adnetTargetModel: AdnetTargetModel;
 
-    private onTargetSelected(event){
+    private onTargetSelected(event) {
         this.adnetTargetModel = event;
     }
 
-    ngOnDestroy(){
-        this.unsub();
+    destroy() {
+        console.log('on destroy sub-class');
     }
 }
+
+
+// this.unsub = this.appStore.sub((i_adTargets: List<AdnetTargetModel>) => {
+//     i_adTargets.forEach((i_adTarget:AdnetTargetModel)=>{
+//         if (this.adnetTargetModel && i_adTarget.getId() == this.adnetTargetModel.getId()){
+//             this.adnetTargetModel = i_adTarget;
+//             return;
+//         }
+//     })
+// }, 'adnet.targets');
+
+// this.unsubOnDestroy(
+//     this.appStore.sub((i_adTargets: List<AdnetTargetModel>) => {
+//         i_adTargets.forEach((i_adTarget: AdnetTargetModel) => {
+//             if (this.adnetTargetModel && i_adTarget.getId() == this.adnetTargetModel.getId()) {
+//                 this.adnetTargetModel = i_adTarget;
+//                 return;
+//             }
+//         })
+//     }, 'adnet.targets')
+// );
