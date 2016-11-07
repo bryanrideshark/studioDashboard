@@ -18,8 +18,17 @@ import "reflect-metadata";
 import {Router} from "@angular/router";
 import {routing} from "./App.routes";
 import {platformBrowserDynamic} from "@angular/platform-browser-dynamic";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {Component, enableProdMode, ViewEncapsulation, NgModule, NgModuleRef} from "@angular/core";
+import {
+    FormsModule,
+    ReactiveFormsModule
+} from "@angular/forms";
+import {
+    Component,
+    enableProdMode,
+    ViewEncapsulation,
+    NgModule,
+    NgModuleRef
+} from "@angular/core";
 import * as platform from "platform";
 import "jspm_packages/github/twbs/bootstrap@3.3.6";
 import "twbs/bootstrap/dist/css/bootstrap.css!";
@@ -36,7 +45,10 @@ import {OrdersAction} from "./comps/app1/orders/OrdersAction";
 import {orders} from "./comps/app1/orders/OrdersReducer";
 import {StationsAction} from "./stations/StationsAction";
 import {CharCount} from "./pipes/CharCount";
-import {HttpModule, JsonpModule} from "@angular/http";
+import {
+    HttpModule,
+    JsonpModule
+} from "@angular/http";
 import {CommBroker} from "../src/services/CommBroker";
 import {Filemenu} from "../src/comps/filemenu/Filemenu";
 import {FilemenuItem} from "../src/comps/filemenu/FilemenuItem";
@@ -69,7 +81,8 @@ import {AppdbAction} from "./appdb/AppdbAction";
 import {LogoCompany} from "./comps/logo/LogoCompany";
 import {Observable} from "rxjs/Rx";
 import {
-    LazyMapsAPILoaderConfig, AgmCoreModule
+    LazyMapsAPILoaderConfig,
+    AgmCoreModule
 } from "angular2-google-maps/core/core.umd.js";
 import {AdnetActions} from "./adnet/AdnetActions";
 import {AUTH_PROVIDERS} from "./services/AuthService";
@@ -152,11 +165,7 @@ import {InputTextModule} from 'primeng/primeng';
 import {Dropbox} from "./comps/dropbox/Dropbox";
 import {TreeModule} from 'primeng/primeng';
 import {Twofactor} from "./comps/twofactor/Twofactor";
-// import {TreeModule} from 'angular2-tree-component';
-
-
-
-
+//import {TreeModule} from 'angular2-tree-component';
 //import "zone.js/dist/long-stack-trace-zone"; // removed 9-7-2016
 
 export enum ServerMode {
@@ -230,12 +239,18 @@ export class Main {
     public appResized(): void {
         var appHeight = document.body.clientHeight;
         var appWidth = document.body.clientWidth;
-        this.commBroker.setValue(Consts.Values().APP_SIZE, {height: appHeight, width: appWidth});
+        this.commBroker.setValue(Consts.Values().APP_SIZE, {
+            height: appHeight,
+            width: appWidth
+        });
         this.commBroker.fire({
             fromInstance: self,
             event: Consts.Events().WIN_SIZED,
             context: '',
-            message: {height: appHeight, width: appWidth}
+            message: {
+                height: appHeight,
+                width: appWidth
+            }
         })
     }
 }
@@ -251,22 +266,78 @@ var googleKey = function () {
 }
 
 var providing = [CommBroker, AUTH_PROVIDERS,
-    {provide: LazyMapsAPILoaderConfig, useFactory: () => googleKey()},
-    {provide: AppStore, useFactory: Lib.StoreFactory({notify, appdb, business, stations, reseller, adnet, orders})},
-    {provide: StoreService, useClass: StoreService},
-    {provide: BusinessAction, useClass: BusinessAction},
-    {provide: ResellerAction, useClass: ResellerAction},
-    {provide: AdnetActions, useClass: AdnetActions},
-    {provide: OrdersAction, useClass: OrdersAction},
-    {provide: StationsAction, useClass: StationsAction},
-    {provide: AppdbAction, useClass: AppdbAction},
-    {provide: AdnetResolver, useClass: AdnetResolver},
-    {provide: CreditService, useClass: CreditService},
-    {provide: LocalStorage, useClass: LocalStorage},
-    {provide: CommBroker, useClass: CommBroker},
-    {provide: Consts, useClass: Consts},
-    {provide: "DEV_ENV", useValue: Lib.DevMode()},
-    {provide: "OFFLINE_ENV", useValue: false},
+    {
+        provide: LazyMapsAPILoaderConfig,
+        useFactory: () => googleKey()
+    },
+    {
+        provide: AppStore,
+        useFactory: Lib.StoreFactory({
+            notify,
+            appdb,
+            business,
+            stations,
+            reseller,
+            adnet,
+            orders
+        })
+    },
+    {
+        provide: StoreService,
+        useClass: StoreService
+    },
+    {
+        provide: BusinessAction,
+        useClass: BusinessAction
+    },
+    {
+        provide: ResellerAction,
+        useClass: ResellerAction
+    },
+    {
+        provide: AdnetActions,
+        useClass: AdnetActions
+    },
+    {
+        provide: OrdersAction,
+        useClass: OrdersAction
+    },
+    {
+        provide: StationsAction,
+        useClass: StationsAction
+    },
+    {
+        provide: AppdbAction,
+        useClass: AppdbAction
+    },
+    {
+        provide: AdnetResolver,
+        useClass: AdnetResolver
+    },
+    {
+        provide: CreditService,
+        useClass: CreditService
+    },
+    {
+        provide: LocalStorage,
+        useClass: LocalStorage
+    },
+    {
+        provide: CommBroker,
+        useClass: CommBroker
+    },
+    {
+        provide: Consts,
+        useClass: Consts
+    },
+    {
+        provide: "DEV_ENV",
+        useValue: Lib.DevMode()
+    },
+    {
+        provide: "OFFLINE_ENV",
+        useValue: false
+    },
     {provide: CharCount}];
 
 var decelerations = [Main, RatesTable, UsersDetails, LoginPanel, Menu, MenuItem, Account, Whitelabel, Apps, App1, Users, Adnet, Privileges, Dashboard, Logout, Orders, Filemenu, FilemenuItem, Logo, LogoCompany, Footer, BlurForwarder, InputEdit, OrderBy, SortBy, FilterPipe, AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, ServerStats, ServerAvg, StationsMap, StationsGrid, StationDetails, ImgLoader, Ng2Highcharts, AdnetConfigCustomer, AdnetConfig, StationSnapshot, OrderDetails, SimpleList, PrivilegesDetails, ModalDialog, Infobox, UserStorage, Loading, Samplelist, UserInfo, AddUser, ChangePass, MODAL_DIRECTIVES, Ng2Highstocks, Ng2Highmaps, SimplelistEditable, AdnetConfigTargetStations, AdnetConfigTargetProps, AdnetLocation, MapAddress, AdnetNetwork, AdnetNetworkCustomerSelector, AdnetNetworkPackageEditor, AdnetNetworkPackageViewer, AdnetNetworkPackageTarget, AdnetNetworkPackageProps, AdnetNetworkPackageContent, AdnetNetworkPackageContentProps, AdnetNetworkTarget, AdnetNetworkTargetProps, ResourceViewer, AdnetNetworkPackageViewProps, AdnetNetworkPairProps, AdnetLoader, InputNumeric, InputString, Dropbox, Twofactor];
