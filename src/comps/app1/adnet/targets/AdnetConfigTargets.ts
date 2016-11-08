@@ -47,7 +47,6 @@ export class AdnetConfigTargets extends Compbaser {
     }
 
     destroy() {
-        console.log('on destroy sub-class');
     }
 }
 
