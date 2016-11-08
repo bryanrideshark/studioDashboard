@@ -129,9 +129,6 @@ export class Adnet extends Compbaser {
         }).first() as AdnetCustomerModel;
     }
 
-    destroy() {
-    }
-
     public onSelectedAdnetCustomer(i_businessModel: BusinessModel): void {
         // reset to no selection before loading new selection
         this.showState = 'inactive'
@@ -157,6 +154,9 @@ export class Adnet extends Compbaser {
     }
 
     public toggled(open: boolean): void {
+    }
+
+    destroy() {
     }
 }
 
