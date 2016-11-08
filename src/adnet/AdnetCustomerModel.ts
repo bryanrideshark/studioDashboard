@@ -14,6 +14,10 @@ export class AdnetCustomerModel extends StoreModel {
         return this.getKey('Key');
     }
 
+    public getGlobalNetwork():boolean {
+        return this.getKey('Value').globalNetwork;
+    }
+
     public getName() {
         return this.getKey('Value').label;
     }
@@ -21,7 +25,6 @@ export class AdnetCustomerModel extends StoreModel {
     public getContact() {
         return this.getKey('Value').contactPerson;
     }
-
 
     public contactPhone() {
         return this.getKey('Value').contactPhone;

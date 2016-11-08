@@ -22,7 +22,7 @@ export class AdnetConfigTargets extends Compbaser {
     }
 
     ngOnInit() {
-        this.callOnDestroy(
+        this.cancelOnDestroy(
             this.appStore.sub((i_adTargets: List<AdnetTargetModel>) => {
                 i_adTargets.forEach((i_adTarget: AdnetTargetModel) => {
                     if (this.adnetTargetModel && i_adTarget.getId() == this.adnetTargetModel.getId()) {

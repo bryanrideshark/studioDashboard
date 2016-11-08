@@ -9,6 +9,7 @@ import {AppStore} from "angular2-redux-util";
 import {OrderDetailModel} from "./OrderDetailModel";
 import OrderDetailsTemplate from "./OrderDetails.html!text";
 import OrderDetailsStyle from "./OrderDetails.css!text";
+import {Compbaser} from "../../compbaser/Compbaser";
 
 @Component({
     selector: 'OrderDetails',
@@ -18,20 +19,12 @@ import OrderDetailsStyle from "./OrderDetails.css!text";
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class OrderDetails implements OnDestroy {
+export class OrderDetails extends Compbaser {
 
     constructor(private appStore: AppStore, private viewContainer: ViewContainerRef) {
-
-        // var i_orders = this.appStore.getState().orders;
-        // this.orderList = i_orders.getIn(['customerOrders']);
-        // this.unsub1 = this.appStore.sub((i_orders:List<OrderModel>) => {
-        //     this.orderList = i_orders
-        // }, 'orders.customerOrders');
-
+        super();
         this.el = this.viewContainer.element.nativeElement;
-
-        //var statusOrder = i_orders.getIn(['statusOrder']);
-        this.unsub2 = this.appStore.sub((orderDetailModel: OrderDetailModel) => {
+        this.cancelOnDestroy(this.appStore.sub((orderDetailModel: OrderDetailModel) => {
             var status = orderDetailModel.getStatus();
             if (status == 'subscription') {
                 this.showProgress = false;
@@ -56,7 +49,10 @@ export class OrderDetails implements OnDestroy {
                         return this.steps = [true, true, true, true];
                 }
             }
-        }, 'orders.selectedOrder');
+        }, 'orders.selectedOrder'));
+
+        //var statusOrder = i_orders.getIn(['statusOrder']);
+
 
     }
 
@@ -93,8 +89,8 @@ export class OrderDetails implements OnDestroy {
     private stepsDescription: Array<string> = ['new order', 'approved', 'processing', 'shipped'];
     private selectedOrder: OrderDetailModel;
     private loading: boolean = false;
-    private unsub1: Function;
-    private unsub2: Function;
+    // private unsub1: Function;
+    // private unsub2: Function;
     // private orderList:List<OrderModel> = List<OrderModel>();
 
     printElem() {
@@ -141,12 +137,10 @@ export class OrderDetails implements OnDestroy {
         var v: any = field.product_count * field.price;
         return parseFloat(v);
     }
-
-    ngOnDestroy() {
-        //todo: bug in ng2 router not calling destroy, revisit in rc.2
-        // this.unsub1();
-        // this.unsub2();
-        // alert('yay, router working again...')
-    }
-
 }
+
+// var i_orders = this.appStore.getState().orders;
+// this.orderList = i_orders.getIn(['customerOrders']);
+// this.unsub1 = this.appStore.sub((i_orders:List<OrderModel>) => {
+//     this.orderList = i_orders
+// }, 'orders.customerOrders');

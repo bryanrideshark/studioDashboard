@@ -146,7 +146,7 @@ export class AdnetConfigTargetProps {
         });
     };
 
-    ngOnDestroy() {
+    private ngOnDestroy() {
         this.unsub();
     }
 }

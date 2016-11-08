@@ -198,7 +198,7 @@ export class AuthService {
             });
     }
 
-    ngOnDestroy() {
+    private ngOnDestroy() {
         this.ubsub();
     }
 }

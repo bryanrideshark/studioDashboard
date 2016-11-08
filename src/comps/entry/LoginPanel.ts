@@ -188,7 +188,11 @@ export class LoginPanel {
     private onAuthPass() {
         Lib.BootboxHide();
         this.loginState = 'active';
-        setTimeout(() => this.m_router.navigate(['/App1/Dashboard']), 2000)
+        if (Lib.DevMode()){
+            setTimeout(() => this.m_router.navigate(['/App1/Adnet']), 200)
+        } else {
+            setTimeout(() => this.m_router.navigate(['/App1/Dashboard']), 2000)
+        }
     }
 
     private onAuthFail(i_reason) {
@@ -223,7 +227,7 @@ export class LoginPanel {
         return false;
     }
 
-    ngOnDestroy() {
+    private ngOnDestroy() {
         this.m_unsub();
     }
 }

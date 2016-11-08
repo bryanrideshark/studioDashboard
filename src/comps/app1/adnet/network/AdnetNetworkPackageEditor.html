@@ -34,7 +34,7 @@
             <Dropbox (onFileLinkSelected)="onDropboxFileSelected($event)"></Dropbox>
         </accordion-group>
         <accordion-group heading="targets">
-            <h5>coming soon...</h5>
+            <AdnetNetworkTargetSearch [setAdnetCustomerModel]="adnetCustomerModel" (onPropSelected)="onTargetSearchSelected($event)"></AdnetNetworkTargetSearch>
         </accordion-group>
     </accordion>
 </div>

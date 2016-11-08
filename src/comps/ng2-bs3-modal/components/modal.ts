@@ -15,7 +15,7 @@ declare var jQuery: any;
         </div>
     `
 })
-export class ModalComponent implements OnDestroy {
+export class ModalComponent  {
 
     id: string = uniqueId('modal_');
     $modal: any;
@@ -45,7 +45,7 @@ export class ModalComponent implements OnDestroy {
             });
     }
 
-    ngOnDestroy() {
+    private ngOnDestroy() {
         if (!this.$modal)
             return;
         this.$modal.data('bs.modal', null);

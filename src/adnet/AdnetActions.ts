@@ -57,7 +57,6 @@ export enum ContentTypeEnum {
     DROPBOX
 }
 
-
 @Injectable()
 export class AdnetActions extends Actions {
 
@@ -91,15 +90,6 @@ export class AdnetActions extends Actions {
                 var jData: Object = result.json()
                 if (i_callBack) i_callBack(jData);
             }).subscribe()
-    }
-
-    public resetAdnet() {
-        return (dispatch) => {
-            dispatch({
-                type: RESET_ADNET,
-                payload: {}
-            });
-        };
     }
 
     public getAdnet(adnetCustomerId?, adnetTokenId?) {
@@ -234,6 +224,19 @@ export class AdnetActions extends Actions {
                 dispatch(this.updateAdnetTarget(payload))
             })
         };
+    }
+
+    public searchAdnet(i_data, i_customerId, i_callBack?: (jData)=>void) {
+        var businesses: List<BusinessModel> = this.appStore.getState().business.getIn(['businesses']);
+        var businessModel: BusinessModel = businesses.filter((i_businessModel: BusinessModel) => i_businessModel.getAdnetCustomerId() == i_customerId).first() as BusinessModel;
+        var adnetTokenId = businessModel.getAdnetTokenId();
+        const data = JSON.stringify(i_data);
+        const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetSave').replace(':ADNET_CUSTOMER_ID:', i_customerId).replace(':ADNET_TOKEN_ID:', adnetTokenId).replace(':DATA:', data);
+        this._http.get(baseUrl)
+            .map(result => {
+                var jData: Object = result.json()
+                if (i_callBack) i_callBack(jData);
+            }).subscribe()
     }
 
     public addAdnetPackages(customerId) {
@@ -581,39 +584,6 @@ export class AdnetActions extends Actions {
     }
 
     public addAdnetPackageContent(payload, adnetPackageModel: AdnetPackageModel, contentType: ContentTypeEnum) {
-
-        // var a = {
-        //     "packages": {
-        //         "update": [{
-        //             "Key": 3422,
-        //             "Value": {
-        //                 "id": "3422",
-        //                 "handle": "17",
-        //                 "modified": "0",
-        //                 "customerId": "13111",
-        //                 "packageContents": {
-        //                     "add": [{
-        //                         "id": "-1",
-        //                         "handle": "205",
-        //                         "modified": "1",
-        //                         "contentLabel": "/icons/336.png",
-        //                         "duration": 10,
-        //                         "reparationsPerHour": 60,
-        //                         "contentUrl": "http://secure.digitalsignage.com/DropboxFileLink/ff990135-ffe7-4c1e-b5ee-fddfdb203775/icons/336.png",
-        //                         "contentType": 2,
-        //                         "contentExt": "",
-        //                         "maintainAspectRatio": "false",
-        //                         "contentVolume": "1",
-        //                         "locationLat": 0,
-        //                         "locationLng": 0,
-        //                         "locationRadios": 0
-        //                     }]
-        //                 }
-        //             }
-        //         }]
-        //     }
-        // }
-
         return (dispatch) => {
             var customerId = adnetPackageModel.getCustomerId();
             var value = {
@@ -754,38 +724,78 @@ export class AdnetActions extends Actions {
             customers
         }
     }
-}
 
-var a = {
-    "packages": {
-        "update": [{
-            "Key": 3422,
-            "Value": {
-                "id": "3422",
-                "handle": "17",
-                "modified": "0",
-                "customerId": "13111",
-                "packageContents": {
-                    "add": [{
-                        "id": "-1",
-                        "handle": "205",
-                        "modified": "1",
-                        "contentLabel": "/icons/336.png",
-                        "duration": 10,
-                        "reparationsPerHour": 60,
-                        "contentUrl": "http://secure.digitalsignage.com/DropboxFileLink/ff990135-ffe7-4c1e-b5ee-fddfdb203775/icons/336.png",
-                        "contentType": 2,
-                        "contentExt": "",
-                        "maintainAspectRatio": "false",
-                        "contentVolume": "1",
-                        "locationLat": 0,
-                        "locationLng": 0,
-                        "locationRadios": 0
-                    }]
-                }
-            }
-        }]
+    public resetAdnet() {
+        return (dispatch) => {
+            dispatch({
+                type: RESET_ADNET,
+                payload: {}
+            });
+        };
     }
 }
 
+// var a = {
+//     "packages": {
+//         "update": [{
+//             "Key": 3422,
+//             "Value": {
+//                 "id": "3422",
+//                 "handle": "17",
+//                 "modified": "0",
+//                 "customerId": "13111",
+//                 "packageContents": {
+//                     "add": [{
+//                         "id": "-1",
+//                         "handle": "205",
+//                         "modified": "1",
+//                         "contentLabel": "/icons/336.png",
+//                         "duration": 10,
+//                         "reparationsPerHour": 60,
+//                         "contentUrl": "http://secure.digitalsignage.com/DropboxFileLink/ff990135-ffe7-4c1e-b5ee-fddfdb203775/icons/336.png",
+//                         "contentType": 2,
+//                         "contentExt": "",
+//                         "maintainAspectRatio": "false",
+//                         "contentVolume": "1",
+//                         "locationLat": 0,
+//                         "locationLng": 0,
+//                         "locationRadios": 0
+//                     }]
+//                 }
+//             }
+//         }]
+//     }
+// }
+//
 
+// var a = {
+//     "packages": {
+//         "update": [{
+//             "Key": 3422,
+//             "Value": {
+//                 "id": "3422",
+//                 "handle": "17",
+//                 "modified": "0",
+//                 "customerId": "13111",
+//                 "packageContents": {
+//                     "add": [{
+//                         "id": "-1",
+//                         "handle": "205",
+//                         "modified": "1",
+//                         "contentLabel": "/icons/336.png",
+//                         "duration": 10,
+//                         "reparationsPerHour": 60,
+//                         "contentUrl": "http://secure.digitalsignage.com/DropboxFileLink/ff990135-ffe7-4c1e-b5ee-fddfdb203775/icons/336.png",
+//                         "contentType": 2,
+//                         "contentExt": "",
+//                         "maintainAspectRatio": "false",
+//                         "contentVolume": "1",
+//                         "locationLat": 0,
+//                         "locationLng": 0,
+//                         "locationRadios": 0
+//                     }]
+//                 }
+//             }
+//         }]
+//     }
+// }

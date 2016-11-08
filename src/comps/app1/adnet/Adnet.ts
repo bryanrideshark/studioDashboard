@@ -16,6 +16,7 @@ import * as bootbox from 'bootbox';
 import {LocalStorage} from "../../../services/LocalStorage";
 import {AdnetActions} from "../../../adnet/AdnetActions";
 import {Subscription} from "rxjs/Subscription";
+import {Compbaser} from "../../compbaser/Compbaser";
 
 @Component({
     selector: 'Adnet',
@@ -70,24 +71,38 @@ import {Subscription} from "rxjs/Subscription";
           </div>
     `
 })
-export class Adnet {
+
+export class Adnet extends Compbaser {
 
     constructor(private appStore: AppStore, private route: ActivatedRoute, private adnetActions: AdnetActions, private localStorage: LocalStorage) {
         //console.log(this.route.snapshot.data['adnetResolver']);
+        super();
 
-        //todo: fix data in localstore is invalid
+        //todo: fix if data in localstore is invalid
         this.adnetCustomerId = this.localStorage.getItem('adnet_customer_id');
         this.adnetTokenId = this.localStorage.getItem('adnet_token_id');
 
         this.listenAdnetDataReady();
         var business = this.appStore.getState().business;
         this.businesses = business.getIn(['businesses']);
-        this.unsub1 = this.appStore.sub((i_businesses: List<BusinessModel>) => {
+
+        this.cancelOnDestroy(this.appStore.sub((i_businesses: List<BusinessModel>) => {
             this.businesses = i_businesses
-        }, 'business.businesses');
+        }, 'business.businesses'))
     }
 
-    private unsub1: Function;
+    ngOnInit() {
+        this.cancelOnDestroy(this.appStore.sub((i_adnetCustomerModels: List<AdnetCustomerModel>) => {
+            if (!this.adnetCustomerModel)
+                return this.adnetCustomerModel = null;
+            this.adnetCustomerModel = i_adnetCustomerModels.filter((i_customerModel: AdnetCustomerModel)=> {
+                return i_customerModel.getId() == this.adnetCustomerModel.getId()
+            }).first() as AdnetCustomerModel;
+        }, 'adnet.customers'));
+    }
+
+
+    // private unsub1: Function;
     private unsub2: Subscription;
     private adnetCustomerId: number = -1;
     private adnetTokenId: number = -1;
@@ -107,7 +122,7 @@ export class Adnet {
         })
     }
 
-    private loadAdnetCustomerModel(){
+    private loadAdnetCustomerModel() {
         if (!this.adnetCustomers)
             return;
         this.adnetCustomerModel = this.adnetCustomers.filter((i_adnetCustomerModel: AdnetCustomerModel) => {
@@ -115,10 +130,9 @@ export class Adnet {
         }).first() as AdnetCustomerModel;
     }
 
-    private ngOnDestroy() {
-        this.unsub1();
+    destroy() {
+        // this.unsub1();
         this.unsub2.unsubscribe();
-        // this.unsub3();
     }
 
     public onSelectedAdnetCustomer(i_businessModel: BusinessModel): void {

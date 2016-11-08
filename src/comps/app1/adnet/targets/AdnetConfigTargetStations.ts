@@ -136,7 +136,7 @@ export class AdnetConfigTargetStations {
         return item.getName();
     }
 
-    ngOnDestroy() {
+    private ngOnDestroy() {
         this.unsub();
     }
 }

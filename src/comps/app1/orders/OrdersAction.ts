@@ -131,7 +131,7 @@ export class OrdersAction extends Actions {
         }
     }
 
-    ngOnDestroy() {
+    private ngOnDestroy() {
     }
 
 }

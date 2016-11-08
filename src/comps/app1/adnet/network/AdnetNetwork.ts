@@ -160,5 +160,3 @@ export class AdnetNetwork {
         this.onSetPlayMode('targetsTab', event.playMode());
     }
 }
-
-

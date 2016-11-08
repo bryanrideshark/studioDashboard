@@ -20,12 +20,12 @@ import {
     IAdNetworkPropSelectedEvent
 } from "./AdnetNetwork";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
-import {Lib} from "../../../../Lib";
-import {AdnetActions} from "../../../../adnet/AdnetActions";
-import {ContentTypeEnum} from "../../../../adnet/AdnetActions";
-import * as _ from 'lodash';
+import {
+    AdnetActions,
+    ContentTypeEnum
+} from "../../../../adnet/AdnetActions";
 import * as bootbox from "bootbox";
-import {TreeNode} from 'primeng/primeng';
+import {Compbaser} from "../../../compbaser/Compbaser";
 
 //import AdnetNetworkPackageEditorTemplate from './AdnetNetworkPackageEditor.html!text'; /*prod*/
 //import AdnetNetworkPackageEditorStyle from './AdnetNetworkPackageEditor.css!text'; /*prod*/
@@ -34,24 +34,29 @@ import {TreeNode} from 'primeng/primeng';
 //	styles: [AdnetNetworkPackageEditorStyle], /*prod*/
 //	template: AdnetNetworkPackageEditorTemplate, /*prod*/
     selector: 'AdnetNetworkPackageEditor',
-	    templateUrl: './AdnetNetworkPackageEditor.html', /*dev*/
-	    styleUrls: ['./AdnetNetworkPackageEditor.css'], /*dev*/
+    templateUrl: './AdnetNetworkPackageEditor.html', /*dev*/
+    styleUrls: ['./AdnetNetworkPackageEditor.css'], /*dev*/
     moduleId: __moduleName
 })
 
-export class AdnetNetworkPackageEditor {
+export class AdnetNetworkPackageEditor extends Compbaser {
 
     constructor(private appStore: AppStore, private adnetAction: AdnetActions, private cd: ChangeDetectorRef) {
-        this['me'] = Lib.GetCompSelector(this.constructor)
+        super();
     }
 
     ngOnInit() {
         this.packages = this.appStore.getState().adnet.getIn(['packages']) || {};
-        this.unsub = this.appStore.sub((i_adPackages: List<AdnetPackageModel>) => {
+        this.cancelOnDestroy(this.appStore.sub((i_adPackages: List<AdnetPackageModel>) => {
             this.packages = i_adPackages;
             this.onFilterPackages();
-        }, 'adnet.packages');
+        }, 'adnet.packages'));
         this.onFilterPackages();
+
+        // this.customers = this.appStore.getState().adnet.getIn(['customers']) || {};
+        // this.cancelOnDestroy(this.appStore.sub((i_adnetCustomerModels: List<AdnetCustomerModel>) => {
+        //     console.log(this.adnetCustomerModel);
+        // }, 'adnet.customers'));
     }
 
     @ViewChild(SimpleList) simpleList: SimpleList;
@@ -78,9 +83,9 @@ export class AdnetNetworkPackageEditor {
     @Output() onAdnetTargetsSelected: EventEmitter<List<AdnetTargetModel>> = new EventEmitter<List<AdnetTargetModel>>();
 
 
-    private unsub: Function;
     private adnetCustomerModel: AdnetCustomerModel;
     private packages: List<AdnetPackageModel>
+    // private customers: List<AdnetCustomerModel>
     private packagesFiltered: List<AdnetPackageModel>
     private pairOutgoing: boolean;
     public selectedAdnetPackageModel: AdnetPackageModel;
@@ -109,6 +114,10 @@ export class AdnetNetworkPackageEditor {
         return (i_adnetPackageModel: AdnetPackageModel) => {
             return i_adnetPackageModel[i_function]();
         }
+    }
+
+    private onTargetSearchSelected(event) {
+        this.onPropSelected.emit({selected: AdnetNetworkPropSelector.TARGET})
     }
 
     private onFilterPackages() {
@@ -155,7 +164,10 @@ export class AdnetNetworkPackageEditor {
             return i_adnetPackageModel.getName();
     }
 
-    private ngOnDestroy() {
-        this.unsub();
+    // private ngOnDestroy() {
+    //     this.unsub();
+    // }
+
+    destroy() {
     }
 }

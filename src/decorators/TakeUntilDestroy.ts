@@ -39,7 +39,7 @@ import {
             }, 'adnet.targets')
     );
 
-    ngOnDestroy() {
+    private ngOnDestroy() {
         // You can also do whatever you need here
     }
 }

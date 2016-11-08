@@ -146,7 +146,7 @@ export class UserInfo {
         // }, 'business.businessUsers');
     }
 
-    ngOnDestroy() {
+    private ngOnDestroy() {
         //this.unsub();
         //this.appStore.dispatch(this.businessActions.fetchBusinessUser([]))
     }

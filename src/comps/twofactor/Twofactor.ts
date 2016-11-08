@@ -150,7 +150,7 @@ export class Twofactor {
         }
     }
 
-    ngOnDestroy() {
+    private ngOnDestroy() {
         this.unsub();
     }
 }

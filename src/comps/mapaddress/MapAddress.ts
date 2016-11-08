@@ -57,7 +57,7 @@ export class MapAddress {
         this.searchControl.setValue('');
     }
 
-    ngOnDestroy() {
+    private ngOnDestroy() {
         this.unsub.unsubscribe();
     }
 }
