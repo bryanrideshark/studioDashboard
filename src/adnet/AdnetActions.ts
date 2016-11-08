@@ -226,12 +226,15 @@ export class AdnetActions extends Actions {
         };
     }
 
+
+
     public searchAdnet(i_data, i_customerId, i_callBack?: (jData)=>void) {
         var businesses: List<BusinessModel> = this.appStore.getState().business.getIn(['businesses']);
         var businessModel: BusinessModel = businesses.filter((i_businessModel: BusinessModel) => i_businessModel.getAdnetCustomerId() == i_customerId).first() as BusinessModel;
         var adnetTokenId = businessModel.getAdnetTokenId();
         const data = JSON.stringify(i_data);
-        const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetSave').replace(':ADNET_CUSTOMER_ID:', i_customerId).replace(':ADNET_TOKEN_ID:', adnetTokenId).replace(':DATA:', data);
+        //const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetSearch').replace(':ADNET_CUSTOMER_ID:', i_customerId).replace(':ADNET_TOKEN_ID:', adnetTokenId).replace(':DATA:', data);
+        const baseUrl = `https://adnet.signage.me/adNetService.ashx?command=search&customerId=13110&customerToken=d6639711-f86e-44f6-8b35-762c80a7a412&type=0&customer=""&target=""&keys=""&global=0&lat=0&lng=0&radios=-1`;
         this._http.get(baseUrl)
             .map(result => {
                 var jData: Object = result.json()

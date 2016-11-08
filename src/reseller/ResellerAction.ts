@@ -239,8 +239,14 @@ export class ResellerAction extends Actions {
                             var privilegesModels: List<PrivelegesModel> = List<PrivelegesModel>();
 
                             result.User.BusinessInfo["0"].Privileges["0"].Privilege.forEach((privileges)=> {
-                                let privilegesModel: PrivelegesModel = self.privilegesModelFactory(privileges._attr.id, privileges._attr.name, privileges.Groups["0"].Group);
-                                privilegesModels = privilegesModels.push(privilegesModel)
+                                try {
+                                    let privilegesModel: PrivelegesModel = self.privilegesModelFactory(privileges._attr.id, privileges._attr.name, privileges.Groups["0"].Group);
+                                    privilegesModels = privilegesModels.push(privilegesModel);
+                                }
+                                catch (e){
+                                    console.log(`cant load privilege data for ${privileges._attr.id} ${e}`);
+                                }
+
                             });
                             dispatch(self.receivePrivileges(privilegesModels));
                         });
