@@ -1,21 +1,37 @@
 import {Lib} from "../../Lib";
+import {Subscriber} from "rxjs";
+// import {
+//     Subscriber,
+//     Subject,
+//     Observable
+// } from "rxjs";
+// type UnSubscriber = Function | Subscriber<any>;
+// var c:UnSubscriber = Observable.create((a)=>{}).subscribe(()=>{});
+
 
 export class Compbaser {
-    private unsubStore: Array<any> = [];
+    private unsubFunctions: Array<any> = [];
     protected me = '';
 
     constructor() {
         this.me = Lib.GetCompSelector(this.constructor)
     }
 
-    protected cancelOnDestroy(i_function: Function): void {
-        this.unsubStore.push(i_function);
+    protected cancelOnDestroy(i_function: any): void {
+        this.unsubFunctions.push(i_function);
     }
 
     private ngOnDestroy() {
-        this.unsubStore.map((f: Function) => f());
+        // console.log('unsubscribing on behalf of ' + this.me);
+        this.unsubFunctions.map((f:any) => {
+            if (f instanceof Subscriber) {
+                f.unsubscribe();
+            } else {
+                f()
+            }
+        });
         this.destroy();
-        this.unsubStore = null;
+        this.unsubFunctions = null;
         this.me = null;
     }
 

@@ -102,8 +102,6 @@ export class Adnet extends Compbaser {
     }
 
 
-    // private unsub1: Function;
-    private unsub2: Subscription;
     private adnetCustomerId: number = -1;
     private adnetTokenId: number = -1;
     private adnetCustomerName: string = '';
@@ -115,11 +113,12 @@ export class Adnet extends Compbaser {
     public status: {isopen: boolean} = {isopen: false};
 
     private listenAdnetDataReady() {
-        this.unsub2 = this.adnetActions.onAdnetDataReady().subscribe((data) => {
+
+        this.cancelOnDestroy(this.adnetActions.onAdnetDataReady().subscribe((data) => {
             var adnet = this.appStore.getState().adnet;
             this.adnetCustomers = adnet.getIn(['customers']);
             this.loadAdnetCustomerModel();
-        })
+        }));
     }
 
     private loadAdnetCustomerModel() {
@@ -131,8 +130,6 @@ export class Adnet extends Compbaser {
     }
 
     destroy() {
-        // this.unsub1();
-        this.unsub2.unsubscribe();
     }
 
     public onSelectedAdnetCustomer(i_businessModel: BusinessModel): void {
