@@ -34,6 +34,7 @@ export const RECEIVE_ADNET = 'RECEIVE_ADNET';
 export const RECEIVE_CUSTOMERS = 'RECEIVE_CUSTOMERS';
 export const RECEIVE_RATES = 'RECEIVE_RATES';
 export const RECEIVE_TARGETS = 'RECEIVE_TARGETS';
+export const RECEIVE_TARGETS_SEARCH = 'RECEIVE_TARGETS_SEARCH';
 export const RECEIVE_PAIRS = 'RECEIVE_PAIRS';
 export const RECEIVE_PACKAGES = 'RECEIVE_PACKAGES';
 export const UPDATE_ADNET_CUSTOMER = 'UPDATE_ADNET_CUSTOMER';
@@ -227,19 +228,53 @@ export class AdnetActions extends Actions {
     }
 
 
+    public searchAdnet(i_customerId) {
+        return (dispatch) => {
+            var businesses: List<BusinessModel> = this.appStore.getState().business.getIn(['businesses']);
+            var businessModel: BusinessModel = businesses.filter((i_businessModel: BusinessModel) => i_businessModel.getAdnetCustomerId() == i_customerId).first() as BusinessModel;
+            var adnetTokenId = businessModel.getAdnetTokenId();
+            var data = '&type=0&customer=sea&target=&keys=&global=1&lat=0&lng=0&radios=-1';
+            const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetSearch').replace(':ADNET_CUSTOMER_ID:', i_customerId).replace(':ADNET_TOKEN_ID:', adnetTokenId).replace(':DATA:', data);
+            // const baseUrl = `https://adnet.signage.me/adNetService.ashx?command=search&customerId=13110&customerToken=d6639711-f86e-44f6-8b35-762c80a7a412&type=0&customer=""&target=""&keys=""&global=0&lat=0&lng=0&radios=-1`;
+            // const baseUrl = `https://adnet.signage.me/adNetService.ashx?command=search&customerId=29238&customerToken=00be859c-fafb-4d69-bbf7-15ba73d8c7fc&type=0&customer=sea&target=&keys=&global=1&lat=0&lng=0&radios=-1`;
+            this._http.get(baseUrl)
+                .map(result => {
+                    var jData: Object = result.json()
 
-    public searchAdnet(i_data, i_customerId, i_callBack?: (jData)=>void) {
-        var businesses: List<BusinessModel> = this.appStore.getState().business.getIn(['businesses']);
-        var businessModel: BusinessModel = businesses.filter((i_businessModel: BusinessModel) => i_businessModel.getAdnetCustomerId() == i_customerId).first() as BusinessModel;
-        var adnetTokenId = businessModel.getAdnetTokenId();
-        const data = JSON.stringify(i_data);
-        //const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetSearch').replace(':ADNET_CUSTOMER_ID:', i_customerId).replace(':ADNET_TOKEN_ID:', adnetTokenId).replace(':DATA:', data);
-        const baseUrl = `https://adnet.signage.me/adNetService.ashx?command=search&customerId=13110&customerToken=d6639711-f86e-44f6-8b35-762c80a7a412&type=0&customer=""&target=""&keys=""&global=0&lat=0&lng=0&radios=-1`;
-        this._http.get(baseUrl)
-            .map(result => {
-                var jData: Object = result.json()
-                if (i_callBack) i_callBack(jData);
-            }).subscribe()
+                    /** Customers **/
+                    var adnetCustomers: List<AdnetCustomerModel> = List<AdnetCustomerModel>();
+                    for (var adnetCustomer of jData['customers']) {
+                        const adnetCustomerModel: AdnetCustomerModel = new AdnetCustomerModel(adnetCustomer);
+                        adnetCustomers = adnetCustomers.push(adnetCustomerModel)
+                    }
+                    // dispatch(this.receivedCustomers(adnetCustomers));
+
+                    /** Rates **/
+                    var adnetRates: List<AdnetRateModel> = List<AdnetRateModel>();
+                    for (var adnetRate of jData['rates']) {
+                        if (adnetRate.Value.deleted == true)
+                            continue;
+                        const adnetRateModel: AdnetRateModel = new AdnetRateModel(adnetRate);
+                        adnetRates = adnetRates.push(adnetRateModel)
+                    }
+                    // dispatch(this.receivedRates(adnetRates));
+
+                    /** Targets **/
+                    var adnetTargets: List<AdnetTargetModel> = List<AdnetTargetModel>();
+                    for (var target of jData['targets']) {
+                        if (target.Value.deleted == true)
+                            continue;
+                        const adnetTargetModel: AdnetTargetModel = new AdnetTargetModel(target);
+                        adnetTargets = adnetTargets.push(adnetTargetModel)
+                    }
+                    dispatch(this.adnetTargetsSearch({
+                        adnetTargets,
+                        adnetCustomers,
+                        adnetRates
+                    }));
+
+                }).subscribe()
+        }
     }
 
     public addAdnetPackages(customerId) {
@@ -668,6 +703,13 @@ export class AdnetActions extends Actions {
     private updatePackage(payload) {
         return {
             type: UPDATE_ADNET_PACKAGE,
+            payload
+        }
+    }
+
+    private adnetTargetsSearch(payload) {
+        return {
+            type: RECEIVE_TARGETS_SEARCH,
             payload
         }
     }

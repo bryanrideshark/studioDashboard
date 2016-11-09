@@ -244,7 +244,7 @@ export class ResellerAction extends Actions {
                                     privilegesModels = privilegesModels.push(privilegesModel);
                                 }
                                 catch (e){
-                                    console.log(`cant load privilege data for ${privileges._attr.id} ${e}`);
+                                    //console.log(`cant load privilege data for ${privileges._attr.id} ${e}`);
                                 }
 
                             });

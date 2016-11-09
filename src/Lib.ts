@@ -93,6 +93,10 @@ export class Lib {
         }
     }
 
+    static UnionList(a:List<any>,b:List<any>){
+        return a.toSet().union(b.toSet()).toList();
+    }
+
     static ProcessHourStartEnd(value: string, key: string): any {
         if (_.isUndefined(!value))
             return '';

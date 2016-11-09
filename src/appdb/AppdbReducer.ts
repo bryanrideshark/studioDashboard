@@ -10,7 +10,7 @@ const baseUrl = 'https://galaxy.signage.me/WebService/ResellerService.ashx';
 const adnetCustomerId = ':ADNET_CUSTOMER_ID:'
 const adnetCustomerToken = ':ADNET_TOKEN_ID:'
 const appBaseUrlAdnet = `https://adnet.signage.me/adNetService.ashx?command=customerRequest&customerId=${adnetCustomerId}&customerToken=${adnetCustomerToken}&fromChangelistId=0`;
-const appBaseUrlAdnetSearch = `https://adnet.signage.me/adNetService.ashx?command=search&customerId=${adnetCustomerId}&customerToken=${adnetCustomerToken}&type="0"&customer=""&target=""&keys=""&global="0"lat="0"&lng="0"radios="-1"`;
+const appBaseUrlAdnetSearch = `https://adnet.signage.me/adNetService.ashx?command=search&customerId=${adnetCustomerId}&customerToken=${adnetCustomerToken}:DATA:`;
 const appBaseUrlAdnetSave = `https://adnet.signage.me/adNetService.ashx?command=customerSubmit&customerId=${adnetCustomerId}&customerToken=${adnetCustomerToken}&data=:DATA:`;
 export const appBaseUrlCloud = 'https://secure.digitalsignage.com';
 

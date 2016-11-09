@@ -12,14 +12,12 @@ import {
 } from "@angular/forms";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {AppStore} from "angular2-redux-util";
-import {Lib} from "../../../../Lib";
 import * as _ from "lodash";
 import {
     IAdNetworkPropSelectedEvent,
     AdnetNetworkPropSelector
 } from "./AdnetNetwork";
 import {Compbaser} from "../../../compbaser/Compbaser";
-import {List} from "immutable";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 
 @Component({
@@ -155,6 +153,9 @@ export class AdnetNetworkTargetSearch extends Compbaser {
 
     private onSearch() {
         this.onPropSelected.emit({selected: AdnetNetworkPropSelector.TARGET})
+
+        // this.appStore.dispatch(this.adnetAction.searchAdnet({}, 1, (data)=> {
+        this.appStore.dispatch(this.adnetAction.searchAdnet(this.adnetCustomerModel.customerId()));
     }
 
     private onFormChange(event) {
