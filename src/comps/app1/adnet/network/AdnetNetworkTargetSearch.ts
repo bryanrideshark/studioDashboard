@@ -43,7 +43,7 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
                                         global Adnet search
                                         <div class="material-switch pull-right">
                                             <input (change)="onFormChange(customerNetwork2.checked)"
-                                                   [formControl]="contGroup.controls['searchType']"
+                                                   [formControl]="contGroup.controls['globalSearch']"
                                                    id="customerNetwork2" #customerNetwork2
                                                    name="customerNetwork2" type="checkbox"/>
                                             <label for="customerNetwork2" class="label-primary"></label>
@@ -52,8 +52,7 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
                                     
                                     <li class="list-group-item">
                                         <div class="btn-group" role="group">
-                                          <!--<select (change)="onStationsFilterSelected('os', $event.target.value)" class="form-control">-->
-                                          <select style="width: 100%"  class="form-control">
+                                          <select  [formControl]="contGroup.controls['searchType']" style="width: 100%"  class="form-control">
                                             <option *ngFor="let item of ['Search Ad network by: ','Station','Mobile','Website']">{{item}}</option>
                                           </select>
                                         </div>
@@ -61,17 +60,8 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
                                     </li>
                                     <li class="list-group-item">
                                         <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-                                            <input [formControl]="contGroup.controls['customerName']" 
-                                                   pattern="[0-9]|[a-z]+"
-                                                   type="text" class="form-control" minlength="3" maxlength="15"
-                                                   placeholder="type">
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-circle-o-notch"></i></span>
-                                            <input type="number" [formControl]="contGroup.controls['customerName']" 
+                                            <input type="text" [formControl]="contGroup.controls['customerName']" 
                                                    class="form-control"
                                                    placeholder="customer name">
                                         </div>
@@ -79,7 +69,7 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
                                     <li class="list-group-item">
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-circle-o-notch"></i></span>
-                                            <input type="number" [formControl]="contGroup.controls['targetName']" 
+                                            <input type="text" [formControl]="contGroup.controls['targetName']" 
                                                    class="form-control"
                                                    placeholder="target name">
                                         </div>
@@ -87,7 +77,7 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
                                     <li class="list-group-item">
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-circle-o-notch"></i></span>
-                                            <input type="number" [formControl]="contGroup.controls['targetKey']" 
+                                            <input type="text" [formControl]="contGroup.controls['targetKey']" 
                                                    class="form-control"
                                                    placeholder="target key">
                                         </div>
@@ -154,8 +144,7 @@ export class AdnetNetworkTargetSearch extends Compbaser {
     private onSearch() {
         this.onPropSelected.emit({selected: AdnetNetworkPropSelector.TARGET})
 
-        // this.appStore.dispatch(this.adnetAction.searchAdnet({}, 1, (data)=> {
-        this.appStore.dispatch(this.adnetAction.searchAdnet(this.adnetCustomerModel.customerId()));
+        this.appStore.dispatch(this.adnetAction.searchAdnet(this.adnetCustomerModel.customerId(),0,this.contGroup.value.customerName));
     }
 
     private onFormChange(event) {

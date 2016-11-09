@@ -228,15 +228,14 @@ export class AdnetActions extends Actions {
     }
 
 
-    public searchAdnet(i_customerId) {
+    public searchAdnet(i_customerId, type = 0, customer = '', target = '', keys = '', global = 1, lat = 0, lng = 0, radios = -1) {
         return (dispatch) => {
             var businesses: List<BusinessModel> = this.appStore.getState().business.getIn(['businesses']);
             var businessModel: BusinessModel = businesses.filter((i_businessModel: BusinessModel) => i_businessModel.getAdnetCustomerId() == i_customerId).first() as BusinessModel;
             var adnetTokenId = businessModel.getAdnetTokenId();
-            var data = '&type=0&customer=sea&target=&keys=&global=1&lat=0&lng=0&radios=-1';
+            var data = `&type=${type}&customer=${customer}&target=${target}&keys=${keys}&global=${global}&lat=${lat}&lng=${lng}&radios=${radios}`;
             const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetSearch').replace(':ADNET_CUSTOMER_ID:', i_customerId).replace(':ADNET_TOKEN_ID:', adnetTokenId).replace(':DATA:', data);
-            // const baseUrl = `https://adnet.signage.me/adNetService.ashx?command=search&customerId=13110&customerToken=d6639711-f86e-44f6-8b35-762c80a7a412&type=0&customer=""&target=""&keys=""&global=0&lat=0&lng=0&radios=-1`;
-            // const baseUrl = `https://adnet.signage.me/adNetService.ashx?command=search&customerId=29238&customerToken=00be859c-fafb-4d69-bbf7-15ba73d8c7fc&type=0&customer=sea&target=&keys=&global=1&lat=0&lng=0&radios=-1`;
+
             this._http.get(baseUrl)
                 .map(result => {
                     var jData: Object = result.json()
@@ -844,3 +843,5 @@ export class AdnetActions extends Actions {
 //         }]
 //     }
 // }
+// const baseUrl = `https://adnet.signage.me/adNetService.ashx?command=search&customerId=13110&customerToken=d6639711-f86e-44f6-8b35-762c80a7a412&type=0&customer=""&target=""&keys=""&global=0&lat=0&lng=0&radios=-1`;
+// const baseUrl = `https://adnet.signage.me/adNetService.ashx?command=search&customerId=29238&customerToken=00be859c-fafb-4d69-bbf7-15ba73d8c7fc&type=0&customer=sea&target=&keys=&global=1&lat=0&lng=0&radios=-1`;
