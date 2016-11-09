@@ -93,7 +93,7 @@ export class Lib {
         }
     }
 
-    static UnionList(a:List<any>,b:List<any>){
+    static UnionList(a: List<any>, b: List<any>) {
         return a.toSet().union(b.toSet()).toList();
     }
 
