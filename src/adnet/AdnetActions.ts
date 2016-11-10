@@ -234,7 +234,7 @@ export class AdnetActions extends Actions {
             var businessModel: BusinessModel = businesses.filter((i_businessModel: BusinessModel) => i_businessModel.getAdnetCustomerId() == i_customerId).first() as BusinessModel;
             var adnetTokenId = businessModel.getAdnetTokenId();
             var data = `&type=${type}&customer=${customer}&target=${target}&keys=${keys}&global=${global}&lat=${lat}&lng=${lng}&radios=${radios}`;
-            const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetSearch').replace(':ADNET_CUSTOMER_ID:', i_customerId).replace(':ADNET_TOKEN_ID:', adnetTokenId).replace(':DATA:', data);
+            const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetSearch').replace(':ADNET_CUSTOMER_ID:', i_customerId).replace(':ADNET_TOKEN_ID:', adnetTokenId).replace(':DATA:', data).replace(/null/g,'');
 
             this._http.get(baseUrl)
                 .map(result => {
@@ -246,7 +246,6 @@ export class AdnetActions extends Actions {
                         const adnetCustomerModel: AdnetCustomerModel = new AdnetCustomerModel(adnetCustomer);
                         adnetCustomers = adnetCustomers.push(adnetCustomerModel)
                     }
-                    // dispatch(this.receivedCustomers(adnetCustomers));
 
                     /** Rates **/
                     var adnetRates: List<AdnetRateModel> = List<AdnetRateModel>();
@@ -256,7 +255,6 @@ export class AdnetActions extends Actions {
                         const adnetRateModel: AdnetRateModel = new AdnetRateModel(adnetRate);
                         adnetRates = adnetRates.push(adnetRateModel)
                     }
-                    // dispatch(this.receivedRates(adnetRates));
 
                     /** Targets **/
                     var adnetTargets: List<AdnetTargetModel> = List<AdnetTargetModel>();

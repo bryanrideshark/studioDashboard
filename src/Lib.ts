@@ -145,7 +145,7 @@ export class Lib {
             return false;
         if (_.isNull(i_value))
             return false;
-        if (_.isEmpty(i_value))
+        if (_.isEmpty(String(i_value)))
             return false;
         return true;
     }

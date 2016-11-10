@@ -3,7 +3,8 @@ import {
     Input,
     ChangeDetectionStrategy,
     EventEmitter,
-    Output
+    Output,
+    ChangeDetectorRef
 } from "@angular/core";
 import {
     FormControl,
@@ -19,6 +20,9 @@ import {
 } from "./AdnetNetwork";
 import {Compbaser} from "../../../compbaser/Compbaser";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
+import {Lib} from "../../../../Lib";
+import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
+import {List} from "immutable";
 
 @Component({
     selector: 'AdnetNetworkTargetSearch',
@@ -53,7 +57,7 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
                                     <li class="list-group-item">
                                         <div class="btn-group" role="group">
                                           <select  [formControl]="contGroup.controls['searchType']" style="width: 100%"  class="form-control">
-                                            <option *ngFor="let item of ['Search Ad network by: ','Station','Mobile','Website']">{{item}}</option>
+                                            <option *ngFor="let item of searchTypes">{{item}}</option>
                                           </select>
                                         </div>
                                         <button (click)="onSearch($event)" class="pull-right btn btn-primary">Search</button>
@@ -82,12 +86,36 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
                                                    placeholder="target key">
                                         </div>
                                     </li>
+                                    <li class="list-group-item">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-circle-o-notch"></i></span>
+                                            <input type="number" [formControl]="contGroup.controls['lat']" 
+                                                   class="form-control"
+                                                   placeholder="lat">
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-circle-o-notch"></i></span>
+                                            <input type="number" [formControl]="contGroup.controls['lng']" 
+                                                   class="form-control"
+                                                   placeholder="lng">
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-circle-o-notch"></i></span>
+                                            <input type="number" [formControl]="contGroup.controls['radios']" 
+                                                   class="form-control"
+                                                   placeholder="lng">
+                                        </div>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </form>
-                <SimpleList></SimpleList>
+                <SimpleList [list]="adnetTargetModels" [content]="getContent" ></SimpleList>
             </div>
     `,
     styles: [`
@@ -107,25 +135,31 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
     `]
 })
 export class AdnetNetworkTargetSearch extends Compbaser {
-    constructor(private fb: FormBuilder, private appStore: AppStore, private adnetAction: AdnetActions) {
+    constructor(private fb: FormBuilder, private appStore: AppStore, private adnetAction: AdnetActions, private cd:ChangeDetectorRef) {
         super();
         this.contGroup = fb.group({
             'searchType': [''],
             'globalSearch': [''],
             'customerName': [''],
             'targetName': [''],
-            'targetKey': ['']
+            'targetKey': [''],
+            'lat': [''],
+            'lng': [''],
+            'radios': ['']
         });
         _.forEach(this.contGroup.controls, (value, key: string) => {
             this.formInputs[key] = this.contGroup.controls[key] as FormControl;
         })
     }
 
-    // ngOnInit() {
-    //     this.cancelOnDestroy(this.appStore.sub((i_adnetCustomerModels: List<AdnetCustomerModel>) => {
-    //         this.renderFormInputs();
-    //     }, 'adnet.customers'));
-    // }
+    ngOnInit() {
+        this.cancelOnDestroy(this.appStore.sub((i_adnetTargetModels: List<AdnetTargetModel>) => {
+            //this.renderFormInputs();
+            this.adnetTargetModels = null;
+            this.adnetTargetModels = i_adnetTargetModels;
+            this.cd.markForCheck();
+        }, 'adnet.targets_search'));
+    }
 
     @Input()
     set setAdnetCustomerModel(i_adnetCustomerModel: AdnetCustomerModel) {
@@ -136,15 +170,38 @@ export class AdnetNetworkTargetSearch extends Compbaser {
 
     @Output() onPropSelected: EventEmitter<IAdNetworkPropSelectedEvent> = new EventEmitter<IAdNetworkPropSelectedEvent>();
 
+    private searchTypes: Array<any> = ['Select adnet search type:', 'Station', 'Mobile', 'Website'];
     private adnetCustomerModel: AdnetCustomerModel;
+    private adnetTargetModels: List<AdnetTargetModel>;
     private contGroup: FormGroup;
     private formInputs = {};
     private globalNetworkEnabled: boolean = false;
 
+    private getContent(i_adnetTargetModel: AdnetTargetModel) {
+        return i_adnetTargetModel.getName();
+    }
+
     private onSearch() {
+        var searchType = this.searchTypes.indexOf(this.contGroup.value.searchType) - 1;
+        searchType < 0 ? searchType = 0 : searchType;
+        var globalSearch = this.contGroup.value.globalSearch == true ? 1 : 0;
+        var lat = !Lib.Exists(this.contGroup.value.lat) ? 0 : this.contGroup.value.lat;
+        var lng = !Lib.Exists(this.contGroup.value.lng) ? 0 : this.contGroup.value.lng;
+        var radios = !Lib.Exists(this.contGroup.value.radios) ? -1 : this.contGroup.value.radios;
         this.onPropSelected.emit({selected: AdnetNetworkPropSelector.TARGET})
 
-        this.appStore.dispatch(this.adnetAction.searchAdnet(this.adnetCustomerModel.customerId(),0,this.contGroup.value.customerName));
+        this.appStore.dispatch(
+            this.adnetAction.searchAdnet(
+                this.adnetCustomerModel.customerId(),
+                searchType,
+                this.contGroup.value.customerName,
+                this.contGroup.value.targetName,
+                this.contGroup.value.targetKey,
+                globalSearch,
+                lat,
+                lng,
+                radios
+            ));
     }
 
     private onFormChange(event) {
