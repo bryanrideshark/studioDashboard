@@ -27,9 +27,6 @@ import {List} from "immutable";
 @Component({
     selector: 'AdnetNetworkTargetSearch',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    host: {
-        '(input-blur)': 'onFormChange($event)'
-    },
     moduleId: __moduleName,
     template: `<div>
                 <form novalidate autocomplete="off" [formGroup]="contGroup">
@@ -115,7 +112,7 @@ import {List} from "immutable";
                         </div>
                     </div>
                 </form>
-                <SimpleList [list]="adnetTargetModels" [content]="getContent" ></SimpleList>
+                <SimpleList [list]="adnetTargetModels" [content]="getContent()" [multiSelect]="false"></SimpleList>
             </div>
     `,
     styles: [`
@@ -135,7 +132,7 @@ import {List} from "immutable";
     `]
 })
 export class AdnetNetworkTargetSearch extends Compbaser {
-    constructor(private fb: FormBuilder, private appStore: AppStore, private adnetAction: AdnetActions, private cd:ChangeDetectorRef) {
+    constructor(private fb: FormBuilder, private appStore: AppStore, private adnetAction: AdnetActions, private cd: ChangeDetectorRef) {
         super();
         this.contGroup = fb.group({
             'searchType': [''],
@@ -177,8 +174,18 @@ export class AdnetNetworkTargetSearch extends Compbaser {
     private formInputs = {};
     private globalNetworkEnabled: boolean = false;
 
-    private getContent(i_adnetTargetModel: AdnetTargetModel) {
-        return i_adnetTargetModel.getName();
+    private getContent() {
+        var self = this;
+        return (i_adnetTargetModel: AdnetTargetModel) => {
+            //todo: investigate runotside angular
+            // https://medium.com/@NetanelBasal/angular-2-escape-from-change-detection-317b3b44906b#.hc1zpseu7
+            var customersList: List<AdnetCustomerModel> = self.appStore.getState().adnet.getIn(['customers']);
+            var adnetTargetCustomerId = i_adnetTargetModel.getCustomerId();
+            var adnetCustomerModel = customersList.filter((i_adnetCustomerModel: AdnetCustomerModel) => {
+                return Number(adnetTargetCustomerId) == i_adnetCustomerModel.getId();
+            }).first() as AdnetCustomerModel;
+            return adnetCustomerModel.getName();
+        }
     }
 
     private onSearch() {
