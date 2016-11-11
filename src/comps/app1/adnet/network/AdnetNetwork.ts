@@ -24,7 +24,7 @@ export interface IAdNetworkPropSelectedEvent {
     selected: AdnetNetworkPropSelector
 }
 
-type TabType = "packagesTab" | "targetsTab"
+export type TabType = "packagesTab" | "targetsTab"
 
 @Component({
 //	template: AdnetNetworkTemplate, /*prod*/

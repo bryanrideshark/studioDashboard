@@ -16,7 +16,7 @@ import * as _ from "lodash";
 import SimplelistTemplate from './Simplelist.html!text';
 import SimplelistStyles from './Simplelist.css!text';
 
-export interface  ISimpleListItem {
+export interface ISimpleListItem {
     item: any,
     index: number,
     selected: boolean

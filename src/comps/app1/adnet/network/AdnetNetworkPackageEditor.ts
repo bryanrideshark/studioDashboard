@@ -17,7 +17,8 @@ import {
 } from "../../../simplelist/Simplelist";
 import {
     AdnetNetworkPropSelector,
-    IAdNetworkPropSelectedEvent
+    IAdNetworkPropSelectedEvent,
+    TabType
 } from "./AdnetNetwork";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {
@@ -82,6 +83,7 @@ export class AdnetNetworkPackageEditor extends Compbaser {
 
     @Output() onAdnetTargetsSelected: EventEmitter<List<AdnetTargetModel>> = new EventEmitter<List<AdnetTargetModel>>();
 
+    @Output() onAdnetTargetSelected: EventEmitter<AdnetTargetModel> = new EventEmitter<AdnetTargetModel>();
 
     private adnetCustomerModel: AdnetCustomerModel;
     private packages: List<AdnetPackageModel>
@@ -167,6 +169,10 @@ export class AdnetNetworkPackageEditor extends Compbaser {
     // private ngOnDestroy() {
     //     this.unsub();
     // }
+
+    private adnetTargetSelected(tab:TabType, i_adnetTargetModel: AdnetTargetModel) {
+        this.onAdnetTargetSelected.emit(i_adnetTargetModel);
+    }
 
     destroy() {
     }

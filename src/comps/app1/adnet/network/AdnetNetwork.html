@@ -19,6 +19,7 @@
                 <div class="row" *ngIf="(this.pairsOutgoing == true && this.pairsSelected && this.pairsSelected.size > 1) || this.pairsOutgoing == true && this.packageEditMode == true">
                     <div class="col-xs-3">
                         <AdnetNetworkPackageEditor (onPropSelected)="onPropSelected('packagesTab', $event)"
+                                                   (onAdnetTargetSelected)="onAdnetTargetSelected('packagesTab',$event)"
                                                    (onAdnetTargetsSelected)="onAdnetTargetsSelected($event)"
                                                    (onAdnetPacakgedSelected)="onAdnetPackageSelected($event)"
                                                    [setPairOutgoing]="pairsOutgoing"

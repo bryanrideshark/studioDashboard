@@ -4,7 +4,8 @@ import {
     ChangeDetectionStrategy,
     EventEmitter,
     Output,
-    ChangeDetectorRef
+    ChangeDetectorRef,
+    ViewChild
 } from "@angular/core";
 import {
     FormControl,
@@ -23,6 +24,10 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {Lib} from "../../../../Lib";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {List} from "immutable";
+import {
+    ISimpleListItem,
+    SimpleList
+} from "../../../simplelist/Simplelist";
 
 @Component({
     selector: 'AdnetNetworkTargetSearch',
@@ -112,7 +117,7 @@ import {List} from "immutable";
                         </div>
                     </div>
                 </form>
-                <SimpleList [list]="adnetTargetModels" [content]="getContent()" [multiSelect]="false"></SimpleList>
+                <SimpleList (selected)="onTargetSelected($event)" [list]="adnetTargetModels" [content]="getContent()" [multiSelect]="false"></SimpleList>
             </div>
     `,
     styles: [`
@@ -158,6 +163,9 @@ export class AdnetNetworkTargetSearch extends Compbaser {
         }, 'adnet.targets_search'));
     }
 
+    @ViewChild(SimpleList)
+    simpleList:SimpleList;
+
     @Input()
     set setAdnetCustomerModel(i_adnetCustomerModel: AdnetCustomerModel) {
         this.adnetCustomerModel = i_adnetCustomerModel;
@@ -166,6 +174,8 @@ export class AdnetNetworkTargetSearch extends Compbaser {
     }
 
     @Output() onPropSelected: EventEmitter<IAdNetworkPropSelectedEvent> = new EventEmitter<IAdNetworkPropSelectedEvent>();
+
+    @Output() onAdnetTargetSelected: EventEmitter<AdnetTargetModel> = new EventEmitter<AdnetTargetModel>();
 
     private searchTypes: Array<any> = ['Select adnet search type:', 'Station', 'Mobile', 'Website'];
     private adnetCustomerModel: AdnetCustomerModel;
@@ -194,7 +204,6 @@ export class AdnetNetworkTargetSearch extends Compbaser {
         var lat = !Lib.Exists(this.contGroup.value.lat) ? 0 : this.contGroup.value.lat;
         var lng = !Lib.Exists(this.contGroup.value.lng) ? 0 : this.contGroup.value.lng;
         var radios = !Lib.Exists(this.contGroup.value.radios) ? -1 : this.contGroup.value.radios;
-        this.onPropSelected.emit({selected: AdnetNetworkPropSelector.TARGET})
 
         this.appStore.dispatch(
             this.adnetAction.searchAdnet(
@@ -208,6 +217,11 @@ export class AdnetNetworkTargetSearch extends Compbaser {
                 lng,
                 radios
             ));
+    }
+
+    private onTargetSelected(list:Array<ISimpleListItem>){
+        this.onAdnetTargetSelected.emit((this.simpleList.getSelected() as ISimpleListItem).item);
+        this.onPropSelected.emit({selected: AdnetNetworkPropSelector.TARGET})
     }
 
     private onFormChange(event) {
