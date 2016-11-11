@@ -34,7 +34,11 @@
             <Dropbox (onFileLinkSelected)="onDropboxFileSelected($event)"></Dropbox>
         </accordion-group>
         <accordion-group heading="targets">
-            <AdnetNetworkTargetSearch [setAdnetCustomerModel]="adnetCustomerModel" (onAdnetTargetSelected)="adnetTargetSelected('packagesTab',$event)" (onPropSelected)="onTargetSearchSelected($event)"></AdnetNetworkTargetSearch>
+            <AdnetNetworkTargetSearch [setAdnetCustomerModel]="adnetCustomerModel"
+                                      (onAdnetTargetSelected)="adnetTargetSelected('packagesTab',$event)"
+                                      (onAdnetTargetAddNew)="onAdnetTargetAddNew.emit($event)"
+                                      (onPropSelected)="onTargetSearchSelected($event)">
+            </AdnetNetworkTargetSearch>
         </accordion-group>
     </accordion>
 </div>

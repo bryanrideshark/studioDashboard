@@ -145,6 +145,10 @@ export class AdnetNetwork {
         }
     }
 
+    private onAdnetTargetAddNew(event:AdnetTargetModel){
+        console.log(event.getId());
+    }
+
     private onAdnetPackageSelected(event: AdnetPackageModel) {
         this.selectedAdnetPackageModel_tab_packages = event;
         if (!event){

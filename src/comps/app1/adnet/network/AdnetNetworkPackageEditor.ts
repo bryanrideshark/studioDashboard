@@ -85,6 +85,8 @@ export class AdnetNetworkPackageEditor extends Compbaser {
 
     @Output() onAdnetTargetSelected: EventEmitter<AdnetTargetModel> = new EventEmitter<AdnetTargetModel>();
 
+    @Output() onAdnetTargetAddNew: EventEmitter<AdnetTargetModel> = new EventEmitter<AdnetTargetModel>();
+
     private adnetCustomerModel: AdnetCustomerModel;
     private packages: List<AdnetPackageModel>
     // private customers: List<AdnetCustomerModel>
@@ -121,6 +123,10 @@ export class AdnetNetworkPackageEditor extends Compbaser {
     private onTargetSearchSelected(event) {
         this.onPropSelected.emit({selected: AdnetNetworkPropSelector.TARGET})
     }
+
+    // private adnetTargetAddNew(event:AdnetTargetModel) {
+    //     this.onPropSelected.emit({selected: AdnetNetworkPropSelector.TARGET})
+    // }
 
     private onFilterPackages() {
         if (!this.packages || !this.adnetCustomerModel)

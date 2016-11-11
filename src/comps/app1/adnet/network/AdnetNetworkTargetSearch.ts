@@ -33,7 +33,7 @@ import {
     selector: 'AdnetNetworkTargetSearch',
     changeDetection: ChangeDetectionStrategy.OnPush,
     moduleId: __moduleName,
-    template: `<div>
+    template: `<div>                
                 <form novalidate autocomplete="off" [formGroup]="contGroup">
                     <div class="row">
                         <div class="inner userGeneral">
@@ -117,10 +117,18 @@ import {
                         </div>
                     </div>
                 </form>
+                <div (click)="$event.preventDefault()">
+                    <a class="btns" (click)="onAdd($event)" href="#">
+                        <span style="font-size: 1.5em; color: black" [ngClass]="{disabled: !selectedAdnetTargetModel}" class="fa fa-plus"></span>
+                    </a>                    
+                </div>
                 <SimpleList (selected)="onTargetSelected($event)" [list]="adnetTargetModels" [content]="getContent()" [multiSelect]="false"></SimpleList>
             </div>
     `,
     styles: [`
+        .disabled {
+            opacity: 0.5;
+        }
         input.ng-invalid {
             border-right: 10px solid red;
         }
@@ -164,7 +172,7 @@ export class AdnetNetworkTargetSearch extends Compbaser {
     }
 
     @ViewChild(SimpleList)
-    simpleList:SimpleList;
+    simpleList: SimpleList;
 
     @Input()
     set setAdnetCustomerModel(i_adnetCustomerModel: AdnetCustomerModel) {
@@ -177,9 +185,12 @@ export class AdnetNetworkTargetSearch extends Compbaser {
 
     @Output() onAdnetTargetSelected: EventEmitter<AdnetTargetModel> = new EventEmitter<AdnetTargetModel>();
 
+    @Output() onAdnetTargetAddNew: EventEmitter<AdnetTargetModel> = new EventEmitter<AdnetTargetModel>();
+
     private searchTypes: Array<any> = ['Select adnet search type:', 'Station', 'Mobile', 'Website'];
     private adnetCustomerModel: AdnetCustomerModel;
     private adnetTargetModels: List<AdnetTargetModel>;
+    private selectedAdnetTargetModel: AdnetTargetModel;
     private contGroup: FormGroup;
     private formInputs = {};
     private globalNetworkEnabled: boolean = false;
@@ -197,7 +208,14 @@ export class AdnetNetworkTargetSearch extends Compbaser {
         }
     }
 
+    private onAdd($event) {
+        this.selectedAdnetTargetModel = (this.simpleList.getSelected() as ISimpleListItem).item;
+        this.onAdnetTargetAddNew.emit(this.selectedAdnetTargetModel);
+    }
+
     private onSearch() {
+        this.selectedAdnetTargetModel = null;
+        this.simpleList.deselect();
         var searchType = this.searchTypes.indexOf(this.contGroup.value.searchType) - 1;
         searchType < 0 ? searchType = 0 : searchType;
         var globalSearch = this.contGroup.value.globalSearch == true ? 1 : 0;
@@ -219,9 +237,11 @@ export class AdnetNetworkTargetSearch extends Compbaser {
             ));
     }
 
-    private onTargetSelected(list:Array<ISimpleListItem>){
-        this.onAdnetTargetSelected.emit((this.simpleList.getSelected() as ISimpleListItem).item);
+    private onTargetSelected(list: Array<ISimpleListItem>) {
+        this.selectedAdnetTargetModel = (this.simpleList.getSelected() as ISimpleListItem).item;
+        this.onAdnetTargetSelected.emit(this.selectedAdnetTargetModel);
         this.onPropSelected.emit({selected: AdnetNetworkPropSelector.TARGET})
+
     }
 
     private onFormChange(event) {
