@@ -5,7 +5,10 @@ import {
     EventEmitter,
     ChangeDetectionStrategy,
     ViewChild,
-    ChangeDetectorRef
+    ChangeDetectorRef,
+    ElementRef,
+    NgZone,
+    HostListener
 } from "@angular/core";
 import {List} from "immutable";
 import {SimplelistEditable} from "./SimplelistEditable";
@@ -28,8 +31,34 @@ export interface  ISimpleListItem {
 })
 export class SimpleList {
 
+
     constructor(private cd: ChangeDetectorRef) {
     }
+
+    /**
+     constructor(private cd: ChangeDetectorRef, private _ngZone: NgZone, private el: ElementRef) {}
+
+     worked on canceling scroll event
+     ngOnInit() {
+        this._ngZone.runOutsideAngular(() => {
+            const nativeElement = this.el.nativeElement;
+            this._handler = $event => {
+                $event.stopImmediatePropagation();
+                $event.preventDefault();
+                // this.emitter.emit($event);
+                return false;
+            }
+            nativeElement.addEventListener('mousewheel', this._handler, false);
+            nativeElement.addEventListener('DOMMouseScroll', this._handler, false);
+            nativeElement.addEventListener('onmousewheel', this._handler, false);
+        });
+    }
+
+     @Output('outSideEventHandler')
+     emitter = new EventEmitter();
+
+     private _handler: Function;
+     **/
 
     private filter: string = '';
     private m_icon: string;
@@ -109,7 +138,10 @@ export class SimpleList {
     }
 
     private itemSelected(item, index) {
-        this.itemClicked.emit({item, index});
+        this.itemClicked.emit({
+            item,
+            index
+        });
         let id = this.contentId ? this.contentId(item) : index;
         for (let id in this.m_metadata) {
             this.m_metadata[id] = {

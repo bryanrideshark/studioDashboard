@@ -177,8 +177,7 @@ export class AdnetNetworkTargetSearch extends Compbaser {
     private getContent() {
         var self = this;
         return (i_adnetTargetModel: AdnetTargetModel) => {
-            //todo: investigate runotside angular
-            // https://medium.com/@NetanelBasal/angular-2-escape-from-change-detection-317b3b44906b#.hc1zpseu7
+            // console.log(Math.random());
             var customersList: List<AdnetCustomerModel> = self.appStore.getState().adnet.getIn(['customers']);
             var adnetTargetCustomerId = i_adnetTargetModel.getCustomerId();
             var adnetCustomerModel = customersList.filter((i_adnetCustomerModel: AdnetCustomerModel) => {
