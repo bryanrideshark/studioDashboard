@@ -160,10 +160,14 @@ export function adnet(state: Map<string,any> = Map<string,any>(), action: any): 
             return state.setIn(['rates'], rates);
         }
 
-        case AdnetActions.ADD_ADNET_TARGET: {
+        case AdnetActions.ADD_ADNET_TARGET_WEB: {
             var targets: List<AdnetTargetModel> = state.getIn(['targets']);
             targets = targets.push(action.model);
             return state.setIn(['targets'], targets);
+        }
+
+        case AdnetActions.ADD_ADNET_TARGET_TO_PACKAGE: {
+            return state;
         }
 
         case AdnetActions.ADD_ADNET_PACKAGE: {

@@ -85,8 +85,6 @@ export class AdnetNetworkPackageEditor extends Compbaser {
 
     @Output() onAdnetTargetSelected: EventEmitter<AdnetTargetModel> = new EventEmitter<AdnetTargetModel>();
 
-    @Output() onAdnetTargetAddNew: EventEmitter<AdnetTargetModel> = new EventEmitter<AdnetTargetModel>();
-
     private adnetCustomerModel: AdnetCustomerModel;
     private packages: List<AdnetPackageModel>
     // private customers: List<AdnetCustomerModel>

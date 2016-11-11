@@ -185,8 +185,6 @@ export class AdnetNetworkTargetSearch extends Compbaser {
 
     @Output() onAdnetTargetSelected: EventEmitter<AdnetTargetModel> = new EventEmitter<AdnetTargetModel>();
 
-    @Output() onAdnetTargetAddNew: EventEmitter<AdnetTargetModel> = new EventEmitter<AdnetTargetModel>();
-
     private searchTypes: Array<any> = ['Select adnet search type:', 'Station', 'Mobile', 'Website'];
     private adnetCustomerModel: AdnetCustomerModel;
     private adnetTargetModels: List<AdnetTargetModel>;
@@ -210,7 +208,7 @@ export class AdnetNetworkTargetSearch extends Compbaser {
 
     private onAdd($event) {
         this.selectedAdnetTargetModel = (this.simpleList.getSelected() as ISimpleListItem).item;
-        this.onAdnetTargetAddNew.emit(this.selectedAdnetTargetModel);
+        this.appStore.dispatch(this.adnetAction.addAdnetTargetToPackage(this.adnetCustomerModel.getId(),this.selectedAdnetTargetModel));
     }
 
     private onSearch() {

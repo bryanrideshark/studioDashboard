@@ -43,7 +43,8 @@ export const UPDATE_ADNET_RATE_TABLE = 'UPDATE_ADNET_RATE_TABLE';
 export const UPDATE_ADNET_PACKAGE = 'UPDATE_ADNET_PACKAGE';
 export const UPDATE_ADNET_PACKAGE_CONTENT = 'UPDATE_ADNET_PACKAGE_CONTENT';
 export const UPDATE_ADNET_TARGET = 'UPDATE_ADNET_TARGET';
-export const ADD_ADNET_TARGET = 'ADD_ADNET_TARGET';
+export const ADD_ADNET_TARGET_WEB = 'ADD_ADNET_TARGET_WEB';
+export const ADD_ADNET_TARGET_TO_PACKAGE = 'ADD_ADNET_TARGET_TO_PACKAGE';
 export const ADD_ADNET_PACKAGE = 'ADD_ADNET_PACKAGE';
 export const ADD_ADNET_PACKAGE_CONTENT = 'ADD_ADNET_PACKAGE_CONTENT';
 export const ADD_ADNET_RATE_TABLE = 'ADD_ADNET_RATE_TABLE';
@@ -405,13 +406,129 @@ export class AdnetActions extends Actions {
                     return alert('problem saving rate table to server');
                 model = model.setId(jData.targets.add["0"]) as AdnetTargetModel;
                 dispatch({
-                    type: ADD_ADNET_TARGET,
+                    type: ADD_ADNET_TARGET_WEB,
                     model: model
                 });
             })
         };
     }
 
+    public addAdnetTargetToPackage(i_customerId, i_adnetTargetModel:AdnetTargetModel) {
+        return (dispatch) => {
+
+            console.log(i_customerId, i_adnetTargetModel.getId(), i_adnetTargetModel.getCustomerId());
+            //todo: find if customer of target exists in pairs
+
+            // 1. if it does just send update
+            var e = {
+                "packages": {
+                    "update": [{
+                        "Key": 3656,
+                        "Value": {
+                            "id": "3656",
+                            "handle": "0",
+                            "modified": "0",
+                            "customerId": "29238",
+                            "packageTargets": {
+                                "add": [{
+                                    "id": "-1",
+                                    "handle": "16",
+                                    "modified": "1",
+                                    "targetId": "8732"
+                                }]
+                            }
+                        }
+                    }]
+                }
+            }
+
+            // 2. if it doesn't send update and also add customer to pairs
+            var f = {
+                "packages": {
+                    "update": [{
+                        "Key": 3656,
+                        "Value": {
+                            "id": "3656",
+                            "handle": "0",
+                            "modified": "0",
+                            "customerId": "29238",
+                            "packageTargets": {
+                                "add": [{
+                                    "id": "-1",
+                                    "handle": "12",
+                                    "modified": "1",
+                                    "targetId": "15927"
+                                }]
+                            }
+                        }
+                    }]
+                },
+                "toPairs": {
+                    "add": [{
+                        "id": "-1",
+                        "handle": "15",
+                        "modified": "1",
+                        "customerId": "29238",
+                        "toCustomerId": "13030",
+                        "friend": "true",
+                        "reviewRate": "0",
+                        "reviewText": ""
+                    }]
+                },
+                "fromPairs": {
+                    "add": [{
+                        "id": "-1",
+                        "handle": "16",
+                        "modified": "1",
+                        "customerId": "13030",
+                        "toCustomerId": "29238",
+                        "autoActivate": "false",
+                        "activated": "false"
+                    }]
+                }
+            }
+
+
+
+
+
+            var payload = {
+                Key: -1,
+                Value: {
+                    "id": "-1",
+                    "handle": "0",
+                    "modified": "1",
+                    "customerId": i_customerId,
+                    "label": "www.yourdomain.com",
+                    "targetType": "2",
+                    "enabled": "false",
+                    "locationLat": "0",
+                    "locationLng": "0",
+                    "targetDomain": "www.yourdomain.com",
+                    "rateId": "-1",
+                    "hRate": "-1",
+                    "keys": "",
+                    "comments": "",
+                    "url": ""
+                }
+            }
+            var model: AdnetTargetModel = new AdnetTargetModel(payload);
+            var payloadToServer = {
+                "targets": {
+                    "add": [payload.Value]
+                }
+            }
+            // this.saveToServer(payloadToServer, i_customerId, (jData) => {
+            //     if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
+            //         return alert('problem adding target to packages on server');
+            //     model = model.setId(jData.targets.add["0"]) as AdnetTargetModel;
+            //     dispatch({
+            //         type: ADD_ADNET_TARGET_TO_PACKAGE,
+            //         model: model
+            //     });
+            // })
+        };
+    }
 
     public addAdnetRateTable(customerId) {
         return (dispatch) => {
@@ -845,5 +962,202 @@ export class AdnetActions extends Actions {
 //         }]
 //     }
 // }
-// const baseUrl = `https://adnet.signage.me/adNetService.ashx?command=search&customerId=13110&customerToken=d6639711-f86e-44f6-8b35-762c80a7a412&type=0&customer=""&target=""&keys=""&global=0&lat=0&lng=0&radios=-1`;
-// const baseUrl = `https://adnet.signage.me/adNetService.ashx?command=search&customerId=29238&customerToken=00be859c-fafb-4d69-bbf7-15ba73d8c7fc&type=0&customer=sea&target=&keys=&global=1&lat=0&lng=0&radios=-1`;
+//
+// var a = {
+//     "packages": {
+//         "update": [{
+//             "Key": 3656,
+//             "Value": {
+//                 "id": "3656",
+//                 "handle": "0",
+//                 "modified": "0",
+//                 "customerId": "29238",
+//                 "packageTargets": {
+//                     "add": [{
+//                         "id": "-1",
+//                         "handle": "6",
+//                         "modified": "1",
+//                         "targetId": "5074"
+//                     }]
+//                 }
+//             }
+//         }]
+//     },
+//     "toPairs": {
+//         "add": [{
+//             "id": "-1",
+//             "handle": "8",
+//             "modified": "1",
+//             "customerId": "29238",
+//             "toCustomerId": "2537",
+//             "friend": "true",
+//             "reviewRate": "0",
+//             "reviewText": ""
+//         }]
+//     },
+//     "fromPairs": {
+//         "add": [{
+//             "id": "-1",
+//             "handle": "9",
+//             "modified": "1",
+//             "customerId": "2537",
+//             "toCustomerId": "29238",
+//             "autoActivate": "false",
+//             "activated": "false"
+//         }]
+//     }
+// }
+//
+//
+// var b = {
+//     "packages": {
+//         "update": [{
+//             "Key": 3656,
+//             "Value": {
+//                 "id": "3656",
+//                 "handle": "0",
+//                 "modified": "0",
+//                 "customerId": "29238",
+//                 "packageTargets": {
+//                     "add": [{
+//                         "id": "-1",
+//                         "handle": "8",
+//                         "modified": "1",
+//                         "targetId": "9734"
+//                     }]
+//                 }
+//             }
+//         }]
+//     }
+// }
+//
+//
+// var c = {
+//     "packages": {
+//         "update": [{
+//             "Key": 3656,
+//             "Value": {
+//                 "id": "3656",
+//                 "handle": "0",
+//                 "modified": "0",
+//                 "customerId": "29238",
+//                 "packageTargets": {
+//                     "add": [{
+//                         "id": "-1",
+//                         "handle": "9",
+//                         "modified": "1",
+//                         "targetId": "92886"
+//                     }]
+//                 }
+//             }
+//         }]
+//     },
+//     "toPairs": {
+//         "add": [{
+//             "id": "-1",
+//             "handle": "12",
+//             "modified": "1",
+//             "customerId": "29238",
+//             "toCustomerId": "29238",
+//             "friend": "true",
+//             "reviewRate": "0",
+//             "reviewText": ""
+//         }]
+//     }
+// }
+//
+// var d = {
+//     "packages": {
+//         "update": [{
+//             "Key": 3656,
+//             "Value": {
+//                 "id": "3656",
+//                 "handle": "0",
+//                 "modified": "0",
+//                 "customerId": "29238",
+//                 "packageTargets": {
+//                     "add": [{
+//                         "id": "-1",
+//                         "handle": "10",
+//                         "modified": "1",
+//                         "targetId": "514"
+//                     }]
+//                 }
+//             }
+//         }]
+//     },
+//     "toPairs": {
+//         "add": [{
+//             "id": "-1",
+//             "handle": "13",
+//             "modified": "1",
+//             "customerId": "29238",
+//             "toCustomerId": "483",
+//             "friend": "true",
+//             "reviewRate": "0",
+//             "reviewText": ""
+//         }]
+//     },
+//     "fromPairs": {
+//         "add": [{
+//             "id": "-1",
+//             "handle": "14",
+//             "modified": "1",
+//             "customerId": "483",
+//             "toCustomerId": "29238",
+//             "autoActivate": "false",
+//             "activated": "false"
+//         }]
+//     }
+// }
+//
+// var e = {
+//     "packages": {
+//         "update": [{
+//             "Key": 3656,
+//             "Value": {
+//                 "id": "3656",
+//                 "handle": "0",
+//                 "modified": "0",
+//                 "customerId": "29238",
+//                 "packageTargets": {
+//                     "add": [{
+//                         "id": "-1",
+//                         "handle": "11",
+//                         "modified": "1",
+//                         "targetId": "546"
+//                     }]
+//                 }
+//             }
+//         }]
+//     }
+// }
+//
+//
+// /**
+//  * scenario 1: adding to my own
+//  **/
+//
+//
+// var g = {
+//     "packages": {
+//         "update": [{
+//             "Key": 3656,
+//             "Value": {
+//                 "id": "3656",
+//                 "handle": "0",
+//                 "modified": "0",
+//                 "customerId": "29238",
+//                 "packageTargets": {
+//                     "add": [{
+//                         "id": "-1",
+//                         "handle": "13",
+//                         "modified": "1",
+//                         "targetId": "92884"
+//                     }]
+//                 }
+//             }
+//         }]
+//     }
+// }
+//
