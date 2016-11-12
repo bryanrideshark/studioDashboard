@@ -7,14 +7,11 @@ import {
     AppStore
 } from "angular2-redux-util";
 import {List} from "immutable";
-import * as bootbox from 'bootbox';
+import * as bootbox from "bootbox";
 import "rxjs/add/operator/catch";
 import "rxjs/add/operator/finally";
 import "rxjs/add/observable/throw";
-import {
-    Http,
-    Response
-} from "@angular/http";
+import {Http} from "@angular/http";
 import * as _ from "lodash";
 import {AdnetCustomerModel} from "./AdnetCustomerModel";
 import {AdnetRateModel} from "./AdnetRateModel";
@@ -24,10 +21,8 @@ import {AdnetPackageModel} from "./AdnetPackageModel";
 import {ReplaySubject} from "rxjs/ReplaySubject";
 import {Lib} from "../Lib";
 import {AdnetContentModel} from "./AdnetContentModel";
-import {Observable} from "rxjs/Observable";
 import {CommBroker} from "../services/CommBroker";
-import {Consts} from "../Conts";
-import * as xml2js from 'xml2js'
+import * as xml2js from "xml2js";
 import {BusinessModel} from "../business/BusinessModel";
 
 export const RESET_ADNET = 'RESET_ADNET';
@@ -413,120 +408,132 @@ export class AdnetActions extends Actions {
         };
     }
 
-    public addAdnetTargetToPackage(i_customerId, i_adnetTargetModel:AdnetTargetModel) {
+    public addAdnetTargetToPackage(i_customerId, i_adnetTargetModel: AdnetTargetModel, i_adnetPackageModel: AdnetPackageModel) {
         return (dispatch) => {
+            const pairs = this.appStore.getState().adnet.getIn(['pairs']) || {};
+
+            // looking for customer at outgoing pairs to determine if we need to add target only or customer (pair) + target
+            var pairsFound = pairs.filter((i_pair: AdnetPairModel) => {
+                if (i_pair.getCustomerId() == i_customerId && i_pair.getToCustomerId() == i_adnetTargetModel.getCustomerId())
+                    return true
+            })
+
+            // found existing customer
+            if (pairsFound.size > 0) {
+                var payload = {
+                    "packages": {
+                        "update": [{
+                            "Key": i_adnetPackageModel.getId(),
+                            "Value": {
+                                "id": i_adnetPackageModel.getId(),
+                                "handle": "2",
+                                "modified": "0",
+                                "customerId": i_customerId,
+                                "packageTargets": {
+                                    "add": [{
+                                        "id": "-1",
+                                        "handle": "1",
+                                        "modified": "1",
+                                        "targetId": i_adnetTargetModel.getId()
+                                    }]
+                                }
+                            }
+                        }]
+                    }
+                }
+            } else {
+                console.log('not found: add customer / target');
+            }
+
+            var a = {
+                "packages": {
+                    "update": [{
+                        "Key": 3758,
+                        "Value": {
+                            "id": "3758",
+                            "handle": "2",
+                            "modified": "0",
+                            "customerId": "29238",
+                            "packageTargets": {
+                                "add": [{
+                                    "id": "-1",
+                                    "handle": "24",
+                                    "modified": "1",
+                                    "targetId": "92884"
+                                }]
+                            }
+                        }
+                    }]
+                }
+            }
 
             console.log(i_customerId, i_adnetTargetModel.getId(), i_adnetTargetModel.getCustomerId());
             //todo: find if customer of target exists in pairs
 
-            // 1. if it does just send update
-            var e = {
-                "packages": {
-                    "update": [{
-                        "Key": 3656,
-                        "Value": {
-                            "id": "3656",
-                            "handle": "0",
-                            "modified": "0",
-                            "customerId": "29238",
-                            "packageTargets": {
-                                "add": [{
-                                    "id": "-1",
-                                    "handle": "16",
-                                    "modified": "1",
-                                    "targetId": "8732"
-                                }]
-                            }
-                        }
-                    }]
-                }
-            }
 
             // 2. if it doesn't send update and also add customer to pairs
-            var f = {
-                "packages": {
-                    "update": [{
-                        "Key": 3656,
-                        "Value": {
-                            "id": "3656",
-                            "handle": "0",
-                            "modified": "0",
-                            "customerId": "29238",
-                            "packageTargets": {
-                                "add": [{
-                                    "id": "-1",
-                                    "handle": "12",
-                                    "modified": "1",
-                                    "targetId": "15927"
-                                }]
-                            }
-                        }
-                    }]
-                },
-                "toPairs": {
-                    "add": [{
-                        "id": "-1",
-                        "handle": "15",
-                        "modified": "1",
-                        "customerId": "29238",
-                        "toCustomerId": "13030",
-                        "friend": "true",
-                        "reviewRate": "0",
-                        "reviewText": ""
-                    }]
-                },
-                "fromPairs": {
-                    "add": [{
-                        "id": "-1",
-                        "handle": "16",
-                        "modified": "1",
-                        "customerId": "13030",
-                        "toCustomerId": "29238",
-                        "autoActivate": "false",
-                        "activated": "false"
-                    }]
-                }
-            }
+            // var f = {
+            //     "packages": {
+            //         "update": [{
+            //             "Key": 3656,
+            //             "Value": {
+            //                 "id": "3656",
+            //                 "handle": "0",
+            //                 "modified": "0",
+            //                 "customerId": "29238",
+            //                 "packageTargets": {
+            //                     "add": [{
+            //                         "id": "-1",
+            //                         "handle": "12",
+            //                         "modified": "1",
+            //                         "targetId": "15927"
+            //                     }]
+            //                 }
+            //             }
+            //         }]
+            //     },
+            //     "toPairs": {
+            //         "add": [{
+            //             "id": "-1",
+            //             "handle": "15",
+            //             "modified": "1",
+            //             "customerId": "29238",
+            //             "toCustomerId": "13030",
+            //             "friend": "true",
+            //             "reviewRate": "0",
+            //             "reviewText": ""
+            //         }]
+            //     },
+            //     "fromPairs": {
+            //         "add": [{
+            //             "id": "-1",
+            //             "handle": "16",
+            //             "modified": "1",
+            //             "customerId": "13030",
+            //             "toCustomerId": "29238",
+            //             "autoActivate": "false",
+            //             "activated": "false"
+            //         }]
+            //     }
+            // }
 
 
+            // var model: AdnetTargetModel = new AdnetTargetModel(payload);
+            // var payloadToServer = {
+            //     "targets": {
+            //         "add": [payload.Value]
+            //     }
+            // }
 
-
-
-            var payload = {
-                Key: -1,
-                Value: {
-                    "id": "-1",
-                    "handle": "0",
-                    "modified": "1",
-                    "customerId": i_customerId,
-                    "label": "www.yourdomain.com",
-                    "targetType": "2",
-                    "enabled": "false",
-                    "locationLat": "0",
-                    "locationLng": "0",
-                    "targetDomain": "www.yourdomain.com",
-                    "rateId": "-1",
-                    "hRate": "-1",
-                    "keys": "",
-                    "comments": "",
-                    "url": ""
-                }
-            }
-            var model: AdnetTargetModel = new AdnetTargetModel(payload);
-            var payloadToServer = {
-                "targets": {
-                    "add": [payload.Value]
-                }
-            }
-            // this.saveToServer(payloadToServer, i_customerId, (jData) => {
-            //     if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
-            //         return alert('problem adding target to packages on server');
-            //     model = model.setId(jData.targets.add["0"]) as AdnetTargetModel;
-            //     dispatch({
-            //         type: ADD_ADNET_TARGET_TO_PACKAGE,
-            //         model: model
-            //     });
-            // })
+            this.saveToServer(payload, i_customerId, (jData) => {
+                if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
+                    return alert('problem adding target to packages on server');
+                // model = model.setId(jData.targets.add["0"]) as AdnetTargetModel;
+                // dispatch({
+                //     type: ADD_ADNET_TARGET_TO_PACKAGE,
+                //     model: model
+                // });
+            })
         };
     }
 

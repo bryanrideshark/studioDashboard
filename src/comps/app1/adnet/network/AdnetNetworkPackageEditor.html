@@ -35,6 +35,7 @@
         </accordion-group>
         <accordion-group heading="targets">
             <AdnetNetworkTargetSearch [setAdnetCustomerModel]="adnetCustomerModel"
+                                      [setAdnetPackageModels]="selectedAdnetPackageModel"
                                       (onAdnetTargetSelected)="adnetTargetSelected('packagesTab',$event)"
                                       (onPropSelected)="onTargetSearchSelected($event)">
             </AdnetNetworkTargetSearch>

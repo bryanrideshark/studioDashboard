@@ -28,6 +28,8 @@ import {
     ISimpleListItem,
     SimpleList
 } from "../../../simplelist/Simplelist";
+import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
+import * as bootbox from 'bootbox';
 
 @Component({
     selector: 'AdnetNetworkTargetSearch',
@@ -181,11 +183,17 @@ export class AdnetNetworkTargetSearch extends Compbaser {
             this.renderFormInputs();
     }
 
+    @Input()
+    set setAdnetPackageModels(i_adnetPackageModels: AdnetPackageModel) {
+        this.adnetPackageModels = i_adnetPackageModels;
+    }
+
     @Output() onPropSelected: EventEmitter<IAdNetworkPropSelectedEvent> = new EventEmitter<IAdNetworkPropSelectedEvent>();
 
     @Output() onAdnetTargetSelected: EventEmitter<AdnetTargetModel> = new EventEmitter<AdnetTargetModel>();
 
     private searchTypes: Array<any> = ['Select adnet search type:', 'Station', 'Mobile', 'Website'];
+    private adnetPackageModels: AdnetPackageModel;
     private adnetCustomerModel: AdnetCustomerModel;
     private adnetTargetModels: List<AdnetTargetModel>;
     private selectedAdnetTargetModel: AdnetTargetModel;
@@ -202,13 +210,21 @@ export class AdnetNetworkTargetSearch extends Compbaser {
             var adnetCustomerModel = customersList.filter((i_adnetCustomerModel: AdnetCustomerModel) => {
                 return Number(adnetTargetCustomerId) == i_adnetCustomerModel.getId();
             }).first() as AdnetCustomerModel;
-            return adnetCustomerModel.getName();
+            return `${adnetCustomerModel.getName()} :: ${i_adnetTargetModel.getName()}`;
         }
     }
 
     private onAdd($event) {
+        if (!this.adnetPackageModels)
+            return bootbox.alert('first select a Package from the above accordion Packages tab, to add this file onto your selected package')
         this.selectedAdnetTargetModel = (this.simpleList.getSelected() as ISimpleListItem).item;
-        this.appStore.dispatch(this.adnetAction.addAdnetTargetToPackage(this.adnetCustomerModel.getId(),this.selectedAdnetTargetModel));
+        this.appStore.dispatch(
+            this.adnetAction.addAdnetTargetToPackage(
+                this.adnetCustomerModel.getId(),
+                this.selectedAdnetTargetModel,
+                this.adnetPackageModels
+            )
+        );
     }
 
     private onSearch() {
