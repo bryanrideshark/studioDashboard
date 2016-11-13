@@ -86,7 +86,8 @@ export class AdnetActions extends Actions {
         this._http.get(baseUrl)
             .map(result => {
                 var jData: Object = result.json()
-                if (i_callBack) i_callBack(jData);
+                if (i_callBack)
+                    i_callBack(jData);
             }).subscribe()
     }
 
@@ -411,141 +412,144 @@ export class AdnetActions extends Actions {
     public addAdnetTargetToPackageV2(i_adnetTargetModel: AdnetTargetModel, i_adnetPackageModel: AdnetPackageModel) {
         return (dispatch) => {
             var i_customerId = i_adnetPackageModel.getCustomerId();
+            var payloadWithNewCustomer, payloadToServer, payloadToSave;
+            var value = {
+                "id": i_adnetPackageModel.getId(),
+                "handle": "2",
+                "modified": "0",
+                "customerId": i_customerId,
+                "packageTargets": {
+                    "add": [{
+                        "id": "-1",
+                        "handle": "10",
+                        "modified": "1",
+                        "targetId": i_adnetTargetModel.getId()
+                    }]
+                }
+            }
+            payloadToServer = {
+                "packages": {
+                    "update": [{
+                        "Key": i_adnetPackageModel.getId(),
+                        "Value": value
+                    }]
+                }
+            }
+            payloadToSave = {
+                Key: i_adnetPackageModel.getId(),
+                Value: value.packageTargets.add[0]
+            }
 
+            // find out if this is a new customer that we have not worked with before, and if so, add it to the pairs
             const pairs = this.appStore.getState().adnet.getIn(['pairs']) || {};
-
-            // looking for customer at outgoing pairs to determine if we need to add target only or customer (pair) + target
             var pairsFound = pairs.filter((i_pair: AdnetPairModel) => {
                 if (i_pair.getCustomerId() == i_customerId && i_pair.getToCustomerId() == i_adnetTargetModel.getCustomerId())
                     return true
             })
-
-            // found existing customer so only append new target
-            if (pairsFound.size > 0) {
-                var value = {
-                    "id": i_adnetPackageModel.getId(),
-                        "handle": "2",
-                        "modified": "0",
-                        "customerId": i_customerId,
-                        "packageTargets": {
+            if (pairsFound.size == 0) {
+                payloadWithNewCustomer = {
+                    payloadToServer,
+                    "toPairs": {
                         "add": [{
                             "id": "-1",
-                            "handle": "1",
+                            "handle": "3",
                             "modified": "1",
-                            "targetId": i_adnetTargetModel.getId()
+                            "customerId": i_customerId,
+                            "toCustomerId": i_adnetTargetModel.getCustomerId(),
+                            "friend": "true",
+                            "reviewRate": "0",
+                            "reviewText": ""
+                        }]
+                    },
+                    "fromPairs": {
+                        "add": [{
+                            "id": "-1",
+                            "handle": "4",
+                            "modified": "1",
+                            "customerId": i_adnetTargetModel.getCustomerId(),
+                            "toCustomerId": i_customerId,
+                            "autoActivate": "false",
+                            "activated": "false"
                         }]
                     }
                 }
-                var payloadToServer = {
-                    "packages": {
-                        "update": [{
-                            "Key": i_adnetPackageModel.getId(),
-                            "Value": value
-                        }]
-                    }
-                }
-                var payloadToSave = {
-                    Key: i_adnetPackageModel.getId(),
-                    Value: value.packageTargets.add[0]
-                }
-            } else {
-                console.log('not found: add customer / target');
             }
-            this.saveToServer(payloadToServer, i_customerId, (jData) => {
+            this.saveToServer((payloadWithNewCustomer || payloadToServer), i_customerId, (jData) => {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
                     return alert('problem adding target on server');
-                payloadToSave.Key = jData.packages.update["0"].targetIds["0"];
-                payloadToSave.Value.id = jData.packages.update["0"].targetIds["0"];
-                dispatch(this.addPackageTarget(i_adnetPackageModel.getId(), payloadToSave))
+                //todo: not sure why I need to do two server calls as Pro just does one to add pair and add target in one shot
+                this.saveToServer((payloadToServer), i_customerId, (jData) => {
+                    //todo: add new pair customer
+                    // payloadToSave.Key = jData.packages.update["0"].targetIds["0"];
+                    // payloadToSave.Value.id = jData.packages.update["0"].targetIds["0"];
+                    // dispatch(this.addPackageTarget(i_adnetPackageModel.getId(), payloadToSave))
+                });
+
             })
         };
     }
 
     public addAdnetTargetToPackage(i_customerId, i_adnetTargetModel: AdnetTargetModel, i_adnetPackageModel: AdnetPackageModel) {
         return (dispatch) => {
-            var payload;
-            const pairs = this.appStore.getState().adnet.getIn(['pairs']) || {};
+
+            var payload = {
+                "packages": {
+                    "update": [{
+                        "Key": i_adnetPackageModel.getId(),
+                        "Value": {
+                            "id": i_adnetPackageModel.getId(),
+                            "handle": "2",
+                            "modified": "0",
+                            "customerId": i_customerId,
+                            "packageTargets": {
+                                "add": [{
+                                    "id": "-1",
+                                    "handle": "1",
+                                    "modified": "1",
+                                    "targetId": i_adnetTargetModel.getId()
+                                }]
+                            }
+                        }
+                    }]
+                }
+            }
 
             // looking for customer at outgoing pairs to determine if we need to add target only or customer (pair) + target
+            const pairs = this.appStore.getState().adnet.getIn(['pairs']) || {};
             var pairsFound = pairs.filter((i_pair: AdnetPairModel) => {
                 if (i_pair.getCustomerId() == i_customerId && i_pair.getToCustomerId() == i_adnetTargetModel.getCustomerId())
                     return true
             })
 
-            // found existing customer
-            if (pairsFound.size > 0) {
-                payload = {
-                    "packages": {
-                        "update": [{
-                            "Key": i_adnetPackageModel.getId(),
-                            "Value": {
-                                "id": i_adnetPackageModel.getId(),
-                                "handle": "2",
-                                "modified": "0",
-                                "customerId": i_customerId,
-                                "packageTargets": {
-                                    "add": [{
-                                        "id": "-1",
-                                        "handle": "1",
-                                        "modified": "1",
-                                        "targetId": i_adnetTargetModel.getId()
-                                    }]
-                                }
-                            }
+            // if this is a new customer we didn't work with before
+            if (pairsFound.size == 0) {
+                var payloadWithNewCustomer = {
+                    payload,
+                    "toPairs": {
+                        "add": [{
+                            "id": "-1",
+                            "handle": "15",
+                            "modified": "1",
+                            "customerId": "29238",
+                            "toCustomerId": "13030",
+                            "friend": "true",
+                            "reviewRate": "0",
+                            "reviewText": ""
+                        }]
+                    },
+                    "fromPairs": {
+                        "add": [{
+                            "id": "-1",
+                            "handle": "16",
+                            "modified": "1",
+                            "customerId": "13030",
+                            "toCustomerId": "29238",
+                            "autoActivate": "false",
+                            "activated": "false"
                         }]
                     }
                 }
-            } else {
-                console.log('not found: add customer / target');
             }
-
-
-            // 2. if it doesn't send update and also add customer to pairs
-            // var f = {
-            //     "packages": {
-            //         "update": [{
-            //             "Key": 3656,
-            //             "Value": {
-            //                 "id": "3656",
-            //                 "handle": "0",
-            //                 "modified": "0",
-            //                 "customerId": "29238",
-            //                 "packageTargets": {
-            //                     "add": [{
-            //                         "id": "-1",
-            //                         "handle": "12",
-            //                         "modified": "1",
-            //                         "targetId": "15927"
-            //                     }]
-            //                 }
-            //             }
-            //         }]
-            //     },
-            //     "toPairs": {
-            //         "add": [{
-            //             "id": "-1",
-            //             "handle": "15",
-            //             "modified": "1",
-            //             "customerId": "29238",
-            //             "toCustomerId": "13030",
-            //             "friend": "true",
-            //             "reviewRate": "0",
-            //             "reviewText": ""
-            //         }]
-            //     },
-            //     "fromPairs": {
-            //         "add": [{
-            //             "id": "-1",
-            //             "handle": "16",
-            //             "modified": "1",
-            //             "customerId": "13030",
-            //             "toCustomerId": "29238",
-            //             "autoActivate": "false",
-            //             "activated": "false"
-            //         }]
-            //     }
-            // }
-
 
             // var model: AdnetTargetModel = new AdnetTargetModel(payload);
             // var payloadToServer = {
@@ -1207,3 +1211,94 @@ export class AdnetActions extends Actions {
 //     }
 // }
 //
+
+
+// var y = {
+//     "packages": {
+//         "update": [{
+//             "Key": 3656,
+//             "Value": {
+//                 "id": "3656",
+//                 "handle": "4",
+//                 "modified": "0",
+//                 "customerId": "29238",
+//                 "packageTargets": {
+//                     "add": [{
+//                         "id": "-1",
+//                         "handle": "53",
+//                         "modified": "1",
+//                         "targetId": "53745"
+//                     }]
+//                 }
+//             }
+//         }]
+//     },
+//     "toPairs": {
+//         "add": [{
+//             "id": "-1",
+//             "handle": "27",
+//             "modified": "1",
+//             "customerId": "29238",
+//             "toCustomerId": "14313",
+//             "friend": "true",
+//             "reviewRate": "0",
+//             "reviewText": ""
+//         }]
+//     },
+//     "fromPairs": {
+//         "add": [{
+//             "id": "-1",
+//             "handle": "28",
+//             "modified": "1",
+//             "customerId": "14313",
+//             "toCustomerId": "29238",
+//             "autoActivate": "false",
+//             "activated": "false"
+//         }]
+//     }
+// }
+
+var j = {
+    "packages": {
+        "update": [{
+            "Key": 3775,
+            "Value": {
+                "id": "3775",
+                "handle": "7",
+                "modified": "0",
+                "customerId": "29238",
+                "packageTargets": {
+                    "add": [{
+                        "id": "-1",
+                        "handle": "58",
+                        "modified": "1",
+                        "targetId": "46934"
+                    }]
+                }
+            }
+        }]
+    },
+    "toPairs": {
+        "add": [{
+            "id": "-1",
+            "handle": "37",
+            "modified": "1",
+            "customerId": "29238",
+            "toCustomerId": "13100",
+            "friend": "true",
+            "reviewRate": "0",
+            "reviewText": ""
+        }]
+    },
+    "fromPairs": {
+        "add": [{
+            "id": "-1",
+            "handle": "38",
+            "modified": "1",
+            "customerId": "13100",
+            "toCustomerId": "29238",
+            "autoActivate": "false",
+            "activated": "false"
+        }]
+    }
+}
