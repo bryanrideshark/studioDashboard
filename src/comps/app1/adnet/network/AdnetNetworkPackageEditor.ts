@@ -53,14 +53,7 @@ export class AdnetNetworkPackageEditor extends Compbaser {
             this.onFilterPackages();
         }, 'adnet.packages'));
         this.onFilterPackages();
-
-        // this.customers = this.appStore.getState().adnet.getIn(['customers']) || {};
-        // this.cancelOnDestroy(this.appStore.sub((i_adnetCustomerModels: List<AdnetCustomerModel>) => {
-        //     console.log(this.adnetCustomerModel);
-        // }, 'adnet.customers'));
     }
-
-    @ViewChild(SimpleList) simpleList: SimpleList;
 
     @Input()
     set setPairOutgoing(i_setPairOutgoing: boolean) {
@@ -75,6 +68,8 @@ export class AdnetNetworkPackageEditor extends Compbaser {
         this.onFilterPackages();
     }
 
+    @ViewChild(SimpleList) simpleList: SimpleList;
+
     @Input() setAdnetPairModels: List<AdnetPairModel>
 
     @Output() onPropSelected: EventEmitter<IAdNetworkPropSelectedEvent> = new EventEmitter<IAdNetworkPropSelectedEvent>();
@@ -87,11 +82,9 @@ export class AdnetNetworkPackageEditor extends Compbaser {
 
     private adnetCustomerModel: AdnetCustomerModel;
     private packages: List<AdnetPackageModel>
-    // private customers: List<AdnetCustomerModel>
     private packagesFiltered: List<AdnetPackageModel>
     private pairOutgoing: boolean;
     public selectedAdnetPackageModel: AdnetPackageModel;
-    //public selectedAdnetTargetModels: List<AdnetTargetModel>;
 
     private onAdd(event) {
         var id = this.adnetCustomerModel.customerId();
@@ -122,10 +115,6 @@ export class AdnetNetworkPackageEditor extends Compbaser {
         this.onPropSelected.emit({selected: AdnetNetworkPropSelector.TARGET})
     }
 
-    // private adnetTargetAddNew(event:AdnetTargetModel) {
-    //     this.onPropSelected.emit({selected: AdnetNetworkPropSelector.TARGET})
-    // }
-
     private onFilterPackages() {
         if (!this.packages || !this.adnetCustomerModel)
             return;
@@ -135,6 +124,7 @@ export class AdnetNetworkPackageEditor extends Compbaser {
                 this.packagesFiltered = this.packagesFiltered.push(i_package);
         })
         this.cd.markForCheck();
+        this.notifyAdnetTargetChange();
     }
 
     private getId(i_adnetPackageModel: AdnetPackageModel) {
@@ -143,20 +133,24 @@ export class AdnetNetworkPackageEditor extends Compbaser {
         return i_adnetPackageModel.getId();
     }
 
-    private onSelecting(event) {
-        var itemSelected: ISimpleListItem = this.simpleList.getSelected() as ISimpleListItem;
-        this.selectedAdnetPackageModel = itemSelected.item;
-
+    private notifyAdnetTargetChange(){
+        if (!this.selectedAdnetPackageModel)
+            return;
         var targetsIds = this.selectedAdnetPackageModel.getTargetIds();
         var targets: List<AdnetTargetModel> = this.appStore.getState().adnet.getIn(['targets']) || {};
-
         var selectedAdnetTargetModels = targets.filter((i_adnetTargetModel: AdnetTargetModel) => {
             return (targetsIds.indexOf(i_adnetTargetModel.getId()) > -1)
         }) as List<AdnetTargetModel>;
+        this.onAdnetTargetsSelected.emit(selectedAdnetTargetModels);
+        this.cd.markForCheck();
+    }
 
+    private onSelecting(event) {
+        var itemSelected: ISimpleListItem = this.simpleList.getSelected() as ISimpleListItem;
+        this.selectedAdnetPackageModel = itemSelected.item;
         this.onPropSelected.emit({selected: AdnetNetworkPropSelector.PACKAGE})
         this.onAdnetPacakgedSelected.emit(this.selectedAdnetPackageModel)
-        this.onAdnetTargetsSelected.emit(selectedAdnetTargetModels);
+        this.notifyAdnetTargetChange();
     }
 
     private onDropboxFileSelected(event) {
@@ -169,10 +163,6 @@ export class AdnetNetworkPackageEditor extends Compbaser {
         if (i_adnetPackageModel)
             return i_adnetPackageModel.getName();
     }
-
-    // private ngOnDestroy() {
-    //     this.unsub();
-    // }
 
     private adnetTargetSelected(tab:TabType, i_adnetTargetModel: AdnetTargetModel) {
         this.onAdnetTargetSelected.emit(i_adnetTargetModel);

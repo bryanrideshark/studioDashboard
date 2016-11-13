@@ -204,7 +204,6 @@ export class AdnetNetworkTargetSearch extends Compbaser {
     private getContent() {
         var self = this;
         return (i_adnetTargetModel: AdnetTargetModel) => {
-            // console.log(Math.random());
             var customersList: List<AdnetCustomerModel> = self.appStore.getState().adnet.getIn(['customers']);
             var adnetTargetCustomerId = i_adnetTargetModel.getCustomerId();
             var adnetCustomerModel = customersList.filter((i_adnetCustomerModel: AdnetCustomerModel) => {
@@ -219,8 +218,7 @@ export class AdnetNetworkTargetSearch extends Compbaser {
             return bootbox.alert('first select a Package from the above accordion Packages tab, to add this file onto your selected package')
         this.selectedAdnetTargetModel = (this.simpleList.getSelected() as ISimpleListItem).item;
         this.appStore.dispatch(
-            this.adnetAction.addAdnetTargetToPackage(
-                this.adnetCustomerModel.getId(),
+            this.adnetAction.addAdnetTargetToPackageV2(
                 this.selectedAdnetTargetModel,
                 this.adnetPackageModels
             )

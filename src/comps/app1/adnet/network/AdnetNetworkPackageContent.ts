@@ -20,6 +20,7 @@ import * as _ from 'lodash';
 import {SimpleGridTable} from "../../../simplegridmodule/SimpleGridTable";
 import {AppStore} from "angular2-redux-util";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
+import {Compbaser} from "../../../compbaser/Compbaser";
 
 @Component({
     selector: 'AdnetNetworkPackageContent',
@@ -104,14 +105,15 @@ import {AdnetActions} from "../../../../adnet/AdnetActions";
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class AdnetNetworkPackageContent {
-    constructor(private appStore: AppStore, private adnetActions:AdnetActions, private cd: ChangeDetectorRef) {
-        this['me'] = Lib.GetCompSelector(this.constructor)
-
-        this.appStore.sub((i_adnetPackageModels: List<AdnetPackageModel>) => {
-            this.updateModel(false);
-            this.cd.markForCheck();
-        }, 'adnet.packages');
+export class AdnetNetworkPackageContent extends Compbaser {
+    constructor(private appStore: AppStore, private adnetActions: AdnetActions, private cd: ChangeDetectorRef) {
+        super();
+        this.cancelOnDestroy(
+            this.appStore.sub((i_adnetPackageModels: List<AdnetPackageModel>) => {
+                this.updateModel(false);
+                this.cd.markForCheck();
+            }, 'adnet.packages')
+        );
     }
 
     @ViewChild(SimpleGridTable) simpleGridTable: SimpleGridTable;
@@ -119,8 +121,6 @@ export class AdnetNetworkPackageContent {
     @Input()
     set setAdnetPackageModels(i_adnetPackageModels: AdnetPackageModel) {
         this.adnetPackageModels = i_adnetPackageModels;
-        // if (this.adnetPackageModels)
-        //     console.log('selected adnet package ' + this.adnetPackageModels.getId());
         this.updateModel();
     }
 
@@ -139,7 +139,7 @@ export class AdnetNetworkPackageContent {
         if (!this.selectedAdnetContentModel)
             return;
         console.log('removing content ' + this.selectedAdnetContentModel.getId());
-        this.appStore.dispatch(this.adnetActions.removeAdnetPackageContent(this.adnetPackageModels,this.selectedAdnetContentModel.getId()));
+        this.appStore.dispatch(this.adnetActions.removeAdnetPackageContent(this.adnetPackageModels, this.selectedAdnetContentModel.getId()));
         this.updateModel(true);
         this.onAdnetContentSelected.emit(null);
     }

@@ -4,7 +4,8 @@ import {
     Input,
     ViewChild,
     Output,
-    EventEmitter
+    EventEmitter,
+    ChangeDetectorRef
 } from "@angular/core";
 import {Lib} from "../../../../Lib";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
@@ -19,6 +20,7 @@ import {ISimpleGridEdit} from "../../../simplegridmodule/SimpleGridModule";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
 import {AppStore} from "angular2-redux-util";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
+import {Compbaser} from "../../../compbaser/Compbaser";
 
 @Component({
     selector: 'AdnetNetworkTarget',
@@ -56,9 +58,15 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
     `
 })
 
-export class AdnetNetworkTarget {
-    constructor(private appStore: AppStore) {
-        this['me'] = Lib.GetCompSelector(this.constructor)
+export class AdnetNetworkTarget extends Compbaser {
+    constructor(private appStore: AppStore, private cd:ChangeDetectorRef) {
+        super();
+        this.cancelOnDestroy(
+            this.appStore.sub((i_adnetPackageModels: List<AdnetPackageModel>) => {
+                // this.updateModel(false);
+                this.cd.markForCheck();
+            }, 'adnet.packages')
+        );
     }
 
     @Input()
@@ -70,8 +78,8 @@ export class AdnetNetworkTarget {
     set setAdnetPackageModels(i_adnetPackageModels: AdnetPackageModel) {
         this.simpleGridTable.deselect();
         this.adnetPackageModels = i_adnetPackageModels;
-        if (!this.adnetPackageModels)
-            return;
+        // if (!this.adnetPackageModels)
+        //     return;
     }
 
     @Input()

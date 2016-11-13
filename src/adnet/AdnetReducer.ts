@@ -51,26 +51,26 @@ export function adnet(state: Map<string,any> = Map<string,any>(), action: any): 
             state = state.setIn(['targets_search'], action.payload.adnetTargets);
 
             /** append new rates **/
-            var rates:List<AdnetRateModel> =  state.getIn(['rates']);
-            action.payload.adnetRates.forEach((i_rate:AdnetRateModel)=>{
-                var found = rates.filter((ii_rate:AdnetRateModel)=>{
-                    return ii_rate.getId()==i_rate.getId();
+            var rates: List<AdnetRateModel> = state.getIn(['rates']);
+            action.payload.adnetRates.forEach((i_rate: AdnetRateModel) => {
+                var found = rates.filter((ii_rate: AdnetRateModel) => {
+                    return ii_rate.getId() == i_rate.getId();
                 })
-                if (found.size==0)
+                if (found.size == 0)
                     rates = rates.push(i_rate)
             })
-            state = state.setIn(['rates'],rates);
+            state = state.setIn(['rates'], rates);
 
             /** append new customers **/
-            var customers:List<AdnetCustomerModel> =  state.getIn(['customers']);
-            action.payload.adnetCustomers.forEach((i_customer:AdnetCustomerModel)=>{
-                var found = customers.filter((ii_customer:AdnetCustomerModel)=>{
-                    return ii_customer.getId()==i_customer.getId();
+            var customers: List<AdnetCustomerModel> = state.getIn(['customers']);
+            action.payload.adnetCustomers.forEach((i_customer: AdnetCustomerModel) => {
+                var found = customers.filter((ii_customer: AdnetCustomerModel) => {
+                    return ii_customer.getId() == i_customer.getId();
                 })
-                if (found.size==0)
+                if (found.size == 0)
                     customers = customers.push(i_customer)
             })
-            return state.setIn(['customers'],customers);
+            return state.setIn(['customers'], customers);
         }
 
         case AdnetActions.UPDATE_ADNET_RATE_TABLE: {
@@ -125,7 +125,7 @@ export function adnet(state: Map<string,any> = Map<string,any>(), action: any): 
                         continue;
                     if (content.Key != Number(action.payload.Value.packageContents.delete[0]))
                         continue;
-                    contents.splice(i,1);
+                    contents.splice(i, 1);
                     var packageData = i_package.getData().toJS();
                     packageData.Value.contents = contents;
                     return i_package.setData<AdnetPackageModel>(AdnetPackageModel, packageData)
@@ -167,7 +167,13 @@ export function adnet(state: Map<string,any> = Map<string,any>(), action: any): 
         }
 
         case AdnetActions.ADD_ADNET_TARGET_TO_PACKAGE: {
-            return state;
+            var packages: List<AdnetPackageModel> = state.getIn(['packages'])
+            packages = packages.update(getIndex(packages, action.packageId), (i_package: AdnetPackageModel) => {
+                var packageData = i_package.getData().toJS();
+                packageData.Value.targets.push(action.payload);
+                return i_package.setData<AdnetPackageModel>(AdnetPackageModel, packageData)
+            });
+            return state.setIn(['packages'], packages);
         }
 
         case AdnetActions.ADD_ADNET_PACKAGE: {

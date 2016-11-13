@@ -408,8 +408,62 @@ export class AdnetActions extends Actions {
         };
     }
 
+    public addAdnetTargetToPackageV2(i_adnetTargetModel: AdnetTargetModel, i_adnetPackageModel: AdnetPackageModel) {
+        return (dispatch) => {
+            var i_customerId = i_adnetPackageModel.getCustomerId();
+
+            const pairs = this.appStore.getState().adnet.getIn(['pairs']) || {};
+
+            // looking for customer at outgoing pairs to determine if we need to add target only or customer (pair) + target
+            var pairsFound = pairs.filter((i_pair: AdnetPairModel) => {
+                if (i_pair.getCustomerId() == i_customerId && i_pair.getToCustomerId() == i_adnetTargetModel.getCustomerId())
+                    return true
+            })
+
+            // found existing customer so only append new target
+            if (pairsFound.size > 0) {
+                var value = {
+                    "id": i_adnetPackageModel.getId(),
+                        "handle": "2",
+                        "modified": "0",
+                        "customerId": i_customerId,
+                        "packageTargets": {
+                        "add": [{
+                            "id": "-1",
+                            "handle": "1",
+                            "modified": "1",
+                            "targetId": i_adnetTargetModel.getId()
+                        }]
+                    }
+                }
+                var payloadToServer = {
+                    "packages": {
+                        "update": [{
+                            "Key": i_adnetPackageModel.getId(),
+                            "Value": value
+                        }]
+                    }
+                }
+                var payloadToSave = {
+                    Key: i_adnetPackageModel.getId(),
+                    Value: value.packageTargets.add[0]
+                }
+            } else {
+                console.log('not found: add customer / target');
+            }
+            this.saveToServer(payloadToServer, i_customerId, (jData) => {
+                if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
+                    return alert('problem adding target on server');
+                payloadToSave.Key = jData.packages.update["0"].targetIds["0"];
+                payloadToSave.Value.id = jData.packages.update["0"].targetIds["0"];
+                dispatch(this.addPackageTarget(i_adnetPackageModel.getId(), payloadToSave))
+            })
+        };
+    }
+
     public addAdnetTargetToPackage(i_customerId, i_adnetTargetModel: AdnetTargetModel, i_adnetPackageModel: AdnetPackageModel) {
         return (dispatch) => {
+            var payload;
             const pairs = this.appStore.getState().adnet.getIn(['pairs']) || {};
 
             // looking for customer at outgoing pairs to determine if we need to add target only or customer (pair) + target
@@ -420,7 +474,7 @@ export class AdnetActions extends Actions {
 
             // found existing customer
             if (pairsFound.size > 0) {
-                var payload = {
+                payload = {
                     "packages": {
                         "update": [{
                             "Key": i_adnetPackageModel.getId(),
@@ -444,31 +498,6 @@ export class AdnetActions extends Actions {
             } else {
                 console.log('not found: add customer / target');
             }
-
-            var a = {
-                "packages": {
-                    "update": [{
-                        "Key": 3758,
-                        "Value": {
-                            "id": "3758",
-                            "handle": "2",
-                            "modified": "0",
-                            "customerId": "29238",
-                            "packageTargets": {
-                                "add": [{
-                                    "id": "-1",
-                                    "handle": "24",
-                                    "modified": "1",
-                                    "targetId": "92884"
-                                }]
-                            }
-                        }
-                    }]
-                }
-            }
-
-            console.log(i_customerId, i_adnetTargetModel.getId(), i_adnetTargetModel.getCustomerId());
-            //todo: find if customer of target exists in pairs
 
 
             // 2. if it doesn't send update and also add customer to pairs
@@ -526,13 +555,15 @@ export class AdnetActions extends Actions {
             // }
 
             this.saveToServer(payload, i_customerId, (jData) => {
+                console.log(i_customerId);
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
                     return alert('problem adding target to packages on server');
                 // model = model.setId(jData.targets.add["0"]) as AdnetTargetModel;
-                // dispatch({
-                //     type: ADD_ADNET_TARGET_TO_PACKAGE,
-                //     model: model
-                // });
+                dispatch({
+                    type: ADD_ADNET_TARGET_TO_PACKAGE,
+                    payload,
+                    targetId: i_adnetTargetModel.getId()
+                });
             })
         };
     }
@@ -820,6 +851,14 @@ export class AdnetActions extends Actions {
     private addPackageContent(packageId, payload) {
         return {
             type: ADD_ADNET_PACKAGE_CONTENT,
+            payload,
+            packageId
+        }
+    }
+
+    private addPackageTarget(packageId, payload) {
+        return {
+            type: ADD_ADNET_TARGET_TO_PACKAGE,
             payload,
             packageId
         }
