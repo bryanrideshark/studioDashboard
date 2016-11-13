@@ -476,11 +476,13 @@ export class AdnetActions extends Actions {
             }
             this.saveToServer((payloadWithNewCustomer || payloadToServer), i_customerId, (jData) => {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
-                    return alert('problem adding target on server');
+                    return alert('problem adding new paired customer on server');
                 //todo: not sure why I need to do two server calls as Pro just does one to add pair and add target in one shot
-                this.saveToServer((payloadToServer), i_customerId, (jData) => {
+                this.saveToServer((payloadToServer), i_customerId, (i_jData) => {
+                    if (_.isUndefined(!i_jData) || _.isUndefined(i_jData.fromChangelistId))
+                        return alert('problem adding target on server');
                     //todo: add new pair customer
-                    // payloadToSave.Key = jData.packages.update["0"].targetIds["0"];
+                    // pai_jDatayloadToSave.Key = jData.packages.update["0"].targetIds["0"];
                     // payloadToSave.Value.id = jData.packages.update["0"].targetIds["0"];
                     // dispatch(this.addPackageTarget(i_adnetPackageModel.getId(), payloadToSave))
                 });
