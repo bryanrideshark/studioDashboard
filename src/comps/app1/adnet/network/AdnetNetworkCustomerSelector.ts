@@ -4,7 +4,8 @@ import {
     Input,
     ViewChild,
     Output,
-    EventEmitter
+    EventEmitter,
+    ChangeDetectorRef
 } from "@angular/core";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
@@ -21,6 +22,7 @@ import {
     IAdNetworkPropSelectedEvent,
     AdnetNetworkPropSelector
 } from "./AdnetNetwork";
+import {Compbaser} from "../../../compbaser/Compbaser";
 
 export interface IPairSelect {
     pairs: List<AdnetPairModel>,
@@ -86,17 +88,19 @@ export interface IPairSelect {
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class AdnetNetworkCustomerSelector {
-    constructor(private appStore: AppStore) {
-        this['me'] = Lib.GetCompSelector(this.constructor)
+export class AdnetNetworkCustomerSelector extends Compbaser {
+    constructor(private appStore: AppStore, private cd: ChangeDetectorRef) {
+        super();
     }
 
     ngOnInit() {
         this.pairs = this.appStore.getState().adnet.getIn(['pairs']) || {};
-        this.unsub = this.appStore.sub((i_pairs: List<AdnetPairModel>) => {
-            this.pairs = i_pairs;
-            this.filterPairs();
-        }, 'adnet.pairs');
+        this.cancelOnDestroy(
+            this.appStore.sub((i_pairs: List<AdnetPairModel>) => {
+                this.pairs = i_pairs;
+                this.filterPairs();
+            }, 'adnet.pairs')
+        );
         this.filterPairs();
         this.listenOnCustomerSelected();
         this.announceChange();
@@ -122,14 +126,14 @@ export class AdnetNetworkCustomerSelector {
 
     @Output() onPairsSelected: EventEmitter<IPairSelect> = new EventEmitter<IPairSelect>();
 
-    private obs: Subscription;
+    // private obs: Subscription;
     private observer: Observer<any>;
     private outgoing = true;
     private pairs: List<AdnetPairModel>
     private pairsFilteredIncoming: List<AdnetPairModel>
     private pairsFilteredOutgoing: List<AdnetPairModel>
     private pairsSelected: List<AdnetPairModel>
-    private unsub: Function;
+    // private unsub: Function;
     private adnetCustomerId: number = -1;
     private adnetCustomerModel: AdnetCustomerModel;
     private packageEditMode: boolean = true;
@@ -139,19 +143,21 @@ export class AdnetNetworkCustomerSelector {
     }
 
     private listenOnCustomerSelected() {
-        this.obs = Observable.create((observer: Observer<any>) => {
-            this.observer = observer;
-        }).debounceTime(50).subscribe((v) => {
-            this.pairsSelected = List<AdnetPairModel>();
-            _.forEach(v, (value, key) => {
-                if (value.selected == true) {
-                    var index = this.getIndex(this.pairs, Number(key))
-                    if (index > -1)
-                        this.pairsSelected = this.pairsSelected.push(this.pairs.get(index));
-                }
+        this.cancelOnDestroy(
+            Observable.create((observer: Observer<any>) => {
+                this.observer = observer;
+            }).debounceTime(50).subscribe((v) => {
+                this.pairsSelected = List<AdnetPairModel>();
+                _.forEach(v, (value, key) => {
+                    if (value.selected == true) {
+                        var index = this.getIndex(this.pairs, Number(key))
+                        if (index > -1)
+                            this.pairsSelected = this.pairsSelected.push(this.pairs.get(index));
+                    }
+                })
+                this.announceChange();
             })
-            this.announceChange();
-        })
+        )
     }
 
     private onSelecting(event) {
@@ -198,6 +204,7 @@ export class AdnetNetworkCustomerSelector {
                 if (i_pair.getToCustomerId() == this.adnetCustomerId) this.pairsFilteredIncoming = this.pairsFilteredIncoming.push(i_pair);
             }
         })
+        this.cd.markForCheck();
     }
 
     private onChanges(event) {
@@ -221,19 +228,19 @@ export class AdnetNetworkCustomerSelector {
             pairsOutgoing: this.outgoing
         }
         this.onPairsSelected.emit(<IPairSelect>data);
-        if (this.pairsSelected && this.pairsSelected.size == 1){
+        if (this.pairsSelected && this.pairsSelected.size == 1) {
             this.onPropSelected.emit({selected: AdnetNetworkPropSelector.PAIR})
 
         }
-        if (this.pairsSelected && this.pairsSelected.size > 1){
+        if (this.pairsSelected && this.pairsSelected.size > 1) {
             this.onPropSelected.emit({selected: AdnetNetworkPropSelector.NONE})
         }
         this.onPackageEditMode.emit(this.packageEditMode)
     }
 
-    private ngOnDestroy() {
-        this.unsub();
-        this.obs.unsubscribe();
-    }
+    // private ngOnDestroy() {
+    //     this.unsub();
+    //     this.obs.unsubscribe();
+    // }
 }
 

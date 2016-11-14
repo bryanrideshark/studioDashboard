@@ -52,6 +52,13 @@ export function adnet(state: Map<string,any> = Map<string,any>(), action: any): 
         }
 
         case AdnetActions.ADD_ADNET_TARGET_NEW: {
+            // look for existing target, if found nothing to do
+            var currentTargets: List<AdnetTargetModel> = state.getIn(['targets']);
+            var found = currentTargets.filter((i_targetModel: AdnetTargetModel) => {
+                return i_targetModel.getId() == action.payload
+            });
+            if (found.size > 0) return state;
+
             var targetsSearch: List<AdnetTargetModel> = state.getIn(['targets_search']);
             var targetModel: AdnetTargetModel = targetsSearch.filter((i_targetModel: AdnetTargetModel) => {
                 return i_targetModel.getId() == action.payload
