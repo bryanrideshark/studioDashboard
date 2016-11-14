@@ -38,12 +38,26 @@ export function adnet(state: Map<string,any> = Map<string,any>(), action: any): 
             return state.setIn(['pairs'], action.pairs);
         }
 
+        case AdnetActions.ADD_ADNET_PAIR: {
+            var pairs = state.getIn(['pairs']).push(action.payload);
+            return state.setIn(['pairs'], pairs);
+        }
+
         case AdnetActions.RECEIVE_PACKAGES: {
             return state.setIn(['packages'], action.packages);
         }
 
         case AdnetActions.RECEIVE_TARGETS: {
             return state.setIn(['targets'], action.targets);
+        }
+
+        case AdnetActions.ADD_ADNET_TARGET_NEW: {
+            var targetsSearch: List<AdnetTargetModel> = state.getIn(['targets_search']);
+            var targetModel: AdnetTargetModel = targetsSearch.filter((i_targetModel: AdnetTargetModel) => {
+                return i_targetModel.getId() == action.payload
+            }).first() as AdnetTargetModel
+            var updTargets:List<AdnetTargetModel> = state.getIn(['targets']).push(targetModel);
+            return state.setIn(['targets'], updTargets);
         }
 
         case AdnetActions.RECEIVE_TARGETS_SEARCH: {

@@ -31,6 +31,7 @@ export const RECEIVE_CUSTOMERS = 'RECEIVE_CUSTOMERS';
 export const RECEIVE_RATES = 'RECEIVE_RATES';
 export const RECEIVE_TARGETS = 'RECEIVE_TARGETS';
 export const RECEIVE_TARGETS_SEARCH = 'RECEIVE_TARGETS_SEARCH';
+export const ADD_ADNET_PAIR = 'ADD_ADNET_PAIR';
 export const RECEIVE_PAIRS = 'RECEIVE_PAIRS';
 export const RECEIVE_PACKAGES = 'RECEIVE_PACKAGES';
 export const UPDATE_ADNET_CUSTOMER = 'UPDATE_ADNET_CUSTOMER';
@@ -40,6 +41,7 @@ export const UPDATE_ADNET_PACKAGE_CONTENT = 'UPDATE_ADNET_PACKAGE_CONTENT';
 export const UPDATE_ADNET_TARGET = 'UPDATE_ADNET_TARGET';
 export const ADD_ADNET_TARGET_WEB = 'ADD_ADNET_TARGET_WEB';
 export const ADD_ADNET_TARGET_TO_PACKAGE = 'ADD_ADNET_TARGET_TO_PACKAGE';
+export const ADD_ADNET_TARGET_NEW = 'ADD_ADNET_TARGET_NEW';
 export const ADD_ADNET_PACKAGE = 'ADD_ADNET_PACKAGE';
 export const ADD_ADNET_PACKAGE_CONTENT = 'ADD_ADNET_PACKAGE_CONTENT';
 export const ADD_ADNET_RATE_TABLE = 'ADD_ADNET_RATE_TABLE';
@@ -412,7 +414,7 @@ export class AdnetActions extends Actions {
     public addAdnetTargetToPackageV2(i_adnetTargetModel: AdnetTargetModel, i_adnetPackageModel: AdnetPackageModel) {
         return (dispatch) => {
             var i_customerId = i_adnetPackageModel.getCustomerId();
-            var payloadWithNewCustomer, payloadToServer, payloadToSave;
+            var payloadToServerWithNewCustomer, payloadToServer, payloadToSave;
             var value = {
                 "id": i_adnetPackageModel.getId(),
                 "handle": "2",
@@ -423,6 +425,7 @@ export class AdnetActions extends Actions {
                         "id": "-1",
                         "handle": "10",
                         "modified": "1",
+                        "deleted": false,
                         "targetId": i_adnetTargetModel.getId()
                     }]
                 }
@@ -435,10 +438,7 @@ export class AdnetActions extends Actions {
                     }]
                 }
             }
-            payloadToSave = {
-                Key: i_adnetPackageModel.getId(),
-                Value: value.packageTargets.add[0]
-            }
+
 
             // find out if this is a new customer that we have not worked with before, and if so, add it to the pairs
             const pairs = this.appStore.getState().adnet.getIn(['pairs']) || {};
@@ -447,7 +447,7 @@ export class AdnetActions extends Actions {
                     return true
             })
             if (pairsFound.size == 0) {
-                payloadWithNewCustomer = {
+                payloadToServerWithNewCustomer = {
                     payloadToServer,
                     "toPairs": {
                         "add": [{
@@ -474,20 +474,48 @@ export class AdnetActions extends Actions {
                     }
                 }
             }
-            this.saveToServer((payloadWithNewCustomer || payloadToServer), i_customerId, (jData) => {
+            this.saveToServer((payloadToServerWithNewCustomer || payloadToServer), i_customerId, (jData) => {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
                     return alert('problem adding new paired customer on server');
                 //todo: not sure why I need to do two server calls as Pro just does one to add pair and add target in one shot
+
                 this.saveToServer((payloadToServer), i_customerId, (i_jData) => {
                     if (_.isUndefined(!i_jData) || _.isUndefined(i_jData.fromChangelistId))
                         return alert('problem adding target on server');
-                    //todo: add new pair customer
-                    // pai_jDatayloadToSave.Key = jData.packages.update["0"].targetIds["0"];
-                    // payloadToSave.Value.id = jData.packages.update["0"].targetIds["0"];
-                    // dispatch(this.addPackageTarget(i_adnetPackageModel.getId(), payloadToSave))
-                });
 
-            })
+                    // add new target by copying it from store > target_search to store > targets
+                    dispatch(this.addTargetNew(i_adnetTargetModel.getId()));
+
+                    // save new pair to store > pairs
+                    if (payloadToServerWithNewCustomer) {
+                        var pairId = jData.fromPairs.add[0];
+                        var pair = payloadToServerWithNewCustomer.toPairs.add[0];
+                        pair.id = pairId;
+                        pair.activated = true;
+                        pair.autoActivate = false;
+                        pair.outPackageIds = [];
+                        pair.summaryReport = [];
+                        pair.totalDebit = 0;
+                        pair.totalTransfer = 0;
+                        pair.transfers = [];
+                        payloadToSave = {
+                            Key: pairId,
+                            Value: pair
+                        }
+                        const adnetPairModel: AdnetPairModel = new AdnetPairModel(payloadToSave);
+                        dispatch(this.addPackagePair(adnetPairModel))
+                    }
+
+                    // add new target to store > package
+                    var targetId = i_jData.packages.update[0].targetIds[0];
+                    value.packageTargets.add[0].id = targetId;
+                    payloadToSave = {
+                        Key: targetId,
+                        Value: value.packageTargets.add[0]
+                    }
+                    dispatch(this.addPackageTarget(i_adnetTargetModel.getId(), payloadToSave))
+                });
+            });
         };
     }
 
@@ -867,6 +895,20 @@ export class AdnetActions extends Actions {
             type: ADD_ADNET_TARGET_TO_PACKAGE,
             payload,
             packageId
+        }
+    }
+
+    private addPackagePair(payload) {
+        return {
+            type: ADD_ADNET_PAIR,
+            payload
+        }
+    }
+
+    private addTargetNew(payload) {
+        return {
+            type: ADD_ADNET_TARGET_NEW,
+            payload
         }
     }
 
@@ -1298,6 +1340,107 @@ var j = {
             "handle": "38",
             "modified": "1",
             "customerId": "13100",
+            "toCustomerId": "29238",
+            "autoActivate": "false",
+            "activated": "false"
+        }]
+    }
+}
+
+
+var i = {
+    "packages": {
+        "update": [{
+            "Key": 3856,
+            "Value": {
+                "id": "3856",
+                "handle": "7",
+                "modified": "0",
+                "customerId": "29238",
+                "packageTargets": {
+                    "add": [{
+                        "id": "-1",
+                        "handle": "98",
+                        "modified": "1",
+                        "targetId": "73622"
+                    }]
+                }
+            }
+        }]
+    }
+}
+
+var ii = {
+    "fromChangelistId": 766960,
+    "fromPairs": {"add": []},
+    "packages": {
+        "add": [],
+        "update": [{
+            "contentIds": [],
+            "packageId": 3856,
+            "targetIds": [11447]
+        }]
+    },
+    "rates": {"add": []},
+    "targets": {"add": []},
+    "toPairs": {"add": []}
+}
+
+
+var l = {
+    "fromChangelistId": 767023,
+    "fromPairs": {"add": [3857]},
+    "packages": {
+        "add": [],
+        "update": [{
+            "contentIds": [],
+            "packageId": 3856,
+            "targetIds": [11462]
+        }]
+    },
+    "rates": {"add": []},
+    "targets": {"add": []},
+    "toPairs": {"add": [3858]}
+}
+
+var ll = {
+    "packages": {
+        "update": [{
+            "Key": 3856,
+            "Value": {
+                "id": "3856",
+                "handle": "1",
+                "modified": "0",
+                "customerId": "29238",
+                "packageTargets": {
+                    "add": [{
+                        "id": "-1",
+                        "handle": "104",
+                        "modified": "1",
+                        "targetId": "9733"
+                    }]
+                }
+            }
+        }]
+    },
+    "toPairs": {
+        "add": [{
+            "id": "-1",
+            "handle": "63",
+            "modified": "1",
+            "customerId": "29238",
+            "toCustomerId": "9653",
+            "friend": "true",
+            "reviewRate": "0",
+            "reviewText": ""
+        }]
+    },
+    "fromPairs": {
+        "add": [{
+            "id": "-1",
+            "handle": "64",
+            "modified": "1",
+            "customerId": "9653",
             "toCustomerId": "29238",
             "autoActivate": "false",
             "activated": "false"
