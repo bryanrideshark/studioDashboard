@@ -24,11 +24,24 @@ import {Compbaser} from "../../../compbaser/Compbaser";
 
 @Component({
     selector: 'AdnetNetworkTarget',
+    styles: [`
+        .disabled {
+            opacity: 0.2;
+            cursor: default;
+        }
+    `],
     changeDetection: ChangeDetectionStrategy.OnPush,
     moduleId: __moduleName,
     template: `
         <small class="release">targets</small>
         <small class="debug">{{me}}</small>
+        
+        <a class="pull-right" style="position: relative; top: 5px; right: 6px" 
+                (click)="$event.preventDefault(); onRemoveContent($event)" 
+                    [ngClass]="{disabled: !selectedTargetModel}" href="#">
+                <span class="remove fa fa-lg fa-times-circle"></span>
+            </a>
+            
         <div [hidden]="!adnetPackageModels && !adnetPairModels">
             <simpleGridTable>
                 <thead>
@@ -71,6 +84,7 @@ export class AdnetNetworkTarget extends Compbaser {
 
     @Input()
     set setAdnetTargetModels(i_adnetTargetModels: List<AdnetTargetModel>) {
+        this.deSelect();
         this.adnetTargetModels = i_adnetTargetModels;
     }
 
@@ -110,6 +124,7 @@ export class AdnetNetworkTarget extends Compbaser {
 
     @ViewChild(SimpleGridTable) simpleGridTable: SimpleGridTable;
 
+    private selectedTargetModel: AdnetTargetModel;
     private adnetCustomerModel: AdnetCustomerModel;
     private adnetTargetModels: List<AdnetTargetModel>
     private adnetPairModels: List<AdnetPairModel>;
@@ -120,6 +135,11 @@ export class AdnetNetworkTarget extends Compbaser {
         field: null,
         desc: false
     };
+
+    private deSelect(){
+        this.selectedTargetModel = null;
+        this.simpleGridTable.deselect();
+    }
 
     private filterTargets() {
         this.adnetTargetModels = List<AdnetTargetModel>();
@@ -187,7 +207,7 @@ export class AdnetNetworkTarget extends Compbaser {
     }
 
     private onGridSelected(simpleGridEdit: ISimpleGridEdit) {
-        // var trg = simpleGridEdit.item as AdnetTargetModel;
+        this.selectedTargetModel = simpleGridEdit.item as AdnetTargetModel;
         this.onAdnetTargetSelected.emit(simpleGridEdit.item as AdnetTargetModel);
         this.onPropSelected.emit({selected: AdnetNetworkPropSelector.TARGET})
     }

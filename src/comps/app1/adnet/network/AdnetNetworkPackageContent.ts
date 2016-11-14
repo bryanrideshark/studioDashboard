@@ -25,10 +25,10 @@ import {Compbaser} from "../../../compbaser/Compbaser";
 @Component({
     selector: 'AdnetNetworkPackageContent',
     styles: [`
-    .disabled {
-        opacity: 0.2;
-        cursor: default;
-    }
+        .disabled {
+            opacity: 0.2;
+            cursor: default;
+        }
     `],
     moduleId: __moduleName,
     template: `
@@ -186,5 +186,3 @@ export class AdnetNetworkPackageContent extends Compbaser {
         desc: false
     };
 }
-
-
