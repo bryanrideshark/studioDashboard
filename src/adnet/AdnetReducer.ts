@@ -8,11 +8,14 @@ import {AdnetRateModel} from "./AdnetRateModel";
 import {StoreModel} from "../models/StoreModel";
 import {AdnetTargetModel} from "./AdnetTargetModel";
 import {AdnetPackageModel} from "./AdnetPackageModel";
+import {Lib} from "../Lib";
 
 export function adnet(state: Map<string,any> = Map<string,any>(), action: any): Map<string,any> {
 
     var getIndex = function (list: List<any>, id: string) {
-        return list.findIndex((i: StoreModel) => i['getId']() === id);
+        var value = list.findIndex((i: StoreModel) => i['getId']() === id);
+        Lib.ErrorOnMinusOne(value, 'Immutable findIndex did not find a match');
+        return value;
     }
 
     switch (action.type) {
@@ -63,7 +66,7 @@ export function adnet(state: Map<string,any> = Map<string,any>(), action: any): 
             var targetModel: AdnetTargetModel = targetsSearch.filter((i_targetModel: AdnetTargetModel) => {
                 return i_targetModel.getId() == action.payload
             }).first() as AdnetTargetModel
-            var updTargets:List<AdnetTargetModel> = state.getIn(['targets']).push(targetModel);
+            var updTargets: List<AdnetTargetModel> = state.getIn(['targets']).push(targetModel);
             return state.setIn(['targets'], updTargets);
         }
 

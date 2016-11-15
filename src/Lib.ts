@@ -115,6 +115,15 @@ export class Lib {
         return value;
     }
 
+    static ErrorOnMinusOne(i_value,i_message){
+        if (i_value===-1){
+            console.log(i_message);
+            if (Lib.DevMode()) {
+                alert(i_message);
+                throw Error(i_message);
+            }
+        }
+    }
     static GetCompSelector(i_constructor) {
         if (!Lib.DevMode())
             return;

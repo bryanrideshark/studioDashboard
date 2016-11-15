@@ -41,19 +41,23 @@ import {Compbaser} from "../../compbaser/Compbaser";
         <br/>
         <h3 style="float: right">{{adnetCustomerName}}</h3>
           <div>
-            <div (click)="$event.preventDefault()">
-              <div class="btn-group" dropdown (onToggle)="toggled($event)" [(isOpen)]="status.isopen">
-                  <button id="single-button" type="button" class="btn btn-primary" dropdownToggle>
-                    Select sub-account 
-                  <span class="caret"></span>
-                </button>
-                  <ul dropdownMenu role="menu" aria-labelledby="single-button">
-                    <li *ngFor="let customer of businesses" (click)="onSelectedAdnetCustomer(customer)" role="menuitem"><a class="dropdown-item" href="#">{{customer.getName()}}</a></li>
-                    <!--<li class="divider dropdown-divider"></li>-->
-                    <!--<li role="menuitem"><a class="dropdown-item" href="#">Separated link</a></li>-->
-                  </ul>
-              </div>
-            </div>
+            <!--<div (click)="$event.preventDefault()">-->
+              <!--<div class="btn-group" dropdown (onToggle)="toggled($event)" [(isOpen)]="status.isopen">-->
+                  <!--<button id="single-button" type="button" class="btn btn-primary" dropdownToggle>-->
+                    <!--Select sub-account -->
+                  <!--<span class="caret"></span>-->
+                <!--</button>-->
+                  <!--<ul dropdownMenu role="menu" aria-labelledby="single-button">-->
+                    <!--<li *ngFor="let customer of businesses" (click)="onSelectedAdnetCustomer(customer)" role="menuitem"><a class="dropdown-item" href="#">{{customer.getName()}}</a></li>-->
+                    <!--&lt;!&ndash;<li class="divider dropdown-divider"></li>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<li role="menuitem"><a class="dropdown-item" href="#">Separated link</a></li>&ndash;&gt;-->
+                  <!--</ul>-->
+              <!--</div>-->
+            <!--</div>-->
+            
+            <!--<p-dropdown [options]="businesses" formControlName="selectedCity"></p-dropdown>-->
+            <p-dropdown [options]="businesses" #dropDown (onChange)="onSelectedAdnetCustomer($event, dropDown.value)" [style]="{'width':'200px'}" [(ngModel)]="selectedBusinessId" filter="filter"></p-dropdown>
+            
           </div>
           <br/>
           <div [@showState]="showState">
@@ -69,43 +73,63 @@ import {Compbaser} from "../../compbaser/Compbaser";
                     </tab>
                 </tabs>
           </div>
-    `
+    `,
+    styles: [`
+        :host >>> .fa-caret-down {
+            position: relative;
+            left: -5px;
+        } 
+        :host >>> .ui-dropdown {
+          padding-right: 1.3em;
+        }
+    `],
 })
 
 export class Adnet extends Compbaser {
 
-    constructor(private appStore: AppStore, private route: ActivatedRoute, private adnetActions: AdnetActions, private localStorage: LocalStorage) {
-        //console.log(this.route.snapshot.data['adnetResolver']);
+    constructor(private appStore: AppStore, private adnetActions: AdnetActions, private localStorage: LocalStorage) {
         super();
 
         //todo: fix if data in localstore is invalid
         this.adnetCustomerId = this.localStorage.getItem('adnet_customer_id');
         this.adnetTokenId = this.localStorage.getItem('adnet_token_id');
-
+        this.businessId = this.localStorage.getItem('business_id');
         this.listenAdnetDataReady();
-        var business = this.appStore.getState().business;
-        this.businesses = business.getIn(['businesses']);
 
+        this.buildBusinessList();
+        this.showDropdownSelection();
         this.cancelOnDestroy(this.appStore.sub((i_businesses: List<BusinessModel>) => {
-            this.businesses = i_businesses
+            this.buildBusinessList();
+            this.showDropdownSelection();
         }, 'business.businesses'))
+    }
+
+    private buildBusinessList() {
+        var business = this.appStore.getState().business;
+        this.businesses = business.getIn(['businesses']).toArray().map((i_businessModel: BusinessModel) => {
+            return {
+                label: i_businessModel.getName(),
+                value: i_businessModel.getBusinessId()
+            }
+        })
     }
 
     ngOnInit() {
         this.cancelOnDestroy(this.appStore.sub((i_adnetCustomerModels: List<AdnetCustomerModel>) => {
             if (!this.adnetCustomerModel)
                 return this.adnetCustomerModel = null;
-            this.adnetCustomerModel = i_adnetCustomerModels.filter((i_customerModel: AdnetCustomerModel)=> {
+            this.adnetCustomerModel = i_adnetCustomerModels.filter((i_customerModel: AdnetCustomerModel) => {
                 return i_customerModel.getId() == this.adnetCustomerModel.getId()
             }).first() as AdnetCustomerModel;
         }, 'adnet.customers'));
     }
 
-
+    private selectedBusinessId = -1;
+    private businessId: number;
     private adnetCustomerId: number = -1;
     private adnetTokenId: number = -1;
     private adnetCustomerName: string = '';
-    private businesses: List<BusinessModel>
+    private businesses: Array<any>;
     private adnetCustomers: List<AdnetCustomerModel>
     private adnetCustomerModel: AdnetCustomerModel;
     private showState: string = 'active';
@@ -113,7 +137,6 @@ export class Adnet extends Compbaser {
     public status: {isopen: boolean} = {isopen: false};
 
     private listenAdnetDataReady() {
-
         this.cancelOnDestroy(this.adnetActions.onAdnetDataReady().subscribe((data) => {
             var adnet = this.appStore.getState().adnet;
             this.adnetCustomers = adnet.getIn(['customers']);
@@ -129,7 +152,16 @@ export class Adnet extends Compbaser {
         }).first() as AdnetCustomerModel;
     }
 
-    public onSelectedAdnetCustomer(i_businessModel: BusinessModel): void {
+    private showDropdownSelection(){
+        if (!this.businesses || !this.businessId)
+            return;
+        var selectedBusinessId = this.businesses.filter((item)=>{
+            return Number(item.value) == this.businessId;
+        })
+        this.selectedBusinessId = selectedBusinessId[0] ? selectedBusinessId[0].value : -1;
+    }
+
+    public onSelectedAdnetCustomer(event, i_businessId: number): void {
         // reset to no selection before loading new selection
         this.showState = 'inactive'
         this.appStore.dispatch(this.adnetActions.resetAdnet());
@@ -138,16 +170,23 @@ export class Adnet extends Compbaser {
             this.adnetCustomerModel = null;
             this.adnetTokenId = null;
         }, 100);
+
+        var business = this.appStore.getState().business;
+        var businessSelected:BusinessModel = business.getIn(['businesses']).filter((i_business:BusinessModel)=>{
+            return i_business.getBusinessId() == i_businessId;
+        }).first() as BusinessModel;
+
         setTimeout(() => {
-            this.adnetCustomerId = i_businessModel.getAdnetCustomerId();
-            this.adnetTokenId = i_businessModel.getAdnetTokenId();
-            this.adnetCustomerName = i_businessModel.getName();
+            this.adnetCustomerId = businessSelected.getAdnetCustomerId();
+            this.adnetTokenId = businessSelected.getAdnetTokenId();
+            this.adnetCustomerName = businessSelected.getName();
 
             if (_.isUndefined(this.adnetCustomerId) || _.isNull(this.adnetCustomerId) || this.adnetCustomerId < 10 || _.isEmpty(this.adnetCustomerId)) {
                 return bootbox.alert('This must be an old account and so it does not have an adnet token. Please login to it directly at least once so we cab generate an Adnet token for it.')
             }
             this.localStorage.setItem('adnet_customer_id', this.adnetCustomerId);
             this.localStorage.setItem('adnet_token_id', this.adnetTokenId);
+            this.localStorage.setItem('business_id', businessSelected.getBusinessId());
             this.appStore.dispatch(this.adnetActions.getAdnet(this.adnetCustomerId, this.adnetTokenId));
             this.showState = 'active'
         }, 110)

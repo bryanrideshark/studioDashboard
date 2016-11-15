@@ -162,6 +162,7 @@ import {AdnetLoader} from "./comps/app1/adnet/AdnetLoader";
 import {InputNumeric} from "./comps/inputnumeric/InputNumeric";
 import {InputString} from "./comps/inputstring/InputString";
 import {InputTextModule} from 'primeng/primeng';
+import {DropdownModule as DropdownModulePrime} from 'primeng/primeng';
 import {Dropbox} from "./comps/dropbox/Dropbox";
 import {TreeModule} from 'primeng/primeng';
 import {Twofactor} from "./comps/twofactor/Twofactor";
@@ -194,12 +195,11 @@ export class Main {
                 styleService: StyleService,
                 private appdbAction: AppdbAction) {
 
-        // force logout
+        // remove cookies
         // this.localStorage.removeItem('remember_me')
-
-        // delete previous selected adnet customer
         // this.localStorage.removeItem('adnet_customer_id')
         // this.localStorage.removeItem('adnet_token_id')
+        // this.localStorage.removeItem('business_id')
 
         // todo: add logic to as when on each env
         // 0 = cloud, 1 = private 2 = hybrid
@@ -344,7 +344,7 @@ var providing = [CommBroker, AUTH_PROVIDERS,
 var decelerations = [Main, RatesTable, UsersDetails, LoginPanel, Menu, MenuItem, Account, Whitelabel, Apps, App1, Users, Adnet, Privileges, Dashboard, Logout, Orders, Filemenu, FilemenuItem, Logo, LogoCompany, Footer, BlurForwarder, InputEdit, OrderBy, SortBy, FilterPipe, AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, ServerStats, ServerAvg, StationsMap, StationsGrid, StationDetails, ImgLoader, Ng2Highcharts, AdnetConfigCustomer, AdnetConfig, StationSnapshot, OrderDetails, SimpleList, PrivilegesDetails, ModalDialog, Infobox, UserStorage, Loading, Samplelist, UserInfo, AddUser, ChangePass, MODAL_DIRECTIVES, Ng2Highstocks, Ng2Highmaps, SimplelistEditable, AdnetConfigTargetStations, AdnetConfigTargetProps, AdnetLocation, MapAddress, AdnetNetwork, AdnetNetworkCustomerSelector, AdnetNetworkPackageEditor, AdnetNetworkPackageViewer, AdnetNetworkTargetSearch, AdnetNetworkPackageProps, AdnetNetworkPackageContent, AdnetNetworkPackageContentProps, AdnetNetworkTarget, AdnetNetworkTargetProps, ResourceViewer, AdnetNetworkPackageViewProps, AdnetNetworkPairProps, AdnetLoader, InputNumeric, InputString, Dropbox, Twofactor];
 
 @NgModule({
-    imports: [BrowserModule, SimpleGridModule.forRoot(), AgmCoreModule.forRoot(), JsonpModule, HttpModule, ReactiveFormsModule, FormsModule, DropdownModule, AccordionModule, routing, TreeModule, InputTextModule],
+    imports: [BrowserModule, SimpleGridModule.forRoot(), AgmCoreModule.forRoot(), JsonpModule, HttpModule, ReactiveFormsModule, FormsModule, DropdownModule, AccordionModule, routing, TreeModule, InputTextModule, DropdownModulePrime],
     providers: [providing],
     declarations: decelerations,
     bootstrap: [Main],
