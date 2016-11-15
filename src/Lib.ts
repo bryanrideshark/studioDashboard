@@ -115,7 +115,14 @@ export class Lib {
         return value;
     }
 
-    static ErrorOnMinusOne(i_value,i_message){
+    /**
+     * CheckFoundIndex will check if a return value is -1 and error out if in dev mode (list.findIndex or indexOf for example)
+     * @param i_value
+     * @param i_message
+     * @returns {number}
+     * @constructor
+     */
+    static CheckFoundIndex(i_value:number, i_message:string = 'CheckFoundIndex did not find index'): number {
         if (i_value===-1){
             console.log(i_message);
             if (Lib.DevMode()) {
@@ -123,7 +130,9 @@ export class Lib {
                 throw Error(i_message);
             }
         }
+        return i_value;
     }
+
     static GetCompSelector(i_constructor) {
         if (!Lib.DevMode())
             return;

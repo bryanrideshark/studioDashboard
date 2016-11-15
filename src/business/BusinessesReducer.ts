@@ -1,6 +1,7 @@
 import {List} from 'immutable';
 import * as BusinessAction from './BusinessAction';
 import {BusinessModel} from "./BusinessModel";
+import {Lib} from "../Lib";
 
 export interface IBusinessAction {
     type: string;
@@ -13,7 +14,8 @@ export interface IBusinessAction {
 export default (state:List<BusinessModel> = List<BusinessModel>(), action:IBusinessAction):List<BusinessModel> => {
 
     function indexOf(businessId:string) {
-        return state.findIndex((i:BusinessModel) => i.getBusinessId() === businessId);
+        var res = state.findIndex((i:BusinessModel) => i.getBusinessId() === businessId);
+        return Lib.CheckFoundIndex(res);
     }
 
     switch (action.type) {

@@ -13,9 +13,8 @@ import {Lib} from "../Lib";
 export function adnet(state: Map<string,any> = Map<string,any>(), action: any): Map<string,any> {
 
     var getIndex = function (list: List<any>, id: string) {
-        var value = list.findIndex((i: StoreModel) => i['getId']() === id);
-        Lib.ErrorOnMinusOne(value, 'Immutable findIndex did not find a match');
-        return value;
+        var res = list.findIndex((i: StoreModel) => i['getId']() === id);
+        return Lib.CheckFoundIndex(res, 'adnet: Immutable findIndex did not find a match');
     }
 
     switch (action.type) {

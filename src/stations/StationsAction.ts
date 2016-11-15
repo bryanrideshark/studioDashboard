@@ -20,6 +20,7 @@ import {Consts} from "../Conts";
 import * as _ from 'lodash'
 import * as bootbox from 'bootbox';
 import * as xml2js from 'xml2js'
+import {Lib} from "../Lib";
 
 export const RECEIVE_STATIONS = 'RECEIVE_STATIONS';
 export const RECEIVE_STATIONS_GEO = 'RECEIVE_STATIONS_GEO';
@@ -44,6 +45,7 @@ export class StationsAction extends Actions {
         var stationIndex = stations.findIndex((stationModel:StationModel) => {
             return stationModel.getKey('businessId') === i_businessId && stationModel.getKey('id') == i_stationId;
         });
+        Lib.CheckFoundIndex(stationIndex);
         var station:StationModel = stations.get(stationIndex);
         return station.getLocation();
     }

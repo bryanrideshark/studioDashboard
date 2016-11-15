@@ -4,6 +4,7 @@ import * as BusinessAction from './BusinessAction';
 import businessesReducer from '../business/BusinessesReducer';
 import {BusinessModel} from "./BusinessModel";
 import {BusinessUser} from "./BusinessUser";
+import {Lib} from "../Lib";
 
 export function business(state:Map<string,any> = Map<string,any>(), action:any):Map<string,any> {
 
@@ -43,7 +44,8 @@ export function business(state:Map<string,any> = Map<string,any>(), action:any):
         {
             var businesses:List<BusinessModel> = state.getIn(['businesses'])
             var indexOfBusiness = function(businessId:string) {
-                return businesses.findIndex((i:BusinessModel) => i.getBusinessId() === businessId);
+                var res = businesses.findIndex((i:BusinessModel) => i.getBusinessId() === businessId);
+                return Lib.CheckFoundIndex(res);
             }
             businesses = businesses.update(indexOfBusiness(action.payload.businessId), (business:BusinessModel) => {
                 var updBusiness:BusinessModel = business.setKey<BusinessModel>(BusinessModel, 'name', action.payload.name)

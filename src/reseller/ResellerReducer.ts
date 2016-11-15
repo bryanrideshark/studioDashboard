@@ -19,6 +19,7 @@ export function reseller(state:Map<string,any> = Map<string,any>(), action:any):
         {
             var appModels:List<AppModel> = state.getIn(['apps']);
             var index = appModels.findIndex((i:AppModel) => i.getAppId() === action.app.getAppId());
+            Lib.CheckFoundIndex(index);
             appModels = appModels.update(index, (appModel:AppModel) => {
                 return appModel.setKey<AppModel>(AppModel, 'installed', action.mode)
             });

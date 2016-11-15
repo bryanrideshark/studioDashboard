@@ -91,15 +91,17 @@ export class BusinessAction extends Actions {
     }
 
     public findBusinessIndex(business:BusinessModel|BusinessUser, businesses:List<BusinessModel|BusinessUser>):number {
-        return businesses.findIndex((i_business:BusinessModel|BusinessUser)=> {
+        var res = businesses.findIndex((i_business:BusinessModel|BusinessUser)=> {
             return i_business.getBusinessId() === business.getBusinessId();
         });
+        return Lib.CheckFoundIndex(res);
     }
 
     public findBusinessIndexById(businessId:string, businesses:List<BusinessModel|BusinessUser>):number {
-        return businesses.findIndex((i_business:BusinessModel|BusinessUser)=> {
+        var res = businesses.findIndex((i_business:BusinessModel|BusinessUser)=> {
             return businessId === i_business.getBusinessId();
         });
+        return Lib.CheckFoundIndex(res);
     }
 
     public getSamples() {
@@ -178,7 +180,7 @@ export class BusinessAction extends Actions {
         var appdb:Map<string,any> = this.appStore.getState().appdb;
         var url;
         url = appdb.get('appBaseUrlUser') + `&command=GetUserPass&customerUserName=${customerUserName}`;
-        console.log(url);
+        // console.log(url);
         this._http.get(url)
             .catch((err) => {
                 bootbox.alert('Problem getting user password');
