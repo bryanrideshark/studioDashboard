@@ -47,6 +47,7 @@ export const ADD_ADNET_PACKAGE_CONTENT = 'ADD_ADNET_PACKAGE_CONTENT';
 export const ADD_ADNET_RATE_TABLE = 'ADD_ADNET_RATE_TABLE';
 export const REMOVE_ADNET_RATE_TABLE = 'REMOVE_ADNET_RATE_TABLE';
 export const REMOVE_ADNET_TARGET = 'REMOVE_ADNET_TARGET';
+export const REMOVE_ADNET_TARGET_WEB = 'REMOVE_ADNET_TARGET_WEB';
 export const REMOVE_ADNET_PACKAGE = 'REMOVE_ADNET_PACKAGE';
 export const REMOVE_ADNET_PACKAGE_CONTENT = 'REMOVE_ADNET_PACKAGE_CONTENT';
 export const RENAME_ADNET_RATE_TABLE = 'RENAME_ADNET_RATE_TABLE';
@@ -569,7 +570,39 @@ export class AdnetActions extends Actions {
         };
     }
 
-    public removeAdnetTarget(payload: any, customerId: string) {
+    public removeAdnetTarget(i_targetId, i_adnetPackageModel: AdnetPackageModel) {
+        return (dispatch) => {
+            var payload = {
+                "packages": {
+                    "update": [{
+                        "Key": i_adnetPackageModel.getId(),
+                        "Value": {
+                            "id": i_adnetPackageModel.getId(),
+                            "handle": "1",
+                            "modified": "0",
+                            "customerId": i_adnetPackageModel.getCustomerId(),
+                            "packageTargets": {"delete": [i_targetId]}
+                        }
+                    }]
+                }
+            }
+
+            this.saveToServer(payload, i_adnetPackageModel.getCustomerId(), (jData) => {
+                if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
+                    return alert('problem removing adnet target package from server');
+                dispatch({
+                    type: REMOVE_ADNET_TARGET,
+                    payload: {
+                        packageId: i_adnetPackageModel.getId(),
+                        targetId: i_targetId,
+                    }
+
+                });
+            })
+        };
+    }
+
+    public removeAdnetTargetWeb(payload: any, customerId: string) {
         return (dispatch) => {
             var payloadToServer = {
                 "targets": {
@@ -580,7 +613,7 @@ export class AdnetActions extends Actions {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
                     return alert('problem updating rate table to server');
                 dispatch({
-                    type: REMOVE_ADNET_TARGET,
+                    type: REMOVE_ADNET_TARGET_WEB,
                     id: payload
                 });
             })
@@ -913,97 +946,35 @@ export class AdnetActions extends Actions {
 var a = {
     "packages": {
         "update": [{
-            "Key": 3969,
+            "Key": 4169,
             "Value": {
-                "id": "3969",
-                "handle": "0",
+                "id": "4169",
+                "handle": "5",
                 "modified": "0",
-                "customerId": "32158",
-                "packageTargets": {
-                    "add": [{
-                        "id": "-1",
-                        "handle": "1",
-                        "modified": "1",
-                        "targetId": "93758"
-                    }]
-                }
+                "customerId": "32160",
+                "packageTargets": {"delete": [11929]}
             }
-        }]
-    },
-    "toPairs": {
-        "add": [{
-            "id": "-1",
-            "handle": "2",
-            "modified": "1",
-            "customerId": "32158",
-            "toCustomerId": "21435",
-            "friend": "true",
-            "reviewRate": "0",
-            "reviewText": ""
-        }]
-    },
-    "fromPairs": {
-        "add": [{
-            "id": "-1",
-            "handle": "3",
-            "modified": "1",
-            "customerId": "21435",
-            "toCustomerId": "32158",
-            "autoActivate": "false",
-            "activated": "false"
         }]
     }
 }
-
 var b = {
     "packages": {
-        "add": [{
-            "id": "-1",
-            "handle": "0",
-            "modified": "1",
-            "customerId": "32158",
-            "label": "Package",
-            "enabled": "true",
-            "playMode": "0",
-            "channel": "0",
-            "startDate": "/Date(1479169692714)/",
-            "endDate": "/Date(1479169692714)/",
-            "daysMask": "127",
-            "hourStart": "0",
-            "hourEnd": "23",
-            "autoAddSiblings": "false",
-            "siblingsKey": "null",
-            "packageTargets": {
-                "add": [{
-                    "id": "-1",
-                    "handle": "0",
-                    "modified": "1",
-                    "targetId": "56615"
-                }]
+        "update": [{
+            "Key": 4180,
+            "Value": {
+                "id": "4180",
+                "handle": "5",
+                "modified": "0",
+                "customerId": "32160",
+                "packageTargets": {
+                    "add": [{
+                        "id": "-1",
+                        "handle": "34",
+                        "modified": "1",
+                        "targetId": "98274"
+                    }]
+                }
             }
-        }]
-    },
-    "toPairs": {
-        "add": [{
-            "id": "-1",
-            "handle": "0",
-            "modified": "1",
-            "customerId": "32158",
-            "toCustomerId": "17302",
-            "friend": "true",
-            "reviewRate": "0",
-            "reviewText": ""
-        }]
-    },
-    "fromPairs": {
-        "add": [{
-            "id": "-1",
-            "handle": "1",
-            "modified": "1",
-            "customerId": "17302",
-            "toCustomerId": "32158",
-            "autoActivate": "false",
-            "activated": "false"
         }]
     }
 }

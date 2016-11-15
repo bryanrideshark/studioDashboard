@@ -92,7 +92,7 @@ export class AdnetConfigTargetStations {
     private onRemoveWeb() {
         if (this.isWebLocation())
             return;
-        this.appStore.dispatch(this.adnetAction.removeAdnetTarget(this.selectedAdnetTargetModel.getId(), this.customerModel.customerId()));
+        this.appStore.dispatch(this.adnetAction.removeAdnetTargetWeb(this.selectedAdnetTargetModel.getId(), this.customerModel.customerId()));
         this.simpleList.deselect();
 
     }

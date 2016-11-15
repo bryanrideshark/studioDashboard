@@ -21,6 +21,7 @@ import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
 import {AppStore} from "angular2-redux-util";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {Compbaser} from "../../../compbaser/Compbaser";
+import {AdnetActions} from "../../../../adnet/AdnetActions";
 
 @Component({
     selector: 'AdnetNetworkTarget',
@@ -37,12 +38,12 @@ import {Compbaser} from "../../../compbaser/Compbaser";
         <small class="debug">{{me}}</small>
         
         <a class="pull-right" style="position: relative; top: 5px; right: 6px" 
-                (click)="$event.preventDefault(); onRemoveContent($event)" 
+                (click)="$event.preventDefault(); onRemoveTarget($event)" 
                     [ngClass]="{disabled: !selectedTargetModel}" href="#">
                 <span class="remove fa fa-lg fa-times-circle"></span>
             </a>
             
-        <div [hidden]="!adnetPackageModels && !adnetPairModels">
+        <div [hidden]="!adnetPackageModel && !adnetPairModels">
             <simpleGridTable>
                 <thead>
                 <tr>
@@ -72,7 +73,7 @@ import {Compbaser} from "../../../compbaser/Compbaser";
 })
 
 export class AdnetNetworkTarget extends Compbaser {
-    constructor(private appStore: AppStore, private cd:ChangeDetectorRef) {
+    constructor(private appStore: AppStore, private adnetActions: AdnetActions, private cd: ChangeDetectorRef) {
         super();
         this.cancelOnDestroy(
             this.appStore.sub((i_adnetPackageModels: List<AdnetPackageModel>) => {
@@ -91,7 +92,7 @@ export class AdnetNetworkTarget extends Compbaser {
     @Input()
     set setAdnetPackageModels(i_adnetPackageModels: AdnetPackageModel) {
         this.simpleGridTable.deselect();
-        this.adnetPackageModels = i_adnetPackageModels;
+        this.adnetPackageModel = i_adnetPackageModels;
         // if (!this.adnetPackageModels)
         //     return;
     }
@@ -128,7 +129,7 @@ export class AdnetNetworkTarget extends Compbaser {
     private adnetCustomerModel: AdnetCustomerModel;
     private adnetTargetModels: List<AdnetTargetModel>
     private adnetPairModels: List<AdnetPairModel>;
-    private adnetPackageModels: AdnetPackageModel;
+    private adnetPackageModel: AdnetPackageModel;
     private pairOutgoing: boolean;
 
     public sort: {field: string, desc: boolean} = {
@@ -136,9 +137,20 @@ export class AdnetNetworkTarget extends Compbaser {
         desc: false
     };
 
-    private deSelect(){
+    private deSelect() {
         this.selectedTargetModel = null;
         this.simpleGridTable.deselect();
+    }
+
+    private onRemoveTarget(event) {
+        if (!this.selectedTargetModel)
+            return;
+        var targetId = -1;
+        this.adnetPackageModel.getTargets().map((i_target) => {
+            if (i_target['Value']['targetId'] == this.selectedTargetModel.getId())
+                targetId = i_target['Key'];
+        })
+        this.appStore.dispatch(this.adnetActions.removeAdnetTarget(targetId, this.adnetPackageModel));
     }
 
     private filterTargets() {
@@ -181,7 +193,7 @@ export class AdnetNetworkTarget extends Compbaser {
                             // if (i_adnetPairModels.active() == false && i_adnetPairModels.autoActivated() == false)
                             //     return;
                             //todo: give an enabled on / off in UI
-                            if (i_adnetTargetModel.getEnabled()==false)
+                            if (i_adnetTargetModel.getEnabled() == false)
                                 return;
                             var cusTotId = i_adnetPairModels.getToCustomerId();
                             var custId = i_adnetPairModels.getCustomerId();

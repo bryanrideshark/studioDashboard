@@ -218,6 +218,27 @@ export function adnet(state: Map<string,any> = Map<string,any>(), action: any): 
         }
 
         case AdnetActions.REMOVE_ADNET_TARGET: {
+            var packages: List<AdnetPackageModel> = state.getIn(['packages'])
+            var adnetPackageModel;
+            packages = packages.update(getIndex(packages, action.payload.packageId), (i_package: AdnetPackageModel) => {
+                var targets = i_package.getTargets();
+                for (var i = 0; i < targets.length; i++) {
+                    var target = targets[i];
+                    if (target['Value'].deleted)
+                        continue;
+                    if (target['Key'] != action.payload.targetId)
+                        continue;
+                    targets.splice(i, 1);
+                    var packageData = i_package.getData().toJS();
+                    packageData.Value.targets = targets;
+                    return i_package.setData<AdnetPackageModel>(AdnetPackageModel, packageData)
+                }
+                return adnetPackageModel;
+            });
+            return state.setIn(['packages'], packages);
+        }
+
+        case AdnetActions.REMOVE_ADNET_TARGET_WEB: {
             var targets: List<AdnetTargetModel> = state.getIn(['targets']);
             var updTargetList: List<AdnetTargetModel> = targets.filter((model: AdnetTargetModel) => model.getId() !== action.id) as List<AdnetTargetModel>;
             return state.setIn(['targets'], updTargetList);
