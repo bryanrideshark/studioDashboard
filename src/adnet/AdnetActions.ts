@@ -513,7 +513,7 @@ export class AdnetActions extends Actions {
                         Key: targetId,
                         Value: value.packageTargets.add[0]
                     }
-                    dispatch(this.addPackageTarget(i_adnetTargetModel.getId(), payloadToSave))
+                    dispatch(this.addPackageTarget(i_adnetPackageModel.getId(), payloadToSave))
                 });
             });
         };
@@ -906,5 +906,104 @@ export class AdnetActions extends Actions {
                 payload: {}
             });
         };
+    }
+}
+
+
+var a = {
+    "packages": {
+        "update": [{
+            "Key": 3969,
+            "Value": {
+                "id": "3969",
+                "handle": "0",
+                "modified": "0",
+                "customerId": "32158",
+                "packageTargets": {
+                    "add": [{
+                        "id": "-1",
+                        "handle": "1",
+                        "modified": "1",
+                        "targetId": "93758"
+                    }]
+                }
+            }
+        }]
+    },
+    "toPairs": {
+        "add": [{
+            "id": "-1",
+            "handle": "2",
+            "modified": "1",
+            "customerId": "32158",
+            "toCustomerId": "21435",
+            "friend": "true",
+            "reviewRate": "0",
+            "reviewText": ""
+        }]
+    },
+    "fromPairs": {
+        "add": [{
+            "id": "-1",
+            "handle": "3",
+            "modified": "1",
+            "customerId": "21435",
+            "toCustomerId": "32158",
+            "autoActivate": "false",
+            "activated": "false"
+        }]
+    }
+}
+
+var b = {
+    "packages": {
+        "add": [{
+            "id": "-1",
+            "handle": "0",
+            "modified": "1",
+            "customerId": "32158",
+            "label": "Package",
+            "enabled": "true",
+            "playMode": "0",
+            "channel": "0",
+            "startDate": "/Date(1479169692714)/",
+            "endDate": "/Date(1479169692714)/",
+            "daysMask": "127",
+            "hourStart": "0",
+            "hourEnd": "23",
+            "autoAddSiblings": "false",
+            "siblingsKey": "null",
+            "packageTargets": {
+                "add": [{
+                    "id": "-1",
+                    "handle": "0",
+                    "modified": "1",
+                    "targetId": "56615"
+                }]
+            }
+        }]
+    },
+    "toPairs": {
+        "add": [{
+            "id": "-1",
+            "handle": "0",
+            "modified": "1",
+            "customerId": "32158",
+            "toCustomerId": "17302",
+            "friend": "true",
+            "reviewRate": "0",
+            "reviewText": ""
+        }]
+    },
+    "fromPairs": {
+        "add": [{
+            "id": "-1",
+            "handle": "1",
+            "modified": "1",
+            "customerId": "17302",
+            "toCustomerId": "32158",
+            "autoActivate": "false",
+            "activated": "false"
+        }]
     }
 }
