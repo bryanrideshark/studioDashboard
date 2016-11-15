@@ -35,7 +35,7 @@ import {Compbaser} from "../../../compbaser/Compbaser";
             <small class="release pull-right">content</small><small class="debug">{{me}}</small>
             <a class="pull-right" style="position: relative; top: 5px; right: 6px" 
                 (click)="$event.preventDefault(); onRemoveContent($event)" 
-                    [ngClass]="{disabled: !selectedAdnetContentModel}" href="#">
+                    [ngClass]="{disabled: !selectedAdnetContentModel || editMode == false}" href="#">
                 <span class="remove fa fa-lg fa-times-circle"></span>
             </a>
             <div [hidden]="!adnetPackageModels">
@@ -124,6 +124,8 @@ export class AdnetNetworkPackageContent extends Compbaser {
         this.updateModel();
     }
 
+    @Input() editMode:boolean = false;
+
     @Input()
     set setAdnetPackagePlayMode(i_setAdnetPackagePlayMode: AdnetPackagePlayMode) {
         if (_.isUndefined(i_setAdnetPackagePlayMode))
@@ -136,7 +138,7 @@ export class AdnetNetworkPackageContent extends Compbaser {
     @Output() onAdnetContentSelected: EventEmitter<AdnetContentModel> = new EventEmitter<AdnetContentModel>();
 
     private onRemoveContent(event) {
-        if (!this.selectedAdnetContentModel)
+        if (!this.selectedAdnetContentModel || this.editMode == false)
             return;
         console.log('removing content ' + this.selectedAdnetContentModel.getId());
         this.appStore.dispatch(this.adnetActions.removeAdnetPackageContent(this.adnetPackageModels, this.selectedAdnetContentModel.getId()));
@@ -186,3 +188,5 @@ export class AdnetNetworkPackageContent extends Compbaser {
         desc: false
     };
 }
+
+

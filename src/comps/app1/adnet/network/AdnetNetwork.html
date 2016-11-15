@@ -31,6 +31,7 @@
                         <div style="min-height: 300px; overflow-y: scroll; height: 300px">
                             <AdnetNetworkPackageContent (onPropSelected)="onPropSelected('packagesTab', $event)"
                                                         (onAdnetContentSelected)="onAdnetContentSelected('packagesTab',$event)"
+                                                        [editMode]="true"
                                                         [setAdnetPackagePlayMode]="selectedAdnetPackagePlayMode_tab_packages"
                                                         [setAdnetPackageModels]="selectedAdnetPackageModel_tab_packages">
                             </AdnetNetworkPackageContent>
@@ -38,6 +39,7 @@
                         <hr/>
                         <AdnetNetworkTarget [setAdnetTargetModels]="selectedAdnetTargetModels"
                                             [setAdnetPackageModels]="selectedAdnetPackageModel_tab_packages"
+                                            [editMode]="true"
                                             (onPropSelected)="onPropSelected('packagesTab', $event)"
                                             (onAdnetTargetSelected)="onAdnetTargetSelected('packagesTab',$event)">
                         </AdnetNetworkTarget>

@@ -39,7 +39,7 @@ import {AdnetActions} from "../../../../adnet/AdnetActions";
         
         <a class="pull-right" style="position: relative; top: 5px; right: 6px" 
                 (click)="$event.preventDefault(); onRemoveTarget($event)" 
-                    [ngClass]="{disabled: !selectedTargetModel}" href="#">
+                    [ngClass]="{disabled: !selectedTargetModel || editMode == false}" href="#">
                 <span class="remove fa fa-lg fa-times-circle"></span>
             </a>
             
@@ -105,6 +105,8 @@ export class AdnetNetworkTarget extends Compbaser {
         this.filterTargets();
     }
 
+    @Input() editMode:boolean = false;
+
     @Input()
     set setAdnetPairModels(i_adnetPairModels: List<AdnetPairModel>) {
         this.simpleGridTable.deselect();
@@ -143,7 +145,7 @@ export class AdnetNetworkTarget extends Compbaser {
     }
 
     private onRemoveTarget(event) {
-        if (!this.selectedTargetModel)
+        if (!this.selectedTargetModel || this.editMode == false)
             return;
         var targetId = -1;
         this.adnetPackageModel.getTargets().map((i_target) => {
@@ -224,3 +226,6 @@ export class AdnetNetworkTarget extends Compbaser {
         this.onPropSelected.emit({selected: AdnetNetworkPropSelector.TARGET})
     }
 }
+
+
+
