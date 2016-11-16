@@ -61,7 +61,7 @@ export enum ContentTypeEnum {
 @Injectable()
 export class AdnetActions extends Actions {
 
-    constructor(@Inject('OFFLINE_ENV') private offlineEnv, private appStore: AppStore, private _http: Http, private commBroker: CommBroker) {
+    constructor(@Inject('OFFLINE_ENV') private offlineEnv, private appStore: AppStore, private _http: Http) {
         super(appStore);
         this.m_parseString = xml2js.parseString;
         this.adnetRouteReady$ = new ReplaySubject(2 /* buffer size */);
@@ -88,9 +88,16 @@ export class AdnetActions extends Actions {
         const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetSave').replace(':ADNET_CUSTOMER_ID:', i_customerId).replace(':ADNET_TOKEN_ID:', adnetTokenId).replace(':DATA:', data);
         this._http.get(baseUrl)
             .map(result => {
-                var jData: Object = result.json()
-                if (i_callBack)
-                    i_callBack(jData);
+                try {
+                    var jData: Object = result.json()
+                    if (i_callBack)
+                        i_callBack(jData);
+                } catch (e) {
+                    bootbox.alert('problem saving data to server')
+                    if (Lib.DevMode())
+                        throw new Error(`could not convert json data  ${e} ${e.stack}`)
+                }
+
             }).subscribe()
     }
 
@@ -199,28 +206,61 @@ export class AdnetActions extends Actions {
         };
     }
 
-    public saveTargetInfo(data: Object, adnetTargetId: string, adnetCustomerId: string) {
+    public saveTargetCoordinates(data: Object, i_adnetTargetModel:AdnetTargetModel, i_adnetCustomer:AdnetCustomerModel) {
         return (dispatch) => {
-            if (_.isUndefined(data['rateId']) || data['rateId'].length == 0) data['rateId'] = -1;
-
             const payload = {
                 Value: data,
-                Key: adnetTargetId
+                Key: i_adnetTargetModel.getId()
             };
             var payloadToServer = {
                 "targets": {
                     "update": [{
-                        Key: adnetTargetId,
+                        Key: i_adnetTargetModel.getId(),
                         Value: _.extend(payload.Value, {
-                            id: adnetTargetId,
+                            id: i_adnetTargetModel.getId(),
                             handle: 0,
                             modified: 1,
-                            hRate: -1
+                            hRate: i_adnetTargetModel.getHandleRateId()
                         })
                     }]
                 }
             }
-            this.saveToServer(payloadToServer, adnetCustomerId, (jData) => {
+            this.saveToServer(payloadToServer, i_adnetCustomer.getId(), (jData) => {
+                if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
+                    return alert('problem updating targets table on server');
+                dispatch(this.updateAdnetTarget(payload))
+            })
+        };
+    }
+
+    public saveTargetInfo(data: Object, i_adnetTargetModel:AdnetTargetModel, i_adnetCustomer:AdnetCustomerModel) {
+        return (dispatch) => {
+            var payloadToServer = {
+                "targets": {
+                    "update": [{
+                        "Key": i_adnetTargetModel.getId(),
+                        "Value": {
+                            "id": i_adnetTargetModel.getId(),
+                            "handle": 0,
+                            "modified": 1,
+                            "customerId": i_adnetCustomer.getId(),
+                            "label": data['label'],
+                            "targetType": data['targetType'],
+                            "enabled": data['enabled'],
+                            "locationLat": data['locationLat'],
+                            "locationLng": data['locationLng'],
+                            "targetDomain": data['targetDomain'],
+                            "rateId": data['rateId'],
+                            "hRate": i_adnetTargetModel.getHandleRateId(),
+                            "keys": data['keys'],
+                            "comments": data['comments'],
+                            "url": data['url']
+                        }
+                    }]
+                }
+            }
+            var payload = payloadToServer.targets.update[0];
+            this.saveToServer(payloadToServer, i_adnetCustomer.getId(), (jData) => {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
                     return alert('problem updating targets table on server');
                 dispatch(this.updateAdnetTarget(payload))
@@ -372,7 +412,7 @@ export class AdnetActions extends Actions {
         };
     }
 
-    public addAdnetTarget(customerId) {
+    public addAdnetTargetWeb(customerId) {
         return (dispatch) => {
             var payload = {
                 Key: -1,
@@ -404,6 +444,7 @@ export class AdnetActions extends Actions {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
                     return alert('problem saving rate table to server');
                 model = model.setId(jData.targets.add["0"]) as AdnetTargetModel;
+
                 dispatch({
                     type: ADD_ADNET_TARGET_WEB,
                     model: model
@@ -412,7 +453,7 @@ export class AdnetActions extends Actions {
         };
     }
 
-    public addAdnetTargetToPackageV2(i_adnetTargetModel: AdnetTargetModel, i_adnetPackageModel: AdnetPackageModel) {
+    public addAdnetTargetToPackage(i_adnetTargetModel: AdnetTargetModel, i_adnetPackageModel: AdnetPackageModel) {
         return (dispatch) => {
             var i_customerId = i_adnetPackageModel.getCustomerId();
             var payloadToServerWithNewCustomer, payloadToServer, payloadToSave;
@@ -612,6 +653,7 @@ export class AdnetActions extends Actions {
             this.saveToServer(payloadToServer, customerId, (jData) => {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
                     return alert('problem updating rate table to server');
+
                 dispatch({
                     type: REMOVE_ADNET_TARGET_WEB,
                     id: payload
@@ -944,36 +986,59 @@ export class AdnetActions extends Actions {
 
 
 var a = {
-    "packages": {
-        "update": [{
-            "Key": 4169,
-            "Value": {
-                "id": "4169",
-                "handle": "5",
-                "modified": "0",
-                "customerId": "32160",
-                "packageTargets": {"delete": [11929]}
-            }
+    "targets": {
+        "add": [{
+            "id": "-1",
+            "handle": "39",
+            "modified": "1",
+            "customerId": "32164",
+            "label": "www.yourdomain.com",
+            "targetType": "2",
+            "enabled": "false",
+            "locationLat": "0",
+            "locationLng": "0",
+            "targetDomain": "www.yourdomain.com",
+            "rateId": "-1",
+            "hRate": "-1",
+            "keys": "null",
+            "comments": "",
+            "url": ""
         }]
     }
 }
+
 var b = {
+    "fromChangelistId": 771152,
+    "fromPairs": {"add": []},
     "packages": {
+        "add": [],
+        "update": []
+    },
+    "rates": {"add": []},
+    "targets": {"add": [100944]},
+    "toPairs": {"add": []}
+}
+
+var c = {
+    "targets": {
         "update": [{
-            "Key": 4180,
+            "Key": 100965,
             "Value": {
-                "id": "4180",
-                "handle": "5",
-                "modified": "0",
-                "customerId": "32160",
-                "packageTargets": {
-                    "add": [{
-                        "id": "-1",
-                        "handle": "34",
-                        "modified": "1",
-                        "targetId": "98274"
-                    }]
-                }
+                "id": "100965",
+                "handle": "40",
+                "modified": "1",
+                "customerId": "32164",
+                "label": "www.yourdomain.com",
+                "targetType": "2",
+                "enabled": "false",
+                "locationLat": "0",
+                "locationLng": "0",
+                "targetDomain": "www.yourdomain.com",
+                "rateId": "-1",
+                "hRate": "-1",
+                "keys": "1111",
+                "comments": "",
+                "url": ""
             }
         }]
     }

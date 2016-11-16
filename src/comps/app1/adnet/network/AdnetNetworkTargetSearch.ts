@@ -218,7 +218,7 @@ export class AdnetNetworkTargetSearch extends Compbaser {
             return bootbox.alert('first select a Package from the above accordion Packages tab, to add this file onto your selected package')
         this.selectedAdnetTargetModel = (this.simpleList.getSelected() as ISimpleListItem).item;
         this.appStore.dispatch(
-            this.adnetAction.addAdnetTargetToPackageV2(
+            this.adnetAction.addAdnetTargetToPackage(
                 this.selectedAdnetTargetModel,
                 this.adnetPackageModels
             )

@@ -5,8 +5,11 @@ export class AdnetTargetModel extends StoreModel {
         super(data);
     }
 
-    public setId(value) {
-        return this.setKey<AdnetTargetModel>(AdnetTargetModel,'Key',value);
+    public setId(value): AdnetTargetModel {
+        var targetData = this.getData().toJS();
+        targetData['Key'] = value;
+        targetData['Value'].id = value;
+        return this.setData<AdnetTargetModel>(AdnetTargetModel, targetData);
     }
 
     public getId() {
@@ -32,11 +35,18 @@ export class AdnetTargetModel extends StoreModel {
             lat = 0;
         if (!lng)
             lng = 0;
-        return {lat, lng};
+        return {
+            lat,
+            lng
+        };
     }
 
     public getRateId() {
         return this.getKey('Value').rateId || ''
+    }
+
+    public getHandleRateId() {
+        return -1;
         // return this.getKey('Value').hRate;
     }
 

@@ -133,8 +133,8 @@ export class AdnetConfigTargetProps {
         setTimeout(() => {
             let payload = Lib.CleanCharForXml(this.contGroup.value);
             payload.customerId = this.adnetCustomerModel.customerId();
-            this.appStore.dispatch(this.adnetAction.saveTargetInfo(payload, this.targetModel.getId(), this.adnetCustomerModel.customerId()))
-        }, 100)
+            this.appStore.dispatch(this.adnetAction.saveTargetInfo(payload, this.targetModel, this.adnetCustomerModel))
+        }, 10)
     }
 
     private renderFormInputs() {

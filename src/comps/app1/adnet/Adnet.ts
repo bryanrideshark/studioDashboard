@@ -105,8 +105,10 @@ export class Adnet extends Compbaser {
     }
 
     private buildBusinessList() {
-        var business = this.appStore.getState().business;
-        this.businesses = business.getIn(['businesses']).toArray().map((i_businessModel: BusinessModel) => {
+        var bus = this.appStore.getState().business.getIn(['businesses']);
+        if (!bus)
+            return
+        this.businesses = bus.toArray().map((i_businessModel: BusinessModel) => {
             return {
                 label: i_businessModel.getName(),
                 value: i_businessModel.getBusinessId()
