@@ -33,11 +33,11 @@
 
 
 <br/>
-<!--<div *ngIf="showUserInfo == 'null' || !m_businesses || m_businesses.size == 0">--><!--<h1 class="embossed">USER DETAILS</h1>--><!--<h6 class="embossedSmaller embossed">select user(s) from the list to load up the related properties</h6>--><!--</div>-->
+<!--<div *ngIf="showUserInfo == 'null' || !m_businessUsers || m_businessUsers.size == 0">--><!--<h1 class="embossed">USER DETAILS</h1>--><!--<h6 class="embossedSmaller embossed">select user(s) from the list to load up the related properties</h6>--><!--</div>-->
 <div *ngIf="showUserInfo">
   <UserInfo [user]="showUserInfo"></UserInfo>
 </div>
-<div *ngIf="m_businesses && m_businesses.size > 0 && !showUserInfo">
+<div *ngIf="m_businessUsers && m_businessUsers.size > 0 && !showUserInfo">
   <simpleGridTable>
     <thead>
     <tr>
@@ -49,7 +49,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr class="simpleGridRecord" simpleGridRecord *ngFor="let item of m_businesses | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">
+    <tr class="simpleGridRecord" simpleGridRecord *ngFor="let item of m_businessUsers | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">
       <td style="width: 20%" simpleGridData (labelEdited)="onLabelEdited($event,'name')" editable="true" field="name" [item]="item"></td>
       <td style="width: 8%" simpleGridData field="businessId" [item]="item"></td>
       <td style="width: 20%" simpleGridDataChecks (changed)="setAccessMask($event)" [item]="item" [checkboxes]="getAccessMask(item)"></td>

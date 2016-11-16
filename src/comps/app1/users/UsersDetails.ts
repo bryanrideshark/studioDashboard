@@ -48,11 +48,16 @@ export class UsersDetails {
     @Input() showUserInfo: ISimpleListItem = null;
 
     @Input()
-    set businesses(i_businesses) {
+    set business(i_businesses:List<BusinessModel>) {
         this.m_businesses = i_businesses;
-        if (i_businesses && this.simpleGridTable && this.m_businesses.size != this.totalBusinessSelected) {
+    }
+
+    @Input()
+    set businesses(i_businesses) {
+        this.m_businessUsers = i_businesses;
+        if (i_businesses && this.simpleGridTable && this.m_businessUsers.size != this.totalBusinessSelected) {
             this.simpleGridTable.deselect();
-            this.totalBusinessSelected = this.m_businesses.size;
+            this.totalBusinessSelected = this.m_businessUsers.size;
         }
     }
 
@@ -66,6 +71,7 @@ export class UsersDetails {
         desc: false
     };
     private m_businesses: List<BusinessModel>;
+    private m_businessUsers: List<BusinessUser>;
     private m_priveleges: Array<PrivelegesModel>;
     private totalBusinessSelected: number = 0;
 
@@ -126,9 +132,9 @@ export class UsersDetails {
     }
 
     private getBusinessIdSelected(): number {
-        if (!this.m_businesses || this.m_businesses.size == 0)
+        if (!this.m_businesses)
             return -1;
-        return this.m_businesses.first().getBusinessId();
+        return this.m_businesses.first().getBusinessId()
     }
 
     private onLabelEdited(event: ISimpleGridEdit, field) {
