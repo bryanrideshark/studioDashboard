@@ -186,7 +186,6 @@ export class AdnetActions extends Actions {
                         }).subscribe()
                 }
             };
-
         }
     }
 
