@@ -11,12 +11,12 @@ To check this web application in action, login to: http://dash.digitalsignage.co
 StudioDashboard is an open source, Digital Signage Enterprise manager for subscribers of the Enterprise 
 edition of MediaSignage Inc.
 
-Prerequisites to be use the web app:
+Prerequisites to use the web app:
 -----------------
 - An active DigitalSignage.com Enterprise account
 - Login directly @: http://dash.digitalsignage.com
 
-Prerequisites to be able to fork and host on your own site:
+Prerequisites to fork and host on your own site:
 -----------------
 - An active DigitalSignage.com Enterprise account
 - Web server (preferably running node.js)
