@@ -12,18 +12,20 @@ DigitalSignage.com enterprise management studio
 StudioDashboard is an open source, Digital Signage Enterprise manager for subscribers of the Enterprise 
 edition of MediaSignage Inc.
 
-Prerequisites:
+Prerequisites to be able to fork and host on your own site:
+-----------------
+- Web server (preferably running node.js)
+
+Prerequisites to fork and custom develop features
 -----------------
 - An active DigitalSignage.com Enterprise account
-- Working knowledge of the Google Angular2 JavaScript framework
-- Working knowledge of the Microsoft TypeScript 
+- Working knowledge of the awesome Angular JavaScript framework
 
-
- 
+                                
 Features:
 ----------
 
- - Based on the popular SignageStudio Pro Enterprise edition: http://www.DigitalSignage.com
+ - Based on the popular StudioPro Enterprise edition
  - Live server stats
  - Live station stats 
  - Live GEO Map for stations
