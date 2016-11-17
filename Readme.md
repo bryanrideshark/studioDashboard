@@ -16,7 +16,7 @@ Prerequisites to be able to fork and host on your own site:
 -----------------
 - Web server (preferably running node.js)
 
-Prerequisites to fork and custom develop features
+Prerequisites to fork and custom develop features:
 -----------------
 - An active DigitalSignage.com Enterprise account
 - Working knowledge of the awesome Angular JavaScript framework
