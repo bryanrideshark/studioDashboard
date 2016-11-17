@@ -78,7 +78,7 @@ Be sure to merge changes and subclass modules to be able to continue and receive
 StoreModel
 ------------------------------------------------------------------------
 
-this app relies on the AppStore implementation, to learn watch:
+this app relies on the AppStore implementation, watch the video to learn more:
 
 [![The Ultimate redux typed store implementation for angular](http://img.youtube.com/vi/bEkPEnudm7s/0.jpg)](https://www.youtube.com/watch?v=bEkPEnudm7s&feature=youtu.be "The Ultimate redux typed store implementation for angular")
 
