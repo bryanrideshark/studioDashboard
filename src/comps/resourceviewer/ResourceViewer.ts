@@ -29,7 +29,7 @@ import {Compbaser} from "../compbaser/Compbaser";
 })
 
 export class ResourceViewer extends Compbaser {
-    constructor(private cd:ChangeDetectorRef, private _http: Http) {
+    constructor(private cd: ChangeDetectorRef, private _http: Http) {
         super();
     }
 
@@ -53,11 +53,11 @@ export class ResourceViewer extends Compbaser {
                     return Observable.throw(err);
                 })
                 .finally(() => {
-                })
-                .map((result: any) => {
-                    var link = result.json();
+                }).switchMap((value: any) => {
+                    var link = value.json();
                     this.cd.markForCheck();
                     this.imgSource = link.url;
+                    return Observable.empty();
                 }).subscribe();
         }
 
@@ -70,13 +70,11 @@ export class ResourceViewer extends Compbaser {
                     return Observable.throw(err);
                 })
                 .finally(() => {
-                })
-                .map((result: any) => {
-                    var link = result.json();
-                    // f.link = `https://secure.digitalsignage.com/DropboxFileLink/${this.token}${i_path}`;
-                    // this.onFileLinkSelected.emit(f);
+                }).switchMap((value) => {
+                    var link = value.json();
                     this.cd.markForCheck();
                     this.videoSource = link.url;
+                    return Observable.empty();
                 }).subscribe();
         }
 
@@ -89,7 +87,6 @@ export class ResourceViewer extends Compbaser {
         return;
     }
 }
-
 
 
 // jQuery.get(i_loadResource, data => {
