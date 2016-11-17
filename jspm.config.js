@@ -441,6 +441,7 @@ SystemJS.config({
         "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.1.2",
         "@angular/forms": "npm:@angular/forms@2.1.2",
         "jquery": "npm:jquery@2.2.4",
+        "string": "npm:string@3.3.3",
         "angular-core": "npm:@angular/core@2.1.2",
         "angular-platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.1.2",
         "angular-http": "npm:@angular/http@2.1.2",
@@ -953,4 +954,3 @@ SystemJS.config({
         }
     }
 });
-

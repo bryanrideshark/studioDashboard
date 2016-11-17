@@ -168,6 +168,7 @@ import {TreeModule} from 'primeng/primeng';
 import {Twofactor} from "./comps/twofactor/Twofactor";
 import {AdnetReports} from "./comps/app1/adnet/network/AdnetReports";
 
+
 //import {TreeModule} from 'angular2-tree-component';
 //import "zone.js/dist/long-stack-trace-zone"; // removed 9-7-2016
 
@@ -201,6 +202,10 @@ export class Main {
         // this.localStorage.removeItem('adnet_customer_id')
         // this.localStorage.removeItem('adnet_token_id')
         // this.localStorage.removeItem('business_id')
+
+
+        var str = StringJS('  String   \t libraries are   \n\n\t fun\n!  ').collapseWhitespace().s;
+        console.log(str);
 
         // todo: add logic to as when on each env
         // 0 = cloud, 1 = private 2 = hybrid

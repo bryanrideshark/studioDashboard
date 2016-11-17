@@ -119,6 +119,7 @@
       "redux-thunk": "npm:redux-thunk@2.1.0",
       "reselect": "npm:reselect@^2.0.3",
       "router": "npm:@angular/router@3.1.2",
+      "string": "npm:string@^3.3.3",
       "text": "github:systemjs/plugin-text@^0.0.9",
       "css": "github:systemjs/plugin-css@0.1.27",
       "underscore": "npm:underscore@^1.8.3",
@@ -255,20 +256,6 @@
               "zone.js"
             ]
           }
-        }
-      },
-      "npm:@angular/router@3.1.2": {
-        "meta": {
-          "src/*.js": {
-            "deps": [
-              "reflect-metadata",
-              "zone.js"
-            ]
-          }
-        },
-        "map": {
-          "@angular/router": ".",
-          "./testing": "./bundles/router-testing.umd.js"
         }
       },
       "npm:@angular/router@3.1.2": {
@@ -431,6 +418,7 @@
     "plugin-typescript": "^5.1.2",
     "primeng": "^1.0.0-beta.20",
     "rxjs": "^5.0.0-beta.12",
+    "string": "^3.3.3",
     "typescript": "^2.0.2",
     "zone.js": "^0.6.21"
   }

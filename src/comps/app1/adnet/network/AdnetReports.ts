@@ -14,6 +14,7 @@ import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
     selector: 'AdnetReports',
     template: `<h3>Reports</h3>
                 {{pairOutgoing}}
+                
                `,
     moduleId: __moduleName
 })

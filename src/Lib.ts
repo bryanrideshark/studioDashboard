@@ -23,6 +23,9 @@ import * as xml2js from "xml2js";
 import * as moment_ from "moment";
 import * as bootbox from 'bootbox';
 
+import * as ss from 'string';
+window['StringJS'] = ss.default;
+
 //import {LoggerMiddleware} from "angular2-redux-util";
 //import {BusinessUser} from "./business/BusinessUser";
 //import * as thunkMiddleware from 'redux-thunk';
@@ -122,8 +125,8 @@ export class Lib {
      * @returns {number}
      * @constructor
      */
-    static CheckFoundIndex(i_value:number, i_message:string = 'CheckFoundIndex did not find index'): number {
-        if (i_value===-1){
+    static CheckFoundIndex(i_value: number, i_message: string = 'CheckFoundIndex did not find index'): number {
+        if (i_value === -1) {
             console.log(i_message);
             if (Lib.DevMode()) {
                 alert(i_message);

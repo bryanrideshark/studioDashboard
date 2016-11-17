@@ -27,6 +27,9 @@
       "redux-thunk": [
         "jspm_packages/npm/redux-thunk@2.1.0"
       ],
+      "string": [
+        "jspm_packages/npm/string@3.3.3"
+      ],
       "primeng/primeng": [
         "jspm_packages/npm/primeng@1.0.0-beta.20/primeng"
       ],
