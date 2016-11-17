@@ -24,14 +24,14 @@ Prerequisites:
 Features:
 ----------
 
- - Based on the poplar SignageStudio Pro Enterprise edition( [MediaSignage]: http://www.DigitalSignage.com )
+ - Based on the poplar SignageStudio Pro Enterprise edition: http://www.DigitalSignage.com
  - Live server stats
  - Live station stats 
  - Live GEO Map for stations
  - Privileges and ACL manager
  - User manager
  - App manager
- - mediaADNET entire set of APIs & UI ([mediaADNET]: http://www.digitalsignage.com/_html/digital_signage_ad_network.html)
+ - mediaADNET entire set of APIs & UI: http://www.digitalsignage.com/_html/digital_signage_ad_network.html
 
 Links:
 ------------------------------------------------------------------------
