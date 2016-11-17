@@ -31,7 +31,7 @@ Features:
  - Privileges and ACL manager
  - User manager
  - App manager
- - mediaADNET (TBA)
+ - mediaADNET entire set of API and UX
 
 Links:
 ------------------------------------------------------------------------
