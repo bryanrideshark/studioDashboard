@@ -1,9 +1,13 @@
 import {
     Component,
     ChangeDetectionStrategy,
-    Input
+    Input,
+    ChangeDetectorRef
 } from "@angular/core";
 import {Lib} from "src/Lib";
+import {Observable} from "rxjs";
+import {Http} from "@angular/http";
+import {Compbaser} from "../compbaser/Compbaser";
 
 @Component({
     selector: 'ResourceViewer',
@@ -24,12 +28,11 @@ import {Lib} from "src/Lib";
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class ResourceViewer {
-    constructor() {
-        this.me = Lib.GetCompSelector(this.constructor)
+export class ResourceViewer extends Compbaser {
+    constructor(private cd:ChangeDetectorRef, private _http: Http) {
+        super();
     }
 
-    private me: string;
     private imgSource = '';
     private videoSource;
 
@@ -38,22 +41,43 @@ export class ResourceViewer {
         this.onLoadResource(i_loadResource);
     }
 
+    //todo: fix / investigate / dropbox
     private onLoadResource(i_loadResource: string) {
 
         // image
         var res = i_loadResource.match(/(?!.*[.](?:jpg|jpeg|png)$).*/ig);
         if (res[0].length <= 4) {
             this.videoSource = null;
-            this.imgSource = i_loadResource;
-            return;
+            return this._http.get(i_loadResource)
+                .catch((err) => {
+                    return Observable.throw(err);
+                })
+                .finally(() => {
+                })
+                .map((result: any) => {
+                    var link = result.json();
+                    this.cd.markForCheck();
+                    this.imgSource = link.url;
+                }).subscribe();
         }
 
         // video
         var res = i_loadResource.match(/(?!.*[.](?:mp4)$).*/ig);
         if (res[0].length <= 4) {
-            this.videoSource = i_loadResource;
             this.imgSource = '';
-            return;
+            return this._http.get(i_loadResource)
+                .catch((err) => {
+                    return Observable.throw(err);
+                })
+                .finally(() => {
+                })
+                .map((result: any) => {
+                    var link = result.json();
+                    // f.link = `https://secure.digitalsignage.com/DropboxFileLink/${this.token}${i_path}`;
+                    // this.onFileLinkSelected.emit(f);
+                    this.cd.markForCheck();
+                    this.videoSource = link.url;
+                }).subscribe();
         }
 
         // dropbox / drive
@@ -66,3 +90,10 @@ export class ResourceViewer {
     }
 }
 
+
+
+// jQuery.get(i_loadResource, data => {
+//     this.imgSource = data.url;
+// })
+// const url = `https://secure.digitalsignage.com/DropboxFileLink/${this.token}${i_path}`;
+// f.link = `https://secure.digitalsignage.com/DropboxFileLink/${this.token}${i_path}`;

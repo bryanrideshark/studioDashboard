@@ -50,10 +50,6 @@ export class Dropbox {
         });
     }
 
-    private onAddResource(f) {
-        this.loadFile(f.fileName.file);
-    }
-
     private nodeSelect(event) {
         this.loadFiles(event.node.path);
     }
@@ -69,6 +65,10 @@ export class Dropbox {
         this.nodes = [];
         this.files = [];
         this.renderTree();
+    }
+
+    private onAddResource(f) {
+        this.loadFile(f.fileName.file);
     }
 
     private loadFiles(i_path) {
@@ -94,18 +94,24 @@ export class Dropbox {
     }
 
     private loadFile(i_path) {
-        const url = `https://secure.digitalsignage.com/DropboxFileLink/${this.token}${i_path}`;
-        return this._http.get(url)
-            .catch((err) => {
-                return Observable.throw(err);
-            })
-            .finally(() => {
-            })
-            .map((result: any) => {
-                var f = result.json();
-                this.onFileLinkSelected.emit(f);
-                this.cd.markForCheck();
-            }).subscribe();
+        this.onFileLinkSelected.emit({link: `https://secure.digitalsignage.com/DropboxFileLink/${this.token}${i_path}`});
+        this.cd.markForCheck();
+
+        // const url = `https://secure.digitalsignage.com/DropboxFileLink/${this.token}${i_path}`;
+        // f.link = `https://secure.digitalsignage.com/DropboxFileLink/${this.token}${i_path}`;
+        //
+        // return this._http.get(url)
+        //     .catch((err) => {
+        //         return Observable.throw(err);
+        //     })
+        //     .finally(() => {
+        //     })
+        //     .map((result: any) => {
+        //         var f = result.json();
+        //         f.link = `https://secure.digitalsignage.com/DropboxFileLink/${this.token}${i_path}`;
+        //         this.onFileLinkSelected.emit(f);
+        //         this.cd.markForCheck();
+        //     }).subscribe();
     }
 
     private renderTree(i_folder: {} = {

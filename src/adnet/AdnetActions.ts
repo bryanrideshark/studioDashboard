@@ -815,10 +815,10 @@ export class AdnetActions extends Actions {
                         "id": "-1",
                         "handle": "0",
                         "modified": "1",
-                        "contentLabel": Lib.FileTailName(payload.url, 2).replace(/%20/, ' '),
+                        "contentLabel": Lib.FileTailName(payload.link, 2).replace(/%20/, ' '),
                         "duration": 10,
                         "reparationsPerHour": 60,
-                        "contentUrl": payload.url,
+                        "contentUrl": payload.link,
                         "contentType": contentType,
                         "contentExt": "",
                         "maintainAspectRatio": "false",
@@ -980,65 +980,5 @@ export class AdnetActions extends Actions {
                 payload: {}
             });
         };
-    }
-}
-
-
-var a = {
-    "targets": {
-        "add": [{
-            "id": "-1",
-            "handle": "39",
-            "modified": "1",
-            "customerId": "32164",
-            "label": "www.yourdomain.com",
-            "targetType": "2",
-            "enabled": "false",
-            "locationLat": "0",
-            "locationLng": "0",
-            "targetDomain": "www.yourdomain.com",
-            "rateId": "-1",
-            "hRate": "-1",
-            "keys": "null",
-            "comments": "",
-            "url": ""
-        }]
-    }
-}
-
-var b = {
-    "fromChangelistId": 771152,
-    "fromPairs": {"add": []},
-    "packages": {
-        "add": [],
-        "update": []
-    },
-    "rates": {"add": []},
-    "targets": {"add": [100944]},
-    "toPairs": {"add": []}
-}
-
-var c = {
-    "targets": {
-        "update": [{
-            "Key": 100965,
-            "Value": {
-                "id": "100965",
-                "handle": "40",
-                "modified": "1",
-                "customerId": "32164",
-                "label": "www.yourdomain.com",
-                "targetType": "2",
-                "enabled": "false",
-                "locationLat": "0",
-                "locationLng": "0",
-                "targetDomain": "www.yourdomain.com",
-                "rateId": "-1",
-                "hRate": "-1",
-                "keys": "1111",
-                "comments": "",
-                "url": ""
-            }
-        }]
     }
 }

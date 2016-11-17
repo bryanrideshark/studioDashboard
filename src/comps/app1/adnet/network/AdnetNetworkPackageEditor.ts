@@ -35,8 +35,8 @@ import {Compbaser} from "../../../compbaser/Compbaser";
 //	styles: [AdnetNetworkPackageEditorStyle], /*prod*/
 //	template: AdnetNetworkPackageEditorTemplate, /*prod*/
     selector: 'AdnetNetworkPackageEditor',
-    templateUrl: './AdnetNetworkPackageEditor.html', /*dev*/
-    styleUrls: ['./AdnetNetworkPackageEditor.css'], /*dev*/
+	    templateUrl: './AdnetNetworkPackageEditor.html', /*dev*/
+	    styleUrls: ['./AdnetNetworkPackageEditor.css'], /*dev*/
     moduleId: __moduleName
 })
 
