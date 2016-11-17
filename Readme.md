@@ -18,13 +18,12 @@ Prerequisites:
 - Working knowledge of the Google Angular2 JavaScript framework
 - Working knowledge of the Microsoft TypeScript 
 
- 
 
  
 Features:
 ----------
 
- - Based on the poplar SignageStudio Pro Enterprise edition: http://www.DigitalSignage.com
+ - Based on the popular SignageStudio Pro Enterprise edition: http://www.DigitalSignage.com
  - Live server stats
  - Live station stats 
  - Live GEO Map for stations
