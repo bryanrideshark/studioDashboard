@@ -31,7 +31,7 @@ Features:
  - Privileges and ACL manager
  - User manager
  - App manager
- - mediaADNET entire set of API and UX
+ - mediaADNET entire set of APIs & UI ([mediaADNET]: http://www.digitalsignage.com/_html/digital_signage_ad_network.html)
 
 Links:
 ------------------------------------------------------------------------
