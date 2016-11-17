@@ -4,6 +4,8 @@ studioDashboard
 DigitalSignage.com enterprise management studio   
 ----------------
 
+To check this web application in action, login to: http://dash.digitalsignage.com (Enterprise account required)
+
 <h5>by digitalsignage.com</h5> 
 ==========
 
