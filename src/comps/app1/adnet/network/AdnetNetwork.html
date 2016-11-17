@@ -200,10 +200,19 @@
                     </div>
                 </div>
             </tab>
+
+            <!-- **************************************************************** -->
+            <!-- **************************************************************** -->
+            <!-- ************************* REPORTS TAB ************************** -->
+            <!-- **************************************************************** -->
+            <!-- **************************************************************** -->
+
             <tab [tabtitle]="'Reports'">
                 <div class="row">
-                    <div class="bgGreen col-xs-5">Coming soon...</div>
-                    <div class="bgYellow col-xs-7"></div>
+                    <AdnetReports [setPairOutgoing]="pairsOutgoing"
+                                  [setAdnetPairModels]="pairsSelected"
+                                  [setAdnetCustomerModel]="adnetCustomerModel"
+                    ></AdnetReports>
                 </div>
             </tab>
         </tabs>
