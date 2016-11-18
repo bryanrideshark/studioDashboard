@@ -22,84 +22,66 @@ import * as _ from "lodash";
 import * as xml2js from "xml2js";
 import * as moment_ from "moment";
 import * as bootbox from 'bootbox';
-
-export const moment = moment_["default"];
-
 import * as ss from 'string';
-var S = ss.default;
 
 //import {LoggerMiddleware} from "angular2-redux-util";
 //import {BusinessUser} from "./business/BusinessUser";
 //import * as thunkMiddleware from 'redux-thunk';
 
+export const moment = moment_["default"];
 
-var CASE_OPTIONS;
-var parentPrototype;
-var stringJSObject;
 
-//-------------------------------------------------------------------------------------
-// caseOptions
-//-------------------------------------------------------------------------------------
-CASE_OPTIONS =
-    Object.freeze({
-        CASE_INSENSITIVE: 'CASE_INSENSITIVE',
-        CASE_SENSITIVE: 'CASE_SENSITIVE'
-    });
-
-//-------------------------------------------------------------------------------------
-// ExtendedStrings constructor
-//-------------------------------------------------------------------------------------
-stringJSObject = S('');
-
-parentPrototype = Object.getPrototypeOf(stringJSObject);
-
-ExtendedStrings.prototype = stringJSObject;
-
-ExtendedStrings.prototype.constructor = ExtendedStrings;
-
-function ExtendedStrings(value) {
-    this.setValue(value);
+/***
+ *
+ * StringJS() library extension
+ *
+ ***/
+window['StringJS'] = ss.default;
+MyS.prototype = StringJS('')
+MyS.prototype.constructor = MyS;
+function MyS(val) {
+    this.setValue(val);
 }
-
-//-------------------------------------------------------------------------------------
-// extendedStringMaker
-//-------------------------------------------------------------------------------------
-function extendedStringMaker(value) {
-    if (value instanceof ExtendedStrings) {
-        return value;
-    }
-
-    return new ExtendedStrings(value);
-};
-
-//-------------------------------------------------------------------------------------
-// contains
-//-------------------------------------------------------------------------------------
-ExtendedStrings.prototype.contains =
-    function contains(value, caseOption) {
-        if (caseOption === CASE_OPTIONS.CASE_SENSITIVE) {
-            return parentPrototype.contains.call(this, value);
-        }
-        else {
-            return parentPrototype.contains.call(this.toUpperCase(), value.toUpperCase());
-        }
-    };
-
-//-------------------------------------------------------------------------------------
-// Set this module's public interface.
-//-------------------------------------------------------------------------------------
-extendedStringMaker['CASE_OPTIONS'] = CASE_OPTIONS;
-
-// return extendedStringMaker;
-
+MyS.prototype.isBlank = function() {
+    var value = this.s;
+    if (_.isNaN(value))
+        return true;
+    if (_.isUndefined(value))
+        return true;
+    if (_.isNull(value))
+        return true;
+    if (_.isEmpty(String(value)))
+        return true;
+    return false;
+}
+MyS.prototype.isNotBlank = function() {
+    var value = this.s;
+    if (_.isNaN(value))
+        return false;
+    if (_.isUndefined(value))
+        return false;
+    if (_.isNull(value))
+        return false;
+    if (_.isEmpty(String(value)))
+        return false;
+    return true;
+}
+MyS.prototype.fileTailName = function(i_level: number) {
+    var fileName = this.s;
+    var arr = fileName.split('/');
+    var size = arr.length;
+    var c = arr.slice(0 - i_level, size)
+    return new this.constructor(c.join('/'));
+}
+window['StringJS'] = function(str) {
+    if (_.isNull(str)||_.isUndefined(str))
+        str='';
+    return new MyS(str);
+}
 
 
 @Injectable()
 export class Lib {
-
-    static StringJS():StringJSType {
-        return extendedStringMaker;
-    }
 
     static StoreFactory(reducerList: Object) {
         return () => {
@@ -212,12 +194,12 @@ export class Lib {
         return componentMetadata.selector;
     }
 
-    static FileTailName(fileName: string, level: number) {
-        var arr = fileName.split('/');
-        var size = arr.length;
-        var c = arr.slice(0 - level, size)
-        return c.join('/');
-    }
+    // static FileTailName(fileName: string, level: number) {
+    //     var arr = fileName.split('/');
+    //     var size = arr.length;
+    //     var c = arr.slice(0 - level, size)
+    //     return c.join('/');
+    // }
 
     static BootboxHide(i_time = 1500) {
         setTimeout(() => {
@@ -1471,5 +1453,3 @@ if (!Object.assign) {
 // <Group name="AdAnalytic" visible="${getAttributeGroup('AdAnalytic', 'visible')}">
 //     <Tables/>
 //     </Group>
-
-

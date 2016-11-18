@@ -815,7 +815,7 @@ export class AdnetActions extends Actions {
                         "id": "-1",
                         "handle": "0",
                         "modified": "1",
-                        "contentLabel": Lib.FileTailName(payload.link, 2).replace(/%20/, ' '),
+                        "contentLabel": StringJS(payload.link).fileTailName(2).s.replace(/%20/, ' '),
                         "duration": 10,
                         "reparationsPerHour": 60,
                         "contentUrl": payload.link,

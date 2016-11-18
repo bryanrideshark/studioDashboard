@@ -86,7 +86,7 @@ export class Dropbox {
                     this.files.push({
                         path: i_path,
                         fileName: fileName,
-                        fileRoot: Lib.FileTailName(fileName.file,1)
+                        fileRoot: StringJS(fileName.file).fileTailName(1).s
                     });
                 })
                 this.cd.markForCheck();
@@ -136,13 +136,13 @@ export class Dropbox {
                         var o = Object.create(null, {});
                         o.name = folder.replace(/\//, '');
                         o.path = folder;
-                        o.label = Lib.FileTailName(o.name,1);
+                        o.label = StringJS(o.name).fileTailName(1).s;
                         if (i_start) {
                             this.nodes.push(o);
                         } else {
                             if (!i_folder['children'])
                                 i_folder['children'] = [];
-                            o.name = Lib.FileTailName(o.name,1);
+                            o.name = StringJS(o.name).fileTailName(1).s;
                             i_folder['children'].push(o);
                         }
                         this.renderTree(o, false);

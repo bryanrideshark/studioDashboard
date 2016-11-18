@@ -120,6 +120,12 @@ interface StringJS {
     unescapeHTML(): StringJS;
 
     wrapHTML(element?: string, attributes?: Object): StringJS;
+
+    isBlank(): StringJS;
+
+    isNotBlank(): StringJS;
+
+    fileTailName(i_level: number);
 }
 
 type StringJSType = {(o: any): StringJS};
