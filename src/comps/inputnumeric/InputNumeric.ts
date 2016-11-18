@@ -138,6 +138,8 @@ export class InputNumeric implements ControlValueAccessor, OnChanges {
 
     @Input() step = 1;
 
+    @Input() onKeyUpNotify:boolean = false;
+
     @Input()
     set textholder(i_placer: string) {
         this.placer = i_placer;
@@ -152,6 +154,8 @@ export class InputNumeric implements ControlValueAccessor, OnChanges {
     private placer: string = ''
 
     onKeyUp(event) {
+        if (!this.onKeyUpNotify)
+            return;
         var v = event.target.value;
         if (v.length == 0)
             return;

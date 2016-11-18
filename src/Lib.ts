@@ -30,53 +30,6 @@ import * as ss from 'string';
 
 export const moment = moment_["default"];
 
-/***
- *
- * StringJS() library extension
- *
- ***/
-window['StringJS'] = ss.default;
-MyS.prototype = StringJS('')
-MyS.prototype.constructor = MyS;
-function MyS(val) {
-    this.setValue(val);
-}
-MyS.prototype.isBlank = function() {
-    var value = this.s;
-    if (_.isNaN(value))
-        return true;
-    if (_.isUndefined(value))
-        return true;
-    if (_.isNull(value))
-        return true;
-    if (_.isEmpty(String(value)))
-        return true;
-    return false;
-}
-MyS.prototype.isNotBlank = function() {
-    var value = this.s;
-    if (_.isNaN(value))
-        return false;
-    if (_.isUndefined(value))
-        return false;
-    if (_.isNull(value))
-        return false;
-    if (_.isEmpty(String(value)))
-        return false;
-    return true;
-}
-MyS.prototype.fileTailName = function(i_level: number) {
-    var fileName = this.s;
-    var arr = fileName.split('/');
-    var size = arr.length;
-    var c = arr.slice(0 - i_level, size)
-    return new this.constructor(c.join('/'));
-}
-window['StringJS'] = function(str) {
-    if (_.isNull(str)||_.isUndefined(str))
-        str='';
-    return new MyS(str);
-}
 
 @Injectable()
 export class Lib {
@@ -142,85 +95,6 @@ export class Lib {
         }
     }
 
-    static UnionList(a: List<any>, b: List<any>) {
-        return a.toSet().union(b.toSet()).toList();
-    }
-
-    static ProcessHourStartEnd(value: string, key: string): any {
-        if (_.isUndefined(!value))
-            return '';
-        if (key == 'hourStart')
-            return `${value}:00`;
-        return `${value}:59`;
-    }
-
-    static BooleanToNumber(value: any): any {
-        if (_.isUndefined(value) || _.isNull(value))
-            return 0;
-        if (value === "0" || value === 'false' || value === "False" || value === false)
-            return 0;
-        if (value === 1 || value === "true" || value === "True" || value === true)
-            return 1;
-        return value;
-    }
-
-    /**
-     * CheckFoundIndex will check if a return value is -1 and error out if in dev mode (list.findIndex or indexOf for example)
-     * @param i_value
-     * @param i_message
-     * @returns {number}
-     * @constructor
-     */
-    static CheckFoundIndex(i_value: number, i_message: string = 'CheckFoundIndex did not find index'): number {
-        if (i_value === -1) {
-            console.log(i_message);
-            if (Lib.DevMode()) {
-                alert(i_message);
-                throw Error(i_message);
-            }
-        }
-        return i_value;
-    }
-
-    static GetCompSelector(i_constructor) {
-        if (!Lib.DevMode())
-            return;
-        var annotations = Reflect.getMetadata('annotations', i_constructor);
-        var componentMetadata = annotations.find(annotation => {
-            return (annotation instanceof Component);
-        });
-        return componentMetadata.selector;
-    }
-
-    // static FileTailName(fileName: string, level: number) {
-    //     var arr = fileName.split('/');
-    //     var size = arr.length;
-    //     var c = arr.slice(0 - level, size)
-    //     return c.join('/');
-    // }
-
-    static BootboxHide(i_time = 1500) {
-        setTimeout(() => {
-            bootbox.hideAll();
-        }, i_time)
-    }
-
-    static Exists(i_value): boolean {
-        if (_.isNaN(i_value))
-            return false;
-        if (_.isUndefined(i_value))
-            return false;
-        if (_.isNull(i_value))
-            return false;
-        if (_.isEmpty(String(i_value)))
-            return false;
-        return true;
-    }
-
-    static IsRound(number: number) {
-        return (Math.floor(number) == number)
-    }
-
     static CleanCharForXml(value: any): any {
         var clean = function (value: string) {
             if (_.isUndefined(value))
@@ -264,6 +138,52 @@ export class Lib {
             value[k] = clean(v);
         });
         return value;
+    }
+
+    static UnionList(a: List<any>, b: List<any>) {
+        return a.toSet().union(b.toSet()).toList();
+    }
+
+    static ProcessHourStartEnd(value: string, key: string): any {
+        if (_.isUndefined(!value))
+            return '';
+        if (key == 'hourStart')
+            return `${value}:00`;
+        return `${value}:59`;
+    }
+
+    /**
+     * CheckFoundIndex will check if a return value is -1 and error out if in dev mode (list.findIndex or indexOf for example)
+     * @param i_value
+     * @param i_message
+     * @returns {number}
+     * @constructor
+     */
+    static CheckFoundIndex(i_value: number, i_message: string = 'CheckFoundIndex did not find index'): number {
+        if (i_value === -1) {
+            console.log(i_message);
+            if (Lib.DevMode()) {
+                alert(i_message);
+                throw Error(i_message);
+            }
+        }
+        return i_value;
+    }
+
+    static GetCompSelector(i_constructor) {
+        if (!Lib.DevMode())
+            return;
+        var annotations = Reflect.getMetadata('annotations', i_constructor);
+        var componentMetadata = annotations.find(annotation => {
+            return (annotation instanceof Component);
+        });
+        return componentMetadata.selector;
+    }
+
+    static BootboxHide(i_time = 1500) {
+        setTimeout(() => {
+            bootbox.hideAll();
+        }, i_time)
     }
 
     static MapOfIndex(map: Map<string,any>, index: number, position: "first" | "last"): string {
@@ -1437,17 +1357,92 @@ if (!Object.assign) {
     });
 }
 
+/***********************************
+ *
+ * StringJS() library extension
+ *
+ ***********************************/
+window['StringJS'] = ss.default;
+MyS.prototype = StringJS('')
+MyS.prototype.constructor = MyS;
+function MyS(val) {
+    this.setValue(val);
+}
 
-//
-// <Group name="AdOut" visible="${getAttributeGroup('AdOut', 'visible')}" globalSearch="${getAttributeGroup('AdOut', 'globalSearch')}">
-// <Tables ad_out_packages="${getPrivilegesTable('AdOut', 'ad_out_packages')}" ad_out_package_stations="${getPrivilegesTable('AdOut', 'ad_out_package_stations')}" ad_out_package_contents="${getPrivilegesTable('AdOut', 'ad_out_package_contents')}"/>
-// </Group>
-// <Group name="AdIn" visible="${getAttributeGroup('AdIn', 'visible')}">
-// <Tables ad_in_domains="${getPrivilegesTable('AdIn', 'ad_in_domains')}" ad_in_domain_businesses="${getPrivilegesTable('AdIn', 'ad_in_domain_businesses')}" ad_in_domain_business_packages="${getPrivilegesTable('AdIn', 'ad_in_domain_business_packages')}" ad_in_domain_business_package_stations="${getPrivilegesTable('AdIn', 'ad_in_domain_business_package_stations')}" ad_rates="${getPrivilegesTable('AdIn', 'ad_rates')}"/>
-// </Group>
-// <Group name="AdRate" visible="${getAttributeGroup('AdRate', 'visible')}">
-// <Tables ad_rates="${getPrivilegesTable('AdRate', 'ad_rates')}"/>
-// </Group>
-// <Group name="AdAnalytic" visible="${getAttributeGroup('AdAnalytic', 'visible')}">
-//     <Tables/>
-//     </Group>
+MyS.prototype.isBlank = function () {
+    var value = this.s;
+    if (_.isNaN(value))
+        return true;
+    if (_.isUndefined(value))
+        return true;
+    if (_.isNull(value))
+        return true;
+    if (_.isEmpty(String(value)))
+        return true;
+    return false;
+}
+
+MyS.prototype.isNotBlank = function () {
+    var value = this.s;
+    if (_.isNaN(value))
+        return false;
+    if (_.isUndefined(value))
+        return false;
+    if (_.isNull(value))
+        return false;
+    if (_.isEmpty(String(value)))
+        return false;
+    return true;
+}
+
+MyS.prototype.booleanToNumber = function () {
+    var value = this.s;
+    if (_.isUndefined(value) || _.isNull(value))
+        return 0;
+    if (value === "0" || value === 'false' || value === "False" || value === false)
+        return 0;
+    if (value === 1 || value === "true" || value === "True" || value === true)
+        return 1;
+    return value;
+}
+
+MyS.prototype.fileTailName = function (i_level) {
+    var fileName = this.s;
+    var arr = fileName.split('/');
+    var size = arr.length;
+    var c = arr.slice(0 - i_level, size)
+    return new this.constructor(c.join('/'));
+}
+
+MyS.prototype.cleanChar = function () {
+    var value = this.s;
+    if (_.isUndefined(value))
+        return '';
+    if (_.isNull(value))
+        return '';
+    if (_.isNumber(value))
+        return value;
+    if (_.isBoolean(value))
+        return value;
+    value = value.replace(/\}/g, ' ');
+    value = value.replace(/%/g, ' ');
+    value = value.replace(/{/g, ' ');
+    value = value.replace(/"/g, '`');
+    value = value.replace(/'/g, '`');
+    value = value.replace(/&/g, 'and');
+    value = value.replace(/>/g, ' ');
+    value = value.replace(/</g, ' ');
+    value = value.replace(/\[/g, ' ');
+    value = value.replace(/]/g, ' ');
+    value = value.replace(/#/g, ' ');
+    value = value.replace(/\$/g, ' ');
+    value = value.replace(/\^/g, ' ');
+    value = value.replace(/;/g, ' ');
+    return value;
+}
+
+window['StringJS'] = function (str) {
+    if (_.isNull(str) || _.isUndefined(str))
+        str = '';
+    return new MyS(str);
+}

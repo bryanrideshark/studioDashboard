@@ -132,7 +132,7 @@ export class PrivilegesDetails {
             if (k.get('tableName') == tableName)
                 return true;
         })
-        var value = !Lib.BooleanToNumber(selColumn.get(privelegesAttribute));
+        var value = !StringJS(selColumn.get(privelegesAttribute)).booleanToNumber();
         var payload = {
             privelegesId,
             selPrivName,

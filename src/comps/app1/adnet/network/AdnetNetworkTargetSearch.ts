@@ -231,9 +231,9 @@ export class AdnetNetworkTargetSearch extends Compbaser {
         var searchType = this.searchTypes.indexOf(this.contGroup.value.searchType) - 1;
         searchType < 0 ? searchType = 0 : searchType;
         var globalSearch = this.contGroup.value.globalSearch == true ? 1 : 0;
-        var lat = !Lib.Exists(this.contGroup.value.lat) ? 0 : this.contGroup.value.lat;
-        var lng = !Lib.Exists(this.contGroup.value.lng) ? 0 : this.contGroup.value.lng;
-        var radios = !Lib.Exists(this.contGroup.value.radios) ? -1 : this.contGroup.value.radios;
+        var lat = StringJS(this.contGroup.value.lat).isBlank() ? 0 : this.contGroup.value.lat;
+        var lng = StringJS(this.contGroup.value.lng).isBlank() ? 0 : this.contGroup.value.lng;
+        var radios = StringJS(this.contGroup.value.radios).isBlank() ? -1 : this.contGroup.value.radios;
 
         this.appStore.dispatch(
             this.adnetAction.searchAdnet(

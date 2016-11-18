@@ -83,7 +83,7 @@ export function reseller(state:Map<string,any> = Map<string,any>(), action:any):
                 if (i_privelegesModel.getPrivelegesId() == action.payload.privelegesId) {
                     i_privelegesModel.getColumns().forEach((group, c) => {
                         if (group.get('tableName') == action.payload.tableName) {
-                            var value = Lib.BooleanToNumber(action.payload.value);
+                            var value = StringJS(action.payload.value).booleanToNumber();
                             var path = ['groups', c, action.payload.privelegesAttribute];
                             var data = i_privelegesModel.getData().updateIn(path, v => value)
                             var updPriv = i_privelegesModel.setData<PrivelegesModel>(PrivelegesModel, data);
@@ -133,7 +133,7 @@ export function reseller(state:Map<string,any> = Map<string,any>(), action:any):
         {
             var whitelabel:WhitelabelModel = state.get('whitelabel');
             _.forEach(action.payload, (value, key)=> {
-                value = Lib.BooleanToNumber(value);
+                value = StringJS(value).booleanToNumber();
                 whitelabel = whitelabel.setKey<WhitelabelModel>(WhitelabelModel, key, value);
             })
             return state.setIn(['whitelabel'], whitelabel);

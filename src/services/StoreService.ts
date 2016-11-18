@@ -43,7 +43,7 @@ export class StoreService {
 
         var adnetCustomerId = this.localStorage.getItem('adnet_customer_id');
         var adnetTokenId = this.localStorage.getItem('adnet_token_id');
-        if (!Lib.Exists(adnetCustomerId)) {
+        if (StringJS(adnetCustomerId).isBlank()) {
             this.appStore.dispatch(this.adnetActions.getAdnet(null));
         } else {
             this.appStore.dispatch(this.adnetActions.getAdnet(adnetCustomerId, adnetTokenId));

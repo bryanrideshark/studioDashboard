@@ -102,7 +102,7 @@ export class AdnetActions extends Actions {
     }
 
     public getAdnet(adnetCustomerId?, adnetTokenId?) {
-        if (!Lib.Exists(adnetCustomerId)) {
+        if (StringJS(adnetCustomerId).isBlank()) {
             this.adnetRouteReady$.next('adNetReady');
             this.adnetDataReady$.next('adnetData');
             this.adnetRouteReady$.complete();

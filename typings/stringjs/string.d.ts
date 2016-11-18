@@ -121,11 +121,17 @@ interface StringJS {
 
     wrapHTML(element?: string, attributes?: Object): StringJS;
 
-    isBlank(): StringJS;
+    isBlank(): boolean;
 
-    isNotBlank(): StringJS;
+    isNotBlank(): boolean;
 
-    fileTailName(i_level: number);
+    booleanToNumber(): 0|1|'0'|'1';
+
+    fileTailName(i_level: number):StringJS;
+
+    isBlank():boolean;
+
+    cleanChar():StringJS;
 }
 
 type StringJSType = {(o: any): StringJS};
@@ -141,4 +147,4 @@ declare module "string" {
     export = S;
 }
 
-declare var StringJS:{(o: any): StringJS};
+declare var StringJS: {(o: any): StringJS};

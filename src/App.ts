@@ -204,15 +204,16 @@ export class Main {
         // this.localStorage.removeItem('business_id')
 
 
-        var str = StringJS('  String   \t libraries are   \n\n\t fun\n!  ').collapseWhitespace().s;
-        console.log(str);
-        var a;
-        var b = StringJS(1).isEmpty();
-        var c = StringJS(a).isBlank();
-        var d = StringJS(1).isNotBlank();
-        var e = StringJS('a/b/c/d/e').fileTailName(1).s;
-        var f = StringJS('a/b/c/d/e').fileTailName(2).s;
-        var g = StringJS('a/b/c/d/e').fileTailName(3).s;
+        // var str = StringJS('  String   \t libraries are   \n\n\t fun\n!  ').collapseWhitespace().s;
+        // console.log(str);
+        // var e = StringJS(a).cleanChar();
+        // var e = StringJS(`OE$)IdkIuILd.>?<:DSP`).cleanChar();
+        // var e = StringJS(`true`).cleanChar();
+        // var e = StringJS(false).cleanChar();
+        // var e = StringJS(1).cleanChar();
+        // var e = StringJS('DFI()IKDOPcn@#$%^&*(').cleanChar();
+        // var e = StringJS(1).cleanChar();
+        // var e = StringJS('1').cleanChar();
 
         // todo: add logic to as when on each env
         // 0 = cloud, 1 = private 2 = hybrid

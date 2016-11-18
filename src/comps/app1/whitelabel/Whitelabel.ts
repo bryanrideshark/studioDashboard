@@ -121,6 +121,7 @@ export class Whitelabel {
     private stylesObj;
 
     private onInputBlur(event) {
+        console.log(88888);
         setTimeout(() => this.appStore.dispatch(this.resellerAction.saveWhiteLabel(Lib.CleanCharForXml(this.contGroup.value))), 1);
     }
 
@@ -220,13 +221,13 @@ export class Whitelabel {
     private renderFormInputs() {
         _.forEach(this.formInputs, (value, key: string) => {
             var value = this.whitelabelModel.getKey(key);
-            value = Lib.BooleanToNumber(value);
+            value = StringJS(value).booleanToNumber();
             this.formInputs[key].setValue(value);
         })
     };
 
     private isWhitelabelEnabled() {
-        return Lib.BooleanToNumber(this.getBusinessInfo('whitelabelEnabled'));
+        return StringJS(this.getBusinessInfo('whitelabelEnabled')).booleanToNumber();
     }
 
     private onWhiteLabelChange(value) {

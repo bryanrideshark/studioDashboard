@@ -73,7 +73,7 @@ export class UserInfo {
     lastLogin;
     studioVersion;
     studioIcon;
-    allowSharing = '';
+    allowSharing:any = '';
     accountStatus;
     resellerId;
     verifiedIcon;
@@ -130,7 +130,7 @@ export class UserInfo {
     }
 
     private onChangeSharing(event) {
-        this.allowSharing = Lib.BooleanToNumber(event);
+        this.allowSharing = StringJS(event).booleanToNumber();
         this.updateStore();
     }
 
