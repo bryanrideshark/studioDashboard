@@ -208,12 +208,6 @@ export class Main {
         // console.log(str);
         // var e = StringJS(a).cleanChar();
         // var e = StringJS(`OE$)IdkIuILd.>?<:DSP`).cleanChar();
-        // var e = StringJS(`true`).cleanChar();
-        // var e = StringJS(false).cleanChar();
-        // var e = StringJS(1).cleanChar();
-        // var e = StringJS('DFI()IKDOPcn@#$%^&*(').cleanChar();
-        // var e = StringJS(1).cleanChar();
-        // var e = StringJS('1').cleanChar();
 
         // todo: add logic to as when on each env
         // 0 = cloud, 1 = private 2 = hybrid

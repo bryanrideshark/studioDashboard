@@ -1397,13 +1397,15 @@ MyS.prototype.isNotBlank = function () {
 
 MyS.prototype.booleanToNumber = function () {
     var value = this.s;
-    if (_.isUndefined(value) || _.isNull(value))
+    if (value=='')
+        return 0;
+    if (_.isUndefined(value) || _.isNull(value) || value == 'NaN' || value == 'null' ||  value == 'NULL')
         return 0;
     if (value === "0" || value === 'false' || value === "False" || value === false)
         return 0;
     if (value === 1 || value === "true" || value === "True" || value === true)
         return 1;
-    return value;
+    return parseInt(value);
 }
 
 MyS.prototype.fileTailName = function (i_level) {

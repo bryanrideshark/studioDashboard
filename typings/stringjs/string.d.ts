@@ -125,7 +125,7 @@ interface StringJS {
 
     isNotBlank(): boolean;
 
-    booleanToNumber(): 0|1|'0'|'1';
+    booleanToNumber(): 0|1;
 
     fileTailName(i_level: number):StringJS;
 
