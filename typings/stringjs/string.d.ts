@@ -122,12 +122,12 @@ interface StringJS {
     wrapHTML(element?: string, attributes?: Object): StringJS;
 }
 
+type StringJSType = {(o: any): StringJS};
+
 declare module "string" {
     var S: {
         (o: any): StringJS;
-        default: {
-            (o: any): StringJS
-        };
+        default: StringJSType,
         VERSION: string;
         TMPL_OPEN: string;
         TMPL_CLOSE: string;

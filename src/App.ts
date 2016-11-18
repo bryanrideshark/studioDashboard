@@ -204,8 +204,14 @@ export class Main {
         // this.localStorage.removeItem('business_id')
 
 
-        var str = StringJS('  String   \t libraries are   \n\n\t fun\n!  ').collapseWhitespace().s;
-        console.log(str);
+        // var str = StringJS('  String   \t libraries are   \n\n\t fun\n!  ').collapseWhitespace().s;
+        // console.log(str);
+        // var a = Lib.Ext();
+
+        console.log(Lib.StringJS()('This is a test').contains('this'));
+        console.log(Lib.StringJS()('This is a test').isNumeric());
+        console.log(Lib.StringJS()('doron').humanize().s);
+        // console.log(Lib.Ext()('This is a test').isNumeric());
 
         // todo: add logic to as when on each env
         // 0 = cloud, 1 = private 2 = hybrid

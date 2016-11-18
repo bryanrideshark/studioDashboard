@@ -23,17 +23,83 @@ import * as xml2js from "xml2js";
 import * as moment_ from "moment";
 import * as bootbox from 'bootbox';
 
+export const moment = moment_["default"];
+
 import * as ss from 'string';
-window['StringJS'] = ss.default;
+var S = ss.default;
 
 //import {LoggerMiddleware} from "angular2-redux-util";
 //import {BusinessUser} from "./business/BusinessUser";
 //import * as thunkMiddleware from 'redux-thunk';
 
-export const moment = moment_["default"];
+
+var CASE_OPTIONS;
+var parentPrototype;
+var stringJSObject;
+
+//-------------------------------------------------------------------------------------
+// caseOptions
+//-------------------------------------------------------------------------------------
+CASE_OPTIONS =
+    Object.freeze({
+        CASE_INSENSITIVE: 'CASE_INSENSITIVE',
+        CASE_SENSITIVE: 'CASE_SENSITIVE'
+    });
+
+//-------------------------------------------------------------------------------------
+// ExtendedStrings constructor
+//-------------------------------------------------------------------------------------
+stringJSObject = S('');
+
+parentPrototype = Object.getPrototypeOf(stringJSObject);
+
+ExtendedStrings.prototype = stringJSObject;
+
+ExtendedStrings.prototype.constructor = ExtendedStrings;
+
+function ExtendedStrings(value) {
+    this.setValue(value);
+}
+
+//-------------------------------------------------------------------------------------
+// extendedStringMaker
+//-------------------------------------------------------------------------------------
+function extendedStringMaker(value) {
+    if (value instanceof ExtendedStrings) {
+        return value;
+    }
+
+    return new ExtendedStrings(value);
+};
+
+//-------------------------------------------------------------------------------------
+// contains
+//-------------------------------------------------------------------------------------
+ExtendedStrings.prototype.contains =
+    function contains(value, caseOption) {
+        if (caseOption === CASE_OPTIONS.CASE_SENSITIVE) {
+            return parentPrototype.contains.call(this, value);
+        }
+        else {
+            return parentPrototype.contains.call(this.toUpperCase(), value.toUpperCase());
+        }
+    };
+
+//-------------------------------------------------------------------------------------
+// Set this module's public interface.
+//-------------------------------------------------------------------------------------
+extendedStringMaker['CASE_OPTIONS'] = CASE_OPTIONS;
+
+// return extendedStringMaker;
+
+
 
 @Injectable()
 export class Lib {
+
+    static StringJS():StringJSType {
+        return extendedStringMaker;
+    }
 
     static StoreFactory(reducerList: Object) {
         return () => {
@@ -1405,3 +1471,5 @@ if (!Object.assign) {
 // <Group name="AdAnalytic" visible="${getAttributeGroup('AdAnalytic', 'visible')}">
 //     <Tables/>
 //     </Group>
+
+
