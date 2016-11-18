@@ -130,6 +130,7 @@ export class AdnetNetworkPairProps {
     }
 
     private updateSore() {
+        //todo: save to store / server
         setTimeout(() => {
             console.log(this.contGroup.status + ' ' + JSON.stringify(Lib.CleanCharForXml(this.contGroup.value)));
             // this.appStore.dispatch(this.adnetAction.saveCustomerInfo(Lib.CleanCharForXml(this.contGroup.value), this.customerModel.customerId()))
