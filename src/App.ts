@@ -197,17 +197,11 @@ export class Main {
                 styleService: StyleService,
                 private appdbAction: AppdbAction) {
 
-        // remove cookies
+        /** remove localstore **/
         // this.localStorage.removeItem('remember_me')
         // this.localStorage.removeItem('adnet_customer_id')
         // this.localStorage.removeItem('adnet_token_id')
         // this.localStorage.removeItem('business_id')
-
-
-        // var str = StringJS('  String   \t libraries are   \n\n\t fun\n!  ').collapseWhitespace().s;
-        // console.log(str);
-        // var e = StringJS(a).cleanChar();
-        // var e = StringJS(`OE$)IdkIuILd.>?<:DSP`).cleanChar();
 
         // todo: add logic to as when on each env
         // 0 = cloud, 1 = private 2 = hybrid
