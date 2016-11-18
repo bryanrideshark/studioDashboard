@@ -30,7 +30,6 @@ import * as ss from 'string';
 
 export const moment = moment_["default"];
 
-
 /***
  *
  * StringJS() library extension
