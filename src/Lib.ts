@@ -78,7 +78,6 @@ window['StringJS'] = function(str) {
     return new MyS(str);
 }
 
-
 @Injectable()
 export class Lib {
 
