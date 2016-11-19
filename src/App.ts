@@ -396,6 +396,4 @@ window['hr'] && window['hr'].on('change', (fileName) => {
             appInjService(appRef.injector);
         });
     }
-})
-
-
+});
