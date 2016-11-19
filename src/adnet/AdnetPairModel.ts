@@ -25,4 +25,10 @@ export class AdnetPairModel extends StoreModel {
     public getToCustomerId(){
         return this.getKey('Value').toCustomerId;
     }
+
+    public setField(i_field, i_value) {
+        var value = this.getKey('Value');
+        value[i_field] = i_value;
+        return this.setKey<AdnetPairModel>(AdnetPairModel, 'Value', value);
+    }
 }

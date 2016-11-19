@@ -9,6 +9,7 @@ import {StoreModel} from "../models/StoreModel";
 import {AdnetTargetModel} from "./AdnetTargetModel";
 import {AdnetPackageModel} from "./AdnetPackageModel";
 import {Lib} from "../Lib";
+import {AdnetPairModel} from "./AdnetPairModel";
 
 export function adnet(state: Map<string,any> = Map<string,any>(), action: any): Map<string,any> {
 
@@ -96,6 +97,21 @@ export function adnet(state: Map<string,any> = Map<string,any>(), action: any): 
             return state.setIn(['customers'], customers);
         }
 
+        case AdnetActions.UPDATE_PAIR_INCOMING: {
+            var adPairs:List<AdnetPairModel> = state.getIn(['pairs']);
+            adPairs = adPairs.update(getIndex(adPairs, action.payload.toPairs.update[0].Key), (pair: AdnetPairModel) => {
+                return pair.setField('friend', action.payload.toPairs.update[0].Value.friend);
+            });
+            return state.setIn(['pairs'], adPairs);
+        }
+
+        case AdnetActions.UPDATE_ADNET_PACKAGE: {
+            var packages: List<AdnetPackageModel> = state.getIn(['packages'])
+            packages = packages.update(getIndex(packages, action.payload.Key), (i_package: AdnetPackageModel) => {
+                return i_package.setData<AdnetPackageModel>(AdnetPackageModel, action.payload)
+            });
+            return state.setIn(['packages'], packages);
+        }
         case AdnetActions.UPDATE_ADNET_RATE_TABLE: {
             var rates: List<AdnetRateModel> = state.getIn(['rates']);
 
@@ -110,14 +126,6 @@ export function adnet(state: Map<string,any> = Map<string,any>(), action: any): 
                 return rate;
             });
             return state.setIn(['rates'], rates);
-        }
-
-        case AdnetActions.UPDATE_ADNET_PACKAGE: {
-            var packages: List<AdnetPackageModel> = state.getIn(['packages'])
-            packages = packages.update(getIndex(packages, action.payload.Key), (i_package: AdnetPackageModel) => {
-                return i_package.setData<AdnetPackageModel>(AdnetPackageModel, action.payload)
-            });
-            return state.setIn(['packages'], packages);
         }
 
         case AdnetActions.UPDATE_ADNET_PACKAGE_CONTENT: {

@@ -1395,7 +1395,14 @@ MyS.prototype.isNotBlank = function () {
     return true;
 }
 
-MyS.prototype.booleanToNumber = function () {
+/**
+ *  booleanToNumber
+ *  convert boolean to a number 0 or 1
+ *  if forceCast is true, it will always return a number, else it will alow strings to pass through it
+ * @param forceCast
+ * @returns {any}
+ */
+MyS.prototype.booleanToNumber = function (forceCasting:boolean = false) {
     var value = this.s;
     if (value=='')
         return 0;
@@ -1405,7 +1412,11 @@ MyS.prototype.booleanToNumber = function () {
         return 0;
     if (value === 1 || value === "true" || value === "True" || value === true)
         return 1;
-    return parseInt(value);
+    if (forceCasting){
+        return parseInt(value);
+    } else {
+        return value;
+    }
 }
 
 MyS.prototype.fileTailName = function (i_level) {

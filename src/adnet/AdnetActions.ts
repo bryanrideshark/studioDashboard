@@ -34,6 +34,8 @@ export const RECEIVE_TARGETS_SEARCH = 'RECEIVE_TARGETS_SEARCH';
 export const ADD_ADNET_PAIR = 'ADD_ADNET_PAIR';
 export const RECEIVE_PAIRS = 'RECEIVE_PAIRS';
 export const RECEIVE_PACKAGES = 'RECEIVE_PACKAGES';
+export const UPDATE_PAIR_INCOMING = 'UPDATE_PAIR_INCOMING';
+export const UPDATE_PAIR_OUTGOING = 'UPDATE_PAIR_OUTGOING';
 export const UPDATE_ADNET_CUSTOMER = 'UPDATE_ADNET_CUSTOMER';
 export const UPDATE_ADNET_RATE_TABLE = 'UPDATE_ADNET_RATE_TABLE';
 export const UPDATE_ADNET_PACKAGE = 'UPDATE_ADNET_PACKAGE';
@@ -205,7 +207,7 @@ export class AdnetActions extends Actions {
         };
     }
 
-    public saveTargetCoordinates(data: Object, i_adnetTargetModel:AdnetTargetModel, i_adnetCustomer:AdnetCustomerModel) {
+    public saveTargetCoordinates(data: Object, i_adnetTargetModel: AdnetTargetModel, i_adnetCustomer: AdnetCustomerModel) {
         return (dispatch) => {
             const payload = {
                 Value: data,
@@ -232,7 +234,7 @@ export class AdnetActions extends Actions {
         };
     }
 
-    public saveTargetInfo(data: Object, i_adnetTargetModel:AdnetTargetModel, i_adnetCustomer:AdnetCustomerModel) {
+    public saveTargetInfo(data: Object, i_adnetTargetModel: AdnetTargetModel, i_adnetCustomer: AdnetCustomerModel) {
         return (dispatch) => {
             var payloadToServer = {
                 "targets": {
@@ -707,6 +709,37 @@ export class AdnetActions extends Actions {
         };
     }
 
+    public updPairOutgoing(i_pairOutgoing: AdnetPairModel, values: {string: any}) {
+        return (dispatch) => {
+            var customerId = i_pairOutgoing.getCustomerId();
+            var payload = {
+                "toPairs": {
+                    "update": [{
+                        "Key": i_pairOutgoing.getId(),
+                        "Value": {
+                            "id": i_pairOutgoing.getId(),
+                            "handle": "1",
+                            "modified": "1",
+                            "customerId": i_pairOutgoing.getCustomerId(),
+                            "toCustomerId": i_pairOutgoing.getToCustomerId,
+                            "friend": values['friend'],
+                            "reviewRate": "0",
+                            "reviewText": ""
+                        }
+                    }]
+                }
+            }
+            this.saveToServer(payload, customerId, (jData) => {
+                if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
+                    return alert('problem updating rate table to server');
+                dispatch({
+                    type: UPDATE_PAIR_INCOMING,
+                    payload
+                });
+            })
+        };
+    }
+
     public updAdnetRateTable(payload: any, customerId: string, renamed?: boolean) {
         return (dispatch) => {
             var value = {
@@ -982,3 +1015,4 @@ export class AdnetActions extends Actions {
         };
     }
 }
+

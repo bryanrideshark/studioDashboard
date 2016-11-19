@@ -14,6 +14,7 @@ import * as _ from "lodash";
 import {Lib} from "src/Lib";
 import {List} from "immutable";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
+import {Compbaser} from "../../../compbaser/Compbaser";
 
 
 
@@ -21,7 +22,7 @@ import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
     selector: 'AdnetNetworkPairProps',
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
-        '(input-blur)': 'onFormChange($event)'
+        '(input-blur)': 't_onFormChange($event)'
     },
     moduleId: __moduleName,
     template: `
@@ -41,7 +42,7 @@ import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
                                     <li *ngIf="pairOutgoing==false" class="list-group-item">
                                         auto active
                                         <div class="material-switch pull-right">
-                                            <input (change)="onFormChange(customerNetwork1.checked)"
+                                            <input (change)="t_onFormChange(customerNetwork1.checked)"
                                                    [formControl]="contGroup.controls['autoActivate']"
                                                    id="customerNetwork1" #customerNetwork1
                                                    name="customerNetwork1" type="checkbox"/>
@@ -52,7 +53,7 @@ import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
                                   <li *ngIf="pairOutgoing==false" class="list-group-item">
                                         activated
                                         <div class="material-switch pull-right">
-                                            <input (change)="onFormChange(customerNetwork2.checked)"
+                                            <input (change)="t_onFormChange(customerNetwork2.checked)"
                                                    [formControl]="contGroup.controls['activated']"
                                                    id="customerNetwork2" #customerNetwork2
                                                    name="customerNetwork2" type="checkbox"/>
@@ -63,7 +64,7 @@ import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
                                   <li *ngIf="pairOutgoing==true" class="list-group-item">
                                         friend
                                         <div class="material-switch pull-right">
-                                            <input (change)="onFormChange(customerNetwork3.checked)"
+                                            <input (change)="t_onFormChange(customerNetwork3.checked)"
                                                    [formControl]="contGroup.controls['friend']"
                                                    id="customerNetwork3" #customerNetwork3
                                                    name="customerNetwork3" type="checkbox"/>
@@ -93,9 +94,9 @@ import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
         }
     `]
 })
-export class AdnetNetworkPairProps {
+export class AdnetNetworkPairProps extends Compbaser {
     constructor(private fb: FormBuilder, private appStore: AppStore, private adnetAction: AdnetActions) {
-        this['me'] = Lib.GetCompSelector(this.constructor)
+        super();
         this.contGroup = fb.group({
             'autoActivate': [''],
             'activated': [''],
@@ -125,15 +126,13 @@ export class AdnetNetworkPairProps {
         this.pairOutgoing = i_setPairOutgoing;
     }
 
-    private onFormChange(event) {
+    public t_onFormChange(event) {
         this.updateSore();
     }
 
     private updateSore() {
-        //todo: save to store / server
         setTimeout(() => {
-            console.log(this.contGroup.status + ' ' + JSON.stringify(Lib.CleanCharForXml(this.contGroup.value)));
-            // this.appStore.dispatch(this.adnetAction.saveCustomerInfo(Lib.CleanCharForXml(this.contGroup.value), this.customerModel.customerId()))
+            this.appStore.dispatch(this.adnetAction.updPairOutgoing(this.adnetPairModel, this.contGroup.value))
         }, 1)
     }
 
