@@ -132,7 +132,7 @@ export class AdnetNetworkPairProps extends Compbaser {
 
     private updateSore() {
         setTimeout(() => {
-            this.appStore.dispatch(this.adnetAction.updPairOutgoing(this.adnetPairModel, this.contGroup.value))
+            this.appStore.dispatch(this.adnetAction.updPairOutgoing(this.pairOutgoing, this.adnetPairModel, this.contGroup.value))
         }, 1)
     }
 

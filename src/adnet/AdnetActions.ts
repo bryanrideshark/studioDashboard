@@ -709,20 +709,30 @@ export class AdnetActions extends Actions {
         };
     }
 
-    public updPairOutgoing(i_pairOutgoing: AdnetPairModel, values: {string: any}) {
+    public updPairOutgoing(i_pairOutgoing:boolean, i_adnetPairModel: AdnetPairModel, values: {string: any}) {
         return (dispatch) => {
-            var customerId = i_pairOutgoing.getCustomerId();
+            var updCustomerId, updToCustomerId, customerId;
+            customerId = i_adnetPairModel.getCustomerId();
+            if (i_pairOutgoing) {
+                updCustomerId = i_adnetPairModel.getCustomerId();
+                updToCustomerId = i_adnetPairModel.getToCustomerId();
+            } else {
+                updCustomerId = i_adnetPairModel.getToCustomerId();
+                updToCustomerId = i_adnetPairModel.getCustomerId();
+            }
             var payload = {
                 "toPairs": {
                     "update": [{
-                        "Key": i_pairOutgoing.getId(),
+                        "Key": i_adnetPairModel.getId(),
                         "Value": {
-                            "id": i_pairOutgoing.getId(),
+                            "id": i_adnetPairModel.getId(),
                             "handle": "1",
                             "modified": "1",
-                            "customerId": i_pairOutgoing.getCustomerId(),
-                            "toCustomerId": i_pairOutgoing.getToCustomerId,
+                            "customerId": updCustomerId,
+                            "toCustomerId": updToCustomerId,
                             "friend": values['friend'],
+                            "autoActivate": values['autoActivate'],
+                            "activated": values['activated'],
                             "reviewRate": "0",
                             "reviewText": ""
                         }
