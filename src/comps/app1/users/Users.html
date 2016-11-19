@@ -11,7 +11,8 @@
                           </li>
                         </ul>
                       </span>
-        <a (click)="onRemoveUser($event)" [ngClass]="{disabled: !businessUsersListFiltered || businessUsersListFiltered.size < 1}" href="#"><span class="remove fa fa-remove"></span></a>
+        <!--<a (click)="onRemoveUser($event)" [ngClass]="{disabled: !businessUsersListFiltered || businessUsersListFiltered.size < 1}" href="#"><span class="remove fa fa-remove"></span></a>-->
+        <a (click)="onRemoveUser($event)" href="#"><span class="remove fa fa-remove"></span></a>
       </div>
     </div>
     <SimpleList *ngIf="businessesUsers && priveleges" #simpleList [list]="businessesList" (selected)="onFilteredSelection()" (iconClicked)="onShowUserInfo($event)" [contentId]="getBusinessesId()" [icon]="'fa-user'" [content]="getBusinesses"></SimpleList>
