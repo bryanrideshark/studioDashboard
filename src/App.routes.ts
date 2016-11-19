@@ -15,7 +15,7 @@ import {AdnetResolver} from "./comps/app1/adnet/targets/AdnetResolver";
 import {AdnetLoader} from "./comps/app1/adnet/AdnetLoader";
 
 const routes: Routes = [
-    {path: 'Login', component: LoginPanel},
+    {path: 'Login', data: {title: 'Login'}, component: LoginPanel},
     {path: 'Logout', component: Logout},
     {path: '', component: App1, canActivate: [AuthService]},
     {
@@ -28,25 +28,25 @@ const routes: Routes = [
         path: 'App1', component: App1,
         children: [
             {path: '', component: App1, canActivate: [AuthService]},
-            {path: 'Dashboard', component: Dashboard, canActivate: [AuthService]},
-            {path: 'Orders', component: Orders, canActivate: [AuthService]},
-            {path: 'Users', component: Users, canActivate: [AuthService]},
-            {path: 'Privileges', component: Privileges, canActivate: [AuthService]},
-            {path: 'White label', component: Whitelabel, canActivate: [AuthService]},
-            {path: 'Apps', component: Apps, canActivate: [AuthService]},
-            {path: 'Account', component: Account, canActivate: [AuthService]},
-            {path: 'Orders', component: Orders, canActivate: [AuthService]},
-            {path: 'Adnet', component: Adnet, canActivate: [AuthService], pathMatch: 'full', redirectTo: '/App1/Adnet/Adnet' },
+            {path: 'Dashboard', component: Dashboard, data: {title: 'Dashboard'}, canActivate: [AuthService]},
+            {path: 'Orders', component: Orders, data: {title: 'Orders'}, canActivate: [AuthService]},
+            {path: 'Users', component: Users, data: {title: 'Users'}, canActivate: [AuthService]},
+            {path: 'Privileges', component: Privileges, data: {title: 'Privileges'}, canActivate: [AuthService]},
+            {path: 'White label', component: Whitelabel, data: {title: 'Branding'}, canActivate: [AuthService]},
+            {path: 'Apps', component: Apps, data: {title: 'Apps'}, canActivate: [AuthService]},
+            {path: 'Account', component: Account, data: {title: 'Account'}, canActivate: [AuthService]},
+            {path: 'Orders', component: Orders, data: {title: 'Orders'}, canActivate: [AuthService]},
+            {path: 'Adnet', component: Adnet, data: {title: 'Adnet'}, canActivate: [AuthService], pathMatch: 'full', redirectTo: '/App1/Adnet/Adnet' },
             {path: 'Adnet',
                 children: [
-                        {path: 'Adnet', component: AdnetLoader, canActivate: [AuthService]},
-                        {path: 'Adnet2', component: Adnet, canActivate: [AuthService],
+                        {path: 'Adnet', component: AdnetLoader,  data: {title: 'Adnet'}, canActivate: [AuthService]},
+                        {path: 'Adnet2', component: Adnet,  data: {title: 'Ad network'}, canActivate: [AuthService],
                             resolve: {
                             adnetResolver: AdnetResolver
                         }}
                     ]
                 },
-            {path: 'Logout', component: Logout, canActivate: [AuthService]},
+            {path: 'Logout', component: Logout, data: {title: 'Logout'}, canActivate: [AuthService]},
             {path: '**', redirectTo: 'Dashboard'}
         ]
     }

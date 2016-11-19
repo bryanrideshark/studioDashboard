@@ -13,7 +13,8 @@ import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 @Component({
     selector: 'AdnetReports',
     template: `<h3>Reports</h3>
-                {{pairOutgoing}}
+                incoming {{pairOutgoing}} <br/>
+                includeAll: {{reportIncludeAll}}
                 
                `,
     moduleId: __moduleName
@@ -42,6 +43,8 @@ export class AdnetReports extends Compbaser {
     set setAdnetPairModels(i_adnetPairModels: List<AdnetPairModel>) {
         // this.simpleGridTable.deselect();
         this.adnetPairModels = i_adnetPairModels;
+        if (this.adnetPairModels)
+            this.reportIncludeAll = this.adnetPairModels.size < 2 ? false : true;
         // this.onFilterPackages();
     }
 
@@ -56,6 +59,8 @@ export class AdnetReports extends Compbaser {
 
     private adnetCustomerModel: AdnetCustomerModel;
     private adnetPairModels: List<AdnetPairModel>;
+    private reportIncludeAll:boolean;
+
     // private targets: List<AdnetTargetModel>
     // private packages: List<AdnetPackageModel>
     private adnetTargetModel: AdnetTargetModel;

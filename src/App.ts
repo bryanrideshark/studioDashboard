@@ -15,7 +15,12 @@
 
 import "zone.js/dist/zone";
 import "reflect-metadata";
-import {Router} from "@angular/router";
+import {
+    Router,
+    ActivatedRoute,
+    Route,
+    NavigationEnd
+} from "@angular/router";
 import {routing} from "./App.routes";
 import {platformBrowserDynamic} from "@angular/platform-browser-dynamic";
 import {
@@ -86,7 +91,10 @@ import {
 } from "angular2-google-maps/core/core.umd.js";
 import {AdnetActions} from "./adnet/AdnetActions";
 import {AUTH_PROVIDERS} from "./services/AuthService";
-import {BrowserModule} from "@angular/platform-browser";
+import {
+    BrowserModule,
+    Title
+} from "@angular/platform-browser";
 import {SimpleList} from "./comps/simplelist/Simplelist";
 import {Orders} from "./comps/app1/orders/Orders";
 import {UsersDetails} from "./comps/app1/users/UsersDetails";
@@ -194,6 +202,8 @@ export class Main {
                 private router: Router,
                 private appStore: AppStore,
                 private commBroker: CommBroker,
+                private activatedRoute: ActivatedRoute,
+                private titleService: Title,
                 styleService: StyleService,
                 private appdbAction: AppdbAction) {
 
@@ -255,6 +265,26 @@ export class Main {
                 width: appWidth
             }
         })
+    }
+
+    ngOnInit() {
+        this.listenRouterUpdateTitle();
+    }
+
+    private listenRouterUpdateTitle() {
+        this.router.events
+            .filter(event => event instanceof NavigationEnd)
+            .map(() => this.activatedRoute)
+            .map(route => {
+                while (route.firstChild) {
+                    route = route.firstChild
+                }
+                return route;
+            }).filter(route => route.outlet === 'primary')
+            .mergeMap(route => route.data)
+            .subscribe((event) => {
+                this.titleService.setTitle(event['title'])
+            });
     }
 }
 
