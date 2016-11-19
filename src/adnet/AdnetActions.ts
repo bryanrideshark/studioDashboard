@@ -34,8 +34,8 @@ export const RECEIVE_TARGETS_SEARCH = 'RECEIVE_TARGETS_SEARCH';
 export const ADD_ADNET_PAIR = 'ADD_ADNET_PAIR';
 export const RECEIVE_PAIRS = 'RECEIVE_PAIRS';
 export const RECEIVE_PACKAGES = 'RECEIVE_PACKAGES';
-export const UPDATE_PAIR_INCOMING = 'UPDATE_PAIR_INCOMING';
 export const UPDATE_PAIR_OUTGOING = 'UPDATE_PAIR_OUTGOING';
+export const UPDATE_PAIR_INCOMING = 'UPDATE_PAIR_INCOMING';
 export const UPDATE_ADNET_CUSTOMER = 'UPDATE_ADNET_CUSTOMER';
 export const UPDATE_ADNET_RATE_TABLE = 'UPDATE_ADNET_RATE_TABLE';
 export const UPDATE_ADNET_PACKAGE = 'UPDATE_ADNET_PACKAGE';
@@ -709,17 +709,9 @@ export class AdnetActions extends Actions {
         };
     }
 
-    public updPairOutgoing(i_pairOutgoing:boolean, i_adnetPairModel: AdnetPairModel, values: {string: any}) {
+    public updPairOutgoing(i_adnetPairModel: AdnetPairModel, values: {string: any}) {
         return (dispatch) => {
-            var updCustomerId, updToCustomerId, customerId;
-            customerId = i_adnetPairModel.getCustomerId();
-            if (i_pairOutgoing) {
-                updCustomerId = i_adnetPairModel.getCustomerId();
-                updToCustomerId = i_adnetPairModel.getToCustomerId();
-            } else {
-                updCustomerId = i_adnetPairModel.getToCustomerId();
-                updToCustomerId = i_adnetPairModel.getCustomerId();
-            }
+            var customerId = i_adnetPairModel.getCustomerId();
             var payload = {
                 "toPairs": {
                     "update": [{
@@ -728,11 +720,41 @@ export class AdnetActions extends Actions {
                             "id": i_adnetPairModel.getId(),
                             "handle": "1",
                             "modified": "1",
-                            "customerId": updCustomerId,
-                            "toCustomerId": updToCustomerId,
+                            "customerId": i_adnetPairModel.getCustomerId(),
+                            "toCustomerId": i_adnetPairModel.getToCustomerId(),
                             "friend": values['friend'],
-                            "autoActivate": values['autoActivate'],
+                            "reviewRate": "0",
+                            "reviewText": ""
+                        }
+                    }]
+                }
+            }
+            this.saveToServer(payload, customerId, (jData) => {
+                if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
+                    return alert('problem updating rate table to server');
+                dispatch({
+                    type: UPDATE_PAIR_OUTGOING,
+                    payload
+                });
+            })
+        };
+    }
+
+    public updPairIncoming(i_adnetPairModel: AdnetPairModel, values: {string: any}) {
+        return (dispatch) => {
+            var customerId = i_adnetPairModel.getToCustomerId();
+            var payload = {
+                "fromPairs": {
+                    "update": [{
+                        "Key": i_adnetPairModel.getId(),
+                        "Value": {
+                            "id": i_adnetPairModel.getId(),
+                            "handle": "1",
+                            "modified": "1",
+                            "customerId": i_adnetPairModel.getCustomerId(),
+                            "toCustomerId": i_adnetPairModel.getToCustomerId(),
                             "activated": values['activated'],
+                            "autoActivate": values['autoActivate'],
                             "reviewRate": "0",
                             "reviewText": ""
                         }
@@ -1025,4 +1047,3 @@ export class AdnetActions extends Actions {
         };
     }
 }
-

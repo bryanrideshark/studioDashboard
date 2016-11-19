@@ -97,10 +97,18 @@ export function adnet(state: Map<string,any> = Map<string,any>(), action: any): 
             return state.setIn(['customers'], customers);
         }
 
-        case AdnetActions.UPDATE_PAIR_INCOMING: {
+        case AdnetActions.UPDATE_PAIR_OUTGOING: {
             var adPairs:List<AdnetPairModel> = state.getIn(['pairs']);
             adPairs = adPairs.update(getIndex(adPairs, action.payload.toPairs.update[0].Key), (pair: AdnetPairModel) => {
                 return pair.setField('friend', action.payload.toPairs.update[0].Value.friend);
+            });
+            return state.setIn(['pairs'], adPairs);
+        }
+
+        case AdnetActions.UPDATE_PAIR_INCOMING: {
+            var adPairs:List<AdnetPairModel> = state.getIn(['pairs']);
+            adPairs = adPairs.update(getIndex(adPairs, action.payload.fromPairs.update[0].Key), (pair: AdnetPairModel) => {
+                return pair.setField('friend', action.payload.fromPairs.update[0].Value.friend);
             });
             return state.setIn(['pairs'], adPairs);
         }
