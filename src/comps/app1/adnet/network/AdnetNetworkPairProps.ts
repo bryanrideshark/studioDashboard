@@ -62,7 +62,7 @@ import {Compbaser} from "../../../compbaser/Compbaser";
                                     </li>
                                    
                                   <li *ngIf="pairOutgoing==true" class="list-group-item">
-                                        friend
+                                        acquaintance
                                         <div class="material-switch pull-right">
                                             <input (change)="t_onFormChange(customerNetwork3.checked)"
                                                    [formControl]="contGroup.controls['friend']"
