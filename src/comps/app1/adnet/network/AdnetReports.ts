@@ -9,13 +9,16 @@ import {List} from "immutable";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
+import {AdnetActions} from "../../../../adnet/AdnetActions";
+import {AppStore} from "angular2-redux-util";
 
 @Component({
     selector: 'AdnetReports',
-    template: `<h3>Reports</h3>
-                incoming {{pairOutgoing}} <br/>
-                includeAll: {{reportIncludeAll}}
-                
+    template: `<small class="debug">{{me}}</small>
+              incoming {{pairOutgoing}} <br/>
+              includeAll: {{reportIncludeAll}}
+              customerId: {{adnetCustomerModel.getId()}}
+              <button (click)="onReport()" class="btn btn-circle">Run</button>
                `,
     moduleId: __moduleName
 })
@@ -23,7 +26,7 @@ import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 
 export class AdnetReports extends Compbaser {
 
-    constructor() {
+    constructor(private adnetAction:AdnetActions, private appStore:AppStore) {
         super();
     }
 
@@ -66,6 +69,10 @@ export class AdnetReports extends Compbaser {
     private adnetTargetModel: AdnetTargetModel;
     // private packagesFiltered: List<AdnetPackageModel>
     private pairOutgoing: boolean
+
+    private onReport(){
+        this.appStore.dispatch(this.adnetAction.reportsAdnet(this.adnetCustomerModel.getId()));
+    }
 
     private onFilterPackages() {
 

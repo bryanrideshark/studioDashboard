@@ -201,7 +201,7 @@ export class AdnetActions extends Actions {
             payload.Value = {"customerInfo": data};
             this.saveToServer(payload.Value, adnetCustomerId, (jData) => {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
-                    return alert('problem saving customer info to server');
+                    return this.toastr.error('problem saving customer info to server');
                 payload.Value = data;
                 dispatch(this.updateAdnetCustomer(payload))
             })
@@ -229,7 +229,7 @@ export class AdnetActions extends Actions {
             }
             this.saveToServer(payloadToServer, i_adnetCustomer.getId(), (jData) => {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
-                    return alert('problem updating targets table on server');
+                    return this.toastr.error('problem updating targets table on server');
                 dispatch(this.updateAdnetTarget(payload))
             })
         };
@@ -264,10 +264,62 @@ export class AdnetActions extends Actions {
             var payload = payloadToServer.targets.update[0];
             this.saveToServer(payloadToServer, i_adnetCustomer.getId(), (jData) => {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
-                    return alert('problem updating targets table on server');
+                    return this.toastr.error('problem updating targets table on server');
                 dispatch(this.updateAdnetTarget(payload))
             })
         };
+    }
+
+    public reportsAdnet(i_customerId, type = 0, customer = '', target = '', keys = '', global = 1, lat = 0, lng = 0, radios = -1) {
+        return (dispatch) => {
+            var businesses: List<BusinessModel> = this.appStore.getState().business.getIn(['businesses']);
+            var businessModel: BusinessModel = businesses.filter((i_businessModel: BusinessModel) => i_businessModel.getAdnetCustomerId() == i_customerId).first() as BusinessModel;
+            var adnetTokenId = businessModel.getAdnetTokenId();
+            // var data = `&type=${type}&customer=${customer}&target=${target}&keys=${keys}&global=${global}&lat=${lat}&lng=${lng}&radios=${radios}`;
+            var to = '';
+            var data = `&to${to}`;
+            const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetReports').replace(':ADNET_CUSTOMER_ID:', i_customerId).replace(':ADNET_TOKEN_ID:', adnetTokenId).replace(':DATA:', data).replace(/null/g, '');
+            console.log(baseUrl);
+
+            this._http.get(baseUrl)
+                .map(result => {
+                    var jData: Object = result.json()
+                    console.log(jData);
+                    // if (jData['targets'] && jData['targets'].length > 200)
+                    //     this.toastr.error('The list returned is too large, please add additional filtering criteria');
+                    //
+                    // /** Customers **/
+                    // var adnetCustomers: List<AdnetCustomerModel> = List<AdnetCustomerModel>();
+                    // for (var adnetCustomer of jData['customers']) {
+                    //     const adnetCustomerModel: AdnetCustomerModel = new AdnetCustomerModel(adnetCustomer);
+                    //     adnetCustomers = adnetCustomers.push(adnetCustomerModel)
+                    // }
+                    //
+                    // /** Rates **/
+                    // var adnetRates: List<AdnetRateModel> = List<AdnetRateModel>();
+                    // for (var adnetRate of jData['rates']) {
+                    //     if (adnetRate.Value.deleted == true)
+                    //         continue;
+                    //     const adnetRateModel: AdnetRateModel = new AdnetRateModel(adnetRate);
+                    //     adnetRates = adnetRates.push(adnetRateModel)
+                    // }
+                    //
+                    // /** Targets **/
+                    // var adnetTargets: List<AdnetTargetModel> = List<AdnetTargetModel>();
+                    // for (var target of jData['targets']) {
+                    //     if (target.Value.deleted == true)
+                    //         continue;
+                    //     const adnetTargetModel: AdnetTargetModel = new AdnetTargetModel(target);
+                    //     adnetTargets = adnetTargets.push(adnetTargetModel)
+                    // }
+                    // dispatch(this.adnetTargetsSearch({
+                    //     adnetTargets,
+                    //     adnetCustomers,
+                    //     adnetRates
+                    // }));
+
+                }).subscribe()
+        }
     }
 
 
@@ -284,7 +336,7 @@ export class AdnetActions extends Actions {
                     var jData: Object = result.json()
 
                     if (jData['targets'] && jData['targets'].length > 200)
-                        return bootbox.alert('The list returned is too large, please add additional filtering criteria');
+                        this.toastr.error('The list returned is too large, please add additional filtering criteria');
 
                     /** Customers **/
                     var adnetCustomers: List<AdnetCustomerModel> = List<AdnetCustomerModel>();
@@ -351,7 +403,7 @@ export class AdnetActions extends Actions {
             }
             this.saveToServer(payloadToServer, customerId, (jData) => {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
-                    return alert('problem adding package to server');
+                    return this.toastr.error('problem adding package to server');
                 var packageId = jData.packages.add["0"].packageId;
                 payload.Key = packageId;
                 // payload.Value.id = packageId;
@@ -374,7 +426,7 @@ export class AdnetActions extends Actions {
             // var model: AdnetRateModel = new AdnetRateModel(payloadToServer);
             this.saveToServer(payloadToServer, customerId, (jData) => {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
-                    return alert('problem removing package from server');
+                    return this.toastr.error('problem removing package from server');
                 // model = model.setId(jData.rates.add["0"]) as AdnetRateModel;
                 dispatch({
                     type: REMOVE_ADNET_PACKAGE,
@@ -408,7 +460,7 @@ export class AdnetActions extends Actions {
             }
             this.saveToServer(payloadToServer, customerId, (jData) => {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
-                    return alert('problem removing package content on server');
+                    return this.toastr.error('problem removing package content on server');
                 dispatch(this.removePackageContent(payloadToSave))
             })
         };
@@ -444,7 +496,7 @@ export class AdnetActions extends Actions {
             }
             this.saveToServer(payloadToServer, customerId, (jData) => {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
-                    return alert('problem saving rate table to server');
+                    return this.toastr.error('problem saving rate table to server');
                 model = model.setId(jData.targets.add["0"]) as AdnetTargetModel;
 
                 dispatch({
@@ -520,12 +572,12 @@ export class AdnetActions extends Actions {
             }
             this.saveToServer((payloadToServerWithNewCustomer || payloadToServer), i_customerId, (jData) => {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
-                    return alert('problem adding new paired customer on server');
+                    return this.toastr.error('problem adding new paired customer on server');
                 //todo: not sure why I need to do two server calls as Pro just does one to add pair and add target in one shot
 
                 this.saveToServer((payloadToServer), i_customerId, (i_jData) => {
                     if (_.isUndefined(!i_jData) || _.isUndefined(i_jData.fromChangelistId))
-                        return alert('problem adding target on server');
+                        return this.toastr.error('problem adding target on server');
 
                     // add new target by copying it from store > target_search to store > targets
                     dispatch(this.addTargetNew(i_adnetTargetModel.getId()));
@@ -589,7 +641,7 @@ export class AdnetActions extends Actions {
             }
             this.saveToServer(payloadToServer, customerId, (jData) => {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
-                    return alert('problem saving rate table to server');
+                    return this.toastr.error('problem saving rate table to server');
                 model = model.setId(jData.rates.add["0"]) as AdnetRateModel;
                 dispatch({
                     type: ADD_ADNET_RATE_TABLE,
@@ -604,7 +656,7 @@ export class AdnetActions extends Actions {
             var payLoad = {"rates": {"delete": [adnetId]}}
             this.saveToServer(payLoad, customerId, (jData) => {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
-                    return alert('problem removing rate table on server');
+                    return this.toastr.error('problem removing rate table on server');
                 dispatch({
                     type: REMOVE_ADNET_RATE_TABLE,
                     id: adnetId
@@ -632,7 +684,7 @@ export class AdnetActions extends Actions {
 
             this.saveToServer(payload, i_adnetPackageModel.getCustomerId(), (jData) => {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
-                    return alert('problem removing adnet target package from server');
+                    return this.toastr.error('problem removing adnet target package from server');
                 dispatch({
                     type: REMOVE_ADNET_TARGET,
                     payload: {
@@ -654,7 +706,7 @@ export class AdnetActions extends Actions {
             }
             this.saveToServer(payloadToServer, customerId, (jData) => {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
-                    return alert('problem updating rate table to server');
+                    return this.toastr.error('problem updating rate table to server');
 
                 dispatch({
                     type: REMOVE_ADNET_TARGET_WEB,
@@ -700,7 +752,7 @@ export class AdnetActions extends Actions {
 
             this.saveToServer(payloadToServer, customerId, (jData) => {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
-                    return alert('problem updating package on server');
+                    return this.toastr.error('problem updating package on server');
                 payloadToSave.Value['startDate'] = `/Date(${Lib.ProcessDateFieldToUnix(payload.startDate, false)})/`;
                 payloadToSave.Value['endDate'] = `/Date(${Lib.ProcessDateFieldToUnix(payload.endDate, false)})/`;
                 payloadToSave.Value['targets'] = adnetPackageModel.getTargets();
@@ -732,7 +784,7 @@ export class AdnetActions extends Actions {
             }
             this.saveToServer(payload, customerId, (jData) => {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
-                    return alert('problem updating rate table to server');
+                    return this.toastr.error('problem updating rate table to server');
                 dispatch({
                     type: UPDATE_PAIR_OUTGOING,
                     payload
@@ -764,7 +816,7 @@ export class AdnetActions extends Actions {
             }
             this.saveToServer(payload, customerId, (jData) => {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
-                    return alert('problem updating rate table to server');
+                    return this.toastr.error('problem updating rate table to server');
                 dispatch({
                     type: UPDATE_PAIR_INCOMING,
                     payload
@@ -802,7 +854,7 @@ export class AdnetActions extends Actions {
             var model: AdnetRateModel = new AdnetRateModel(payloadToSave);
             this.saveToServer(payloadToServer, customerId, (jData) => {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
-                    return alert('problem updating rate table to server');
+                    return this.toastr.error('problem updating rate table to server');
                 model = model.setId(jData.rates.add["0"]) as AdnetRateModel;
                 dispatch(this.updateAdnetRateTable(payload))
                 if (renamed) {
@@ -861,7 +913,7 @@ export class AdnetActions extends Actions {
 
             this.saveToServer(payloadToServer, customerId, (jData) => {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
-                    return alert('problem updating package content table to server');
+                    return this.toastr.error('problem updating package content table to server');
                 // model = model.setId(jData.rates.add["0"]) as AdnetRateModel;
                 dispatch(this.updatePackageContentProps(packageId, payloadToSave))
             })
@@ -909,7 +961,7 @@ export class AdnetActions extends Actions {
             }
             this.saveToServer(payloadToServer, customerId, (jData) => {
                 if (_.isUndefined(!jData) || _.isUndefined(jData.fromChangelistId))
-                    return alert('problem adding package on server');
+                    return this.toastr.error('problem adding package on server');
                 payloadToSave.Key = jData.packages.update["0"].contentIds["0"];
                 payloadToSave.Value.id = jData.packages.update["0"].contentIds["0"];
                 dispatch(this.addPackageContent(adnetPackageModel.getId(), payloadToSave))

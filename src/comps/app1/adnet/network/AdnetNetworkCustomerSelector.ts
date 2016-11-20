@@ -52,11 +52,11 @@ export interface IPairSelect {
                 [ngClass]="{'btn-primary': packageEditMode}" class="btn-sm mn btn">
                 <div *ngIf="packageEditMode && outgoing == true">
                     <span class="faPlace fa fa-edit"></span>
-                    edit packages
+                    select all (edit mode)
                 </div>
                 <div style="opacity: 0.3" *ngIf="!packageEditMode && outgoing == true">
                     <span class="faPlace fa fa-edit"></span>
-                    edit packages                        
+                    select all (edit mode)                        
                 </div>
                 <div *ngIf="packageEditMode && outgoing == false">
                     <span class="faPlace fa fa-list"></span>

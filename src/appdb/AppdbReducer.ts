@@ -12,6 +12,7 @@ const adnetCustomerToken = ':ADNET_TOKEN_ID:'
 const appBaseUrlAdnet = `https://adnet.signage.me/adNetService.ashx?command=customerRequest&customerId=${adnetCustomerId}&customerToken=${adnetCustomerToken}&fromChangelistId=0`;
 const appBaseUrlAdnetSearch = `https://adnet.signage.me/adNetService.ashx?command=search&customerId=${adnetCustomerId}&customerToken=${adnetCustomerToken}:DATA:`;
 const appBaseUrlAdnetSave = `https://adnet.signage.me/adNetService.ashx?command=customerSubmit&customerId=${adnetCustomerId}&customerToken=${adnetCustomerToken}&data=:DATA:`;
+const appBaseUrlAdnetReports = `https://adnet.signage.me/adNetService.ashx?command=customersReport&customerId=${adnetCustomerId}&customerToken=${adnetCustomerToken}&data=:DATA:`;
 export const appBaseUrlCloud = 'https://secure.digitalsignage.com';
 
 export default function appdb(state: Map<string, any> = Map<string, any>({}), action: any): Map<string, any> {
@@ -47,7 +48,8 @@ export default function appdb(state: Map<string, any> = Map<string, any>({}), ac
                 appBaseUrlCloud: `${appBaseUrlCloud}/END_POINT/${action.user}/${action.pass}`,
                 appBaseUrlAdnet: `${appBaseUrlAdnet}`,
                 appBaseUrlAdnetSave: `${appBaseUrlAdnetSave}`,
-                appBaseUrlAdnetSearch: `${appBaseUrlAdnetSearch}`
+                appBaseUrlAdnetSearch: `${appBaseUrlAdnetSearch}`,
+                appBaseUrlAdnetReports: `${appBaseUrlAdnetReports}`
             });
 
         case AppdbAction.TWO_FACTOR_SERVER_RESULT:
