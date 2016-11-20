@@ -37,6 +37,7 @@ import {
 import * as platform from "platform";
 import "jspm_packages/github/twbs/bootstrap@3.3.6";
 import "twbs/bootstrap/dist/css/bootstrap.css!";
+import "ng2-toastr/bundles/ng2-toastr.min.css!";
 import "primeng/resources/themes/omega/theme.css!";
 import "primeng/resources/primeng.min.css!";
 import "./styles/style.css!";
@@ -175,6 +176,7 @@ import {Dropbox} from "./comps/dropbox/Dropbox";
 import {TreeModule} from 'primeng/primeng';
 import {Twofactor} from "./comps/twofactor/Twofactor";
 import {AdnetReports} from "./comps/app1/adnet/network/AdnetReports";
+import {ToastModule, ToastOptions} from 'ng2-toastr/ng2-toastr';
 
 
 //import {TreeModule} from 'angular2-tree-component';
@@ -375,8 +377,13 @@ var providing = [CommBroker, AUTH_PROVIDERS,
 
 var decelerations = [Main, RatesTable, UsersDetails, LoginPanel, Menu, MenuItem, Account, Whitelabel, Apps, App1, Users, Adnet, Privileges, Dashboard, Logout, Orders, Filemenu, FilemenuItem, Logo, LogoCompany, Footer, BlurForwarder, InputEdit, OrderBy, SortBy, FilterPipe, AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, ServerStats, ServerAvg, StationsMap, StationsGrid, StationDetails, ImgLoader, Ng2Highcharts, AdnetConfigCustomer, AdnetConfig, StationSnapshot, OrderDetails, SimpleList, PrivilegesDetails, ModalDialog, Infobox, UserStorage, Loading, Samplelist, UserInfo, AddUser, ChangePass, MODAL_DIRECTIVES, Ng2Highstocks, Ng2Highmaps, SimplelistEditable, AdnetConfigTargetStations, AdnetConfigTargetProps, AdnetLocation, MapAddress, AdnetNetwork, AdnetNetworkCustomerSelector, AdnetNetworkPackageEditor, AdnetNetworkPackageViewer, AdnetNetworkTargetSearch, AdnetNetworkPackageProps, AdnetNetworkPackageContent, AdnetNetworkPackageContentProps, AdnetNetworkTarget, AdnetNetworkTargetProps, ResourceViewer, AdnetNetworkPackageViewProps, AdnetNetworkPairProps, AdnetLoader, InputNumeric, InputString, Dropbox, Twofactor, AdnetReports];
 
+let options: ToastOptions = new ToastOptions({
+    toastLife: 4000,
+    animate: 'flyRight'
+});
+
 @NgModule({
-    imports: [BrowserModule, SimpleGridModule.forRoot(), AgmCoreModule.forRoot(), JsonpModule, HttpModule, ReactiveFormsModule, FormsModule, DropdownModule, AccordionModule, routing, TreeModule, InputTextModule, DropdownModulePrime],
+    imports: [BrowserModule, SimpleGridModule.forRoot(), AgmCoreModule.forRoot(), JsonpModule, HttpModule, ReactiveFormsModule, FormsModule, ToastModule.forRoot(options), DropdownModule, AccordionModule, routing, TreeModule, InputTextModule, DropdownModulePrime],
     providers: [providing],
     declarations: decelerations,
     bootstrap: [Main],

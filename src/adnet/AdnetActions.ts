@@ -24,6 +24,7 @@ import {AdnetContentModel} from "./AdnetContentModel";
 import {CommBroker} from "../services/CommBroker";
 import * as xml2js from "xml2js";
 import {BusinessModel} from "../business/BusinessModel";
+import {ToastsManager} from "ng2-toastr";
 
 export const RESET_ADNET = 'RESET_ADNET';
 export const RECEIVE_ADNET = 'RECEIVE_ADNET';
@@ -63,7 +64,7 @@ export enum ContentTypeEnum {
 @Injectable()
 export class AdnetActions extends Actions {
 
-    constructor(@Inject('OFFLINE_ENV') private offlineEnv, private appStore: AppStore, private _http: Http) {
+    constructor(@Inject('OFFLINE_ENV') private offlineEnv, private appStore: AppStore, private _http: Http, private toastr: ToastsManager) {
         super(appStore);
         this.m_parseString = xml2js.parseString;
         this.adnetRouteReady$ = new ReplaySubject(2 /* buffer size */);
@@ -95,7 +96,7 @@ export class AdnetActions extends Actions {
                     if (i_callBack)
                         i_callBack(jData);
                 } catch (e) {
-                    bootbox.alert('problem saving data to server')
+                    this.toastr.error('problem saving Adnet data to the server, please try again...');
                     if (Lib.DevMode())
                         throw new Error(`could not convert json data  ${e} ${e.stack}`)
                 }
