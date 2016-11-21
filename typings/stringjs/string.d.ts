@@ -132,6 +132,8 @@ interface StringJS {
     isBlank():boolean;
 
     cleanChar():StringJS;
+
+    toCurrency(format?:'us'|'eu'):StringJS;
 }
 
 type StringJSType = {(o: any): StringJS};

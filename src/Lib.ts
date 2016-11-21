@@ -186,6 +186,19 @@ export class Lib {
         }, i_time)
     }
 
+    static DateToAbsolute(year, month) {
+        return year * 12 + month;
+    }
+
+    static DateFromAbsolute(value: number) {
+        var year = Math.floor(value / 12);
+        var month = value % 12 + 1;
+        return {
+            year,
+            month
+        }
+    }
+
     static MapOfIndex(map: Map<string,any>, index: number, position: "first" | "last"): string {
         var mapJs = map.toJS();
         var mapJsPairs = _.toPairs(mapJs);
@@ -1402,20 +1415,33 @@ MyS.prototype.isNotBlank = function () {
  * @param forceCast
  * @returns {any}
  */
-MyS.prototype.booleanToNumber = function (forceCasting:boolean = false) {
+MyS.prototype.booleanToNumber = function (forceCasting: boolean = false) {
     var value = this.s;
-    if (value=='')
+    if (value == '')
         return 0;
-    if (_.isUndefined(value) || _.isNull(value) || value == 'NaN' || value == 'null' ||  value == 'NULL')
+    if (_.isUndefined(value) || _.isNull(value) || value == 'NaN' || value == 'null' || value == 'NULL')
         return 0;
     if (value === "0" || value === 'false' || value === "False" || value === false)
         return 0;
     if (value === 1 || value === "true" || value === "True" || value === true)
         return 1;
-    if (forceCasting){
+    if (forceCasting) {
         return parseInt(value);
     } else {
         return value;
+    }
+}
+
+MyS.prototype.toCurrency = function (format?: 'us'|'eu') {
+    var value = StringJS(this.s).toFloat(2);
+    switch (format) {
+        case 'eu': {
+            return '€' + value;
+        }
+        case 'us': {}
+        default: {
+            return '$' + value;
+        }
     }
 }
 

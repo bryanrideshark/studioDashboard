@@ -1,7 +1,19 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import {
+    Pipe,
+    PipeTransform
+} from '@angular/core';
 import * as _ from 'lodash';
 import {List} from 'Immutable';
 import {StoreModel} from "../models/StoreModel";
+
+// support both StoreModel as well as regular objects for sortable data
+const getKey = (object: StoreModel|{string:any}, key) => {
+    if (object instanceof StoreModel) {
+        return object.getKey(key)
+    } else {
+        return object[key]
+    }
+}
 
 @Pipe({
     name: 'OrderBy'
@@ -13,25 +25,25 @@ export class OrderBy implements PipeTransform {
         var field = args[0];
         var desc = args[1] == undefined ? false : args[1];
         if (items && field) {
-            return items.sort((a: StoreModel, b: StoreModel)=> {
+            return items.sort((a: StoreModel, b: StoreModel) => {
+
                 // support both array as well as string based fields
                 // [sortableHeader]="['Value','label']" or sortableHeader="myField"
                 if (typeof field === 'object') {
                     var f1 = field[0];
                     var f2 = field[1];
-                    if (a.getKey(f1)[f2] < b.getKey(f1)[f2])
+                    if (getKey(a,f1)[f2] < getKey(b,f1)[f2])
                         return desc ? 1 : -1;
-                    if (a.getKey(f1)[f2] > b.getKey(f1)[f2])
+                    if (getKey(a,f1)[f2] > getKey(b,f1)[f2])
                         return desc ? -1 : 1;
                     return 0;
                 } else {
-                    if (a.getKey(field) < b.getKey(field))
+                    if (getKey(a,field) < getKey(b,field))
                         return desc ? 1 : -1;
-                    if (a.getKey(field) > b.getKey(field))
+                    if (getKey(a,field) > getKey(b,field))
                         return desc ? -1 : 1;
                     return 0;
                 }
-
             })
         }
         return items;
