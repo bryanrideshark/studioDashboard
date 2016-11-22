@@ -1,9 +1,12 @@
 <div [ngSwitch]="switchView">
     <div *ngSwitchCase="'SELECT_REPORT'" style="padding: 10px">
         <small class="debug">{{me}}</small>
-        <button (click)="onReport()" [ngClass]="{disabled: reportDisabled}" class="btn btn-circle btn-primary pull-right">run report</button>
+        <button (click)="onReport()" [ngClass]="{disabled: reportDisabled}"
+                class="btn btn-circle btn-primary pull-right">run report
+        </button>
         <h4>Select report</h4>
-        <p-selectButton [options]="reportTypes" [(ngModel)]="selectedReportName" (onChange)="onReportSelected($event)"></p-selectButton>
+        <p-selectButton [options]="reportTypes" [(ngModel)]="selectedReportName"
+                        (onChange)="onReportSelected($event)"></p-selectButton>
         <hr/>
         <!-----------------
             Summary report
@@ -22,7 +25,8 @@
             </tr>
             </thead>
             <tbody>
-            <tr class="simpleGridRecord" simpleGridRecord (onClicked)="onReportSelected(item)" *ngFor="let item of summaryReports | OrderBy:sort.field:sort.desc; let index=index" [item]="item"
+            <tr class="simpleGridRecord" simpleGridRecord (onClicked)="onReportSelected(item)"
+                *ngFor="let item of summaryReports | OrderBy:sort.field:sort.desc; let index=index" [item]="item"
                 [index]="index">
                 <td class="width-md" simpleGridData [processField]="processField('absoluteDate')" [item]="item"></td>
                 <td class="width-md" simpleGridData [processField]="processField('totalCount')" [item]="item"></td>
@@ -39,11 +43,24 @@
     <div *ngSwitchCase="'SHOW_REPORT'" style="padding: 10px">
         <button (click)="goBackToReportSelection()" class="btn btn-primary pull-right">Back</button>
         <hr/>
+
+        <!--<div [ngSwitch]="switchViewReportReceived">-->
+            <!--<div *ngSwitchCase="PrivModeEnum.ADD">-->
+                <!--<h1>add</h1>-->
+            <!--</div>-->
+            <!--<div *ngSwitchCase="PrivModeEnum.DEL">-->
+                <!--<h1>del</h1>-->
+            <!--</div>-->
+            <!--<div *ngSwitchCase="PrivModeEnum.UPD">-->
+                <!--<h1>upd</h1>-->
+            <!--</div>-->
+        <!--</div>-->
+
         <div [ngSwitch]="switchViewReportReceived">
-            <div *ngSwitchCase="'CUSTOMERS_REPORT'">
+            <div *ngSwitchCase="PrivModeEnum.DEL">
                 <!-----------------
-                    Customer report
-                ------------------->
+                    customersReport
+                 ------------------->
                 <h5>{{switchViewReportReceived | StringJSPipe:stringJSPipeArgs}}</h5>
                 <simpleGridTable #customersReport>
                     <thead>
@@ -58,35 +75,251 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="simpleGridRecord" simpleGridRecord *ngFor="let item of summaryReports | OrderBy:sort.field:sort.desc; let index=index" [item]="item"
+                    <tr class="simpleGridRecord" simpleGridRecord
+                        *ngFor="let item of summaryReports | OrderBy:sort.field:sort.desc; let index=index"
+                        [item]="item"
                         [index]="index">
-                        <td class="width-md" simpleGridData [processField]="processField('absoluteDate')" [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('totalCount')" [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('totalDuration')" [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('avgHourlyRate')" [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('avgScreenArea')" [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('prevDebit')" [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('currentDebit')" [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('absoluteDate')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('totalCount')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('totalDuration')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('avgHourlyRate')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('avgScreenArea')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('prevDebit')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('currentDebit')"
+                            [item]="item"></td>
                         <td class="width-md" simpleGridData [processField]="processField('balance')" [item]="item"></td>
                     </tr>
                     </tbody>
                 </simpleGridTable>
             </div>
-            <div *ngSwitchCase="'targetsReport'" style="padding: 10px">
-            </div>
-            <div *ngSwitchCase="'targetsDetailsReport'" style="padding: 10px">
-            </div>
-            <div *ngSwitchCase="'contentsReport'" style="padding: 10px">
-            </div>
-            <div *ngSwitchCase="'hourlyReport'" style="padding: 10px">
-            </div>
-            <div *ngSwitchCase="'hourlyDetailsReport'" style="padding: 10px">
+        </div>
+
+        <div [ngSwitch]="switchViewReportReceived">
+            <div *ngSwitchCase="PrivModeEnum.ADD">
+                <!-----------------
+                    customerTargetsReport
+                 ------------------->
+                <h5>{{switchViewReportReceived | StringJSPipe:stringJSPipeArgs}}</h5>
+                <simpleGridTable #customerTargetsReport>
+                    <thead>
+                    <tr>
+                        <th sortableHeader="customer" [sort]="sort">customer</th>
+                        <th sortableHeader="totalCount" [sort]="sort">count</th>
+                        <th sortableHeader="totalDuration" [sort]="sort">duration</th>
+                        <th sortableHeader="avgHourlyRate" [sort]="sort">hourly</th>
+                        <th sortableHeader="price" [sort]="sort">price</th>
+                        <th sortableHeader="size" [sort]="sort">size</th>
+                        <th sortableHeader="balance" [sort]="sort">price * size</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="simpleGridRecord" simpleGridRecord
+                        *ngFor="let item of summaryReports | OrderBy:sort.field:sort.desc; let index=index"
+                        [item]="item"
+                        [index]="index">
+                        <td class="width-md" simpleGridData [processField]="processField('absoluteDate')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('totalCount')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('totalDuration')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('avgHourlyRate')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('avgScreenArea')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('prevDebit')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('currentDebit')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('balance')" [item]="item"></td>
+                    </tr>
+                    </tbody>
+                </simpleGridTable>
             </div>
         </div>
 
+        <div [ngSwitch]="switchViewReportReceived">
+            <div *ngSwitchCase="PrivModeEnum.ADD">
+                <!-----------------
+                    customerTargetsDetailsReport
+                 ------------------->
+                <h5>{{switchViewReportReceived | StringJSPipe:stringJSPipeArgs}}</h5>
+                <simpleGridTable #customerTargetsReport>
+                    <thead>
+                    <tr>
+                        <th sortableHeader="customer" [sort]="sort">customer</th>
+                        <th sortableHeader="totalCount" [sort]="sort">count</th>
+                        <th sortableHeader="totalDuration" [sort]="sort">duration</th>
+                        <th sortableHeader="avgHourlyRate" [sort]="sort">hourly</th>
+                        <th sortableHeader="price" [sort]="sort">price</th>
+                        <th sortableHeader="size" [sort]="sort">size</th>
+                        <th sortableHeader="balance" [sort]="sort">price * size</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="simpleGridRecord" simpleGridRecord
+                        *ngFor="let item of summaryReports | OrderBy:sort.field:sort.desc; let index=index"
+                        [item]="item"
+                        [index]="index">
+                        <td class="width-md" simpleGridData [processField]="processField('absoluteDate')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('totalCount')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('totalDuration')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('avgHourlyRate')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('avgScreenArea')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('prevDebit')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('currentDebit')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('balance')" [item]="item"></td>
+                    </tr>
+                    </tbody>
+                </simpleGridTable>
+            </div>
+        </div>
+
+        <div [ngSwitch]="switchViewReportReceived">
+            <div *ngSwitchCase="PrivModeEnum.ADD">
+                <!-----------------
+                    customerContentReport
+                 ------------------->
+                <h5>{{switchViewReportReceived | StringJSPipe:stringJSPipeArgs}}</h5>
+                <simpleGridTable #customerTargetsReport>
+                    <thead>
+                    <tr>
+                        <th sortableHeader="customer" [sort]="sort">customer</th>
+                        <th sortableHeader="totalCount" [sort]="sort">count</th>
+                        <th sortableHeader="totalDuration" [sort]="sort">duration</th>
+                        <th sortableHeader="avgHourlyRate" [sort]="sort">hourly</th>
+                        <th sortableHeader="price" [sort]="sort">price</th>
+                        <th sortableHeader="size" [sort]="sort">size</th>
+                        <th sortableHeader="balance" [sort]="sort">price * size</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="simpleGridRecord" simpleGridRecord
+                        *ngFor="let item of summaryReports | OrderBy:sort.field:sort.desc; let index=index"
+                        [item]="item"
+                        [index]="index">
+                        <td class="width-md" simpleGridData [processField]="processField('absoluteDate')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('totalCount')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('totalDuration')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('avgHourlyRate')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('avgScreenArea')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('prevDebit')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('currentDebit')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('balance')" [item]="item"></td>
+                    </tr>
+                    </tbody>
+                </simpleGridTable>
+            </div>
+        </div>
+        <div [ngSwitch]="switchViewReportReceived">
+            <div *ngSwitchCase="PrivModeEnum.ADD">
+                <!-----------------
+                    customerHourlyReport
+                 ------------------->
+                <h5>{{switchViewReportReceived | StringJSPipe:stringJSPipeArgs}}</h5>
+                <simpleGridTable #customerTargetsReport>
+                    <thead>
+                    <tr>
+                        <th sortableHeader="customer" [sort]="sort">customer</th>
+                        <th sortableHeader="totalCount" [sort]="sort">count</th>
+                        <th sortableHeader="totalDuration" [sort]="sort">duration</th>
+                        <th sortableHeader="avgHourlyRate" [sort]="sort">hourly</th>
+                        <th sortableHeader="price" [sort]="sort">price</th>
+                        <th sortableHeader="size" [sort]="sort">size</th>
+                        <th sortableHeader="balance" [sort]="sort">price * size</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="simpleGridRecord" simpleGridRecord
+                        *ngFor="let item of summaryReports | OrderBy:sort.field:sort.desc; let index=index"
+                        [item]="item"
+                        [index]="index">
+                        <td class="width-md" simpleGridData [processField]="processField('absoluteDate')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('totalCount')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('totalDuration')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('avgHourlyRate')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('avgScreenArea')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('prevDebit')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('currentDebit')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('balance')" [item]="item"></td>
+                    </tr>
+                    </tbody>
+                </simpleGridTable>
+            </div>
+        </div>
+        <div [ngSwitch]="switchViewReportReceived">
+            <div *ngSwitchCase="PrivModeEnum.ADD">
+                <!-----------------
+                    customerHourlyDetailsReport
+                 ------------------->
+                <h5>{{switchViewReportReceived | StringJSPipe:stringJSPipeArgs}}</h5>
+                <simpleGridTable #customerTargetsReport>
+                    <thead>
+                    <tr>
+                        <th sortableHeader="customer" [sort]="sort">customer</th>
+                        <th sortableHeader="totalCount" [sort]="sort">count</th>
+                        <th sortableHeader="totalDuration" [sort]="sort">duration</th>
+                        <th sortableHeader="avgHourlyRate" [sort]="sort">hourly</th>
+                        <th sortableHeader="price" [sort]="sort">price</th>
+                        <th sortableHeader="size" [sort]="sort">size</th>
+                        <th sortableHeader="balance" [sort]="sort">price * size</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="simpleGridRecord" simpleGridRecord
+                        *ngFor="let item of summaryReports | OrderBy:sort.field:sort.desc; let index=index"
+                        [item]="item"
+                        [index]="index">
+                        <td class="width-md" simpleGridData [processField]="processField('absoluteDate')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('totalCount')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('totalDuration')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('avgHourlyRate')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('avgScreenArea')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('prevDebit')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('currentDebit')"
+                            [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('balance')" [item]="item"></td>
+                    </tr>
+                    </tbody>
+                </simpleGridTable>
+            </div>
+        </div>
     </div>
     <div *ngSwitchCase="'LOAD_REPORT'" style="padding: 10px">
-        <Loading  [size]="75" [style]="{'margin-top': '50px'}">
+        <Loading [size]="75" [style]="{'margin-top': '50px'}">
         </Loading>
     </div>
 </div>

@@ -16,8 +16,13 @@ import {Lib} from "../../../../Lib";
 import {SimpleGridTable} from "../../../simplegridmodule/SimpleGridTable";
 import {SelectItem} from 'primeng/primeng';
 import * as _ from 'lodash';
-
 //import AdnetReportsTemplate from './AdnetReports.html!text'; /*prod*/
+
+enum PrivModeEnum {
+    ADD,
+    DEL,
+    UPD
+}
 
 interface ISummaryReport {
     absolutMonth: number;
@@ -27,6 +32,15 @@ interface ISummaryReport {
     prevDebit: number
     totalCount: number;
     totalDuration: number
+}
+
+enum ReportSelectedEnum {
+    CUSTOMER,
+    TARGET,
+    TARGET_DETAILS,
+    CONTENT,
+    HOURLY,
+    HOURLY_DETAILS
 }
 
 // export as csv: http://jsfiddle.net/nkm2b/222/
@@ -48,6 +62,9 @@ interface ISummaryReport {
 
 
 export class AdnetReports extends Compbaser {
+
+    private PrivModeEnum = PrivModeEnum;
+    private ReportSelectedEnum:ReportSelectedEnum;
 
     constructor(private adnetAction: AdnetActions, private appStore: AppStore, private cd: ChangeDetectorRef) {
         super();
@@ -107,10 +124,11 @@ export class AdnetReports extends Compbaser {
         desc: false
     };
 
+
     private adnetCustomerModel: AdnetCustomerModel;
     private adnetPairModels: List<AdnetPairModel>;
     private allPairsSelected: boolean;
-    private switchViewReportReceived: string;
+    private switchViewReportReceived: number;
     private reportDisabled: boolean = true;
     private reportTypes: SelectItem[];
     private selectedReportName: string;
@@ -197,19 +215,22 @@ export class AdnetReports extends Compbaser {
         var direction = this.pairOutgoing ? 'to' : 'from';
         switch (this.selectedReportName) {
             case 'customers': {
-                reportCommand = 'customersReport';
+                reportCommand = ReportSelectedEnum.CUSTOMER;
                 break;
             }
             case 'targets': {
-                reportCommand = this.allPairsSelected ? 'customerTargetsReport' : 'pairTargetsReport';
+                // reportCommand = this.allPairsSelected ? 'customerTargetsReport' : 'pairTargetsReport';
+                reportCommand = ReportSelectedEnum.TARGET;
                 break;
             }
             case 'content': {
-                reportCommand = this.allPairsSelected ? 'customerContentReport' : 'pairContentReport';
+                // reportCommand = this.allPairsSelected ? 'customerContentReport' : 'pairContentReport';
+                reportCommand = ReportSelectedEnum.CONTENT;
                 break;
             }
             case 'hourly': {
-                reportCommand = this.allPairsSelected ? 'customerHourlyReport' : 'pairHourlyReport';
+                // reportCommand = this.allPairsSelected ? 'customerHourlyReport' : 'pairHourlyReport';
+                reportCommand = ReportSelectedEnum.HOURLY;
                 break;
             }
         }
@@ -218,7 +239,7 @@ export class AdnetReports extends Compbaser {
 
         this.appStore.dispatch(this.adnetAction.reportsAdnet(this.adnetCustomerModel.getId(), reportCommand, direction, this.absolutMonth, selectedPairId, (reportData) => {
             this.switchView = 'SHOW_REPORT';
-            this.switchViewReportReceived = 'CUSTOMERS_REPORT';
+            this.switchViewReportReceived = PrivModeEnum.DEL;
             this.cd.markForCheck();
         }));
     }
