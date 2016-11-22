@@ -17,13 +17,13 @@ import {SelectItem} from 'primeng/primeng';
 import * as _ from 'lodash';
 
 interface ISummaryReport {
-    absolutMonth:number;
-    avgHourlyRate:number;
-    avgScreenArea:number;
-    currentDebit:number;
-    prevDebit:number
-    totalCount:number;
-    totalDuration:number
+    absolutMonth: number;
+    avgHourlyRate: number;
+    avgScreenArea: number;
+    currentDebit: number;
+    prevDebit: number
+    totalCount: number;
+    totalDuration: number
 }
 
 // export as csv: http://jsfiddle.net/nkm2b/222/
@@ -32,39 +32,48 @@ interface ISummaryReport {
 @Component({
     selector: 'AdnetReports',
     template: `
-<div style="padding: 10px">
-    <small class="debug">{{me}}</small>
-    <button (click)="onReport()" [ngClass]="{disabled: reportDisabled}" class="btn btn-circle btn-primary pull-right">run report</button>
-    <h4>Select report</h4>
-    <p-selectButton [options]="reportTypes" [(ngModel)]="selectedReport" (onChange)="onReportSelected($event)"></p-selectButton>
-    <simpleGridTable>
-        <thead>
-        <tr>
-            <th sortableHeader="absoluteDate" [sort]="sort">mm/yy</th>
-            <th sortableHeader="totalCount" [sort]="sort">count</th>
-            <th sortableHeader="totalDuration" [sort]="sort">duration</th>
-            <th sortableHeader="avgHourlyRate" [sort]="sort">hourly</th>
-            <th sortableHeader="avgScreenArea" [sort]="sort">size</th>
-            <th sortableHeader="prevDebit" [sort]="sort">prev</th>
-            <th sortableHeader="currentDebit" [sort]="sort">debit</th>
-            <th sortableHeader="balance" [sort]="sort">balance</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="simpleGridRecord" simpleGridRecord (onClicked)="onReportSelected(item)" *ngFor="let item of summerReports | OrderBy:sort.field:sort.desc; let index=index" [item]="item"
-            [index]="index">
-            <td class="width-md" simpleGridData [processField]="processField('absoluteDate')" [item]="item"></td>
-            <td class="width-md" simpleGridData [processField]="processField('totalCount')" [item]="item"></td>
-            <td class="width-md" simpleGridData [processField]="processField('totalDuration')" [item]="item"></td>
-            <td class="width-md" simpleGridData [processField]="processField('avgHourlyRate')" [item]="item"></td>
-            <td class="width-md" simpleGridData [processField]="processField('avgScreenArea')" [item]="item"></td>
-            <td class="width-md" simpleGridData [processField]="processField('prevDebit')" [item]="item"></td>
-            <td class="width-md" simpleGridData [processField]="processField('currentDebit')" [item]="item"></td>
-            <td class="width-md" simpleGridData [processField]="processField('balance')" [item]="item"></td>
-        </tr>
-        </tbody>
-    </simpleGridTable>
-</div>`,
+            
+            <div *ngIf="showReportView == 0" style="padding: 10px">
+                <small class="debug">{{me}}</small>
+                <button (click)="onReport()" [ngClass]="{disabled: reportDisabled}" class="btn btn-circle btn-primary pull-right">run report</button>
+                <h4>Select report</h4>
+                <p-selectButton [options]="reportTypes" [(ngModel)]="selectedReport" (onChange)="onReportSelected($event)"></p-selectButton>
+                <hr/>
+                <simpleGridTable>
+                    <thead>
+                    <tr>
+                        <th sortableHeader="absoluteDate" [sort]="sort">mm/yy</th>
+                        <th sortableHeader="totalCount" [sort]="sort">count</th>
+                        <th sortableHeader="totalDuration" [sort]="sort">duration</th>
+                        <th sortableHeader="avgHourlyRate" [sort]="sort">hourly</th>
+                        <th sortableHeader="avgScreenArea" [sort]="sort">size</th>
+                        <th sortableHeader="prevDebit" [sort]="sort">prev</th>
+                        <th sortableHeader="currentDebit" [sort]="sort">debit</th>
+                        <th sortableHeader="balance" [sort]="sort">balance</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="simpleGridRecord" simpleGridRecord (onClicked)="onReportSelected(item)" *ngFor="let item of summerReports | OrderBy:sort.field:sort.desc; let index=index" [item]="item"
+                        [index]="index">
+                        <td class="width-md" simpleGridData [processField]="processField('absoluteDate')" [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('totalCount')" [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('totalDuration')" [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('avgHourlyRate')" [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('avgScreenArea')" [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('prevDebit')" [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('currentDebit')" [item]="item"></td>
+                        <td class="width-md" simpleGridData [processField]="processField('balance')" [item]="item"></td>
+                    </tr>
+                    </tbody>
+                </simpleGridTable>
+            </div>
+            <div *ngIf="showReportView == 1">                
+            </div> 
+            <div *ngIf="showReportView == 2">
+                loading 
+            </div>
+            <!--<Loading *ngIf="showReportView == 2" [size]="75" [style]="{'margin-top': '50px'}"></Loading>-->
+            `,
     styles: [`
         .disabled {
             opacity: 0.2;
@@ -82,10 +91,22 @@ export class AdnetReports extends Compbaser {
     constructor(private adnetAction: AdnetActions, private appStore: AppStore) {
         super();
         this.reportTypes = [];
-        this.reportTypes.push({label:'customers', value:'customers'});
-        this.reportTypes.push({label:'targets', value:'targets'});
-        this.reportTypes.push({label:'content', value:'content'});
-        this.reportTypes.push({label:'hourly', value:'hourly'});
+        this.reportTypes.push({
+            label: 'customers',
+            value: 'customers'
+        });
+        this.reportTypes.push({
+            label: 'targets',
+            value: 'targets'
+        });
+        this.reportTypes.push({
+            label: 'content',
+            value: 'content'
+        });
+        this.reportTypes.push({
+            label: 'hourly',
+            value: 'hourly'
+        });
     }
 
     @Input()
@@ -119,7 +140,7 @@ export class AdnetReports extends Compbaser {
     // }
 
     @ViewChild(SimpleGridTable)
-    simpleGridTable:SimpleGridTable;
+    simpleGridTable: SimpleGridTable;
 
     public sort: {field: string, desc: boolean} = {
         field: null,
@@ -133,11 +154,11 @@ export class AdnetReports extends Compbaser {
     private reportTypes: SelectItem[];
     private selectedReport: string;
     private summerReports: Array<ISummaryReport> = [];
-    // private adnetTargetModel: AdnetTargetModel;
+    private showReportView: number = 0;
     private pairOutgoing: boolean
 
-    private onReportSelected(event){
-        if (!_.isNull(this.simpleGridTable.getSelected()) && !_.isEmpty(this.selectedReport) ){
+    private onReportSelected(event) {
+        if (!_.isNull(this.simpleGridTable.getSelected()) && !_.isEmpty(this.selectedReport)) {
             this.reportDisabled = false;
         } else {
             this.reportDisabled = true;
@@ -145,7 +166,7 @@ export class AdnetReports extends Compbaser {
     }
 
     private processField(i_field: string) {
-        return (i_summaryReport: ISummaryReport):any => {
+        return (i_summaryReport: ISummaryReport): any => {
             switch (i_field) {
                 case 'absoluteDate': {
                     var v = Lib.DateFromAbsolute(i_summaryReport.absolutMonth);
@@ -177,21 +198,28 @@ export class AdnetReports extends Compbaser {
         }
     }
 
-    
+
     private onReport() {
-        this.appStore.dispatch(this.adnetAction.reportsAdnet(this.adnetCustomerModel.getId()));
+        if (this.reportDisabled)
+            return;
+        this.showReportView = 2;
+        this.appStore.dispatch(this.adnetAction.reportsAdnet(this.adnetCustomerModel.getId(), (reportData) => {
+            console.log(reportData);
+            this.showReportView = 0;
+            return 1;
+        }));
     }
-    
+
     private aggregateReports() {
         if (!this.adnetPairModels)
             return;
         this.summerReports = [];
         this.simpleGridTable.deselect();
         this.adnetPairModels.forEach((i_adnetPairModel: AdnetPairModel) => {
-            var summeryReports:Array<any> = i_adnetPairModel.getReports();
+            var summeryReports: Array<any> = i_adnetPairModel.getReports();
             if (!summeryReports)
                 return;
-            summeryReports.forEach((i_data) =>{
+            summeryReports.forEach((i_data) => {
                 this.summerReports.push(i_data.Value)
             })
         })

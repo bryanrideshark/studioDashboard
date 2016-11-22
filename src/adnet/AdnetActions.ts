@@ -270,7 +270,7 @@ export class AdnetActions extends Actions {
         };
     }
 
-    public reportsAdnet(i_customerId, type = 0, customer = '', target = '', keys = '', global = 1, lat = 0, lng = 0, radios = -1) {
+    public reportsAdnet(i_customerId, cb:(reportData)=>{}) {
         return (dispatch) => {
             var businesses: List<BusinessModel> = this.appStore.getState().business.getIn(['businesses']);
             var businessModel: BusinessModel = businesses.filter((i_businessModel: BusinessModel) => i_businessModel.getAdnetCustomerId() == i_customerId).first() as BusinessModel;
@@ -279,12 +279,10 @@ export class AdnetActions extends Actions {
             var to = '';
             var data = `&to${to}`;
             const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetReports').replace(':ADNET_CUSTOMER_ID:', i_customerId).replace(':ADNET_TOKEN_ID:', adnetTokenId).replace(':DATA:', data).replace(/null/g, '');
-            console.log(baseUrl);
-
             this._http.get(baseUrl)
                 .map(result => {
                     var jData: Object = result.json()
-                    console.log(jData);
+                    cb(jData);
                     // if (jData['targets'] && jData['targets'].length > 200)
                     //     this.toastr.error('The list returned is too large, please add additional filtering criteria');
                     //
