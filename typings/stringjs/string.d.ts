@@ -4,6 +4,7 @@
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
 interface StringJS {
+
     length: number;
 
     s: string;
@@ -91,6 +92,7 @@ interface StringJS {
     toBoolean(): boolean;
 
     toCSV(delimiter?: string, qualifier?: string): StringJS;
+
     toCSV(options: {
         delimiter?: string,
         qualifier?: string,

@@ -270,19 +270,21 @@ export class AdnetActions extends Actions {
         };
     }
 
-    public reportsAdnet(i_customerId, i_reportCommand, i_direction, i_absolutMonth, cb:(reportData)=> void) {
+    public reportsAdnet(i_customerId, i_reportCommand, i_direction, i_absolutMonth, i_pairId, cb:(reportData)=> void) {
         return (dispatch) => {
             var businesses: List<BusinessModel> = this.appStore.getState().business.getIn(['businesses']);
             var businessModel: BusinessModel = businesses.filter((i_businessModel: BusinessModel) => i_businessModel.getAdnetCustomerId() == i_customerId).first() as BusinessModel;
             var adnetTokenId = businessModel.getAdnetTokenId();
-            // var data = `&type=${type}&customer=${customer}&target=${target}&keys=${keys}&global=${global}&lat=${lat}&lng=${lng}&radios=${radios}`;
-            var to = '';
             var data = `&${i_direction}&absolutMonth=${i_absolutMonth}`;
             const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetReports').replace(':REPORT_TYPE:',i_reportCommand).replace(':ADNET_CUSTOMER_ID:', i_customerId).replace(':ADNET_TOKEN_ID:', adnetTokenId).replace(':DATA:', data).replace(/null/g, '');
             this._http.get(baseUrl)
                 .map(result => {
-                    var jData: Object = result.json()
-                    cb(jData);
+                    try {
+                        var jData: Object = result.json()
+                        cb(jData);
+                    } catch (e){
+                        cb({});
+                    }
                 }).subscribe()
         }
     }

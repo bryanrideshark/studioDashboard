@@ -17,6 +17,8 @@ import {SimpleGridTable} from "../../../simplegridmodule/SimpleGridTable";
 import {SelectItem} from 'primeng/primeng';
 import * as _ from 'lodash';
 
+//import AdnetReportsTemplate from './AdnetReports.html!text'; /*prod*/
+
 interface ISummaryReport {
     absolutMonth: number;
     avgHourlyRate: number;
@@ -31,53 +33,9 @@ interface ISummaryReport {
 // https://github.com/zemirco/json2csv
 
 @Component({
+    //	template: AdnetReportsTemplate, /*prod*/
     selector: 'AdnetReports',
-    template: `           
-            <div [ngSwitch]="switchView">
-                <div *ngSwitchCase="'SELECT_REPORT'" style="padding: 10px">
-                    <small class="debug">{{me}}</small>
-                    <button (click)="onReport()" [ngClass]="{disabled: reportDisabled}" class="btn btn-circle btn-primary pull-right">run report</button>
-                    <h4>Select report</h4>
-                    <p-selectButton [options]="reportTypes" [(ngModel)]="selectedReportName" (onChange)="onReportSelected($event)"></p-selectButton>
-                    <hr/>
-                    <simpleGridTable>
-                        <thead>
-                        <tr>
-                            <th sortableHeader="absoluteDate" [sort]="sort">mm/yy</th>
-                            <th sortableHeader="totalCount" [sort]="sort">count</th>
-                            <th sortableHeader="totalDuration" [sort]="sort">duration</th>
-                            <th sortableHeader="avgHourlyRate" [sort]="sort">hourly</th>
-                            <th sortableHeader="avgScreenArea" [sort]="sort">size</th>
-                            <th sortableHeader="prevDebit" [sort]="sort">prev</th>
-                            <th sortableHeader="currentDebit" [sort]="sort">debit</th>
-                            <th sortableHeader="balance" [sort]="sort">balance</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr class="simpleGridRecord" simpleGridRecord (onClicked)="onReportSelected(item)" *ngFor="let item of summerReports | OrderBy:sort.field:sort.desc; let index=index" [item]="item"
-                            [index]="index">
-                            <td class="width-md" simpleGridData [processField]="processField('absoluteDate')" [item]="item"></td>
-                            <td class="width-md" simpleGridData [processField]="processField('totalCount')" [item]="item"></td>
-                            <td class="width-md" simpleGridData [processField]="processField('totalDuration')" [item]="item"></td>
-                            <td class="width-md" simpleGridData [processField]="processField('avgHourlyRate')" [item]="item"></td>
-                            <td class="width-md" simpleGridData [processField]="processField('avgScreenArea')" [item]="item"></td>
-                            <td class="width-md" simpleGridData [processField]="processField('prevDebit')" [item]="item"></td>
-                            <td class="width-md" simpleGridData [processField]="processField('currentDebit')" [item]="item"></td>
-                            <td class="width-md" simpleGridData [processField]="processField('balance')" [item]="item"></td>
-                        </tr>
-                        </tbody>
-                    </simpleGridTable>
-                </div>
-                <div *ngSwitchCase="'SHOW_REPORT'" style="padding: 10px">
-                    <button (click)="goBackToReportSelection()" class="btn btn-primary pull-right">Back</button>
-                </div>
-                <div *ngSwitchCase="'LOAD_REPORT'" style="padding: 10px">
-                    <Loading  [size]="75" [style]="{'margin-top': '50px'}">
-                    </Loading>
-                </div>
-            </div>
-            
-            `,
+    templateUrl: './AdnetReports.html', /*dev*/
     styles: [`
         .disabled {
             opacity: 0.2;
@@ -135,9 +93,15 @@ export class AdnetReports extends Compbaser {
         this.renderReportSelectionMenu();
     }
 
-    @ViewChild(SimpleGridTable)
-    simpleGridTable: SimpleGridTable;
+    @ViewChild('gridReportSource')
+    gridReportSource: SimpleGridTable;
 
+    @ViewChild('gridReportDestination')
+    gridReportDestination: SimpleGridTable;
+
+    public stringJSPipeArgs = {
+        humanize: []
+    }
     public sort: {field: string, desc: boolean} = {
         field: null,
         desc: false
@@ -146,11 +110,12 @@ export class AdnetReports extends Compbaser {
     private adnetCustomerModel: AdnetCustomerModel;
     private adnetPairModels: List<AdnetPairModel>;
     private allPairsSelected: boolean;
+    private switchViewReportReceived: string;
     private reportDisabled: boolean = true;
     private reportTypes: SelectItem[];
     private selectedReportName: string;
     private absolutMonth:number;
-    private summerReports: Array<ISummaryReport> = [];
+    private summaryReports: Array<ISummaryReport> = [];
     public switchView: string = 'SELECT_REPORT';
     private pairOutgoing: boolean
 
@@ -177,7 +142,7 @@ export class AdnetReports extends Compbaser {
     }
 
     private onReportSelected(event:ISummaryReport) {
-        if (!_.isNull(this.simpleGridTable.getSelected()) && !_.isEmpty(this.selectedReportName)) {
+        if (!_.isNull(this.gridReportSource.getSelected()) && !_.isEmpty(this.selectedReportName)) {
             this.reportDisabled = false;
         } else {
             this.reportDisabled = true;
@@ -228,7 +193,7 @@ export class AdnetReports extends Compbaser {
         if (this.reportDisabled)
             return;
         this.switchView = 'LOAD_REPORT';
-        var reportCommand;
+        var reportCommand, selectedPairId = -1;
         var direction = this.pairOutgoing ? 'to' : 'from';
         switch (this.selectedReportName) {
             case 'customers': {
@@ -248,8 +213,12 @@ export class AdnetReports extends Compbaser {
                 break;
             }
         }
-        this.appStore.dispatch(this.adnetAction.reportsAdnet(this.adnetCustomerModel.getId(), reportCommand, direction, this.absolutMonth, (reportData) => {
+        if (!this.allPairsSelected)
+            selectedPairId = this.adnetPairModels.first().getId();
+
+        this.appStore.dispatch(this.adnetAction.reportsAdnet(this.adnetCustomerModel.getId(), reportCommand, direction, this.absolutMonth, selectedPairId, (reportData) => {
             this.switchView = 'SHOW_REPORT';
+            this.switchViewReportReceived = 'CUSTOMERS_REPORT';
             this.cd.markForCheck();
         }));
     }
@@ -257,15 +226,15 @@ export class AdnetReports extends Compbaser {
     private aggregateReports() {
         if (!this.adnetPairModels)
             return;
-        this.summerReports = [];
-        if (this.simpleGridTable)
-            this.simpleGridTable.deselect();
+        this.summaryReports = [];
+        if (this.gridReportSource)
+            this.gridReportSource.deselect();
         this.adnetPairModels.forEach((i_adnetPairModel: AdnetPairModel) => {
             var summeryReports: Array<any> = i_adnetPairModel.getReports();
             if (!summeryReports)
                 return;
             summeryReports.forEach((i_data) => {
-                this.summerReports.push(i_data.Value)
+                this.summaryReports.push(i_data.Value)
             })
         })
     }
@@ -276,3 +245,9 @@ export class AdnetReports extends Compbaser {
     destroy() {
     }
 }
+
+
+
+
+
+
