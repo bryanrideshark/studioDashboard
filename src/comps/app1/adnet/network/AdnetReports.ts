@@ -18,10 +18,7 @@ import {SelectItem} from 'primeng/primeng';
 import * as _ from 'lodash';
 //import AdnetReportsTemplate from './AdnetReports.html!text'; /*prod*/
 
-enum PrivModeEnum {
-    ADD,
-    DEL,
-    UPD,
+enum ReportEnum {
     CUSTOMER,
     TARGET,
     TARGET_DETAILS,
@@ -38,15 +35,6 @@ interface ISummaryReport {
     prevDebit: number
     totalCount: number;
     totalDuration: number
-}
-
-enum ReportSelectedEnum {
-    CUSTOMER,
-    TARGET,
-    TARGET_DETAILS,
-    CONTENT,
-    HOURLY,
-    HOURLY_DETAILS
 }
 
 // export as csv: http://jsfiddle.net/nkm2b/222/
@@ -69,7 +57,7 @@ enum ReportSelectedEnum {
 
 export class AdnetReports extends Compbaser {
 
-    private PrivModeEnum = PrivModeEnum;
+    private ReportEnum = ReportEnum;
 
 
     constructor(private adnetAction: AdnetActions, private appStore: AppStore, private cd: ChangeDetectorRef) {
@@ -221,22 +209,22 @@ export class AdnetReports extends Compbaser {
         var direction = this.pairOutgoing ? 'to' : 'from';
         switch (this.selectedReportName) {
             case 'customers': {
-                reportCommand = PrivModeEnum.CUSTOMER;
+                reportCommand = ReportEnum.CUSTOMER;
                 break;
             }
             case 'targets': {
                 // reportCommand = this.allPairsSelected ? 'customerTargetsReport' : 'pairTargetsReport';
-                reportCommand = PrivModeEnum.TARGET;
+                reportCommand = ReportEnum.TARGET;
                 break;
             }
             case 'content': {
                 // reportCommand = this.allPairsSelected ? 'customerContentReport' : 'pairContentReport';
-                reportCommand = PrivModeEnum.CONTENT;
+                reportCommand = ReportEnum.CONTENT;
                 break;
             }
             case 'hourly': {
                 // reportCommand = this.allPairsSelected ? 'customerHourlyReport' : 'pairHourlyReport';
-                reportCommand = PrivModeEnum.HOURLY;
+                reportCommand = ReportEnum.HOURLY;
                 break;
             }
         }

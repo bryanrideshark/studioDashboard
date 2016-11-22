@@ -45,23 +45,23 @@
         <hr/>
 
         <!--<div [ngSwitch]="switchViewReportReceived">-->
-            <!--<div *ngSwitchCase="PrivModeEnum.ADD">-->
+            <!--<div *ngSwitchCase="ReportEnum.ADD">-->
                 <!--<h1>add</h1>-->
             <!--</div>-->
-            <!--<div *ngSwitchCase="PrivModeEnum.DEL">-->
+            <!--<div *ngSwitchCase="ReportEnum.DEL">-->
                 <!--<h1>del</h1>-->
             <!--</div>-->
-            <!--<div *ngSwitchCase="PrivModeEnum.UPD">-->
+            <!--<div *ngSwitchCase="ReportEnum.UPD">-->
                 <!--<h1>upd</h1>-->
             <!--</div>-->
         <!--</div>-->
 
         <div [ngSwitch]="switchViewReportReceived">
-            <div *ngSwitchCase="PrivModeEnum.CUSTOMER">
+            <div *ngSwitchCase="ReportEnum.CUSTOMER">
                 <!-----------------
                     customersReport
                  ------------------->
-                <h5>{{switchViewReportReceived | StringJSPipe:stringJSPipeArgs}}</h5>
+                <h5>{{selectedReportName | StringJSPipe:stringJSPipeArgs}}</h5>
                 <simpleGridTable #customersReport>
                     <thead>
                     <tr>
@@ -101,11 +101,11 @@
         </div>
 
         <div [ngSwitch]="switchViewReportReceived">
-            <div *ngSwitchCase="PrivModeEnum.TARGET">
+            <div *ngSwitchCase="ReportEnum.TARGET">
                 <!-----------------
                     customerTargetsReport
                  ------------------->
-                <h5>{{switchViewReportReceived | StringJSPipe:stringJSPipeArgs}}</h5>
+                <h5>{{selectedReportName | StringJSPipe:stringJSPipeArgs}}</h5>
                 <simpleGridTable #customerTargetsReport>
                     <thead>
                     <tr>
@@ -145,11 +145,11 @@
         </div>
 
         <div [ngSwitch]="switchViewReportReceived">
-            <div *ngSwitchCase="PrivModeEnum.TARGET_DETAILS">
+            <div *ngSwitchCase="ReportEnum.TARGET_DETAILS">
                 <!-----------------
                     customerTargetsDetailsReport
                  ------------------->
-                <h5>{{switchViewReportReceived | StringJSPipe:stringJSPipeArgs}}</h5>
+                <h5>{{selectedReportName | StringJSPipe:stringJSPipeArgs}}</h5>
                 <simpleGridTable #customerTargetsReport>
                     <thead>
                     <tr>
@@ -189,11 +189,11 @@
         </div>
 
         <div [ngSwitch]="switchViewReportReceived">
-            <div *ngSwitchCase="PrivModeEnum.CONTENT">
+            <div *ngSwitchCase="ReportEnum.CONTENT">
                 <!-----------------
                     customerContentReport
                  ------------------->
-                <h5>{{switchViewReportReceived | StringJSPipe:stringJSPipeArgs}}</h5>
+                <h5>{{selectedReportName | StringJSPipe:stringJSPipeArgs}}</h5>
                 <simpleGridTable #customerTargetsReport>
                     <thead>
                     <tr>
@@ -232,11 +232,11 @@
             </div>
         </div>
         <div [ngSwitch]="switchViewReportReceived">
-            <div *ngSwitchCase="PrivModeEnum.HOURLY">
+            <div *ngSwitchCase="ReportEnum.HOURLY">
                 <!-----------------
                     customerHourlyReport
                  ------------------->
-                <h5>{{switchViewReportReceived | StringJSPipe:stringJSPipeArgs}}</h5>
+                <h5>{{selectedReportName | StringJSPipe:stringJSPipeArgs}}</h5>
                 <simpleGridTable #customerTargetsReport>
                     <thead>
                     <tr>
@@ -275,11 +275,11 @@
             </div>
         </div>
         <div [ngSwitch]="switchViewReportReceived">
-            <div *ngSwitchCase="PrivModeEnum.HOURLY_DETAILS">
+            <div *ngSwitchCase="ReportEnum.HOURLY_DETAILS">
                 <!-----------------
                     customerHourlyDetailsReport
                  ------------------->
-                <h5>{{switchViewReportReceived | StringJSPipe:stringJSPipeArgs}}</h5>
+                <h5>{{selectedReportName | StringJSPipe:stringJSPipeArgs}}</h5>
                 <simpleGridTable #customerTargetsReport>
                     <thead>
                     <tr>

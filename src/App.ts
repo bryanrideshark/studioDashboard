@@ -270,7 +270,9 @@ export class Main {
     }
 
     ngOnInit() {
-        this.listenRouterUpdateTitle();
+        // does not support hot-reload
+        if (!Lib.DevMode)
+            this.listenRouterUpdateTitle();
     }
 
     private listenRouterUpdateTitle() {
