@@ -2,7 +2,8 @@ import {
     Component,
     ChangeDetectionStrategy,
     Input,
-    ViewChild
+    ViewChild,
+    ChangeDetectorRef
 } from "@angular/core";
 import {Compbaser} from "../../../compbaser/Compbaser";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
@@ -31,48 +32,51 @@ interface ISummaryReport {
 
 @Component({
     selector: 'AdnetReports',
-    template: `
+    template: `           
+            <div [ngSwitch]="switchView">
+                <div *ngSwitchCase="'SELECT_REPORT'" style="padding: 10px">
+                    <small class="debug">{{me}}</small>
+                    <button (click)="onReport()" [ngClass]="{disabled: reportDisabled}" class="btn btn-circle btn-primary pull-right">run report</button>
+                    <h4>Select report</h4>
+                    <p-selectButton [options]="reportTypes" [(ngModel)]="selectedReport" (onChange)="onReportSelected($event)"></p-selectButton>
+                    <hr/>
+                    <simpleGridTable>
+                        <thead>
+                        <tr>
+                            <th sortableHeader="absoluteDate" [sort]="sort">mm/yy</th>
+                            <th sortableHeader="totalCount" [sort]="sort">count</th>
+                            <th sortableHeader="totalDuration" [sort]="sort">duration</th>
+                            <th sortableHeader="avgHourlyRate" [sort]="sort">hourly</th>
+                            <th sortableHeader="avgScreenArea" [sort]="sort">size</th>
+                            <th sortableHeader="prevDebit" [sort]="sort">prev</th>
+                            <th sortableHeader="currentDebit" [sort]="sort">debit</th>
+                            <th sortableHeader="balance" [sort]="sort">balance</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="simpleGridRecord" simpleGridRecord (onClicked)="onReportSelected(item)" *ngFor="let item of summerReports | OrderBy:sort.field:sort.desc; let index=index" [item]="item"
+                            [index]="index">
+                            <td class="width-md" simpleGridData [processField]="processField('absoluteDate')" [item]="item"></td>
+                            <td class="width-md" simpleGridData [processField]="processField('totalCount')" [item]="item"></td>
+                            <td class="width-md" simpleGridData [processField]="processField('totalDuration')" [item]="item"></td>
+                            <td class="width-md" simpleGridData [processField]="processField('avgHourlyRate')" [item]="item"></td>
+                            <td class="width-md" simpleGridData [processField]="processField('avgScreenArea')" [item]="item"></td>
+                            <td class="width-md" simpleGridData [processField]="processField('prevDebit')" [item]="item"></td>
+                            <td class="width-md" simpleGridData [processField]="processField('currentDebit')" [item]="item"></td>
+                            <td class="width-md" simpleGridData [processField]="processField('balance')" [item]="item"></td>
+                        </tr>
+                        </tbody>
+                    </simpleGridTable>
+                </div>
+                <div *ngSwitchCase="'SHOW_REPORT'" style="padding: 10px">
+                    <button (click)="goBackToReportSelection()" class="btn btn-primary pull-right">Back</button>
+                </div>
+                <div *ngSwitchCase="'LOAD_REPORT'" style="padding: 10px">
+                    <Loading  [size]="75" [style]="{'margin-top': '50px'}">
+                    </Loading>
+                </div>
+            </div>
             
-            <div *ngIf="showReportView == 0" style="padding: 10px">
-                <small class="debug">{{me}}</small>
-                <button (click)="onReport()" [ngClass]="{disabled: reportDisabled}" class="btn btn-circle btn-primary pull-right">run report</button>
-                <h4>Select report</h4>
-                <p-selectButton [options]="reportTypes" [(ngModel)]="selectedReport" (onChange)="onReportSelected($event)"></p-selectButton>
-                <hr/>
-                <simpleGridTable>
-                    <thead>
-                    <tr>
-                        <th sortableHeader="absoluteDate" [sort]="sort">mm/yy</th>
-                        <th sortableHeader="totalCount" [sort]="sort">count</th>
-                        <th sortableHeader="totalDuration" [sort]="sort">duration</th>
-                        <th sortableHeader="avgHourlyRate" [sort]="sort">hourly</th>
-                        <th sortableHeader="avgScreenArea" [sort]="sort">size</th>
-                        <th sortableHeader="prevDebit" [sort]="sort">prev</th>
-                        <th sortableHeader="currentDebit" [sort]="sort">debit</th>
-                        <th sortableHeader="balance" [sort]="sort">balance</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr class="simpleGridRecord" simpleGridRecord (onClicked)="onReportSelected(item)" *ngFor="let item of summerReports | OrderBy:sort.field:sort.desc; let index=index" [item]="item"
-                        [index]="index">
-                        <td class="width-md" simpleGridData [processField]="processField('absoluteDate')" [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('totalCount')" [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('totalDuration')" [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('avgHourlyRate')" [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('avgScreenArea')" [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('prevDebit')" [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('currentDebit')" [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('balance')" [item]="item"></td>
-                    </tr>
-                    </tbody>
-                </simpleGridTable>
-            </div>
-            <div *ngIf="showReportView == 1">                
-            </div> 
-            <div *ngIf="showReportView == 2">
-                loading 
-            </div>
-            <!--<Loading *ngIf="showReportView == 2" [size]="75" [style]="{'margin-top': '50px'}"></Loading>-->
             `,
     styles: [`
         .disabled {
@@ -81,14 +85,14 @@ interface ISummaryReport {
         }
 }
     `],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.Default,
     moduleId: __moduleName
 })
 
 
 export class AdnetReports extends Compbaser {
 
-    constructor(private adnetAction: AdnetActions, private appStore: AppStore) {
+    constructor(private adnetAction: AdnetActions, private appStore: AppStore, private cd: ChangeDetectorRef) {
         super();
         this.reportTypes = [];
         this.reportTypes.push({
@@ -125,19 +129,12 @@ export class AdnetReports extends Compbaser {
     set setAdnetPairModels(i_adnetPairModels: List<AdnetPairModel>) {
         this.reportDisabled = true;
         this.adnetPairModels = i_adnetPairModels;
-        if (this.adnetPairModels)
-            this.reportIncludeAll = this.adnetPairModels.size < 2 ? false : true;
+        if (!this.adnetPairModels)
+            return;
+        this.reportIncludeAll = this.adnetPairModels.size < 2 ? false : true;
         this.aggregateReports();
+        this.renderReportSelectionMenu();
     }
-
-    // @Input()
-    // set setAdnetTargetModel(i_adnetTargetModel: AdnetTargetModel) {
-    //     // this.simpleGridTable.deselect();
-    //     this.adnetTargetModel = i_adnetTargetModel;
-    //     // if (!this.adnetTargetModel)
-    //     //     return;
-    //     // this.aggregateReports();
-    // }
 
     @ViewChild(SimpleGridTable)
     simpleGridTable: SimpleGridTable;
@@ -154,8 +151,30 @@ export class AdnetReports extends Compbaser {
     private reportTypes: SelectItem[];
     private selectedReport: string;
     private summerReports: Array<ISummaryReport> = [];
-    private showReportView: number = 0;
+    public switchView: string = 'SELECT_REPORT';
     private pairOutgoing: boolean
+
+    private renderReportSelectionMenu() {
+        this.reportTypes = [];
+        if (this.reportIncludeAll) {
+            this.reportTypes.push({
+                label: 'customers',
+                value: 'customers'
+            });
+        }
+        this.reportTypes.push({
+            label: 'targets',
+            value: 'targets'
+        });
+        this.reportTypes.push({
+            label: 'content',
+            value: 'content'
+        });
+        this.reportTypes.push({
+            label: 'hourly',
+            value: 'hourly'
+        });
+    }
 
     private onReportSelected(event) {
         if (!_.isNull(this.simpleGridTable.getSelected()) && !_.isEmpty(this.selectedReport)) {
@@ -198,15 +217,19 @@ export class AdnetReports extends Compbaser {
         }
     }
 
+    private goBackToReportSelection() {
+        this.reportDisabled = true;
+        this.selectedReport = null;
+        this.switchView = 'SELECT_REPORT'
+    }
 
     private onReport() {
         if (this.reportDisabled)
             return;
-        this.showReportView = 2;
+        this.switchView = 'LOAD_REPORT';
         this.appStore.dispatch(this.adnetAction.reportsAdnet(this.adnetCustomerModel.getId(), (reportData) => {
-            console.log(reportData);
-            this.showReportView = 0;
-            return 1;
+            this.switchView = 'SHOW_REPORT';
+            this.cd.markForCheck();
         }));
     }
 

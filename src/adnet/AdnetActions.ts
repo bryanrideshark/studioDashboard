@@ -270,7 +270,7 @@ export class AdnetActions extends Actions {
         };
     }
 
-    public reportsAdnet(i_customerId, cb:(reportData)=>{}) {
+    public reportsAdnet(i_customerId, cb:(reportData)=> void) {
         return (dispatch) => {
             var businesses: List<BusinessModel> = this.appStore.getState().business.getIn(['businesses']);
             var businessModel: BusinessModel = businesses.filter((i_businessModel: BusinessModel) => i_businessModel.getAdnetCustomerId() == i_customerId).first() as BusinessModel;

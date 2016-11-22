@@ -207,7 +207,7 @@ SystemJS.config({
         "npm:loud-rejection@1.2.1": {
             "map": {
                 "array-find-index": "npm:array-find-index@1.0.1",
-                "signal-exit": "npm:signal-exit@2.1.2"
+                "signal-exit": "npm:signal-exit@2.2.1"
             }
         },
         "npm:meow@3.7.0": {
@@ -311,7 +311,7 @@ SystemJS.config({
         "npm:semver@5.1.0": {
             "map": {}
         },
-        "npm:signal-exit@2.1.2": {
+        "npm:signal-exit@2.2.1": {
             "map": {
                 "systemjs-json": "github:systemjs/plugin-json@0.1.0"
             }
@@ -431,28 +431,28 @@ SystemJS.config({
     ],
     map: {
         "primeng": "npm:primeng@1.0.0-beta.20",
-        "@angular/http": "npm:@angular/http@2.1.2",
+        "@angular/http": "npm:@angular/http@2.2.1",
         "css": "github:systemjs/plugin-css@0.1.27",
         "capaj/systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@0.6.0",
         "constants": "github:jspm/nodelibs-constants@0.2.0-alpha",
         "crypto": "github:jspm/nodelibs-crypto@0.2.0-alpha",
         "angular2-google-maps": "npm:angular2-google-maps@0.14.0",
-        "@angular/platform-browser": "npm:@angular/platform-browser@2.1.2",
-        "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.1.2",
-        "@angular/forms": "npm:@angular/forms@2.1.2",
+        "@angular/platform-browser": "npm:@angular/platform-browser@2.2.1",
+        "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.2.1",
+        "@angular/forms": "npm:@angular/forms@2.2.1",
         "jquery": "npm:jquery@2.2.4",
         "ng2-toastr": "npm:ng2-toastr@1.3.1",
         "string": "npm:string@3.3.3",
-        "angular-core": "npm:@angular/core@2.1.2",
-        "angular-platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.1.2",
-        "angular-http": "npm:@angular/http@2.1.2",
+        "angular-core": "npm:@angular/core@2.2.1",
+        "angular-platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.2.1",
+        "angular-http": "npm:@angular/http@2.2.1",
         "router": "npm:@angular/router@3.1.2",
-        "@angular/common": "npm:@angular/common@2.1.2",
-        "@angular/compiler": "npm:@angular/compiler@2.1.2",
-        "angular-platform-browser": "npm:@angular/platform-browser@2.1.2",
-        "angular-common": "npm:@angular/common@2.1.2",
-        "@angular/core": "npm:@angular/core@2.1.2",
-        "angular-compiler": "npm:@angular/compiler@2.1.2",
+        "@angular/common": "npm:@angular/common@2.2.1",
+        "@angular/compiler": "npm:@angular/compiler@2.2.1",
+        "angular-platform-browser": "npm:@angular/platform-browser@2.2.1",
+        "angular-common": "npm:@angular/common@2.2.1",
+        "@angular/core": "npm:@angular/core@2.2.1",
+        "angular-compiler": "npm:@angular/compiler@2.2.1",
         "redux-thunk": "npm:redux-thunk@2.1.0",
         "angular2-redux-util": "npm:angular2-redux-util@0.8.64",
         "angular2-polyfill": "npm:angular2-polyfill@0.0.2",
