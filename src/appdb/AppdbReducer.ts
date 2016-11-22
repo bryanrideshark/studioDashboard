@@ -12,7 +12,7 @@ const adnetCustomerToken = ':ADNET_TOKEN_ID:'
 const appBaseUrlAdnet = `https://adnet.signage.me/adNetService.ashx?command=customerRequest&customerId=${adnetCustomerId}&customerToken=${adnetCustomerToken}&fromChangelistId=0`;
 const appBaseUrlAdnetSearch = `https://adnet.signage.me/adNetService.ashx?command=search&customerId=${adnetCustomerId}&customerToken=${adnetCustomerToken}:DATA:`;
 const appBaseUrlAdnetSave = `https://adnet.signage.me/adNetService.ashx?command=customerSubmit&customerId=${adnetCustomerId}&customerToken=${adnetCustomerToken}&data=:DATA:`;
-const appBaseUrlAdnetReports = `https://adnet.signage.me/adNetService.ashx?command=customersReport&customerId=${adnetCustomerId}&customerToken=${adnetCustomerToken}&data=:DATA:`;
+const appBaseUrlAdnetReports = `https://adnet.signage.me/adNetService.ashx?command=:REPORT_TYPE:&customerId=${adnetCustomerId}&customerToken=${adnetCustomerToken}&data=:DATA:`;
 export const appBaseUrlCloud = 'https://secure.digitalsignage.com';
 
 export default function appdb(state: Map<string, any> = Map<string, any>({}), action: any): Map<string, any> {

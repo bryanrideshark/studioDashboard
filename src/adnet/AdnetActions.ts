@@ -270,52 +270,19 @@ export class AdnetActions extends Actions {
         };
     }
 
-    public reportsAdnet(i_customerId, cb:(reportData)=> void) {
+    public reportsAdnet(i_customerId, i_reportCommand, i_direction, i_absolutMonth, cb:(reportData)=> void) {
         return (dispatch) => {
             var businesses: List<BusinessModel> = this.appStore.getState().business.getIn(['businesses']);
             var businessModel: BusinessModel = businesses.filter((i_businessModel: BusinessModel) => i_businessModel.getAdnetCustomerId() == i_customerId).first() as BusinessModel;
             var adnetTokenId = businessModel.getAdnetTokenId();
             // var data = `&type=${type}&customer=${customer}&target=${target}&keys=${keys}&global=${global}&lat=${lat}&lng=${lng}&radios=${radios}`;
             var to = '';
-            var data = `&to${to}`;
-            const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetReports').replace(':ADNET_CUSTOMER_ID:', i_customerId).replace(':ADNET_TOKEN_ID:', adnetTokenId).replace(':DATA:', data).replace(/null/g, '');
+            var data = `&${i_direction}&absolutMonth=${i_absolutMonth}`;
+            const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetReports').replace(':REPORT_TYPE:',i_reportCommand).replace(':ADNET_CUSTOMER_ID:', i_customerId).replace(':ADNET_TOKEN_ID:', adnetTokenId).replace(':DATA:', data).replace(/null/g, '');
             this._http.get(baseUrl)
                 .map(result => {
                     var jData: Object = result.json()
                     cb(jData);
-                    // if (jData['targets'] && jData['targets'].length > 200)
-                    //     this.toastr.error('The list returned is too large, please add additional filtering criteria');
-                    //
-                    // /** Customers **/
-                    // var adnetCustomers: List<AdnetCustomerModel> = List<AdnetCustomerModel>();
-                    // for (var adnetCustomer of jData['customers']) {
-                    //     const adnetCustomerModel: AdnetCustomerModel = new AdnetCustomerModel(adnetCustomer);
-                    //     adnetCustomers = adnetCustomers.push(adnetCustomerModel)
-                    // }
-                    //
-                    // /** Rates **/
-                    // var adnetRates: List<AdnetRateModel> = List<AdnetRateModel>();
-                    // for (var adnetRate of jData['rates']) {
-                    //     if (adnetRate.Value.deleted == true)
-                    //         continue;
-                    //     const adnetRateModel: AdnetRateModel = new AdnetRateModel(adnetRate);
-                    //     adnetRates = adnetRates.push(adnetRateModel)
-                    // }
-                    //
-                    // /** Targets **/
-                    // var adnetTargets: List<AdnetTargetModel> = List<AdnetTargetModel>();
-                    // for (var target of jData['targets']) {
-                    //     if (target.Value.deleted == true)
-                    //         continue;
-                    //     const adnetTargetModel: AdnetTargetModel = new AdnetTargetModel(target);
-                    //     adnetTargets = adnetTargets.push(adnetTargetModel)
-                    // }
-                    // dispatch(this.adnetTargetsSearch({
-                    //     adnetTargets,
-                    //     adnetCustomers,
-                    //     adnetRates
-                    // }));
-
                 }).subscribe()
         }
     }

@@ -38,7 +38,7 @@ interface ISummaryReport {
                     <small class="debug">{{me}}</small>
                     <button (click)="onReport()" [ngClass]="{disabled: reportDisabled}" class="btn btn-circle btn-primary pull-right">run report</button>
                     <h4>Select report</h4>
-                    <p-selectButton [options]="reportTypes" [(ngModel)]="selectedReport" (onChange)="onReportSelected($event)"></p-selectButton>
+                    <p-selectButton [options]="reportTypes" [(ngModel)]="selectedReportName" (onChange)="onReportSelected($event)"></p-selectButton>
                     <hr/>
                     <simpleGridTable>
                         <thead>
@@ -83,7 +83,6 @@ interface ISummaryReport {
             opacity: 0.2;
             cursor: default;
         }
-}
     `],
     changeDetection: ChangeDetectionStrategy.Default,
     moduleId: __moduleName
@@ -131,7 +130,7 @@ export class AdnetReports extends Compbaser {
         this.adnetPairModels = i_adnetPairModels;
         if (!this.adnetPairModels)
             return;
-        this.reportIncludeAll = this.adnetPairModels.size < 2 ? false : true;
+        this.allPairsSelected = this.adnetPairModels.size < 2 ? false : true;
         this.aggregateReports();
         this.renderReportSelectionMenu();
     }
@@ -146,17 +145,18 @@ export class AdnetReports extends Compbaser {
 
     private adnetCustomerModel: AdnetCustomerModel;
     private adnetPairModels: List<AdnetPairModel>;
-    private reportIncludeAll: boolean;
+    private allPairsSelected: boolean;
     private reportDisabled: boolean = true;
     private reportTypes: SelectItem[];
-    private selectedReport: string;
+    private selectedReportName: string;
+    private absolutMonth:number;
     private summerReports: Array<ISummaryReport> = [];
     public switchView: string = 'SELECT_REPORT';
     private pairOutgoing: boolean
 
     private renderReportSelectionMenu() {
         this.reportTypes = [];
-        if (this.reportIncludeAll) {
+        if (this.allPairsSelected) {
             this.reportTypes.push({
                 label: 'customers',
                 value: 'customers'
@@ -176,11 +176,12 @@ export class AdnetReports extends Compbaser {
         });
     }
 
-    private onReportSelected(event) {
-        if (!_.isNull(this.simpleGridTable.getSelected()) && !_.isEmpty(this.selectedReport)) {
+    private onReportSelected(event:ISummaryReport) {
+        if (!_.isNull(this.simpleGridTable.getSelected()) && !_.isEmpty(this.selectedReportName)) {
             this.reportDisabled = false;
         } else {
             this.reportDisabled = true;
+            this.absolutMonth = event.absolutMonth;
         }
     }
 
@@ -219,7 +220,7 @@ export class AdnetReports extends Compbaser {
 
     private goBackToReportSelection() {
         this.reportDisabled = true;
-        this.selectedReport = null;
+        this.selectedReportName = null;
         this.switchView = 'SELECT_REPORT'
     }
 
@@ -227,7 +228,27 @@ export class AdnetReports extends Compbaser {
         if (this.reportDisabled)
             return;
         this.switchView = 'LOAD_REPORT';
-        this.appStore.dispatch(this.adnetAction.reportsAdnet(this.adnetCustomerModel.getId(), (reportData) => {
+        var reportCommand;
+        var direction = this.pairOutgoing ? 'to' : 'from';
+        switch (this.selectedReportName) {
+            case 'customers': {
+                reportCommand = 'customersReport';
+                break;
+            }
+            case 'targets': {
+                reportCommand = this.allPairsSelected ? 'customerTargetsReport' : 'pairTargetsReport';
+                break;
+            }
+            case 'content': {
+                reportCommand = this.allPairsSelected ? 'customerContentReport' : 'pairContentReport';
+                break;
+            }
+            case 'hourly': {
+                reportCommand = this.allPairsSelected ? 'customerHourlyReport' : 'pairHourlyReport';
+                break;
+            }
+        }
+        this.appStore.dispatch(this.adnetAction.reportsAdnet(this.adnetCustomerModel.getId(), reportCommand, direction, this.absolutMonth, (reportData) => {
             this.switchView = 'SHOW_REPORT';
             this.cd.markForCheck();
         }));
@@ -237,7 +258,8 @@ export class AdnetReports extends Compbaser {
         if (!this.adnetPairModels)
             return;
         this.summerReports = [];
-        this.simpleGridTable.deselect();
+        if (this.simpleGridTable)
+            this.simpleGridTable.deselect();
         this.adnetPairModels.forEach((i_adnetPairModel: AdnetPairModel) => {
             var summeryReports: Array<any> = i_adnetPairModel.getReports();
             if (!summeryReports)
