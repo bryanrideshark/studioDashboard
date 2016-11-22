@@ -7,13 +7,14 @@ import {
 import {Compbaser} from "../../../compbaser/Compbaser";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {List} from "immutable";
-import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
+// import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
-import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {AppStore} from "angular2-redux-util";
 import {Lib} from "../../../../Lib";
 import {SimpleGridTable} from "../../../simplegridmodule/SimpleGridTable";
+import {SelectItem} from 'primeng/primeng';
+import * as _ from 'lodash';
 
 interface ISummaryReport {
     absolutMonth:number;
@@ -30,47 +31,47 @@ interface ISummaryReport {
 
 @Component({
     selector: 'AdnetReports',
-    template: `<small class="debug">{{me}}</small>
-              <button (click)="onReport()" class="btn btn-circle">export</button>
-              
-              <simpleGridTable>
-                <thead>
-                <tr>
-                    <th sortableHeader="absoluteDate" [sort]="sort">mm/yy</th>
-                    <th sortableHeader="totalCount" [sort]="sort">count</th>
-                    <th sortableHeader="totalDuration" [sort]="sort">duration</th>
-                    <th sortableHeader="avgHourlyRate" [sort]="sort">hourly</th>
-                    <th sortableHeader="avgScreenArea" [sort]="sort">size</th>
-                    <th sortableHeader="prevDebit" [sort]="sort">prev</th>
-                    <th sortableHeader="currentDebit" [sort]="sort">debit</th>
-                    <th sortableHeader="balance" [sort]="sort">balance</th>
-                </tr>
-                </thead>
-                <tbody>
-                <!--<tr class="simpleGridRecord" (onClicked)="onContentSelect(item)" simpleGridRecord *ngFor="let item of packagesFiltered | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">-->
-                <tr class="simpleGridRecord" simpleGridRecord *ngFor="let item of summerReports | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">
-                    <td class="width-md" simpleGridData [processField]="processField('absoluteDate')" [item]="item"></td>
-                    <td class="width-md" simpleGridData [processField]="processField('totalCount')" [item]="item"></td>
-                    <td class="width-md" simpleGridData [processField]="processField('totalDuration')" [item]="item"></td>
-                    <td class="width-md" simpleGridData [processField]="processField('avgHourlyRate')" [item]="item"></td>
-                    <td class="width-md" simpleGridData [processField]="processField('avgScreenArea')" [item]="item"></td>
-                    <td class="width-md" simpleGridData [processField]="processField('prevDebit')" [item]="item"></td>
-                    <td class="width-md" simpleGridData [processField]="processField('currentDebit')" [item]="item"></td>
-                    <td class="width-md" simpleGridData [processField]="processField('balance')" [item]="item"></td>
-                    <!--<td class="width-md" simpleGridData [processField]="processField('getName')" [item]="item"></td>-->
-                    <!--<td class="width-md" simpleGridData [processField]="getCustomerName" [item]="item"></td>-->
-                    <!--<td class="width-md" simpleGridData [processField]="processField('playModeName')" [item]="item"></td>-->
-                    <!--<td class="width-md" simpleGridData [processField]="processField('channel')" [item]="item"></td>-->
-                    <!--<td class="width-md" simpleGridData [processField]="processField('startDate')" [item]="item"></td>-->
-                    <!--<td class="width-md" simpleGridData [processField]="processField('endDate')" [item]="item"></td>-->
-                    <!--<td class="width-md" simpleGridData [processField]="processField('hourStart')" [item]="item"></td>-->
-                    <!--<td class="width-md" simpleGridData [processField]="processField('hourEnd')" [item]="item"></td>-->
-                    <!--<td class="width-lr" simpleGridDataChecks (changed)="setAccessMask($event)" [item]="item" [checkboxes]="getAccessMask(item)"></td>-->
-                </tr>
-                </tbody>
-            </simpleGridTable>
-            
-               `,
+    template: `
+<div style="padding: 10px">
+    <small class="debug">{{me}}</small>
+    <button (click)="onReport()" [ngClass]="{disabled: reportDisabled}" class="btn btn-circle btn-primary pull-right">run report</button>
+    <h4>Select report</h4>
+    <p-selectButton [options]="reportTypes" [(ngModel)]="selectedReport" (onChange)="onReportSelected($event)"></p-selectButton>
+    <simpleGridTable>
+        <thead>
+        <tr>
+            <th sortableHeader="absoluteDate" [sort]="sort">mm/yy</th>
+            <th sortableHeader="totalCount" [sort]="sort">count</th>
+            <th sortableHeader="totalDuration" [sort]="sort">duration</th>
+            <th sortableHeader="avgHourlyRate" [sort]="sort">hourly</th>
+            <th sortableHeader="avgScreenArea" [sort]="sort">size</th>
+            <th sortableHeader="prevDebit" [sort]="sort">prev</th>
+            <th sortableHeader="currentDebit" [sort]="sort">debit</th>
+            <th sortableHeader="balance" [sort]="sort">balance</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="simpleGridRecord" simpleGridRecord (onClicked)="onReportSelected(item)" *ngFor="let item of summerReports | OrderBy:sort.field:sort.desc; let index=index" [item]="item"
+            [index]="index">
+            <td class="width-md" simpleGridData [processField]="processField('absoluteDate')" [item]="item"></td>
+            <td class="width-md" simpleGridData [processField]="processField('totalCount')" [item]="item"></td>
+            <td class="width-md" simpleGridData [processField]="processField('totalDuration')" [item]="item"></td>
+            <td class="width-md" simpleGridData [processField]="processField('avgHourlyRate')" [item]="item"></td>
+            <td class="width-md" simpleGridData [processField]="processField('avgScreenArea')" [item]="item"></td>
+            <td class="width-md" simpleGridData [processField]="processField('prevDebit')" [item]="item"></td>
+            <td class="width-md" simpleGridData [processField]="processField('currentDebit')" [item]="item"></td>
+            <td class="width-md" simpleGridData [processField]="processField('balance')" [item]="item"></td>
+        </tr>
+        </tbody>
+    </simpleGridTable>
+</div>`,
+    styles: [`
+        .disabled {
+            opacity: 0.2;
+            cursor: default;
+        }
+}
+    `],
     changeDetection: ChangeDetectionStrategy.OnPush,
     moduleId: __moduleName
 })
@@ -80,6 +81,11 @@ export class AdnetReports extends Compbaser {
 
     constructor(private adnetAction: AdnetActions, private appStore: AppStore) {
         super();
+        this.reportTypes = [];
+        this.reportTypes.push({label:'customers', value:'customers'});
+        this.reportTypes.push({label:'targets', value:'targets'});
+        this.reportTypes.push({label:'content', value:'content'});
+        this.reportTypes.push({label:'hourly', value:'hourly'});
     }
 
     @Input()
@@ -96,21 +102,21 @@ export class AdnetReports extends Compbaser {
 
     @Input()
     set setAdnetPairModels(i_adnetPairModels: List<AdnetPairModel>) {
-        // this.simpleGridTable.deselect();
+        this.reportDisabled = true;
         this.adnetPairModels = i_adnetPairModels;
         if (this.adnetPairModels)
             this.reportIncludeAll = this.adnetPairModels.size < 2 ? false : true;
         this.aggregateReports();
     }
 
-    @Input()
-    set setAdnetTargetModel(i_adnetTargetModel: AdnetTargetModel) {
-        // this.simpleGridTable.deselect();
-        this.adnetTargetModel = i_adnetTargetModel;
-        // if (!this.adnetTargetModel)
-        //     return;
-        // this.aggregateReports();
-    }
+    // @Input()
+    // set setAdnetTargetModel(i_adnetTargetModel: AdnetTargetModel) {
+    //     // this.simpleGridTable.deselect();
+    //     this.adnetTargetModel = i_adnetTargetModel;
+    //     // if (!this.adnetTargetModel)
+    //     //     return;
+    //     // this.aggregateReports();
+    // }
 
     @ViewChild(SimpleGridTable)
     simpleGridTable:SimpleGridTable;
@@ -123,12 +129,20 @@ export class AdnetReports extends Compbaser {
     private adnetCustomerModel: AdnetCustomerModel;
     private adnetPairModels: List<AdnetPairModel>;
     private reportIncludeAll: boolean;
-
+    private reportDisabled: boolean = true;
+    private reportTypes: SelectItem[];
+    private selectedReport: string;
     private summerReports: Array<ISummaryReport> = [];
-    // private packages: List<AdnetPackageModel>
-    private adnetTargetModel: AdnetTargetModel;
-    // private packagesFiltered: List<AdnetPackageModel>
+    // private adnetTargetModel: AdnetTargetModel;
     private pairOutgoing: boolean
+
+    private onReportSelected(event){
+        if (!_.isNull(this.simpleGridTable.getSelected()) && !_.isEmpty(this.selectedReport) ){
+            this.reportDisabled = false;
+        } else {
+            this.reportDisabled = true;
+        }
+    }
 
     private processField(i_field: string) {
         return (i_summaryReport: ISummaryReport):any => {

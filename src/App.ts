@@ -170,7 +170,7 @@ import {AdnetResolver} from "./comps/app1/adnet/targets/AdnetResolver";
 import {AdnetLoader} from "./comps/app1/adnet/AdnetLoader";
 import {InputNumeric} from "./comps/inputnumeric/InputNumeric";
 import {InputString} from "./comps/inputstring/InputString";
-import {InputTextModule} from 'primeng/primeng';
+import {InputTextModule, SelectButtonModule} from 'primeng/primeng';
 import {DropdownModule as DropdownModulePrime} from 'primeng/primeng';
 import {Dropbox} from "./comps/dropbox/Dropbox";
 import {TreeModule} from 'primeng/primeng';
@@ -383,7 +383,7 @@ let options: ToastOptions = new ToastOptions({
 });
 
 @NgModule({
-    imports: [BrowserModule, SimpleGridModule.forRoot(), AgmCoreModule.forRoot(), JsonpModule, HttpModule, ReactiveFormsModule, FormsModule, ToastModule.forRoot(options), DropdownModule, AccordionModule, routing, TreeModule, InputTextModule, DropdownModulePrime],
+    imports: [BrowserModule, SimpleGridModule.forRoot(), AgmCoreModule.forRoot(), JsonpModule, HttpModule, ReactiveFormsModule, FormsModule, ToastModule.forRoot(options), DropdownModule, AccordionModule, routing, TreeModule, InputTextModule, SelectButtonModule, InputTextModule, DropdownModulePrime],
     providers: [providing],
     declarations: decelerations,
     bootstrap: [Main],
