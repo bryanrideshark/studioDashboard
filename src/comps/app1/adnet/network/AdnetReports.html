@@ -57,7 +57,7 @@
         <!--</div>-->
 
         <div [ngSwitch]="switchViewReportReceived">
-            <div *ngSwitchCase="PrivModeEnum.DEL">
+            <div *ngSwitchCase="PrivModeEnum.CUSTOMER">
                 <!-----------------
                     customersReport
                  ------------------->
@@ -101,7 +101,7 @@
         </div>
 
         <div [ngSwitch]="switchViewReportReceived">
-            <div *ngSwitchCase="PrivModeEnum.ADD">
+            <div *ngSwitchCase="PrivModeEnum.TARGET">
                 <!-----------------
                     customerTargetsReport
                  ------------------->
@@ -145,7 +145,7 @@
         </div>
 
         <div [ngSwitch]="switchViewReportReceived">
-            <div *ngSwitchCase="PrivModeEnum.ADD">
+            <div *ngSwitchCase="PrivModeEnum.TARGET_DETAILS">
                 <!-----------------
                     customerTargetsDetailsReport
                  ------------------->
@@ -189,7 +189,7 @@
         </div>
 
         <div [ngSwitch]="switchViewReportReceived">
-            <div *ngSwitchCase="PrivModeEnum.ADD">
+            <div *ngSwitchCase="PrivModeEnum.CONTENT">
                 <!-----------------
                     customerContentReport
                  ------------------->
@@ -232,7 +232,7 @@
             </div>
         </div>
         <div [ngSwitch]="switchViewReportReceived">
-            <div *ngSwitchCase="PrivModeEnum.ADD">
+            <div *ngSwitchCase="PrivModeEnum.HOURLY">
                 <!-----------------
                     customerHourlyReport
                  ------------------->
@@ -275,7 +275,7 @@
             </div>
         </div>
         <div [ngSwitch]="switchViewReportReceived">
-            <div *ngSwitchCase="PrivModeEnum.ADD">
+            <div *ngSwitchCase="PrivModeEnum.HOURLY_DETAILS">
                 <!-----------------
                     customerHourlyDetailsReport
                  ------------------->

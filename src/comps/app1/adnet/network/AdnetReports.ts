@@ -21,7 +21,13 @@ import * as _ from 'lodash';
 enum PrivModeEnum {
     ADD,
     DEL,
-    UPD
+    UPD,
+    CUSTOMER,
+    TARGET,
+    TARGET_DETAILS,
+    CONTENT,
+    HOURLY,
+    HOURLY_DETAILS
 }
 
 interface ISummaryReport {
@@ -64,7 +70,7 @@ enum ReportSelectedEnum {
 export class AdnetReports extends Compbaser {
 
     private PrivModeEnum = PrivModeEnum;
-    private ReportSelectedEnum:ReportSelectedEnum;
+
 
     constructor(private adnetAction: AdnetActions, private appStore: AppStore, private cd: ChangeDetectorRef) {
         super();
@@ -215,22 +221,22 @@ export class AdnetReports extends Compbaser {
         var direction = this.pairOutgoing ? 'to' : 'from';
         switch (this.selectedReportName) {
             case 'customers': {
-                reportCommand = ReportSelectedEnum.CUSTOMER;
+                reportCommand = PrivModeEnum.CUSTOMER;
                 break;
             }
             case 'targets': {
                 // reportCommand = this.allPairsSelected ? 'customerTargetsReport' : 'pairTargetsReport';
-                reportCommand = ReportSelectedEnum.TARGET;
+                reportCommand = PrivModeEnum.TARGET;
                 break;
             }
             case 'content': {
                 // reportCommand = this.allPairsSelected ? 'customerContentReport' : 'pairContentReport';
-                reportCommand = ReportSelectedEnum.CONTENT;
+                reportCommand = PrivModeEnum.CONTENT;
                 break;
             }
             case 'hourly': {
                 // reportCommand = this.allPairsSelected ? 'customerHourlyReport' : 'pairHourlyReport';
-                reportCommand = ReportSelectedEnum.HOURLY;
+                reportCommand = PrivModeEnum.HOURLY;
                 break;
             }
         }
@@ -239,7 +245,7 @@ export class AdnetReports extends Compbaser {
 
         this.appStore.dispatch(this.adnetAction.reportsAdnet(this.adnetCustomerModel.getId(), reportCommand, direction, this.absolutMonth, selectedPairId, (reportData) => {
             this.switchView = 'SHOW_REPORT';
-            this.switchViewReportReceived = PrivModeEnum.DEL;
+            this.switchViewReportReceived = reportCommand;
             this.cd.markForCheck();
         }));
     }
