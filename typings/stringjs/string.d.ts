@@ -136,6 +136,8 @@ interface StringJS {
     cleanChar():StringJS;
 
     toCurrency(format?:'us'|'eu'):StringJS;
+
+    toPercent():StringJS;
 }
 
 type StringJSType = {(o: any): StringJS};

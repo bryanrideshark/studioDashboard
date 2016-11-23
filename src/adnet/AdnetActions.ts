@@ -275,7 +275,7 @@ export class AdnetActions extends Actions {
             var businesses: List<BusinessModel> = this.appStore.getState().business.getIn(['businesses']);
             var businessModel: BusinessModel = businesses.filter((i_businessModel: BusinessModel) => i_businessModel.getAdnetCustomerId() == i_customerId).first() as BusinessModel;
             var adnetTokenId = businessModel.getAdnetTokenId();
-            var data = `&${i_direction}&absolutMonth=${i_absolutMonth}`;
+            var data = `&dir=${i_direction}&absolutMonth=${i_absolutMonth}`;
             const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetReports').replace(':REPORT_TYPE:',i_reportCommand).replace(':ADNET_CUSTOMER_ID:', i_customerId).replace(':ADNET_TOKEN_ID:', adnetTokenId).replace(':DATA:', data).replace(/null/g, '');
             this._http.get(baseUrl)
                 .map(result => {

@@ -157,8 +157,13 @@ export class LoginPanel {
         }, 'appdb.twoFactorStatus', false);
 
         if (this.authService.getLocalstoreCred().u != '') {
-            this.showLoginPanel = false;
-            this.authService.authUser();
+
+            if (confirm('run?')) {
+                this.showLoginPanel = false;
+                this.authService.authUser();
+            }
+
+
         } else {
             this.showLoginPanel = true;
         }

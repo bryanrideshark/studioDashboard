@@ -5,11 +5,10 @@
                 class="btn btn-circle btn-primary pull-right">run report
         </button>
         <h4>Select report</h4>
-        <p-selectButton [options]="reportTypes" [(ngModel)]="selectedReportName"
-                        (onChange)="onReportSelected($event)"></p-selectButton>
+        <p-selectButton [options]="reportTypes" [(ngModel)]="selectedReportName" (onChange)="onReportSummarySelected($event)"></p-selectButton>
         <hr/>
         <!-----------------
-            Summary report
+            report selector
         ------------------->
         <simpleGridTable #gridReportSource>
             <thead>
@@ -25,9 +24,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr class="simpleGridRecord" simpleGridRecord (onClicked)="onReportSelected(item)"
-                *ngFor="let item of summaryReports | OrderBy:sort.field:sort.desc; let index=index" [item]="item"
-                [index]="index">
+            <tr class="simpleGridRecord" simpleGridRecord (onClicked)="onReportSummarySelected(item)" *ngFor="let item of summaryReports | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">
                 <td class="width-md" simpleGridData [processField]="processField('absoluteDate')" [item]="item"></td>
                 <td class="width-md" simpleGridData [processField]="processField('totalCount')" [item]="item"></td>
                 <td class="width-md" simpleGridData [processField]="processField('totalDuration')" [item]="item"></td>
@@ -41,281 +38,38 @@
         </simpleGridTable>
     </div>
     <div *ngSwitchCase="'SHOW_REPORT'" style="padding: 10px">
-        <button (click)="goBackToReportSelection()" class="btn btn-primary pull-right">Back</button>
+
+        <!-----------------
+            report results
+        ------------------->
         <hr/>
-
-        <!--<div [ngSwitch]="switchViewReportReceived">-->
-            <!--<div *ngSwitchCase="ReportEnum.ADD">-->
-                <!--<h1>add</h1>-->
-            <!--</div>-->
-            <!--<div *ngSwitchCase="ReportEnum.DEL">-->
-                <!--<h1>del</h1>-->
-            <!--</div>-->
-            <!--<div *ngSwitchCase="ReportEnum.UPD">-->
-                <!--<h1>upd</h1>-->
-            <!--</div>-->
-        <!--</div>-->
-
-        <div [ngSwitch]="switchViewReportReceived">
-            <div *ngSwitchCase="ReportEnum.CUSTOMER">
-                <!-----------------
-                    customersReport
-                 ------------------->
-                <h5>{{selectedReportName | StringJSPipe:stringJSPipeArgs}}</h5>
-                <simpleGridTable #customersReport>
-                    <thead>
-                    <tr>
-                        <th sortableHeader="customer" [sort]="sort">customer</th>
-                        <th sortableHeader="totalCount" [sort]="sort">count</th>
-                        <th sortableHeader="totalDuration" [sort]="sort">duration</th>
-                        <th sortableHeader="avgHourlyRate" [sort]="sort">hourly</th>
-                        <th sortableHeader="price" [sort]="sort">price</th>
-                        <th sortableHeader="size" [sort]="sort">size</th>
-                        <th sortableHeader="balance" [sort]="sort">price * size</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr class="simpleGridRecord" simpleGridRecord
-                        *ngFor="let item of summaryReports | OrderBy:sort.field:sort.desc; let index=index"
-                        [item]="item"
-                        [index]="index">
-                        <td class="width-md" simpleGridData [processField]="processField('absoluteDate')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('totalCount')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('totalDuration')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('avgHourlyRate')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('avgScreenArea')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('prevDebit')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('currentDebit')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('balance')" [item]="item"></td>
-                    </tr>
-                    </tbody>
-                </simpleGridTable>
-            </div>
-        </div>
-
-        <div [ngSwitch]="switchViewReportReceived">
-            <div *ngSwitchCase="ReportEnum.TARGET">
-                <!-----------------
-                    customerTargetsReport
-                 ------------------->
-                <h5>{{selectedReportName | StringJSPipe:stringJSPipeArgs}}</h5>
-                <simpleGridTable #customerTargetsReport>
-                    <thead>
-                    <tr>
-                        <th sortableHeader="customer" [sort]="sort">customer</th>
-                        <th sortableHeader="totalCount" [sort]="sort">count</th>
-                        <th sortableHeader="totalDuration" [sort]="sort">duration</th>
-                        <th sortableHeader="avgHourlyRate" [sort]="sort">hourly</th>
-                        <th sortableHeader="price" [sort]="sort">price</th>
-                        <th sortableHeader="size" [sort]="sort">size</th>
-                        <th sortableHeader="balance" [sort]="sort">price * size</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr class="simpleGridRecord" simpleGridRecord
-                        *ngFor="let item of summaryReports | OrderBy:sort.field:sort.desc; let index=index"
-                        [item]="item"
-                        [index]="index">
-                        <td class="width-md" simpleGridData [processField]="processField('absoluteDate')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('totalCount')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('totalDuration')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('avgHourlyRate')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('avgScreenArea')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('prevDebit')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('currentDebit')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('balance')" [item]="item"></td>
-                    </tr>
-                    </tbody>
-                </simpleGridTable>
-            </div>
-        </div>
-        <div [ngSwitch]="switchViewReportReceived">
-            <div *ngSwitchCase="ReportEnum.TARGET_DETAILS">
-                <!-----------------
-                    customerTargetsDetailsReport
-                 ------------------->
-                <h5>{{selectedReportName | StringJSPipe:stringJSPipeArgs}}</h5>
-                <simpleGridTable #customerTargetsReport>
-                    <thead>
-                    <tr>
-                        <th sortableHeader="customer" [sort]="sort">customer</th>
-                        <th sortableHeader="totalCount" [sort]="sort">count</th>
-                        <th sortableHeader="totalDuration" [sort]="sort">duration</th>
-                        <th sortableHeader="avgHourlyRate" [sort]="sort">hourly</th>
-                        <th sortableHeader="price" [sort]="sort">price</th>
-                        <th sortableHeader="size" [sort]="sort">size</th>
-                        <th sortableHeader="balance" [sort]="sort">price * size</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr class="simpleGridRecord" simpleGridRecord
-                        *ngFor="let item of summaryReports | OrderBy:sort.field:sort.desc; let index=index"
-                        [item]="item"
-                        [index]="index">
-                        <td class="width-md" simpleGridData [processField]="processField('absoluteDate')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('totalCount')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('totalDuration')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('avgHourlyRate')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('avgScreenArea')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('prevDebit')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('currentDebit')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('balance')" [item]="item"></td>
-                    </tr>
-                    </tbody>
-                </simpleGridTable>
-            </div>
-        </div>
-
-        <div [ngSwitch]="switchViewReportReceived">
-            <div *ngSwitchCase="ReportEnum.CONTENT">
-                <!-----------------
-                    customerContentReport
-                 ------------------->
-                <h5>{{selectedReportName | StringJSPipe:stringJSPipeArgs}}</h5>
-                <simpleGridTable #customerTargetsReport>
-                    <thead>
-                    <tr>
-                        <th sortableHeader="customer" [sort]="sort">customer</th>
-                        <th sortableHeader="totalCount" [sort]="sort">count</th>
-                        <th sortableHeader="totalDuration" [sort]="sort">duration</th>
-                        <th sortableHeader="avgHourlyRate" [sort]="sort">hourly</th>
-                        <th sortableHeader="price" [sort]="sort">price</th>
-                        <th sortableHeader="size" [sort]="sort">size</th>
-                        <th sortableHeader="balance" [sort]="sort">price * size</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr class="simpleGridRecord" simpleGridRecord
-                        *ngFor="let item of summaryReports | OrderBy:sort.field:sort.desc; let index=index"
-                        [item]="item"
-                        [index]="index">
-                        <td class="width-md" simpleGridData [processField]="processField('absoluteDate')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('totalCount')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('totalDuration')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('avgHourlyRate')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('avgScreenArea')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('prevDebit')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('currentDebit')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('balance')" [item]="item"></td>
-                    </tr>
-                    </tbody>
-                </simpleGridTable>
-            </div>
-        </div>
-        <div [ngSwitch]="switchViewReportReceived">
-            <div *ngSwitchCase="ReportEnum.HOURLY">
-                <!-----------------
-                    customerHourlyReport
-                 ------------------->
-                <h5>{{selectedReportName | StringJSPipe:stringJSPipeArgs}}</h5>
-                <simpleGridTable #customerTargetsReport>
-                    <thead>
-                    <tr>
-                        <th sortableHeader="customer" [sort]="sort">customer</th>
-                        <th sortableHeader="totalCount" [sort]="sort">count</th>
-                        <th sortableHeader="totalDuration" [sort]="sort">duration</th>
-                        <th sortableHeader="avgHourlyRate" [sort]="sort">hourly</th>
-                        <th sortableHeader="price" [sort]="sort">price</th>
-                        <th sortableHeader="size" [sort]="sort">size</th>
-                        <th sortableHeader="balance" [sort]="sort">price * size</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr class="simpleGridRecord" simpleGridRecord
-                        *ngFor="let item of summaryReports | OrderBy:sort.field:sort.desc; let index=index"
-                        [item]="item"
-                        [index]="index">
-                        <td class="width-md" simpleGridData [processField]="processField('absoluteDate')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('totalCount')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('totalDuration')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('avgHourlyRate')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('avgScreenArea')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('prevDebit')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('currentDebit')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('balance')" [item]="item"></td>
-                    </tr>
-                    </tbody>
-                </simpleGridTable>
-            </div>
-        </div>
-        <div [ngSwitch]="switchViewReportReceived">
-            <div *ngSwitchCase="ReportEnum.HOURLY_DETAILS">
-                <!-----------------
-                    customerHourlyDetailsReport
-                 ------------------->
-                <h5>{{selectedReportName | StringJSPipe:stringJSPipeArgs}}</h5>
-                <simpleGridTable #customerTargetsReport>
-                    <thead>
-                    <tr>
-                        <th sortableHeader="customer" [sort]="sort">customer</th>
-                        <th sortableHeader="totalCount" [sort]="sort">count</th>
-                        <th sortableHeader="totalDuration" [sort]="sort">duration</th>
-                        <th sortableHeader="avgHourlyRate" [sort]="sort">hourly</th>
-                        <th sortableHeader="price" [sort]="sort">price</th>
-                        <th sortableHeader="size" [sort]="sort">size</th>
-                        <th sortableHeader="balance" [sort]="sort">price * size</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr class="simpleGridRecord" simpleGridRecord
-                        *ngFor="let item of summaryReports | OrderBy:sort.field:sort.desc; let index=index"
-                        [item]="item"
-                        [index]="index">
-                        <td class="width-md" simpleGridData [processField]="processField('absoluteDate')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('totalCount')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('totalDuration')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('avgHourlyRate')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('avgScreenArea')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('prevDebit')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('currentDebit')"
-                            [item]="item"></td>
-                        <td class="width-md" simpleGridData [processField]="processField('balance')" [item]="item"></td>
-                    </tr>
-                    </tbody>
-                </simpleGridTable>
-            </div>
-        </div>
+        <h5>{{selectedReportName | StringJSPipe:stringJSPipeArgs}}</h5>
+        <button (click)="goBackToReportSelection()" class="btn pull-right">Back</button>
+        <button *ngIf="switchViewReportReceived == ReportEnum.HOURLY || switchViewReportReceived == ReportEnum.TARGET" (click)="goBackToReportSelection()" class="btn btn-primary pull-right">Details</button>
+        <simpleGridTable>
+            <thead>
+            <tr>
+                <th *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" sortableHeader="customerId" [sort]="sort">Customer</th>
+                <th *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" sortableHeader="totalCount" [sort]="sort">count</th>
+                <th *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" sortableHeader="totalDuration" [sort]="sort">duration</th>
+                <th *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" sortableHeader="totalPrice" [sort]="sort">hourly</th>
+                <th *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" sortableHeader="totalPrice" [sort]="sort">price</th>
+                <th *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" sortableHeader="totalPrice" [sort]="sort">size</th>
+                <th *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" sortableHeader="totalPrice" [sort]="sort">price * size</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="simpleGridRecord" simpleGridRecord (onClicked)="onReportResultSelected(item)" *ngFor="let item of resultReports | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">
+                <td *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" class="width-md" simpleGridData [processField]="processField('customerId')" [item]="item"></td>
+                <td *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" class="width-md" simpleGridData [processField]="processField('totalCount')" [item]="item"></td>
+                <td *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" class="width-md" simpleGridData [processField]="processField('totalDuration')" [item]="item"></td>
+                <td *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" class="width-md" simpleGridData [processField]="processField('totalHourly')" [item]="item"></td>
+                <td *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" class="width-md" simpleGridData [processField]="processField('totalPrice')" [item]="item"></td>
+                <td *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" class="width-md" simpleGridData [processField]="processField('totalSize')" [item]="item"></td>
+                <td *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" class="width-md" simpleGridData [processField]="processField('totalPriceSize')" [item]="item"></td>
+            </tr>
+            </tbody>
+        </simpleGridTable>
     </div>
     <div *ngSwitchCase="'LOAD_REPORT'" style="padding: 10px">
         <Loading [size]="75" [style]="{'margin-top': '50px'}">

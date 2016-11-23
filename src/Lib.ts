@@ -1445,6 +1445,10 @@ MyS.prototype.toCurrency = function (format?: 'us'|'eu') {
     }
 }
 
+MyS.prototype.toPercent = function () {
+    return StringJS(this.s).toFloat(2) + '%';
+}
+
 MyS.prototype.fileTailName = function (i_level) {
     var fileName = this.s;
     var arr = fileName.split('/');
