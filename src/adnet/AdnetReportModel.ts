@@ -33,8 +33,16 @@ export class AdnetReportModel extends StoreModel {
         return this.getKey('Value').avgHourlyRate;
     }
 
+    public getAvgHourlyRateFormat() {
+        return StringJS(this.getAvgHourlyRate()).toCurrency('us');
+    }
+
     public getAvgScreenArea() {
         return this.getKey('Value').avgScreenArea;
+    }
+
+    public getAvgScreenAreaFormat() {
+        return StringJS(this.getAvgScreenArea() * 100).toFloat(2) + '%';
     }
 
     public getCurrentDebit() {
@@ -51,6 +59,10 @@ export class AdnetReportModel extends StoreModel {
 
     public getTotalDuration() {
         return this.getKey('Value').totalDuration;
+    }
+
+    public getTotalDurationFormat() {
+        return (new Date(this.getTotalDuration() * 1000)).toUTCString().match(/(\d\d:\d\d:\d\d)/)[0];
     }
 
     public getTotalPrice() {

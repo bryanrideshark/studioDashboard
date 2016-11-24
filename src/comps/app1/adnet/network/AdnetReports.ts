@@ -178,15 +178,15 @@ export class AdnetReports extends Compbaser {
                 //     var v = Lib.DateFromAbsolute(i_item.getAbsolutMonth());
                 //     return v.month + '/' + v.year;
                 // }
-                case 'totalDuration': {
-                    return (new Date(i_item.getTotalDuration() * 1000)).toUTCString().match(/(\d\d:\d\d:\d\d)/)[0];
-                }
-                case 'avgHourlyRate': {
-                    return StringJS(i_item.getAvgHourlyRate()).toCurrency('us');
-                }
-                case 'avgScreenArea': {
-                    return StringJS(i_item.getAvgScreenArea() * 100).toFloat(2) + '%';
-                }
+                // case 'totalDuration': {
+                //     return (new Date(i_item.getTotalDuration() * 1000)).toUTCString().match(/(\d\d:\d\d:\d\d)/)[0];
+                // }
+                // case 'avgHourlyRate': {
+                //     return StringJS(i_item.getAvgHourlyRate()).toCurrency('us');
+                // }
+                // case 'avgScreenArea': {
+                //     return StringJS(i_item.getAvgScreenArea() * 100).toFloat(2) + '%';
+                // }
                 case 'prevDebit': {
                     return StringJS(i_item.getPrevDebit() * 100).toCurrency();
                 }
