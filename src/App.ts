@@ -231,8 +231,7 @@ export class Main {
                 router.navigate(['/App1/Dashboard']);
             }, 1000);
         }
-        var joinData = new JoinPipe().transform(['a', 'b', 'c'], '_')
-        console.log(joinData);
+        // var joinData = new JoinPipe().transform(['a', 'b', 'c'], '_')
     }
 
     private m_styleService: StyleService;
