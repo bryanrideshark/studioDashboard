@@ -14,7 +14,7 @@
         <simpleGridTable #simpleGridReportSelector>
             <thead>
             <tr>
-                <th sortableHeader="absoluteDate" [sort]="sort">mm/yy</th>
+                <th sortableHeader="getAbsoluteDate" [sort]="sort">mm/yy</th>
                 <th sortableHeader="totalCount" [sort]="sort">count</th>
                 <th sortableHeader="totalDuration" [sort]="sort">duration</th>
                 <th sortableHeader="avgHourlyRate" [sort]="sort">hourly</th>
@@ -26,7 +26,7 @@
             </thead>
             <tbody>
             <tr class="simpleGridRecord" simpleGridRecord (onClicked)="onReportGridItemSelected(item)" *ngFor="let item of summaryReports | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">
-                <td class="width-md" simpleGridData [processField]="processField('absoluteDate')" [item]="item"></td>
+                <td class="width-md" simpleGridData [processField]="processField('getAbsoluteDate')" [item]="item"></td>
                 <td class="width-md" simpleGridData [processField]="processField('totalCount')" [item]="item"></td>
                 <td class="width-md" simpleGridData [processField]="processField('totalDuration')" [item]="item"></td>
                 <td class="width-md" simpleGridData [processField]="processField('avgHourlyRate')" [item]="item"></td>

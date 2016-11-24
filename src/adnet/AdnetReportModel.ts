@@ -13,6 +13,10 @@ export class AdnetReportModel extends StoreModel {
         return this.getKey('Value').customerId;
     }
 
+    public getAbsoluteDate() {
+        return this.getKey('Value').absoluteDate;
+    }
+
     public getTargetId() {
         return this.getKey('Value').targetId;
     }

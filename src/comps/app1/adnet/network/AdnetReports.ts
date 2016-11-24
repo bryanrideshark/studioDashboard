@@ -169,13 +169,15 @@ export class AdnetReports extends Compbaser {
         }
     }
 
+
+
     private processField(i_field: string) {
         return (i_item: AdnetReportModel): any => {
             switch (i_field) {
-                case 'absoluteDate': {
-                    var v = Lib.DateFromAbsolute(i_item.getAbsolutMonth());
-                    return v.month + '/' + v.year;
-                }
+                // case 'absoluteDate': {
+                //     var v = Lib.DateFromAbsolute(i_item.getAbsolutMonth());
+                //     return v.month + '/' + v.year;
+                // }
                 case 'totalDuration': {
                     return (new Date(i_item.getTotalDuration() * 1000)).toUTCString().match(/(\d\d:\d\d:\d\d)/)[0];
                 }
@@ -227,7 +229,7 @@ export class AdnetReports extends Compbaser {
                     return StringJS(i_item.getTotalCount()).toInt();
                 }
                 default: {
-                    return 'no condition met';
+                    return i_item[i_field]();
                 }
             }
         }
@@ -354,6 +356,8 @@ export class AdnetReports extends Compbaser {
                 return;
             summeryReports.forEach((reportData) => {
                 var adnetReportModel:AdnetReportModel = new AdnetReportModel(reportData)
+                var v = Lib.DateFromAbsolute(adnetReportModel.getAbsolutMonth());
+                adnetReportModel = adnetReportModel.setField('absoluteDate',v.month + '/' + v.year);
                 this.summaryReports = this.summaryReports.push(adnetReportModel);
             })
         })

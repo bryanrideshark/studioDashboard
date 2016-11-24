@@ -315,7 +315,7 @@ export class AdnetActions extends Actions {
 
                         switch(i_reportName){
                             case 'customersReport': {
-                                console.log(111);
+
                                 break;
                             }
                             case 'customerTargetsReport': {
