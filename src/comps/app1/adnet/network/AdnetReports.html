@@ -25,7 +25,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr class="simpleGridRecord" simpleGridRecord (onClicked)="onReportTypeClicked(item)" *ngFor="let item of summaryReports | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">
+            <tr class="simpleGridRecord" simpleGridRecord (onClicked)="onReportGridItemSelected(item)" *ngFor="let item of summaryReports | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">
                 <td class="width-md" simpleGridData [processField]="processField('absoluteDate')" [item]="item"></td>
                 <td class="width-md" simpleGridData [processField]="processField('totalCount')" [item]="item"></td>
                 <td class="width-md" simpleGridData [processField]="processField('totalDuration')" [item]="item"></td>
@@ -65,7 +65,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr class="simpleGridRecord" simpleGridRecord (onClicked)="onReportResultClicked(item)" *ngFor="let item of resultReports | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">
+            <tr class="simpleGridRecord" simpleGridRecord (onClicked)="onReportGridItemSelected(item)" *ngFor="let item of resultReports | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">
                 <td *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" class="width-md" simpleGridData [processField]="processField('customerId')" [item]="item"></td>
                 <td *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" class="width-md" simpleGridData [processField]="processField('totalCount')" [item]="item"></td>
                 <td *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" class="width-md" simpleGridData [processField]="processField('totalDuration')" [item]="item"></td>

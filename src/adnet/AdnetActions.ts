@@ -25,6 +25,7 @@ import {CommBroker} from "../services/CommBroker";
 import * as xml2js from "xml2js";
 import {BusinessModel} from "../business/BusinessModel";
 import {ToastsManager} from "ng2-toastr";
+import {AdnetReportModel} from "./AdnetReportModel";
 
 export const RESET_ADNET = 'RESET_ADNET';
 export const RECEIVE_ADNET = 'RECEIVE_ADNET';
@@ -42,6 +43,7 @@ export const UPDATE_ADNET_RATE_TABLE = 'UPDATE_ADNET_RATE_TABLE';
 export const UPDATE_ADNET_PACKAGE = 'UPDATE_ADNET_PACKAGE';
 export const UPDATE_ADNET_PACKAGE_CONTENT = 'UPDATE_ADNET_PACKAGE_CONTENT';
 export const UPDATE_ADNET_TARGET = 'UPDATE_ADNET_TARGET';
+export const ADNET_RECEIVED_REPORT = 'ADNET_RECEIVED_REPORT';
 export const ADD_ADNET_TARGET_WEB = 'ADD_ADNET_TARGET_WEB';
 export const ADD_ADNET_TARGET_TO_PACKAGE = 'ADD_ADNET_TARGET_TO_PACKAGE';
 export const ADD_ADNET_TARGET_NEW = 'ADD_ADNET_TARGET_NEW';
@@ -60,6 +62,16 @@ export enum ContentTypeEnum {
     GOOGLE,
     DROPBOX
 }
+
+export enum ReportEnum {
+    CUSTOMER,
+    TARGET,
+    TARGET_DETAILS,
+    CONTENT,
+    HOURLY,
+    HOURLY_DETAILS
+}
+
 
 @Injectable()
 export class AdnetActions extends Actions {
@@ -270,23 +282,84 @@ export class AdnetActions extends Actions {
         };
     }
 
-    public reportsAdnet(i_customerId, i_reportCommand, i_direction, i_absolutMonth, i_pairId, cb:(reportData)=> void) {
+    public reportsAdnet(i_customerId, i_reportName, i_reportEnum, i_direction, i_absolutMonth, i_pairId) {
         return (dispatch) => {
+            var reportCommand = '';
+            switch (i_reportEnum) {
+                case ReportEnum.CUSTOMER: {
+                    reportCommand = 'customerStats';
+                    break;
+                }
+                case ReportEnum.TARGET: {
+                    reportCommand = 'targetStats';
+                    break;
+                }
+                case ReportEnum.CONTENT: {
+                    reportCommand = 'contentStats';
+                    break;
+                }
+            }
             var businesses: List<BusinessModel> = this.appStore.getState().business.getIn(['businesses']);
             var businessModel: BusinessModel = businesses.filter((i_businessModel: BusinessModel) => i_businessModel.getAdnetCustomerId() == i_customerId).first() as BusinessModel;
             var adnetTokenId = businessModel.getAdnetTokenId();
             var data = `&dir=${i_direction}&absolutMonth=${i_absolutMonth}`;
-            const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetReports').replace(':REPORT_TYPE:',i_reportCommand).replace(':ADNET_CUSTOMER_ID:', i_customerId).replace(':ADNET_TOKEN_ID:', adnetTokenId).replace(':DATA:', data).replace(/null/g, '');
+            const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetReports').replace(':REPORT_TYPE:', i_reportName).replace(':ADNET_CUSTOMER_ID:', i_customerId).replace(':ADNET_TOKEN_ID:', adnetTokenId).replace(':DATA:', data).replace(/null/g, '');
             this._http.get(baseUrl)
                 .map(result => {
-                    try {
-                        var jData: Object = result.json()
-                        cb(jData);
-                    } catch (e){
-                        cb({});
+                    var adnetReportModels:List<AdnetReportModel> = List<AdnetReportModel>();
+                    var jData: Object = result.json()
+                    for (var stats of jData[reportCommand]) {
+
+                        var adnetReportModel: AdnetReportModel = new AdnetReportModel(stats);
+                        adnetReportModel = adnetReportModel.setField('reportEnum',i_reportEnum);
+
+                        switch(i_reportName){
+                            case 'customersReport': {
+                                console.log(111);
+                                break;
+                            }
+                            case 'customerTargetsReport': {
+                                break;
+                            }
+                            case 'pairTargetsReport': {
+                                break;
+                            }
+                            case 'customerContentReport': {
+                                break;
+                            }
+                            case 'pairContentReport': {
+                                break;
+                            }
+                            case 'customerHourlyReport': {
+                                break;
+                            }
+                            case 'pairHourlyReport': {
+                                break;
+                            }
+                        }
+                        adnetReportModels = adnetReportModels.push(adnetReportModel)
                     }
+                    dispatch(this.receivedAdnetReport(adnetReportModels));
                 }).subscribe()
         }
+    }
+
+
+
+    public getCustomerName(customerId) {
+        var customersList: List<AdnetCustomerModel> = this.appStore.getState().adnet.getIn(['customers']) || {};
+        var adnetCustomerModel: AdnetCustomerModel = customersList.find((adnetCustomerModel: AdnetCustomerModel) => {
+            return adnetCustomerModel.getId() == customerId;
+        })
+        return adnetCustomerModel.getName();
+    }
+
+    public getTargetModel(targetId) {
+        var customersList: List<AdnetTargetModel> = this.appStore.getState().adnet.getIn(['targets']) || {};
+        var adnetTargetModel: AdnetTargetModel = customersList.find((adnetTargetModel: AdnetTargetModel) => {
+            return adnetTargetModel.getId() == targetId;
+        })
+        return adnetTargetModel;
     }
 
 
@@ -1027,6 +1100,13 @@ export class AdnetActions extends Actions {
         return {
             type: RECEIVE_RATES,
             rates
+        }
+    }
+
+    private receivedAdnetReport(report: List<AdnetReportModel>) {
+        return {
+            type: ADNET_RECEIVED_REPORT,
+            report
         }
     }
 

@@ -26,11 +26,16 @@ export function adnet(state: Map<string,any> = Map<string,any>(), action: any): 
             state = state.setIn(['pairs'], List());
             state = state.setIn(['packages'], List());
             state = state.setIn(['targets'], List());
+            state = state.setIn(['reports'], List());
             return state;
         }
 
         case AdnetActions.RECEIVE_CUSTOMERS: {
             return state.setIn(['customers'], action.customers);
+        }
+
+        case AdnetActions.ADNET_RECEIVED_REPORT: {
+            return state.setIn(['reports'], action.report);
         }
 
         case AdnetActions.RECEIVE_RATES: {

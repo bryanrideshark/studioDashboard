@@ -4,35 +4,15 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {List} from "immutable";
 // import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
-import {AdnetActions} from "../../../../adnet/AdnetActions";
+import {AdnetActions, ReportEnum} from "../../../../adnet/AdnetActions";
 import {AppStore} from "angular2-redux-util";
 import {Lib} from "../../../../Lib";
 import {SimpleGridTable} from "../../../simplegridmodule/SimpleGridTable";
 import {SelectItem} from "primeng/primeng";
 import * as _ from "lodash";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
+import {AdnetReportModel} from "../../../../adnet/AdnetReportModel";
 //import AdnetReportsTemplate from './AdnetReports.html!text'; /*prod*/
-
-enum ReportEnum {
-    CUSTOMER,
-    TARGET,
-    TARGET_DETAILS,
-    CONTENT,
-    HOURLY,
-    HOURLY_DETAILS
-}
-
-interface IReport {
-    absolutMonth: number;
-    avgHourlyRate: number;
-    avgScreenArea: number;
-    currentDebit: number;
-    prevDebit: number
-    totalCount: number;
-    totalDuration: number
-    totalPrice: number;
-    durationSize: number;
-}
 
 // export as csv: http://jsfiddle.net/nkm2b/222/
 // https://github.com/zemirco/json2csv
@@ -76,6 +56,20 @@ export class AdnetReports extends Compbaser {
             label: 'hourly',
             value: 'hourly'
         });
+
+        this.cancelOnDestroy(
+            this.appStore.sub((i_adnetReportModels: List<AdnetReportModel>) => {
+                this.switchView = 'SHOW_REPORT';
+                if (i_adnetReportModels.size==0)
+                    return this.cd.markForCheck();
+
+                this.switchViewReportReceived = i_adnetReportModels.first().getReportEnum();
+                this.resultReports = i_adnetReportModels;
+                // this.buildReports(reportName, reportData);
+                this.cd.markForCheck();
+            }, 'adnet.reports')
+        )
+
     }
 
     @Input()
@@ -130,8 +124,8 @@ export class AdnetReports extends Compbaser {
     private absolutMonth: number;
     private selectedDate: string;
     private selectedCustomer: string;
-    private summaryReports: Array<IReport> = [];
-    private resultReports: Array<IReport> = [];
+    private summaryReports: List<AdnetReportModel>;
+    private resultReports: List<AdnetReportModel>;
     public switchView: string = 'SELECT_REPORT';
     private pairOutgoing: boolean
 
@@ -158,8 +152,6 @@ export class AdnetReports extends Compbaser {
     }
 
     private onReportTypeClicked(event) {
-        if (event.absolutMonth)
-            this.setSelectedDate(event.absolutMonth);
         if (_.isNull(this.simpleGridReportSelector.getSelected()) || _.isEmpty(this.selectedReportName) || StringJS(this.absolutMonth).isBlank()) {
             this.reportDisabled = true;
         } else {
@@ -167,9 +159,10 @@ export class AdnetReports extends Compbaser {
         }
     }
 
-    private onReportResultClicked(event: IReport) {
-        // this.absolutMonth = event.absolutMonth;
-        if (_.isNull(this.simpleGridReportResults.getSelected()) || _.isEmpty(this.selectedReportName)) {
+    private onReportGridItemSelected(i_adnetReportModel: AdnetReportModel) {
+        this.setSelectedDate(i_adnetReportModel.getAbsolutMonth());
+        var selectedSimpleGrid:SimpleGridTable = this.simpleGridReportResults ? this.simpleGridReportResults : this.simpleGridReportSelector;
+        if (_.isNull(selectedSimpleGrid.getSelected()) || _.isEmpty(this.selectedReportName)) {
             this.reportDisabled = true;
         } else {
             this.reportDisabled = false;
@@ -177,63 +170,64 @@ export class AdnetReports extends Compbaser {
     }
 
     private processField(i_field: string) {
-        return (i_item: IReport): any => {
+        return (i_item: AdnetReportModel): any => {
             switch (i_field) {
                 case 'absoluteDate': {
-                    var v = Lib.DateFromAbsolute(i_item.absolutMonth);
+                    var v = Lib.DateFromAbsolute(i_item.getAbsolutMonth());
                     return v.month + '/' + v.year;
                 }
                 case 'totalDuration': {
-                    return (new Date(i_item.totalDuration * 1000)).toUTCString().match(/(\d\d:\d\d:\d\d)/)[0];
+                    return (new Date(i_item.getTotalDuration() * 1000)).toUTCString().match(/(\d\d:\d\d:\d\d)/)[0];
                 }
                 case 'avgHourlyRate': {
-                    return StringJS(i_item.avgHourlyRate).toCurrency('us');
+                    return StringJS(i_item.getAvgHourlyRate()).toCurrency('us');
                 }
                 case 'avgScreenArea': {
-                    return StringJS(i_item.avgScreenArea * 100).toFloat(2) + '%';
+                    return StringJS(i_item.getAvgScreenArea() * 100).toFloat(2) + '%';
                 }
                 case 'prevDebit': {
-                    return StringJS(i_item.prevDebit * 100).toCurrency();
+                    return StringJS(i_item.getPrevDebit() * 100).toCurrency();
                 }
                 case 'currentDebit': {
-                    return StringJS(i_item.currentDebit).toCurrency();
+                    return StringJS(i_item.getCurrentDebit()).toCurrency();
                 }
                 case 'balance': {
-                    var total = (i_item.currentDebit) - (i_item.prevDebit);
+                    var total = (i_item.getCurrentDebit()) - (i_item.getPrevDebit());
                     return StringJS(total).toCurrency();
                 }
                 case 'customerId': {
-                    return this.getCustomerName(i_item[i_field]);
+                    return this.adnetAction.getCustomerName(i_item.getCustomerId());
                 }
                 case 'customerTargetId': {
-                    var adnetTargetModel:AdnetTargetModel = this.getTargetModel(i_item['targetId'])
+                    var adnetTargetModel: AdnetTargetModel = this.adnetAction.getTargetModel(i_item.getTargetId())
                     var customerId = adnetTargetModel.getCustomerId();
-                    console.log(customerId);
-                    return this.getCustomerName(customerId);
+                    return this.adnetAction.getCustomerName(customerId);
                 }
                 case 'targetId': {
-                    var adnetTargetModel:AdnetTargetModel = this.getTargetModel(i_item['targetId'])
+                    var adnetTargetModel: AdnetTargetModel = this.adnetAction.getTargetModel(i_item.getTargetId())
                     return adnetTargetModel.getName();
                 }
                 case 'targetType': {
-                    //todo: add type enum
-                    var adnetTargetModel:AdnetTargetModel = this.getTargetModel(i_item['targetId'])
+                    var adnetTargetModel: AdnetTargetModel = this.adnetAction.getTargetModel(i_item.getTargetId())
                     return adnetTargetModel.getTargetType();
                 }
                 case 'totalHourly': {
-                    return StringJS(i_item.totalPrice * 3600 / i_item.durationSize).toCurrency();
+                    return StringJS(i_item.getTotalPrice() * 3600 / i_item.getDurationSize()).toCurrency();
                 }
                 case 'totalPrice': {
-                    return StringJS(i_item.totalPrice * i_item.totalDuration / i_item.durationSize).toCurrency();
+                    return StringJS(i_item.getTotalPrice() * i_item.getTotalDuration() / i_item.getDurationSize()).toCurrency();
                 }
                 case 'totalSize': {
-                    return StringJS(i_item.durationSize / i_item.totalDuration * 100).toPercent();
+                    return StringJS(i_item.getDurationSize() / i_item.getTotalDuration() * 100).toPercent();
                 }
                 case 'totalPriceSize': {
-                    return StringJS(i_item.totalPrice).toCurrency();
+                    return StringJS(i_item.getTotalPrice()).toCurrency();
+                }
+                case 'totalCount': {
+                    return StringJS(i_item.getTotalCount()).toInt();
                 }
                 default: {
-                    return i_item[i_field];
+                    return 'no condition met';
                 }
             }
         }
@@ -246,24 +240,21 @@ export class AdnetReports extends Compbaser {
         this.selectedDate = `${month}/${year}`
     }
 
-    private getTargetModel(targetId) {
-        var customersList: List<AdnetTargetModel> = this.appStore.getState().adnet.getIn(['targets']) || {};
-        var adnetTargetModel: AdnetTargetModel = customersList.find((adnetTargetModel: AdnetTargetModel) => {
-            return adnetTargetModel.getId() == targetId;
-        })
-        return adnetTargetModel;
-    }
-
-    private getCustomerName(customerId) {
-        var customersList: List<AdnetCustomerModel> = this.appStore.getState().adnet.getIn(['customers']) || {};
-        var adnetCustomerModel: AdnetCustomerModel = customersList.find((adnetCustomerModel: AdnetCustomerModel) => {
-            return adnetCustomerModel.getId() == customerId;
-        })
-        // var adnetCustomerModel: AdnetCustomerModel = customersList.filter((adnetCustomerModel: AdnetCustomerModel) => {
-        //     return customerId == adnetCustomerModel.customerId();
-        // }).first() as AdnetCustomerModel;
-        return adnetCustomerModel.getName();
-    }
+    // private getTargetModel(targetId) {
+    //     var customersList: List<AdnetTargetModel> = this.appStore.getState().adnet.getIn(['targets']) || {};
+    //     var adnetTargetModel: AdnetTargetModel = customersList.find((adnetTargetModel: AdnetTargetModel) => {
+    //         return adnetTargetModel.getId() == targetId;
+    //     })
+    //     return adnetTargetModel;
+    // }
+    //
+    // private getCustomerName(customerId) {
+    //     var customersList: List<AdnetCustomerModel> = this.appStore.getState().adnet.getIn(['customers']) || {};
+    //     var adnetCustomerModel: AdnetCustomerModel = customersList.find((adnetCustomerModel: AdnetCustomerModel) => {
+    //         return adnetCustomerModel.getId() == customerId;
+    //     })
+    //     return adnetCustomerModel.getName();
+    // }
 
     private goBackToReportSelection() {
         this.reportDisabled = true;
@@ -275,93 +266,95 @@ export class AdnetReports extends Compbaser {
         if (this.reportDisabled)
             return;
         this.switchView = 'LOAD_REPORT';
-        var reportCommand, reportName, selectedPairId = -1;
+        var reportEnum, reportName, selectedPairId = -1;
         var direction = this.pairOutgoing ? 'to' : 'from';
         switch (this.selectedReportName) {
             case 'customers': {
                 reportName = 'customersReport';
-                reportCommand = ReportEnum.CUSTOMER;
+                reportEnum = ReportEnum.CUSTOMER;
                 break;
             }
             case 'targets': {
                 reportName = this.allPairsSelected ? 'customerTargetsReport' : 'pairTargetsReport';
-                reportCommand = ReportEnum.TARGET;
+                reportEnum = ReportEnum.TARGET;
                 break;
             }
             case 'content': {
                 reportName = this.allPairsSelected ? 'customerContentReport' : 'pairContentReport';
-                reportCommand = ReportEnum.CONTENT;
+                reportEnum = ReportEnum.CONTENT;
                 break;
             }
             case 'hourly': {
                 reportName = this.allPairsSelected ? 'customerHourlyReport' : 'pairHourlyReport';
-                reportCommand = ReportEnum.HOURLY;
+                reportEnum = ReportEnum.HOURLY;
                 break;
             }
         }
         if (!this.allPairsSelected)
             selectedPairId = this.adnetPairModels.first().getId();
 
-        this.appStore.dispatch(this.adnetAction.reportsAdnet(this.adnetCustomerModel.getId(), reportName, direction, this.absolutMonth, selectedPairId, (reportData) => {
-            this.switchView = 'SHOW_REPORT';
-            this.switchViewReportReceived = reportCommand;
-            this.buildReports(reportName, reportData);
-            this.cd.markForCheck();
-        }));
+        this.appStore.dispatch(this.adnetAction.reportsAdnet(this.adnetCustomerModel.getId(), reportName, reportEnum, direction, this.absolutMonth, selectedPairId));
+        // , (reportData) => {
+        //         this.switchView = 'SHOW_REPORT';
+        //         this.switchViewReportReceived = switchViewReportReceived;
+        //         this.buildReports(reportName, reportData);
+        //         this.cd.markForCheck();
+        //     }));
     }
 
-    private buildReports(reportName, reportData) {
-        this.resultReports = [];
-        switch (reportName) {
-
-            case 'customersReport': {
-                reportData.customerStats.forEach((item) => {
-                    this.resultReports.push(item.Value);
-                })
-                break;
-            }
-            case 'customerTargetsReport': {
-                reportData.targetStats.forEach((item) => {
-                    this.resultReports.push(item.Value);
-                })
-                break;
-            }
-            case 'customerTargetsDetailsReport': {
-                break;
-            }
-            case 'pairTargetsReport': {
-                break;
-            }
-            case 'customerContentReport': {
-                break;
-            }
-            case 'pairContentReport': {
-                break;
-            }
-            case 'customerHourlyReport': {
-                break;
-            }
-            case 'customerHourlyDetailsReport': {
-                break;
-            }
-            case 'pairHourlyReport': {
-                break;
-            }
-        }
-    }
+    // private buildReports(reportName, reportData) {
+    //     this.resultReports = [];
+    //     switch (reportName) {
+    //
+    //         case 'customersReport': {
+    //             reportData.customerStats.forEach((item) => {
+    //                 this.resultReports.push(item.Value);
+    //             })
+    //             break;
+    //         }
+    //         case 'customerTargetsReport': {
+    //             reportData.targetStats.forEach((item) => {
+    //                 this.resultReports.push(item.Value);
+    //             })
+    //             break;
+    //         }
+    //         case 'customerTargetsDetailsReport': {
+    //             break;
+    //         }
+    //         case 'pairTargetsReport': {
+    //             break;
+    //         }
+    //         case 'customerContentReport': {
+    //             break;
+    //         }
+    //         case 'pairContentReport': {
+    //             break;
+    //         }
+    //         case 'customerHourlyReport': {
+    //             break;
+    //         }
+    //         case 'customerHourlyDetailsReport': {
+    //             break;
+    //         }
+    //         case 'pairHourlyReport': {
+    //             break;
+    //         }
+    //     }
+    // }
 
     private aggregateReports() {
         if (!this.adnetPairModels)
             return;
-        this.summaryReports = [];
+        this.summaryReports = List<AdnetReportModel>();
         if (this.simpleGridReportSelector)
             this.simpleGridReportSelector.deselect();
         this.adnetPairModels.forEach((i_adnetPairModel: AdnetPairModel) => {
             var summeryReports: Array<any> = i_adnetPairModel.getReports();
             if (!summeryReports)
                 return;
-            summeryReports.forEach((i_data) => {
-                this.summaryReports.push(i_data.Value)
+            summeryReports.forEach((reportData) => {
+                var adnetReportModel:AdnetReportModel = new AdnetReportModel(reportData)
+                this.summaryReports = this.summaryReports.push(adnetReportModel);
             })
         })
     }
