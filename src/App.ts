@@ -177,9 +177,10 @@ import {Twofactor} from "./comps/twofactor/Twofactor";
 import {AdnetReports} from "./comps/app1/adnet/network/AdnetReports";
 import {ToastModule, ToastOptions} from 'ng2-toastr/ng2-toastr';
 import {StringJSPipe} from "./pipes/StringJSPipe";
+import {NgArrayPipesModule, NgStringPipesModule} from 'angular-pipes';
+import {JoinPipe} from 'angular-pipes/src/array/join.pipe';
 
-
-//import {TreeModule} from 'angular2-tree-component';
+//import {TreeModule} from 'angular2-tree-component'; // removed 11-1-2016 using prime tree
 //import "zone.js/dist/long-stack-trace-zone"; // removed 9-7-2016
 
 export enum ServerMode {
@@ -230,10 +231,12 @@ export class Main {
                 router.navigate(['/App1/Dashboard']);
             }, 1000);
         }
+        var joinData = new JoinPipe().transform(['a', 'b', 'c'], '_')
+        console.log(joinData);
     }
 
     private m_styleService: StyleService;
-    private version = '3.29';
+    private version = '3.30';
 
     private checkPlatform() {
         switch (platform.name.toLowerCase()) {
@@ -384,7 +387,7 @@ let options: ToastOptions = new ToastOptions({
 });
 
 @NgModule({
-    imports: [BrowserModule, SimpleGridModule.forRoot(), AgmCoreModule.forRoot(), JsonpModule, HttpModule, ReactiveFormsModule, FormsModule, ToastModule.forRoot(options), DropdownModule, AccordionModule, routing, TreeModule, InputTextModule, SelectButtonModule, InputTextModule, DropdownModulePrime],
+    imports: [BrowserModule, SimpleGridModule.forRoot(), AgmCoreModule.forRoot(), JsonpModule, HttpModule, ReactiveFormsModule, FormsModule, ToastModule.forRoot(options), DropdownModule, AccordionModule, routing, TreeModule, NgStringPipesModule, InputTextModule, SelectButtonModule, InputTextModule, DropdownModulePrime],
     providers: [providing],
     declarations: decelerations,
     bootstrap: [Main],

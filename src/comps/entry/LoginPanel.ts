@@ -148,7 +148,7 @@ export class LoginPanel {
         }, 'appdb.credentials', false);
 
         this.m_unsub = appStore.sub((twoFactorStatus: {status: boolean, twoFactorStatusReceived: Date}) => {
-            // twoFactorStatus.status = false;//test
+            // twoFactorStatus.status = false;//debug
             if (twoFactorStatus.status) {
                 this.onAuthPass();
             } else {
@@ -157,13 +157,8 @@ export class LoginPanel {
         }, 'appdb.twoFactorStatus', false);
 
         if (this.authService.getLocalstoreCred().u != '') {
-
-            if (confirm('run?')) {
-                this.showLoginPanel = false;
-                this.authService.authUser();
-            }
-
-
+            this.showLoginPanel = false;
+            this.authService.authUser();
         } else {
             this.showLoginPanel = true;
         }

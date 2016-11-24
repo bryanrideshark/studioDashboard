@@ -442,6 +442,7 @@ SystemJS.config({
         "@angular/forms": "npm:@angular/forms@2.2.1",
         "jquery": "npm:jquery@2.2.4",
         "ng2-toastr": "npm:ng2-toastr@1.3.1",
+        "angular-pipes": "npm:angular-pipes@5.0.10",
         "string": "npm:string@3.3.3",
         "angular-core": "npm:@angular/core@2.2.1",
         "angular-platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.2.1",
