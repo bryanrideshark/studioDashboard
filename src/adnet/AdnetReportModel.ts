@@ -78,10 +78,12 @@ export class AdnetReportModel extends StoreModel {
         return i_adnetAction.getCustomerName(customerId);
     }
 
-    //todo: convert number to Enum of targetType
     public getTargetType(i_adnetAction: AdnetActions) {
         var adnetTargetModel: AdnetTargetModel = i_adnetAction.getTargetModel(this.getTargetId())
-        return adnetTargetModel.getTargetType();
+        var type = adnetTargetModel.getTargetType();
+        if (type == 1)
+            return 'Web'
+        return 'Station'
     }
 
     public getCurrentDebit() {
