@@ -313,32 +313,30 @@ export class AdnetActions extends Actions {
                         var adnetReportModel: AdnetReportModel = new AdnetReportModel(stats);
                         adnetReportModel = adnetReportModel.setField('reportEnum',i_reportEnum);
 
-                        switch(i_reportName){
-                            case 'customersReport': {
-                                console.log(111);
-                                break;
-                            }
-                            case 'customerTargetsReport': {
-                                console.log(222);
-                                break;
-                            }
-                            case 'pairTargetsReport': {
-                                console.log(333);
-                                break;
-                            }
-                            case 'customerContentReport': {
-                                break;
-                            }
-                            case 'pairContentReport': {
-                                break;
-                            }
-                            case 'customerHourlyReport': {
-                                break;
-                            }
-                            case 'pairHourlyReport': {
-                                break;
-                            }
-                        }
+                        // report type requested
+                        // switch(i_reportName){
+                        //     case 'customersReport': {
+                        //         break;
+                        //     }
+                        //     case 'customerTargetsReport': {
+                        //         break;
+                        //     }
+                        //     case 'pairTargetsReport': {
+                        //         break;
+                        //     }
+                        //     case 'customerContentReport': {
+                        //         break;
+                        //     }
+                        //     case 'pairContentReport': {
+                        //         break;
+                        //     }
+                        //     case 'customerHourlyReport': {
+                        //         break;
+                        //     }
+                        //     case 'pairHourlyReport': {
+                        //         break;
+                        //     }
+                        // }
                         adnetReportModels = adnetReportModels.push(adnetReportModel)
                     }
                     dispatch(this.receivedAdnetReport(adnetReportModels));

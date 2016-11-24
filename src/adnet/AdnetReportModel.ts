@@ -1,4 +1,6 @@
 import {StoreModel} from "../models/StoreModel";
+import {AdnetTargetModel} from "./AdnetTargetModel";
+import {AdnetActions} from "./AdnetActions";
 export class AdnetReportModel extends StoreModel {
 
     constructor(data: any = {}) {
@@ -47,6 +49,39 @@ export class AdnetReportModel extends StoreModel {
 
     public getAvgScreenAreaFormat() {
         return StringJS(this.getAvgScreenArea() * 100).toFloat(2) + '%';
+    }
+
+    public getTotalPriceFormat() {
+        return StringJS(this.getTotalPrice() * this.getTotalDuration() / this.getDurationSize()).toCurrency();
+    }
+
+    public getTotalSizeFormat() {
+        return StringJS(this.getDurationSize() / this.getTotalDuration() * 100).toPercent();
+    }
+
+    public getTotalPriceSizeFormat() {
+        return StringJS(this.getTotalPrice()).toCurrency();
+    }
+
+    public getTotalCountFormat() {
+        return StringJS(this.getTotalCount()).toInt();
+    }
+
+    public getTargetNameFromId(i_adnetAction: AdnetActions) {
+        var adnetTargetModel: AdnetTargetModel = i_adnetAction.getTargetModel(this.getTargetId())
+        return adnetTargetModel.getName();
+    }
+
+    public getCustomerNameFromId(i_adnetAction: AdnetActions) {
+        var adnetTargetModel: AdnetTargetModel = i_adnetAction.getTargetModel(this.getTargetId())
+        var customerId = adnetTargetModel.getCustomerId();
+        return i_adnetAction.getCustomerName(customerId);
+    }
+
+    //todo: convert number to Enum of targetType
+    public getTargetType(i_adnetAction: AdnetActions) {
+        var adnetTargetModel: AdnetTargetModel = i_adnetAction.getTargetModel(this.getTargetId())
+        return adnetTargetModel.getTargetType();
     }
 
     public getCurrentDebit() {

@@ -62,14 +62,11 @@ export class AdnetReports extends Compbaser {
                 this.switchView = 'SHOW_REPORT';
                 if (i_adnetReportModels.size==0)
                     return this.cd.markForCheck();
-
                 this.switchViewReportReceived = i_adnetReportModels.first().getReportEnum();
                 this.resultReports = i_adnetReportModels;
-                // this.buildReports(reportName, reportData);
                 this.cd.markForCheck();
             }, 'adnet.reports')
         )
-
     }
 
     @Input()
@@ -112,7 +109,6 @@ export class AdnetReports extends Compbaser {
         field: null,
         desc: false
     };
-
 
     private adnetCustomerModel: AdnetCustomerModel;
     private adnetPairModels: List<AdnetPairModel>;
@@ -169,68 +165,12 @@ export class AdnetReports extends Compbaser {
         }
     }
 
-
-
-    private processField(i_field: string) {
+    private processField(i_field: string, fromAdnetAction:boolean=false) {
         return (i_item: AdnetReportModel): any => {
-            switch (i_field) {
-                // case 'absoluteDate': {
-                //     var v = Lib.DateFromAbsolute(i_item.getAbsolutMonth());
-                //     return v.month + '/' + v.year;
-                // }
-                // case 'totalDuration': {
-                //     return (new Date(i_item.getTotalDuration() * 1000)).toUTCString().match(/(\d\d:\d\d:\d\d)/)[0];
-                // }
-                // case 'avgHourlyRate': {
-                //     return StringJS(i_item.getAvgHourlyRate()).toCurrency('us');
-                // }
-                // case 'avgScreenArea': {
-                //     return StringJS(i_item.getAvgScreenArea() * 100).toFloat(2) + '%';
-                // }
-                // case 'prevDebit': {
-                //     return StringJS(i_item.getPrevDebit() * 100).toCurrency();
-                // }
-                // case 'currentDebit': {
-                //     return StringJS(i_item.getCurrentDebit()).toCurrency();
-                // }
-                // case 'balance': {
-                //     var total = (i_item.getCurrentDebit()) - (i_item.getPrevDebit());
-                //     return StringJS(total).toCurrency();
-                // }
-                // case 'customerId': {
-                //     return this.adnetAction.getCustomerName(i_item.getCustomerId());
-                // }
-                // case 'totalHourly': {
-                //     return StringJS(i_item.getTotalPrice() * 3600 / i_item.getDurationSize()).toCurrency();
-                // }
-                case 'customerTargetId': {
-                    var adnetTargetModel: AdnetTargetModel = this.adnetAction.getTargetModel(i_item.getTargetId())
-                    var customerId = adnetTargetModel.getCustomerId();
-                    return this.adnetAction.getCustomerName(customerId);
-                }
-                case 'targetId': {
-                    var adnetTargetModel: AdnetTargetModel = this.adnetAction.getTargetModel(i_item.getTargetId())
-                    return adnetTargetModel.getName();
-                }
-                case 'targetType': {
-                    var adnetTargetModel: AdnetTargetModel = this.adnetAction.getTargetModel(i_item.getTargetId())
-                    return adnetTargetModel.getTargetType();
-                }
-                case 'totalPrice': {
-                    return StringJS(i_item.getTotalPrice() * i_item.getTotalDuration() / i_item.getDurationSize()).toCurrency();
-                }
-                case 'totalSize': {
-                    return StringJS(i_item.getDurationSize() / i_item.getTotalDuration() * 100).toPercent();
-                }
-                case 'totalPriceSize': {
-                    return StringJS(i_item.getTotalPrice()).toCurrency();
-                }
-                case 'totalCount': {
-                    return StringJS(i_item.getTotalCount()).toInt();
-                }
-                default: {
-                    return i_item[i_field]();
-                }
+            if (fromAdnetAction){
+                return i_item[i_field](this.adnetAction);
+            } else {
+                return i_item[i_field]();
             }
         }
     }
@@ -241,22 +181,6 @@ export class AdnetReports extends Compbaser {
         var month = i_value % 12;
         this.selectedDate = `${month}/${year}`
     }
-
-    // private getTargetModel(targetId) {
-    //     var customersList: List<AdnetTargetModel> = this.appStore.getState().adnet.getIn(['targets']) || {};
-    //     var adnetTargetModel: AdnetTargetModel = customersList.find((adnetTargetModel: AdnetTargetModel) => {
-    //         return adnetTargetModel.getId() == targetId;
-    //     })
-    //     return adnetTargetModel;
-    // }
-    //
-    // private getCustomerName(customerId) {
-    //     var customersList: List<AdnetCustomerModel> = this.appStore.getState().adnet.getIn(['customers']) || {};
-    //     var adnetCustomerModel: AdnetCustomerModel = customersList.find((adnetCustomerModel: AdnetCustomerModel) => {
-    //         return adnetCustomerModel.getId() == customerId;
-    //     })
-    //     return adnetCustomerModel.getName();
-    // }
 
     private goBackToReportSelection() {
         this.reportDisabled = true;
@@ -296,53 +220,7 @@ export class AdnetReports extends Compbaser {
             selectedPairId = this.adnetPairModels.first().getId();
 
         this.appStore.dispatch(this.adnetAction.reportsAdnet(this.adnetCustomerModel.getId(), reportName, reportEnum, direction, this.absolutMonth, selectedPairId));
-        // , (reportData) => {
-        //         this.switchView = 'SHOW_REPORT';
-        //         this.switchViewReportReceived = switchViewReportReceived;
-        //         this.buildReports(reportName, reportData);
-        //         this.cd.markForCheck();
-        //     }));
     }
-
-    // private buildReports(reportName, reportData) {
-    //     this.resultReports = [];
-    //     switch (reportName) {
-    //
-    //         case 'customersReport': {
-    //             reportData.customerStats.forEach((item) => {
-    //                 this.resultReports.push(item.Value);
-    //             })
-    //             break;
-    //         }
-    //         case 'customerTargetsReport': {
-    //             reportData.targetStats.forEach((item) => {
-    //                 this.resultReports.push(item.Value);
-    //             })
-    //             break;
-    //         }
-    //         case 'customerTargetsDetailsReport': {
-    //             break;
-    //         }
-    //         case 'pairTargetsReport': {
-    //             break;
-    //         }
-    //         case 'customerContentReport': {
-    //             break;
-    //         }
-    //         case 'pairContentReport': {
-    //             break;
-    //         }
-    //         case 'customerHourlyReport': {
-    //             break;
-    //         }
-    //         case 'customerHourlyDetailsReport': {
-    //             break;
-    //         }
-    //         case 'pairHourlyReport': {
-    //             break;
-    //         }
-    //     }
-    // }
 
     private aggregateReports() {
         if (!this.adnetPairModels)
