@@ -187,19 +187,22 @@ export class AdnetReports extends Compbaser {
                 // case 'avgScreenArea': {
                 //     return StringJS(i_item.getAvgScreenArea() * 100).toFloat(2) + '%';
                 // }
-                case 'prevDebit': {
-                    return StringJS(i_item.getPrevDebit() * 100).toCurrency();
-                }
-                case 'currentDebit': {
-                    return StringJS(i_item.getCurrentDebit()).toCurrency();
-                }
-                case 'balance': {
-                    var total = (i_item.getCurrentDebit()) - (i_item.getPrevDebit());
-                    return StringJS(total).toCurrency();
-                }
-                case 'customerId': {
-                    return this.adnetAction.getCustomerName(i_item.getCustomerId());
-                }
+                // case 'prevDebit': {
+                //     return StringJS(i_item.getPrevDebit() * 100).toCurrency();
+                // }
+                // case 'currentDebit': {
+                //     return StringJS(i_item.getCurrentDebit()).toCurrency();
+                // }
+                // case 'balance': {
+                //     var total = (i_item.getCurrentDebit()) - (i_item.getPrevDebit());
+                //     return StringJS(total).toCurrency();
+                // }
+                // case 'customerId': {
+                //     return this.adnetAction.getCustomerName(i_item.getCustomerId());
+                // }
+                // case 'totalHourly': {
+                //     return StringJS(i_item.getTotalPrice() * 3600 / i_item.getDurationSize()).toCurrency();
+                // }
                 case 'customerTargetId': {
                     var adnetTargetModel: AdnetTargetModel = this.adnetAction.getTargetModel(i_item.getTargetId())
                     var customerId = adnetTargetModel.getCustomerId();
@@ -212,9 +215,6 @@ export class AdnetReports extends Compbaser {
                 case 'targetType': {
                     var adnetTargetModel: AdnetTargetModel = this.adnetAction.getTargetModel(i_item.getTargetId())
                     return adnetTargetModel.getTargetType();
-                }
-                case 'totalHourly': {
-                    return StringJS(i_item.getTotalPrice() * 3600 / i_item.getDurationSize()).toCurrency();
                 }
                 case 'totalPrice': {
                     return StringJS(i_item.getTotalPrice() * i_item.getTotalDuration() / i_item.getDurationSize()).toCurrency();

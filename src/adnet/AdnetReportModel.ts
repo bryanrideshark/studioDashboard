@@ -37,6 +37,10 @@ export class AdnetReportModel extends StoreModel {
         return StringJS(this.getAvgHourlyRate()).toCurrency('us');
     }
 
+    public getTotalHourlyFormat() {
+        return StringJS(this.getTotalPrice() * 3600 / this.getDurationSize()).toCurrency();
+    }
+
     public getAvgScreenArea() {
         return this.getKey('Value').avgScreenArea;
     }
@@ -49,8 +53,21 @@ export class AdnetReportModel extends StoreModel {
         return this.getKey('Value').currentDebit;
     }
 
+    public getCurrentDebitFormat() {
+        return StringJS(this.getKey('Value').currentDebit).toCurrency();
+    }
+
+    public getBalanceFormat() {
+        var total = (this.getCurrentDebit()) - (this.getPrevDebit());
+        return StringJS(total).toCurrency();
+    }
+
     public getPrevDebit() {
         return this.getKey('Value').prevDebit;
+    }
+
+    public getPrevDebitFormat() {
+        return StringJS(this.getKey('Value').prevDebit * 100).toCurrency();
     }
 
     public getTotalCount() {

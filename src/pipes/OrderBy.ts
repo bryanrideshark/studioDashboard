@@ -9,9 +9,11 @@ import {StoreModel} from "../models/StoreModel";
 // support both StoreModel as well as regular objects for sortable data
 const getKey = (object: StoreModel|{string:any}, key) => {
     if (object instanceof StoreModel) {
-        return object.getKey(key)
+        var a = object.getKey(key)
+        return a;
     } else {
-        return object[key]
+        var a = object[key]
+        return a;
     }
 }
 

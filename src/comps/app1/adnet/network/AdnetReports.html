@@ -14,26 +14,26 @@
         <simpleGridTable #simpleGridReportSelector>
             <thead>
             <tr>
-                <th sortableHeader="getAbsoluteDate" [sort]="sort">mm/yy</th>
-                <th sortableHeader="totalCount" [sort]="sort">count</th>
-                <th sortableHeader="getTotalDurationFormat" [sort]="sort">duration</th>
-                <th sortableHeader="getAvgHourlyRateFormat" [sort]="sort">hourly</th>
-                <th sortableHeader="getAvgScreenAreaFormat" [sort]="sort">size</th>
-                <th sortableHeader="prevDebit" [sort]="sort">prev</th>
-                <th sortableHeader="currentDebit" [sort]="sort">debit</th>
-                <th sortableHeader="currentDebit" [sort]="sort">balance</th>
+                <th [sortableHeader]="['Value','absolutMonth']" [sort]="sort">mm/yy</th>
+                <th [sortableHeader]="['Value','totalCount']" [sort]="sort">count</th>
+                <th [sortableHeader]="['Value','totalDuration']" [sort]="sort">duration</th>
+                <th [sortableHeader]="['Value','avgHourlyRate']" [sort]="sort">hourly</th>
+                <th [sortableHeader]="['Value','avgScreenArea']" [sort]="sort">size</th>
+                <th [sortableHeader]="['Value','prevDebit']" [sort]="sort">prev</th>
+                <th [sortableHeader]="['Value','currentDebit']" [sort]="sort">debit</th>
+                <th [sortableHeader]="['Value','currentDebit']" [sort]="sort">balance</th>
             </tr>
             </thead>
             <tbody>
             <tr class="simpleGridRecord" simpleGridRecord (onClicked)="onReportGridItemSelected(item)" *ngFor="let item of summaryReports | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">
                 <td class="width-md" simpleGridData [processField]="processField('getAbsoluteDate')" [item]="item"></td>
-                <td class="width-md" simpleGridData [processField]="processField('totalCount')" [item]="item"></td>
+                <td class="width-md" simpleGridData [processField]="processField('getTotalCount')" [item]="item"></td>
                 <td class="width-md" simpleGridData [processField]="processField('getTotalDurationFormat')" [item]="item"></td>
                 <td class="width-md" simpleGridData [processField]="processField('getAvgHourlyRateFormat')" [item]="item"></td>
                 <td class="width-md" simpleGridData [processField]="processField('getAvgScreenAreaFormat')" [item]="item"></td>
-                <td class="width-md" simpleGridData [processField]="processField('prevDebit')" [item]="item"></td>
-                <td class="width-md" simpleGridData [processField]="processField('currentDebit')" [item]="item"></td>
-                <td class="width-md" simpleGridData [processField]="processField('balance')" [item]="item"></td>
+                <td class="width-md" simpleGridData [processField]="processField('getPrevDebitFormat')" [item]="item"></td>
+                <td class="width-md" simpleGridData [processField]="processField('getCurrentDebitFormat')" [item]="item"></td>
+                <td class="width-md" simpleGridData [processField]="processField('getBalanceFormat')" [item]="item"></td>
             </tr>
             </tbody>
         </simpleGridTable>
@@ -50,26 +50,26 @@
         <simpleGridTable #simpleGridReportResults>
             <thead>
             <tr>
-                <th *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" sortableHeader="customerId" [sort]="sort">Customer</th>
-                <th *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" sortableHeader="totalCount" [sort]="sort">count</th>
-                <th *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" sortableHeader="getTotalDurationFormat" [sort]="sort">duration</th>
-                <th *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" sortableHeader="totalPrice" [sort]="sort">hourly</th>
-                <th *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" sortableHeader="totalPrice" [sort]="sort">price</th>
-                <th *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" sortableHeader="totalPrice" [sort]="sort">size</th>
-                <th *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" sortableHeader="totalPrice" [sort]="sort">price * size</th>
+                <th *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" [sortableHeader]="['Value','customerId']" [sort]="sort">Customer</th>
+                <th *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" [sortableHeader]="['Value','totalCount']"  [sort]="sort">count</th>
+                <th *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" [sortableHeader]="['Value','totalDuration']" [sort]="sort">duration</th>
+                <th *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" [sortableHeader]="['Value','totalPrice']" [sort]="sort">hourly</th>
+                <th *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" [sortableHeader]="['Value','totalPrice']" [sort]="sort">price</th>
+                <th *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" [sortableHeader]="['Value','totalPrice']" [sort]="sort">size</th>
+                <th *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" [sortableHeader]="['Value','totalPrice']" [sort]="sort">price * size</th>
 
-                <th *ngIf="switchViewReportReceived == ReportEnum.TARGET" sortableHeader="targetId" [sort]="sort">Customer</th>
-                <th *ngIf="switchViewReportReceived == ReportEnum.TARGET" sortableHeader="targetId" [sort]="sort">target</th>
-                <th *ngIf="switchViewReportReceived == ReportEnum.TARGET" sortableHeader="targetId" [sort]="sort">type</th>
+                <th *ngIf="switchViewReportReceived == ReportEnum.TARGET" [sortableHeader]="['Value','targetId']" [sort]="sort">Customer</th>
+                <th *ngIf="switchViewReportReceived == ReportEnum.TARGET" [sortableHeader]="['Value','targetId']" [sort]="sort">target</th>
+                <th *ngIf="switchViewReportReceived == ReportEnum.TARGET" [sortableHeader]="['Value','targetId']" [sort]="sort">type</th>
 
             </tr>
             </thead>
             <tbody>
             <tr class="simpleGridRecord" simpleGridRecord (onClicked)="onReportGridItemSelected(item)" *ngFor="let item of resultReports | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">
-                <td *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" class="width-md" simpleGridData [processField]="processField('customerId')" [item]="item"></td>
-                <td *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" class="width-md" simpleGridData [processField]="processField('totalCount')" [item]="item"></td>
+                <td *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" class="width-md" simpleGridData [processField]="processField('getCustomerId')" [item]="item"></td>
+                <td *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" class="width-md" simpleGridData [processField]="processField('getTotalCount')" [item]="item"></td>
                 <td *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" class="width-md" simpleGridData [processField]="processField('getTotalDurationFormat')" [item]="item"></td>
-                <td *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" class="width-md" simpleGridData [processField]="processField('totalHourly')" [item]="item"></td>
+                <td *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" class="width-md" simpleGridData [processField]="processField('getTotalHourlyFormat')" [item]="item"></td>
                 <td *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" class="width-md" simpleGridData [processField]="processField('totalPrice')" [item]="item"></td>
                 <td *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" class="width-md" simpleGridData [processField]="processField('totalSize')" [item]="item"></td>
                 <td *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" class="width-md" simpleGridData [processField]="processField('totalPriceSize')" [item]="item"></td>
