@@ -117,8 +117,8 @@ export class SimpleList {
         }
     }
 
-    @Output()
-    hover: EventEmitter<any> = new EventEmitter();
+    // @Output()
+    // hover: EventEmitter<any> = new EventEmitter();
 
     @Output()
     iconClicked: EventEmitter<any> = new EventEmitter();
