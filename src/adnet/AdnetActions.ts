@@ -282,7 +282,7 @@ export class AdnetActions extends Actions {
         };
     }
 
-    public reportsAdnet(i_customerId, i_reportName, i_reportEnum, i_direction, i_absolutMonth, i_pairId) {
+    public reportsAdnet(i_customerId, i_reportName, i_reportEnum, i_direction, i_absolutMonth, i_extraArgs) {
         return (dispatch) => {
             var reportCommand = '';
             switch (i_reportEnum) {
@@ -294,8 +294,17 @@ export class AdnetActions extends Actions {
                     reportCommand = 'targetStats';
                     break;
                 }
+                case ReportEnum.TARGET_DETAILS: {
+                    reportCommand = 'detailStats';
+                    break;
+                }
+                case ReportEnum.HOURLY: {
+                    break;
+                }
+                case ReportEnum.HOURLY_DETAILS: {
+                    break;
+                }
                 case ReportEnum.CONTENT: {
-                    reportCommand = 'contentStats';
                     break;
                 }
             }
@@ -303,15 +312,15 @@ export class AdnetActions extends Actions {
             var businessModel: BusinessModel = businesses.filter((i_businessModel: BusinessModel) => i_businessModel.getAdnetCustomerId() == i_customerId).first() as BusinessModel;
             var adnetTokenId = businessModel.getAdnetTokenId();
             var data = `&dir=${i_direction}&absolutMonth=${i_absolutMonth}`;
+            if (i_extraArgs) data = `${data}&${i_extraArgs}`;
             const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetReports').replace(':REPORT_TYPE:', i_reportName).replace(':ADNET_CUSTOMER_ID:', i_customerId).replace(':ADNET_TOKEN_ID:', adnetTokenId).replace(':DATA:', data).replace(/null/g, '');
             this._http.get(baseUrl)
                 .map(result => {
-                    var adnetReportModels:List<AdnetReportModel> = List<AdnetReportModel>();
+                    var adnetReportModels: List<AdnetReportModel> = List<AdnetReportModel>();
                     var jData: Object = result.json()
                     for (var stats of jData[reportCommand]) {
-
                         var adnetReportModel: AdnetReportModel = new AdnetReportModel(stats);
-                        adnetReportModel = adnetReportModel.setField('reportEnum',i_reportEnum);
+                        adnetReportModel = adnetReportModel.setField('reportEnum', i_reportEnum);
 
                         // report type requested
                         // switch(i_reportName){
@@ -343,7 +352,6 @@ export class AdnetActions extends Actions {
                 }).subscribe()
         }
     }
-
 
 
     public getCustomerName(customerId) {

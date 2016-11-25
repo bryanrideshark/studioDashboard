@@ -39,28 +39,12 @@ export class AdnetReports extends Compbaser {
 
     constructor(private adnetAction: AdnetActions, private appStore: AppStore, private cd: ChangeDetectorRef) {
         super();
-        this.reportTypes = [];
-        this.reportTypes.push({
-            label: 'customers',
-            value: 'customers'
-        });
-        this.reportTypes.push({
-            label: 'targets',
-            value: 'targets'
-        });
-        this.reportTypes.push({
-            label: 'content',
-            value: 'content'
-        });
-        this.reportTypes.push({
-            label: 'hourly',
-            value: 'hourly'
-        });
+        this.renderReportSelectionMenu();
 
         this.cancelOnDestroy(
             this.appStore.sub((i_adnetReportModels: List<AdnetReportModel>) => {
                 this.switchView = 'SHOW_REPORT';
-                if (i_adnetReportModels.size==0)
+                if (i_adnetReportModels.size == 0)
                     return this.cd.markForCheck();
                 this.switchViewReportReceived = i_adnetReportModels.first().getReportEnum();
                 this.resultReports = i_adnetReportModels;
@@ -125,6 +109,38 @@ export class AdnetReports extends Compbaser {
     public switchView: string = 'SELECT_REPORT';
     private pairOutgoing: boolean
 
+    // private renderReportSelection(i_select:'a'|'b'|'c'){
+    //     this.reportTypes = [];
+    //     switch (i_select){
+    //         case 'a': {
+    //             this.reportTypes.push({
+    //                 label: 'customers',
+    //                 value: 'customers'
+    //             });
+    //             this.reportTypes.push({
+    //                 label: 'targets',
+    //                 value: 'targets'
+    //             });
+    //             this.reportTypes.push({
+    //                 label: 'content',
+    //                 value: 'content'
+    //             });
+    //             this.reportTypes.push({
+    //                 label: 'hourly',
+    //                 value: 'hourly'
+    //             });
+    //             break
+    //         }
+    //         case 'b': {
+    //             break
+    //         }
+    //         case 'c': {
+    //             break
+    //         }
+    //     }
+    //
+    // }
+
     private renderReportSelectionMenu() {
         this.reportTypes = [];
         if (this.allPairsSelected) {
@@ -157,7 +173,7 @@ export class AdnetReports extends Compbaser {
 
     private onReportGridItemSelected(i_adnetReportModel: AdnetReportModel) {
         this.setSelectedDate(i_adnetReportModel.getAbsolutMonth());
-        var selectedSimpleGrid:SimpleGridTable = this.simpleGridReportResults ? this.simpleGridReportResults : this.simpleGridReportSelector;
+        var selectedSimpleGrid: SimpleGridTable = this.simpleGridReportResults ? this.simpleGridReportResults : this.simpleGridReportSelector;
         if (_.isNull(selectedSimpleGrid.getSelected()) || _.isEmpty(this.selectedReportName)) {
             this.reportDisabled = true;
         } else {
@@ -165,9 +181,9 @@ export class AdnetReports extends Compbaser {
         }
     }
 
-    private processField(i_field: string, fromAdnetAction:boolean=false) {
+    private processField(i_field: string, fromAdnetAction: boolean = false) {
         return (i_item: AdnetReportModel): any => {
-            if (fromAdnetAction){
+            if (fromAdnetAction) {
                 return i_item[i_field](this.adnetAction);
             } else {
                 return i_item[i_field]();
@@ -176,6 +192,8 @@ export class AdnetReports extends Compbaser {
     }
 
     private setSelectedDate(i_value) {
+        if (!i_value)
+            return;
         this.absolutMonth = i_value;
         var year: any = Math.floor(i_value / 12);
         var month = i_value % 12;
@@ -188,11 +206,11 @@ export class AdnetReports extends Compbaser {
         this.switchView = 'SELECT_REPORT'
     }
 
-    private onReport() {
+    private onReport(i_details?:string) {
         if (this.reportDisabled)
             return;
         this.switchView = 'LOAD_REPORT';
-        var reportEnum, reportName, selectedPairId = -1;
+        var reportEnum, reportName, extraArgs = null;
         var direction = this.pairOutgoing ? 'to' : 'from';
         switch (this.selectedReportName) {
             case 'customers': {
@@ -201,8 +219,15 @@ export class AdnetReports extends Compbaser {
                 break;
             }
             case 'targets': {
-                reportName = this.allPairsSelected ? 'customerTargetsReport' : 'pairTargetsReport';
-                reportEnum = ReportEnum.TARGET;
+                if (i_details){
+                    reportName = this.allPairsSelected ? 'customerTargetDetailReport' : 'pairTargetDetailReport';
+                    reportEnum = ReportEnum.TARGET_DETAILS;
+                    var targetId = this.simpleGridReportResults.getSelected().item.getTargetId();
+                    extraArgs = `&targetId=${targetId}`;
+                } else {
+                    reportName = this.allPairsSelected ? 'customerTargetsReport' : 'pairTargetsReport';
+                    reportEnum = ReportEnum.TARGET;
+                }
                 break;
             }
             case 'content': {
@@ -211,15 +236,19 @@ export class AdnetReports extends Compbaser {
                 break;
             }
             case 'hourly': {
-                reportName = this.allPairsSelected ? 'customerHourlyReport' : 'pairHourlyReport';
-                reportEnum = ReportEnum.HOURLY;
+                if (i_details){
+                    reportName = this.allPairsSelected ? 'customerHourlyDetailsReport' : 'pairHourlyDetailsReport';
+                    reportEnum = ReportEnum.HOURLY_DETAILS;
+                    //if (!this.allPairsSelected)
+                    extraArgs = this.adnetPairModels.first().getId();
+                } else {
+                    reportName = this.allPairsSelected ? 'customerHourlyReport' : 'pairHourlyReport';
+                    reportEnum = ReportEnum.HOURLY;
+                }
                 break;
             }
         }
-        if (!this.allPairsSelected)
-            selectedPairId = this.adnetPairModels.first().getId();
-
-        this.appStore.dispatch(this.adnetAction.reportsAdnet(this.adnetCustomerModel.getId(), reportName, reportEnum, direction, this.absolutMonth, selectedPairId));
+        this.appStore.dispatch(this.adnetAction.reportsAdnet(this.adnetCustomerModel.getId(), reportName, reportEnum, direction, this.absolutMonth, extraArgs));
     }
 
     private aggregateReports() {
@@ -233,9 +262,9 @@ export class AdnetReports extends Compbaser {
             if (!summeryReports)
                 return;
             summeryReports.forEach((reportData) => {
-                var adnetReportModel:AdnetReportModel = new AdnetReportModel(reportData)
+                var adnetReportModel: AdnetReportModel = new AdnetReportModel(reportData)
                 var v = Lib.DateFromAbsolute(adnetReportModel.getAbsolutMonth());
-                adnetReportModel = adnetReportModel.setField('absoluteDate',v.month + '/' + v.year);
+                adnetReportModel = adnetReportModel.setField('absoluteDate', v.month + '/' + v.year);
                 this.summaryReports = this.summaryReports.push(adnetReportModel);
             })
         })
