@@ -74,6 +74,7 @@ export class AdnetReports extends Compbaser {
         this.allPairsSelected = this.adnetPairModels.size < 2 ? false : true;
         this.aggregateReports();
         this.renderReportSelectionMenu();
+        this.goBackToReportSelection();
     }
 
     @ViewChild('simpleGridReportSelector')
