@@ -109,38 +109,6 @@ export class AdnetReports extends Compbaser {
     public switchView: string = 'SELECT_REPORT';
     private pairOutgoing: boolean
 
-    // private renderReportSelection(i_select:'a'|'b'|'c'){
-    //     this.reportTypes = [];
-    //     switch (i_select){
-    //         case 'a': {
-    //             this.reportTypes.push({
-    //                 label: 'customers',
-    //                 value: 'customers'
-    //             });
-    //             this.reportTypes.push({
-    //                 label: 'targets',
-    //                 value: 'targets'
-    //             });
-    //             this.reportTypes.push({
-    //                 label: 'content',
-    //                 value: 'content'
-    //             });
-    //             this.reportTypes.push({
-    //                 label: 'hourly',
-    //                 value: 'hourly'
-    //             });
-    //             break
-    //         }
-    //         case 'b': {
-    //             break
-    //         }
-    //         case 'c': {
-    //             break
-    //         }
-    //     }
-    //
-    // }
-
     private renderReportSelectionMenu() {
         this.reportTypes = [];
         if (this.allPairsSelected) {
@@ -276,3 +244,36 @@ export class AdnetReports extends Compbaser {
     destroy() {
     }
 }
+
+
+// private renderReportSelection(i_select:'a'|'b'|'c'){
+//     this.reportTypes = [];
+//     switch (i_select){
+//         case 'a': {
+//             this.reportTypes.push({
+//                 label: 'customers',
+//                 value: 'customers'
+//             });
+//             this.reportTypes.push({
+//                 label: 'targets',
+//                 value: 'targets'
+//             });
+//             this.reportTypes.push({
+//                 label: 'content',
+//                 value: 'content'
+//             });
+//             this.reportTypes.push({
+//                 label: 'hourly',
+//                 value: 'hourly'
+//             });
+//             break
+//         }
+//         case 'b': {
+//             break
+//         }
+//         case 'c': {
+//             break
+//         }
+//     }
+//
+// }

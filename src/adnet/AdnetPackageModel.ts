@@ -25,6 +25,10 @@ export class AdnetPackageModel extends StoreModel {
         return this.getKey('Value').customerId;
     }
 
+    public getChannel() {
+        return this.getKey('Value').channel;
+    }
+
     public playMode() {
         return this.getKey('Value').playMode;
     }

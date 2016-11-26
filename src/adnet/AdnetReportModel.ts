@@ -1,6 +1,11 @@
 import {StoreModel} from "../models/StoreModel";
 import {AdnetTargetModel} from "./AdnetTargetModel";
 import {AdnetActions} from "./AdnetActions";
+import {AdnetPackageModel} from "./AdnetPackageModel";
+
+// import * as moment_ from "moment";
+// export const moment = moment_["default"];
+
 export class AdnetReportModel extends StoreModel {
 
     constructor(data: any = {}) {
@@ -19,6 +24,20 @@ export class AdnetReportModel extends StoreModel {
         return this.getKey('Value').absoluteDate;
     }
 
+    public getAbsolutDateFormatted() {
+        var value = this.getKey('Value').absolutMonth;
+        var year: any = Math.floor(value / 12);
+        var month = value % 12;
+        return month + '/' + year;
+    }
+
+    public getAbsolutDateJson() {
+        var value = this.getKey('Value').absolutMonth;
+        var year: any = Math.floor(value / 12);
+        var month = value % 12;
+        return {month,year};
+    }
+
     public getTargetId() {
         return this.getKey('Value').targetId;
     }
@@ -29,6 +48,14 @@ export class AdnetReportModel extends StoreModel {
 
     public getAbsolutMonth() {
         return this.getKey('Value').absolutMonth;
+    }
+
+    public getHourlyRate() {
+        return this.getKey('Value').hourlyRate;
+    }
+
+    public getHourlyRateFormat() {
+        return StringJS(this.getHourlyRate()).toCurrency('us');
     }
 
     public getAvgHourlyRate() {
@@ -51,6 +78,18 @@ export class AdnetReportModel extends StoreModel {
         return StringJS(this.getAvgScreenArea() * 100).toFloat(2) + '%';
     }
 
+    public getTargetSizeFormat() {
+        var totalDurationSize =  this.getKey('Value').totalDuration * this.getKey('Value').avgArea;
+        var totalTargetSize = 100 * totalDurationSize / this.getKey('Value').totalDuration;
+        return StringJS(totalTargetSize).toPercent();
+    }
+
+    public getTargetTotalPriceFormat() {
+        var totalDurationSize =  this.getKey('Value').totalDuration * this.getKey('Value').avgArea;
+        var totalPrice = this.getKey('Value').totalPrice * this.getKey('Value').totalDuration / totalDurationSize;
+        return StringJS(totalPrice).toCurrency();
+    }
+
     public getTotalPriceFormat() {
         return StringJS(this.getTotalPrice() * this.getTotalDuration() / this.getDurationSize()).toCurrency();
     }
@@ -65,6 +104,47 @@ export class AdnetReportModel extends StoreModel {
 
     public getTotalCountFormat() {
         return StringJS(this.getTotalCount()).toInt();
+    }
+
+    public getDay() {
+        var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+        var {month, year} = this.getAbsolutDateJson();
+        var relativeHour = parseInt(this.getKey('Value').relativeHour);
+        var monthDay = relativeHour/24;
+        var date:Date = new Date(year, month, monthDay + 1);
+        return days[date.getDay()];
+    }
+
+    public getHour() {
+        var relativeHour = parseInt(this.getKey('Value').relativeHour);
+        return relativeHour % 24;
+    }
+
+    public getHourFormat() {
+        var relativeHour = parseInt(this.getKey('Value').relativeHour);
+        return relativeHour % 24 + ':00 (UTC)';
+    }
+
+    public getTargetIp() {
+        return this.getKey('Value').targetIp;
+    }
+
+    public getPackageName(i_adnetAction: AdnetActions) {
+        var packageContentId = parseInt(this.getKey('Value').packageContentId);
+        var adnetPackageModel:AdnetPackageModel = i_adnetAction.getPackageModelFromContentId(packageContentId);
+        return adnetPackageModel.getName();
+    }
+
+    public getPackageChannel(i_adnetAction: AdnetActions) {
+        var packageContentId = parseInt(this.getKey('Value').packageContentId);
+        var adnetPackageModel:AdnetPackageModel = i_adnetAction.getPackageModelFromContentId(packageContentId);
+        return adnetPackageModel.getChannel();
+    }
+
+    public getPackageContent(i_adnetAction: AdnetActions) {
+        var packageContentId = parseInt(this.getKey('Value').packageContentId);
+        var content:any = i_adnetAction.getPackageContentFromContentId(packageContentId);
+        return content.Value.contentLabel;
     }
 
     public getTargetNameFromId(i_adnetAction: AdnetActions) {

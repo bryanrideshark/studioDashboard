@@ -314,6 +314,7 @@ export class AdnetActions extends Actions {
             var data = `&dir=${i_direction}&absolutMonth=${i_absolutMonth}`;
             if (i_extraArgs) data = `${data}&${i_extraArgs}`;
             const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetReports').replace(':REPORT_TYPE:', i_reportName).replace(':ADNET_CUSTOMER_ID:', i_customerId).replace(':ADNET_TOKEN_ID:', adnetTokenId).replace(':DATA:', data).replace(/null/g, '');
+            // console.log(baseUrl);
             this._http.get(baseUrl)
                 .map(result => {
                     var adnetReportModels: List<AdnetReportModel> = List<AdnetReportModel>();
@@ -368,6 +369,34 @@ export class AdnetActions extends Actions {
             return adnetTargetModel.getId() == targetId;
         })
         return adnetTargetModel;
+    }
+
+    public getPackageModelFromContentId(i_contentId: number): AdnetPackageModel {
+        var packages: List<AdnetPackageModel> = this.appStore.getState().adnet.getIn(['packages']) || {};
+        var adnetPackageModel:AdnetPackageModel = packages.find((i_adnetPackageModel: AdnetPackageModel):any => {
+            var contents = i_adnetPackageModel.getContents();
+            for (var index in contents) {
+                if (contents[index].Key == i_contentId) {
+                    return i_adnetPackageModel;
+                }
+            }
+        })
+        return adnetPackageModel;
+    }
+
+    public getPackageContentFromContentId(i_contentId: number): any {
+        var packages: List<AdnetPackageModel> = this.appStore.getState().adnet.getIn(['packages']) || {};
+        var foundContent;
+        var adnetPackageModel:AdnetPackageModel = packages.find((i_adnetPackageModel: AdnetPackageModel):any => {
+            var contents = i_adnetPackageModel.getContents();
+            for (var index in contents) {
+                if (contents[index].Key == i_contentId) {
+                    foundContent = contents[index];
+                    return contents[index];
+                }
+            }
+        })
+        return foundContent;
     }
 
 
