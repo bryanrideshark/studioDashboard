@@ -121,8 +121,7 @@ export class AdnetReportModel extends StoreModel {
     }
 
     public getHourFormat() {
-        var relativeHour = parseInt(this.getKey('Value').relativeHour);
-        return relativeHour % 24 + ':00 (UTC)';
+        return this.getHour() + ':00';
     }
 
     public getTargetIp() {
