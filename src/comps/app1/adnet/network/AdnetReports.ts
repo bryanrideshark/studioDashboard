@@ -36,7 +36,6 @@ export class AdnetReports extends Compbaser {
 
     private ReportEnum = ReportEnum;
 
-
     constructor(private adnetAction: AdnetActions, private appStore: AppStore, private cd: ChangeDetectorRef) {
         super();
         this.renderReportSelectionMenu();
@@ -192,9 +191,12 @@ export class AdnetReports extends Compbaser {
                     reportEnum = ReportEnum.TARGET_DETAILS;
                     var targetId = this.simpleGridReportResults.getSelected().item.getTargetId();
                     extraArgs = `&targetId=${targetId}`;
+                    if (reportName=='pairTargetDetailReport')
+                        extraArgs += `&pairId=${this.adnetPairModels.first().getId()}`;
                 } else {
                     reportName = this.allPairsSelected ? 'customerTargetsReport' : 'pairTargetsReport';
                     reportEnum = ReportEnum.TARGET;
+                    extraArgs = `&pairId=${this.adnetPairModels.first().getId()}`;
                 }
                 break;
             }
