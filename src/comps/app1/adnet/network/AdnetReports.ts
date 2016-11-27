@@ -176,35 +176,121 @@ export class AdnetReports extends Compbaser {
     }
 
     private export() {
-        var csv:string = '';
-
+        var csvRows: Array<any> = [];
         switch (this.selectedReportNameLong) {
             case 'report: customers': {
-                console.log(this.resultReports);
+                csvRows.push('customer,count,duration,hourly,price,size,price_size');
+                this.resultReports.forEach((i_adnetReportModel: AdnetReportModel) => {
+                    csvRows.push(`
+                        ${this.processField('getCustomerId')(i_adnetReportModel)},
+                        ${this.processField('getTotalCountFormat')(i_adnetReportModel)}, 
+                        ${this.processField('getTotalDurationFormat')(i_adnetReportModel)},
+                        ${this.processField('getTotalHourlyFormat')(i_adnetReportModel)},
+                        ${this.processField('getTotalPriceFormat')(i_adnetReportModel)},
+                        ${this.processField('getTotalSizeFormat')(i_adnetReportModel)},
+                        ${this.processField('getTotalPriceSizeFormat')(i_adnetReportModel)}
+                    `);
+                })
                 break;
             }
             case 'report: targets': {
-                console.log(this.resultReports);
+                csvRows.push('customer,target,type,count,duration,hourly,price_size,price_size');
+                this.resultReports.forEach((i_adnetReportModel: AdnetReportModel) => {
+                    csvRows.push(`
+                        ${this.processField('getCustomerNameFromTargetId',true)(i_adnetReportModel)},
+                        ${this.processField('getTargetNameFromId',true)(i_adnetReportModel)}, 
+                        ${this.processField('getTargetType',true)(i_adnetReportModel)},
+                        ${this.processField('getTotalCountFormat',true)(i_adnetReportModel)},
+                        ${this.processField('getTotalDurationFormat',true)(i_adnetReportModel)},
+                        ${this.processField('getTotalHourlyFormat',true)(i_adnetReportModel)},
+                        ${this.processField('getTotalPriceFormat',true)(i_adnetReportModel)},
+                        ${this.processField('getTotalSizeFormat',true)(i_adnetReportModel)},
+                        ${this.processField('getTotalPriceSizeFormat',true)(i_adnetReportModel)}
+                    `);
+                })
                 break;
             }
             case 'report: target details': {
-                console.log(this.resultReports);
+                csvRows.push('mm/yy,day,hour,package,channel,content,ip,count,duration,hourly,price,size,price_size');
+                this.resultReports.forEach((i_adnetReportModel: AdnetReportModel) => {
+                    csvRows.push(`
+                        ${this.processField('getAbsolutDateFormatted')(i_adnetReportModel)},
+                        ${this.processField('getDay')(i_adnetReportModel)}, 
+                        ${this.processField('getHourFormat')(i_adnetReportModel)},
+                        ${this.processField('getPackageName',true)(i_adnetReportModel)},
+                        ${this.processField('getPackageChannelFromContentId',true)(i_adnetReportModel)},
+                        ${this.processField('getPackageContent',true)(i_adnetReportModel)},
+                        ${this.processField('getTargetIp')(i_adnetReportModel)},
+                        ${this.processField('getTotalCount')(i_adnetReportModel)},
+                        ${this.processField('getTotalDurationFormat')(i_adnetReportModel)},
+                        ${this.processField('getHourlyRateFormat')(i_adnetReportModel)},
+                        ${this.processField('getTargetTotalPriceFormat')(i_adnetReportModel)},
+                        ${this.processField('getCalcSizeFormat')(i_adnetReportModel)},
+                        ${this.processField('getTotalPriceSizeFormat')(i_adnetReportModel)}
+                    `);
+                })
                 break;
             }
             case 'report: contents': {
-                console.log(this.resultReports);
+                csvRows.push('customer,channel,content,count,duration,hourly,price,size,price_size');
+                this.resultReports.forEach((i_adnetReportModel: AdnetReportModel) => {
+                    csvRows.push(`
+                        ${this.processField('getPackagesNameFromContentId',true)(i_adnetReportModel)},
+                        ${this.processField('getPackageChannelFromContentId',true)(i_adnetReportModel)}, 
+                        ${this.processField('getPackageContent',true)(i_adnetReportModel)},
+                        ${this.processField('getTotalCount')(i_adnetReportModel)},
+                        ${this.processField('getTotalDurationFormat')(i_adnetReportModel)},
+                        ${this.processField('getTotalHourlyFormat')(i_adnetReportModel)},
+                        ${this.processField('getTotalPriceFormat')(i_adnetReportModel)},
+                        ${this.processField('getTotalSizeFormat')(i_adnetReportModel)},
+                        ${this.processField('getTotalPriceSizeFormat')(i_adnetReportModel)}
+                    `);
+                })
                 break;
             }
             case 'report: hourly': {
-                console.log(this.resultReports);
+                csvRows.push('hour,count,duration,hourly,price,size,price_size');
+                this.resultReports.forEach((i_adnetReportModel: AdnetReportModel) => {
+                    csvRows.push(`
+                        ${this.processField('getHourFormat',true)(i_adnetReportModel)},
+                        ${this.processField('getTotalCount',true)(i_adnetReportModel)}, 
+                        ${this.processField('getTotalDurationFormat',true)(i_adnetReportModel)},
+                        ${this.processField('getTotalHourlyFormat')(i_adnetReportModel)},
+                        ${this.processField('getTotalPriceFormat')(i_adnetReportModel)},
+                        ${this.processField('getTotalSizeFormat')(i_adnetReportModel)},
+                        ${this.processField('getTotalPriceSizeFormat')(i_adnetReportModel)}
+                    `);
+                })
                 break;
             }
             case 'report: hourly details': {
-                console.log(this.resultReports);
+                csvRows.push('package,channel,content,target,type,ip,count,duration,hourly,price,size,price_size');
+                this.resultReports.forEach((i_adnetReportModel: AdnetReportModel) => {
+                    csvRows.push(`
+                        ${this.processField('getPackageName',true)(i_adnetReportModel)},
+                        ${this.processField('getPackageChannelFromContentId',true)(i_adnetReportModel)}, 
+                        ${this.processField('getPackageContent',true)(i_adnetReportModel)},
+                        ${this.processField('getTargetNameFromId',true)(i_adnetReportModel)},
+                        ${this.processField('getTargetType',true)(i_adnetReportModel)},
+                        ${this.processField('getTargetIp',true)(i_adnetReportModel)},
+                        ${this.processField('getTotalCount')(i_adnetReportModel)},
+                        ${this.processField('getTotalDurationFormat')(i_adnetReportModel)},
+                        ${this.processField('getHourlyRateFormat')(i_adnetReportModel)},
+                        ${this.processField('getPostedTotalPriceFormat')(i_adnetReportModel)},
+                        ${this.processField('getCalcSizeFormat')(i_adnetReportModel)},
+                        ${this.processField('getTotalPriceSizeFormat')(i_adnetReportModel)}
+                    `);
+                })
                 break;
             }
         }
-
+        var csvString = csvRows.join("%0A");
+        var a = document.createElement('a');
+        a.href = 'data:attachment/csv,' + csvString;
+        a.target = '_blank';
+        a.download = 'myFile.csv';
+        document.body.appendChild(a);
+        a.click();
     }
 
     private onReport(i_details?: string) {
