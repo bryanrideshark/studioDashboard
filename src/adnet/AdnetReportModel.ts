@@ -31,6 +31,13 @@ export class AdnetReportModel extends StoreModel {
         return month + '/' + year;
     }
 
+    public getHourAbsolutDateFormatted(i_paidId) {
+        var value = this.getKey('Value').absolutMonth;
+        var year: any = Math.floor(value / 12);
+        var month = value % 12;
+        return month + '/' + year;
+    }
+
     public getAbsolutDateJson() {
         var value = this.getKey('Value').absolutMonth;
         var year: any = Math.floor(value / 12);

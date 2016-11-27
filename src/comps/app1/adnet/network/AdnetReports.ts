@@ -216,11 +216,16 @@ export class AdnetReports extends Compbaser {
                 if (i_details) {
                     reportName = this.allPairsSelected ? 'customerHourlyDetailsReport' : 'pairHourlyDetailsReport';
                     reportEnum = ReportEnum.HOURLY_DETAILS;
-                    //if (!this.allPairsSelected)
-                    extraArgs = this.adnetPairModels.first().getId();
+                    this.selectedReportNameLong = 'report: target details';
+                    var targetId = this.simpleGridReportResults.getSelected().item.getTargetId();
+                    extraArgs = `&targetId=${targetId}`;
+                    if (reportName == 'pairTargetDetailReport')
+                        extraArgs += `&pairId=${this.adnetPairModels.first().getId()}`;
                 } else {
                     reportName = this.allPairsSelected ? 'customerHourlyReport' : 'pairHourlyReport';
                     reportEnum = ReportEnum.HOURLY;
+                    this.selectedReportNameLong = 'report: targets';
+                    extraArgs = `&pairId=${this.adnetPairModels.first().getId()}`;
                 }
                 break;
             }
