@@ -85,7 +85,7 @@ export class AdnetReportModel extends StoreModel {
         return StringJS(this.getAvgScreenArea() * 100).toFloat(2) + '%';
     }
 
-    public getTargetSizeFormat() {
+    public getCalcSizeFormat() {
         var totalDurationSize =  this.getKey('Value').totalDuration * this.getKey('Value').avgArea;
         var totalTargetSize = 100 * totalDurationSize / this.getKey('Value').totalDuration;
         return StringJS(totalTargetSize).toPercent();
@@ -125,6 +125,10 @@ export class AdnetReportModel extends StoreModel {
     public getHour() {
         var relativeHour = parseInt(this.getKey('Value').relativeHour);
         return relativeHour % 24;
+    }
+
+    public getRelativeHour() {
+        return this.getKey('Value').relativeHour;
     }
 
     public getHourFormat() {
@@ -209,6 +213,11 @@ export class AdnetReportModel extends StoreModel {
 
     public getTotalDurationFormat() {
         return (new Date(this.getTotalDuration() * 1000)).toUTCString().match(/(\d\d:\d\d:\d\d)/)[0];
+    }
+
+    public getPostedTotalPriceFormat() {
+        var price = this.getKey('Value').totalPrice;
+        return StringJS(price).toCurrency();
     }
 
     public getTotalPrice() {

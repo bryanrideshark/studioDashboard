@@ -214,12 +214,12 @@ export class AdnetReports extends Compbaser {
             }
             case 'hourly': {
                 if (i_details) {
-                    reportName = this.allPairsSelected ? 'customerHourlyDetailsReport' : 'pairHourlyDetailsReport';
+                    reportName = this.allPairsSelected ? 'customerHourDetailReport' : 'pairHourDetailReport';
                     reportEnum = ReportEnum.HOURLY_DETAILS;
                     this.selectedReportNameLong = 'report: target details';
-                    var targetId = this.simpleGridReportResults.getSelected().item.getTargetId();
-                    extraArgs = `&targetId=${targetId}`;
-                    if (reportName == 'pairTargetDetailReport')
+                    var relativeHour = this.simpleGridReportResults.getSelected().item.getRelativeHour();
+                    extraArgs = `&relativeHour=${relativeHour}`;
+                    if (reportName == 'pairHourDetailReport')
                         extraArgs += `&pairId=${this.adnetPairModels.first().getId()}`;
                 } else {
                     reportName = this.allPairsSelected ? 'customerHourlyReport' : 'pairHourlyReport';

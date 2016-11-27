@@ -103,6 +103,19 @@
                 <th *ngIf="switchViewReportReceived == ReportEnum.HOURLY" [sortableHeader]="['Value','totalPrice']" [sort]="sort">size</th>
                 <th *ngIf="switchViewReportReceived == ReportEnum.HOURLY" [sortableHeader]="['Value','totalPrice']" [sort]="sort">price * size</th>
 
+                <th *ngIf="switchViewReportReceived == ReportEnum.HOURLY_DETAILS" [sortableHeader]="['Value','packageContentId']" [sort]="sort">package</th>
+                <th *ngIf="switchViewReportReceived == ReportEnum.HOURLY_DETAILS" [sortableHeader]="['Value','packageContentId']" [sort]="sort">channel</th>
+                <th *ngIf="switchViewReportReceived == ReportEnum.HOURLY_DETAILS" [sortableHeader]="['Value','packageContentId']" [sort]="sort">content</th>
+                <th *ngIf="switchViewReportReceived == ReportEnum.HOURLY_DETAILS" [sortableHeader]="['Value','targetId']" [sort]="sort">target</th>
+                <th *ngIf="switchViewReportReceived == ReportEnum.HOURLY_DETAILS" [sortableHeader]="['Value','targetId']" [sort]="sort">type</th>
+                <th *ngIf="switchViewReportReceived == ReportEnum.HOURLY_DETAILS" [sortableHeader]="['Value','targetId']" [sort]="sort">ip</th>
+                <th *ngIf="switchViewReportReceived == ReportEnum.HOURLY_DETAILS" [sortableHeader]="['Value','totalCount']" [sort]="sort">count</th>
+                <th *ngIf="switchViewReportReceived == ReportEnum.HOURLY_DETAILS" [sortableHeader]="['Value','totalDuration']" [sort]="sort">duration</th>
+                <th *ngIf="switchViewReportReceived == ReportEnum.HOURLY_DETAILS" [sortableHeader]="['Value','hourlyRate']" [sort]="sort">hourly</th>
+                <th *ngIf="switchViewReportReceived == ReportEnum.HOURLY_DETAILS" [sortableHeader]="['Value','totalPrice']" [sort]="sort">price</th>
+                <th *ngIf="switchViewReportReceived == ReportEnum.HOURLY_DETAILS" [sortableHeader]="['Value','totalPrice']" [sort]="sort">size</th>
+                <th *ngIf="switchViewReportReceived == ReportEnum.HOURLY_DETAILS" [sortableHeader]="['Value','totalPrice']" [sort]="sort">price * size</th>
+
             </tr>
             </thead>
             <tbody>
@@ -136,7 +149,7 @@
                 <td *ngIf="switchViewReportReceived == ReportEnum.TARGET_DETAILS" class="width-md" simpleGridData [processField]="processField('getTotalDurationFormat')" [item]="item"></td>
                 <td *ngIf="switchViewReportReceived == ReportEnum.TARGET_DETAILS" class="width-md" simpleGridData [processField]="processField('getHourlyRateFormat')" [item]="item"></td>
                 <td *ngIf="switchViewReportReceived == ReportEnum.TARGET_DETAILS" class="width-md" simpleGridData [processField]="processField('getTargetTotalPriceFormat')" [item]="item"></td>
-                <td *ngIf="switchViewReportReceived == ReportEnum.TARGET_DETAILS" class="width-md" simpleGridData [processField]="processField('getTargetSizeFormat')" [item]="item"></td>
+                <td *ngIf="switchViewReportReceived == ReportEnum.TARGET_DETAILS" class="width-md" simpleGridData [processField]="processField('getCalcSizeFormat')" [item]="item"></td>
                 <td *ngIf="switchViewReportReceived == ReportEnum.TARGET_DETAILS" class="width-md" simpleGridData [processField]="processField('getTotalPriceSizeFormat')" [item]="item"></td>
 
                 <td *ngIf="switchViewReportReceived == ReportEnum.CONTENT" class="width-md" simpleGridData [processField]="processField('getPackagesNameFromContentId',true)" [item]="item"></td>
@@ -156,6 +169,19 @@
                 <td *ngIf="switchViewReportReceived == ReportEnum.HOURLY" class="width-md" simpleGridData [processField]="processField('getTotalPriceFormat')" [item]="item"></td>
                 <td *ngIf="switchViewReportReceived == ReportEnum.HOURLY" class="width-md" simpleGridData [processField]="processField('getTotalSizeFormat')" [item]="item"></td>
                 <td *ngIf="switchViewReportReceived == ReportEnum.HOURLY" class="width-md" simpleGridData [processField]="processField('getTotalPriceSizeFormat')" [item]="item"></td>
+
+                <td *ngIf="switchViewReportReceived == ReportEnum.HOURLY_DETAILS" class="width-md" simpleGridData [processField]="processField('getPackageName',true)" [item]="item"></td>
+                <td *ngIf="switchViewReportReceived == ReportEnum.HOURLY_DETAILS" class="width-md" simpleGridData [processField]="processField('getPackageChannelFromContentId',true)" [item]="item"></td>
+                <td *ngIf="switchViewReportReceived == ReportEnum.HOURLY_DETAILS" class="width-md" simpleGridData [processField]="processField('getPackageContent',true)" [item]="item"></td>
+                <td *ngIf="switchViewReportReceived == ReportEnum.HOURLY_DETAILS" class="width-md" simpleGridData [processField]="processField('getTargetNameFromId',true)" [item]="item"></td>
+                <td *ngIf="switchViewReportReceived == ReportEnum.HOURLY_DETAILS" class="width-md" simpleGridData [processField]="processField('getTargetType',true)" [item]="item"></td>
+                <td *ngIf="switchViewReportReceived == ReportEnum.HOURLY_DETAILS" class="width-md" simpleGridData [processField]="processField('getTargetIp',true)" [item]="item"></td>
+                <td *ngIf="switchViewReportReceived == ReportEnum.HOURLY_DETAILS" class="width-md" simpleGridData [processField]="processField('getTotalCount')" [item]="item"></td>
+                <td *ngIf="switchViewReportReceived == ReportEnum.HOURLY_DETAILS" class="width-md" simpleGridData [processField]="processField('getTotalDurationFormat')" [item]="item"></td>
+                <td *ngIf="switchViewReportReceived == ReportEnum.HOURLY_DETAILS" class="width-md" simpleGridData [processField]="processField('getHourlyRateFormat')" [item]="item"></td>
+                <td *ngIf="switchViewReportReceived == ReportEnum.HOURLY_DETAILS" class="width-md" simpleGridData [processField]="processField('getPostedTotalPriceFormat')" [item]="item"></td>
+                <td *ngIf="switchViewReportReceived == ReportEnum.HOURLY_DETAILS" class="width-md" simpleGridData [processField]="processField('getCalcSizeFormat')" [item]="item"></td>
+                <td *ngIf="switchViewReportReceived == ReportEnum.HOURLY_DETAILS" class="width-md" simpleGridData [processField]="processField('getTotalPriceSizeFormat')" [item]="item"></td>
 
             </tr>
             </tbody>
