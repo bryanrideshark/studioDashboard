@@ -12,15 +12,12 @@ import {SelectItem} from "primeng/primeng";
 import * as _ from "lodash";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {AdnetReportModel} from "../../../../adnet/AdnetReportModel";
-	import AdnetReportsTemplate from './AdnetReports.html!text'; /*prod*/
-
-// export as csv: http://jsfiddle.net/nkm2b/222/
-// https://github.com/zemirco/json2csv
+//import AdnetReportsTemplate from './AdnetReports.html!text'; /*prod*/
 
 @Component({
-	    	template: AdnetReportsTemplate, /*prod*/
+//    	template: AdnetReportsTemplate, /*prod*/
     selector: 'AdnetReports',
-//    templateUrl: './AdnetReports.html', /*dev*/
+	    templateUrl: './AdnetReports.html', /*dev*/
     styles: [`
         .disabled {
             opacity: 0.2;
