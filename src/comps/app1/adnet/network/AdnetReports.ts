@@ -12,15 +12,15 @@ import {SelectItem} from "primeng/primeng";
 import * as _ from "lodash";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {AdnetReportModel} from "../../../../adnet/AdnetReportModel";
-//import AdnetReportsTemplate from './AdnetReports.html!text'; /*prod*/
+	import AdnetReportsTemplate from './AdnetReports.html!text'; /*prod*/
 
 // export as csv: http://jsfiddle.net/nkm2b/222/
 // https://github.com/zemirco/json2csv
 
 @Component({
-//    	template: AdnetReportsTemplate, /*prod*/
+	    	template: AdnetReportsTemplate, /*prod*/
     selector: 'AdnetReports',
-    templateUrl: './AdnetReports.html', /*dev*/
+//    templateUrl: './AdnetReports.html', /*dev*/
     styles: [`
         .disabled {
             opacity: 0.2;
@@ -150,13 +150,9 @@ export class AdnetReports extends Compbaser {
         }
     }
 
-    private processField(i_field: string, fromAdnetAction: boolean = false) {
+    private processField(i_field: string) {
         return (i_item: AdnetReportModel): any => {
-            if (fromAdnetAction) {
-                return i_item[i_field](this.adnetAction);
-            } else {
-                return i_item[i_field]();
-            }
+            return i_item[i_field](this.adnetAction);
         }
     }
 
@@ -197,15 +193,15 @@ export class AdnetReports extends Compbaser {
                 csvRows.push('customer,target,type,count,duration,hourly,price_size,price_size');
                 this.resultReports.forEach((i_adnetReportModel: AdnetReportModel) => {
                     csvRows.push(`
-                        ${this.processField('getCustomerNameFromTargetId',true)(i_adnetReportModel)},
-                        ${this.processField('getTargetNameFromId',true)(i_adnetReportModel)}, 
-                        ${this.processField('getTargetType',true)(i_adnetReportModel)},
-                        ${this.processField('getTotalCountFormat',true)(i_adnetReportModel)},
-                        ${this.processField('getTotalDurationFormat',true)(i_adnetReportModel)},
-                        ${this.processField('getTotalHourlyFormat',true)(i_adnetReportModel)},
-                        ${this.processField('getTotalPriceFormat',true)(i_adnetReportModel)},
-                        ${this.processField('getTotalSizeFormat',true)(i_adnetReportModel)},
-                        ${this.processField('getTotalPriceSizeFormat',true)(i_adnetReportModel)}
+                        ${this.processField('getCustomerNameFromTargetId')(i_adnetReportModel)},
+                        ${this.processField('getTargetNameFromId')(i_adnetReportModel)}, 
+                        ${this.processField('getTargetType')(i_adnetReportModel)},
+                        ${this.processField('getTotalCountFormat')(i_adnetReportModel)},
+                        ${this.processField('getTotalDurationFormat')(i_adnetReportModel)},
+                        ${this.processField('getTotalHourlyFormat')(i_adnetReportModel)},
+                        ${this.processField('getTotalPriceFormat')(i_adnetReportModel)},
+                        ${this.processField('getTotalSizeFormat')(i_adnetReportModel)},
+                        ${this.processField('getTotalPriceSizeFormat')(i_adnetReportModel)}
                     `);
                 })
                 break;
@@ -217,9 +213,9 @@ export class AdnetReports extends Compbaser {
                         ${this.processField('getAbsolutDateFormatted')(i_adnetReportModel)},
                         ${this.processField('getDay')(i_adnetReportModel)}, 
                         ${this.processField('getHourFormat')(i_adnetReportModel)},
-                        ${this.processField('getPackageName',true)(i_adnetReportModel)},
-                        ${this.processField('getPackageChannelFromContentId',true)(i_adnetReportModel)},
-                        ${this.processField('getPackageContent',true)(i_adnetReportModel)},
+                        ${this.processField('getPackageName')(i_adnetReportModel)},
+                        ${this.processField('getPackageChannelFromContentId')(i_adnetReportModel)},
+                        ${this.processField('getPackageContent')(i_adnetReportModel)},
                         ${this.processField('getTargetIp')(i_adnetReportModel)},
                         ${this.processField('getTotalCount')(i_adnetReportModel)},
                         ${this.processField('getTotalDurationFormat')(i_adnetReportModel)},
@@ -235,9 +231,9 @@ export class AdnetReports extends Compbaser {
                 csvRows.push('customer,channel,content,count,duration,hourly,price,size,price_size');
                 this.resultReports.forEach((i_adnetReportModel: AdnetReportModel) => {
                     csvRows.push(`
-                        ${this.processField('getPackagesNameFromContentId',true)(i_adnetReportModel)},
-                        ${this.processField('getPackageChannelFromContentId',true)(i_adnetReportModel)}, 
-                        ${this.processField('getPackageContent',true)(i_adnetReportModel)},
+                        ${this.processField('getPackagesNameFromContentId')(i_adnetReportModel)},
+                        ${this.processField('getPackageChannelFromContentId')(i_adnetReportModel)}, 
+                        ${this.processField('getPackageContent')(i_adnetReportModel)},
                         ${this.processField('getTotalCount')(i_adnetReportModel)},
                         ${this.processField('getTotalDurationFormat')(i_adnetReportModel)},
                         ${this.processField('getTotalHourlyFormat')(i_adnetReportModel)},
@@ -252,9 +248,9 @@ export class AdnetReports extends Compbaser {
                 csvRows.push('hour,count,duration,hourly,price,size,price_size');
                 this.resultReports.forEach((i_adnetReportModel: AdnetReportModel) => {
                     csvRows.push(`
-                        ${this.processField('getHourFormat',true)(i_adnetReportModel)},
-                        ${this.processField('getTotalCount',true)(i_adnetReportModel)}, 
-                        ${this.processField('getTotalDurationFormat',true)(i_adnetReportModel)},
+                        ${this.processField('getHourFormat')(i_adnetReportModel)},
+                        ${this.processField('getTotalCount')(i_adnetReportModel)}, 
+                        ${this.processField('getTotalDurationFormat')(i_adnetReportModel)},
                         ${this.processField('getTotalHourlyFormat')(i_adnetReportModel)},
                         ${this.processField('getTotalPriceFormat')(i_adnetReportModel)},
                         ${this.processField('getTotalSizeFormat')(i_adnetReportModel)},
@@ -267,12 +263,12 @@ export class AdnetReports extends Compbaser {
                 csvRows.push('package,channel,content,target,type,ip,count,duration,hourly,price,size,price_size');
                 this.resultReports.forEach((i_adnetReportModel: AdnetReportModel) => {
                     csvRows.push(`
-                        ${this.processField('getPackageName',true)(i_adnetReportModel)},
-                        ${this.processField('getPackageChannelFromContentId',true)(i_adnetReportModel)}, 
-                        ${this.processField('getPackageContent',true)(i_adnetReportModel)},
-                        ${this.processField('getTargetNameFromId',true)(i_adnetReportModel)},
-                        ${this.processField('getTargetType',true)(i_adnetReportModel)},
-                        ${this.processField('getTargetIp',true)(i_adnetReportModel)},
+                        ${this.processField('getPackageName')(i_adnetReportModel)},
+                        ${this.processField('getPackageChannelFromContentId')(i_adnetReportModel)}, 
+                        ${this.processField('getPackageContent')(i_adnetReportModel)},
+                        ${this.processField('getTargetNameFromId')(i_adnetReportModel)},
+                        ${this.processField('getTargetType')(i_adnetReportModel)},
+                        ${this.processField('getTargetIp')(i_adnetReportModel)},
                         ${this.processField('getTotalCount')(i_adnetReportModel)},
                         ${this.processField('getTotalDurationFormat')(i_adnetReportModel)},
                         ${this.processField('getHourlyRateFormat')(i_adnetReportModel)},
