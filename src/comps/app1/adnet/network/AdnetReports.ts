@@ -18,7 +18,7 @@ import {AdnetReportModel} from "../../../../adnet/AdnetReportModel";
 // https://github.com/zemirco/json2csv
 
 @Component({
-    //	template: AdnetReportsTemplate, /*prod*/
+//    	template: AdnetReportsTemplate, /*prod*/
     selector: 'AdnetReports',
     templateUrl: './AdnetReports.html', /*dev*/
     styles: [`
@@ -175,6 +175,38 @@ export class AdnetReports extends Compbaser {
         this.switchView = 'SELECT_REPORT'
     }
 
+    private export() {
+        var csv:string = '';
+
+        switch (this.selectedReportNameLong) {
+            case 'report: customers': {
+                console.log(this.resultReports);
+                break;
+            }
+            case 'report: targets': {
+                console.log(this.resultReports);
+                break;
+            }
+            case 'report: target details': {
+                console.log(this.resultReports);
+                break;
+            }
+            case 'report: contents': {
+                console.log(this.resultReports);
+                break;
+            }
+            case 'report: hourly': {
+                console.log(this.resultReports);
+                break;
+            }
+            case 'report: hourly details': {
+                console.log(this.resultReports);
+                break;
+            }
+        }
+
+    }
+
     private onReport(i_details?: string) {
         if (this.reportDisabled)
             return;
@@ -217,7 +249,7 @@ export class AdnetReports extends Compbaser {
                 if (i_details) {
                     reportName = this.allPairsSelected ? 'customerHourDetailReport' : 'pairHourDetailReport';
                     reportEnum = ReportEnum.HOURLY_DETAILS;
-                    this.selectedReportNameLong = 'report: target details';
+                    this.selectedReportNameLong = 'report: hourly details';
                     var relativeHour = this.simpleGridReportResults.getSelected().item.getRelativeHour();
                     extraArgs = `&relativeHour=${relativeHour}`;
                     if (reportName == 'pairHourDetailReport')
@@ -225,7 +257,7 @@ export class AdnetReports extends Compbaser {
                 } else {
                     reportName = this.allPairsSelected ? 'customerHourlyReport' : 'pairHourlyReport';
                     reportEnum = ReportEnum.HOURLY;
-                    this.selectedReportNameLong = 'report: targets';
+                    this.selectedReportNameLong = 'report: hourly';
                     extraArgs = `&pairId=${this.adnetPairModels.first().getId()}`;
                 }
                 break;

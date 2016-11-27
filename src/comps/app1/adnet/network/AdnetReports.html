@@ -45,8 +45,9 @@
         ------------------->
         <hr/>
         <h5>{{selectedReportNameLong | StringJSPipe:stringJSPipeArgs}}</h5>
-        <button (click)="goBackToReportSelection()" class="btn pull-right">Back</button>
-        <button [ngClass]="{disabled: reportDisabled}"
+        <button style="margin: 3px" (click)="goBackToReportSelection()" class="btn pull-right">Back</button>
+        <button style="margin: 3px" (click)="export()" class="btn pull-right">Export</button>
+        <button style="margin: 3px" [ngClass]="{disabled: reportDisabled}"
                 *ngIf="switchViewReportReceived == ReportEnum.HOURLY || switchViewReportReceived == ReportEnum.TARGET"
                 (click)="onReport('details')" [ngClass]="{disabled: reportDisabled}" class="btn btn-primary pull-right">Details
         </button>

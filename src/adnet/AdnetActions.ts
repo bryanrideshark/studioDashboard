@@ -317,7 +317,6 @@ export class AdnetActions extends Actions {
             var data = `&dir=${i_direction}&absolutMonth=${i_absolutMonth}`;
             if (i_extraArgs) data = `${data}${i_extraArgs}`;
             const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetReports').replace(':REPORT_TYPE:', i_reportName).replace(':ADNET_CUSTOMER_ID:', i_customerId).replace(':ADNET_TOKEN_ID:', adnetTokenId).replace(':DATA:', data).replace(/null/g, '');
-            console.log(baseUrl);
             this._http.get(baseUrl)
                 .map(result => {
                     var adnetReportModels: List<AdnetReportModel> = List<AdnetReportModel>();
