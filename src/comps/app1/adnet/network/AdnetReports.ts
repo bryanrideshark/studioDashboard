@@ -179,6 +179,7 @@ export class AdnetReports extends Compbaser {
         if (this.reportDisabled)
             return;
         this.switchView = 'LOAD_REPORT';
+        this.reportDisabled = true;
         var reportEnum, reportName, extraArgs = null;
         var direction = this.pairOutgoing ? 'to' : 'from';
         switch (this.selectedReportName) {

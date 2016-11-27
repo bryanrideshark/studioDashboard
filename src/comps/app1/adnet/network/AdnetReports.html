@@ -48,7 +48,7 @@
         <button (click)="goBackToReportSelection()" class="btn pull-right">Back</button>
         <button [ngClass]="{disabled: reportDisabled}"
                 *ngIf="switchViewReportReceived == ReportEnum.HOURLY || switchViewReportReceived == ReportEnum.TARGET"
-                (click)="onReport('details')" class="btn btn-primary pull-right">Details
+                (click)="onReport('details')" [ngClass]="{disabled: reportDisabled}" class="btn btn-primary pull-right">Details
         </button>
         <simpleGridTable #simpleGridReportResults>
             <thead>
