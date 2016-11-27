@@ -305,6 +305,7 @@ export class AdnetActions extends Actions {
                     break;
                 }
                 case ReportEnum.CONTENT: {
+                    reportCommand = 'contentStats';
                     break;
                 }
             }
@@ -322,31 +323,6 @@ export class AdnetActions extends Actions {
                     for (var stats of jData[reportCommand]) {
                         var adnetReportModel: AdnetReportModel = new AdnetReportModel(stats);
                         adnetReportModel = adnetReportModel.setField('reportEnum', i_reportEnum);
-
-                        // report type requested
-                        // switch(i_reportName){
-                        //     case 'customersReport': {
-                        //         break;
-                        //     }
-                        //     case 'customerTargetsReport': {
-                        //         break;
-                        //     }
-                        //     case 'pairTargetsReport': {
-                        //         break;
-                        //     }
-                        //     case 'customerContentReport': {
-                        //         break;
-                        //     }
-                        //     case 'pairContentReport': {
-                        //         break;
-                        //     }
-                        //     case 'customerHourlyReport': {
-                        //         break;
-                        //     }
-                        //     case 'pairHourlyReport': {
-                        //         break;
-                        //     }
-                        // }
                         adnetReportModels = adnetReportModels.push(adnetReportModel)
                     }
                     dispatch(this.receivedAdnetReport(adnetReportModels));
@@ -373,7 +349,7 @@ export class AdnetActions extends Actions {
 
     public getPackageModelFromContentId(i_contentId: number): AdnetPackageModel {
         var packages: List<AdnetPackageModel> = this.appStore.getState().adnet.getIn(['packages']) || {};
-        var adnetPackageModel:AdnetPackageModel = packages.find((i_adnetPackageModel: AdnetPackageModel):any => {
+        var adnetPackageModel: AdnetPackageModel = packages.find((i_adnetPackageModel: AdnetPackageModel): any => {
             var contents = i_adnetPackageModel.getContents();
             for (var index in contents) {
                 if (contents[index].Key == i_contentId) {
@@ -387,7 +363,7 @@ export class AdnetActions extends Actions {
     public getPackageContentFromContentId(i_contentId: number): any {
         var packages: List<AdnetPackageModel> = this.appStore.getState().adnet.getIn(['packages']) || {};
         var foundContent;
-        var adnetPackageModel:AdnetPackageModel = packages.find((i_adnetPackageModel: AdnetPackageModel):any => {
+        var adnetPackageModel: AdnetPackageModel = packages.find((i_adnetPackageModel: AdnetPackageModel): any => {
             var contents = i_adnetPackageModel.getContents();
             for (var index in contents) {
                 if (contents[index].Key == i_contentId) {

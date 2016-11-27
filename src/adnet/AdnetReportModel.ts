@@ -134,7 +134,7 @@ export class AdnetReportModel extends StoreModel {
         return adnetPackageModel.getName();
     }
 
-    public getPackageChannel(i_adnetAction: AdnetActions) {
+    public getPackageChannelFromContentId(i_adnetAction: AdnetActions) {
         var packageContentId = parseInt(this.getKey('Value').packageContentId);
         var adnetPackageModel:AdnetPackageModel = i_adnetAction.getPackageModelFromContentId(packageContentId);
         return adnetPackageModel.getChannel();
@@ -151,7 +151,13 @@ export class AdnetReportModel extends StoreModel {
         return adnetTargetModel.getName();
     }
 
-    public getCustomerNameFromId(i_adnetAction: AdnetActions) {
+    public getPackagesNameFromContentId(i_adnetAction: AdnetActions) {
+        var packageContentId = parseInt(this.getKey('Value').packageContentId);
+        var adnetPackageModel:AdnetPackageModel = i_adnetAction.getPackageModelFromContentId(packageContentId);
+        return adnetPackageModel.getName();
+    }
+
+    public getCustomerNameFromTargetId(i_adnetAction: AdnetActions) {
         var adnetTargetModel: AdnetTargetModel = i_adnetAction.getTargetModel(this.getTargetId())
         var customerId = adnetTargetModel.getCustomerId();
         return i_adnetAction.getCustomerName(customerId);

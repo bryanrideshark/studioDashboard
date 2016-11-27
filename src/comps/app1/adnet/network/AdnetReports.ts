@@ -101,6 +101,7 @@ export class AdnetReports extends Compbaser {
     private reportDisabled: boolean = true;
     private reportTypes: SelectItem[];
     private selectedReportName: string;
+    private selectedReportNameLong: string = '';
     private absolutMonth: number;
     private selectedDate: string;
     private selectedCustomer: string;
@@ -174,7 +175,7 @@ export class AdnetReports extends Compbaser {
         this.switchView = 'SELECT_REPORT'
     }
 
-    private onReport(i_details?:string) {
+    private onReport(i_details?: string) {
         if (this.reportDisabled)
             return;
         this.switchView = 'LOAD_REPORT';
@@ -184,19 +185,22 @@ export class AdnetReports extends Compbaser {
             case 'customers': {
                 reportName = 'customersReport';
                 reportEnum = ReportEnum.CUSTOMER;
+                this.selectedReportNameLong = 'report: customers';
                 break;
             }
             case 'targets': {
-                if (i_details){
+                if (i_details) {
                     reportName = this.allPairsSelected ? 'customerTargetDetailReport' : 'pairTargetDetailReport';
                     reportEnum = ReportEnum.TARGET_DETAILS;
+                    this.selectedReportNameLong = 'report: target details';
                     var targetId = this.simpleGridReportResults.getSelected().item.getTargetId();
                     extraArgs = `&targetId=${targetId}`;
-                    if (reportName=='pairTargetDetailReport')
+                    if (reportName == 'pairTargetDetailReport')
                         extraArgs += `&pairId=${this.adnetPairModels.first().getId()}`;
                 } else {
                     reportName = this.allPairsSelected ? 'customerTargetsReport' : 'pairTargetsReport';
                     reportEnum = ReportEnum.TARGET;
+                    this.selectedReportNameLong = 'report: targets';
                     extraArgs = `&pairId=${this.adnetPairModels.first().getId()}`;
                 }
                 break;
@@ -204,10 +208,12 @@ export class AdnetReports extends Compbaser {
             case 'content': {
                 reportName = this.allPairsSelected ? 'customerContentReport' : 'pairContentReport';
                 reportEnum = ReportEnum.CONTENT;
+                this.selectedReportNameLong = 'report: contents';
+                extraArgs = `&pairId=${this.adnetPairModels.first().getId()}`;
                 break;
             }
             case 'hourly': {
-                if (i_details){
+                if (i_details) {
                     reportName = this.allPairsSelected ? 'customerHourlyDetailsReport' : 'pairHourlyDetailsReport';
                     reportEnum = ReportEnum.HOURLY_DETAILS;
                     //if (!this.allPairsSelected)
