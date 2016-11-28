@@ -26,11 +26,11 @@ import {AdnetActions} from "../../../../adnet/AdnetActions";
         <simpleGridTable>
             <thead>
             <tr>
-                <th [sortableHeader]="['Value','toCustomerId']" [sort]="sort">customer</th>
-                <th sortableHeader="businessId" [sort]="sort">incoming</th>
-                <th sortableHeader="businessId" [sort]="sort">outgoing</th>
-                <th sortableHeader="businessId" [sort]="sort">ad charges</th>
-                <th sortableHeader="businessId" [sort]="sort">transfers</th>
+                <th sortableHeader="name" [sort]="sort">customer</th>
+                <th sortableHeader="from" [sort]="sort">incoming</th>
+                <th sortableHeader="to" [sort]="sort">outgoing</th>
+                <th sortableHeader="adCharges" [sort]="sort">ad charges</th>
+                <th sortableHeader="transfer" [sort]="sort">transfers</th>
             </tr>
             </thead>
             <tbody>
@@ -130,7 +130,7 @@ export class AdnetBilling extends Compbaser {
                 customer.from = i_pair.getTotalDebit();
                 customer.transfer += i_pair.getTotalTransfer();
             }
-            customer.adCharges = StringJS(customer.from + customer.to).toCurrency();
+            customer.adCharges = customer.from + customer.to;
         })
         this.cd.markForCheck();
 
@@ -139,11 +139,14 @@ export class AdnetBilling extends Compbaser {
     private processField(i_field: string) {
         return (i_item): any => {
             switch (i_field) {
-                case i_field: {
+                case 'name': {
                     return i_item[i_field];
                 }
+                case i_field: {
+                    return StringJS(i_item[i_field]).toCurrency();
+                }
                 default: {
-                    return '123'
+                    return '---'
                 }
             }
         }
