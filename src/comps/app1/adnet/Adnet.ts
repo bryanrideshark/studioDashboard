@@ -68,7 +68,7 @@ import {Compbaser} from "../../compbaser/Compbaser";
                       <AdnetNetwork [setAdnetCustomerModel]="adnetCustomerModel"></AdnetNetwork>
                     </tab>
                     <tab [tabtitle]="'Billing'">
-                      <AdnetBilling></AdnetBilling>
+                      <AdnetBilling [setAdnetCustomerModel]="adnetCustomerModel"></AdnetBilling>
                     </tab>
                 </tabs>
           </div>

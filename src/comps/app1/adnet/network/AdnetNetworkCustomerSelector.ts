@@ -199,9 +199,11 @@ export class AdnetNetworkCustomerSelector extends Compbaser {
         this.pairsFilteredOutgoing = List<AdnetPairModel>();
         this.pairs.forEach((i_pair: AdnetPairModel) => {
             if (this.outgoing) {
-                if (i_pair.getCustomerId() == this.adnetCustomerId) this.pairsFilteredOutgoing = this.pairsFilteredOutgoing.push(i_pair);
+                if (i_pair.getCustomerId() == this.adnetCustomerId)
+                    this.pairsFilteredOutgoing = this.pairsFilteredOutgoing.push(i_pair);
             } else {
-                if (i_pair.getToCustomerId() == this.adnetCustomerId) this.pairsFilteredIncoming = this.pairsFilteredIncoming.push(i_pair);
+                if (i_pair.getToCustomerId() == this.adnetCustomerId)
+                    this.pairsFilteredIncoming = this.pairsFilteredIncoming.push(i_pair);
             }
         })
         this.cd.markForCheck();

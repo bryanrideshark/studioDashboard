@@ -46,6 +46,11 @@
     "!./node_modules",
     "/src/typings/app.d.ts"
   ],
+  "lib": [
+    "dom",
+    "es5",
+    "es2015.promise"
+  ],
   "exclude": [
     "src/public/world_data.ts",
     "temp",

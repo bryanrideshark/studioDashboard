@@ -14,6 +14,20 @@ export class AdnetPairModel extends StoreModel {
         return this.getKey('Value').customerId;
     }
 
+    // alias
+    public get customerId() {
+        return this.getKey('Value').customerId;
+    }
+
+    public getToCustomerId() {
+        return this.getKey('Value').toCustomerId;
+    }
+
+    // alias
+    public get toCustomerId() {
+        return this.getKey('Value').toCustomerId;
+    }
+
     public active() {
         return this.getKey('Value').activated;
     }
@@ -22,8 +36,12 @@ export class AdnetPairModel extends StoreModel {
         return this.getKey('Value').autoActivate;
     }
 
-    public getToCustomerId() {
-        return this.getKey('Value').toCustomerId;
+    public getTotalDebit() {
+        return this.getKey('Value').totalDebit;
+    }
+
+    public getTotalTransfer() {
+        return this.getKey('Value').totalTransfer;
     }
 
     public getReports() {

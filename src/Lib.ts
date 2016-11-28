@@ -1434,6 +1434,8 @@ MyS.prototype.booleanToNumber = function (forceCasting: boolean = false) {
 
 MyS.prototype.toCurrency = function (format?: 'us'|'eu') {
     var value = StringJS(this.s).toFloat(2);
+    if (_.isNaN(value))
+        value = 0;
     switch (format) {
         case 'eu': {
             return '€' + value;

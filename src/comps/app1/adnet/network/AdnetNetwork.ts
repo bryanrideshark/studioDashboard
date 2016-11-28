@@ -1,8 +1,4 @@
-import {
-    Component,
-    ChangeDetectionStrategy,
-    Input
-} from "@angular/core";
+import {Component, ChangeDetectionStrategy, Input} from "@angular/core";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
 import {List} from "immutable";
@@ -30,7 +26,7 @@ export type TabType = "packagesTab" | "targetsTab"
 //	template: AdnetNetworkTemplate, /*prod*/
     selector: 'AdnetNetwork',
     moduleId: __moduleName,
-	    templateUrl: './AdnetNetwork.html', /*dev*/
+    templateUrl: './AdnetNetwork.html', /*dev*/
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
@@ -43,7 +39,8 @@ export class AdnetNetwork {
     @Input()
     set setAdnetCustomerModel(i_adnetCustomerModel: AdnetCustomerModel) {
         this.adnetCustomerModel = i_adnetCustomerModel;
-        if (this.adnetCustomerModel) this.adnetCustomerId = this.adnetCustomerModel.customerId();
+        if (this.adnetCustomerModel)
+            this.adnetCustomerId = this.adnetCustomerModel.customerId();
     }
 
     private adnetNetworkPropSelector = AdnetNetworkPropSelector;
@@ -68,7 +65,7 @@ export class AdnetNetwork {
     private selectedAdnetTargetModel_tab_targets: AdnetTargetModel;
     private selectedAdnetContentModel_tab_targets: AdnetContentModel;
 
-    private onAdnetContentSelected(tab:TabType, event: AdnetContentModel) {
+    private onAdnetContentSelected(tab: TabType, event: AdnetContentModel) {
         switch (tab) {
             case 'packagesTab': {
                 this.selectedAdnetContentModel_tab_packages = event;
@@ -94,11 +91,11 @@ export class AdnetNetwork {
         }
     }
 
-    private onPackageEditMode(event:boolean){
+    private onPackageEditMode(event: boolean) {
         this.packageEditMode = event;
     }
 
-    private onTabActive(tabName:TabType, event:boolean){
+    private onTabActive(tabName: TabType, event: boolean) {
     }
 
     private onPairSelected(event: IPairSelect) {
@@ -115,7 +112,7 @@ export class AdnetNetwork {
         this.selectedAdnetTargetModels = i_adnetTargetModels;
     }
 
-    private onAdnetTargetSelected(tab:TabType, i_adnetTargetModel: AdnetTargetModel) {
+    private onAdnetTargetSelected(tab: TabType, i_adnetTargetModel: AdnetTargetModel) {
 
         switch (tab) {
             case 'packagesTab': {
@@ -147,7 +144,7 @@ export class AdnetNetwork {
 
     private onAdnetPackageSelected(event: AdnetPackageModel) {
         this.selectedAdnetPackageModel_tab_packages = event;
-        if (!event){
+        if (!event) {
             this.selectedAdnetPackageModel_tab_packages = null;
             this.selectedAdnetContentModel_tab_packages = null;
             return;
