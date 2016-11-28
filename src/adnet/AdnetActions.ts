@@ -26,10 +26,12 @@ import * as xml2js from "xml2js";
 import {BusinessModel} from "../business/BusinessModel";
 import {ToastsManager} from "ng2-toastr";
 import {AdnetReportModel} from "./AdnetReportModel";
+import {AdnetPaymentModel} from "./AdnetPaymentModel";
 
 export const RESET_ADNET = 'RESET_ADNET';
 export const RECEIVE_ADNET = 'RECEIVE_ADNET';
 export const RECEIVE_CUSTOMERS = 'RECEIVE_CUSTOMERS';
+export const RECEIVE_PAYMENTS = 'RECEIVE_PAYMENTS';
 export const RECEIVE_RATES = 'RECEIVE_RATES';
 export const RECEIVE_TARGETS = 'RECEIVE_TARGETS';
 export const RECEIVE_TARGETS_SEARCH = 'RECEIVE_TARGETS_SEARCH';
@@ -140,6 +142,14 @@ export class AdnetActions extends Actions {
                         .map(result => {
                             var jData: Object = result.json()
                             dispatch(this.receivedAdnet(jData));
+
+                            /** Payments **/
+                            var adnetPayments: List<AdnetPaymentModel> = List<AdnetPaymentModel>();
+                            for (var adnetPayment of jData['payments']) {
+                                const adnetPaymentModel: AdnetPaymentModel = new AdnetPaymentModel(adnetPayment);
+                                adnetPayments = adnetPayments.push(adnetPaymentModel)
+                            }
+                            dispatch(this.receivedPayments(adnetPayments));
 
                             /** Customers **/
                             var adnetCustomers: List<AdnetCustomerModel> = List<AdnetCustomerModel>();
@@ -1149,6 +1159,13 @@ export class AdnetActions extends Actions {
         return {
             type: RECEIVE_CUSTOMERS,
             customers
+        }
+    }
+
+    private receivedPayments(payments: List<AdnetPaymentModel>) {
+        return {
+            type: RECEIVE_PAYMENTS,
+            payments
         }
     }
 

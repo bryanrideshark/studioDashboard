@@ -7,12 +7,13 @@ import {AdnetReportModel} from "../../../../adnet/AdnetReportModel";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
+import {AdnetPaymentModel} from "../../../../adnet/AdnetPaymentModel";
 
 @Component({
     template: `<small class="debug">{{me}}</small>
 <div class="row">
     <div class="col-xs-2">
-        <p-selectButton [options]="displaySelection" [(ngModel)]="selectedReportName" (onChange)="onSelectedPeriod($event)"></p-selectButton>
+        <p-selectButton [options]="selectionPeriod" [(ngModel)]="selectedPeriod" (onChange)="onSelectedPeriod($event)"></p-selectButton>
         <br/><br/>
         <p>Previous balance: 0.00</p>
         <p>payments: 0.00</p>
@@ -23,7 +24,8 @@ import {AdnetActions} from "../../../../adnet/AdnetActions";
         <h3>balance: 0.00</h3>
     </div>
     <div class="col-xs-10">
-        <simpleGridTable>
+        <p-selectButton [options]="selectionReport" [(ngModel)]="selectedReport" (onChange)="onSelectedPeriod($event)"></p-selectButton>
+        <simpleGridTable *ngIf="selectedReport=='balance'">
             <thead>
             <tr>
                 <th sortableHeader="name" [sort]="sort">customer</th>
@@ -34,15 +36,60 @@ import {AdnetActions} from "../../../../adnet/AdnetActions";
             </tr>
             </thead>
             <tbody>
-            <tr class="simpleGridRecord" simpleGridRecord *ngFor="let item of pairsFilteredOutgoing | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">
-                <td class="width-md" simpleGridData [processField]="processField('name')" [item]="item"></td>
-                <td class="width-md" simpleGridData [processField]="processField('from')" [item]="item"></td>
-                <td class="width-md" simpleGridData [processField]="processField('to')" [item]="item"></td>
-                <td class="width-md" simpleGridData [processField]="processField('adCharges')" [item]="item"></td>
-                <td class="width-md" simpleGridData [processField]="processField('transfer')" [item]="item"></td>
+            <tr class="simpleGridRecord" simpleGridRecord *ngFor="let item of pairsFiltered | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">
+                <td class="width-md" simpleGridData [processField]="processFieldBalance('name')" [item]="item"></td>
+                <td class="width-md" simpleGridData [processField]="processFieldBalance('from')" [item]="item"></td>
+                <td class="width-md" simpleGridData [processField]="processFieldBalance('to')" [item]="item"></td>
+                <td class="width-md" simpleGridData [processField]="processFieldBalance('adCharges')" [item]="item"></td>
+                <td class="width-md" simpleGridData [processField]="processFieldBalance('transfer')" [item]="item"></td>
             </tr>
             </tbody>
         </simpleGridTable>
+        
+        <simpleGridTable *ngIf="selectedReport=='payments'">
+            <thead>
+            <tr>
+                <th [sortableHeader]="['Value','paymentDate']" [sort]="sort">yy/mm/dd</th>
+                <th [sortableHeader]="['Value','prevCredit']" [sort]="sort">prev</th>
+                <th [sortableHeader]="['Value','credit']" [sort]="sort">credit</th>
+                <th [sortableHeader]="['Value','credit']" [sort]="sort">total</th>
+                <th [sortableHeader]="['Value','transaction']" [sort]="sort">transaction</th>
+                <th [sortableHeader]="['Value','comment']" [sort]="sort">comment</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="simpleGridRecord" simpleGridRecord *ngFor="let item of payments | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">
+                <td class="width-md" simpleGridData [processField]="processFieldPayments('date')" [item]="item"></td>
+                <td class="width-md" simpleGridData [processField]="processFieldPayments('prevCredit')" [item]="item"></td>
+                <td class="width-md" simpleGridData [processField]="processFieldPayments('credit')" [item]="item"></td>
+                <td class="width-md" simpleGridData [processField]="processFieldPayments('total')" [item]="item"></td>
+                <td class="width-md" simpleGridData [processField]="processFieldPayments('transactionId')" [item]="item"></td>
+                <td class="width-md" simpleGridData [processField]="processFieldPayments('comment')" [item]="item"></td>
+            </tr>
+            </tbody>
+        </simpleGridTable>
+        
+        <simpleGridTable *ngIf="selectedReport=='transfers'">
+            <thead>
+            <tr>
+                <th sortableHeader="name" [sort]="sort">ff</th>
+                <th sortableHeader="from" [sort]="sort">incoming</th>
+                <th sortableHeader="to" [sort]="sort">outgoing</th>
+                <th sortableHeader="adCharges" [sort]="sort">ad charges</th>
+                <th sortableHeader="transfer" [sort]="sort">transfers</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="simpleGridRecord" simpleGridRecord *ngFor="let item of pairsFiltered | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">
+                <td class="width-md" simpleGridData [processField]="processFieldBalance('name')" [item]="item"></td>
+                <td class="width-md" simpleGridData [processField]="processFieldBalance('from')" [item]="item"></td>
+                <td class="width-md" simpleGridData [processField]="processFieldBalance('to')" [item]="item"></td>
+                <td class="width-md" simpleGridData [processField]="processFieldBalance('adCharges')" [item]="item"></td>
+                <td class="width-md" simpleGridData [processField]="processFieldBalance('transfer')" [item]="item"></td>
+            </tr>
+            </tbody>
+        </simpleGridTable>
+        
     </div>
 </div>
            
@@ -76,15 +123,33 @@ export class AdnetBilling extends Compbaser {
                 this.filterPairs();
             }, 'adnet.pairs')
         );
+
+        this.payments = this.appStore.getState().adnet.getIn(['payments']) || {};
+        this.cancelOnDestroy(
+            this.appStore.sub((i_payments: List<AdnetPaymentModel>) => {
+                this.payments = i_payments;
+            }, 'adnet.payments')
+        );
+
         this.filterPairs();
 
-        this.displaySelection.push({
-            label: 'Absolute',
-            value: 'Absolute'
+        this.selectionPeriod.push({
+            label: 'absolute',
+            value: 'absolute'
         }, {
-            label: 'This month',
-            value: 'This month'
+            label: 'this month',
+            value: 'this month'
         });
+        this.selectionReport.push({
+            label: 'balance',
+            value: 'balance'
+        }, {
+            label: 'payments',
+            value: 'payments'
+        }, {
+            label: 'transfers',
+            value: 'transfers'
+        })
     }
 
     @Input()
@@ -94,11 +159,15 @@ export class AdnetBilling extends Compbaser {
             this.adnetCustomerId = this.adnetCustomerModel.customerId();
     }
 
-    private pairsFilteredOutgoing: List<AdnetPairModel> = List<AdnetPairModel>();
+    private payments: List<AdnetPaymentModel> = List<AdnetPaymentModel>();
+    private pairsFiltered: List<AdnetPairModel> = List<AdnetPairModel>();
     private adnetCustomerId: number = -1;
     private adnetCustomerModel: AdnetCustomerModel;
     private billingReport: List<AdnetReportModel> = List<AdnetReportModel>();
-    private displaySelection: SelectItem[] = [];
+    private selectionPeriod: SelectItem[] = [];
+    private selectionReport: SelectItem[] = [];
+    private selectedPeriod = 'absolute';
+    private selectedReport = 'balance';
     private pairs: List<AdnetPairModel>
 
     private filterPairs() {
@@ -106,7 +175,7 @@ export class AdnetBilling extends Compbaser {
             return;
         var customerMap = {}
         var customer = null;
-        this.pairsFilteredOutgoing = List<AdnetPairModel>();
+        this.pairsFiltered = List<AdnetPairModel>();
         this.pairs.forEach((i_pair: AdnetPairModel) => {
             if (i_pair.getCustomerId() == this.adnetCustomerId) {
                 customer = customerMap[i_pair.toCustomerId];
@@ -114,7 +183,7 @@ export class AdnetBilling extends Compbaser {
                     customer = customerMap[i_pair.toCustomerId] = {};
                     customer.name = this.adnetAction.getCustomerName(i_pair.toCustomerId);
                     customer.transfer = 0;
-                    this.pairsFilteredOutgoing = this.pairsFilteredOutgoing.push(customer);
+                    this.pairsFiltered = this.pairsFiltered.push(customer);
                 }
                 customer.to = -i_pair.getTotalDebit();
                 customer.transfer -= i_pair.getTotalTransfer();
@@ -123,9 +192,9 @@ export class AdnetBilling extends Compbaser {
                 customer = customerMap[i_pair.customerId];
                 if (customer == null) {
                     customer = customerMap[i_pair.customerId] = {};
-                    customer.name =  this.adnetAction.getCustomerName(i_pair.customerId);
+                    customer.name = this.adnetAction.getCustomerName(i_pair.customerId);
                     customer.transfer = 0;
-                    this.pairsFilteredOutgoing = this.pairsFilteredOutgoing.push(customer);
+                    this.pairsFiltered = this.pairsFiltered.push(customer);
                 }
                 customer.from = i_pair.getTotalDebit();
                 customer.transfer += i_pair.getTotalTransfer();
@@ -136,7 +205,7 @@ export class AdnetBilling extends Compbaser {
 
     }
 
-    private processField(i_field: string) {
+    private processFieldBalance(i_field: string) {
         return (i_item): any => {
             switch (i_field) {
                 case 'name': {
@@ -144,6 +213,26 @@ export class AdnetBilling extends Compbaser {
                 }
                 case i_field: {
                     return StringJS(i_item[i_field]).toCurrency();
+                }
+                default: {
+                    return '---'
+                }
+            }
+        }
+    }
+    
+    private processFieldPayments(i_field: string) {
+        return (i_item:AdnetPaymentModel): any => {
+            switch (i_field) {
+                case 'total': {}
+                case 'prevCredit': {}
+                case 'credit': {
+                    return StringJS(i_item[i_field]()).toCurrency();
+                }
+                case 'comment':{}
+                case 'transactionId':{}
+                case 'date': {
+                    return i_item[i_field]();
                 }
                 default: {
                     return '---'
