@@ -8,6 +8,7 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {AdnetPaymentModel} from "../../../../adnet/AdnetPaymentModel";
+import {AdnetTransferModel} from "../../../../adnet/AdnetTransferModel";
 
 @Component({
     template: `<small class="debug">{{me}}</small>
@@ -72,20 +73,18 @@ import {AdnetPaymentModel} from "../../../../adnet/AdnetPaymentModel";
         <simpleGridTable *ngIf="selectedReport=='transfers'">
             <thead>
             <tr>
-                <th [sortableHeader]="['Value','paymentDate']" [sort]="sort3">yy/mm/dd</th>
-                <th [sortableHeader]="['Value','paymentDate']" [sort]="sort2">yy/mm/dd</th>
-                <th [sortableHeader]="['Value','paymentDate']" [sort]="sort2">yy/mm/dd</th>
-                <th [sortableHeader]="['Value','paymentDate']" [sort]="sort2">yy/mm/dd</th>
-                <th [sortableHeader]="['Value','paymentDate']" [sort]="sort2">yy/mm/dd</th>
+                <th [sortableHeader]="['Value','transferDate']" [sort]="sort3">yy/mm/dd</th>
+                <th [sortableHeader]="['Value','transferAmount']" [sort]="sort3">receive</th>
+                <th [sortableHeader]="['Value','transferAmount']" [sort]="sort3">send</th>
+                <th [sortableHeader]="['Value','customerId']" [sort]="sort3">customer</th>
             </tr>
             </thead>
             <tbody>
-            <tr class="simpleGridRecord" simpleGridRecord *ngFor="let item of pairsFiltered | OrderBy:sort3.field:sort3.desc; let index=index" [item]="item" [index]="index">
-                <td class="width-md" simpleGridData [processField]="processFieldBalance('name')" [item]="item"></td>
-                <td class="width-md" simpleGridData [processField]="processFieldBalance('from')" [item]="item"></td>
-                <td class="width-md" simpleGridData [processField]="processFieldBalance('to')" [item]="item"></td>
-                <td class="width-md" simpleGridData [processField]="processFieldBalance('adCharges')" [item]="item"></td>
-                <td class="width-md" simpleGridData [processField]="processFieldBalance('transfer')" [item]="item"></td>
+            <tr class="simpleGridRecord" simpleGridRecord *ngFor="let item of transfers | OrderBy:sort3.field:sort3.desc; let index=index" [item]="item" [index]="index">
+                <td class="width-md" simpleGridData [processField]="processFieldTransfers('date')" [item]="item"></td>
+                <td class="width-md" simpleGridData [processField]="processFieldTransfers('receive')" [item]="item"></td>
+                <td class="width-md" simpleGridData [processField]="processFieldTransfers('send')" [item]="item"></td>
+                <td class="width-md" simpleGridData [processField]="processFieldTransfers('customer')" [item]="item"></td>
             </tr>
             </tbody>
         </simpleGridTable>
@@ -123,6 +122,16 @@ export class AdnetBilling extends Compbaser {
                 this.filterPairs();
             }, 'adnet.pairs')
         );
+        this.filterPairs();
+
+        this.transfers = this.appStore.getState().adnet.getIn(['transfers']) || {};
+        this.cancelOnDestroy(
+            this.appStore.sub((i_transfers: List<AdnetTransferModel>) => {
+                this.transfers = i_transfers;
+                // this.filterTransfers();
+            }, 'adnet.transfers')
+        );
+        // this.filterTransfers();
 
         this.payments = this.appStore.getState().adnet.getIn(['payments']) || {};
         this.cancelOnDestroy(
@@ -130,8 +139,6 @@ export class AdnetBilling extends Compbaser {
                 this.payments = i_payments;
             }, 'adnet.payments')
         );
-
-        this.filterPairs();
 
         this.selectionPeriod.push({
             label: 'absolute',
@@ -155,12 +162,17 @@ export class AdnetBilling extends Compbaser {
     @Input()
     set setAdnetCustomerModel(i_adnetCustomerModel: AdnetCustomerModel) {
         this.adnetCustomerModel = i_adnetCustomerModel;
-        if (this.adnetCustomerModel)
+        if (this.adnetCustomerModel) {
             this.adnetCustomerId = this.adnetCustomerModel.customerId();
+            this.filterPairs();
+            // this.filterTransfers();
+        }
+
     }
 
     private payments: List<AdnetPaymentModel> = List<AdnetPaymentModel>();
-    private transactions: List<AdnetPaymentModel> = List<AdnetPaymentModel>();
+    private transfers: List<AdnetTransferModel> = List<AdnetTransferModel>();
+    // private transfersFiltered: List<AdnetTransferModel> = List<AdnetTransferModel>();
     private pairsFiltered: List<AdnetPairModel> = List<AdnetPairModel>();
     private adnetCustomerId: number = -1;
     private adnetCustomerModel: AdnetCustomerModel;
@@ -171,11 +183,22 @@ export class AdnetBilling extends Compbaser {
     private selectedReport = 'balance';
     private pairs: List<AdnetPairModel>
 
+    // private filterTransfers() {
+    //     if (!this.transfers)
+    //         return;
+    //     this.transfersFiltered = List<AdnetTransferModel>();
+    //     this.transfers.forEach((i_transfer: AdnetTransferModel) => {
+    //         if (i_transfer.getToCustomerId() == this.adnetCustomerId)
+    //             this.transfersFiltered = this.transfersFiltered.push(i_transfer)
+    //
+    //     })
+    // }
+
     private filterPairs() {
         if (!this.pairs)
             return;
         var customerMap = {}
-        var customer:any = null;
+        var customer: any = null;
         this.pairsFiltered = List<AdnetPairModel>();
         this.pairs.forEach((i_pair: AdnetPairModel) => {
             if (i_pair.getCustomerId() == this.adnetCustomerId) {
@@ -200,9 +223,11 @@ export class AdnetBilling extends Compbaser {
                 customer.from = i_pair.getTotalDebit();
                 customer.transfer += i_pair.getTotalTransfer();
             }
-            customer.adCharges = customer.from + customer.to;
+            if (customer)
+                customer.adCharges = customer.from + customer.to;
         })
         this.cd.markForCheck();
+
 
     }
 
@@ -221,17 +246,46 @@ export class AdnetBilling extends Compbaser {
             }
         }
     }
-    
-    private processFieldPayments(i_field: string) {
-        return (i_item:AdnetPaymentModel): any => {
+
+    private processFieldTransfers(i_field: string) {
+        return (i_item:AdnetTransferModel): any => {
             switch (i_field) {
-                case 'total': {}
-                case 'prevCredit': {}
+                case 'date': {
+                    return i_item[i_field]();
+                }
+                case 'send': {
+                    return i_item.send(this.adnetCustomerId);
+                }
+                case 'receive': {
+                    return i_item.receive(this.adnetCustomerId);
+                }
+                case 'customer': {
+                    return i_item.getCustomerName(this.adnetCustomerId, this.adnetAction);
+                }
+                case i_field: {
+                    return StringJS(i_item[i_field]()).toCurrency();
+                }
+                default: {
+                    return '---'
+                }
+            }
+        }
+    }
+
+    private processFieldPayments(i_field: string) {
+        return (i_item: AdnetPaymentModel): any => {
+            switch (i_field) {
+                case 'total': {
+                }
+                case 'prevCredit': {
+                }
                 case 'credit': {
                     return StringJS(i_item[i_field]()).toCurrency();
                 }
-                case 'comment':{}
-                case 'transactionId':{}
+                case 'comment': {
+                }
+                case 'transactionId': {
+                }
                 case 'date': {
                     return i_item[i_field]();
                 }

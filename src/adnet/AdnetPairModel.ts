@@ -44,6 +44,10 @@ export class AdnetPairModel extends StoreModel {
         return this.getKey('Value').totalTransfer;
     }
 
+    public getTransfers():Array<any> {
+        return this.getKey('Value').transfers;
+    }
+
     public getReports() {
         return this.getKey('Value').summaryReport;
     }

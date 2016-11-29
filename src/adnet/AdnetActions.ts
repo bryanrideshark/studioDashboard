@@ -145,14 +145,6 @@ export class AdnetActions extends Actions {
                             var jData: Object = result.json()
                             dispatch(this.receivedAdnet(jData));
 
-                            /** Transfers **/
-                            var adnetTransfers: List<AdnetTransferModel> = List<AdnetTransferModel>();
-                            for (var adnetTransfer of jData['transfers']) {
-                                const adnetTransferModel: AdnetTransferModel = new AdnetTransferModel(adnetTransfer);
-                                adnetTransfers = adnetTransfers.push(adnetTransferModel)
-                            }
-                            dispatch(this.receivedTransfers(adnetTransfers));
-
                             /** Payments **/
                             var adnetPayments: List<AdnetPaymentModel> = List<AdnetPaymentModel>();
                             for (var adnetPayment of jData['payments']) {
@@ -196,6 +188,19 @@ export class AdnetActions extends Actions {
                                 adnetPairModels = adnetPairModels.push(adnetPairModel)
                             }
                             dispatch(this.receivedPairs(adnetPairModels));
+
+                            /** Transfers **/
+                            var adnetTransfers: List<AdnetTransferModel> = List<AdnetTransferModel>();
+                            adnetPairModels.forEach((i_adnetPairModel:AdnetPairModel) => {
+                                var pairTransfers:Array<any> = i_adnetPairModel.getTransfers();
+                                pairTransfers.forEach((adnetTransfer)=>{
+                                    adnetTransfer['Value']['customerId'] = i_adnetPairModel.getCustomerId();
+                                    adnetTransfer['Value']['toCustomerId'] = i_adnetPairModel.getToCustomerId();
+                                    const adnetTransferModel: AdnetTransferModel = new AdnetTransferModel(adnetTransfer);
+                                    adnetTransfers = adnetTransfers.push(adnetTransferModel)
+                                });
+                            });
+                            dispatch(this.receivedTransfers(adnetTransfers));
 
                             /** Packages **/
                             var adnetPackageModels: List<AdnetPackageModel> = List<AdnetPackageModel>();
