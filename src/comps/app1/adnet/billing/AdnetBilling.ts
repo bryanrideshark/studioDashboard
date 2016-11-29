@@ -49,16 +49,16 @@ import {AdnetPaymentModel} from "../../../../adnet/AdnetPaymentModel";
         <simpleGridTable *ngIf="selectedReport=='payments'">
             <thead>
             <tr>
-                <th [sortableHeader]="['Value','paymentDate']" [sort]="sort">yy/mm/dd</th>
-                <th [sortableHeader]="['Value','prevCredit']" [sort]="sort">prev</th>
-                <th [sortableHeader]="['Value','credit']" [sort]="sort">credit</th>
-                <th [sortableHeader]="['Value','credit']" [sort]="sort">total</th>
-                <th [sortableHeader]="['Value','transaction']" [sort]="sort">transaction</th>
-                <th [sortableHeader]="['Value','comment']" [sort]="sort">comment</th>
+                <th [sortableHeader]="['Value','paymentDate']" [sort]="sort2">yy/mm/dd</th>
+                <th [sortableHeader]="['Value','prevCredit']" [sort]="sort2">prev</th>
+                <th [sortableHeader]="['Value','credit']" [sort]="sort2">credit</th>
+                <th [sortableHeader]="['Value','credit']" [sort]="sort2">total</th>
+                <th [sortableHeader]="['Value','transaction']" [sort]="sort2">transaction</th>
+                <th [sortableHeader]="['Value','comment']" [sort]="sort2">comment</th>
             </tr>
             </thead>
             <tbody>
-            <tr class="simpleGridRecord" simpleGridRecord *ngFor="let item of payments | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">
+            <tr class="simpleGridRecord" simpleGridRecord *ngFor="let item of payments | OrderBy:sort2.field:sort2.desc; let index=index" [item]="item" [index]="index">
                 <td class="width-md" simpleGridData [processField]="processFieldPayments('date')" [item]="item"></td>
                 <td class="width-md" simpleGridData [processField]="processFieldPayments('prevCredit')" [item]="item"></td>
                 <td class="width-md" simpleGridData [processField]="processFieldPayments('credit')" [item]="item"></td>
@@ -72,15 +72,15 @@ import {AdnetPaymentModel} from "../../../../adnet/AdnetPaymentModel";
         <simpleGridTable *ngIf="selectedReport=='transfers'">
             <thead>
             <tr>
-                <th sortableHeader="name" [sort]="sort">ff</th>
-                <th sortableHeader="from" [sort]="sort">incoming</th>
-                <th sortableHeader="to" [sort]="sort">outgoing</th>
-                <th sortableHeader="adCharges" [sort]="sort">ad charges</th>
-                <th sortableHeader="transfer" [sort]="sort">transfers</th>
+                <th [sortableHeader]="['Value','paymentDate']" [sort]="sort3">yy/mm/dd</th>
+                <th [sortableHeader]="['Value','paymentDate']" [sort]="sort2">yy/mm/dd</th>
+                <th [sortableHeader]="['Value','paymentDate']" [sort]="sort2">yy/mm/dd</th>
+                <th [sortableHeader]="['Value','paymentDate']" [sort]="sort2">yy/mm/dd</th>
+                <th [sortableHeader]="['Value','paymentDate']" [sort]="sort2">yy/mm/dd</th>
             </tr>
             </thead>
             <tbody>
-            <tr class="simpleGridRecord" simpleGridRecord *ngFor="let item of pairsFiltered | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">
+            <tr class="simpleGridRecord" simpleGridRecord *ngFor="let item of pairsFiltered | OrderBy:sort3.field:sort3.desc; let index=index" [item]="item" [index]="index">
                 <td class="width-md" simpleGridData [processField]="processFieldBalance('name')" [item]="item"></td>
                 <td class="width-md" simpleGridData [processField]="processFieldBalance('from')" [item]="item"></td>
                 <td class="width-md" simpleGridData [processField]="processFieldBalance('to')" [item]="item"></td>
@@ -174,7 +174,7 @@ export class AdnetBilling extends Compbaser {
         if (!this.pairs)
             return;
         var customerMap = {}
-        var customer = null;
+        var customer:any = null;
         this.pairsFiltered = List<AdnetPairModel>();
         this.pairs.forEach((i_pair: AdnetPairModel) => {
             if (i_pair.getCustomerId() == this.adnetCustomerId) {
@@ -242,6 +242,16 @@ export class AdnetBilling extends Compbaser {
     }
 
     public sort: {field: string, desc: boolean} = {
+        field: null,
+        desc: false
+    };
+
+    public sort2: {field: string, desc: boolean} = {
+        field: null,
+        desc: false
+    };
+
+    public sort3: {field: string, desc: boolean} = {
         field: null,
         desc: false
     };
