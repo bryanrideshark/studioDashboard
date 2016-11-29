@@ -160,6 +160,7 @@ export class AdnetBilling extends Compbaser {
     }
 
     private payments: List<AdnetPaymentModel> = List<AdnetPaymentModel>();
+    private transactions: List<AdnetPaymentModel> = List<AdnetPaymentModel>();
     private pairsFiltered: List<AdnetPairModel> = List<AdnetPairModel>();
     private adnetCustomerId: number = -1;
     private adnetCustomerModel: AdnetCustomerModel;

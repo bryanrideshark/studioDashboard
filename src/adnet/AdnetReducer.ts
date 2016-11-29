@@ -28,7 +28,12 @@ export function adnet(state: Map<string,any> = Map<string,any>(), action: any): 
             state = state.setIn(['targets'], List());
             state = state.setIn(['reports'], List());
             state = state.setIn(['payments'], List());
+            state = state.setIn(['transfers'], List());
             return state;
+        }
+
+        case AdnetActions.RECEIVE_TRANSFERS: {
+            return state.setIn(['transfers'], action.transfers);
         }
 
         case AdnetActions.RECEIVE_PAYMENTS: {

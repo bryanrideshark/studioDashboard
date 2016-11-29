@@ -219,7 +219,7 @@ export class Whitelabel {
     }
 
     private renderFormInputs() {
-        _.forEach(this.formInputs, (value, key: string) => {
+        _.forEach(this.formInputs, (i_value, key: string) => {
             var value = this.whitelabelModel.getKey(key);
             value = StringJS(value).booleanToNumber();
             this.formInputs[key].setValue(value);

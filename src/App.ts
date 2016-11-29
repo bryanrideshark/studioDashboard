@@ -232,6 +232,7 @@ export class Main {
                 router.navigate(['/App1/Dashboard']);
             }, 1000);
         }
+
         // var join = new JoinPipe().transform(['a', 'b', 'c'], '_');
         // console.log(join);
         // console.log(StringJS(join).humanize().s);
