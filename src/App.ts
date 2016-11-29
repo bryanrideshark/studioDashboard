@@ -233,21 +233,6 @@ export class Main {
             }, 1000);
         }
 
-        async function delay(milliseconds: number) {
-            return new Promise<void>(resolve => {
-                setTimeout(resolve, milliseconds);
-            });
-        }
-
-        async function printDelayed(elements: string[]) {
-            for (const element of elements) {
-                await delay(2000);
-                console.log(element);
-            }
-        }
-
-        printDelayed(['1', '2', '3']);
-
         // var join = new JoinPipe().transform(['a', 'b', 'c'], '_');
         // console.log(join);
         // console.log(StringJS(join).humanize().s);

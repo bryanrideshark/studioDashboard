@@ -77,6 +77,7 @@ import {AdnetTransferModel} from "../../../../adnet/AdnetTransferModel";
                 <th [sortableHeader]="['Value','transferAmount']" [sort]="sort3">receive</th>
                 <th [sortableHeader]="['Value','transferAmount']" [sort]="sort3">send</th>
                 <th [sortableHeader]="['Value','customerId']" [sort]="sort3">customer</th>
+                <th [sortableHeader]="['Value','comments']" [sort]="sort3">comments</th>
             </tr>
             </thead>
             <tbody>
@@ -85,6 +86,7 @@ import {AdnetTransferModel} from "../../../../adnet/AdnetTransferModel";
                 <td class="width-md" simpleGridData [processField]="processFieldTransfers('receive')" [item]="item"></td>
                 <td class="width-md" simpleGridData [processField]="processFieldTransfers('send')" [item]="item"></td>
                 <td class="width-md" simpleGridData [processField]="processFieldTransfers('customer')" [item]="item"></td>
+                <td class="width-md" simpleGridData [processField]="processFieldTransfers('comment')" [item]="item"></td>
             </tr>
             </tbody>
         </simpleGridTable>
@@ -261,6 +263,9 @@ export class AdnetBilling extends Compbaser {
                 }
                 case 'customer': {
                     return i_item.getCustomerName(this.adnetCustomerId, this.adnetAction);
+                }
+                case 'comment': {
+                    return i_item.getComment();
                 }
                 case i_field: {
                     return StringJS(i_item[i_field]()).toCurrency();

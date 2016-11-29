@@ -1,5 +1,6 @@
 import {StoreModel} from "../models/StoreModel";
 import {Lib} from "../Lib";
+import {AdnetActions} from "./AdnetActions";
 
 export class AdnetTransferModel extends StoreModel {
 
@@ -43,17 +44,20 @@ export class AdnetTransferModel extends StoreModel {
         }
     }
 
-    public getCustomerName(i_customerId, i_adnetAction) {
+    public getCustomerName(i_customerId, i_adnetAction:AdnetActions) {
         if (this.getCustomerId() == i_customerId){
-            return 'TO'
+            return `to: ${i_adnetAction.getCustomerName(this.getToCustomerId())}`;
         } else {
-            return 'FROM'
+            return `from: ${i_adnetAction.getCustomerName(this.getToCustomerId())}`;
         }
-
     }
 
     public prevAmount() {
         return this.getKey('Value').prevAmount;
+    }
+
+    public getComment() {
+        return this.getKey('Value').comment;
     }
 
 
