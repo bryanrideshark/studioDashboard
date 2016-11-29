@@ -26,7 +26,9 @@ export class StringJSPipe implements PipeTransform {
         var execs = args[0];
         for (var methodName in execs) {
             var params = execs[methodName];
-            input = StringJS(input)[methodName](...params).s
+            input = StringJS(input)[methodName](...params);
+            if (input['s'])
+                input = input['s'];
         }
         return input;
     }

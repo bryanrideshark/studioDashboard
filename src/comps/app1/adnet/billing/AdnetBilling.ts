@@ -16,10 +16,10 @@ import {AdnetTransferModel} from "../../../../adnet/AdnetTransferModel";
     <div class="col-xs-2">
         <p-selectButton [options]="selectionPeriod" [(ngModel)]="selectedPeriod" (onChange)="onSelectedPeriod($event)"></p-selectButton>
         <br/><br/>
-        <p>Previous balance: 0.00</p>
-        <p>payments: 0.00</p>
-        <p>ad charges: 0.00</p>
-        <p>transfers: 0.00</p>
+        <p>Previous balance: <span style="padding-right: 1px" class="pull-right">{{m_lastPayments | StringJSPipe:stringJSPipeArgs}}</span></p>
+        <p>payments: <span style="padding-right: 100px" class="pull-right">{{m_lastPayments}}</span></p>
+        <p>ad charges: <span style="padding-right: 100px" class="pull-right">{{m_lastPayments}}</span></p>
+        <p>transfers: <span style="padding-right: 100px" class="pull-right">{{m_lastPayments}}</span></p>
         <br/>
         <hr class="push-left" style="width: 160px"/>        
         <h3>balance: 0.00</h3>
@@ -168,6 +168,16 @@ export class AdnetBilling extends Compbaser {
         }
     }
 
+    public stringJSPipeArgs = {
+        toCurrency: ['us']
+    }
+
+    private m_totalPayments = 0;
+    private m_lastPayments = 12.0;
+    private m_totalAdCharges = 0;
+    private m_lastAdCharges = 0;
+    private m_totalTransfers = 0;
+
     private payments: List<AdnetPaymentModel> = List<AdnetPaymentModel>();
     private transfers: List<AdnetTransferModel> = List<AdnetTransferModel>();
     private pairsFiltered: List<AdnetPairModel> = List<AdnetPairModel>();
@@ -231,7 +241,7 @@ export class AdnetBilling extends Compbaser {
     }
 
     private processFieldTransfers(i_field: string) {
-        return (i_item:AdnetTransferModel): any => {
+        return (i_item: AdnetTransferModel): any => {
             switch (i_field) {
                 case 'date': {
                     return i_item[i_field]();
