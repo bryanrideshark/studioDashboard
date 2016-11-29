@@ -77,7 +77,7 @@ import {AdnetTransferModel} from "../../../../adnet/AdnetTransferModel";
                 <th [sortableHeader]="['Value','transferAmount']" [sort]="sort3">receive</th>
                 <th [sortableHeader]="['Value','transferAmount']" [sort]="sort3">send</th>
                 <th [sortableHeader]="['Value','customerId']" [sort]="sort3">customer</th>
-                <th [sortableHeader]="['Value','comments']" [sort]="sort3">comments</th>
+                <th [sortableHeader]="['Value','comment']" [sort]="sort3">comments</th>
             </tr>
             </thead>
             <tbody>
@@ -130,10 +130,8 @@ export class AdnetBilling extends Compbaser {
         this.cancelOnDestroy(
             this.appStore.sub((i_transfers: List<AdnetTransferModel>) => {
                 this.transfers = i_transfers;
-                // this.filterTransfers();
             }, 'adnet.transfers')
         );
-        // this.filterTransfers();
 
         this.payments = this.appStore.getState().adnet.getIn(['payments']) || {};
         this.cancelOnDestroy(
@@ -167,34 +165,19 @@ export class AdnetBilling extends Compbaser {
         if (this.adnetCustomerModel) {
             this.adnetCustomerId = this.adnetCustomerModel.customerId();
             this.filterPairs();
-            // this.filterTransfers();
         }
-
     }
 
     private payments: List<AdnetPaymentModel> = List<AdnetPaymentModel>();
     private transfers: List<AdnetTransferModel> = List<AdnetTransferModel>();
-    // private transfersFiltered: List<AdnetTransferModel> = List<AdnetTransferModel>();
     private pairsFiltered: List<AdnetPairModel> = List<AdnetPairModel>();
     private adnetCustomerId: number = -1;
     private adnetCustomerModel: AdnetCustomerModel;
-    private billingReport: List<AdnetReportModel> = List<AdnetReportModel>();
     private selectionPeriod: SelectItem[] = [];
     private selectionReport: SelectItem[] = [];
     private selectedPeriod = 'absolute';
     private selectedReport = 'balance';
     private pairs: List<AdnetPairModel>
-
-    // private filterTransfers() {
-    //     if (!this.transfers)
-    //         return;
-    //     this.transfersFiltered = List<AdnetTransferModel>();
-    //     this.transfers.forEach((i_transfer: AdnetTransferModel) => {
-    //         if (i_transfer.getToCustomerId() == this.adnetCustomerId)
-    //             this.transfersFiltered = this.transfersFiltered.push(i_transfer)
-    //
-    //     })
-    // }
 
     private filterPairs() {
         if (!this.pairs)
@@ -229,8 +212,6 @@ export class AdnetBilling extends Compbaser {
                 customer.adCharges = customer.from + customer.to;
         })
         this.cd.markForCheck();
-
-
     }
 
     private processFieldBalance(i_field: string) {
