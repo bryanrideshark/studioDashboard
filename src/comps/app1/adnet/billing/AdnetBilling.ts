@@ -10,10 +10,10 @@ import {AdnetPaymentModel} from "../../../../adnet/AdnetPaymentModel";
 import {AdnetTransferModel} from "../../../../adnet/AdnetTransferModel";
 
 interface ICustomer {
-    adCharges:number;
-    name:string;
-    to:string;
-    transfer:number;
+    adCharges: number;
+    name: string;
+    to: string;
+    transfer: number;
 }
 
 @Component({
@@ -148,6 +148,8 @@ export class AdnetBilling extends Compbaser {
                 this.calcTotals();
             }, 'adnet.payments')
         );
+        this.calcTotals();
+
 
         this.selectionPeriod.push({
             label: 'absolute',
@@ -166,8 +168,6 @@ export class AdnetBilling extends Compbaser {
             label: 'transfers',
             value: 'transfers'
         })
-
-        this.calcTotals();
     }
 
     @Input()
@@ -176,6 +176,7 @@ export class AdnetBilling extends Compbaser {
         if (this.adnetCustomerModel) {
             this.adnetCustomerId = this.adnetCustomerModel.customerId();
             this.buildCustomerList();
+            this.calcTotals();
         }
     }
 
@@ -200,24 +201,28 @@ export class AdnetBilling extends Compbaser {
     private selectedReport = 'balance';
     private pairs: List<AdnetPairModel>
 
-    private calcTotals(){
-        this.m_totalPayments = 0;
-        this.payments.forEach((i_adnetPaymentModel:AdnetPaymentModel)=>{
-            this.m_totalPayments += i_adnetPaymentModel.credit();
-        })
-
-        this.pairs.forEach((i_pair:AdnetPairModel)=>{
-            if (this.adnetCustomerId == i_pair.getCustomerId()){
-                this.m_totalAdCharges -= i_pair.getTotalDebit();
-                this.m_totalTransfers -= i_pair.getTotalTransfer();
-            }
-            if (this.adnetCustomerId == i_pair.getToCustomerId()){
-                this.m_totalAdCharges += i_pair.getTotalDebit();
-                this.m_totalTransfers += i_pair.getTotalTransfer();
-            }
-        })
-
-        this.m_balance = this.m_totalPayments + this.m_totalAdCharges + this.m_totalTransfers;
+    private calcTotals() {
+        setTimeout(()=>{
+            this.m_totalPayments = 0;
+            this.m_lastPayments = 0.0;
+            this.m_totalAdCharges = 0;
+            this.m_balance = 0;
+            this.m_totalTransfers = 0;
+            this.payments.forEach((i_adnetPaymentModel: AdnetPaymentModel) => {
+                this.m_totalPayments += i_adnetPaymentModel.credit();
+            })
+            this.pairs.forEach((i_pair: AdnetPairModel) => {
+                if (this.adnetCustomerId == i_pair.getCustomerId()) {
+                    this.m_totalAdCharges -= i_pair.getTotalDebit();
+                    this.m_totalTransfers -= i_pair.getTotalTransfer();
+                }
+                if (this.adnetCustomerId == i_pair.getToCustomerId()) {
+                    this.m_totalAdCharges += i_pair.getTotalDebit();
+                    this.m_totalTransfers += i_pair.getTotalTransfer();
+                }
+            })
+            this.m_balance = this.m_totalPayments + this.m_totalAdCharges + this.m_totalTransfers;
+        },50)
     }
 
     private buildCustomerList() {
