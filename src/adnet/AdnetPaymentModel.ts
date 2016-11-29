@@ -15,7 +15,6 @@ export class AdnetPaymentModel extends StoreModel {
        return Lib.ProcessDateField(this.getKey('Value').paymentDate);
     }
 
-
     public credit() {
         return this.getKey('Value').credit;
     }

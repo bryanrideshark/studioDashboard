@@ -16,13 +16,13 @@ import {AdnetTransferModel} from "../../../../adnet/AdnetTransferModel";
     <div class="col-xs-2">
         <p-selectButton [options]="selectionPeriod" [(ngModel)]="selectedPeriod" (onChange)="onSelectedPeriod($event)"></p-selectButton>
         <br/><br/>
-        <p>Previous balance: <span style="padding-right: 1px" class="pull-right">{{m_lastPayments | StringJSPipe:stringJSPipeArgs}}</span></p>
-        <p>payments: <span style="padding-right: 100px" class="pull-right">{{m_lastPayments}}</span></p>
-        <p>ad charges: <span style="padding-right: 100px" class="pull-right">{{m_lastPayments}}</span></p>
-        <p>transfers: <span style="padding-right: 100px" class="pull-right">{{m_lastPayments}}</span></p>
+        <p>previous balance: <span style="padding-right: 1px" class="pull-right">{{m_lastPayments | StringJSPipe:stringJSPipeArgs}}</span></p>
+        <p>payments: <span style="padding-right: 1px" class="pull-right">{{m_lastPayments | StringJSPipe:stringJSPipeArgs}}</span></p>
+        <p>ad charges: <span style="padding-right: 1px" class="pull-right">{{m_lastPayments | StringJSPipe:stringJSPipeArgs}}</span></p>
+        <p>transfers: <span style="padding-right: 1px" class="pull-right">{{m_lastPayments | StringJSPipe:stringJSPipeArgs}}</span></p>
         <br/>
-        <hr class="push-left" style="width: 160px"/>        
-        <h3>balance: 0.00</h3>
+        <hr class="push-left" style="width: 160px"/>
+        <h3>balance: {{m_lastPayments | StringJSPipe:stringJSPipeArgs}}</h3>
     </div>
     <div class="col-xs-10">
         <p-selectButton [options]="selectionReport" [(ngModel)]="selectedReport" (onChange)="onSelectedPeriod($event)"></p-selectButton>
