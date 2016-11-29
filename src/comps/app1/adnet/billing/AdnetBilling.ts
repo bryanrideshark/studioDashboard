@@ -30,6 +30,14 @@ interface ICustomer {
         <br/>
         <hr class="styled-hr push-left"/>
         <h3>balance: {{m_balance | StringJSPipe:stringJSPipeArgs}}</h3>
+        <hr/>
+        <div class="actionButtons">
+            <button (click)="makePayment()" class="btn">make payment</button>
+            <button (click)="editBilling()" class="btn">edit billing</button>
+            <button (click)="changePassword()" class="btn">change password</button>
+            <button (click)="transferMoney()" class="btn">transfer money</button>
+        </div>
+        
     </div>
     <div class="col-xs-10">
         <p-selectButton [options]="selectionReport" [(ngModel)]="selectedReport" (onChange)="onSelectedPeriod($event)"></p-selectButton>
@@ -103,6 +111,11 @@ interface ICustomer {
            
            `,
     styles: [`
+.actionButtons button {
+    display: block;
+    width: 180px;
+    margin-top: 3px;
+}
 .styled-hr {
     border: none;
     height: 1px;
@@ -202,7 +215,7 @@ export class AdnetBilling extends Compbaser {
     private pairs: List<AdnetPairModel>
 
     private calcTotals() {
-        setTimeout(()=>{
+        setTimeout(() => {
             this.m_totalPayments = 0;
             this.m_lastPayments = 0.0;
             this.m_totalAdCharges = 0;
@@ -222,7 +235,19 @@ export class AdnetBilling extends Compbaser {
                 }
             })
             this.m_balance = this.m_totalPayments + this.m_totalAdCharges + this.m_totalTransfers;
-        },50)
+        }, 50)
+    }
+
+    private  makePayment() {
+    }
+
+    private editBilling() {
+    }
+
+    private  changePassword() {
+    }
+
+    private transferMoney() {
     }
 
     private buildCustomerList() {
