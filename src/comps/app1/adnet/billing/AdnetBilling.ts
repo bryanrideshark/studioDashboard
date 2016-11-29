@@ -3,26 +3,33 @@ import {Compbaser} from "../../../compbaser/Compbaser";
 import {AppStore} from "angular2-redux-util";
 import {SelectItem} from "primeng/components/common/api";
 import {List} from "immutable";
-import {AdnetReportModel} from "../../../../adnet/AdnetReportModel";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {AdnetPaymentModel} from "../../../../adnet/AdnetPaymentModel";
 import {AdnetTransferModel} from "../../../../adnet/AdnetTransferModel";
 
+interface ICustomer {
+    adCharges:number;
+    name:string;
+    to:string;
+    transfer:number;
+}
+
 @Component({
     template: `<small class="debug">{{me}}</small>
 <div class="row">
     <div class="col-xs-2">
-        <p-selectButton [options]="selectionPeriod" [(ngModel)]="selectedPeriod" (onChange)="onSelectedPeriod($event)"></p-selectButton>
-        <br/><br/>
-        <p>previous balance: <span style="padding-right: 1px" class="pull-right">{{m_lastPayments | StringJSPipe:stringJSPipeArgs}}</span></p>
-        <p>payments: <span style="padding-right: 1px" class="pull-right">{{m_lastPayments | StringJSPipe:stringJSPipeArgs}}</span></p>
-        <p>ad charges: <span style="padding-right: 1px" class="pull-right">{{m_lastPayments | StringJSPipe:stringJSPipeArgs}}</span></p>
-        <p>transfers: <span style="padding-right: 1px" class="pull-right">{{m_lastPayments | StringJSPipe:stringJSPipeArgs}}</span></p>
+        <!--<p-selectButton [options]="selectionPeriod" [(ngModel)]="selectedPeriod" (onChange)="onSelectedPeriod($event)"></p-selectButton>-->
+        <!--<br/><br/>-->
+        <!--<p>previous balance: <span style="padding-right: 1px" class="pull-right">{{m_lastPayments | StringJSPipe:stringJSPipeArgs}}</span></p>-->
+        <hr/>
+        <p>payments: <span style="padding-right: 1px" class="pull-right">{{m_totalPayments | StringJSPipe:stringJSPipeArgs}}</span></p>
+        <p>ad charges: <span style="padding-right: 1px" class="pull-right">{{m_totalAdCharges | StringJSPipe:stringJSPipeArgs}}</span></p>
+        <p>transfers: <span style="padding-right: 1px" class="pull-right">{{m_totalTransfers | StringJSPipe:stringJSPipeArgs}}</span></p>
         <br/>
-        <hr class="push-left" style="width: 160px"/>
-        <h3>balance: {{m_lastPayments | StringJSPipe:stringJSPipeArgs}}</h3>
+        <hr class="styled-hr push-left"/>
+        <h3>balance: {{m_balance | StringJSPipe:stringJSPipeArgs}}</h3>
     </div>
     <div class="col-xs-10">
         <p-selectButton [options]="selectionReport" [(ngModel)]="selectedReport" (onChange)="onSelectedPeriod($event)"></p-selectButton>
@@ -37,7 +44,7 @@ import {AdnetTransferModel} from "../../../../adnet/AdnetTransferModel";
             </tr>
             </thead>
             <tbody>
-            <tr class="simpleGridRecord" simpleGridRecord *ngFor="let item of pairsFiltered | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">
+            <tr class="simpleGridRecord" simpleGridRecord *ngFor="let item of customers | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">
                 <td class="width-md" simpleGridData [processField]="processFieldBalance('name')" [item]="item"></td>
                 <td class="width-md" simpleGridData [processField]="processFieldBalance('from')" [item]="item"></td>
                 <td class="width-md" simpleGridData [processField]="processFieldBalance('to')" [item]="item"></td>
@@ -96,10 +103,11 @@ import {AdnetTransferModel} from "../../../../adnet/AdnetTransferModel";
            
            `,
     styles: [`
-hr {
+.styled-hr {
     border: none;
     height: 1px;
     margin: 0;
+    width: 180px;
     padding: 0;
     color: #333; /* old IE */
     background-color: #333; /* Modern Browsers */
@@ -108,7 +116,6 @@ hr {
     selector: 'AdnetBilling',
     moduleId: __moduleName
 })
-
 
 export class AdnetBilling extends Compbaser {
 
@@ -121,15 +128,16 @@ export class AdnetBilling extends Compbaser {
         this.cancelOnDestroy(
             this.appStore.sub((i_pairs: List<AdnetPairModel>) => {
                 this.pairs = i_pairs;
-                this.filterPairs();
+                this.buildCustomerList();
             }, 'adnet.pairs')
         );
-        this.filterPairs();
+        this.buildCustomerList();
 
         this.transfers = this.appStore.getState().adnet.getIn(['transfers']) || {};
         this.cancelOnDestroy(
             this.appStore.sub((i_transfers: List<AdnetTransferModel>) => {
                 this.transfers = i_transfers;
+                this.calcTotals();
             }, 'adnet.transfers')
         );
 
@@ -137,6 +145,7 @@ export class AdnetBilling extends Compbaser {
         this.cancelOnDestroy(
             this.appStore.sub((i_payments: List<AdnetPaymentModel>) => {
                 this.payments = i_payments;
+                this.calcTotals();
             }, 'adnet.payments')
         );
 
@@ -157,6 +166,8 @@ export class AdnetBilling extends Compbaser {
             label: 'transfers',
             value: 'transfers'
         })
+
+        this.calcTotals();
     }
 
     @Input()
@@ -164,7 +175,7 @@ export class AdnetBilling extends Compbaser {
         this.adnetCustomerModel = i_adnetCustomerModel;
         if (this.adnetCustomerModel) {
             this.adnetCustomerId = this.adnetCustomerModel.customerId();
-            this.filterPairs();
+            this.buildCustomerList();
         }
     }
 
@@ -173,14 +184,14 @@ export class AdnetBilling extends Compbaser {
     }
 
     private m_totalPayments = 0;
-    private m_lastPayments = 12.0;
+    private m_lastPayments = 0.0;
     private m_totalAdCharges = 0;
-    private m_lastAdCharges = 0;
+    private m_balance = 0;
     private m_totalTransfers = 0;
 
     private payments: List<AdnetPaymentModel> = List<AdnetPaymentModel>();
     private transfers: List<AdnetTransferModel> = List<AdnetTransferModel>();
-    private pairsFiltered: List<AdnetPairModel> = List<AdnetPairModel>();
+    private customers: List<ICustomer> = List<ICustomer>();
     private adnetCustomerId: number = -1;
     private adnetCustomerModel: AdnetCustomerModel;
     private selectionPeriod: SelectItem[] = [];
@@ -189,12 +200,32 @@ export class AdnetBilling extends Compbaser {
     private selectedReport = 'balance';
     private pairs: List<AdnetPairModel>
 
-    private filterPairs() {
+    private calcTotals(){
+        this.m_totalPayments = 0;
+        this.payments.forEach((i_adnetPaymentModel:AdnetPaymentModel)=>{
+            this.m_totalPayments += i_adnetPaymentModel.credit();
+        })
+
+        this.pairs.forEach((i_pair:AdnetPairModel)=>{
+            if (this.adnetCustomerId == i_pair.getCustomerId()){
+                this.m_totalAdCharges -= i_pair.getTotalDebit();
+                this.m_totalTransfers -= i_pair.getTotalTransfer();
+            }
+            if (this.adnetCustomerId == i_pair.getToCustomerId()){
+                this.m_totalAdCharges += i_pair.getTotalDebit();
+                this.m_totalTransfers += i_pair.getTotalTransfer();
+            }
+        })
+
+        this.m_balance = this.m_totalPayments + this.m_totalAdCharges + this.m_totalTransfers;
+    }
+
+    private buildCustomerList() {
         if (!this.pairs)
             return;
         var customerMap = {}
         var customer: any = null;
-        this.pairsFiltered = List<AdnetPairModel>();
+        this.customers = List<ICustomer>();
         this.pairs.forEach((i_pair: AdnetPairModel) => {
             if (i_pair.getCustomerId() == this.adnetCustomerId) {
                 customer = customerMap[i_pair.toCustomerId];
@@ -202,7 +233,7 @@ export class AdnetBilling extends Compbaser {
                     customer = customerMap[i_pair.toCustomerId] = {};
                     customer.name = this.adnetAction.getCustomerName(i_pair.toCustomerId);
                     customer.transfer = 0;
-                    this.pairsFiltered = this.pairsFiltered.push(customer);
+                    this.customers = this.customers.push(customer);
                 }
                 customer.to = -i_pair.getTotalDebit();
                 customer.transfer -= i_pair.getTotalTransfer();
@@ -213,7 +244,7 @@ export class AdnetBilling extends Compbaser {
                     customer = customerMap[i_pair.customerId] = {};
                     customer.name = this.adnetAction.getCustomerName(i_pair.customerId);
                     customer.transfer = 0;
-                    this.pairsFiltered = this.pairsFiltered.push(customer);
+                    this.customers = this.customers.push(customer);
                 }
                 customer.from = i_pair.getTotalDebit();
                 customer.transfer += i_pair.getTotalTransfer();
