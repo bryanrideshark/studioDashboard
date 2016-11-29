@@ -48,7 +48,7 @@ export class AdnetTransferModel extends StoreModel {
         if (this.getCustomerId() == i_customerId){
             return `to: ${i_adnetAction.getCustomerName(this.getToCustomerId())}`;
         } else {
-            return `from: ${i_adnetAction.getCustomerName(this.getToCustomerId())}`;
+            return `from: ${i_adnetAction.getCustomerName(this.getCustomerId())}`;
         }
     }
 
