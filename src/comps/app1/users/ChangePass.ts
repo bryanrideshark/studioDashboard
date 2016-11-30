@@ -2,7 +2,7 @@ import {
     Component,
     EventEmitter,
     ChangeDetectionStrategy,
-    Input
+    Input, Output
 } from '@angular/core';
 import {
     FormGroup,
@@ -16,6 +16,15 @@ import {BusinessUser} from "../../../business/BusinessUser";
 import {ModalComponent} from "../../ng2-bs3-modal/components/modal";
 import ChangePassTemplate from './ChangePass.html!text'
 import ChangePassStyle from './ChangePass.css!text'
+
+export interface IChangePass {
+    matchingPassword: {
+        confirmPassword:string,
+        password:string
+    }
+    userName:string;
+    userPass:string;
+}
 
 @Component({
     selector: 'changePass',
@@ -32,6 +41,8 @@ import ChangePassStyle from './ChangePass.css!text'
 
     constructor(private appStore: AppStore, private businessActions: BusinessAction, private fb: FormBuilder, private modal: ModalComponent) {
         this.notesForm = fb.group({
+            userName: [''],
+            userPass: [''],
             matchingPassword: fb.group({
                 password: ['', Validators.required],
                 confirmPassword: ['', Validators.required]
@@ -49,11 +60,15 @@ import ChangePassStyle from './ChangePass.css!text'
 
     @Input() businessUser: BusinessUser;
 
+    @Input() withUserInput: boolean = false;
 
     @Input()
     set showSubmit(i_showSubmit) {
         this._showSubmit = i_showSubmit;
     }
+
+    @Output()
+    onSubmit: EventEmitter<any> = new EventEmitter<any>();
 
     private sub: EventEmitter<any>;
     private notesForm: FormGroup;
@@ -85,7 +100,9 @@ import ChangePassStyle from './ChangePass.css!text'
         };
     }
 
-    private onSubmit(event) {
+    private onSubmitted(event) {
+        if (this.onSubmit.observers.length >= 1)
+            return this.onSubmit.emit(this.notesForm.value);
         this.appStore.dispatch(this.businessActions.updateBusinessPassword(this.businessUser.getName(), event.matchingPassword.password));
         this.modal.close();
     }
@@ -105,7 +122,7 @@ import ChangePassStyle from './ChangePass.css!text'
             return {
                 pass1,
                 pass2
-        }
+            }
         }
         return null;
     }

@@ -191,9 +191,9 @@ export class AdnetActions extends Actions {
 
                             /** Transfers **/
                             var adnetTransfers: List<AdnetTransferModel> = List<AdnetTransferModel>();
-                            adnetPairModels.forEach((i_adnetPairModel:AdnetPairModel) => {
-                                var pairTransfers:Array<any> = i_adnetPairModel.getTransfers();
-                                pairTransfers.forEach((adnetTransfer)=>{
+                            adnetPairModels.forEach((i_adnetPairModel: AdnetPairModel) => {
+                                var pairTransfers: Array<any> = i_adnetPairModel.getTransfers();
+                                pairTransfers.forEach((adnetTransfer) => {
                                     adnetTransfer['Value']['customerId'] = i_adnetPairModel.getCustomerId();
                                     adnetTransfer['Value']['toCustomerId'] = i_adnetPairModel.getToCustomerId();
                                     const adnetTransferModel: AdnetTransferModel = new AdnetTransferModel(adnetTransfer);
@@ -356,6 +356,44 @@ export class AdnetActions extends Actions {
         }
     }
 
+    public billingMakePayment(i_customerId, i_payerUser, i_payerPass, i_amount, i_comment, i_callBack: (i_status)=>void) {
+        var businesses: List<BusinessModel> = this.appStore.getState().business.getIn(['businesses']);
+        var businessModel: BusinessModel = businesses.filter((i_businessModel: BusinessModel) => i_businessModel.getAdnetCustomerId() == i_customerId).first() as BusinessModel;
+        var adnetTokenId = businessModel.getAdnetTokenId();
+        var data = `&payerUser=${i_payerUser}&payerPass=${i_payerPass}&amount=${i_amount}&comment=${i_comment}`;
+        const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetReports').replace(':REPORT_TYPE:', 'makePayment').replace(':ADNET_CUSTOMER_ID:', i_customerId).replace(':ADNET_TOKEN_ID:', adnetTokenId).replace(':DATA:', data).replace(/null/g, '');
+        this._http.get(baseUrl)
+            .map(result => {
+                var jData: Object = result.json();
+                i_callBack(jData);
+            }).subscribe()
+    }
+
+    public billingTransferMoney(i_customerId, i_payerUser, i_payerPass, i_pairId, i_comment, i_callBack: (i_status)=>void) {
+        var businesses: List<BusinessModel> = this.appStore.getState().business.getIn(['businesses']);
+        var businessModel: BusinessModel = businesses.filter((i_businessModel: BusinessModel) => i_businessModel.getAdnetCustomerId() == i_customerId).first() as BusinessModel;
+        var adnetTokenId = businessModel.getAdnetTokenId();
+        var data = `&payerUser=${i_payerUser}&payerPass=${i_payerPass}&pairId=${i_pairId}&comment=${i_comment}`;
+        const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetReports').replace(':REPORT_TYPE:', 'transferMoney').replace(':ADNET_CUSTOMER_ID:', i_customerId).replace(':ADNET_TOKEN_ID:', adnetTokenId).replace(':DATA:', data).replace(/null/g, '');
+        this._http.get(baseUrl)
+            .map(result => {
+                var jData: Object = result.json();
+                i_callBack(jData);
+            }).subscribe()
+    }
+
+    public billingChangePassowrd(i_customerId, i_payerUser, i_payerPass1, i_payerPass2, i_callBack: (i_status)=>void) {
+        var businesses: List<BusinessModel> = this.appStore.getState().business.getIn(['businesses']);
+        var businessModel: BusinessModel = businesses.filter((i_businessModel: BusinessModel) => i_businessModel.getAdnetCustomerId() == i_customerId).first() as BusinessModel;
+        var adnetTokenId = businessModel.getAdnetTokenId();
+        var data = `&payerUser=${i_payerUser}&payerPass1=${i_payerPass1}&payerPass2=${i_payerPass2}`;
+        const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetReports').replace(':REPORT_TYPE:', 'changePayerPassword').replace(':ADNET_CUSTOMER_ID:', i_customerId).replace(':ADNET_TOKEN_ID:', adnetTokenId).replace(':DATA:', data).replace(/null/g, '');
+        this._http.get(baseUrl)
+            .map(result => {
+                var jData: Object = result.json();
+                i_callBack(jData);
+            }).subscribe()
+    }
 
     public getCustomerName(customerId) {
         var customersList: List<AdnetCustomerModel> = this.appStore.getState().adnet.getIn(['customers']) || {};

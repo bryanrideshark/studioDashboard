@@ -1,13 +1,16 @@
-import {Component, Input, ChangeDetectorRef} from "@angular/core";
+import {Component, Input, ChangeDetectorRef, ViewChild} from "@angular/core";
 import {Compbaser} from "../../../compbaser/Compbaser";
 import {AppStore} from "angular2-redux-util";
-import {SelectItem} from "primeng/components/common/api";
+import {SelectItem, Message} from "primeng/components/common/api";
 import {List} from "immutable";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {AdnetPaymentModel} from "../../../../adnet/AdnetPaymentModel";
 import {AdnetTransferModel} from "../../../../adnet/AdnetTransferModel";
+import {ToastsManager, Toast} from "ng2-toastr";
+import {ChangePass, IChangePass} from "../../users/ChangePass";
+import {ModalComponent} from "../../../ng2-bs3-modal/components/modal";
 
 interface ICustomer {
     adCharges: number;
@@ -32,12 +35,12 @@ interface ICustomer {
         <h3>balance: {{m_balance | StringJSPipe:stringJSPipeArgs}}</h3>
         <hr/>
         <div class="actionButtons">
+            <!--<button (click)="editBilling()" class="btn">edit billing</button>-->
             <button (click)="makePayment()" class="btn">make payment</button>
-            <button (click)="editBilling()" class="btn">edit billing</button>
             <button (click)="changePassword()" class="btn">change password</button>
             <button (click)="transferMoney()" class="btn">transfer money</button>
         </div>
-        
+
     </div>
     <div class="col-xs-10">
         <p-selectButton [options]="selectionReport" [(ngModel)]="selectedReport" (onChange)="onSelectedPeriod($event)"></p-selectButton>
@@ -61,7 +64,7 @@ interface ICustomer {
             </tr>
             </tbody>
         </simpleGridTable>
-        
+
         <simpleGridTable *ngIf="selectedReport=='payments'">
             <thead>
             <tr>
@@ -84,7 +87,7 @@ interface ICustomer {
             </tr>
             </tbody>
         </simpleGridTable>
-        
+
         <simpleGridTable *ngIf="selectedReport=='transfers'">
             <thead>
             <tr>
@@ -105,10 +108,23 @@ interface ICustomer {
             </tr>
             </tbody>
         </simpleGridTable>
-        
+
     </div>
+
+    <modal #modalChangePassword [animation]="true" (onClose)="onModalClose($event)">
+        <modal-header [show-close]="true">
+            <h4 class="modal-title">
+                <span class="fa fa-key"></span>
+                change password
+            </h4>
+        </modal-header>
+        <modal-body>
+            <changePass (onSubmit)="onChangePassSubmitted($event)" [withUserInput]="true" [showSubmit]="true" ></changePass>
+        </modal-body>
+        <modal-footer [show-default-buttons]="false"></modal-footer>
+    </modal>
+
 </div>
-           
            `,
     styles: [`
 .actionButtons button {
@@ -132,7 +148,7 @@ interface ICustomer {
 
 export class AdnetBilling extends Compbaser {
 
-    constructor(private appStore: AppStore, private cd: ChangeDetectorRef, private adnetAction: AdnetActions) {
+    constructor(private appStore: AppStore, private cd: ChangeDetectorRef, private adnetAction: AdnetActions, private toastr: ToastsManager) {
         super();
     }
 
@@ -183,6 +199,9 @@ export class AdnetBilling extends Compbaser {
         })
     }
 
+    @ViewChild('modalChangePassword')
+    changePass:ModalComponent;
+
     @Input()
     set setAdnetCustomerModel(i_adnetCustomerModel: AdnetCustomerModel) {
         this.adnetCustomerModel = i_adnetCustomerModel;
@@ -213,6 +232,18 @@ export class AdnetBilling extends Compbaser {
     private selectedPeriod = 'absolute';
     private selectedReport = 'balance';
     private pairs: List<AdnetPairModel>
+    private msgs: Message[] = [];
+
+    private onChangePassSubmitted(i_changePass:IChangePass){
+        this.adnetAction.billingChangePassowrd(this.adnetCustomerId, i_changePass.userName, i_changePass.userPass,i_changePass.matchingPassword.password, (result) => {
+            this.changePass.close();
+            if (result == true) {
+                this.toastr.info('Credentials updated', 'Success!');
+            } else {
+                this.toastr.error('user or password did not match', 'Problem!', {dismiss: 'click'});
+            }
+        });
+    }
 
     private calcTotals() {
         setTimeout(() => {
@@ -238,16 +269,32 @@ export class AdnetBilling extends Compbaser {
         }, 50)
     }
 
+    private onModalClose(){
+
+    }
+
     private  makePayment() {
+        this.adnetAction.billingMakePayment(this.adnetCustomerId, 'da63', '123123', 12, 'api rocks!', (result) => {
+            if (result == 'FAKE MONEY') {
+                this.toastr.info('Funds added', 'Success!');
+            } else {
+                this.toastr.error(result, 'Problem!', {dismiss: 'click'});
+            }
+        });
     }
 
-    private editBilling() {
-    }
-
-    private  changePassword() {
+    private changePassword() {
+        this.changePass.open();
     }
 
     private transferMoney() {
+        this.adnetAction.billingTransferMoney(this.adnetCustomerId, 'da63', '123123', 9999, 'api rocks!', (result) => {
+            if (result == 'FAKE MONEY') {
+                this.toastr.info('Funds added', 'Success!');
+            } else {
+                this.toastr.error(result, 'Problem!', {dismiss: 'click'});
+            }
+        });
     }
 
     private buildCustomerList() {

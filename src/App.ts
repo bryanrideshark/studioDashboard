@@ -32,7 +32,7 @@ import {
     enableProdMode,
     ViewEncapsulation,
     NgModule,
-    NgModuleRef
+    NgModuleRef, ViewContainerRef
 } from "@angular/core";
 import * as platform from "platform";
 import "jspm_packages/github/twbs/bootstrap@3.3.6";
@@ -175,7 +175,7 @@ import {Dropbox} from "./comps/dropbox/Dropbox";
 import {TreeModule} from 'primeng/primeng';
 import {Twofactor} from "./comps/twofactor/Twofactor";
 import {AdnetReports} from "./comps/app1/adnet/network/AdnetReports";
-import {ToastModule, ToastOptions} from 'ng2-toastr/ng2-toastr';
+import {ToastModule, ToastOptions, ToastsManager} from 'ng2-toastr/ng2-toastr';
 import {StringJSPipe} from "./pipes/StringJSPipe";
 import {NgArrayPipesModule, NgStringPipesModule} from 'angular-pipes';
 import {JoinPipe} from 'angular-pipes/src/array/join.pipe';
@@ -209,7 +209,9 @@ export class Main {
                 private activatedRoute: ActivatedRoute,
                 private titleService: Title,
                 styleService: StyleService,
-                private appdbAction: AppdbAction) {
+                private appdbAction: AppdbAction,
+                private toastr: ToastsManager,
+                private vRef: ViewContainerRef) {
 
         /** remove localstore **/
         // this.localStorage.removeItem('remember_me')
@@ -233,9 +235,7 @@ export class Main {
             }, 1000);
         }
 
-        // var join = new JoinPipe().transform(['a', 'b', 'c'], '_');
-        // console.log(join);
-        // console.log(StringJS(join).humanize().s);
+        this.toastr.setRootViewContainerRef(vRef);
     }
 
     private m_styleService: StyleService;
