@@ -364,8 +364,12 @@ export class AdnetActions extends Actions {
         const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetReports').replace(':REPORT_TYPE:', 'makePayment').replace(':ADNET_CUSTOMER_ID:', i_customerId).replace(':ADNET_TOKEN_ID:', adnetTokenId).replace(':DATA:', data).replace(/null/g, '');
         this._http.get(baseUrl)
             .map(result => {
-                var jData: Object = result.json();
-                i_callBack(jData);
+                try {
+                    var jData: Object = result.json();
+                    i_callBack(jData);
+                } catch(e){
+                    i_callBack('Problem adding payment, possibly wrong user or password entered');
+                }
             }).subscribe()
     }
 

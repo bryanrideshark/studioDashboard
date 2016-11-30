@@ -68,7 +68,7 @@ export interface IChangePass {
     }
 
     @Output()
-    onSubmit: EventEmitter<IChangePass> = new EventEmitter<IChangePass>();
+    onSubmit: EventEmitter<any> = new EventEmitter<any>();
 
     private sub: EventEmitter<any>;
     private notesForm: FormGroup;

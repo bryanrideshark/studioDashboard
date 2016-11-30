@@ -102,4 +102,17 @@
         <modal-footer [show-default-buttons]="false"></modal-footer>
     </modal>
 
+    <modal #modalAddPayment [animation]="true" (onClose)="onModalClose($event)">
+        <modal-header [show-close]="true">
+            <h4 class="modal-title">
+                <span class="fa fa-key"></span>
+                make payment
+            </h4>
+        </modal-header>
+        <modal-body>
+            <adnetPayment (onSubmit)="onAddPayment($event)" [showSubmit]="true" ></adnetPayment>
+        </modal-body>
+        <modal-footer [show-default-buttons]="false"></modal-footer>
+    </modal>
+
 </div>

@@ -11,6 +11,7 @@ import {AdnetTransferModel} from "../../../../adnet/AdnetTransferModel";
 import {ToastsManager, Toast} from "ng2-toastr";
 import {ChangePass, IChangePass} from "../../users/ChangePass";
 import {ModalComponent} from "../../../ng2-bs3-modal/components/modal";
+import {IAddPayment} from "./AdnetPayment";
 //import AdnetBillingTemplate from './AdnetBilling.html!text'; /*prod*/
 
 interface ICustomer {
@@ -99,6 +100,9 @@ export class AdnetBilling extends Compbaser {
     @ViewChild('modalChangePassword')
     changePass:ModalComponent;
 
+    @ViewChild('modalAddPayment')
+    addPayment:ModalComponent;
+
     @Input()
     set setAdnetCustomerModel(i_adnetCustomerModel: AdnetCustomerModel) {
         this.adnetCustomerModel = i_adnetCustomerModel;
@@ -142,6 +146,19 @@ export class AdnetBilling extends Compbaser {
         });
     }
 
+    private onAddPayment(i_addPayment:IAddPayment){
+        this.adnetAction.billingMakePayment(this.adnetCustomerId, i_addPayment.userName, i_addPayment.userPass,i_addPayment.amount, i_addPayment.comment, (result) => {
+            this.addPayment.close();
+            if (result == 'Fake money') {
+                this.toastr.info('Virtual funds added', 'Success!');
+                this.appStore.dispatch(this.adnetAction.resetAdnet());
+            } else {
+                this.toastr.error(result, 'Problem!', {dismiss: 'click'});
+            }
+        });
+    }
+
+
     private calcTotals() {
         setTimeout(() => {
             this.m_totalPayments = 0;
@@ -171,13 +188,14 @@ export class AdnetBilling extends Compbaser {
     }
 
     private  makePayment() {
-        this.adnetAction.billingMakePayment(this.adnetCustomerId, 'da63', '123123', 12, 'api rocks!', (result) => {
-            if (result == 'FAKE MONEY') {
-                this.toastr.info('Funds added', 'Success!');
-            } else {
-                this.toastr.error(result, 'Problem!', {dismiss: 'click'});
-            }
-        });
+        this.addPayment.open();
+        // this.adnetAction.billingMakePayment(this.adnetCustomerId, 'da63', '123123', 12, 'api rocks!', (result) => {
+        //     if (result == 'FAKE MONEY') {
+        //         this.toastr.info('Funds added', 'Success!');
+        //     } else {
+        //         this.toastr.error(result, 'Problem!', {dismiss: 'click'});
+        //     }
+        // });
     }
 
     private changePassword() {
