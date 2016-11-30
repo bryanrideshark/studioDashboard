@@ -1,4 +1,5 @@
 import {StoreModel} from "../models/StoreModel";
+import {AdnetActions} from "./AdnetActions";
 
 export class AdnetPairModel extends StoreModel {
 
@@ -14,7 +15,6 @@ export class AdnetPairModel extends StoreModel {
         return this.getKey('Value').customerId;
     }
 
-    // alias
     public get customerId() {
         return this.getKey('Value').customerId;
     }
@@ -23,9 +23,18 @@ export class AdnetPairModel extends StoreModel {
         return this.getKey('Value').toCustomerId;
     }
 
-    // alias
     public get toCustomerId() {
         return this.getKey('Value').toCustomerId;
+    }
+
+    public customerToName(i_adnetAction:AdnetActions) {
+        var customerId = this.getKey('Value').customerId;
+        return i_adnetAction.getCustomerName(customerId);
+    }
+
+    public customerIdToName(i_adnetAction:AdnetActions) {
+        var customerId = this.getKey('Value').toCustomerId;
+        return i_adnetAction.getCustomerName(customerId);
     }
 
     public active() {

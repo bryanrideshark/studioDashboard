@@ -101,7 +101,6 @@
         </modal-body>
         <modal-footer [show-default-buttons]="false"></modal-footer>
     </modal>
-
     <modal #modalAddPayment [animation]="true" (onClose)="onModalClose($event)">
         <modal-header [show-close]="true">
             <h4 class="modal-title">
@@ -114,5 +113,16 @@
         </modal-body>
         <modal-footer [show-default-buttons]="false"></modal-footer>
     </modal>
-
+    <modal #modalTransfer [animation]="true" (onClose)="onModalClose($event)">
+        <modal-header [show-close]="true">
+            <h4 class="modal-title">
+                <span class="fa fa-key"></span>
+                make payment
+            </h4>
+        </modal-header>
+        <modal-body>
+            <adnetTransfer (onSubmit)="onTransferPayment($event)" [setAdnetCustomerModel]="adnetCustomerModel" [showSubmit]="true" [adnetPairs]="pairs" ></adnetTransfer>
+        </modal-body>
+        <modal-footer [show-default-buttons]="false"></modal-footer>
+    </modal>
 </div>

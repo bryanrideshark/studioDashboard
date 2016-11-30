@@ -1,130 +1,79 @@
-import {
-    Component,
-    EventEmitter,
-    ChangeDetectionStrategy,
-    Input, Output
-} from '@angular/core';
-import {
-    FormGroup,
-    Validators,
-    FormControl,
-    FormBuilder
-} from "@angular/forms";
+import {Component, EventEmitter, ChangeDetectionStrategy, Input, Output} from "@angular/core";
+import {FormGroup, FormBuilder} from "@angular/forms";
 import {AppStore} from "angular2-redux-util";
-import {BusinessAction} from "../../../business/BusinessAction";
-import {BusinessUser} from "../../../business/BusinessUser";
-import {ModalComponent} from "../../ng2-bs3-modal/components/modal";
-import ChangePassTemplate from './ChangePass.html!text'
-import ChangePassStyle from './ChangePass.css!text'
+import AdnetTransferTemplate from "./AdnetTransfer.html!text";
+import AdnetTransferStyle from "./AdnetTransfer.css!text";
+import {ModalComponent} from "../../../ng2-bs3-modal/components/modal";
+import {List} from "immutable";
+import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
+import {AdnetActions} from "../../../../adnet/AdnetActions";
+import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 
-export interface IChangePass {
-    matchingPassword: {
-        confirmPassword:string,
-        password:string
-    }
-    userName:string;
-    userPass:string;
+export interface ITransferPayment {
+    userName: string;
+    userPass: string;
+    adnetPairModel: AdnetPairModel;
+    amount: string;
+    comment: string;
 }
 
 @Component({
-    selector: 'changePass',
+    selector: 'adnetTransfer',
     moduleId: __moduleName,
-    template: ChangePassTemplate,
+    template: AdnetTransferTemplate,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    styles: [ChangePassStyle]
+    styles: [AdnetTransferStyle]
 })
 
-/**
- The first Note1 slider component in a series of sliders / notes.
- Demonstrates the usage of explicit form configuration.
- **/ export class ChangePass {
+export class AdnetTransfer {
 
-    constructor(private appStore: AppStore, private businessActions: BusinessAction, private fb: FormBuilder, private modal: ModalComponent) {
+    constructor(private appStore: AppStore, private fb: FormBuilder, private modal: ModalComponent, private adnetActions: AdnetActions) {
         this.notesForm = fb.group({
             userName: [''],
             userPass: [''],
-            matchingPassword: fb.group({
-                password: ['', Validators.required],
-                confirmPassword: ['', Validators.required]
-            }, {validator: this.areEqual})
+            adnetPairModel: [''],
+            amount: [''],
+            comment: ['']
         });
-        this.passwordGroup = this.notesForm.controls['matchingPassword'] as FormControl;
-        this.sub = modal.onClose.subscribe(() => {
-            setTimeout(() => {
-                this.passwordGroup.controls['password'].setValue('')
-                this.passwordGroup.controls['confirmPassword'].setValue('')
-            }, 1500)
-
-        })
     }
-
-    @Input() businessUser: BusinessUser;
-
-    @Input() withUserInput: boolean = false;
 
     @Input()
     set showSubmit(i_showSubmit) {
         this._showSubmit = i_showSubmit;
     }
 
-    @Output()
-    onSubmit: EventEmitter<any> = new EventEmitter<any>();
+    @Input()
+    set adnetPairs(i_pairs: List<AdnetPairModel>) {
+        this.pairs = i_pairs;
+    }
 
-    private sub: EventEmitter<any>;
+    @Input()
+    set setAdnetCustomerModel(i_adnetCustomerModel: AdnetCustomerModel) {
+        if (!i_adnetCustomerModel)
+            return;
+        this.adnetCustomerModel = i_adnetCustomerModel;
+        this.customerId = String(this.adnetCustomerModel.customerId());
+    }
+
+    @Output()
+    onSubmit: EventEmitter<ITransferPayment> = new EventEmitter<ITransferPayment>();
+
+    private adnetCustomerModel: AdnetCustomerModel;
+    private customerId: string = '';
+    private pairs: List<AdnetPairModel> = List<AdnetPairModel>();
     private notesForm: FormGroup;
-    private passwordGroup;
     private _showSubmit: boolean = true;
 
-
-    private areEqual(group: FormGroup) {
-        let valid = true, val;
-        for (var name in group.controls) {
-            if (val === undefined) {
-                val = group.controls[name].value;
-                if (val.length < 4) {
-                    valid = false;
-                    break;
-                }
-            } else {
-                if (val !== group.controls[name].value) {
-                    valid = false;
-                    break;
-                }
-            }
-        }
-        if (valid) {
-            return null;
-        }
-        return {
-            areEqual: true
-        };
+    private filterContent(i_pair: AdnetPairModel) {
+        var c = String(i_pair.getCustomerId());
+        return c;
     }
 
     private onSubmitted(event) {
-        if (this.onSubmit.observers.length >= 1)
-            return this.onSubmit.emit(this.notesForm.value);
-        this.appStore.dispatch(this.businessActions.updateBusinessPassword(this.businessUser.getName(), event.matchingPassword.password));
+        this.onSubmit.emit(this.notesForm.value);
         this.modal.close();
     }
 
-    private onChange(event) {
-        if (event.target.value.length < 3) console.log('text too short for subject');
-    }
 
-    private ngOnDestroy() {
-        this.sub.unsubscribe();
-    }
-
-    public getPassword() {
-        var pass1 = this.passwordGroup.controls['password'].value;
-        var pass2 = this.passwordGroup.controls['confirmPassword'].value;
-        if (pass1 == pass2 && pass1.length > 3) {
-            return {
-                pass1,
-                pass2
-            }
-        }
-        return null;
-    }
 }
 

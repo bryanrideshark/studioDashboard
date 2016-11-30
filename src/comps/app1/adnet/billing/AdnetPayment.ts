@@ -29,14 +29,6 @@ export class AdnetPayment {
             amount: [''],
             comment: ['']
         });
-        // this.passwordGroup = this.notesForm.controls['matchingPassword'] as FormControl;
-        // this.sub = modal.onClose.subscribe(() => {
-        //     setTimeout(() => {
-        //         this.passwordGroup.controls['password'].setValue('')
-        //         this.passwordGroup.controls['confirmPassword'].setValue('')
-        //     }, 1500)
-        //
-        // })
     }
 
     @Input()
@@ -47,24 +39,12 @@ export class AdnetPayment {
     @Output()
     onSubmit: EventEmitter<IAddPayment> = new EventEmitter<IAddPayment>();
 
-    private sub: EventEmitter<any>;
     private notesForm: FormGroup;
     private _showSubmit: boolean = true;
-
 
     private onSubmitted(event) {
         this.onSubmit.emit(this.notesForm.value);
         this.modal.close();
     }
-
-    private onChange(event) {
-        if (event.target.value.length < 3) console.log('text too short for subject');
-    }
-
-    private ngOnDestroy() {
-        this.sub.unsubscribe();
-    }
-
-
 }
 

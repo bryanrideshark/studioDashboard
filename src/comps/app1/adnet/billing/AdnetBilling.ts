@@ -12,6 +12,8 @@ import {ToastsManager, Toast} from "ng2-toastr";
 import {ChangePass, IChangePass} from "../../users/ChangePass";
 import {ModalComponent} from "../../../ng2-bs3-modal/components/modal";
 import {IAddPayment} from "./AdnetPayment";
+import {ITransferPayment} from "./AdnetTransfer";
+import {Router} from "@angular/router";
 //import AdnetBillingTemplate from './AdnetBilling.html!text'; /*prod*/
 
 interface ICustomer {
@@ -46,7 +48,7 @@ interface ICustomer {
 
 export class AdnetBilling extends Compbaser {
 
-    constructor(private appStore: AppStore, private cd: ChangeDetectorRef, private adnetAction: AdnetActions, private toastr: ToastsManager) {
+    constructor(private appStore: AppStore, private cd: ChangeDetectorRef, private adnetAction: AdnetActions, private toastr: ToastsManager, private router: Router) {
         super();
     }
 
@@ -103,6 +105,9 @@ export class AdnetBilling extends Compbaser {
     @ViewChild('modalAddPayment')
     addPayment:ModalComponent;
 
+    @ViewChild('modalTransfer')
+    tarnsferPayment:ModalComponent;
+
     @Input()
     set setAdnetCustomerModel(i_adnetCustomerModel: AdnetCustomerModel) {
         this.adnetCustomerModel = i_adnetCustomerModel;
@@ -130,10 +135,10 @@ export class AdnetBilling extends Compbaser {
     private adnetCustomerModel: AdnetCustomerModel;
     private selectionPeriod: SelectItem[] = [];
     private selectionReport: SelectItem[] = [];
-    private selectedPeriod = 'absolute';
-    private selectedReport = 'balance';
+    // private selectedPeriod = 'absolute';
+    // private selectedReport = 'balance';
     private pairs: List<AdnetPairModel>
-    private msgs: Message[] = [];
+    // private msgs: Message[] = [];
 
     private onChangePassSubmitted(i_changePass:IChangePass){
         this.adnetAction.billingChangePassowrd(this.adnetCustomerId, i_changePass.userName, i_changePass.userPass,i_changePass.matchingPassword.password, (result) => {
@@ -152,8 +157,23 @@ export class AdnetBilling extends Compbaser {
             if (result == 'Fake money') {
                 this.toastr.info('Virtual funds added', 'Success!');
                 this.appStore.dispatch(this.adnetAction.resetAdnet());
+                setTimeout(() => this.router.navigate(['/App1/Adnet']), 200);
             } else {
                 this.toastr.error(result, 'Problem!', {dismiss: 'click'});
+            }
+        });
+    }
+
+    private onTransferPayment(i_transferPayment:ITransferPayment){
+        var pairId = i_transferPayment.adnetPairModel.getId();
+        this.adnetAction.billingTransferMoney(this.adnetCustomerId, i_transferPayment.userName, i_transferPayment.userPass, pairId, i_transferPayment.comment, (result) => {
+            this.tarnsferPayment.close();
+            if (result == true) {
+                this.toastr.info('Virtual funds transferred', 'Success!');
+                this.appStore.dispatch(this.adnetAction.resetAdnet());
+                setTimeout(() => this.router.navigate(['/App1/Adnet']), 200);
+            } else {
+                this.toastr.error('transfer of funds failed', 'Problem!', {dismiss: 'click'});
             }
         });
     }
@@ -187,15 +207,8 @@ export class AdnetBilling extends Compbaser {
 
     }
 
-    private  makePayment() {
+    private makePayment() {
         this.addPayment.open();
-        // this.adnetAction.billingMakePayment(this.adnetCustomerId, 'da63', '123123', 12, 'api rocks!', (result) => {
-        //     if (result == 'FAKE MONEY') {
-        //         this.toastr.info('Funds added', 'Success!');
-        //     } else {
-        //         this.toastr.error(result, 'Problem!', {dismiss: 'click'});
-        //     }
-        // });
     }
 
     private changePassword() {
@@ -203,13 +216,7 @@ export class AdnetBilling extends Compbaser {
     }
 
     private transferMoney() {
-        this.adnetAction.billingTransferMoney(this.adnetCustomerId, 'da63', '123123', 9999, 'api rocks!', (result) => {
-            if (result == 'FAKE MONEY') {
-                this.toastr.info('Funds added', 'Success!');
-            } else {
-                this.toastr.error(result, 'Problem!', {dismiss: 'click'});
-            }
-        });
+        this.tarnsferPayment.open();
     }
 
     private buildCustomerList() {

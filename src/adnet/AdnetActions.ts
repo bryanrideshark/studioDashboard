@@ -361,7 +361,7 @@ export class AdnetActions extends Actions {
         var businessModel: BusinessModel = businesses.filter((i_businessModel: BusinessModel) => i_businessModel.getAdnetCustomerId() == i_customerId).first() as BusinessModel;
         var adnetTokenId = businessModel.getAdnetTokenId();
         var data = `&payerUser=${i_payerUser}&payerPass=${i_payerPass}&amount=${i_amount}&comment=${i_comment}`;
-        const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetReports').replace(':REPORT_TYPE:', 'makePayment').replace(':ADNET_CUSTOMER_ID:', i_customerId).replace(':ADNET_TOKEN_ID:', adnetTokenId).replace(':DATA:', data).replace(/null/g, '');
+        const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetBilling').replace(':BILLING_TYPE:', 'makePayment').replace(':ADNET_CUSTOMER_ID:', i_customerId).replace(':ADNET_TOKEN_ID:', adnetTokenId).replace(':DATA:', data).replace(/null/g, '');
         this._http.get(baseUrl)
             .map(result => {
                 try {
@@ -378,7 +378,7 @@ export class AdnetActions extends Actions {
         var businessModel: BusinessModel = businesses.filter((i_businessModel: BusinessModel) => i_businessModel.getAdnetCustomerId() == i_customerId).first() as BusinessModel;
         var adnetTokenId = businessModel.getAdnetTokenId();
         var data = `&payerUser=${i_payerUser}&payerPass=${i_payerPass}&pairId=${i_pairId}&comment=${i_comment}`;
-        const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetReports').replace(':REPORT_TYPE:', 'transferMoney').replace(':ADNET_CUSTOMER_ID:', i_customerId).replace(':ADNET_TOKEN_ID:', adnetTokenId).replace(':DATA:', data).replace(/null/g, '');
+        const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetBilling').replace(':BILLING_TYPE:', 'transferMoney').replace(':ADNET_CUSTOMER_ID:', i_customerId).replace(':ADNET_TOKEN_ID:', adnetTokenId).replace(':DATA:', data).replace(/null/g, '');
         this._http.get(baseUrl)
             .map(result => {
                 var jData: Object = result.json();
@@ -391,7 +391,7 @@ export class AdnetActions extends Actions {
         var businessModel: BusinessModel = businesses.filter((i_businessModel: BusinessModel) => i_businessModel.getAdnetCustomerId() == i_customerId).first() as BusinessModel;
         var adnetTokenId = businessModel.getAdnetTokenId();
         var data = `&payerUser=${i_payerUser}&payerPass1=${i_payerPass1}&payerPass2=${i_payerPass2}`;
-        const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetReports').replace(':REPORT_TYPE:', 'changePayerPassword').replace(':ADNET_CUSTOMER_ID:', i_customerId).replace(':ADNET_TOKEN_ID:', adnetTokenId).replace(':DATA:', data).replace(/null/g, '');
+        const baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnetBilling').replace(':BILLING_TYPE:', 'changePayerPassword').replace(':ADNET_CUSTOMER_ID:', i_customerId).replace(':ADNET_TOKEN_ID:', adnetTokenId).replace(':DATA:', data).replace(/null/g, '');
         this._http.get(baseUrl)
             .map(result => {
                 var jData: Object = result.json();
