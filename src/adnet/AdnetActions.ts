@@ -7,7 +7,6 @@ import {
     AppStore
 } from "angular2-redux-util";
 import {List} from "immutable";
-import * as bootbox from "bootbox";
 import "rxjs/add/operator/catch";
 import "rxjs/add/operator/finally";
 import "rxjs/add/observable/throw";
@@ -373,6 +372,7 @@ export class AdnetActions extends Actions {
             }).subscribe()
     }
 
+    //todo: method is failing, need to investigate why
     public billingTransferMoney(i_customerId, i_payerUser, i_payerPass, i_pairId, i_comment, i_callBack: (i_status)=>void) {
         var businesses: List<BusinessModel> = this.appStore.getState().business.getIn(['businesses']);
         var businessModel: BusinessModel = businesses.filter((i_businessModel: BusinessModel) => i_businessModel.getAdnetCustomerId() == i_customerId).first() as BusinessModel;
