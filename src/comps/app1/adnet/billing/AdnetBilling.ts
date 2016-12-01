@@ -42,7 +42,7 @@ interface ICustomer {
     `],
     selector: 'AdnetBilling',
 //     template: AdnetBillingTemplate, /*prod*/
-    templateUrl: './AdnetBilling.html', /*dev*/
+	    templateUrl: './AdnetBilling.html', /*dev*/
     moduleId: __moduleName
 })
 
