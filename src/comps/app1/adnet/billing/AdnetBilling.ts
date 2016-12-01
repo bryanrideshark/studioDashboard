@@ -42,7 +42,7 @@ interface ICustomer {
     `],
     selector: 'AdnetBilling',
 //     template: AdnetBillingTemplate, /*prod*/
-	    templateUrl: './AdnetBilling.html', /*dev*/
+    templateUrl: './AdnetBilling.html', /*dev*/
     moduleId: __moduleName
 })
 
@@ -100,13 +100,13 @@ export class AdnetBilling extends Compbaser {
     }
 
     @ViewChild('modalChangePassword')
-    changePass:ModalComponent;
+    changePass: ModalComponent;
 
     @ViewChild('modalAddPayment')
-    addPayment:ModalComponent;
+    addPayment: ModalComponent;
 
     @ViewChild('modalTransfer')
-    tarnsferPayment:ModalComponent;
+    tarnsferPayment: ModalComponent;
 
     @Input()
     set setAdnetCustomerModel(i_adnetCustomerModel: AdnetCustomerModel) {
@@ -140,8 +140,8 @@ export class AdnetBilling extends Compbaser {
     private pairs: List<AdnetPairModel>
     // private msgs: Message[] = [];
 
-    private onChangePassSubmitted(i_changePass:IChangePass){
-        this.adnetAction.billingChangePassowrd(this.adnetCustomerId, i_changePass.userName, i_changePass.userPass,i_changePass.matchingPassword.password, (result) => {
+    private onChangePassSubmitted(i_changePass: IChangePass) {
+        this.adnetAction.billingChangePassowrd(this.adnetCustomerId, i_changePass.userName, i_changePass.userPass, i_changePass.matchingPassword.password, (result) => {
             this.changePass.close();
             if (result == true) {
                 this.toastr.info('Credentials updated', 'Success!');
@@ -151,8 +151,8 @@ export class AdnetBilling extends Compbaser {
         });
     }
 
-    private onAddPayment(i_addPayment:IAddPayment){
-        this.adnetAction.billingMakePayment(this.adnetCustomerId, i_addPayment.userName, i_addPayment.userPass,i_addPayment.amount, i_addPayment.comment, (result) => {
+    private onAddPayment(i_addPayment: IAddPayment) {
+        this.adnetAction.billingMakePayment(this.adnetCustomerId, i_addPayment.userName, i_addPayment.userPass, i_addPayment.amount, i_addPayment.comment, (result) => {
             this.addPayment.close();
             if (result == 'Fake money') {
                 this.toastr.info('Virtual funds added', 'Success!');
@@ -164,16 +164,21 @@ export class AdnetBilling extends Compbaser {
         });
     }
 
-    private onTransferPayment(i_transferPayment:ITransferPayment){
-        var pairId = i_transferPayment.adnetPairModel.getId();
-        this.adnetAction.billingTransferMoney(this.adnetCustomerId, i_transferPayment.userName, i_transferPayment.userPass, pairId, i_transferPayment.comment, (result) => {
+    private onTransferPayment(i_transferPayment: ITransferPayment) {
+        var toCustomerId = i_transferPayment.adnetPairModel.getCustomerId();
+        this.pairs = this.appStore.getState().adnet.getIn(['pairs']) || {};
+        var transferPair:AdnetPairModel = this.pairs.find((i_pair: AdnetPairModel) => {
+            if (i_pair.getCustomerId() == this.adnetCustomerId && i_pair.getToCustomerId() == toCustomerId)
+                return true;
+        })
+        this.adnetAction.billingTransferMoney(this.adnetCustomerId, i_transferPayment.userName, i_transferPayment.userPass, i_transferPayment.amount, transferPair.getId(), i_transferPayment.comment, (result) => {
             this.tarnsferPayment.close();
             if (result == true) {
                 this.toastr.info('Virtual funds transferred', 'Success!');
                 this.appStore.dispatch(this.adnetAction.resetAdnet());
                 setTimeout(() => this.router.navigate(['/App1/Adnet']), 200);
             } else {
-                this.toastr.error('transfer of funds failed', 'Problem!', {dismiss: 'click'});
+                this.toastr.error(result, 'Problem!', {dismiss: 'click'});
             }
         });
     }
@@ -203,7 +208,7 @@ export class AdnetBilling extends Compbaser {
         }, 50)
     }
 
-    private onModalClose(){
+    private onModalClose() {
 
     }
 
