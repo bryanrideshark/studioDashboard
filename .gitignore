@@ -8,5 +8,5 @@ src/**/*.map
 src/**/*.js
 src/*.map
 /src/*.map
-
-
+npm-debug.log.*
+temp/*
