@@ -242,7 +242,7 @@ export class Main {
     }
 
     private m_styleService: StyleService;
-    private version = '3.51';
+    private version = '3.52';
 
     private checkPlatform() {
         switch (platform.name.toLowerCase()) {
