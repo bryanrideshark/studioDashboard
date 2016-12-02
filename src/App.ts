@@ -183,6 +183,7 @@ import {AdnetBilling} from "./comps/app1/adnet/billing/AdnetBilling";
 import {AdnetPayment} from "./comps/app1/adnet/billing/AdnetPayment";
 import {AdnetTransfer} from "./comps/app1/adnet/billing/AdnetTransfer";
 import {FilterPipeEqual} from "./pipes/FilterPipeNot";
+import {Ngmslib} from "ng-mslib";
 
 //import {TreeModule} from 'angular2-tree-component'; // removed 11-1-2016 using prime tree
 //import "zone.js/dist/long-stack-trace-zone"; // removed 9-7-2016
@@ -226,6 +227,8 @@ export class Main {
         // 0 = cloud, 1 = private 2 = hybrid
         this.checkPlatform();
 
+        Ngmslib.GlobalizeStringJS();
+
         this.commBroker.setValue(Consts.Values().SERVER_MODE, ServerMode.CLOUD);
         this.m_styleService = styleService;
         this.commBroker.setService(Consts.Services().App, this);
@@ -242,7 +245,7 @@ export class Main {
     }
 
     private m_styleService: StyleService;
-    private version = '3.52';
+    private version = '3.55';
 
     private checkPlatform() {
         switch (platform.name.toLowerCase()) {

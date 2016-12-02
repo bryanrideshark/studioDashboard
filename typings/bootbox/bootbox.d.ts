@@ -82,7 +82,7 @@ interface BootboxStatic {
 	setLocale(name: string): void;
 }
 
-declare var bootbox: BootboxStatic;
+// declare var bootbox: BootboxStatic;
 
 declare module "bootbox" {
     export = bootbox;

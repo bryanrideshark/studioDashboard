@@ -6,7 +6,6 @@ SystemJS.config({
     },
     devConfig: {
         "map": {
-            "net": "github:jspm/nodelibs-net@0.2.0-alpha",
             "systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@0.6.0",
             "tty": "github:jspm/nodelibs-tty@0.2.0-alpha",
             "ng2-bootstrap": "npm:ng2-bootstrap@1.1.2"
@@ -430,6 +429,8 @@ SystemJS.config({
         "github:*/*.json"
     ],
     map: {
+        "net": "github:jspm/nodelibs-net@0.2.0-alpha",
+        "ng-mslib": "npm:ng-mslib@0.1.91",
         "primeng": "npm:primeng@1.0.0-beta.20",
         "@angular/http": "npm:@angular/http@2.2.1",
         "css": "github:systemjs/plugin-css@0.1.27",
@@ -473,7 +474,7 @@ SystemJS.config({
         "is-equal": "npm:is-equal@1.5.3",
         "lodash": "npm:lodash@4.5.1",
         "module": "github:jspm/nodelibs-module@0.2.0-alpha",
-        "moment": "npm:moment@2.13.0",
+        "moment": "npm:moment@2.17.0",
         "ng2-bs3-modal": "npm:ng2-bs3-modal@0.2.2",
         "os": "github:jspm/nodelibs-os@0.2.0-alpha",
         "path": "github:jspm/nodelibs-path@0.2.0-alpha",
@@ -501,14 +502,6 @@ SystemJS.config({
             "map": {
                 "commander": "npm:commander@2.8.1",
                 "source-map": "npm:source-map@0.4.4"
-            }
-        },
-        "npm:es-abstract@1.5.1": {
-            "map": {
-                "es-to-primitive": "npm:es-to-primitive@1.1.1",
-                "function-bind": "npm:function-bind@1.1.0",
-                "is-callable": "npm:is-callable@1.1.3",
-                "is-regex": "npm:is-regex@1.0.3"
             }
         },
         "github:jspm/nodelibs-http@0.2.0-alpha": {
@@ -630,7 +623,7 @@ SystemJS.config({
         "npm:define-properties@1.1.2": {
             "map": {
                 "foreach": "npm:foreach@2.0.5",
-                "object-keys": "npm:object-keys@1.0.9"
+                "object-keys": "npm:object-keys@1.0.11"
             }
         },
         "npm:dot-prop@2.4.0": {
@@ -708,7 +701,7 @@ SystemJS.config({
         "npm:object.entries@1.0.3": {
             "map": {
                 "define-properties": "npm:define-properties@1.1.2",
-                "es-abstract": "npm:es-abstract@1.5.1",
+                "es-abstract": "npm:es-abstract@1.6.1",
                 "function-bind": "npm:function-bind@1.1.0",
                 "has": "npm:has@1.0.1"
             }
@@ -727,7 +720,7 @@ SystemJS.config({
         "npm:stream-browserify@2.0.1": {
             "map": {
                 "inherits": "npm:inherits@2.0.3",
-                "readable-stream": "npm:readable-stream@2.1.5"
+                "readable-stream": "npm:readable-stream@2.2.2"
             }
         },
         "npm:string_decoder@0.10.31": {
@@ -786,7 +779,7 @@ SystemJS.config({
             "map": {
                 "inherits": "npm:inherits@2.0.3",
                 "ripemd160": "npm:ripemd160@1.0.1",
-                "sha.js": "npm:sha.js@2.4.5",
+                "sha.js": "npm:sha.js@2.4.8",
                 "cipher-base": "npm:cipher-base@1.0.3"
             }
         },
@@ -840,11 +833,6 @@ SystemJS.config({
                 "des.js": "npm:des.js@1.0.0"
             }
         },
-        "npm:sha.js@2.4.5": {
-            "map": {
-                "inherits": "npm:inherits@2.0.3"
-            }
-        },
         "npm:create-ecdh@4.0.0": {
             "map": {
                 "elliptic": "npm:elliptic@6.3.2",
@@ -857,7 +845,7 @@ SystemJS.config({
                 "create-hash": "npm:create-hash@1.1.2",
                 "evp_bytestokey": "npm:evp_bytestokey@1.0.0",
                 "pbkdf2": "npm:pbkdf2@3.0.9",
-                "asn1.js": "npm:asn1.js@4.8.1"
+                "asn1.js": "npm:asn1.js@4.9.0"
             }
         },
         "npm:browserify-rsa@4.0.1": {
@@ -919,17 +907,6 @@ SystemJS.config({
                 "ieee754": "npm:ieee754@1.1.8"
             }
         },
-        "npm:readable-stream@2.1.5": {
-            "map": {
-                "inherits": "npm:inherits@2.0.3",
-                "isarray": "npm:isarray@1.0.0",
-                "string_decoder": "npm:string_decoder@0.10.31",
-                "buffer-shims": "npm:buffer-shims@1.0.0",
-                "core-util-is": "npm:core-util-is@1.0.2",
-                "util-deprecate": "npm:util-deprecate@1.0.2",
-                "process-nextick-args": "npm:process-nextick-args@1.0.7"
-            }
-        },
         "github:capaj/systemjs-hot-reloader@0.6.0": {
             "map": {
                 "debug": "npm:debug@2.2.0",
@@ -947,11 +924,54 @@ SystemJS.config({
                 "create-hmac": "npm:create-hmac@1.1.4"
             }
         },
-        "npm:asn1.js@4.8.1": {
+        "npm:ng-mslib@0.1.91": {
+            "map": {
+                "moment": "npm:moment@2.17.0",
+                "is-equal": "npm:is-equal@1.5.3",
+                "immutable": "npm:immutable@3.8.1",
+                "object-path": "npm:object-path@0.9.2",
+                "lodash": "npm:lodash@4.17.2",
+                "string": "npm:string@3.3.3",
+                "@types/immutable": "npm:@types/immutable@3.8.6",
+                "@types/moment": "npm:@types/moment@2.13.0",
+                "@types/lodash": "npm:@types/lodash@4.14.41",
+                "typescript": "npm:typescript@2.1.1"
+            }
+        },
+        "npm:@types/moment@2.13.0": {
+            "map": {
+                "moment": "npm:moment@2.17.0"
+            }
+        },
+        "npm:es-abstract@1.6.1": {
+            "map": {
+                "function-bind": "npm:function-bind@1.1.0",
+                "is-callable": "npm:is-callable@1.1.3",
+                "is-regex": "npm:is-regex@1.0.3",
+                "es-to-primitive": "npm:es-to-primitive@1.1.1"
+            }
+        },
+        "npm:sha.js@2.4.8": {
+            "map": {
+                "inherits": "npm:inherits@2.0.3"
+            }
+        },
+        "npm:asn1.js@4.9.0": {
             "map": {
                 "bn.js": "npm:bn.js@4.11.6",
                 "inherits": "npm:inherits@2.0.3",
                 "minimalistic-assert": "npm:minimalistic-assert@1.0.0"
+            }
+        },
+        "npm:readable-stream@2.2.2": {
+            "map": {
+                "isarray": "npm:isarray@1.0.0",
+                "inherits": "npm:inherits@2.0.3",
+                "string_decoder": "npm:string_decoder@0.10.31",
+                "util-deprecate": "npm:util-deprecate@1.0.2",
+                "core-util-is": "npm:core-util-is@1.0.2",
+                "buffer-shims": "npm:buffer-shims@1.0.0",
+                "process-nextick-args": "npm:process-nextick-args@1.0.7"
             }
         }
     }
