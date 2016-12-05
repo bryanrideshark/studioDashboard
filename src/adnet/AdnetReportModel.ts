@@ -162,6 +162,10 @@ export class AdnetReportModel extends StoreModel {
         return adnetTargetModel.getName();
     }
 
+    public getCustomerNameFromId(i_adnetAction: AdnetActions) {
+        return i_adnetAction.getCustomerName(this.getCustomerId())
+    }
+
     public getPackagesNameFromContentId(i_adnetAction: AdnetActions) {
         var packageContentId = parseInt(this.getKey('Value').packageContentId);
         var adnetPackageModel:AdnetPackageModel = i_adnetAction.getPackageModelFromContentId(packageContentId);
@@ -176,10 +180,7 @@ export class AdnetReportModel extends StoreModel {
 
     public getTargetType(i_adnetAction: AdnetActions) {
         var adnetTargetModel: AdnetTargetModel = i_adnetAction.getTargetModel(this.getTargetId())
-        var type = adnetTargetModel.getTargetType();
-        if (type == 1)
-            return 'Web'
-        return 'Station'
+        return adnetTargetModel.getTargetTypeName();
     }
 
     public getCurrentDebit() {

@@ -121,7 +121,7 @@
             </thead>
             <tbody>
             <tr class="simpleGridRecord" simpleGridRecord (onClicked)="onReportGridItemSelected(item)" *ngFor="let item of resultReports | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">
-                <td *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" class="width-md" simpleGridData [processField]="processField('getCustomerId')" [item]="item"></td>
+                <td *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" class="width-md" simpleGridData [processField]="processField('getCustomerNameFromId')" [item]="item"></td>
                 <td *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" class="width-md" simpleGridData [processField]="processField('getTotalCountFormat')" [item]="item"></td>
                 <td *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" class="width-md" simpleGridData [processField]="processField('getTotalDurationFormat')" [item]="item"></td>
                 <td *ngIf="switchViewReportReceived == ReportEnum.CUSTOMER" class="width-md" simpleGridData [processField]="processField('getTotalHourlyFormat')" [item]="item"></td>
