@@ -29,7 +29,9 @@ import AdnetConfigTargetPropsTemplate from './AdnetConfigTargetProps.html!text';
         .input-group {
             padding-top: 10px;
         }
-        
+        textarea {
+            height: 300px;
+        }
         i {
             width: 20px;
         }

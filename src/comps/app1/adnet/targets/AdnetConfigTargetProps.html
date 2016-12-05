@@ -64,15 +64,15 @@
                             </select>
                         </div>
                     </div>
-                    <!--<div class="input-group">-->
-                    <!--<span class="input-group-addon"><i class="fa fa-asterisk"></i></span>-->
-                    <!--<div class="btn-group" role="group">-->
-                    <!--<select [formControl]="contGroup.controls['targetType']" class="form-control">-->
-                    <!--<option value="0">mode: station</option>-->
-                    <!--<option value="1">mode: mobile</option>-->
-                    <!--</select>-->
-                    <!--</div>-->
-                    <!--</div>-->
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-asterisk"></i></span>
+                        <div class="btn-group" role="group">
+                            <select [formControl]="contGroup.controls['targetType']" class="form-control">
+                                <option value="0">mode: station</option>
+                                <option value="1">mode: mobile</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-globe"></i></span>
                         <input [formControl]="contGroup.controls['url']" type="text" class="form-control"
@@ -80,7 +80,6 @@
                     </div>
                 </div>
                 <div class="col-xs-6">
-
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-search"></i></span>
                         <textarea [formControl]="contGroup.controls['keys']" style="height: 78px" type="text"

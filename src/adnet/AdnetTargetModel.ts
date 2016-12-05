@@ -72,19 +72,15 @@ export class AdnetTargetModel extends StoreModel {
         return this.getKey('Value').comments;
     }
 
-    // 0 stations
-    // 2 websites
     public getTargetType() {
         return this.getKey('Value').targetType;
     }
 
-    // 0 stations
-    // 2 websites
     public getTargetTypeName() {
         var v = this.getKey('Value').targetType;
         switch (v){
             case 0: {
-                return 'Target';
+                return 'Station';
             }
             case 1: {
               return 'Station';
