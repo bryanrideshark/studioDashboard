@@ -1,12 +1,36 @@
-.idea/
-.git/
-dist/
-jspm_packages/
-docs/
-node_modules/
-src/**/*.map
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+/dist
+/tmp
+
+# dependencies
+/node_modules
+/bower_components
+
+# IDEs and editors
+/.idea
+/.vscode
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage/*
+/libpeerconnection.log
+npm-debug.log
+testem.log
+/typings
+
+# js/map
 src/**/*.js
-src/*.map
-/src/*.map
-npm-debug.log.*
-temp/*
+*prod.js
+src/**/*.map
+
+#System Files
+.DS_Store
+Thumbs.db
