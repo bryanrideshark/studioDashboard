@@ -9,7 +9,6 @@ import {BusinessModel} from "../../../business/BusinessModel";
 import {AppStore} from "angular2-redux-util";
 import {BusinessAction} from "../../../business/BusinessAction";
 import {BusinessUser} from "../../../business/BusinessUser";
-import {ISimpleListItem} from "../../simplelist/Simplelist";
 import {Lib} from "../../../Lib";
 import {PrivelegesModel} from "../../../reseller/PrivelegesModel";
 import {ModalResult} from "../../ng2-bs3-modal/ng2-bs3-modal";
@@ -17,6 +16,13 @@ import * as bootbox from "bootbox";
 import {SimpleGridTable} from "../../simplegridmodule/SimpleGridTable";
 import {SimpleGridRecord} from "../../simplegridmodule/SimpleGridRecord";
 import {ISimpleGridEdit} from "../../simplegridmodule/SimpleGridModule";
+
+export interface ISimpleListItem {
+    item: any,
+    index: number,
+    selected: boolean
+}
+
 
 @Component({
     selector: 'UsersDetails',
