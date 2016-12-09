@@ -20,6 +20,7 @@ import {Observable} from 'rxjs/Observable';
 import * as bootbox from "bootbox";
 import {Map} from 'immutable';
 import {Lib} from "../Lib";
+import {SweetAlertService} from 'ng2-cli-sweetalert2';
 
 
 export enum FlagsAuth {
@@ -41,6 +42,7 @@ export class AuthService {
                 @Inject(forwardRef(() => AppStore)) private appStore: AppStore,
                 @Inject(forwardRef(() => AppdbAction)) private appdbAction: AppdbAction,
                 @Inject(forwardRef(() => LocalStorage)) private localStorage: LocalStorage,
+                @Inject(forwardRef(() => SweetAlertService)) private swal: SweetAlertService,
                 @Inject(forwardRef(() => StoreService)) private storeService: StoreService) {
         this.listenStore();
     }
@@ -108,11 +110,24 @@ export class AuthService {
     }
 
     public authUser(i_user?: string, i_pass?: string, i_remember?: string): void {
-        bootbox.dialog({
-            closeButton: false,
-            title: "Please wait, Authenticating...",
-            message: " "
-        });
+
+        // this.swal.success(
+        //     {title: 'Are you sure2?',
+        //         text: 'You will not be able to recover this imaginary file!',
+        //         showCancelButton: true,
+        //         confirmButtonText: 'Yes, delete it!',
+        //         cancelButtonText: 'No, keep it'}
+        // ).then(function(success) {
+        //     console.log("Clicked confirm");
+        // }, function() {
+        //     console.log("Clicked cancel");
+        // });
+
+        // bootbox.dialog({
+        //     closeButton: false,
+        //     title: "Please wait, Authenticating...",
+        //     message: " "
+        // });
         // no user/pass not given try and pull from local storage
         if (!i_user) {
             var credentials = this.localStorage.getItem('remember_me');

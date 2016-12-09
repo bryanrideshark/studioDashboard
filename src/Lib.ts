@@ -21,7 +21,6 @@ import {PrivelegesModel} from "./reseller/PrivelegesModel";
 import * as _ from "lodash";
 import * as xml2js from "xml2js";
 import * as moment_ from "moment";
-import * as bootbox from 'bootbox';
 // import * as ss from 'string';
 
 //import {LoggerMiddleware} from "angular2-redux-util";
@@ -157,19 +156,21 @@ export class Lib {
         return i_value;
     }
 
+    //todo: fix
     static GetCompSelector(i_constructor) {
-        if (!Lib.DevMode())
-            return;
-        var annotations = Reflect.getMetadata('annotations', i_constructor);
-        var componentMetadata = annotations.find(annotation => {
-            return (annotation instanceof Component);
-        });
-        return componentMetadata.selector;
+        return 'need to fix 2';
+        // if (!Lib.DevMode())
+        //     return;
+        // var annotations = Reflect.getMetadata('annotations', i_constructor);
+        // var componentMetadata = annotations.find(annotation => {
+        //     return (annotation instanceof Component);
+        // });
+        // return componentMetadata.selector;
     }
 
     static BootboxHide(i_time = 1500) {
         setTimeout(() => {
-            bootbox.hideAll();
+            //bootbox.hideAll();
         }, i_time)
     }
 

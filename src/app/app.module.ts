@@ -118,6 +118,7 @@ import {StationsAction} from "../stations/StationsAction";
 import {AppdbAction} from "../appdb/AppdbAction";
 import {AdnetResolver} from "../comps/app1/adnet/targets/AdnetResolver";
 import {CreditService} from "../services/CreditService";
+import {SweetAlertService} from 'ng2-cli-sweetalert2';
 import {Consts} from "../Conts";
 import * as jQuery from "jquery";
 window['jQuery'] = jQuery;
@@ -150,6 +151,9 @@ var providing = [CommBroker, AUTH_PROVIDERS,
     }, deps: []
     },
     {
+        provide: SweetAlertService,
+        useClass: SweetAlertService
+    }, {
         provide: StoreService,
         useClass: StoreService
     },
@@ -250,6 +254,8 @@ var decelerations = [AppComponent, RatesTable, UsersDetails, LoginPanel, Menu, M
     bootstrap: [AppComponent]
 })
 export class AppModule {
-    constructor(i_app: AppStore) {
+    constructor(private swal:SweetAlertService){
+
     }
+
 }

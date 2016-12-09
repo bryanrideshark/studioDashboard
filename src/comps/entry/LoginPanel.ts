@@ -14,12 +14,13 @@ import {
 import {Router} from "@angular/router";
 import {AppStore} from "angular2-redux-util";
 import {BusinessAction} from "../../business/BusinessAction";
+import {SweetAlertService} from 'ng2-cli-sweetalert2';
 import {LocalStorage} from "../../services/LocalStorage";
 import {
     AuthService,
     FlagsAuth
 } from "../../services/AuthService";
-import * as bootbox from "bootbox";
+// import * as bootbox from "bootbox";
 import {Map} from 'immutable';
 import {AuthState} from "../../appdb/AppdbAction";
 import {Lib} from "../../Lib";
@@ -118,7 +119,7 @@ export class LoginPanel {
     private showLoginPanel: boolean = false;
     private loginState: string = '';
 
-    constructor(private appStore: AppStore, private localStorage: LocalStorage, private renderer: Renderer, private router: Router, private authService: AuthService) {
+    constructor(private appStore: AppStore, private localStorage: LocalStorage, private renderer: Renderer, private router: Router, private authService: AuthService, private swal:SweetAlertService) {
         this.m_router = router;
         this.m_user = '';
         this.m_pass = '';
@@ -141,7 +142,7 @@ export class LoginPanel {
                     this.m_rememberMe = false;
                     this.loginState = 'default';
                     this.localStorage.removeItem('remember_me')
-                    Lib.BootboxHide();
+                    //Lib.BootboxHide();
                     break;
                 }
             }
@@ -172,11 +173,26 @@ export class LoginPanel {
 
     private authUser() {
         if (this.m_showTwoFactor) {
-            bootbox.dialog({
-                closeButton: true,
-                title: 'Checking two factor authentication',
-                message: 'please wait...'
-            });
+
+            //todo: fix
+            // this.swal.success(
+            //     {title: 'Are you sure2?',
+            //         text: 'You will not be able to recover this imaginary file!',
+            //         showCancelButton: true,
+            //         confirmButtonText: 'Yes, delete it!',
+            //         cancelButtonText: 'No, keep it'}
+            // ).then(function(success) {
+            //     console.log("Clicked confirm");
+            // }, function() {
+            //     console.log("Clicked cancel");
+            // });
+
+
+            // bootbox.dialog({
+            //     closeButton: true,
+            //     title: 'Checking two factor authentication',
+            //     message: 'please wait...'
+            // });
             // var businessId = this.appStore.getState().appdb.get('credentials').get('businessId');
             var businessId = this.appStore.getsKey('reseller', 'whitelabel', 'businessId');
             this.authService.authServerTwoFactor(this.m_twoFactor);
@@ -186,7 +202,7 @@ export class LoginPanel {
     }
 
     private onAuthPass() {
-        Lib.BootboxHide();
+        //Lib.BootboxHide();
         this.loginState = 'active';
         if (Lib.DevMode()){
             setTimeout(() => this.m_router.navigate(['/App1/Adnet']), 200)
@@ -196,7 +212,7 @@ export class LoginPanel {
     }
 
     private onAuthFail(i_reason) {
-        Lib.BootboxHide(3500);
+        //Lib.BootboxHide(3500);
         this.loginState = 'inactive';
         let msg1: string;
         let msg2: string;
@@ -218,11 +234,25 @@ export class LoginPanel {
             }
         }
         setTimeout(() => {
-            bootbox.dialog({
-                closeButton: true,
-                title: msg1,
-                message: msg2
-            });
+
+            //todo: fix
+            // this.swal.success(
+            //     {title: 'Are you sure2?',
+            //         text: 'You will not be able to recover this imaginary file!',
+            //         showCancelButton: true,
+            //         confirmButtonText: 'Yes, delete it!',
+            //         cancelButtonText: 'No, keep it'}
+            // ).then(function(success) {
+            //     console.log("Clicked confirm");
+            // }, function() {
+            //     console.log("Clicked cancel");
+            // });
+
+            // bootbox.dialog({
+            //     closeButton: true,
+            //     title: msg1,
+            //     message: msg2
+            // });
         }, 1200);
         return false;
     }

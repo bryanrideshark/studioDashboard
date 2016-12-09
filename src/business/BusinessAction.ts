@@ -7,12 +7,12 @@ import {BusinessUser} from "./BusinessUser";
 import {Subject} from "rxjs/Subject";
 import {BusinessSourcesModel} from "./BusinessSourcesModel";
 import {Observable} from "rxjs/Observable";
+import {SweetAlertService} from 'ng2-cli-sweetalert2';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/finally';
 import 'rxjs/add/observable/throw';
 import {SampleModel} from "../business/SampleModel";
 import {Lib} from "../Lib";
-import * as bootbox from 'bootbox';
 import * as _ from 'lodash'
 import * as xml2js from 'xml2js'
 
@@ -34,10 +34,10 @@ export const REMOVE_BUSINESS_USER = 'REMOVE_BUSINESS_USER';
 @Injectable()
 export class BusinessAction extends Actions {
     parseString;
-    businessesRequest$:Subject<any>;
+    businessesRequest$: Subject<any>;
     unsub;
 
-    constructor(private _http:Http, private appStore:AppStore) {
+    constructor(private _http: Http, private appStore: AppStore, private swal: SweetAlertService) {
         super();
         this.parseString = xml2js.parseString;
         // this.parseString = require('xml2js').parseString;
@@ -48,25 +48,25 @@ export class BusinessAction extends Actions {
         var self = this;
         this.businessesRequest$ = new Subject();
         this.unsub = this.businessesRequest$
-            .map(v=> {
+            .map(v => {
                 return v;
             })
             .debounceTime(100)
-            .switchMap((values:{businessIds:Array<string>, dispatch:(value:any)=>any}):any => {
+            .switchMap((values: {businessIds: Array<string>, dispatch: (value: any) => any}): any => {
                 if (values.businessIds.length == 0)
                     return 'CANCEL_PENDING_NET_CALLS';
-                var businessIds:string = values.businessIds.join('.');
+                var businessIds: string = values.businessIds.join('.');
                 var dispatch = values.dispatch;
-                var appdb:Map<string,any> = this.appStore.getState().appdb;
+                var appdb: Map<string,any> = this.appStore.getState().appdb;
                 var url = appdb.get('appBaseUrlUser') + `&command=GetBusinessUsers&businessList=${businessIds}`;
                 return this._http.get(url)
                     .map(result => {
-                        var xmlData:string = result.text()
+                        var xmlData: string = result.text()
                         // xmlData = xmlData.replace(/}\)/, '').replace(/\(\{"result":"/, '');
                         this.parseString(xmlData, {attrkey: '_attr'}, function (err, result) {
-                            var businessUsers:List<BusinessUser> = List<BusinessUser>();
+                            var businessUsers: List<BusinessUser> = List<BusinessUser>();
                             for (var business of result.Users.User) {
-                                const businessUser:BusinessUser = new BusinessUser({
+                                const businessUser: BusinessUser = new BusinessUser({
                                     accessMask: business._attr.accessMask,
                                     privilegeId: business._attr.privilegeId,
                                     password: '',
@@ -79,26 +79,26 @@ export class BusinessAction extends Actions {
                         });
                     });
             }).publish().connect()
-            // }).share().subscribe()
+        // }).share().subscribe()
 
     }
 
-    public fetchBusinessUser(businessIds:Array<string>) {
+    public fetchBusinessUser(businessIds: Array<string>) {
         return (dispatch) => {
             dispatch(this.requestBusinessUser());
             this.businessesRequest$.next({businessIds: businessIds, dispatch: dispatch});
         };
     }
 
-    public findBusinessIndex(business:BusinessModel|BusinessUser, businesses:List<BusinessModel|BusinessUser>):number {
-        var res = businesses.findIndex((i_business:BusinessModel|BusinessUser)=> {
+    public findBusinessIndex(business: BusinessModel|BusinessUser, businesses: List<BusinessModel|BusinessUser>): number {
+        var res = businesses.findIndex((i_business: BusinessModel|BusinessUser) => {
             return i_business.getBusinessId() === business.getBusinessId();
         });
         return Lib.CheckFoundIndex(res);
     }
 
-    public findBusinessIndexById(businessId:string, businesses:List<BusinessModel|BusinessUser>):number {
-        var res = businesses.findIndex((i_business:BusinessModel|BusinessUser)=> {
+    public findBusinessIndexById(businessId: string, businesses: List<BusinessModel|BusinessUser>): number {
+        var res = businesses.findIndex((i_business: BusinessModel|BusinessUser) => {
             return businessId === i_business.getBusinessId();
         });
         return Lib.CheckFoundIndex(res);
@@ -106,8 +106,8 @@ export class BusinessAction extends Actions {
 
     public getSamples() {
         var self = this;
-        return (dispatch)=> {
-            var appdb:Map<string,any> = this.appStore.getState().appdb;
+        return (dispatch) => {
+            var appdb: Map<string,any> = this.appStore.getState().appdb;
 
             // todo: Enable this later when we move sample list to a web service, for now we do it via static content
             // this._http.get('http://galaxy.signage.me/WebService/getResellerTemplates.ashx?resellerId=1&ver=2')
@@ -125,93 +125,93 @@ export class BusinessAction extends Actions {
 
             var sampleData = Lib.GetSamples();
             var samples = [];
-            _.forEach(sampleData, (v, businessId)=> {
+            _.forEach(sampleData, (v, businessId) => {
                 var name = v.split(',')[0]
                 var type = v.split(',')[1]
                 var sampleModel = new SampleModel({businessId, name, type});
                 samples.push(sampleModel);
             })
-            var sampleModels:List<SampleModel> = List(samples);
+            var sampleModels: List<SampleModel> = List(samples);
             dispatch(this.receiveBusinessSamples(sampleModels));
         }
     }
 
-    public updateAccount(businessId:string, name:string, maxMonitors:number, allowSharing:string) {
-        return (dispatch)=> {
+    public updateAccount(businessId: string, name: string, maxMonitors: number, allowSharing: string) {
+        return (dispatch) => {
             dispatch(this.saveAccountInfo({businessId, name, maxMonitors, allowSharing}));
-            var appdb:Map<string,any> = this.appStore.getState().appdb;
+            var appdb: Map<string,any> = this.appStore.getState().appdb;
             var url;
             url = appdb.get('appBaseUrlUser') + `&command=UpdateAccount&buinessId=${businessId}&businessName=${name}&maxMonitors=${maxMonitors}&allowSharing=${allowSharing}`;
             this._http.get(url)
                 .catch((err) => {
-                    bootbox.alert('Error updating account');
+                    this.swal.error({title: 'Error updating account'});
                     return Observable.throw(err);
                 })
                 .finally(() => {
                 })
-                .map((result:any) => {
-                    var reply:any = result.text();
+                .map((result: any) => {
+                    var reply: any = result.text();
                     if (reply == 'True') {
                     } else {
-                        bootbox.alert('Problem updating the selected account');
+                        this.swal.error({title: 'Problem updating the selected account'});
                     }
                 }).subscribe();
         }
     }
 
-    public getStudioProUrl(customerUserName:string, cb:(url:string)=>void) {
-        var appdb:Map<string,any> = this.appStore.getState().appdb;
+    public getStudioProUrl(customerUserName: string, cb: (url: string) => void) {
+        var appdb: Map<string,any> = this.appStore.getState().appdb;
         var url;
         url = appdb.get('appBaseUrlUser') + `&command=GetLoginUrl&customerUserName=${customerUserName}`;
         this._http.get(url)
             .catch((err) => {
-                bootbox.alert('Problem launching StudioPro');
+                this.swal.error({title: 'Problem launching StudioPro'});
                 return Observable.throw(err);
             })
             .finally(() => {
             })
-            .map((result:any) => {
-                var reply:string = result.text();
+            .map((result: any) => {
+                var reply: string = result.text();
                 cb(reply)
             }).subscribe();
     }
 
-    public getUserPass(customerUserName:string, cb:(url:string)=>void) {
-        var appdb:Map<string,any> = this.appStore.getState().appdb;
+    public getUserPass(customerUserName: string, cb: (url: string) => void) {
+        var appdb: Map<string,any> = this.appStore.getState().appdb;
         var url;
         url = appdb.get('appBaseUrlUser') + `&command=GetUserPass&customerUserName=${customerUserName}`;
         // console.log(url);
         this._http.get(url)
             .catch((err) => {
-                bootbox.alert('Problem getting user password');
+                this.swal.error({title: 'Problem getting user password'});
                 return Observable.throw(err);
             })
             .finally(() => {
             })
-            .map((result:any) => {
-                var reply:string = result.text();
+            .map((result: any) => {
+                var reply: string = result.text();
                 cb(reply)
             }).subscribe();
     }
 
-    public removeBusiness(businessId:number) {
-        return (dispatch)=> {
-            var appdb:Map<string,any> = this.appStore.getState().appdb;
+    public removeBusiness(businessId: number) {
+        return (dispatch) => {
+            var appdb: Map<string,any> = this.appStore.getState().appdb;
             var url;
             url = appdb.get('appBaseUrlUser') + `&command=DeleteAccount&buinessId=${businessId}`;
             this._http.get(url)
                 .catch((err) => {
-                    bootbox.alert('Error removing account');
+                    this.swal.error({title: 'Error removing account'});
                     return Observable.throw(err);
                 })
                 .finally(() => {
                 })
-                .map((result:any) => {
-                    var reply:any = result.text();
+                .map((result: any) => {
+                    var reply: any = result.text();
                     // if (reply == 'True') {
                     //     dispatch(this.fetchBusinesses());
                     // } else {
-                    //     bootbox.alert('Problem deleting the selected business');
+                    //     this.swal.error({title: 'Problem deleting the selected business'});
                     // }
                 }).subscribe();
             dispatch({type: REMOVE_BUSINESS, businessId})
@@ -234,22 +234,22 @@ export class BusinessAction extends Actions {
                 lastLogin: 0,
                 totalBusinesses: 0
             }
-            var businessServerSources:BusinessSourcesModel = new BusinessSourcesModel({});
+            var businessServerSources: BusinessSourcesModel = new BusinessSourcesModel({});
 
-            var appdb:Map<string,any> = this.appStore.getState().appdb;
+            var appdb: Map<string,any> = this.appStore.getState().appdb;
             var url = appdb.get('appBaseUrlUser') + '&command=GetCustomers';
             this._http.get(url)
                 .map(result => {
-                    var xmlData:string = result.text()
+                    var xmlData: string = result.text()
                     // xmlData = xmlData.replace(/}\)/, '').replace(/\(\{"result":"/, '');
                     this.parseString(xmlData, {attrkey: '_attr'}, function (err, result) {
                         var businesses = [], businessIds = [];
-                        result.Businesses.BusinessInfo.forEach((business)=> {
+                        result.Businesses.BusinessInfo.forEach((business) => {
 
                             var source = business._attr.domain;
                             var businessId = business._attr.businessId;
 
-                            var bus:BusinessModel = new BusinessModel({
+                            var bus: BusinessModel = new BusinessModel({
                                 businessId: businessId,
                                 source: source,
                                 name: business._attr.name,
@@ -309,7 +309,7 @@ export class BusinessAction extends Actions {
         };
     }
 
-    public setBusinessField(businessId:string, key:string, value:any) {
+    public setBusinessField(businessId: string, key: string, value: any) {
         return {
             type: SET_BUSINESS_DATA,
             businessId: businessId,
@@ -318,7 +318,7 @@ export class BusinessAction extends Actions {
         }
     }
 
-    public setBusinessUserName(businessId:string, key:string, value:any) {
+    public setBusinessUserName(businessId: string, key: string, value: any) {
         return {
             type: CHANGE_BUSINESS_USER_NAME,
             businessId: businessId,
@@ -327,13 +327,13 @@ export class BusinessAction extends Actions {
         }
     }
 
-    public updateBusinessUserAccess(businessId:string, name:any, accessMask:number, privilegeId:number) {
-        return (dispatch)=> {
-            var appdb:Map<string,any> = this.appStore.getState().appdb;
+    public updateBusinessUserAccess(businessId: string, name: any, accessMask: number, privilegeId: number) {
+        return (dispatch) => {
+            var appdb: Map<string,any> = this.appStore.getState().appdb;
             var url = appdb.get('appBaseUrlUser') + `&command=UpdateUserPrivilege&privilegeId=${privilegeId}&accessMask=${accessMask}&customerUserName=${name}`;
             this._http.get(url)
                 .map(result => {
-                    var xmlData:string = result.text()
+                    var xmlData: string = result.text()
                     // xmlData = xmlData.replace(/}\)/, '').replace(/\(\{"result":"/, '');
                     dispatch(this.savedBusinessUserAccess({
                         businessId: businessId,
@@ -346,66 +346,66 @@ export class BusinessAction extends Actions {
     }
 
     // import existing account from MediaSignage
-    public associateUser(user:string, pass:string) {
-        return (dispatch)=> {
-            var appdb:Map<string,any> = this.appStore.getState().appdb;
+    public associateUser(user: string, pass: string) {
+        return (dispatch) => {
+            var appdb: Map<string,any> = this.appStore.getState().appdb;
             var url;
             url = appdb.get('appBaseUrlUser') + `&command=AssociateAccount&customerUserName=${user}&customerPassword=${pass}`;
             this._http.get(url)
                 .catch((err) => {
-                    bootbox.alert('Error when updating App mode');
+                    this.swal.error({title: 'Error when updating App mode'});
                     // return Observable.of(true);
                     return Observable.throw(err);
                 })
                 .finally(() => {
                 })
-                .map((result:any) => {
-                    var reply:any = result.text();
+                .map((result: any) => {
+                    var reply: any = result.text();
                     if (reply == 'True') {
-                        bootbox.alert('User imported successfully');
+                        this.swal.error({title: 'User imported successfully'});
                         dispatch(this.fetchBusinesses());
                     } else {
-                        bootbox.alert('User could not be imported, either the credentials supplied were wrong or the user is already associated with another enterprise account');
+                        this.swal.error({title: 'User could not be imported, either the credentials supplied were wrong or the user is already associated with another enterprise account'});
                     }
                 }).subscribe();
         }
     }
 
     // new account from sample or 999 for blank
-    public duplicateAccount(businessUser:BusinessUser) {
+    public duplicateAccount(businessUser: BusinessUser) {
         let businessId = businessUser.getBusinessId();
         let name = businessUser.getName();
         let businessName = businessUser.businessName();
         let password = businessUser.getPassword();
         let accessMask = businessUser.getAccessMask();
         let privilegeId = businessUser.privilegeId();
-        return (dispatch)=> {
-            var appdb:Map<string,any> = this.appStore.getState().appdb;
+        return (dispatch) => {
+            var appdb: Map<string,any> = this.appStore.getState().appdb;
             var url;
             url = appdb.get('appBaseUrlUser') + `&command=DuplicateAccount&customerBusinessName=${businessName}&customerUserName=${name}&customerPassword=${password}&templateBusinessId=${businessId}&privilegeId=${privilegeId}&accessMask=${accessMask}`;
             this._http.get(url)
                 .catch((err) => {
-                    bootbox.alert('Error creating a new account from samples');
+                    this.swal.error({title: 'Error creating a new account from samples'});
                     // return Observable.of(true);
                     return Observable.throw(err);
                 })
                 .finally(() => {
                 })
-                .map((result:any) => {
-                    var reply:any = result.text();
+                .map((result: any) => {
+                    var reply: any = result.text();
                     if (reply == 'True') {
                         dispatch(this.fetchBusinesses());
                     } else {
-                        bootbox.alert('User could not be imported, either the credentials supplied were wrong or the user is already associated with another enterprise account');
+                        this.swal.error({title: 'User could not be imported, either the credentials supplied were wrong or the user is already associated with another enterprise account'});
                     }
                 }).subscribe();
         }
     }
 
     // new user under an account
-    public addNewBusinessUser(businessUser:BusinessUser) {
-        return (dispatch)=> {
-            var appdb:Map<string,any> = this.appStore.getState().appdb;
+    public addNewBusinessUser(businessUser: BusinessUser) {
+        return (dispatch) => {
+            var appdb: Map<string,any> = this.appStore.getState().appdb;
             let businessId = businessUser.getBusinessId();
             let name = businessUser.getName();
             let password = businessUser.getPassword();
@@ -414,26 +414,26 @@ export class BusinessAction extends Actions {
             var url = appdb.get('appBaseUrlUser') + `&command=AddBusinessUser&businessId=${businessId}&newUserName=${name}&newUserPassword=${password}&privilegeId=${privilegeId}&accessMask=${accessMask}`
             this._http.get(url)
                 .map(result => {
-                    var jData:string = result.text()
+                    var jData: string = result.text()
                     if (jData.indexOf('true') > -1) {
                         dispatch({type: ADD_BUSINESS_USER, BusinessUser: businessUser})
                     } else {
-                        bootbox.alert('Problem adding user, this user name may be already taken');
+                        this.swal.error({title: 'Problem adding user, this user name may be already taken'});
                     }
                 }).subscribe();
         }
     }
 
-    public updateBusinessPassword(userName:string, newPassword:string) {
-        return (dispatch)=> {
-            var appdb:Map<string,any> = this.appStore.getState().appdb;
+    public updateBusinessPassword(userName: string, newPassword: string) {
+        return (dispatch) => {
+            var appdb: Map<string,any> = this.appStore.getState().appdb;
             var url = appdb.get('appBaseUrlUser') + `&command=ChangePassword&userName=${userName}&newPassword=${newPassword}`;
             this._http.get(url)
                 .map(result => {
-                    var jData:string = result.text()
+                    var jData: string = result.text()
                     // jData = jData.replace(/}\)/, '').replace(/\(\{"result":"/, '');
                     if (jData.indexOf('true') == -1) {
-                        bootbox.alert('Problem changing password');
+                        this.swal.error({title: 'Problem changing password'});
                     }
                     // dispatch(this.savedBusinessUserAccess({
                     //     businessId: businessId,
@@ -445,18 +445,18 @@ export class BusinessAction extends Actions {
         }
     }
 
-    public removeBusinessUser(businessUser:BusinessUser) {
-        return (dispatch)=> {
-            var appdb:Map<string,any> = this.appStore.getState().appdb;
+    public removeBusinessUser(businessUser: BusinessUser) {
+        return (dispatch) => {
+            var appdb: Map<string,any> = this.appStore.getState().appdb;
             var url = appdb.get('appBaseUrlUser') + `&command=RemoveBusinessUser&customerUserName=${businessUser.getName()}`
             this._http.get(url)
                 .map(result => {
-                    var jData:string = result.text()
+                    var jData: string = result.text()
                     // jData = jData.replace(/}\)/, '').replace(/\(\{"result":"/, '');
                     if (jData.indexOf('true') > -1) {
                         dispatch({type: REMOVE_BUSINESS_USER, BusinessUser: businessUser})
                     } else {
-                        bootbox.alert('Problem removing user');
+                        this.swal.error({title: 'Problem removing user'});
                     }
                 }).subscribe();
         }
@@ -499,14 +499,14 @@ export class BusinessAction extends Actions {
         }
     }
 
-    public receiveBusinessUsers(businessUsers:List<BusinessUser>) {
+    public receiveBusinessUsers(businessUsers: List<BusinessUser>) {
         return {
             type: RECEIVE_BUSINESS_USER,
             businessUsers
         }
     }
 
-    public receiveBusinessSamples(sampleModels:List<SampleModel>) {
+    public receiveBusinessSamples(sampleModels: List<SampleModel>) {
         return {
             type: RECEIVE_BUSINESS_SAMPLES,
             sampleModels

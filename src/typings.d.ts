@@ -49,16 +49,20 @@ declare module 'xml2js' {
 //   loadXML;
 // }
 
-declare module 'highcharts/highstock' {
-  var Ng2Highcharts: any
-}
+// declare module 'highcharts/highstock' {
+//   var Ng2Highcharts: any
+// }
+//
+// declare module 'highcharts/modules/map' {
+//
+// }
+//
+// declare module 'highcharts' {
+// }
 
-declare module 'highcharts/modules/map' {
+interface a extends JQuery {}
 
-}
 
-declare module 'highcharts' {
-}
 
 declare module 'bootbox' {
   var hideAll:any;
