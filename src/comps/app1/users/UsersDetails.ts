@@ -17,7 +17,7 @@ import {SimpleGridTable} from "../../simplegridmodule/SimpleGridTable";
 import {SimpleGridRecord} from "../../simplegridmodule/SimpleGridRecord";
 import {ISimpleGridEdit} from "../../simplegridmodule/SimpleGridModule";
 
-export interface ISimpleListItem {
+export interface IsimplelistItem {
     item: any,
     index: number,
     selected: boolean
@@ -48,7 +48,7 @@ export class UsersDetails {
     // @ViewChild('modalAddUser')
     // modalAddUser:ModalComponent
 
-    @Input() showUserInfo: ISimpleListItem = null;
+    @Input() showUserInfo: IsimplelistItem = null;
 
     @Input()
     set business(i_businesses: List<BusinessModel>) {

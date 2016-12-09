@@ -24,7 +24,7 @@
         <span *ngIf="m_icon || m_iconCallback" class="pull-right">
           <button (click)="onIconClick($event, index)" style="padding: 0; margin: 0" class="pull-right btn fa {{renderIcon(index, item)}}"></button>
         </span>
-        <simpleListEditable (editChange)="onEditChanged($event)" [item]="item" [content]="content" [editable]="editable"></simpleListEditable>
+        <simplelistEditable (editChange)="onEditChanged($event)" [item]="item" [content]="content" [editable]="editable"></simplelistEditable>
       </li>
     </ul>
   </div>

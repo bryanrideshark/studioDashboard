@@ -12,7 +12,7 @@ import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
 import {List} from 'immutable';
 import {AppStore} from "angular2-redux-util";
 import {StoreModel} from "../../../../models/StoreModel";
-import {SimpleList} from "../../../simplelist/Simplelist";
+import {simplelist} from "../../../simplelist/simplelist";
 import {Observable} from "rxjs/Observable";
 import {Observer} from "rxjs/Observer";
 import {Subscription} from "rxjs/Subscription";
@@ -67,21 +67,21 @@ export interface IPairSelect {
                 </div>
             </button>
             <div style="padding-left: 20px">
-               <SimpleList *ngIf="outgoing" #simpleListOutgoing
+               <simplelist *ngIf="outgoing" #simplelistOutgoing
                     [list]="pairsFilteredOutgoing"
                     (itemClicked)="packageEditMode = false"
                     (selected)="onSelecting($event)"
                     [multiSelect]="true" 
                     [contentId]="getPairId" [content]="getPairName()">
-                </SimpleList>
+                </simplelist>
                 
-                <SimpleList *ngIf="!outgoing" #simpleListIncoming 
+                <simplelist *ngIf="!outgoing" #simplelistIncoming 
                     [list]="pairsFilteredIncoming"
                     (itemClicked)="packageEditMode = false"
                     (selected)="onSelecting($event)"
                     [multiSelect]="true" 
                     [contentId]="getPairId" [content]="getPairName()">
-                </SimpleList>
+                </simplelist>
             </div>
             `,
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -106,9 +106,9 @@ export class AdnetNetworkCustomerSelector extends Compbaser {
         this.selectAllDelayed();
     }
 
-    @ViewChild('simpleListOutgoing') simpleListOutgoing: SimpleList;
+    @ViewChild('simplelistOutgoing') simplelistOutgoing: simplelist;
 
-    @ViewChild('simpleListIncoming') simpleListIncoming: SimpleList;
+    @ViewChild('simplelistIncoming') simplelistIncoming: simplelist;
 
     @Output() onPropSelected: EventEmitter<IAdNetworkPropSelectedEvent> = new EventEmitter<IAdNetworkPropSelectedEvent>();
 
@@ -165,10 +165,10 @@ export class AdnetNetworkCustomerSelector extends Compbaser {
 
     private onEditMode() {
         this.packageEditMode = true;
-        if (this.simpleListIncoming)
-            this.simpleListIncoming.itemAllSelected();
-        if (this.simpleListOutgoing)
-            this.simpleListOutgoing.itemAllSelected();
+        if (this.simplelistIncoming)
+            this.simplelistIncoming.itemAllSelected();
+        if (this.simplelistOutgoing)
+            this.simplelistOutgoing.itemAllSelected();
     }
 
     private getPairId(i_adnetPairModel: AdnetPairModel) {
@@ -210,8 +210,8 @@ export class AdnetNetworkCustomerSelector extends Compbaser {
 
     private onChanges(event) {
         this.outgoing = !this.outgoing;
-        if (this.simpleListOutgoing) this.simpleListOutgoing.deselect();
-        if (this.simpleListIncoming) this.simpleListIncoming.deselect();
+        if (this.simplelistOutgoing) this.simplelistOutgoing.deselect();
+        if (this.simplelistIncoming) this.simplelistIncoming.deselect();
         this.filterPairs();
         this.announceChange();
         this.selectAllDelayed();

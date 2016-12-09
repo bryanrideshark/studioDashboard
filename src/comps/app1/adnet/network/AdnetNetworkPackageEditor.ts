@@ -12,9 +12,9 @@ import {List} from "immutable";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 import {AppStore} from "angular2-redux-util";
 import {
-    SimpleList,
-    ISimpleListItem
-} from "../../../simplelist/Simplelist";
+    simplelist,
+    IsimplelistItem
+} from "../../../simplelist/simplelist";
 import {
     AdnetNetworkPropSelector,
     IAdNetworkPropSelectedEvent,
@@ -62,7 +62,7 @@ export class AdnetNetworkPackageEditor extends Compbaser {
         this.onFilterPackages();
     }
 
-    @ViewChild(SimpleList) simpleList: SimpleList;
+    @ViewChild(simplelist) simplelist: simplelist;
 
     @Input() setAdnetPairModels: List<AdnetPairModel>
 
@@ -140,7 +140,7 @@ export class AdnetNetworkPackageEditor extends Compbaser {
     }
 
     private onSelecting(event) {
-        var itemSelected: ISimpleListItem = this.simpleList.getSelected() as ISimpleListItem;
+        var itemSelected: IsimplelistItem = this.simplelist.getSelected() as IsimplelistItem;
         this.selectedAdnetPackageModel = itemSelected.item;
         this.onPropSelected.emit({selected: AdnetNetworkPropSelector.PACKAGE})
         this.onAdnetPacakgedSelected.emit(this.selectedAdnetPackageModel)

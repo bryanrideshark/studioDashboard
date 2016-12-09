@@ -7,7 +7,7 @@ import {AppStore} from "angular2-redux-util";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {List} from "immutable";
-import {ISimpleListItem, SimpleList} from "../../../simplelist/Simplelist";
+import {IsimplelistItem, simplelist} from "../../../simplelist/simplelist";
 import * as _ from "lodash";
 import {Lib} from "../../../../Lib";
 
@@ -45,8 +45,8 @@ export class AdnetConfigTargetStations {
         this['me'] = Lib.GetCompSelector(this.constructor)
     }
 
-    @ViewChild(SimpleList)
-    simpleList: SimpleList
+    @ViewChild(simplelist)
+    simplelist: simplelist
 
     @Input()
     set adnetCustomerModel(i_adnetCustomerModel: AdnetCustomerModel) {
@@ -91,19 +91,19 @@ export class AdnetConfigTargetStations {
         if (this.isWebLocation())
             return;
         this.appStore.dispatch(this.adnetAction.removeAdnetTargetWeb(this.selectedAdnetTargetModel.getId(), this.customerModel.customerId()));
-        this.simpleList.deselect();
+        this.simplelist.deselect();
 
     }
 
     private resetSelection() {
         if (this.customerModel)
             this.render();
-        if (this.simpleList)
-            this.simpleList.deselect();
+        if (this.simplelist)
+            this.simplelist.deselect();
     }
 
     private onSelection(items: Array<any>) {
-        _.forEach(items, (simpleItem: ISimpleListItem)=> {
+        _.forEach(items, (simpleItem: IsimplelistItem)=> {
             if (simpleItem.selected) {
                 this.selectedAdnetTargetModel = simpleItem.item;
                 this.onTargetSelected.emit(this.selectedAdnetTargetModel);

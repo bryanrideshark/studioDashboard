@@ -11,22 +11,22 @@ import {
     HostListener
 } from "@angular/core";
 import {List} from "immutable";
-import {SimplelistEditable} from "./SimplelistEditable";
+import {simplelistEditable} from "./simplelistEditable";
 import * as _ from "lodash";
 
-export interface ISimpleListItem {
+export interface IsimplelistItem {
     item: any,
     index: number,
     selected: boolean
 }
 
 @Component({
-    selector: 'SimpleList',
-    templateUrl: './Simplelist.html',
-    styleUrls: ['./Simplelist.css'],
+    selector: 'simplelist',
+    templateUrl: './simplelist.html',
+    styleUrls: ['./simplelist.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SimpleList {
+export class simplelist {
 
 
     constructor(private cd: ChangeDetectorRef) {
@@ -66,15 +66,15 @@ export class SimpleList {
     private m_iconSelectedIndex: number = -1;
     private m_iconSelectedMode: boolean = false;
     private m_metadata: any = {};
-    // private m_metadata: { [key: string]: ISimpleListItem } = {};
+    // private m_metadata: { [key: string]: IsimplelistItem } = {};
 
     ngAfterViewInit() {
-        // if (this.simpleListEditable)
-        //     this.simpleListEditable.setContent(this.content)
+        // if (this.simplelistEditable)
+        //     this.simplelistEditable.setContent(this.content)
     }
 
-    @ViewChild(SimplelistEditable)
-    simpleListEditable: SimplelistEditable;
+    @ViewChild(simplelistEditable)
+    simplelistEditable: simplelistEditable;
 
 
     @Input()
@@ -211,7 +211,7 @@ export class SimpleList {
 
     public setContent(f) {
         this.content = f;
-        // this.simpleListEditable.setContent(this.content)
+        // this.simplelistEditable.setContent(this.content)
     }
 
     public getContentId(item, index): string {
@@ -235,7 +235,7 @@ export class SimpleList {
         this.cd.markForCheck();
     }
 
-    public getSelected(): ISimpleListItem | { [key: string]: ISimpleListItem } {
+    public getSelected(): IsimplelistItem | { [key: string]: IsimplelistItem } {
         if (this.multiSelect)
             return this.m_metadata;
         for (let v in this.m_metadata) {

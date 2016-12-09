@@ -5,7 +5,7 @@
 	 </div>
 
 	 <!--(selected)="onFilteredSelection()" (iconClicked)="onShowUserInfo($event)" [contentId]="getBusinessesId()" [icon]="'fa-user'" "-->
-	 <SimpleList *ngIf="orderList" #simpleList [list]="orderList" (selected)="onSelection()" [content]="getContent" ></SimpleList>
+	 <simplelist *ngIf="orderList" #simplelist [list]="orderList" (selected)="onSelection()" [content]="getContent" ></simplelist>
 	 <Loading *ngIf="!orderList" [size]="50" [style]="{'margin-top': '150px'}"></Loading>
   </div>
 

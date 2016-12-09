@@ -16,11 +16,11 @@
     </div>
 
     <div class="col-xs-12">
-        <SimpleList #simpleList [list]="adTargetsFiltered"
+        <simplelist #simplelist [list]="adTargetsFiltered"
                     [editable]="false"
                     [iconCallback]="renderIcon"
                     [multiSelect]="false"
-                    (selected)="onSelection($event)" [content]="getContent"></SimpleList>
+                    (selected)="onSelection($event)" [content]="getContent"></simplelist>
     </div>
 </div>
 <modal #modalSnippet [animation]="true">

@@ -15,7 +15,7 @@
         <a (click)="onRemoveUser($event)" href="#"><span class="remove fa fa-remove"></span></a>
       </div>
     </div>
-    <SimpleList *ngIf="businessesUsers && priveleges" #simpleList [list]="businessesList" (selected)="onFilteredSelection()" (iconClicked)="onShowUserInfo($event)" [contentId]="getBusinessesId()" [icon]="'fa-user'" [content]="getBusinesses"></SimpleList>
+    <simplelist *ngIf="businessesUsers && priveleges" #simplelist [list]="businessesList" (selected)="onFilteredSelection()" (iconClicked)="onShowUserInfo($event)" [contentId]="getBusinessesId()" [icon]="'fa-user'" [content]="getBusinesses"></simplelist>
     <Loading *ngIf="!businessesUsers || !priveleges" [size]="100" [style]="{'margin-top': '150px'}"></Loading>
   </div>
   <div class="col-xs-9 userView">

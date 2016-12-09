@@ -10,7 +10,7 @@ import {
     QueryList
 } from "@angular/core";
 import * as _ from "lodash";
-import {SimpleList} from "../../../../simplelist/Simplelist";
+import {simplelist} from "../../../../simplelist/simplelist";
 import {AdnetRateModel} from "../../../../../adnet/AdnetRateModel";
 import {Lib} from "../../../../../Lib";
 
@@ -49,7 +49,7 @@ export class RatesTable {
         this.adHourlyRate[3] = this.adnetRateModel.rateLevels()[3];
     }
 
-    @ViewChild(SimpleList) simpleList: SimpleList;
+    @ViewChild(simplelist) simplelist: simplelist;
 
     @ViewChildren('input') inputs: QueryList<ElementRef>;
 

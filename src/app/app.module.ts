@@ -23,6 +23,104 @@ import {DropdownModule, AccordionModule} from "ng2-bootstrap";
 import {TreeModule, InputTextModule, SelectButtonModule, DropdownModule as DropdownModulePrime} from "primeng/primeng";
 import {NgStringPipesModule} from "angular-pipes";
 import {routing} from "../App.routes";
+import {LoginPanel} from "../comps/entry/LoginPanel";
+import {RatesTable} from "../comps/app1/adnet/rates/RatesTable/RatesTable";
+import {UsersDetails} from "../comps/app1/users/UsersDetails";
+import {Menu} from "../comps/sidemenu/Menu";
+import {MenuItem} from "../comps/sidemenu/MenuItem";
+import {Account} from "../comps/app1/account/Account";
+import {Whitelabel} from "../comps/app1/whitelabel/Whitelabel";
+import {Apps} from "../comps/app1/apps/Apps";
+import {App1} from "../comps/app1/App1";
+import {Users} from "../comps/app1/users/Users";
+import {Adnet} from "../comps/app1/adnet/Adnet";
+import {Privileges} from "../comps/app1/privileges/Privileges";
+import {Dashboard} from "../comps/app1/dashboard/Dashboard";
+import {Logout} from "../comps/logout/Logout";
+import {Filemenu} from "../comps/filemenu/Filemenu";
+import {Orders} from "../comps/app1/orders/Orders";
+import {FilemenuItem} from "../comps/filemenu/FilemenuItem";
+import {Logo} from "../comps/logo/Logo";
+import {LogoCompany} from "../comps/logo/LogoCompany";
+import {BlurForwarder} from "../comps/blurforwarder/BlurForwarder";
+import {Footer} from "../comps/footer/Footer";
+import {InputEdit} from "../comps/inputedit/InputEdit";
+import {OrderBy} from "../pipes/OrderBy";
+import {StringJSPipe} from "ng-mslib/dist/pipes/stringjs.pipe";
+import {SortBy} from "../pipes/SortBy";
+import {Ngmslib} from "ng-mslib";
+import {FilterPipe} from "../pipes/FilterPipe";
+import {FilterPipeEqual} from "../pipes/FilterPipeNot";
+import {AdnetBilling} from "../comps/app1/adnet/billing/AdnetBilling";
+import {AdnetConfigTargets} from "../comps/app1/adnet/targets/AdnetConfigTargets";
+import {AdnetConfigRates} from "../comps/app1/adnet/rates/AdnetConfigRates";
+import {Tabs} from "../comps/tabs/tabs";
+import {Tab} from "../comps/tabs/tab";
+import {ServerStats} from "../comps/app1/dashboard/ServerStats";
+import {ServerAvg} from "../comps/app1/dashboard/ServerAvg";
+import {StationsMap} from "../comps/app1/dashboard/StationsMap";
+import {StationsGrid} from "../comps/app1/dashboard/StationsGrid";
+import {StationDetails} from "../comps/app1/dashboard/StationDetails";
+import {ImgLoader} from "../comps/imgloader/ImgLoader";
+import {Ng2Highcharts} from "../comps/ng2-highcharts/src/directives/ng2-highcharts";
+import {AdnetConfigCustomer} from "../comps/app1/adnet/config/AdnetConfigCustomer";
+import {AdnetConfig} from "../comps/app1/adnet/config/AdnetConfig";
+import {StationSnapshot} from "../comps/app1/dashboard/StationSnapshot";
+import {OrderDetails} from "../comps/app1/orders/OrderDetails";
+import {simplelist} from "../comps/simplelist/simplelist";
+import {PrivilegesDetails} from "../comps/app1/privileges/PrivilegesDetails";
+import {ModalDialog} from "../comps/modaldialog/ModalDialog";
+import {Infobox} from "../comps/infobox/Infobox";
+import {UserStorage} from "../comps/app1/users/UserStorage";
+import {Loading} from "../comps/loading/Loading";
+import {Samplelist} from "../comps/app1/users/SampleList";
+import {UserInfo} from "../comps/app1/users/UserInfo";
+import {AddUser} from "../comps/app1/users/AddUser";
+import {AdnetPayment} from "../comps/app1/adnet/billing/AdnetPayment";
+import {AdnetTransfer} from "../comps/app1/adnet/billing/AdnetTransfer";
+import {ChangePass} from "../comps/app1/users/ChangePass";
+import {MODAL_DIRECTIVES} from "../comps/ng2-bs3-modal/ng2-bs3-modal";
+// import {Ng2Highstocks} from "../comps/ng2-highcharts/src/directives/ng2-highstocks";
+// import {Ng2Highmaps} from "../comps/ng2-highcharts/src/directives/ng2-highmaps";
+import {ChartModule} from 'angular2-highcharts';
+import {simplelistEditable} from "../comps/simplelist/simplelistEditable";
+import {AdnetConfigTargetStations} from "../comps/app1/adnet/targets/AdnetConfigTargetStations";
+import {AdnetConfigTargetProps} from "../comps/app1/adnet/targets/AdnetConfigTargetProps";
+import {AdnetLocation} from "../comps/app1/adnet/targets/AdnetLocation";
+import {MapAddress} from "../comps/mapaddress/MapAddress";
+import {AdnetNetwork} from "../comps/app1/adnet/network/AdnetNetwork";
+import {AdnetNetworkCustomerSelector} from "../comps/app1/adnet/network/AdnetNetworkCustomerSelector";
+import {AdnetNetworkPackageEditor} from "../comps/app1/adnet/network/AdnetNetworkPackageEditor";
+import {AdnetNetworkPackageViewer} from "../comps/app1/adnet/network/AdnetNetworkPackageViewer";
+import {AdnetNetworkTargetSearch} from "../comps/app1/adnet/network/AdnetNetworkTargetSearch";
+import {AdnetNetworkPackageProps} from "../comps/app1/adnet/network/AdnetNetworkPackageProps";
+import {AdnetNetworkPackageContent} from "../comps/app1/adnet/network/AdnetNetworkPackageContent";
+import {AdnetNetworkPackageContentProps} from "../comps/app1/adnet/network/AdnetNetworkPackageContentProps";
+import {AdnetNetworkTarget} from "../comps/app1/adnet/network/AdnetNetworkTarget";
+import {AdnetNetworkTargetProps} from "../comps/app1/adnet/network/AdnetNetworkTargetProps";
+import {ResourceViewer} from "../comps/resourceviewer/ResourceViewer";
+import {AdnetNetworkPackageViewProps} from "../comps/app1/adnet/network/AdnetNetworkPackageViewProps";
+import {AdnetNetworkPairProps} from "../comps/app1/adnet/network/AdnetNetworkPairProps";
+import {AdnetLoader} from "../comps/app1/adnet/AdnetLoader";
+import {InputNumeric} from "../comps/inputnumeric/InputNumeric";
+import {InputString} from "../comps/inputstring/InputString";
+import {Dropbox} from "../comps/dropbox/Dropbox";
+import {AdnetReports} from "../comps/app1/adnet/network/AdnetReports";
+import {Twofactor} from "../comps/twofactor/Twofactor";
+import {CommBroker} from "../services/CommBroker";
+import {AUTH_PROVIDERS} from "../services/AuthService";
+import {StoreService} from "../services/StoreService";
+import {BusinessAction} from "../business/BusinessAction";
+import {ResellerAction} from "../reseller/ResellerAction";
+import {AdnetActions} from "../adnet/AdnetActions";
+import {OrdersAction} from "../comps/app1/orders/OrdersAction";
+import {StationsAction} from "../stations/StationsAction";
+import {AppdbAction} from "../appdb/AppdbAction";
+import {AdnetResolver} from "../comps/app1/adnet/targets/AdnetResolver";
+import {CreditService} from "../services/CreditService";
+import {Consts} from "../Conts";
+import * as jQuery from "jquery";
+window['jQuery'] = jQuery;
 
 export enum ServerMode {
     CLOUD,
@@ -30,8 +128,10 @@ export enum ServerMode {
     HYBRID
 }
 
-var providing = [{
-    provide: AppStore, useFactory: () => {
+
+var providing = [CommBroker, AUTH_PROVIDERS,
+    {
+        provide: AppStore, useFactory: () => {
         const reducers = combineReducers({
             notify,
             appdb,
@@ -48,28 +148,87 @@ var providing = [{
         const store = createStore(reducers, enhancers);
         return new AppStore(store);
     }, deps: []
-}, {
-    provide: "OFFLINE_ENV",
-    useValue: false
-}, {
-    provide: LocalStorage,
-    useClass: LocalStorage
-}];
+    },
+    {
+        provide: StoreService,
+        useClass: StoreService
+    },
+    {
+        provide: BusinessAction,
+        useClass: BusinessAction
+    },
+    {
+        provide: ResellerAction,
+        useClass: ResellerAction
+    },
+    {
+        provide: AdnetActions,
+        useClass: AdnetActions
+    },
+    {
+        provide: OrdersAction,
+        useClass: OrdersAction
+    },
+    {
+        provide: StationsAction,
+        useClass: StationsAction
+    },
+    {
+        provide: AppdbAction,
+        useClass: AppdbAction
+    },
+    {
+        provide: AdnetResolver,
+        useClass: AdnetResolver
+    },
+    {
+        provide: CreditService,
+        useClass: CreditService
+    },
+    {
+        provide: LocalStorage,
+        useClass: LocalStorage
+    },
+    {
+        provide: CommBroker,
+        useClass: CommBroker
+    },
+    {
+        provide: Consts,
+        useClass: Consts
+    },
+    {
+        provide: "DEV_ENV",
+        useValue: Ngmslib.DevMode()
+    },
+    {
+        provide: "OFFLINE_ENV",
+        useValue: false
+    }];
+
 
 let options: ToastOptions = new ToastOptions({
     toastLife: 4000,
     animate: 'flyRight'
 });
 
+
+var decelerations = [AppComponent, RatesTable, UsersDetails, LoginPanel, Menu, MenuItem, Account, Whitelabel, Apps, App1, Users, Adnet, Privileges, Dashboard, Logout, Orders, Filemenu, FilemenuItem, Logo,
+    LogoCompany, Footer, BlurForwarder, InputEdit, OrderBy, SortBy, FilterPipe, FilterPipeEqual, AdnetBilling, AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, ServerStats, ServerAvg,
+    StationsMap, StationsGrid, StationDetails, ImgLoader, Ng2Highcharts, AdnetConfigCustomer, AdnetConfig, StationSnapshot, OrderDetails, simplelist, PrivilegesDetails, ModalDialog, Infobox,
+    UserStorage, Loading, Samplelist, UserInfo, AddUser, AdnetPayment, AdnetTransfer, ChangePass, MODAL_DIRECTIVES, simplelistEditable, AdnetConfigTargetStations,
+    AdnetConfigTargetProps, AdnetLocation, MapAddress, AdnetNetwork, AdnetNetworkCustomerSelector, AdnetNetworkPackageEditor, AdnetNetworkPackageViewer, AdnetNetworkTargetSearch,
+    AdnetNetworkPackageProps, AdnetNetworkPackageContent, AdnetNetworkPackageContentProps, AdnetNetworkTarget, AdnetNetworkTargetProps, ResourceViewer, AdnetNetworkPackageViewProps,
+    AdnetNetworkPairProps, AdnetLoader, InputNumeric, InputString, Dropbox, Twofactor, AdnetReports];
+
 @NgModule({
-    declarations: [
-        AppComponent
-    ],
+    declarations: [decelerations],
     imports: [
         BrowserModule,
         FormsModule,
         ReactiveFormsModule,
         HttpModule,
+        ChartModule,
         ToastModule.forRoot(options),
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyAGD7EQugVG8Gq8X3vpyvkZCnW4E4HONLI'

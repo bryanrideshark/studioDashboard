@@ -1,11 +1,16 @@
 import {Component, Input, ChangeDetectionStrategy, ChangeDetectorRef} from "@angular/core";
 import {BusinessModel} from "../../../business/BusinessModel";
-import {ISimpleListItem} from "../../simplelist/Simplelist";
 import {BusinessAction} from "../../../business/BusinessAction";
 import {AppStore} from "angular2-redux-util";
 import * as bootbox from "bootbox";
 import * as _ from "lodash";
 import {Lib} from "../../../Lib";
+
+interface IsimplelistItem {
+    item: any,
+    index: number,
+    selected: boolean
+}
 
 @Component({
     selector: 'UserInfo',
@@ -74,8 +79,8 @@ export class UserInfo {
     unsub;
 
     @Input()
-    set user(i_simpleListItem: ISimpleListItem) {
-        var businessUser: BusinessModel = i_simpleListItem.item.item;
+    set user(i_simplelistItem: IsimplelistItem) {
+        var businessUser: BusinessModel = i_simplelistItem.item.item;
         this.businessId = businessUser.getBusinessId();
         this.userName = businessUser.getKey('name');
         this.maxMonitors = businessUser.getKey('maxMonitors');

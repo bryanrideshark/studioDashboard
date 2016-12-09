@@ -10,7 +10,7 @@ import {
     state,
     style
 } from "@angular/core";
-import {SimpleList} from "../../simplelist/Simplelist";
+import {simplelist} from "../../simplelist/simplelist";
 import {PrivelegesModel} from "../../../reseller/PrivelegesModel";
 import {List} from "immutable";
 import {AppStore} from "angular2-redux-util";
@@ -66,7 +66,7 @@ import * as bootbox from "bootbox";
                       </a>
                     </div>
                 </div>
-                <SimpleList *ngIf="privelegesList" #simpleList [list]="privelegesList" 
+                <simplelist *ngIf="privelegesList" #simplelist [list]="privelegesList" 
                     (selected)="onPrivilegeSelected()"
                     (iconClicked)="onDefaultPrivilegeChanged($event)"
                     (edited)="onPrivilegeRenamed($event)"                    
@@ -75,7 +75,7 @@ import * as bootbox from "bootbox";
                     [iconSelected]="getDefaultPrivilege()"
                     [contentId]="getPrivilegeId()"
                     [content]="getPrivilege">
-                </SimpleList> 
+                </simplelist> 
                 <Loading *ngIf="!privelegesList" [src]="'assets/preload6.gif'" [style]="{'margin-top': '150px'}"></Loading>
              </div>
              <div class="col-xs-9" style="max-height: 100% !important; overflow-y: scroll">                
@@ -103,8 +103,8 @@ export class Privileges {
         }, 'reseller.privileges');
     }
 
-    @ViewChild(SimpleList)
-    simpleList: SimpleList;
+    @ViewChild(simplelist)
+    simplelist: simplelist;
 
     @Input()
     parts = [];
@@ -135,9 +135,9 @@ export class Privileges {
     }
 
     private onPrivilegeSelected() {
-        if (!this.simpleList)
+        if (!this.simplelist)
             return;
-        var selected = this.simpleList.getSelected();
+        var selected = this.simplelist.getSelected();
         var selectedList: List<PrivelegesModel> = this.privelegesList.filter((privelegesModel: PrivelegesModel) => {
             var privelegesId = privelegesModel.getPrivelegesId();
             return selected[privelegesId] && selected[privelegesId].selected;
@@ -170,10 +170,10 @@ export class Privileges {
     private onRemove() {
         if (!this.privelegesModelSelected)
             return;
-        var simpleListItems = this.simpleList.getSelected();
-        var simpleListDefaultIndex = this.simpleList.selectedIconIndex;
-        for (var i in simpleListItems) {
-            if (simpleListItems[i].selected && simpleListItems[i].index == simpleListDefaultIndex) {
+        var simplelistItems = this.simplelist.getSelected();
+        var simplelistDefaultIndex = this.simplelist.selectedIconIndex;
+        for (var i in simplelistItems) {
+            if (simplelistItems[i].selected && simplelistItems[i].index == simplelistDefaultIndex) {
                 bootbox.alert('Sorry can not delete the default privilege set. Be sure to apply the default privilege to another set and try again')
                 return;
             }

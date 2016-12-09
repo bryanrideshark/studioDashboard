@@ -21,11 +21,11 @@
                 </div>
             </div>
 
-            <SimpleList #simpleList [list]="packagesFiltered"
+            <simplelist #simplelist [list]="packagesFiltered"
                         (selected)="onSelecting($event)"
                         [multiSelect]="false"
                         [contentId]="getId" [content]="getName">
-            </SimpleList>
+            </simplelist>
         </accordion-group>
         <accordion-group heading="dropbox">
             <Dropbox (onFileLinkSelected)="onDropboxFileSelected($event)"></Dropbox>

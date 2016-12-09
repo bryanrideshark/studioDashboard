@@ -1,16 +1,16 @@
 import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, ApplicationRef} from "@angular/core";
 
 @Component({
-    selector: 'simpleListEditable',
+    selector: 'simplelistEditable',
     template: `
                 <span *ngIf="!m_editing" class="li-content pull-left">{{getContent(item)}}</span>
                 <input #editInput *ngIf="m_editing && editable" [(ngModel)]="m_value" class="li-content pull-left"  value="{{getContent(item)}}" />
                 <span *ngIf="editable" (click)="onEdit(true)" class="editable fa {{m_icon}} pull-right"></span>
     `,
-    styleUrls: ['./Simplelist.css'],
+    styleUrls: ['./simplelist.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SimplelistEditable {
+export class simplelistEditable {
     constructor(private app:ApplicationRef, private ref:ChangeDetectorRef) {
     }
 

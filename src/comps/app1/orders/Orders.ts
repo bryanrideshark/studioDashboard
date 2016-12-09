@@ -4,7 +4,7 @@ import {List} from "immutable";
 import {OrdersAction} from "./OrdersAction";
 import {OrderModel} from "./OrderModel";
 import {AuthService} from "../../../services/AuthService";
-import {SimpleList, ISimpleListItem} from "../../simplelist/Simplelist";
+import {simplelist, IsimplelistItem} from "../../simplelist/simplelist";
 import * as _ from "lodash";
 
 @Component({
@@ -39,8 +39,8 @@ export class Orders {
         }, 'orders.selectedOrder');
     }
 
-    @ViewChild(SimpleList)
-    simpleList: SimpleList;
+    @ViewChild(simplelist)
+    simplelist: simplelist;
 
     private selectedOrder: OrderModel;
     private unsub: Function;
@@ -57,9 +57,9 @@ export class Orders {
     private onSelection() {
         if (!this.orderList)
             return;
-        var orderSelected: {} = this.simpleList.getSelected();
+        var orderSelected: {} = this.simplelist.getSelected();
         var accountType = this.appStore.getState().appdb.get('accountType');
-        _.forEach(orderSelected, (order: ISimpleListItem) => {
+        _.forEach(orderSelected, (order: IsimplelistItem) => {
             if (order.selected) {
                 this.appStore.dispatch(this.ordersAction.fetchOrder(order.item.getOrderId(), accountType));
                 return;

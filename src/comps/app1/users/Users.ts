@@ -1,5 +1,5 @@
 import {Component, ViewChild, ElementRef} from "@angular/core";
-import {SimpleList, ISimpleListItem} from "../../simplelist/SimpleList";
+import {simplelist, IsimplelistItem} from "../../simplelist/simplelist";
 import {AppStore} from "angular2-redux-util";
 import {BusinessAction} from "../../../business/BusinessAction";
 import {ModalComponent} from "../../ng2-bs3-modal/components/modal";
@@ -78,8 +78,8 @@ export class Users {
         }, 'reseller.privileges');
     }
 
-    @ViewChild('simpleList')
-    simpleList: SimpleList;
+    @ViewChild('simplelist')
+    simplelist: simplelist;
 
     @ViewChild('modalSamples')
     modalSamples: ModalComponent;
@@ -202,16 +202,16 @@ export class Users {
         return this.selectedSampleBusinessId;
     }
 
-    private onShowUserInfo(selectedBusiness: ISimpleListItem) {
+    private onShowUserInfo(selectedBusiness: IsimplelistItem) {
         this.onFilteredSelection();
         this.showUserInfo = selectedBusiness;
     }
 
     private onFilteredSelection() {
         this.showUserInfo = null;
-        if (!this.simpleList)
+        if (!this.simplelist)
             return;
-        var businessSelected = this.simpleList.getSelected();
+        var businessSelected = this.simplelist.getSelected();
 
         this.businessesListFiltered = this.businessesList.filter((businessModel: BusinessModel) => {
             var businessId = businessModel.getBusinessId();

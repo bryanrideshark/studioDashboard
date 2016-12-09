@@ -1,4 +1,3 @@
-<script src="https://use.fontawesome.com/2d957a7cef.js"></script>
 <div id="domRoot">
     <div id="headerPad"></div>
     <nav id="fileMenu" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -10,35 +9,28 @@
                 <span class="icon-bar"></span>
             </button>
             <span id="angularText">
-        Angular 2 Boilerplate Application
+        StudioDashboard
         <Logo></Logo>
+        <label style="font-size: 10px; color: darkgray">{{version}}</label>
       </span>
-            <a href="#" [routerLink]="['/Welcome']">
-        <span id="router">
-          <i class="fa fa-arrows-alt"></i>
-          <span>Routes</span>
-        </span>
-                <span id="appHeaderName"></span>
-            </a>
-
         </div>
+        <logoCompany style="position: relative; top: 6px; left: -20px" class="pull-right hidden-xs"></logoCompany>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <Filemenu appPrefix="App">
-                <FilemenuItem app="App1" title="Todos"></FilemenuItem>
-                <FilemenuItem app="App1" title="Digg"></FilemenuItem>
-                <FilemenuItem app="App1" title="Settings"></FilemenuItem>
-                <FilemenuItem app="App1" title="LazyLoad"></FilemenuItem>
-                <FilemenuItem app="App1" title="Help"></FilemenuItem>
-                <FilemenuItem app="App1" title="Logout"></FilemenuItem>
-                <FilemenuItem app="App2" title="Notes"></FilemenuItem>
-                <FilemenuItem app="App2" title="Weather"></FilemenuItem>
-                <FilemenuItem app="App2" title="Digg"></FilemenuItem>
-                <FilemenuItem app="App2" title="Contact"></FilemenuItem>
-                <FilemenuItem app="App3" title="Movies"></FilemenuItem>
+                <FilemenuItem app="App1/.*" title="Dashboard"></FilemenuItem>
+                <FilemenuItem app="App1/.*" title="Users"></FilemenuItem>
+                <FilemenuItem app="App1/.*" title="Privileges"></FilemenuItem>
+                <FilemenuItem app="App1/.*" title="White label"></FilemenuItem>
+                <FilemenuItem app="App1/.*" title="Apps"></FilemenuItem>
+                <FilemenuItem app="App1/.*" title="Orders"></FilemenuItem>
+                <FilemenuItem app="App1/.*" title="Adnet"></FilemenuItem>
+                <FilemenuItem app="App1/.*" title="Account"></FilemenuItem>
             </Filemenu>
         </div>
+
     </nav>
     <div id="appEntry">
+
         <router-outlet></router-outlet>
 
         <div id="waitScreenEntryApp" style="display: none">
@@ -65,32 +57,32 @@
     </div>
 </div>
 
-<div id="footer">
-    <br>
-    <span id="footerText">
-    <i class="fa fa-github"></i>
-    <a data-footer="footer" href="https://github.com/born2net/Angular-kitchen-sink" target="_blank" style="position: relative; top: -5px">Angular-kitchen-sink | version: 4.52</a>
-  </span>
-</div>
+<!--<div id="footer">-->
+<!--<br>-->
+<!--<span id="footerText">-->
+<!--<i class="fa fa-github"></i>-->
+<!--<a data-footer="footer" href="https://github.com/born2net/ng2Boilerplate" target="_blank" style="position: relative; top: -5px">ng2BoilerPlate | version: 2.23</a>-->
+<!--</span>-->
+<!--</div>-->
 
 <!-- Modal -->
-<!--<div class="modal modal-static fade" id="bsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
-<!--<div class="modal-dialog">-->
-<!--<div class="modal-content">-->
-<!--<div class="modal-header">-->
-<!--<button id="toggleProperties" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
-<!--<h4 class="modal-title" id="myModalLabel" data-localize="ModalTitle">Modal title</h4>-->
-<!--</div>-->
-<!--<div class="modal-body">-->
-<!--<h3 data-localize="someContent">some content</h3>-->
-<!--</div>-->
-<!--<div class="modal-footer">-->
-<!--<button type="button" class="btn btn-default" data-dismiss="modal" data-localize="close">Close</button>-->
-<!--<button type="button" class="btn btn-primary" data-localize="saveChanges">Save changes</button>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
+<div class="modal modal-static fade" id="bsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="toggleProperties" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel" data-localize="ModalTitle">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                <h3 data-localize="someContent">some content</h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-localize="close">Close</button>
+                <button type="button" class="btn btn-primary" data-localize="saveChanges">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div id="popModal" style="display: none"></div>
 <div id="popupProperties" style="display: none">
     <button style="float: right; margin: 20px" type="button" class="btn btn-default btn-sm modal_close" data-dismiss="modal">

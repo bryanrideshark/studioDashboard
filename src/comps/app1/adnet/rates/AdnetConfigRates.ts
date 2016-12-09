@@ -7,9 +7,9 @@ import {AppStore} from "angular2-redux-util";
 import {List} from "immutable";
 import * as _ from "lodash";
 import {
-    SimpleList,
-    ISimpleListItem
-} from "../../../simplelist/Simplelist";
+    simplelist,
+    IsimplelistItem
+} from "../../../simplelist/simplelist";
 import {AdnetRateModel} from "../../../../adnet/AdnetRateModel";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
@@ -41,7 +41,7 @@ export class AdnetConfigRates {
         this.updFilteredRates();
     }
 
-    @ViewChild(SimpleList) simpleList: SimpleList;
+    @ViewChild(simplelist) simplelist: simplelist;
 
     private unsub: Function;
     private selectedAdnetCustomerModel: AdnetCustomerModel;
@@ -51,14 +51,14 @@ export class AdnetConfigRates {
 
     private resetSelection() {
         this.selectedAdnetRateModel = null;
-        if (this.simpleList) this.simpleList.deselect();
+        if (this.simplelist) this.simplelist.deselect();
     }
 
     private onSelection() {
         if (!this.filteredRates)
             return;
-        var selected: {} = this.simpleList.getSelected();
-        _.forEach(selected, (simpleItem: ISimpleListItem) => {
+        var selected: {} = this.simplelist.getSelected();
+        _.forEach(selected, (simpleItem: IsimplelistItem) => {
             if (simpleItem.selected) {
                 this.selectedAdnetRateModel = simpleItem.item;
                 return;
@@ -87,7 +87,7 @@ export class AdnetConfigRates {
         if (this.isAdnetUsed())
             return bootbox.alert('Cant remove a rating table that is currently assigned');
         this.appStore.dispatch(this.adnetAction.removeAdnetRateTable(this.selectedAdnetRateModel.getId(), this.selectedAdnetCustomerModel.getId()));
-        this.simpleList.deselect();
+        this.simplelist.deselect();
         this.selectedAdnetRateModel = null;
     }
 

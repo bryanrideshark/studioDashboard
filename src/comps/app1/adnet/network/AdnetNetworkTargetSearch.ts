@@ -25,9 +25,9 @@ import {Lib} from "../../../../Lib";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {List} from "immutable";
 import {
-    ISimpleListItem,
-    SimpleList
-} from "../../../simplelist/Simplelist";
+    IsimplelistItem,
+    simplelist
+} from "../../../simplelist/simplelist";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 import * as bootbox from 'bootbox';
 
@@ -123,7 +123,7 @@ import * as bootbox from 'bootbox';
                         <span style="font-size: 1.5em; color: black" [ngClass]="{disabled: !selectedAdnetTargetModel}" class="fa fa-plus"></span>
                     </a>                    
                 </div>
-                <SimpleList (selected)="onTargetSelected($event)" [list]="adnetTargetModels" [content]="getContent()" [multiSelect]="false"></SimpleList>
+                <simplelist (selected)="onTargetSelected($event)" [list]="adnetTargetModels" [content]="getContent()" [multiSelect]="false"></simplelist>
             </div>
     `,
     styles: [`
@@ -172,8 +172,8 @@ export class AdnetNetworkTargetSearch extends Compbaser {
         }, 'adnet.targets_search'));
     }
 
-    @ViewChild(SimpleList)
-    simpleList: SimpleList;
+    @ViewChild(simplelist)
+    simplelist: simplelist;
 
     @Input()
     set setAdnetCustomerModel(i_adnetCustomerModel: AdnetCustomerModel) {
@@ -215,7 +215,7 @@ export class AdnetNetworkTargetSearch extends Compbaser {
     private onAdd($event) {
         if (!this.adnetPackageModels)
             return bootbox.alert('first select a Package from the above accordion Packages tab, to add this file onto your selected package')
-        this.selectedAdnetTargetModel = (this.simpleList.getSelected() as ISimpleListItem).item;
+        this.selectedAdnetTargetModel = (this.simplelist.getSelected() as IsimplelistItem).item;
         this.appStore.dispatch(
             this.adnetAction.addAdnetTargetToPackage(
                 this.selectedAdnetTargetModel,
@@ -226,7 +226,7 @@ export class AdnetNetworkTargetSearch extends Compbaser {
 
     private onSearch() {
         this.selectedAdnetTargetModel = null;
-        this.simpleList.deselect();
+        this.simplelist.deselect();
         var searchType = this.searchTypes.indexOf(this.contGroup.value.searchType) - 1;
         searchType < 0 ? searchType = 0 : searchType;
         var globalSearch = this.contGroup.value.globalSearch == true ? 1 : 0;
@@ -248,8 +248,8 @@ export class AdnetNetworkTargetSearch extends Compbaser {
             ));
     }
 
-    private onTargetSelected(list: Array<ISimpleListItem>) {
-        this.selectedAdnetTargetModel = (this.simpleList.getSelected() as ISimpleListItem).item;
+    private onTargetSelected(list: Array<IsimplelistItem>) {
+        this.selectedAdnetTargetModel = (this.simplelist.getSelected() as IsimplelistItem).item;
         this.onAdnetTargetSelected.emit(this.selectedAdnetTargetModel);
         this.onPropSelected.emit({selected: AdnetNetworkPropSelector.TARGET})
 
