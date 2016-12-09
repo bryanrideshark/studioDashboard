@@ -13,15 +13,13 @@ import * as _ from "lodash";
 import {SimpleList} from "../../../../simplelist/Simplelist";
 import {AdnetRateModel} from "../../../../../adnet/AdnetRateModel";
 import {Lib} from "../../../../../Lib";
-import RatesTableTemplate from './RatesTable.html!text';
-import RatesTableStyle from './RatesTable.css!text';
+
 
 @Component({
     selector: 'RatesTable',
-    moduleId: __moduleName,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    styles: [RatesTableStyle],
-    template: RatesTableTemplate
+    styleUrls: ['./RatesTable.css'],
+    templateUrl: './RatesTable.html'
 })
 
 export class RatesTable {

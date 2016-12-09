@@ -1,12 +1,11 @@
 import {StoreModel} from "../models/StoreModel";
-import List = Immutable.List;
 export class AppModel extends StoreModel {
 
-    constructor(data:any = {}) {
+    constructor(data: any = {}) {
         super(data);
     }
 
-    public getIcon(item:AppModel) {
+    public getIcon(item: AppModel) {
         var id = String(item.getAppId());
         switch (id) {
             case '10005': // Embeded Resource

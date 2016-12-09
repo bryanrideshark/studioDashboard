@@ -13,8 +13,6 @@ import {Lib} from "../../../../Lib";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {AppStore} from "angular2-redux-util";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
-import AdnetConfigCustomerTemplate from './AdnetConfigCustomer.html!text';
-import AdnetConfigCustomerStyle from './AdnetConfigCustomer.css!text';
 
 @Component({
     selector: 'AdnetConfigCustomer',
@@ -22,9 +20,8 @@ import AdnetConfigCustomerStyle from './AdnetConfigCustomer.css!text';
     host: {
         '(input-blur)': 'onInputBlur($event)'
     },
-    moduleId: __moduleName,
-    template: AdnetConfigCustomerTemplate,
-    styles: [AdnetConfigCustomerStyle]
+    templateUrl: './AdnetConfigCustomer.html',
+    styleUrls: ['./AdnetConfigCustomer.css']
 })
 export class AdnetConfigCustomer {
     constructor(private fb: FormBuilder, private appStore: AppStore, private adnetAction: AdnetActions) {

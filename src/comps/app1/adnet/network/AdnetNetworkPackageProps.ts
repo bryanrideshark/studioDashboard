@@ -18,17 +18,14 @@ import {Lib} from "../../../../Lib";
 import * as _ from "lodash";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 import {List} from "immutable";
-import AdnetNetworkPackagePropsTemplate from './AdnetNetworkPackageProps.html!text';
-import AdnetNetworkPackageCommonStylesStyle from './AdnetNetworkPackageCommonStyles.css!text';
 import {AdnetPackagePlayMode} from "./AdnetNetwork";
 
 @Component({
-    moduleId: __moduleName,
     selector: 'AdnetNetworkPackageProps',
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {'(input-blur)': 'onFormChange($event)'},
-    template: AdnetNetworkPackagePropsTemplate,
-    styles: [AdnetNetworkPackageCommonStylesStyle]
+    templateUrl: './AdnetNetworkPackageProps.html',
+    styleUrls: ['./AdnetNetworkPackageCommonStyles.css']
 })
 export class AdnetNetworkPackageProps {
     constructor(private fb: FormBuilder, private appStore: AppStore, private adnetAction: AdnetActions) {

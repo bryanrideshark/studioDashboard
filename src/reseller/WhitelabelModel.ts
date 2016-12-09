@@ -1,5 +1,5 @@
 import {StoreModel} from "../models/StoreModel";
-import List = Immutable.List;
+import {List} from 'immutable';
 export class WhitelabelModel extends StoreModel {
 
     constructor(data:any = {}) {

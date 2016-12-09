@@ -39,6 +39,36 @@ declare module 'redux-thunk' {
 
 }
 
+declare module 'xml2js' {
+  var parseString;
+}
+
+// declare class  ActiveXObject {
+//   constructor(a:any);
+//   async;
+//   loadXML;
+// }
+
+declare module 'highcharts/highstock' {
+  var Ng2Highcharts: any
+}
+
+declare module 'highcharts/modules/map' {
+
+}
+
+declare module 'highcharts' {
+}
+
+declare module 'bootbox' {
+  var hideAll:any;
+  var prompt:any;
+  var alert:any;
+  var dialog:any;
+  var alert:any;
+  var confirm:any;
+}
+
 
 interface JQuery {
   modal:any;

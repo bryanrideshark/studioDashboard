@@ -13,17 +13,14 @@ import {
 import {AdnetRateModel} from "../../../../adnet/AdnetRateModel";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
-import AdnetConfigRatesTemplate from "./AdnetConfigRates.html!text";
-import AdnetConfigRatesStyle from "./AdnetConfigRates.css!text";
 import * as bootbox from "bootbox";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {Lib} from "../../../../Lib";
 
 @Component({
     selector: 'AdnetConfigRates',
-    moduleId: __moduleName,
-    styles: [AdnetConfigRatesStyle],
-    template: AdnetConfigRatesTemplate
+    styleUrls: ['./AdnetConfigRates.css'],
+    templateUrl: './AdnetConfigRates.html'
 })
 
 export class AdnetConfigRates {

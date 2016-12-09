@@ -14,7 +14,6 @@ import {ModalComponent} from "../../../ng2-bs3-modal/components/modal";
 import {IAddPayment} from "./AdnetPayment";
 import {ITransferPayment} from "./AdnetTransfer";
 import {Router} from "@angular/router";
-//import AdnetBillingTemplate from './AdnetBilling.html!text'; /*prod*/
 
 interface ICustomer {
     adCharges: number;
@@ -41,9 +40,7 @@ interface ICustomer {
     }
     `],
     selector: 'AdnetBilling',
-//     template: AdnetBillingTemplate, /*prod*/
-	    templateUrl: './AdnetBilling.html', /*dev*/
-    moduleId: __moduleName
+    templateUrl: './AdnetBilling.html',
 })
 
 export class AdnetBilling extends Compbaser {
@@ -167,7 +164,7 @@ export class AdnetBilling extends Compbaser {
     private onTransferPayment(i_transferPayment: ITransferPayment) {
         var toCustomerId = i_transferPayment.adnetPairModel.getCustomerId();
         this.pairs = this.appStore.getState().adnet.getIn(['pairs']) || {};
-        var transferPair:AdnetPairModel = this.pairs.find((i_pair: AdnetPairModel) => {
+        var transferPair: AdnetPairModel = this.pairs.find((i_pair: AdnetPairModel) => {
             if (i_pair.getCustomerId() == this.adnetCustomerId && i_pair.getToCustomerId() == toCustomerId)
                 return true;
         })

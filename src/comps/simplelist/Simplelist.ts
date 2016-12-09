@@ -13,8 +13,6 @@ import {
 import {List} from "immutable";
 import {SimplelistEditable} from "./SimplelistEditable";
 import * as _ from "lodash";
-import SimplelistTemplate from './Simplelist.html!text';
-import SimplelistStyles from './Simplelist.css!text';
 
 export interface ISimpleListItem {
     item: any,
@@ -24,9 +22,8 @@ export interface ISimpleListItem {
 
 @Component({
     selector: 'SimpleList',
-    moduleId: __moduleName,
-    template: SimplelistTemplate,
-    styles: [SimplelistStyles],
+    templateUrl: './Simplelist.html',
+    styleUrls: ['./Simplelist.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SimpleList {

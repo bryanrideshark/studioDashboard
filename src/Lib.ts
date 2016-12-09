@@ -34,19 +34,6 @@ export const moment = moment_["default"];
 @Injectable()
 export class Lib {
 
-    static StoreFactory(reducerList: Object) {
-        return () => {
-            const reducers = combineReducers(reducerList);
-            //const middlewareEnhancer = applyMiddleware(<any>thunkMiddleware, LoggerMiddleware); // to enable logger
-            const middlewareEnhancer = applyMiddleware(<any>thunkMiddleware);
-            const isDebug = window.devToolsExtension;
-            const applyDevTools = () => isDebug ? window.devToolsExtension() : f => f;
-            const enhancers = compose(middlewareEnhancer, applyDevTools());
-            const createStoreWithEnhancers = enhancers(createStore);
-            const reduxAppStore = createStoreWithEnhancers(reducers);
-            return new AppStore(reduxAppStore);
-        };
-    }
 
     /**
      *
@@ -877,20 +864,20 @@ export class Lib {
         });
     }
 
-    static LoadComponentAsync(name: string, path: string) {
-
-        return System.import(path).then(c => c[name]);
-
-        //return System.import('/dist/public/out.js')
-        //    .catch(function (e) {
-        //        alert('prob loading out.js ' + e);
-        //    }).then(function (e) {
-        //        alert(e);
-        //        alert(e[name]);
-        //        alert(JSON.stringify(e));
-        //        return System.import('App1').then(c => c[name]);
-        //    });
-    }
+    // static LoadComponentAsync(name: string, path: string) {
+    //
+    //     return System.import(path).then(c => c[name]);
+    //
+    //     //return System.import('/dist/public/out.js')
+    //     //    .catch(function (e) {
+    //     //        alert('prob loading out.js ' + e);
+    //     //    }).then(function (e) {
+    //     //        alert(e);
+    //     //        alert(e[name]);
+    //     //        alert(JSON.stringify(e));
+    //     //        return System.import('App1').then(c => c[name]);
+    //     //    });
+    // }
 
 
     static ConstructImmutableFromTable(path): Array<any> {
@@ -1307,7 +1294,7 @@ export class Lib {
                 try {
                     var xmlDoc = null;
 
-                    if (window.DOMParser) {
+                    if (window['DOMParser']) {
 
                         var parser = new DOMParser();
                         xmlDoc = parser.parseFromString(xmlString, "text/xml");

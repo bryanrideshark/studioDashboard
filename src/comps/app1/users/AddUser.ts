@@ -13,16 +13,13 @@ import {BusinessAction} from "../../../business/BusinessAction";
 import {PrivelegesModel} from "../../../reseller/PrivelegesModel";
 import {ModalComponent} from "../../ng2-bs3-modal/components/modal";
 import * as _ from 'lodash'
-import AddUserTemplate from './AddUser.html!text';
-import AddUserStyle from './AddUser.css!text';
 import {ChangePass} from "./ChangePass";
 
 @Component({
     selector: 'addUser',
-    moduleId: __moduleName,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    template: AddUserTemplate,
-    styles: [AddUserStyle]
+    templateUrl: './AddUser.html',
+    styleUrls: ['./AddUser.css']
 })
 
 /**

@@ -34,7 +34,6 @@ import * as bootbox from 'bootbox';
 @Component({
     selector: 'AdnetNetworkTargetSearch',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    moduleId: __moduleName,
     template: `<div>                
                 <form novalidate autocomplete="off" [formGroup]="contGroup">
                     <div class="row">

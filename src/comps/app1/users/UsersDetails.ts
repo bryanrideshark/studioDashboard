@@ -14,8 +14,6 @@ import {Lib} from "../../../Lib";
 import {PrivelegesModel} from "../../../reseller/PrivelegesModel";
 import {ModalResult} from "../../ng2-bs3-modal/ng2-bs3-modal";
 import * as bootbox from "bootbox";
-import UsersDetailsTemplate from "./UsersDetails.html!text";
-import UsersDetailsStyle from "./UsersDetails.css!text";
 import {SimpleGridTable} from "../../simplegridmodule/SimpleGridTable";
 import {SimpleGridRecord} from "../../simplegridmodule/SimpleGridRecord";
 import {ISimpleGridEdit} from "../../simplegridmodule/SimpleGridModule";
@@ -23,9 +21,8 @@ import {ISimpleGridEdit} from "../../simplegridmodule/SimpleGridModule";
 @Component({
     selector: 'UsersDetails',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    moduleId: __moduleName,
-    styles: [UsersDetailsStyle],
-    template: UsersDetailsTemplate
+    styleUrls: ['./UsersDetails.css'],
+    templateUrl: './UsersDetails.html'
 })
 
 // old sample full path
@@ -48,7 +45,7 @@ export class UsersDetails {
     @Input() showUserInfo: ISimpleListItem = null;
 
     @Input()
-    set business(i_businesses:List<BusinessModel>) {
+    set business(i_businesses: List<BusinessModel>) {
         this.m_businesses = i_businesses;
     }
 

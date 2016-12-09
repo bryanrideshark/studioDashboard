@@ -10,13 +10,11 @@ import {Consts} from "../../../Conts";
 import {ModalComponent} from "../../ng2-bs3-modal/components/modal";
 import * as _ from "lodash";
 import {FormControl} from "@angular/forms";
-import DashboardTemplate from './Dashboard.html!text';
 
 type stationComponentMode = "map" | "grid";
 
 @Component({
     selector: 'Dashboard',
-    moduleId: __moduleName,
     host: {
         // '[@routeAnimation]': 'true',
         '[style.display]': "'block'"
@@ -40,7 +38,7 @@ type stationComponentMode = "map" | "grid";
         }  
     `],
     providers: [BusinessAction],
-    template: DashboardTemplate
+    templateUrl: './Dashboard.html'
 })
 
 export class Dashboard {

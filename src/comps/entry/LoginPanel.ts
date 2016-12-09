@@ -20,7 +20,7 @@ import {
     FlagsAuth
 } from "../../services/AuthService";
 import * as bootbox from "bootbox";
-import Map = Immutable.Map;
+import {Map} from 'immutable';
 import {AuthState} from "../../appdb/AppdbAction";
 import {Lib} from "../../Lib";
 

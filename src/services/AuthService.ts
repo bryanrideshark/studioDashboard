@@ -18,7 +18,7 @@ import {
 import 'rxjs/add/observable/fromPromise';
 import {Observable} from 'rxjs/Observable';
 import * as bootbox from "bootbox";
-import Map = Immutable.Map;
+import {Map} from 'immutable';
 import {Lib} from "../Lib";
 
 

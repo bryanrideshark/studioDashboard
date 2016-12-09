@@ -6,12 +6,10 @@ import {OrderModel} from "./OrderModel";
 import {AuthService} from "../../../services/AuthService";
 import {SimpleList, ISimpleListItem} from "../../simplelist/Simplelist";
 import * as _ from "lodash";
-import OrdersTemplate from './Orders.html!text';
 
 @Component({
     selector: 'Orders',
-    moduleId: __moduleName,
-    template: OrdersTemplate,
+    templateUrl: './Orders.html',
     host: {
         // '[@routeAnimation]': 'true',
         '[style.display]': "'block'"

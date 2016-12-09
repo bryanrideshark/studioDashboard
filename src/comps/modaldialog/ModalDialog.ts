@@ -64,7 +64,8 @@ export class ModalDialog {
     }
 
     openModal() {
-        var modal = jQuery(this.dom).find('.modal', this.el)[0];
+        var jq:any = jQuery;
+        var modal = jq(this.dom).find('.modal', this.el)[0];
         jQuery(modal).modal();
     }
 }

@@ -12,7 +12,6 @@ import {Lib} from "../../../../Lib";
 
 @Component({
     selector: 'AdnetLocation',
-    moduleId: __moduleName,
     template: `
                 <small class="debug">{{me}}</small>
                 <MapAddress #mapAddress (onChange)="onUpdatedStationCoords($event)"></MapAddress>

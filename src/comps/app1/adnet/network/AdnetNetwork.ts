@@ -23,10 +23,8 @@ export interface IAdNetworkPropSelectedEvent {
 export type TabType = "packagesTab" | "targetsTab"
 
 @Component({
-//	template: AdnetNetworkTemplate, /*prod*/
     selector: 'AdnetNetwork',
-    moduleId: __moduleName,
-	    templateUrl: './AdnetNetwork.html', /*dev*/
+    templateUrl: './AdnetNetwork.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 

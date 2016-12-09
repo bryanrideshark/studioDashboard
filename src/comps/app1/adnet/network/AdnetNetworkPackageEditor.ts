@@ -28,16 +28,10 @@ import {
 import * as bootbox from "bootbox";
 import {Compbaser} from "../../../compbaser/Compbaser";
 
-//import AdnetNetworkPackageEditorTemplate from './AdnetNetworkPackageEditor.html!text'; /*prod*/
-//import AdnetNetworkPackageEditorStyle from './AdnetNetworkPackageEditor.css!text'; /*prod*/
-
 @Component({
-//	styles: [AdnetNetworkPackageEditorStyle], /*prod*/
-//	template: AdnetNetworkPackageEditorTemplate, /*prod*/
     selector: 'AdnetNetworkPackageEditor',
-	    templateUrl: './AdnetNetworkPackageEditor.html', /*dev*/
-	    styleUrls: ['./AdnetNetworkPackageEditor.css'], /*dev*/
-    moduleId: __moduleName
+    templateUrl: './AdnetNetworkPackageEditor.html',
+    styleUrls: ['./AdnetNetworkPackageEditor.css'],
 })
 
 export class AdnetNetworkPackageEditor extends Compbaser {
@@ -133,7 +127,7 @@ export class AdnetNetworkPackageEditor extends Compbaser {
         return i_adnetPackageModel.getId();
     }
 
-    private notifyAdnetTargetChange(){
+    private notifyAdnetTargetChange() {
         if (!this.selectedAdnetPackageModel)
             return;
         var targetsIds = this.selectedAdnetPackageModel.getTargetIds();
@@ -164,7 +158,7 @@ export class AdnetNetworkPackageEditor extends Compbaser {
             return i_adnetPackageModel.getName();
     }
 
-    private adnetTargetSelected(tab:TabType, i_adnetTargetModel: AdnetTargetModel) {
+    private adnetTargetSelected(tab: TabType, i_adnetTargetModel: AdnetTargetModel) {
         this.onAdnetTargetSelected.emit(i_adnetTargetModel);
     }
 

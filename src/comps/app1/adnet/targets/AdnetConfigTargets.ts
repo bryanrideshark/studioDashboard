@@ -6,14 +6,11 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {List} from "immutable";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {AppStore} from "angular2-redux-util";
-import AdnetConfigTargetsTemplate from "./AdnetConfigTargets.html!text";
 import {Compbaser} from "../../../compbaser/Compbaser";
 
 @Component({
     selector: 'AdnetConfigTargets',
-    moduleId: __moduleName,
-    template: AdnetConfigTargetsTemplate
-
+    templateUrl: './AdnetConfigTargets.html'
 })
 export class AdnetConfigTargets extends Compbaser {
 

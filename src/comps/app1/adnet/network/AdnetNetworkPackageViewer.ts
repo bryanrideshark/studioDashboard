@@ -17,12 +17,9 @@ import {
     AdnetNetworkPropSelector
 } from "./AdnetNetwork";
 import {SimpleGridTable} from "../../../simplegridmodule/SimpleGridTable";
-// import AdnetNetworkPackageViewerTemplate from "./AdnetNetworkPackageViewer.html!text"; /*prod*/
 
 @Component({
-//	template: AdnetNetworkPackageViewerTemplate, /*prod*/
     selector: 'AdnetNetworkPackageViewer',
-    moduleId: __moduleName,
     styles: [`
         .width-sm {
             width: 10px !important;
@@ -34,7 +31,7 @@ import {SimpleGridTable} from "../../../simplegridmodule/SimpleGridTable";
             min-width: 200px !important;
         }
     `],
-	    templateUrl: './AdnetNetworkPackageViewer.html' /*dev*/
+    templateUrl: './AdnetNetworkPackageViewer.html'
 })
 
 export class AdnetNetworkPackageViewer {
@@ -61,7 +58,7 @@ export class AdnetNetworkPackageViewer {
 
     @ViewChild(SimpleGridTable) simpleGridTable: SimpleGridTable
 
-    @Input() filterByTargetModel:boolean = false;
+    @Input() filterByTargetModel: boolean = false;
 
     @Input()
     set setPairOutgoing(i_setPairOutgoing: boolean) {
@@ -143,7 +140,7 @@ export class AdnetNetworkPackageViewer {
                             if (adnetTargetCustomerId == i_adnetPairModels.getToCustomerId()) {
                                 if (uniqueIds.indexOf(i_package.getId()) == -1) {
                                     uniqueIds.push(i_package.getId())
-                                    if (this.filterByTargetModel){
+                                    if (this.filterByTargetModel) {
                                         if (i_package.getTargetIds().indexOf(this.adnetTargetModel.getId()) > -1)
                                             this.packagesFiltered = this.packagesFiltered.push(i_package);
                                     } else {
@@ -176,7 +173,7 @@ export class AdnetNetworkPackageViewer {
                             if (pkgCustId == custId && cusTotId == custIdSel) {
                                 if (uniqueIds.indexOf(i_package.getId()) == -1) {
                                     uniqueIds.push(i_package.getId())
-                                    if (this.filterByTargetModel){
+                                    if (this.filterByTargetModel) {
                                         if (i_package.getTargetIds().indexOf(this.adnetTargetModel.getId()) > -1)
                                             this.packagesFiltered = this.packagesFiltered.push(i_package);
                                     } else {

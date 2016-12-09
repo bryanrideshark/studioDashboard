@@ -11,7 +11,6 @@ import {
 import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {AppStore} from "angular2-redux-util";
 import * as _ from "lodash";
-import {Lib} from "src/Lib";
 import {List} from "immutable";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
 import {Compbaser} from "../../../compbaser/Compbaser";
@@ -24,7 +23,6 @@ import {Compbaser} from "../../../compbaser/Compbaser";
     host: {
         '(input-blur)': 't_onFormChange($event)'
     },
-    moduleId: __moduleName,
     template: `
                 <div>
                 <form novalidate autocomplete="off" [formGroup]="contGroup">

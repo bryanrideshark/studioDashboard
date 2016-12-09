@@ -5,7 +5,6 @@ declare var google: any;
 
 @Component({
     selector: 'MapAddress',
-    moduleId: __moduleName,
     template: `
                 <input class="form-control" placeholder="enter address" 
                 type="text" [formControl]="searchControl"/>

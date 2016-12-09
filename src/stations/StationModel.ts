@@ -1,7 +1,6 @@
 import {StoreModel} from "../models/StoreModel";
 import {Map, List} from 'immutable';
 import {AppStore} from "angular2-redux-util";
-import Store = Redux.Store;
 import {BusinessModel} from "../business/BusinessModel";
 import {BusinessUser} from "../business/BusinessUser";
 

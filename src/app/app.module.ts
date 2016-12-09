@@ -7,11 +7,17 @@ import {AppStore} from "angular2-redux-util";
 import {applyMiddleware, createStore, compose, combineReducers} from "redux";
 import thunkMiddleware from 'redux-thunk';
 import 'hammerjs';
-import notify from '../appdb/NotifyReducer'
+import notify from "../appdb/NotifyReducer";
+import appdb from "../appdb/AppdbReducer";
+import {business} from "../business/BusinessReducer";
+import {reseller} from "../reseller/ResellerReducer";
+import {adnet} from "../adnet/AdnetReducer";
+import {stations} from "../stations/StationsReducer";
+import {orders} from "../comps/app1/orders/OrdersReducer";
 import {LocalStorage} from "../services/LocalStorage";
 import {MsLibModule} from "ng-mslib/dist/mslib.module";
 import {ToastModule} from "ng2-toastr";
-import { AgmCoreModule } from 'angular2-google-maps/core';
+import {AgmCoreModule} from 'angular2-google-maps/core';
 
 export enum ServerMode {
     CLOUD,
@@ -19,10 +25,17 @@ export enum ServerMode {
     HYBRID
 }
 
-
 var providing = [{
     provide: AppStore, useFactory: () => {
-        const reducers = combineReducers({notify});
+        const reducers = combineReducers({
+            notify,
+            appdb,
+            business,
+            stations,
+            reseller,
+            adnet,
+            orders
+        });
         const middlewareEnhancer = applyMiddleware(<any>thunkMiddleware);
         const isDebug = window['devToolsExtension']
         const applyDevTools = () => isDebug ? window['devToolsExtension']() : f => f;
@@ -37,7 +50,6 @@ var providing = [{
     provide: LocalStorage,
     useClass: LocalStorage
 }];
-
 
 
 @NgModule({
@@ -59,6 +71,6 @@ var providing = [{
     bootstrap: [AppComponent]
 })
 export class AppModule {
-    constructor(i_app:AppStore) {
+    constructor(i_app: AppStore) {
     }
 }

@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
-import {Lib} from "src/Lib";
 import {Router} from "@angular/router";
+import {Ngmslib} from "ng-mslib";
 //import MyCompTemplate from './MyComp.html!text'; /*prod*/
 //import MyCompStyle from './MyComp.css!text'; /*prod*/
 
@@ -13,14 +13,13 @@ import {Router} from "@angular/router";
             <Loading [size]="100" [style]="{'margin-top': '150px'}"></Loading>
             <router-outlet></router-outlet>
             `,
-    selector: 'AdnetLoader',
-    moduleId: __moduleName
+    selector: 'AdnetLoader'
 })
 
 
 export class AdnetLoader {
     constructor(private router: Router) {
-        this.me = Lib.GetCompSelector(this.constructor)
+        this.me = Ngmslib.GetCompSelector(this.constructor, this)
         this.router.navigate(['/App1/Adnet/Adnet2']);
     }
 

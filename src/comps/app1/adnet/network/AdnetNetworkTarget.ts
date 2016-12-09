@@ -32,7 +32,6 @@ import {AdnetActions} from "../../../../adnet/AdnetActions";
         }
     `],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    moduleId: __moduleName,
     template: `
         <small class="release">targets</small>
         <small class="debug">{{me}}</small>

@@ -1,15 +1,13 @@
 import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, ApplicationRef} from "@angular/core";
-import SimplelistStyle from './Simplelist.css!text'
 
 @Component({
     selector: 'simpleListEditable',
-    moduleId: __moduleName,
     template: `
                 <span *ngIf="!m_editing" class="li-content pull-left">{{getContent(item)}}</span>
                 <input #editInput *ngIf="m_editing && editable" [(ngModel)]="m_value" class="li-content pull-left"  value="{{getContent(item)}}" />
                 <span *ngIf="editable" (click)="onEdit(true)" class="editable fa {{m_icon}} pull-right"></span>
     `,
-    styles: [SimplelistStyle],
+    styleUrls: ['./Simplelist.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SimplelistEditable {

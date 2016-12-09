@@ -3,7 +3,6 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 
 @Component({
     selector: 'AdnetConfig',
-    moduleId: __moduleName,
     template: `
          <div>
              <tabs *ngIf="adnetCustomerId != -1">

@@ -20,7 +20,6 @@ import {LocalStorage} from "../../services/LocalStorage";
 @Component({
     selector: 'Twofactor',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    moduleId: __moduleName,
     template: `<div>
                 <form novalidate autocomplete="off" [formGroup]="contGroup">
                     <div class="row">

@@ -31,7 +31,6 @@ export interface IPairSelect {
 
 @Component({
     selector: 'AdnetNetworkCustomerSelector',
-    moduleId: __moduleName,
     styles: [`
         .mn {margin-left: 4px; width: 80%; } option { font-size: 16px; }
         .faPlace {

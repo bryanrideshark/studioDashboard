@@ -24,8 +24,7 @@ import {AdnetReportModel} from "../../../../adnet/AdnetReportModel";
             cursor: default;
         }
     `],
-    changeDetection: ChangeDetectionStrategy.Default,
-    moduleId: __moduleName
+    changeDetection: ChangeDetectionStrategy.Default
 })
 
 

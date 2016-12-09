@@ -1,37 +1,24 @@
-import {
-    Component,
-    EventEmitter,
-    ChangeDetectionStrategy,
-    Input, Output
-} from '@angular/core';
-import {
-    FormGroup,
-    Validators,
-    FormControl,
-    FormBuilder
-} from "@angular/forms";
+import {Component, EventEmitter, ChangeDetectionStrategy, Input, Output} from "@angular/core";
+import {FormGroup, Validators, FormControl, FormBuilder} from "@angular/forms";
 import {AppStore} from "angular2-redux-util";
 import {BusinessAction} from "../../../business/BusinessAction";
 import {BusinessUser} from "../../../business/BusinessUser";
 import {ModalComponent} from "../../ng2-bs3-modal/components/modal";
-import ChangePassTemplate from './ChangePass.html!text'
-import ChangePassStyle from './ChangePass.css!text'
 
 export interface IChangePass {
     matchingPassword: {
-        confirmPassword:string,
-        password:string
+        confirmPassword: string,
+        password: string
     }
-    userName:string;
-    userPass:string;
+    userName: string;
+    userPass: string;
 }
 
 @Component({
     selector: 'changePass',
-    moduleId: __moduleName,
-    template: ChangePassTemplate,
+    templateUrl: './ChangePass.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    styles: [ChangePassStyle]
+    styles: ['./ChangePass.css']
 })
 
 /**

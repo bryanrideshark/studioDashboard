@@ -10,13 +10,11 @@ import {List} from "immutable";
 import {ISimpleListItem, SimpleList} from "../../../simplelist/Simplelist";
 import * as _ from "lodash";
 import {Lib} from "../../../../Lib";
-import AdnetConfigTargetStationsTemplate from './AdnetConfigTargetStations.html!text';
 
 @Component({
     selector: 'AdnetConfigTargetStations',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    moduleId: __moduleName,
-    template: AdnetConfigTargetStationsTemplate,
+    templateUrl: './AdnetConfigTargetStations.html',
     styles: [`
         .row {
             padding: 15px;

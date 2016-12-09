@@ -1,5 +1,4 @@
 import {StoreModel} from "../models/StoreModel";
-import List = Immutable.List;
 export class PrivelegesModel extends StoreModel {
 
     constructor(data:any = {}) {

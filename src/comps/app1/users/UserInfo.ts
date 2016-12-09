@@ -1,29 +1,21 @@
 import {Component, Input, ChangeDetectionStrategy, ChangeDetectorRef} from "@angular/core";
 import {BusinessModel} from "../../../business/BusinessModel";
-import {Infobox} from "../../infobox/Infobox";
-import {UserStorage} from "./UserStorage";
-import {InputEdit} from "../../inputedit/InputEdit";
 import {ISimpleListItem} from "../../simplelist/Simplelist";
-import {ChangePass} from "../../../comps/app1/users/ChangePass";
 import {BusinessAction} from "../../../business/BusinessAction";
 import {AppStore} from "angular2-redux-util";
 import * as bootbox from "bootbox";
-import * as _ from 'lodash';
+import * as _ from "lodash";
 import {Lib} from "../../../Lib";
-import UserInfoTemplate from './UserInfo.html!text';
-import UserInfoStyle from './UserInfo.html!text';
 
 @Component({
     selector: 'UserInfo',
-    moduleId: __moduleName,
-    template: UserInfoTemplate,
+    templateUrl: './UserInfo.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    styles: [UserInfoStyle]
-
+    styleUrls: ['./UserInfo.css']
 })
 export class UserInfo {
 
-    constructor(private appStore:AppStore, private businessAction:BusinessAction, private ref:ChangeDetectorRef) {
+    constructor(private appStore: AppStore, private businessAction: BusinessAction, private ref: ChangeDetectorRef) {
         var w = '150px';
         this.stylesObj = {
             input: {
@@ -61,7 +53,7 @@ export class UserInfo {
         this.samples = Lib.GetSamples();
     };
 
-    businessId:string;
+    businessId: string;
     nameEmail;
     serverStats = [];
     serverStatsCategories = [];
@@ -73,7 +65,7 @@ export class UserInfo {
     lastLogin;
     studioVersion;
     studioIcon;
-    allowSharing:any = '';
+    allowSharing: any = '';
     accountStatus;
     resellerId;
     verifiedIcon;
@@ -82,8 +74,8 @@ export class UserInfo {
     unsub;
 
     @Input()
-    set user(i_simpleListItem:ISimpleListItem) {
-        var businessUser:BusinessModel = i_simpleListItem.item.item;
+    set user(i_simpleListItem: ISimpleListItem) {
+        var businessUser: BusinessModel = i_simpleListItem.item.item;
         this.businessId = businessUser.getBusinessId();
         this.userName = businessUser.getKey('name');
         this.maxMonitors = businessUser.getKey('maxMonitors');
@@ -108,9 +100,9 @@ export class UserInfo {
         }
     }
 
-    private getTemplateName(){
-        if (this.samples[this.fromTemplateId]){
-            return this.samples[this.fromTemplateId].replace(',',' | ');
+    private getTemplateName() {
+        if (this.samples[this.fromTemplateId]) {
+            return this.samples[this.fromTemplateId].replace(',', ' | ');
         } else {
             return '';
         }
@@ -122,7 +114,7 @@ export class UserInfo {
     }
 
     private onChangeMonitors(event) {
-        var maxMonitors:number = parseInt(event);
+        var maxMonitors: number = parseInt(event);
         if (_.isNaN(maxMonitors))
             return bootbox.alert('Not a valid number entered');
         this.maxMonitors = maxMonitors;

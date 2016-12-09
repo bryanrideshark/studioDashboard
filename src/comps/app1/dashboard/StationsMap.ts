@@ -1,7 +1,8 @@
 import {Component, Input, Output, EventEmitter, ChangeDetectorRef, ViewChild} from "@angular/core";
 import {StationModel} from "../../../stations/StationModel";
 import * as _ from "lodash";
-import {SebmGoogleMap} from "angular2-google-maps/core/core.umd.js";
+import {SebmGoogleMap} from "angular2-google-maps/core";
+//import {SebmGoogleMap} from "angular2-google-maps/core/core.umd.js";
 
 interface marker {
     instance: StationModel,

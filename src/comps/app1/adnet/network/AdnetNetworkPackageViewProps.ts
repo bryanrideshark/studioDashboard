@@ -2,29 +2,24 @@ import {
     Component,
     Input
 } from "@angular/core";
-import {Lib} from "src/Lib";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
-//import AdnetNetworkPackageViewPropsTemplate from './AdnetNetworkPackageViewProps.html!text'; /*prod*/
+import {Ngmslib} from "ng-mslib";
 
 @Component({
-//	template: AdnetNetworkPackageViewPropsTemplate, /*prod*/
     selector: 'AdnetNetworkPackageViewProps',
-	    templateUrl: './AdnetNetworkPackageViewProps.html', /*dev*/
-    styles: [`
-        
-    `],
-    moduleId: __moduleName
+    templateUrl: './AdnetNetworkPackageViewProps.html',
+    styles: [``]
 })
-
 
 export class AdnetNetworkPackageViewProps {
     constructor() {
-        this['me'] = Lib.GetCompSelector(this.constructor)
+        this['me'] = Ngmslib.GetCompSelector(this.constructor,this);
     }
 
     @Input()
     set setAdnetPackageModel(i_adnetPackageModels: AdnetPackageModel) {
         this.adnetPackageModels = i_adnetPackageModels;
     }
-    private adnetPackageModels:AdnetPackageModel;
+
+    private adnetPackageModels: AdnetPackageModel;
 }

@@ -4,14 +4,12 @@ import {
     Input,
     ChangeDetectorRef
 } from "@angular/core";
-import {Lib} from "src/Lib";
 import {Observable} from "rxjs";
 import {Http} from "@angular/http";
 import {Compbaser} from "../compbaser/Compbaser";
 
 @Component({
     selector: 'ResourceViewer',
-    moduleId: __moduleName,
     template: `
         <small>{{me}}</small>
         <div *ngIf="!videoSource">

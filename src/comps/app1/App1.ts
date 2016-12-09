@@ -24,8 +24,7 @@ import {Consts} from "../../../src/Conts";
            <router-outlet></router-outlet>
           </div>
         </div>
-    `,
-    moduleId: __moduleName
+    `
 })
 export class App1 {
     private routerActive: boolean;

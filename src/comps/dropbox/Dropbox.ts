@@ -5,27 +5,22 @@ import {
     EventEmitter,
     Output
 } from "@angular/core";
-import {Lib} from "src/Lib";
 import {LocalStorage} from "../../services/LocalStorage";
 import {Http} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 import {TreeNode} from "primeng/primeng";
-//import DropboxTemplate from './Dropbox.html!text'; /*prod*/
-//import DropboxStyle from './Dropbox.css!text'; /*prod*/
+import {Ngmslib} from "ng-mslib";
 
 @Component({
-//  styles: [DropboxStyle], /*prod*/
-//  template: DropboxTemplate, /*prod*/
     selector: 'Dropbox',
     changeDetection: ChangeDetectionStrategy.Default,
-	    templateUrl: './Dropbox.html', /*dev*/
-	    styleUrls: ['./Dropbox.css'], /*dev*/
-    moduleId: __moduleName,
+    templateUrl: './Dropbox.html',
+    styleUrls: ['./Dropbox.css'],
 })
 
 export class Dropbox {
     constructor(private _http: Http, private localStorage: LocalStorage, private cd: ChangeDetectorRef) {
-        this.me = Lib.GetCompSelector(this.constructor);
+        this.me = Ngmslib.GetCompSelector(this.constructor, this);
         if (this.localStorage.getItem('dropbox_key')) {
             this.token = this.localStorage.getItem('dropbox_key');
             this.renderTree();

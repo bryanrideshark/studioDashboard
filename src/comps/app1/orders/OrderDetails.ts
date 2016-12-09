@@ -7,15 +7,12 @@ import {
 } from "@angular/core";
 import {AppStore} from "angular2-redux-util";
 import {OrderDetailModel} from "./OrderDetailModel";
-import OrderDetailsTemplate from "./OrderDetails.html!text";
-import OrderDetailsStyle from "./OrderDetails.css!text";
 import {Compbaser} from "../../compbaser/Compbaser";
 
 @Component({
     selector: 'OrderDetails',
-    moduleId: __moduleName,
-    styles: [OrderDetailsStyle],
-    template: OrderDetailsTemplate,
+    styleUrls: ['./OrderDetails.css'],
+    templateUrl: './OrderDetails.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 

@@ -1,4 +1,4 @@
-import {Component, ViewChild, ElementRef, trigger, transition, animate, state, style} from "@angular/core";
+import {Component, ViewChild, ElementRef} from "@angular/core";
 import {SimpleList, ISimpleListItem} from "../../simplelist/SimpleList";
 import {AppStore} from "angular2-redux-util";
 import {BusinessAction} from "../../../business/BusinessAction";
@@ -12,14 +12,11 @@ import {SampleModel} from "../../../business/SampleModel";
 import * as bootbox from "bootbox";
 import * as _ from "lodash";
 import {Lib} from "../../../Lib";
-import UsersTemplate from './Users.html!text';
-import UsersStyle from './Users.css!text';
 
 @Component({
     selector: 'Users',
-    moduleId: __moduleName,
-    styles: [UsersStyle],
-    template: UsersTemplate,
+    styleUrls: ['./Users.css'],
+    templateUrl: './Users.html',
     host: {
         // '[@routeAnimation]': 'true',
         '[style.display]': "'block'"
