@@ -11,11 +11,13 @@ import {BusinessAction} from "../../../business/BusinessAction";
 import {BusinessUser} from "../../../business/BusinessUser";
 import {Lib} from "../../../Lib";
 import {PrivelegesModel} from "../../../reseller/PrivelegesModel";
-import {ModalResult} from "../../ng2-bs3-modal/ng2-bs3-modal";
+import {ModalComponent} from "ng2-bs3-modal/components/modal";
+import {ModalResult} from "ng2-bs3-modal/components/modal-instance";
 // import * as bootbox from "bootbox";
 import {SimpleGridTable} from "../../simplegridmodule/SimpleGridTable";
 import {SimpleGridRecord} from "../../simplegridmodule/SimpleGridRecord";
 import {ISimpleGridEdit} from "../../simplegridmodule/SimpleGridModule";
+
 
 export interface IsimplelistItem {
     item: any,

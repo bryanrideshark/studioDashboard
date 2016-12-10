@@ -11,7 +11,7 @@ import {FormGroup, Validators, FormControl, FormBuilder} from "@angular/forms";
 import {AppStore} from "angular2-redux-util";
 import {BusinessAction} from "../../../business/BusinessAction";
 import {PrivelegesModel} from "../../../reseller/PrivelegesModel";
-import {ModalComponent} from "../../ng2-bs3-modal/components/modal";
+import {ModalComponent} from "ng2-bs3-modal/components/modal";
 import * as _ from 'lodash'
 import {ChangePass} from "./ChangePass";
 

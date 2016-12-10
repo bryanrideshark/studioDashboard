@@ -7,7 +7,7 @@ import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {List} from "immutable";
 import {AdnetRateModel} from "../../../../adnet/AdnetRateModel";
-import {ModalComponent} from "../../../ng2-bs3-modal/components/modal";
+import {ModalComponent} from "ng2-bs3-modal/components/modal";
 
 
 @Component({

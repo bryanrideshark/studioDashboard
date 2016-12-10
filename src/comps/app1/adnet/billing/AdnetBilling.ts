@@ -10,10 +10,10 @@ import {AdnetPaymentModel} from "../../../../adnet/AdnetPaymentModel";
 import {AdnetTransferModel} from "../../../../adnet/AdnetTransferModel";
 import {ToastsManager, Toast} from "ng2-toastr";
 import {ChangePass, IChangePass} from "../../users/ChangePass";
-import {ModalComponent} from "../../../ng2-bs3-modal/components/modal";
 import {IAddPayment} from "./AdnetPayment";
 import {ITransferPayment} from "./AdnetTransfer";
 import {Router} from "@angular/router";
+import {ModalComponent} from "ng2-bs3-modal/components/modal";
 
 interface ICustomer {
     adCharges: number;

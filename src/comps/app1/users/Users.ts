@@ -1,8 +1,8 @@
-import {Component, ViewChild, ElementRef} from "@angular/core";
+import {Component, ViewChild, ElementRef, trigger, state, transition, style, animate} from "@angular/core";
 import {simplelist, IsimplelistItem} from "../../simplelist/simplelist";
 import {AppStore} from "angular2-redux-util";
 import {BusinessAction} from "../../../business/BusinessAction";
-import {ModalComponent} from "../../ng2-bs3-modal/components/modal";
+import {ModalComponent} from "ng2-bs3-modal/components/modal";
 import {BusinessModel} from "../../../business/BusinessModel";
 import {UsersDetails} from "./UsersDetails";
 import {BusinessUser} from "../../../business/BusinessUser";
@@ -18,18 +18,18 @@ import {Lib} from "../../../Lib";
     styleUrls: ['./Users.css'],
     templateUrl: './Users.html',
     host: {
-        // '[@routeAnimation]': 'true',
+        '[@routeAnimation]': 'true',
         '[style.display]': "'block'"
     },
     animations: [
-        // trigger('routeAnimation', [
-        //     state('*', style({opacity: 1})),
-        //     transition('void => *', [
-        //         style({opacity: 0}),
-        //         animate(333)
-        //     ]),
-        //     transition('* => void', animate(333, style({opacity: 0})))
-        // ])
+        trigger('routeAnimation', [
+            state('*', style({opacity: 1})),
+            transition('void => *', [
+                style({opacity: 0}),
+                animate(333)
+            ]),
+            transition('* => void', animate(333, style({opacity: 0})))
+        ])
     ]
 })
 

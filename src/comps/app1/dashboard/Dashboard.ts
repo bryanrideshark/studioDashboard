@@ -7,7 +7,7 @@ import {AuthService} from "../../../services/AuthService";
 import {StationModel} from "../../../stations/StationModel";
 import {CommBroker, IMessage} from "../../../services/CommBroker";
 import {Consts} from "../../../Conts";
-import {ModalComponent} from "../../ng2-bs3-modal/components/modal";
+import {ModalComponent} from "ng2-bs3-modal/components/modal";
 import * as _ from "lodash";
 import {FormControl} from "@angular/forms";
 
@@ -16,18 +16,18 @@ type stationComponentMode = "map" | "grid";
 @Component({
     selector: 'Dashboard',
     host: {
-        // '[@routeAnimation]': 'true',
+        '[@routeAnimation]': 'true',
         '[style.display]': "'block'"
     },
     animations: [
-        // trigger('routeAnimation', [
-        //     state('*', style({opacity: 1})),
-        //     transition('void => *', [
-        //         style({opacity: 0}),
-        //         animate(333)
-        //     ]),
-        //     transition('* => void', animate(333, style({opacity: 0})))
-        // ])
+        trigger('routeAnimation', [
+            state('*', style({opacity: 1})),
+            transition('void => *', [
+                style({opacity: 0}),
+                animate(333)
+            ]),
+            transition('* => void', animate(333, style({opacity: 0})))
+        ])
     ],
     styles: [`      
       * {

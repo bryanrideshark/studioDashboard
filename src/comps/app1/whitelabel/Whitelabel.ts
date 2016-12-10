@@ -30,18 +30,18 @@ import * as _ from "lodash";
     styleUrls: ['./Whitelabel.css'],
     host: {
         '(input-blur)': 'onInputBlur($event)',
-        // '[@routeAnimation]': 'true',
+        '[@routeAnimation]': 'true',
         '[style.display]': "'block'"
     },
     animations: [
-        // trigger('routeAnimation', [
-        //     state('*', style({opacity: 1})),
-        //     transition('void => *', [
-        //         style({opacity: 0}),
-        //         animate(333)
-        //     ]),
-        //     transition('* => void', animate(333, style({opacity: 0})))
-        // ])
+        trigger('routeAnimation', [
+            state('*', style({opacity: 1})),
+            transition('void => *', [
+                style({opacity: 0}),
+                animate(333)
+            ]),
+            transition('* => void', animate(333, style({opacity: 0})))
+        ])
     ],
 })
 export class Whitelabel {

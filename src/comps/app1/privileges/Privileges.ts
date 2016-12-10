@@ -41,19 +41,19 @@ import {ResellerAction} from "../../../reseller/ResellerAction";
       }
     `],
     host: {
-        // '[@routeAnimation]': 'true',
+        '[@routeAnimation]': 'true',
         '[style.display]': "'block'",
         '[style.position]': "'absolute'"
     },
     animations: [
-        // trigger('routeAnimation', [
-        //     state('*', style({opacity: 1})),
-        //     transition('void => *', [
-        //         style({opacity: 0}),
-        //         animate(333)
-        //     ]),
-        //     transition('* => void', animate(333, style({opacity: 0})))
-        // ])
+        trigger('routeAnimation', [
+            state('*', style({opacity: 1})),
+            transition('void => *', [
+                style({opacity: 0}),
+                animate(333)
+            ]),
+            transition('* => void', animate(333, style({opacity: 0})))
+        ])
     ],
     template: `
         <div class="row">

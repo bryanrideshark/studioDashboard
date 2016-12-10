@@ -21,17 +21,18 @@ import {Compbaser} from "../../compbaser/Compbaser";
 @Component({
     selector: 'Adnet',
     host: {
-        // '[@routeAnimation]': 'true',
+        '[@routeAnimation]': 'true',
         '[style.display]': "'block'"
     },
-    animations: [// trigger('routeAnimation', [
-        //     state('*', style({opacity: 1})),
-        //     transition('void => *', [
-        //         style({opacity: 0}),
-        //         animate(333)
-        //     ]),
-        //     transition('* => void', animate(333, style({opacity: 0})))
-        // ]),
+    animations: [
+        trigger('routeAnimation', [
+            state('*', style({opacity: 1})),
+            transition('void => *', [
+                style({opacity: 0}),
+                animate(333)
+            ]),
+            transition('* => void', animate(333, style({opacity: 0})))
+        ]),
         trigger('showState', [state('inactive', style({
             opacity: 0
         })), state('active', style({

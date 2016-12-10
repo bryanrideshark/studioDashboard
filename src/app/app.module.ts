@@ -1,8 +1,9 @@
 import {BrowserModule} from "@angular/platform-browser";
-import {NgModule, ViewContainerRef} from "@angular/core";
+import {NgModule} from "@angular/core";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpModule, JsonpModule} from "@angular/http";
 import {AlertModule, ModalModule} from "ng2-bootstrap/ng2-bootstrap";
+import {Ng2Bs3ModalModule} from "ng2-bs3-modal/ng2-bs3-modal";
 import {AppComponent} from "./app.component";
 import {AppStore} from "angular2-redux-util";
 import {applyMiddleware, createStore, compose, combineReducers} from "redux";
@@ -116,7 +117,8 @@ import {AppdbAction} from "../appdb/AppdbAction";
 import {AdnetResolver} from "../comps/app1/adnet/targets/AdnetResolver";
 import {CreditService} from "../services/CreditService";
 import {Consts} from "../Conts";
-import {MODAL_DIRECTIVES} from "../comps/ng2-bs3-modal/ng2-bs3-modal";
+// import {MODAL_DIRECTIVES} from "../comps/ng2-bs3-modal/ng2-bs3-modal";
+
 // import * as bootbox from 'bootbox';
 // import * as $ from 'jquery';
 // global['jQuery']  = $;
@@ -217,7 +219,7 @@ let options: ToastOptions = new ToastOptions({
 var decelerations = [AppComponent, RatesTable, UsersDetails, LoginPanel, Menu, MenuItem, Account, Whitelabel, Apps, App1, Users, Adnet, Privileges, Dashboard, Logout, Orders, Filemenu, FilemenuItem, Logo,
     LogoCompany, Footer, BlurForwarder, InputEdit, OrderBy, SortBy, FilterPipe, FilterPipeEqual, AdnetBilling, AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, ServerStats, ServerAvg,
     StationsMap, StationsGrid, StationDetails, ImgLoader, Ng2Highcharts, AdnetConfigCustomer, AdnetConfig, StationSnapshot, OrderDetails, simplelist, PrivilegesDetails, ModalDialog, Infobox,
-    UserStorage, Loading, Samplelist, UserInfo, AddUser, AdnetPayment, AdnetTransfer, ChangePass, MODAL_DIRECTIVES, simplelistEditable, AdnetConfigTargetStations,
+    UserStorage, Loading, Samplelist, UserInfo, AddUser, AdnetPayment, AdnetTransfer, ChangePass, simplelistEditable, AdnetConfigTargetStations,
     AdnetConfigTargetProps, AdnetLocation, MapAddress, AdnetNetwork, AdnetNetworkCustomerSelector, AdnetNetworkPackageEditor, AdnetNetworkPackageViewer, AdnetNetworkTargetSearch,
     AdnetNetworkPackageProps, AdnetNetworkPackageContent, AdnetNetworkPackageContentProps, AdnetNetworkTarget, AdnetNetworkTargetProps, ResourceViewer, AdnetNetworkPackageViewProps,
     AdnetNetworkPairProps, AdnetLoader, InputNumeric, InputString, Dropbox, Twofactor, AdnetReports];
@@ -228,6 +230,7 @@ var decelerations = [AppComponent, RatesTable, UsersDetails, LoginPanel, Menu, M
         BrowserModule,
         FormsModule,
         ReactiveFormsModule,
+        Ng2Bs3ModalModule,
         HttpModule,
         ChartModule,
         ToastModule.forRoot(options),
