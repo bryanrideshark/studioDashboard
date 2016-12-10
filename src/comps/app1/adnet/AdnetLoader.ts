@@ -4,44 +4,31 @@ import {AppStore} from "angular2-redux-util";
 import {AdnetCustomerModel} from "../../../adnet/AdnetCustomerModel";
 import {List} from "immutable";
 import {BusinessModel} from "../../../business/BusinessModel";
-import * as _ from "lodash";
 import {LocalStorage} from "../../../services/LocalStorage";
 import {AdnetActions} from "../../../adnet/AdnetActions";
 import {Compbaser} from "../../compbaser/Compbaser";
+import {Ngmslib} from "ng-mslib";
+import * as _ from "lodash";
 
 @Component({
     template: `
-            <small class="release">Customer selector
+            <small class="debug">{{me}}</small>
+            <br/>
+            <h5 *ngIf="loadingAdnetData==false" class="release">Customer selector
                 <i style="font-size: 1.4em" class="fa fa-cog pull-right"></i>
-            </small>
-            <!--<small class="debug">{{me}}</small>-->
-            <!--<h1>Loading</h1>-->
-            <Loading *ngIf="loadingAdnetData" [size]="123" [style]="{'margin-top': '150px'}"></Loading>
-            <p-dropdown [options]="businesses" #dropDown (onChange)="onSelectedAdnetCustomer($event, dropDown.value)" [style]="{'width':'200px'}" [(ngModel)]="selectedBusinessId" filter="filter"></p-dropdown>
+            </h5>
+            <Loading *ngIf="loadingAdnetData==true" [size]="123" [style]="{'margin-top': '150px'}"></Loading>
+            <p-dropdown *ngIf="loadingAdnetData==false" [options]="businesses" #dropDown (onChange)="onSelectedAdnetCustomer($event, dropDown.value)" [style]="{'width':'200px'}" [(ngModel)]="selectedBusinessId" filter="filter"></p-dropdown>
             <router-outlet></router-outlet>
             `,
     selector: 'AdnetLoader'
 })
 
-
 export class AdnetLoader extends Compbaser {
-
-
     constructor(private router: Router, private appStore: AppStore, private adnetActions: AdnetActions, private localStorage: LocalStorage) {
         super();
-
-        // this.me = Ngmslib.GetCompSelector(this.constructor, this)
-
-
-        //todo: fix if data in localstore is invalid
-        this.adnetCustomerId = this.localStorage.getItem('adnet_customer_id');
-        this.adnetTokenId = this.localStorage.getItem('adnet_token_id');
-        this.businessId = this.localStorage.getItem('business_id');
+        this.me = Ngmslib.GetCompSelector(this.constructor, this)
         this.listenAdnetDataReady();
-
-        this.appStore.dispatch(this.adnetActions.getAdnet(this.adnetCustomerId, this.adnetTokenId));
-        this.showState = 'active'
-
         this.buildBusinessList();
         this.showDropdownSelection();
         this.cancelOnDestroy(this.appStore.sub((i_businesses: List<BusinessModel>) => {
@@ -72,7 +59,7 @@ export class AdnetLoader extends Compbaser {
         }, 'adnet.customers'));
     }
 
-    private loadingAdnetData:boolean = false;
+    private loadingAdnetData: boolean = false;
     private selectedBusinessId = -1;
     private businessId: number;
     private adnetCustomerId: number = -1;
@@ -86,12 +73,14 @@ export class AdnetLoader extends Compbaser {
     public status: {isopen: boolean} = {isopen: false};
 
     private listenAdnetDataReady() {
-        this.cancelOnDestroy(this.adnetActions.onAdnetDataReady().subscribe((data) => {
-            var adnet = this.appStore.getState().adnet;
-            this.adnetCustomers = adnet.getIn(['customers']);
-            this.loadAdnetCustomerModel();
-            this.router.navigate(['/App1/Adnet/Adnet2']);
-        }));
+        this.cancelOnDestroy(
+            this.adnetActions.onAdnetDataReady().subscribe((data) => {
+                var adnet = this.appStore.getState().adnet;
+                this.adnetCustomers = adnet.getIn(['customers']);
+                this.loadAdnetCustomerModel();
+                this.router.navigate(['/App1/Adnet/Adnet2']);
+            })
+        );
     }
 
     private loadAdnetCustomerModel() {
@@ -114,6 +103,7 @@ export class AdnetLoader extends Compbaser {
     public onSelectedAdnetCustomer(event, i_businessId: number): void {
         // reset to no selection before loading new selection
         this.showState = 'inactive'
+        this.loadingAdnetData = true;
         this.appStore.dispatch(this.adnetActions.resetAdnet());
         setTimeout(() => {
             this.adnetCustomerId = -1;
@@ -130,6 +120,7 @@ export class AdnetLoader extends Compbaser {
             this.adnetCustomerId = businessSelected.getAdnetCustomerId();
             this.adnetTokenId = businessSelected.getAdnetTokenId();
             this.adnetCustomerName = businessSelected.getName();
+            console.log(this.adnetTokenId);
 
             if (_.isUndefined(this.adnetCustomerId) || _.isNull(this.adnetCustomerId) || this.adnetCustomerId < 10 || _.isEmpty(this.adnetCustomerId)) {
                 return bootbox.alert('This must be an old account and so it does not have an adnet token. Please login to it directly at least once so we cab generate an Adnet token for it.')
@@ -137,7 +128,8 @@ export class AdnetLoader extends Compbaser {
             this.localStorage.setItem('adnet_customer_id', this.adnetCustomerId);
             this.localStorage.setItem('adnet_token_id', this.adnetTokenId);
             this.localStorage.setItem('business_id', businessSelected.getBusinessId());
-            this.appStore.dispatch(this.adnetActions.getAdnet(this.adnetCustomerId, this.adnetTokenId));
+            this.loadingAdnetData = true;
+            this.router.navigate([`/App1/Adnet/Adnet2/${this.adnetCustomerId}/${this.adnetTokenId}`]);
             this.showState = 'active'
         }, 110)
     }

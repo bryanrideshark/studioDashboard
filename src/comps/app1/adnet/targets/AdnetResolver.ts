@@ -8,7 +8,6 @@ export class AdnetResolver implements Resolve<any> {
     constructor(private adnetActions: AdnetActions) {}
 
     resolve(route: ActivatedRouteSnapshot):Observable<any> {
-        debugger;
-        return this.adnetActions.onAdnetRouteReady();
+        return this.adnetActions.onAdnetRouteReady(route.params['adnetCustomerId'], route.params['adnetTokenId']);
     }
 }

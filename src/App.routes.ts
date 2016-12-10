@@ -40,7 +40,7 @@ const routes: Routes = [
             {path: 'Adnet',
                 children: [
                         {path: 'Adnet', component: AdnetLoader,  data: {title: 'Adnet'}, canActivate: [AuthService]},
-                        {path: 'Adnet2', component: Adnet,  data: {title: 'Ad network'}, canActivate: [AuthService],
+                        {path: 'Adnet2/:adnetCustomerId/:adnetTokenId', component: Adnet,  data: {title: 'Ad network'}, canActivate: [AuthService],
                             resolve: {
                             adnetResolver: AdnetResolver
                         }}

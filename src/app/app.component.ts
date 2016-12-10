@@ -37,11 +37,8 @@ export class AppComponent {
         //     bootbox.alert('aaa');
         // }, 4000)
 
-
         /** remove localstore **/
         // this.localStorage.removeItem('remember_me')
-        // this.localStorage.removeItem('adnet_customer_id')
-        // this.localStorage.removeItem('adnet_token_id')
         // this.localStorage.removeItem('business_id')
 
         // todo: add logic to as when on each env

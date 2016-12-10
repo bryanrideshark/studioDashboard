@@ -1,21 +1,12 @@
-import {
-    Component,
-    trigger,
-    state,
-    style,
-    transition,
-    animate
-} from "@angular/core";
+import {Component, trigger, state, style, transition, animate} from "@angular/core";
 import {AppStore} from "angular2-redux-util";
 import {AdnetCustomerModel} from "../../../adnet/AdnetCustomerModel";
 import {List} from "immutable";
-import {ActivatedRoute} from "@angular/router";
+import {Router} from "@angular/router";
 import {BusinessModel} from "../../../business/BusinessModel";
-import * as _ from 'lodash';
 // import * as bootbox from 'bootbox';
 import {LocalStorage} from "../../../services/LocalStorage";
 import {AdnetActions} from "../../../adnet/AdnetActions";
-import {Subscription} from "rxjs/Subscription";
 import {Compbaser} from "../../compbaser/Compbaser";
 
 @Component({
@@ -40,6 +31,9 @@ import {Compbaser} from "../../compbaser/Compbaser";
         })), transition('* => active', animate('100ms ease-out')), transition('* => inactive', animate('100ms ease-out'))])],
     template: `
         <br/>
+        <button (click)="onGoBack()" style="width: 40px; padding: 9px" type="button" class="btn btn-default">
+          <span class="fa fa-chevron-left"></span>
+        </button>
         <h3 style="float: right">{{adnetCustomerName}}</h3>
           <div>
             <!--<div (click)="$event.preventDefault()">-->
@@ -87,13 +81,13 @@ import {Compbaser} from "../../compbaser/Compbaser";
 
 export class Adnet extends Compbaser {
 
-    constructor(private appStore: AppStore, private adnetActions: AdnetActions, private localStorage: LocalStorage) {
+    constructor(private appStore: AppStore, private router: Router, private adnetActions: AdnetActions, private localStorage: LocalStorage) {
         super();
         //todo: fix if data in localstore is invalid
         this.adnetCustomerId = this.localStorage.getItem('adnet_customer_id');
         this.adnetTokenId = this.localStorage.getItem('adnet_token_id');
         this.businessId = this.localStorage.getItem('business_id');
-        this.listenAdnetDataReady();
+        // this.listenAdnetDataReady();
 
         this.buildBusinessList();
         this.showDropdownSelection();
@@ -101,6 +95,14 @@ export class Adnet extends Compbaser {
             this.buildBusinessList();
             this.showDropdownSelection();
         }, 'business.businesses'))
+
+        var adnet = this.appStore.getState().adnet;
+        this.adnetCustomers = adnet.getIn(['customers']);
+        this.loadAdnetCustomerModel();
+    }
+
+    private onGoBack(){
+        this.router.navigate(['/App1/Adnet']);
     }
 
     private buildBusinessList() {
@@ -137,13 +139,13 @@ export class Adnet extends Compbaser {
     public disabled: boolean = false;
     public status: {isopen: boolean} = {isopen: false};
 
-    private listenAdnetDataReady() {
-        this.cancelOnDestroy(this.adnetActions.onAdnetDataReady().subscribe((data) => {
-            var adnet = this.appStore.getState().adnet;
-            this.adnetCustomers = adnet.getIn(['customers']);
-            this.loadAdnetCustomerModel();
-        }));
-    }
+    // private listenAdnetDataReady() {
+    //     this.cancelOnDestroy(this.adnetActions.onAdnetDataReady().subscribe((data) => {
+    //         var adnet = this.appStore.getState().adnet;
+    //         this.adnetCustomers = adnet.getIn(['customers']);
+    //         this.loadAdnetCustomerModel();
+    //     }));
+    // }
 
     private loadAdnetCustomerModel() {
         if (!this.adnetCustomers)
@@ -153,10 +155,10 @@ export class Adnet extends Compbaser {
         }).first() as AdnetCustomerModel;
     }
 
-    private showDropdownSelection(){
+    private showDropdownSelection() {
         if (!this.businesses || !this.businessId)
             return;
-        var selectedBusinessId = this.businesses.filter((item)=>{
+        var selectedBusinessId = this.businesses.filter((item) => {
             return Number(item.value) == this.businessId;
         })
         this.selectedBusinessId = selectedBusinessId[0] ? selectedBusinessId[0].value : -1;
@@ -173,24 +175,24 @@ export class Adnet extends Compbaser {
         }, 100);
 
         var business = this.appStore.getState().business;
-        var businessSelected:BusinessModel = business.getIn(['businesses']).filter((i_business:BusinessModel)=>{
+        var businessSelected: BusinessModel = business.getIn(['businesses']).filter((i_business: BusinessModel) => {
             return i_business.getBusinessId() == i_businessId;
         }).first() as BusinessModel;
 
-        setTimeout(() => {
-            this.adnetCustomerId = businessSelected.getAdnetCustomerId();
-            this.adnetTokenId = businessSelected.getAdnetTokenId();
-            this.adnetCustomerName = businessSelected.getName();
-
-            if (_.isUndefined(this.adnetCustomerId) || _.isNull(this.adnetCustomerId) || this.adnetCustomerId < 10 || _.isEmpty(this.adnetCustomerId)) {
-                return bootbox.alert('This must be an old account and so it does not have an adnet token. Please login to it directly at least once so we cab generate an Adnet token for it.')
-            }
-            this.localStorage.setItem('adnet_customer_id', this.adnetCustomerId);
-            this.localStorage.setItem('adnet_token_id', this.adnetTokenId);
-            this.localStorage.setItem('business_id', businessSelected.getBusinessId());
-            this.appStore.dispatch(this.adnetActions.getAdnet(this.adnetCustomerId, this.adnetTokenId));
-            this.showState = 'active'
-        }, 110)
+        // setTimeout(() => {
+        //     this.adnetCustomerId = businessSelected.getAdnetCustomerId();
+        //     this.adnetTokenId = businessSelected.getAdnetTokenId();
+        //     this.adnetCustomerName = businessSelected.getName();
+        //
+        //     if (_.isUndefined(this.adnetCustomerId) || _.isNull(this.adnetCustomerId) || this.adnetCustomerId < 10 || _.isEmpty(this.adnetCustomerId)) {
+        //         return bootbox.alert('This must be an old account and so it does not have an adnet token. Please login to it directly at least once so we cab generate an Adnet token for it.')
+        //     }
+        //     this.localStorage.setItem('adnet_customer_id', this.adnetCustomerId);
+        //     this.localStorage.setItem('adnet_token_id', this.adnetTokenId);
+        //     this.localStorage.setItem('business_id', businessSelected.getBusinessId());
+        //     this.appStore.dispatch(this.adnetActions.getAdnet(this.adnetCustomerId, this.adnetTokenId));
+        //     this.showState = 'active'
+        // }, 110)
     }
 
     public toggled(open: boolean): void {
