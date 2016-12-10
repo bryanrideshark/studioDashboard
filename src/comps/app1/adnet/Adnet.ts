@@ -88,7 +88,6 @@ export class Adnet extends Compbaser {
 
     constructor(private appStore: AppStore, private adnetActions: AdnetActions, private localStorage: LocalStorage) {
         super();
-
         //todo: fix if data in localstore is invalid
         this.adnetCustomerId = this.localStorage.getItem('adnet_customer_id');
         this.adnetTokenId = this.localStorage.getItem('adnet_token_id');

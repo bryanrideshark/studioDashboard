@@ -121,9 +121,9 @@ export class AdnetActions extends Actions {
 
     public getAdnet(adnetCustomerId?, adnetTokenId?) {
         if (StringJS(adnetCustomerId).isBlank()) {
-            // this.adnetRouteReady$.next('adNetReady');
-            // this.adnetDataReady$.next('adnetData');
-            // this.adnetRouteReady$.complete();
+            this.adnetRouteReady$.next('adNetReady');
+            this.adnetDataReady$.next('adnetData');
+            this.adnetRouteReady$.complete();
             return (dispatch) => {
             };
         } else {
