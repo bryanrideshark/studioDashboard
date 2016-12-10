@@ -13,6 +13,7 @@ import {Consts} from "../Conts";
 import {Observable} from "rxjs";
 import {ServerMode} from "./app.module";
 import {setTimeout} from "timers";
+// import {platform} from "os";
 // import * as bootbox from 'bootbox';
 
 @Component({
@@ -32,6 +33,7 @@ export class AppComponent {
                 private toastr: ToastsManager,
                 private vRef: ViewContainerRef) {
 
+        this.checkPlatform();
 
         // setTimeout(() => {
         //     bootbox.alert('aaa');
@@ -64,21 +66,21 @@ export class AppComponent {
     private m_styleService: StyleService;
     private version = '3.58';
 
-    // private checkPlatform() {
-    //     switch (platform.name.toLowerCase()) {
-    //         case 'microsoft edge': {
-    //             alert(`${platform.name} browser not supported at this time, please use Google Chrome`);
-    //             break;
-    //         }
-    //         case 'chrome': {
-    //             break;
-    //         }
-    //         default: {
-    //             alert('for best performance please use Google Chrome');
-    //             break;
-    //         }
-    //     }
-    // }
+    private checkPlatform() {
+        switch (platform.name.toLowerCase()) {
+            case 'microsoft edge': {
+                alert(`${platform.name} browser not supported at this time, please use Google Chrome`);
+                break;
+            }
+            case 'chrome': {
+                break;
+            }
+            default: {
+                alert('for best performance please use Google Chrome');
+                break;
+            }
+        }
+    }
 
     public appResized(): void {
         var appHeight = document.body.clientHeight;

@@ -79,3 +79,31 @@ interface JQuery {
   modal:any;
 }
 
+
+
+interface PlatformStatic {
+  description?: string;
+  layout?: string;
+  manufacturer?: string;
+  name?: string;
+  prerelease?: string;
+  product?: string;
+  ua?: string;
+  version?: string;
+  os?: PlatformOS;
+  parse?(ua: string): PlatformStatic;
+  toString?(): string;
+}
+
+interface PlatformOS {
+  architecture?: number; //platform's docs say this is a string, but their code doesn't agree
+  family?: string;
+  version?: string;
+  toString(): string;
+}
+
+interface Window {
+  platform: PlatformStatic
+}
+
+declare var platform:PlatformStatic;

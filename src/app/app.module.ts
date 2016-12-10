@@ -256,6 +256,7 @@ var decelerations = [AppComponent, RatesTable, UsersDetails, LoginPanel, Menu, M
     bootstrap: [AppComponent]
 })
 export class AppModule {
-
+    constructor() {
+    }
 
 }
