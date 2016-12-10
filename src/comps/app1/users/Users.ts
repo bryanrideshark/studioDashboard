@@ -11,7 +11,7 @@ import {PrivelegesModel} from "../../../reseller/PrivelegesModel";
 import {SampleModel} from "../../../business/SampleModel";
 // import * as bootbox from "bootbox";
 import * as _ from "lodash";
-import {Lib} from "../../../Lib";
+import {Compbaser} from "../../compbaser/Compbaser";
 
 @Component({
     selector: 'Users',
@@ -50,10 +50,10 @@ import {Lib} from "../../../Lib";
 // styleUrls: ['Users.css'],
 // templateUrl: 'Users.html',
 
-export class Users {
+export class Users extends Compbaser {
 
     constructor(private appStore: AppStore, private businessAction: BusinessAction) {
-        this['me'] = Lib.GetCompSelector(this.constructor)
+        super();
         var i_businesses = this.appStore.getState().business;
         var i_reseller = this.appStore.getState().reseller;
         this.businessesList = i_businesses.getIn(['businesses']);
@@ -242,7 +242,7 @@ export class Users {
         }
     }
 
-    private ngOnDestroy() {
+    destroty() {
         this.unsub();
         this.unsub2();
         this.unsub3();

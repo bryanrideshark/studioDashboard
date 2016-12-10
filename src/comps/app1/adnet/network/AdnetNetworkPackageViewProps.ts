@@ -13,7 +13,7 @@ import {Ngmslib} from "ng-mslib";
 
 export class AdnetNetworkPackageViewProps {
     constructor() {
-        this['me'] = Ngmslib.GetCompSelector(this.constructor,this);
+        this['me'] = Ngmslib.GetCompSelector(this.constructor);
     }
 
     @Input()

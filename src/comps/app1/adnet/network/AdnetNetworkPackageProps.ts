@@ -19,6 +19,8 @@ import * as _ from "lodash";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 import {List} from "immutable";
 import {AdnetPackagePlayMode} from "./AdnetNetwork";
+import {Ngmslib} from "ng-mslib";
+import {Compbaser} from "../../../compbaser/Compbaser";
 
 @Component({
     selector: 'AdnetNetworkPackageProps',
@@ -27,9 +29,10 @@ import {AdnetPackagePlayMode} from "./AdnetNetwork";
     templateUrl: './AdnetNetworkPackageProps.html',
     styleUrls: ['./AdnetNetworkPackageCommonStyles.css']
 })
-export class AdnetNetworkPackageProps {
+export class AdnetNetworkPackageProps extends Compbaser {
     constructor(private fb: FormBuilder, private appStore: AppStore, private adnetAction: AdnetActions) {
-        this['me'] = Lib.GetCompSelector(this.constructor)
+        super();
+        // this['me'] = Ngmslib.GetCompSelector(this.constructor,this)
         this.contGroup = fb.group({
             'autoAddSiblings': [''],
             'channel': [''],

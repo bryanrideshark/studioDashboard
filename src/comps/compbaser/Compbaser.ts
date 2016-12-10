@@ -1,5 +1,5 @@
-import {Lib} from "../../Lib";
 import {Subscriber} from "rxjs";
+import {Ngmslib} from "ng-mslib";
 // import {
 //     Subscriber,
 //     Subject,
@@ -14,7 +14,7 @@ export class Compbaser {
     protected me = '';
 
     constructor() {
-        this.me = Lib.GetCompSelector(this.constructor)
+        this.me = Ngmslib.GetCompSelector(this.constructor)
     }
 
     protected cancelOnDestroy(i_function: any): void {
@@ -23,7 +23,7 @@ export class Compbaser {
 
     private ngOnDestroy() {
         // console.log('unsubscribing on behalf of ' + this.me);
-        this.unsubFunctions.map((f:any) => {
+        this.unsubFunctions.map((f: any) => {
             if (f instanceof Subscriber) {
                 f.unsubscribe();
             } else {

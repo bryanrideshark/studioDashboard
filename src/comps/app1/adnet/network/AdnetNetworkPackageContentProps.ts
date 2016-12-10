@@ -16,6 +16,8 @@ import {Lib} from "../../../../Lib";
 import * as _ from "lodash";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 import {List} from "immutable";
+import {Ngmslib} from "ng-mslib";
+import {Compbaser} from "../../../compbaser/Compbaser";
 
 //todo: add volume property control of contentType == video
 
@@ -26,9 +28,10 @@ import {List} from "immutable";
     templateUrl: './AdnetNetworkPackageContentProps.html',
     styleUrls: ['./AdnetNetworkPackageCommonStyles.css']
 })
-export class AdnetNetworkPackageContentProps {
+export class AdnetNetworkPackageContentProps extends Compbaser{
     constructor(private fb: FormBuilder, private appStore: AppStore, private adnetAction: AdnetActions) {
-        this['me'] = Lib.GetCompSelector(this.constructor)
+        super();
+        // this['me'] = Ngmslib.GetCompSelector(this.constructor)
         this.contGroup = fb.group({
             'maintainAspectRatio': [''],
             'duration': ['10'],

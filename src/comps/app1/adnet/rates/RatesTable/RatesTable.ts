@@ -13,6 +13,7 @@ import * as _ from "lodash";
 import {simplelist} from "../../../../simplelist/simplelist";
 import {AdnetRateModel} from "../../../../../adnet/AdnetRateModel";
 import {Lib} from "../../../../../Lib";
+import {Compbaser} from "../../../../compbaser/Compbaser";
 
 
 @Component({
@@ -22,10 +23,10 @@ import {Lib} from "../../../../../Lib";
     templateUrl: './RatesTable.html'
 })
 
-export class RatesTable {
+export class RatesTable extends Compbaser {
 
     constructor(private el: ElementRef) {
-        this['me'] = Lib.GetCompSelector(this.constructor)
+        super();
     }
 
     ngOnInit() {

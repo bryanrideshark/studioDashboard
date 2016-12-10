@@ -16,6 +16,7 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 // import * as bootbox from "bootbox";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {Lib} from "../../../../Lib";
+import {Compbaser} from "../../../compbaser/Compbaser";
 
 @Component({
     selector: 'AdnetConfigRates',
@@ -23,15 +24,15 @@ import {Lib} from "../../../../Lib";
     templateUrl: './AdnetConfigRates.html'
 })
 
-export class AdnetConfigRates {
+export class AdnetConfigRates extends Compbaser {
     constructor(private appStore: AppStore, private adnetAction: AdnetActions) {
+        super();
         var i_adnet = this.appStore.getState().adnet;
         this.rates = i_adnet.getIn(['rates']);
         this.unsub = this.appStore.sub((i_rates: List<AdnetRateModel>) => {
             this.rates = i_rates;
             this.updFilteredRates();
         }, 'adnet.rates');
-        this['me'] = Lib.GetCompSelector(this.constructor);
     }
 
     @Input()
@@ -121,7 +122,7 @@ export class AdnetConfigRates {
         return adnetRateModel.getName();
     }
 
-    private ngOnDestroy() {
+    destroy() {
         this.unsub();
     }
 }

@@ -17,6 +17,7 @@ import {
     AdnetNetworkPropSelector
 } from "./AdnetNetwork";
 import {SimpleGridTable} from "../../../simplegridmodule/SimpleGridTable";
+import {Ngmslib} from "ng-mslib";
 
 @Component({
     selector: 'AdnetNetworkPackageViewer',
@@ -37,7 +38,7 @@ import {SimpleGridTable} from "../../../simplegridmodule/SimpleGridTable";
 export class AdnetNetworkPackageViewer {
 
     constructor(private appStore: AppStore) {
-        this['me'] = Lib.GetCompSelector(this.constructor)
+        this['me'] = Ngmslib.GetCompSelector(this.constructor)
     }
 
     ngOnInit() {

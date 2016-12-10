@@ -134,9 +134,8 @@ export class Lib {
         return i_value;
     }
 
-    //todo: fix
-    static GetCompSelector(i_constructor) {
-        return 'need to fix 2';
+    // static GetCompSelector(i_constructor) {
+    //     return 'need to fix 2';
         // if (!Lib.DevMode())
         //     return;
         // var annotations = Reflect.getMetadata('annotations', i_constructor);
@@ -144,7 +143,7 @@ export class Lib {
         //     return (annotation instanceof Component);
         // });
         // return componentMetadata.selector;
-    }
+    // }
 
     static BootboxHide(i_time = 1500) {
         setTimeout(() => {

@@ -15,6 +15,7 @@ import {Lib} from "../../Lib";
 import * as _ from "lodash";
 import {AppdbAction} from "../../appdb/AppdbAction";
 import {LocalStorage} from "../../services/LocalStorage";
+import {Compbaser} from "../compbaser/Compbaser";
 // import * as bootbox from 'bootbox';
 
 @Component({
@@ -57,14 +58,14 @@ import {LocalStorage} from "../../services/LocalStorage";
     `,
     styles: [`.material-switch {position: relative;padding-top: 10px;}`]
 })
-export class Twofactor {
+export class Twofactor extends Compbaser {
     constructor(private fb: FormBuilder,
                 private localStorage: LocalStorage,
                 private el: ElementRef,
                 private cd: ChangeDetectorRef,
                 private appdbAction: AppdbAction,
                 private appStore: AppStore) {
-        this['me'] = Lib.GetCompSelector(this.constructor)
+        super();
         this.contGroup = fb.group({
             'TwofactorCont': ['']
         });
@@ -149,7 +150,7 @@ export class Twofactor {
         }
     }
 
-    private ngOnDestroy() {
+    destroy() {
         this.unsub();
     }
 }

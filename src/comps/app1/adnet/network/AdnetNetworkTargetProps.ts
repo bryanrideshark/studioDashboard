@@ -8,6 +8,7 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {List} from "immutable";
 import {AdnetRateModel} from "../../../../adnet/AdnetRateModel";
 import {ModalComponent} from "ng2-bs3-modal/components/modal";
+import {Compbaser} from "../../../compbaser/Compbaser";
 
 
 @Component({
@@ -33,11 +34,9 @@ import {ModalComponent} from "ng2-bs3-modal/components/modal";
         }
     `]
 })
-export class AdnetNetworkTargetProps {
-    constructor(private fb: FormBuilder,
-                private appStore: AppStore) {
-
-        this['me'] = Lib.GetCompSelector(this.constructor)
+export class AdnetNetworkTargetProps extends Compbaser {
+    constructor(private fb: FormBuilder, private appStore: AppStore) {
+        super();
         this.contGroup = fb.group({
             'keys': [''],
             'comments': [''],
@@ -79,7 +78,8 @@ export class AdnetNetworkTargetProps {
         return 'fa-star';
     }
 
-    private onModalClose(event){}
+    private onModalClose(event) {
+    }
 
     private onShowRates() {
         var rateId = this.adnetTargetModel.getRateId();

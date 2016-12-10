@@ -10,6 +10,7 @@ import {List} from "immutable";
 import {IsimplelistItem, simplelist} from "../../../simplelist/simplelist";
 import * as _ from "lodash";
 import {Lib} from "../../../../Lib";
+import {Compbaser} from "../../../compbaser/Compbaser";
 
 @Component({
     selector: 'AdnetConfigTargetStations',
@@ -40,9 +41,9 @@ import {Lib} from "../../../../Lib";
         }
         `]
 })
-export class AdnetConfigTargetStations {
+export class AdnetConfigTargetStations extends Compbaser {
     constructor(private appStore: AppStore, private adnetAction: AdnetActions, private cd: ChangeDetectorRef) {
-        this['me'] = Lib.GetCompSelector(this.constructor)
+        super();
     }
 
     @ViewChild(simplelist)
@@ -134,7 +135,7 @@ export class AdnetConfigTargetStations {
         return item.getName();
     }
 
-    private ngOnDestroy() {
+    destroy() {
         this.unsub();
     }
 }

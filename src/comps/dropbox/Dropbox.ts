@@ -10,6 +10,7 @@ import {Http} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 import {TreeNode} from "primeng/primeng";
 import {Ngmslib} from "ng-mslib";
+import {Compbaser} from "../compbaser/Compbaser";
 
 @Component({
     selector: 'Dropbox',
@@ -18,9 +19,9 @@ import {Ngmslib} from "ng-mslib";
     styleUrls: ['./Dropbox.css'],
 })
 
-export class Dropbox {
+export class Dropbox extends Compbaser {
     constructor(private _http: Http, private localStorage: LocalStorage, private cd: ChangeDetectorRef) {
-        this.me = Ngmslib.GetCompSelector(this.constructor, this);
+        super();
         if (this.localStorage.getItem('dropbox_key')) {
             this.token = this.localStorage.getItem('dropbox_key');
             this.renderTree();
@@ -33,7 +34,6 @@ export class Dropbox {
     private selectedFile: TreeNode;
     private files = [];
     private nodes = []
-    private me: string;
     private token;
     private accountValidity: boolean = false;
 

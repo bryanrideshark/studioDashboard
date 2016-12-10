@@ -9,6 +9,7 @@ import {MapAddress} from "../../../mapaddress/MapAddress";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import * as _ from 'lodash';
 import {Lib} from "../../../../Lib";
+import {Compbaser} from "../../../compbaser/Compbaser";
 
 @Component({
     selector: 'AdnetLocation',
@@ -20,10 +21,10 @@ import {Lib} from "../../../../Lib";
                 </stationsMap>`
 })
 
-export class AdnetLocation {
+export class AdnetLocation extends Compbaser {
 
     constructor(private appStore: AppStore, private adnetAction: AdnetActions) {
-        this['me'] = Lib.GetCompSelector(this.constructor)
+        super();
     }
 
     @ViewChild(StationsMap)

@@ -27,7 +27,7 @@ import * as _ from "lodash";
 export class AdnetLoader extends Compbaser {
     constructor(private router: Router, private appStore: AppStore, private adnetActions: AdnetActions, private localStorage: LocalStorage) {
         super();
-        this.me = Ngmslib.GetCompSelector(this.constructor, this)
+        // this.me = Ngmslib.GetCompSelector(this.constructor, this)
         this.listenAdnetDataReady();
         this.buildBusinessList();
         this.showDropdownSelection();
@@ -120,10 +120,11 @@ export class AdnetLoader extends Compbaser {
             this.adnetCustomerId = businessSelected.getAdnetCustomerId();
             this.adnetTokenId = businessSelected.getAdnetTokenId();
             this.adnetCustomerName = businessSelected.getName();
-            console.log(this.adnetTokenId);
 
             if (_.isUndefined(this.adnetCustomerId) || _.isNull(this.adnetCustomerId) || this.adnetCustomerId < 10 || _.isEmpty(this.adnetCustomerId)) {
-                return bootbox.alert('This must be an old account and so it does not have an adnet token. Please login to it directly at least once so we cab generate an Adnet token for it.')
+                bootbox.alert('This must be an old account and so it does not have an adnet token. Please login to it directly at least once so we cab generate an Adnet token for it.')
+                this.loadingAdnetData = false;
+                return;
             }
             this.localStorage.setItem('adnet_customer_id', this.adnetCustomerId);
             this.localStorage.setItem('adnet_token_id', this.adnetTokenId);

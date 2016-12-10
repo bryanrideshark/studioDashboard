@@ -8,6 +8,7 @@ import {AppStore} from "angular2-redux-util";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {AdnetRateModel} from "../../../../adnet/AdnetRateModel";
+import {Compbaser} from "../../../compbaser/Compbaser";
 
 @Component({
     selector: 'AdnetConfigTargetProps',
@@ -36,7 +37,7 @@ import {AdnetRateModel} from "../../../../adnet/AdnetRateModel";
     `]
 })
 
-export class AdnetConfigTargetProps {
+export class AdnetConfigTargetProps extends Compbaser {
 
     //todo: add Web view show HTML snippet in UI
 
@@ -45,8 +46,7 @@ export class AdnetConfigTargetProps {
                 private cd: ChangeDetectorRef,
                 private adnetAction: AdnetActions) {
 
-        this['me'] = Lib.GetCompSelector(this.constructor)
-
+        super();
         this.contGroup = fb.group({
             'enabled': [''],
             'label': [''],
@@ -146,7 +146,7 @@ export class AdnetConfigTargetProps {
         });
     };
 
-    private ngOnDestroy() {
+    destroy() {
         this.unsub();
     }
 }
