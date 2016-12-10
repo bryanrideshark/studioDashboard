@@ -64,7 +64,7 @@ export class AppComponent {
     }
 
     private m_styleService: StyleService;
-    private version = '3.58';
+    private version = '3.59';
 
     private checkPlatform() {
         switch (platform.name.toLowerCase()) {
