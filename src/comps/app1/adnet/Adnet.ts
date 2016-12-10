@@ -56,7 +56,7 @@ import {Compbaser} from "../../compbaser/Compbaser";
               <!--</div>-->
             <!--</div>-->
             
-            <p-dropdown [options]="businesses" #dropDown (onChange)="onSelectedAdnetCustomer($event, dropDown.value)" [style]="{'width':'200px'}" [(ngModel)]="selectedBusinessId" filter="filter"></p-dropdown>
+            <!--<p-dropdown [options]="businesses" #dropDown (onChange)="onSelectedAdnetCustomer($event, dropDown.value)" [style]="{'width':'200px'}" [(ngModel)]="selectedBusinessId" filter="filter"></p-dropdown>-->
             
           </div>
           <br/>

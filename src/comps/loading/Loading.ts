@@ -5,12 +5,14 @@ import {Component, Input, ChangeDetectionStrategy} from '@angular/core'
     styles: [`
         .spinner {
           display: inline-block;
-          opacity: 0;
+          opacity: 1;
           border: 3px solid rgba(0,0,0,.3);
           border-radius: 50%;
           border-top-color: #fff;
           animation: spin 1s ease-in-out infinite;
-          -webkit-animation: spin 1s ease-in-out infinite; 
+          -webkit-animation: spin 1s ease-in-out infinite;
+          height: 100px;
+          width: 100px;
         }
         @keyframes spin {
           to { -webkit-transform: rotate(360deg); }
@@ -36,24 +38,25 @@ import {Component, Input, ChangeDetectionStrategy} from '@angular/core'
 })
 export class Loading {
 
-    _style:Object;
-    _size:Object;
+    _style: Object;
+    _size: Object;
 
     @Input()
-    src:string = '';
+    src: string = '';
 
     @Input('style')
-    set style(i_style:Object) {
+    set style(i_style: Object) {
         this._style = i_style;
         console.log();
     }
+
     @Input('size')
-    set size(i_size:number) {
-        this._size = {
-            opacity: 1,
-            height: i_size,
-            width: i_size
-        }
+    set size(i_size: number) {
+        // this._size = {
+        //     opacity: 1,
+        //     height: i_size,
+        //     width: i_size
+        // }
 
     }
 }

@@ -98,7 +98,7 @@ export class AdnetActions extends Actions {
         return this.adnetDataReady$;
     }
 
-    private saveToServer(i_data, i_customerId, i_callBack?: (jData)=>void) {
+    private saveToServer(i_data, i_customerId, i_callBack?: (jData) => void) {
         var businesses: List<BusinessModel> = this.appStore.getState().business.getIn(['businesses']);
         var businessModel: BusinessModel = businesses.filter((i_businessModel: BusinessModel) => i_businessModel.getAdnetCustomerId() == i_customerId).first() as BusinessModel;
         var adnetTokenId = businessModel.getAdnetTokenId();
@@ -120,12 +120,13 @@ export class AdnetActions extends Actions {
     }
 
     public getAdnet(adnetCustomerId?, adnetTokenId?) {
-        if (StringJS(adnetCustomerId).isBlank()) {
-            this.adnetRouteReady$.next('adNetReady');
-            this.adnetDataReady$.next('adnetData');
-            this.adnetRouteReady$.complete();
-            return (dispatch) => {
-            };
+        if (false) {
+        // if (StringJS(adnetCustomerId).isBlank()) {
+        //     this.adnetRouteReady$.next('adNetReady');
+        //     this.adnetDataReady$.next('adnetData');
+        //     this.adnetRouteReady$.complete();
+        //     return (dispatch) => {
+        //     };
         } else {
             return (dispatch) => {
                 var baseUrl = this.appStore.getState().appdb.get('appBaseUrlAdnet');
@@ -212,14 +213,14 @@ export class AdnetActions extends Actions {
                             dispatch(this.receivedPackages(adnetPackageModels));
 
                             // enable timer to checkout slow network for loading adnet data
-                            // setTimeout(()=>{
-                            this.adnetRouteReady$.next('adNetReady');
-                            this.adnetDataReady$.next({
-                                adnetCustomerId,
-                                adnetTokenId
-                            });
-                            this.adnetRouteReady$.complete();
-                            // },10000)
+                            setTimeout(() => {
+                                this.adnetRouteReady$.next('adNetReady');
+                                this.adnetDataReady$.next({
+                                    adnetCustomerId,
+                                    adnetTokenId
+                                });
+                                this.adnetRouteReady$.complete();
+                            }, 2000)
 
 
                         }).subscribe()
@@ -355,7 +356,7 @@ export class AdnetActions extends Actions {
         }
     }
 
-    public billingMakePayment(i_customerId, i_payerUser, i_payerPass, i_amount, i_comment, i_callBack: (i_status)=>void) {
+    public billingMakePayment(i_customerId, i_payerUser, i_payerPass, i_amount, i_comment, i_callBack: (i_status) => void) {
         var businesses: List<BusinessModel> = this.appStore.getState().business.getIn(['businesses']);
         var businessModel: BusinessModel = businesses.filter((i_businessModel: BusinessModel) => i_businessModel.getAdnetCustomerId() == i_customerId).first() as BusinessModel;
         var adnetTokenId = businessModel.getAdnetTokenId();
@@ -366,13 +367,13 @@ export class AdnetActions extends Actions {
                 try {
                     var jData: Object = result.json();
                     i_callBack(jData);
-                } catch(e){
+                } catch (e) {
                     i_callBack('Problem adding payment, possibly wrong user or password entered');
                 }
             }).subscribe()
     }
 
-    public billingTransferMoney(i_customerId, i_payerUser, i_payerPass, i_amount, i_pairId, i_comment, i_callBack: (i_status)=>void) {
+    public billingTransferMoney(i_customerId, i_payerUser, i_payerPass, i_amount, i_pairId, i_comment, i_callBack: (i_status) => void) {
         var businesses: List<BusinessModel> = this.appStore.getState().business.getIn(['businesses']);
         var businessModel: BusinessModel = businesses.filter((i_businessModel: BusinessModel) => i_businessModel.getAdnetCustomerId() == i_customerId).first() as BusinessModel;
         var adnetTokenId = businessModel.getAdnetTokenId();
@@ -385,7 +386,7 @@ export class AdnetActions extends Actions {
             }).subscribe()
     }
 
-    public billingChangePassowrd(i_customerId, i_payerUser, i_payerPass1, i_payerPass2, i_callBack: (i_status)=>void) {
+    public billingChangePassowrd(i_customerId, i_payerUser, i_payerPass1, i_payerPass2, i_callBack: (i_status) => void) {
         var businesses: List<BusinessModel> = this.appStore.getState().business.getIn(['businesses']);
         var businessModel: BusinessModel = businesses.filter((i_businessModel: BusinessModel) => i_businessModel.getAdnetCustomerId() == i_customerId).first() as BusinessModel;
         var adnetTokenId = businessModel.getAdnetTokenId();

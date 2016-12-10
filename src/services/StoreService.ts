@@ -41,17 +41,20 @@ export class StoreService {
         this.singleton = true;
         this.listenServices();
 
-        var adnetCustomerId = this.localStorage.getItem('adnet_customer_id');
-        var adnetTokenId = this.localStorage.getItem('adnet_token_id');
-        if (StringJS(adnetCustomerId).isBlank()) {
-            this.appStore.dispatch(this.adnetActions.getAdnet(null));
-        } else {
-            this.appStore.dispatch(this.adnetActions.getAdnet(adnetCustomerId, adnetTokenId));
-        }
         this.appStore.dispatch(this.resellerAction.getResellerInfo());
         this.appStore.dispatch(this.resellerAction.getAccountInfo());
         this.appStore.dispatch(this.businessActions.fetchBusinesses());
         this.appStore.dispatch(this.businessActions.getSamples());
+
+        // var adnetCustomerId = this.localStorage.getItem('adnet_customer_id');
+        // var adnetTokenId = this.localStorage.getItem('adnet_token_id');
+        // if (StringJS(adnetCustomerId).isBlank()) {
+        //     return
+        //     // this.appStore.dispatch(this.adnetActions.getAdnet(null));
+        // } else {
+        //     this.appStore.dispatch(this.adnetActions.getAdnet(adnetCustomerId, adnetTokenId));
+        // }
+
     }
 
     private initPollServices() {

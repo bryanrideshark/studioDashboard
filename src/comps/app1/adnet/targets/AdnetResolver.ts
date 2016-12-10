@@ -5,10 +5,10 @@ import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class AdnetResolver implements Resolve<any> {
-
     constructor(private adnetActions: AdnetActions) {}
 
     resolve(route: ActivatedRouteSnapshot):Observable<any> {
+        debugger;
         return this.adnetActions.onAdnetRouteReady();
     }
 }

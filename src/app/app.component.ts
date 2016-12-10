@@ -33,9 +33,9 @@ export class AppComponent {
                 private vRef: ViewContainerRef) {
 
 
-        setTimeout(() => {
-            bootbox.alert('aaa');
-        }, 4000)
+        // setTimeout(() => {
+        //     bootbox.alert('aaa');
+        // }, 4000)
 
 
         /** remove localstore **/
