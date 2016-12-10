@@ -4,7 +4,6 @@ import {AdnetCustomerModel} from "../../../adnet/AdnetCustomerModel";
 import {List} from "immutable";
 import {Router} from "@angular/router";
 import {BusinessModel} from "../../../business/BusinessModel";
-// import * as bootbox from 'bootbox';
 import {LocalStorage} from "../../../services/LocalStorage";
 import {AdnetActions} from "../../../adnet/AdnetActions";
 import {Compbaser} from "../../compbaser/Compbaser";
