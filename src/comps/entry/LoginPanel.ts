@@ -14,7 +14,6 @@ import {
 import {Router} from "@angular/router";
 import {AppStore} from "angular2-redux-util";
 import {BusinessAction} from "../../business/BusinessAction";
-import {SweetAlertService} from 'ng2-cli-sweetalert2';
 import {LocalStorage} from "../../services/LocalStorage";
 import {
     AuthService,
@@ -119,7 +118,7 @@ export class LoginPanel {
     private showLoginPanel: boolean = false;
     private loginState: string = '';
 
-    constructor(private appStore: AppStore, private localStorage: LocalStorage, private renderer: Renderer, private router: Router, private authService: AuthService, private swal:SweetAlertService) {
+    constructor(private appStore: AppStore, private localStorage: LocalStorage, private renderer: Renderer, private router: Router, private authService: AuthService) {
         this.m_router = router;
         this.m_user = '';
         this.m_pass = '';
@@ -173,26 +172,11 @@ export class LoginPanel {
 
     private authUser() {
         if (this.m_showTwoFactor) {
-
-            //todo: fix
-            // this.swal.success(
-            //     {title: 'Are you sure2?',
-            //         text: 'You will not be able to recover this imaginary file!',
-            //         showCancelButton: true,
-            //         confirmButtonText: 'Yes, delete it!',
-            //         cancelButtonText: 'No, keep it'}
-            // ).then(function(success) {
-            //     console.log("Clicked confirm");
-            // }, function() {
-            //     console.log("Clicked cancel");
-            // });
-
-
-            // bootbox.dialog({
-            //     closeButton: true,
-            //     title: 'Checking two factor authentication',
-            //     message: 'please wait...'
-            // });
+            bootbox.dialog({
+                closeButton: true,
+                title: 'Checking two factor authentication',
+                message: 'please wait...'
+            });
             // var businessId = this.appStore.getState().appdb.get('credentials').get('businessId');
             var businessId = this.appStore.getsKey('reseller', 'whitelabel', 'businessId');
             this.authService.authServerTwoFactor(this.m_twoFactor);
@@ -205,7 +189,8 @@ export class LoginPanel {
         //Lib.BootboxHide();
         this.loginState = 'active';
         if (Lib.DevMode()){
-            setTimeout(() => this.m_router.navigate(['/App1/Adnet']), 200)
+            setTimeout(() => this.m_router.navigate(['/App1/Dashboard']), 2000)
+            // setTimeout(() => this.m_router.navigate(['/App1/Adnet']), 200)
         } else {
             setTimeout(() => this.m_router.navigate(['/App1/Dashboard']), 2000)
         }
@@ -234,25 +219,11 @@ export class LoginPanel {
             }
         }
         setTimeout(() => {
-
-            //todo: fix
-            // this.swal.success(
-            //     {title: 'Are you sure2?',
-            //         text: 'You will not be able to recover this imaginary file!',
-            //         showCancelButton: true,
-            //         confirmButtonText: 'Yes, delete it!',
-            //         cancelButtonText: 'No, keep it'}
-            // ).then(function(success) {
-            //     console.log("Clicked confirm");
-            // }, function() {
-            //     console.log("Clicked cancel");
-            // });
-
-            // bootbox.dialog({
-            //     closeButton: true,
-            //     title: msg1,
-            //     message: msg2
-            // });
+            bootbox.dialog({
+                closeButton: true,
+                title: msg1,
+                message: msg2
+            });
         }, 1200);
         return false;
     }

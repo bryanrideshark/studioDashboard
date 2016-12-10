@@ -1,39 +1,17 @@
 /** Common Library **/
-
-import {
-    Injectable,
-    Component
-} from "@angular/core";
-import {
-    createStore,
-    combineReducers,
-    applyMiddleware,
-    compose
-} from "redux";
-import thunkMiddleware from "redux-thunk";
+import {Injectable} from "@angular/core";
 import {AppStore} from "angular2-redux-util";
 import * as Immutable from "immutable";
-import {
-    List,
-    Map
-} from "immutable";
+import {List, Map} from "immutable";
 import {PrivelegesModel} from "./reseller/PrivelegesModel";
 import * as _ from "lodash";
 import * as xml2js from "xml2js";
 import * as moment_ from "moment";
-// import * as ss from 'string';
-
-//import {LoggerMiddleware} from "angular2-redux-util";
-//import {BusinessUser} from "./business/BusinessUser";
-//import * as thunkMiddleware from 'redux-thunk';
 
 export const moment = moment_["default"];
 
-
 @Injectable()
 export class Lib {
-
-
     /**
      *
      * @param dateString format of date + time: /Date(1469923200000+0000)/"
@@ -170,7 +148,7 @@ export class Lib {
 
     static BootboxHide(i_time = 1500) {
         setTimeout(() => {
-            //bootbox.hideAll();
+            bootbox.hideAll();
         }, i_time)
     }
 
@@ -211,7 +189,7 @@ export class Lib {
      * @param callBack
      * @constructor
      */
-    static PrivilegesXmlTemplate(defaultValues: boolean, selPrivId: string, appStore: AppStore = null, callBack: (err, result)=>any) {
+    static PrivilegesXmlTemplate(defaultValues: boolean, selPrivId: string, appStore: AppStore = null, callBack: (err, result) => any) {
         // const parseString = require('xml2js').parseString;
         const parseString = xml2js.parseString;
 
@@ -451,7 +429,7 @@ export class Lib {
         };
     }
 
-    static AppsXmlTemplate(callBack: (err, result)=>any) {
+    static AppsXmlTemplate(callBack: (err, result) => any) {
         // const parseString = require('xml2js').parseString;
         const parseString = xml2js.parseString;
         var xmlData = `

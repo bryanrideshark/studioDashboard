@@ -12,6 +12,7 @@ import {Ngmslib} from "ng-mslib";
 import {Consts} from "../Conts";
 import {Observable} from "rxjs";
 import {ServerMode} from "./app.module";
+import {setTimeout} from "timers";
 
 @Component({
     selector: 'app-root',
@@ -29,6 +30,12 @@ export class AppComponent {
                 private appdbAction: AppdbAction,
                 private toastr: ToastsManager,
                 private vRef: ViewContainerRef) {
+
+
+        setTimeout(()=>{
+            bootbox.alert('aaa');
+        },8000)
+
 
         /** remove localstore **/
         // this.localStorage.removeItem('remember_me')
@@ -53,7 +60,6 @@ export class AppComponent {
                 router.navigate(['/App1/Dashboard']);
             }, 1000);
         }
-
         this.toastr.setRootViewContainerRef(vRef);
     }
 

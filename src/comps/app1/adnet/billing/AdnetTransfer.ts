@@ -1,11 +1,11 @@
 import {Component, EventEmitter, ChangeDetectionStrategy, Input, Output} from "@angular/core";
 import {FormGroup, FormBuilder} from "@angular/forms";
 import {AppStore} from "angular2-redux-util";
-import {ModalComponent} from "../../../ng2-bs3-modal/components/modal";
 import {List} from "immutable";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
+import {ModalComponent} from "ng2-bs3-modal/components/modal";
 
 export interface ITransferPayment {
     userName: string;

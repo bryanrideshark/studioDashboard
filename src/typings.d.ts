@@ -73,6 +73,7 @@ declare module 'bootbox' {
   var confirm:any;
 }
 
+declare var bootbox:any;
 
 interface JQuery {
   modal:any;

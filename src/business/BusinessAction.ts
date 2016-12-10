@@ -7,7 +7,6 @@ import {BusinessUser} from "./BusinessUser";
 import {Subject} from "rxjs/Subject";
 import {BusinessSourcesModel} from "./BusinessSourcesModel";
 import {Observable} from "rxjs/Observable";
-import {SweetAlertService} from 'ng2-cli-sweetalert2';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/finally';
 import 'rxjs/add/observable/throw';
@@ -37,7 +36,7 @@ export class BusinessAction extends Actions {
     businessesRequest$: Subject<any>;
     unsub;
 
-    constructor(private _http: Http, private appStore: AppStore, private swal: SweetAlertService) {
+    constructor(private _http: Http, private appStore: AppStore) {
         super();
         this.parseString = xml2js.parseString;
         // this.parseString = require('xml2js').parseString;
@@ -144,7 +143,7 @@ export class BusinessAction extends Actions {
             url = appdb.get('appBaseUrlUser') + `&command=UpdateAccount&buinessId=${businessId}&businessName=${name}&maxMonitors=${maxMonitors}&allowSharing=${allowSharing}`;
             this._http.get(url)
                 .catch((err) => {
-                    this.swal.error({title: 'Error updating account'});
+                    bootbox.alert('Error updating account');
                     return Observable.throw(err);
                 })
                 .finally(() => {
@@ -153,7 +152,7 @@ export class BusinessAction extends Actions {
                     var reply: any = result.text();
                     if (reply == 'True') {
                     } else {
-                        this.swal.error({title: 'Problem updating the selected account'});
+                        bootbox.alert('Problem updating the selected account');
                     }
                 }).subscribe();
         }
@@ -165,7 +164,7 @@ export class BusinessAction extends Actions {
         url = appdb.get('appBaseUrlUser') + `&command=GetLoginUrl&customerUserName=${customerUserName}`;
         this._http.get(url)
             .catch((err) => {
-                this.swal.error({title: 'Problem launching StudioPro'});
+                bootbox.alert('Problem launching StudioPro');
                 return Observable.throw(err);
             })
             .finally(() => {
@@ -183,7 +182,7 @@ export class BusinessAction extends Actions {
         // console.log(url);
         this._http.get(url)
             .catch((err) => {
-                this.swal.error({title: 'Problem getting user password'});
+                bootbox.alert('Problem getting user password');
                 return Observable.throw(err);
             })
             .finally(() => {
@@ -201,7 +200,7 @@ export class BusinessAction extends Actions {
             url = appdb.get('appBaseUrlUser') + `&command=DeleteAccount&buinessId=${businessId}`;
             this._http.get(url)
                 .catch((err) => {
-                    this.swal.error({title: 'Error removing account'});
+                    bootbox.alert('Error removing account');
                     return Observable.throw(err);
                 })
                 .finally(() => {
@@ -211,7 +210,7 @@ export class BusinessAction extends Actions {
                     // if (reply == 'True') {
                     //     dispatch(this.fetchBusinesses());
                     // } else {
-                    //     this.swal.error({title: 'Problem deleting the selected business'});
+                    //     bootbox.alert('Problem deleting the selected business');
                     // }
                 }).subscribe();
             dispatch({type: REMOVE_BUSINESS, businessId})
@@ -353,7 +352,7 @@ export class BusinessAction extends Actions {
             url = appdb.get('appBaseUrlUser') + `&command=AssociateAccount&customerUserName=${user}&customerPassword=${pass}`;
             this._http.get(url)
                 .catch((err) => {
-                    this.swal.error({title: 'Error when updating App mode'});
+                    bootbox.alert('Error when updating App mode');
                     // return Observable.of(true);
                     return Observable.throw(err);
                 })
@@ -362,10 +361,10 @@ export class BusinessAction extends Actions {
                 .map((result: any) => {
                     var reply: any = result.text();
                     if (reply == 'True') {
-                        this.swal.error({title: 'User imported successfully'});
+                        bootbox.alert('User imported successfully');
                         dispatch(this.fetchBusinesses());
                     } else {
-                        this.swal.error({title: 'User could not be imported, either the credentials supplied were wrong or the user is already associated with another enterprise account'});
+                        bootbox.alert('User could not be imported, either the credentials supplied were wrong or the user is already associated with another enterprise account');
                     }
                 }).subscribe();
         }
@@ -385,7 +384,7 @@ export class BusinessAction extends Actions {
             url = appdb.get('appBaseUrlUser') + `&command=DuplicateAccount&customerBusinessName=${businessName}&customerUserName=${name}&customerPassword=${password}&templateBusinessId=${businessId}&privilegeId=${privilegeId}&accessMask=${accessMask}`;
             this._http.get(url)
                 .catch((err) => {
-                    this.swal.error({title: 'Error creating a new account from samples'});
+                    bootbox.alert('Error creating a new account from samples');
                     // return Observable.of(true);
                     return Observable.throw(err);
                 })
@@ -396,7 +395,7 @@ export class BusinessAction extends Actions {
                     if (reply == 'True') {
                         dispatch(this.fetchBusinesses());
                     } else {
-                        this.swal.error({title: 'User could not be imported, either the credentials supplied were wrong or the user is already associated with another enterprise account'});
+                        bootbox.alert('User could not be imported, either the credentials supplied were wrong or the user is already associated with another enterprise account');
                     }
                 }).subscribe();
         }
@@ -418,7 +417,7 @@ export class BusinessAction extends Actions {
                     if (jData.indexOf('true') > -1) {
                         dispatch({type: ADD_BUSINESS_USER, BusinessUser: businessUser})
                     } else {
-                        this.swal.error({title: 'Problem adding user, this user name may be already taken'});
+                        bootbox.alert('Problem adding user, this user name may be already taken');
                     }
                 }).subscribe();
         }
@@ -433,7 +432,7 @@ export class BusinessAction extends Actions {
                     var jData: string = result.text()
                     // jData = jData.replace(/}\)/, '').replace(/\(\{"result":"/, '');
                     if (jData.indexOf('true') == -1) {
-                        this.swal.error({title: 'Problem changing password'});
+                        bootbox.alert('Problem changing password');
                     }
                     // dispatch(this.savedBusinessUserAccess({
                     //     businessId: businessId,
@@ -456,7 +455,7 @@ export class BusinessAction extends Actions {
                     if (jData.indexOf('true') > -1) {
                         dispatch({type: REMOVE_BUSINESS_USER, BusinessUser: businessUser})
                     } else {
-                        this.swal.error({title: 'Problem removing user'});
+                        bootbox.alert('Problem removing user');
                     }
                 }).subscribe();
         }

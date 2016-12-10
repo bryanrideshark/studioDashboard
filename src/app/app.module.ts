@@ -1,7 +1,8 @@
 import {BrowserModule} from "@angular/platform-browser";
-import {NgModule} from "@angular/core";
+import {NgModule, ViewContainerRef} from "@angular/core";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpModule, JsonpModule} from "@angular/http";
+import {AlertModule, ModalModule} from "ng2-bootstrap/ng2-bootstrap";
 import {AppComponent} from "./app.component";
 import {AppStore} from "angular2-redux-util";
 import {applyMiddleware, createStore, compose, combineReducers} from "redux";
@@ -46,7 +47,6 @@ import {BlurForwarder} from "../comps/blurforwarder/BlurForwarder";
 import {Footer} from "../comps/footer/Footer";
 import {InputEdit} from "../comps/inputedit/InputEdit";
 import {OrderBy} from "../pipes/OrderBy";
-import {StringJSPipe} from "ng-mslib/dist/pipes/stringjs.pipe";
 import {SortBy} from "../pipes/SortBy";
 import {Ngmslib} from "ng-mslib";
 import {FilterPipe} from "../pipes/FilterPipe";
@@ -79,10 +79,7 @@ import {AddUser} from "../comps/app1/users/AddUser";
 import {AdnetPayment} from "../comps/app1/adnet/billing/AdnetPayment";
 import {AdnetTransfer} from "../comps/app1/adnet/billing/AdnetTransfer";
 import {ChangePass} from "../comps/app1/users/ChangePass";
-import {MODAL_DIRECTIVES} from "../comps/ng2-bs3-modal/ng2-bs3-modal";
-// import {Ng2Highstocks} from "../comps/ng2-highcharts/src/directives/ng2-highstocks";
-// import {Ng2Highmaps} from "../comps/ng2-highcharts/src/directives/ng2-highmaps";
-import {ChartModule} from 'angular2-highcharts';
+import {ChartModule} from "angular2-highcharts";
 import {simplelistEditable} from "../comps/simplelist/simplelistEditable";
 import {AdnetConfigTargetStations} from "../comps/app1/adnet/targets/AdnetConfigTargetStations";
 import {AdnetConfigTargetProps} from "../comps/app1/adnet/targets/AdnetConfigTargetProps";
@@ -118,10 +115,16 @@ import {StationsAction} from "../stations/StationsAction";
 import {AppdbAction} from "../appdb/AppdbAction";
 import {AdnetResolver} from "../comps/app1/adnet/targets/AdnetResolver";
 import {CreditService} from "../services/CreditService";
-import {SweetAlertService} from 'ng2-cli-sweetalert2';
 import {Consts} from "../Conts";
-import * as jQuery from "jquery";
-window['jQuery'] = jQuery;
+import {MODAL_DIRECTIVES} from "../comps/ng2-bs3-modal/ng2-bs3-modal";
+
+// import * as $ from 'jquery';
+// global['jQuery']  = $;
+// window['$'] = $;
+import * as bootbox from 'bootbox';
+
+// import * as jQuery from "jquery";
+// window['jQuery'] = jQuery;
 
 export enum ServerMode {
     CLOUD,
@@ -151,9 +154,6 @@ var providing = [CommBroker, AUTH_PROVIDERS,
     }, deps: []
     },
     {
-        provide: SweetAlertService,
-        useClass: SweetAlertService
-    }, {
         provide: StoreService,
         useClass: StoreService
     },
@@ -240,6 +240,8 @@ var decelerations = [AppComponent, RatesTable, UsersDetails, LoginPanel, Menu, M
         MsLibModule.forRoot(),
         SimpleGridModule.forRoot(),
         JsonpModule,
+        AlertModule,
+        ModalModule,
         DropdownModule,
         AccordionModule,
         TreeModule,
@@ -254,8 +256,6 @@ var decelerations = [AppComponent, RatesTable, UsersDetails, LoginPanel, Menu, M
     bootstrap: [AppComponent]
 })
 export class AppModule {
-    constructor(private swal:SweetAlertService){
 
-    }
 
 }
