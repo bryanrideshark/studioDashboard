@@ -62,7 +62,7 @@ export class AppComponent {
     }
 
     private m_styleService: StyleService;
-    private version = '3.55';
+    private version = '3.58';
 
     // private checkPlatform() {
     //     switch (platform.name.toLowerCase()) {

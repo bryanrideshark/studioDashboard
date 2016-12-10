@@ -12,7 +12,7 @@
     "hmr": "ng serve --port 4203 --aot false --hmr -e=hmr",
     "dev": "ng serve --port 4203 --aot false",
     "rsync": "rsync --progress  --chmod=ug=rwx --chmod=o=rx -av --stats -e ssh /cygdrive/c/msweb/studioDashboard/dist/ Sean@digitalsignage.com:/var/www/sites/dynasite/htdocs/_msportal/_js/_node/_dash",
-    "release": "npm run build_prod && npm run rsync"
+    "release": "rm -r -f ./dist && npm run build_prod && npm run rsync"
   },
   "dependencies": {
     "@angular/common": "2.3",
