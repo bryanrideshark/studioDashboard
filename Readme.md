@@ -51,27 +51,22 @@ Links:
 - Angular2 docs: https://angular.io/docs/ts/latest/
 - Angular2 GitHub: https://github.com/angular/angular/tree/master/modules/angular2
 - TypeScript: https://www.typescriptlang.org/
-- jspm: http://jspm.io/ 
 
 
 Technical data:
 ------------------------------------------------------------------------
-- The application uses the jspm module / npm loader
+- The application is powered by angular-cli 
 - Use latest release of Angular2
 - Application is powered by TypeScript
 - App can be hosted to run locally (recommended on node.js) or on any hosted web server
    Keep in mind that you must serve the source from the root (/) of the server domain (not under any sub-directory)
 - License is modified GPL V3
 
-Installation (currently using jspm beta 0.17):
-------------------------------------------------------------------------
  
 ```
 git clone https://github.com/born2net/studioDashboard.git
 cd studioDashboard
-npm install -g jspm@beta
-npm install -g gulp
-npm install
+npm install 
 ```
 
 
