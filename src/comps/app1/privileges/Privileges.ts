@@ -16,7 +16,7 @@ import {List} from "immutable";
 import {AppStore} from "angular2-redux-util";
 import {AuthService} from "../../../services/AuthService";
 import {ResellerAction} from "../../../reseller/ResellerAction";
-import * as bootbox from "bootbox";
+// import * as bootbox from "bootbox";
 
 @Component({
     selector: 'privileges',

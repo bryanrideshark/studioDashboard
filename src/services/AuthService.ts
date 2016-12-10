@@ -17,7 +17,7 @@ import {
 } from "../appdb/AppdbAction";
 import 'rxjs/add/observable/fromPromise';
 import {Observable} from 'rxjs/Observable';
-import * as bootbox from "bootbox";
+// import * as bootbox from "bootbox";
 import {Map} from 'immutable';
 import {Lib} from "../Lib";
 

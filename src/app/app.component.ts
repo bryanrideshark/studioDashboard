@@ -13,6 +13,7 @@ import {Consts} from "../Conts";
 import {Observable} from "rxjs";
 import {ServerMode} from "./app.module";
 import {setTimeout} from "timers";
+// import * as bootbox from 'bootbox';
 
 @Component({
     selector: 'app-root',
@@ -32,9 +33,9 @@ export class AppComponent {
                 private vRef: ViewContainerRef) {
 
 
-        setTimeout(()=>{
+        setTimeout(() => {
             bootbox.alert('aaa');
-        },8000)
+        }, 4000)
 
 
         /** remove localstore **/

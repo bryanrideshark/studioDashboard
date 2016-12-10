@@ -21,7 +21,7 @@ import {FormGroup, FormControl, FormBuilder} from "@angular/forms";
 import {Lib} from "../../../Lib";
 import {ImgLoader} from "../../imgloader/ImgLoader";
 import * as _ from "lodash";
-import * as bootbox from "bootbox";
+// import * as bootbox from "bootbox";
 
 @Component({
     selector: 'whitelabel',

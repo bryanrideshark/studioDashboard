@@ -25,7 +25,7 @@ import {
     AdnetActions,
     ContentTypeEnum
 } from "../../../../adnet/AdnetActions";
-import * as bootbox from "bootbox";
+// import * as bootbox from "bootbox";
 import {Compbaser} from "../../../compbaser/Compbaser";
 
 @Component({

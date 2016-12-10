@@ -13,7 +13,7 @@ import {
 import {AdnetRateModel} from "../../../../adnet/AdnetRateModel";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
-import * as bootbox from "bootbox";
+// import * as bootbox from "bootbox";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {Lib} from "../../../../Lib";
 

@@ -29,7 +29,6 @@ import {
     simplelist
 } from "../../../simplelist/simplelist";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
-import * as bootbox from 'bootbox';
 
 @Component({
     selector: 'AdnetNetworkTargetSearch',

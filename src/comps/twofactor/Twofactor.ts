@@ -14,8 +14,8 @@ import {AppStore} from "angular2-redux-util";
 import {Lib} from "../../Lib";
 import * as _ from "lodash";
 import {AppdbAction} from "../../appdb/AppdbAction";
-import * as bootbox from 'bootbox';
 import {LocalStorage} from "../../services/LocalStorage";
+// import * as bootbox from 'bootbox';
 
 @Component({
     selector: 'Twofactor',
@@ -115,19 +115,19 @@ export class Twofactor {
     private addQrCode() {
         this.removeQrCode();
         this.appdbAction.getQrCodeTwoFactor((qrCode) => {
-            this.removeQrCode();
-            jQuery(this.el.nativeElement).append(qrCode);
-            var svg = jQuery(this.el.nativeElement).find('svg').get(0);
-            // var w = svg.width.baseVal.value;
-            // var h = svg.height.baseVal.value;
-            svg.setAttribute('viewBox', '0 0 ' + 100 + ' ' + 100);
-            svg.setAttribute('width', '100%');
-            // svg.setAttribute('height', '100%');
+            // this.removeQrCode();
+            // jQuery(this.el.nativeElement).append(qrCode);
+            // var svg = jQuery(this.el.nativeElement).find('svg').get(0);
+            // // var w = svg.width.baseVal.value;
+            // // var h = svg.height.baseVal.value;
+            // svg.setAttribute('viewBox', '0 0 ' + 100 + ' ' + 100);
+            // svg.setAttribute('width', '100%');
+            // // svg.setAttribute('height', '100%');
         })
     }
 
     private removeQrCode() {
-        jQuery(this.el.nativeElement).find('svg').remove();
+        // jQuery(this.el.nativeElement).find('svg').remove();
     }
 
     private onChangeStatus(i_twoFactorStatus: boolean) {

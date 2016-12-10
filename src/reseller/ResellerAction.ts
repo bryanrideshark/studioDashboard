@@ -14,7 +14,7 @@ import {WhitelabelModel} from "./WhitelabelModel";
 import {AccountModel} from "./AccountModel";
 import {Http, Request, RequestOptions, RequestMethod, RequestOptionsArgs} from "@angular/http";
 import {CreditService} from "../services/CreditService";
-import * as bootbox from "bootbox";
+// import * as bootbox from "bootbox";
 import * as _ from "lodash";
 import * as xml2js from "xml2js";
 
