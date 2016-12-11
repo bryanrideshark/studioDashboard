@@ -8,7 +8,7 @@ import {Loading} from "../../loading/Loading";
     selector: 'ServerStats',
     template: `
         <div style="width: 100%">
-            <Loading *ngIf="_data == 0" [size]="50" [style]="{'margin-top': '150px'}"></Loading>
+            <Loading *ngIf="_data == 0" [size]="'50px'" [style]="{'margin-top': '150px'}"></Loading>
             <div *ngIf="_data.length > 0">
                 <div [ng2-highcharts]="_options" (init)="onInit($event)" class="graph"></div>
             </div>
