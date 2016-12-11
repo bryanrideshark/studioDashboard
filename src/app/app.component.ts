@@ -45,7 +45,6 @@ export class AppComponent {
 
         // todo: add logic to as when on each env
         // 0 = cloud, 1 = private 2 = hybrid
-        debugger;
         Ngmslib.GlobalizeStringJS();
         console.log(StringJS('string-js-is-init').humanize().s);
         console.log(StringJS('string-js-is-init').capitalize().s);
