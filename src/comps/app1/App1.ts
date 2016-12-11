@@ -20,8 +20,8 @@ import {Consts} from "../../../src/Conts";
             <MenuItem [fontAwesome]="'fa-sitemap'" [tabtitle]="'Adnet'"></MenuItem>
             <MenuItem [fontAwesome]="'fa-power-off'" [tabtitle]="'Logout'"></MenuItem>
           </Menu>
-          <div id="mainPanelWrapWasp" class="mainContent col-xs-12 col-sm-12 col-md-12 col-lg-11">
-           <router-outlet></router-outlet>
+          <div id="mainPanelWrapWasp" style="padding-left: 60px" class="mainContent col-xs-12 col-sm-12 col-md-12 col-lg-11">
+            <router-outlet></router-outlet>
           </div>
         </div>
     `

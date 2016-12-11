@@ -31,9 +31,6 @@ import {ResellerAction} from "../../../reseller/ResellerAction";
         ])
     ],
     template: `
-       <h1>aa</h1>
-       <Loading [size]="'30px'" [style]="{'margin-top': '150px'}"></Loading>
-       <h1>aa</h1>
         <div *ngIf="apps && apps.size > 0">
           <simpleGridTable>
             <thead>
