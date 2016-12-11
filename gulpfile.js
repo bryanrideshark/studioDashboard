@@ -24,7 +24,6 @@ gulp.task('gitReset', function () {
 });
 
 
-
 // var express = require('express');
 // var browserSync = require('browser-sync');
 // var runSequence = require('run-sequence');
