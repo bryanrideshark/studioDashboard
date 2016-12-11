@@ -1,6 +1,6 @@
 <div>
     <!--<button (click)="getRateTable()" class="btn-primary">Save</button>-->
-    <small class="debug">{{me}}</small>
+    <small *ngIf="inDevMode" class="debug">{{me}}</small>
     <div *ngIf="adnetRateModel" class="well well-sm text-center">
         <h5>hourly advertisement charge rates</h5>
         <div class="btn-group" data-toggle="buttons">

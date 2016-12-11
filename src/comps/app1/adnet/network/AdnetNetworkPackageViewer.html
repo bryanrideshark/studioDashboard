@@ -2,8 +2,8 @@
     <!--<li *ngFor="let item of packagesFiltered">{{item.getName()}} {{item.getId()}}</li>-->
 <!--</ul>-->
 <div>
-    <small class="release">Package Viewer</small>
-    <small class="debug">{{me}}</small>
+    <small *ngIf="inDevMode" class="debug">{{me}}</small>
+    <small *ngIf="!inDevMode" class="release">Package Viewer</small>
     <simpleGridTable>
         <thead>
         <tr>

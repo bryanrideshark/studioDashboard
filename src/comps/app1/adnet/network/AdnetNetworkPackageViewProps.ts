@@ -4,6 +4,7 @@ import {
 } from "@angular/core";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 import {Ngmslib} from "ng-mslib";
+import {Compbaser} from "../../../compbaser/Compbaser";
 
 @Component({
     selector: 'AdnetNetworkPackageViewProps',
@@ -11,9 +12,9 @@ import {Ngmslib} from "ng-mslib";
     styles: [``]
 })
 
-export class AdnetNetworkPackageViewProps {
+export class AdnetNetworkPackageViewProps extends Compbaser{
     constructor() {
-        this['me'] = Ngmslib.GetCompSelector(this.constructor);
+        super();
     }
 
     @Input()

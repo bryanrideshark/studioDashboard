@@ -955,20 +955,19 @@ Language selector
     background-color: #c9302c;
 }
 
-/*small {*/
-    /*font-size: 0.9em;*/
-    /*display: block;*/
-/*}*/
-
-/*small.debug {*/
-    /*color: darkgray;*/
-    /*!*display: none; !important;*!*/
-/*}*/
-/*small.release {*/
-    /*text-transform: lowercase;*/
-    /*color: #4c4c4c;*/
-    /*display: none; !important;*/
-/*}*/
+small {
+    font-size: 0.9em;
+    display: block;
+}
+small.debug {
+    color: darkgray;
+    /*display: none !important;*/
+}
+small.release {
+    text-transform: lowercase;
+    color: #4c4c4c;
+    /*display: none !important;*/
+}
 
 .panel-title  {
     font-size: 0.9em;

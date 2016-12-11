@@ -33,9 +33,8 @@ import {AdnetActions} from "../../../../adnet/AdnetActions";
     `],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-        <small class="release">targets</small>
-        <small class="debug">{{me}}</small>
-        
+        <small *ngIf="inDevMode" class="debug">{{me}}</small>
+        <small *ngIf="!inDevMode" class="release">targets</small>
         <a class="pull-right" style="position: relative; top: 5px; right: 6px" 
                 (click)="$event.preventDefault(); onRemoveTarget($event)" 
                     [ngClass]="{disabled: !selectedTargetModel || editMode == false}" href="#">

@@ -42,7 +42,7 @@ import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
                                     <small class="release">target properties
                                         <i style="font-size: 1.4em" class="fa fa-cog pull-right"></i>
                                     </small>
-                                <small class="debug">{{me}}</small>
+                                <small *ngIf="inDevMode" class="debug">{{me}}</small>
                                 </div>
                                 <ul class="list-group">
                                     <li *ngIf="this.globalNetworkEnabled" class="list-group-item">

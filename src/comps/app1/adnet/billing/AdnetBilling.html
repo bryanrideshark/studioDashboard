@@ -1,4 +1,4 @@
-<small class="debug">{{me}}</small>
+<small *ngIf="inDevMode" class="debug">{{me}}</small>
 <div class="row">
     <div class="col-xs-2">
         <!--<p-selectButton [options]="selectionPeriod" [(ngModel)]="selectedPeriod" (onChange)="onSelectedPeriod($event)"></p-selectButton>-->

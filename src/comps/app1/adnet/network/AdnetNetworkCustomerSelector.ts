@@ -41,7 +41,7 @@ export interface IPairSelect {
         }
 `],
     template: `   
-            <small class="debug">{{me}}</small>
+            <small *ngIf="inDevMode" class="debug">{{me}}</small>
             <select style="font-family:'FontAwesome', Arial;" (change)="onChanges($event)" class="mn form-control custom longInput">
                 <option>&#xf112; Outgoing</option>
                 <option>&#xf064; Incoming</option>

@@ -31,7 +31,8 @@ import {Compbaser} from "../../../compbaser/Compbaser";
         }
     `],
     template: `
-            <small class="release pull-right">content</small><small class="debug">{{me}}</small>
+            <small class="release pull-right">content</small>
+            <small *ngIf="inDevMode" class="debug">{{me}}</small>
             <a class="pull-right" style="position: relative; top: 5px; right: 6px" 
                 (click)="$event.preventDefault(); onRemoveContent($event)" 
                     [ngClass]="{disabled: !selectedAdnetContentModel || editMode == false}" href="#">

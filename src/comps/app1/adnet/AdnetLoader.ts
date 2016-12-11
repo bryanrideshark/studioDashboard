@@ -12,7 +12,7 @@ import * as _ from "lodash";
 
 @Component({
     template: `
-            <small class="debug">{{me}}</small>
+            <small *ngIf="inDevMode" class="debug">{{me}}</small>
             <br/>
             <h5 *ngIf="loadingAdnetData==false" class="release">Customer selector
                 <i style="font-size: 1.4em" class="fa fa-cog pull-right"></i>

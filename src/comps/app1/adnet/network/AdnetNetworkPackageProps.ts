@@ -32,7 +32,6 @@ import {Compbaser} from "../../../compbaser/Compbaser";
 export class AdnetNetworkPackageProps extends Compbaser {
     constructor(private fb: FormBuilder, private appStore: AppStore, private adnetAction: AdnetActions) {
         super();
-        // this['me'] = Ngmslib.GetCompSelector(this.constructor,this)
         this.contGroup = fb.group({
             'autoAddSiblings': [''],
             'channel': [''],

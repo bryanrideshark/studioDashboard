@@ -18,6 +18,7 @@ import {
 } from "./AdnetNetwork";
 import {SimpleGridTable} from "../../../simplegridmodule/SimpleGridTable";
 import {Ngmslib} from "ng-mslib";
+import {Compbaser} from "../../../compbaser/Compbaser";
 
 @Component({
     selector: 'AdnetNetworkPackageViewer',
@@ -35,10 +36,10 @@ import {Ngmslib} from "ng-mslib";
     templateUrl: './AdnetNetworkPackageViewer.html'
 })
 
-export class AdnetNetworkPackageViewer {
+export class AdnetNetworkPackageViewer extends Compbaser {
 
     constructor(private appStore: AppStore) {
-        this['me'] = Ngmslib.GetCompSelector(this.constructor)
+        super();
     }
 
     ngOnInit() {
@@ -250,7 +251,7 @@ export class AdnetNetworkPackageViewer {
             return i_adnetPackageModel.getName();
     }
 
-    private ngOnDestroy() {
+    destroy() {
         this.unsub1();
         this.unsub2();
     }

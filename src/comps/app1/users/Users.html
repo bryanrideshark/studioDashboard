@@ -1,5 +1,5 @@
 <div class="row">
-  <small class="debug">comp: {{me}}.ts</small>
+  <small *ngIf="inDevMode" class="debug">{{me}}</small>
   <div class="col-xs-3">
     <div class="users">
       <div (click)="$event.preventDefault()">

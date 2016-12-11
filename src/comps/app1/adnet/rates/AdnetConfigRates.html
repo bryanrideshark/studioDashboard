@@ -1,5 +1,5 @@
 <div class="row">
-    <small class="debug">{{me}}</small>
+    <small *ngIf="inDevMode" class="debug">{{me}}</small>
     <div class="col-xs-3" style="padding-left: 30px">
         <div (click)="$event.preventDefault()">
             <a (click)="onAddRate($event)" class="btns addUser" href="#">

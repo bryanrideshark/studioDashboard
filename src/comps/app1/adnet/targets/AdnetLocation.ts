@@ -14,7 +14,7 @@ import {Compbaser} from "../../../compbaser/Compbaser";
 @Component({
     selector: 'AdnetLocation',
     template: `
-                <small class="debug">{{me}}</small>
+                <small *ngIf="inDevMode" class="debug">{{me}}</small>
                 <MapAddress #mapAddress (onChange)="onUpdatedStationCoords($event)"></MapAddress>
                 <stationsMap #stationsMap (onMapClicked)="onUpdatedStationCoords($event)" 
                    *ngIf="stationComponentMode=='map'" [stations]="stations">

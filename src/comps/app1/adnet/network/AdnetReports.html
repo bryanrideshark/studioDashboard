@@ -1,9 +1,7 @@
 <div [ngSwitch]="switchView">
     <div *ngSwitchCase="'SELECT_REPORT'" style="padding: 10px">
-        <small class="debug">{{me}}</small>
-        <button (click)="onReport()" [ngClass]="{disabled: reportDisabled}"
-                class="btn btn-circle btn-primary pull-right">run report
-        </button>
+        <small *ngIf="inDevMode" class="debug">{{me}}</small>
+        <button (click)="onReport()" [ngClass]="{disabled: reportDisabled}" class="btn btn-circle btn-primary pull-right">run report</button>
         <h4>Select report</h4>
         <p>Month selected: {{selectedDate}} </p>
         <p-selectButton [options]="reportTypes" [(ngModel)]="selectedReportName" (onChange)="onReportTypeClicked($event)"></p-selectButton>

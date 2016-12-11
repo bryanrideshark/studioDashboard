@@ -31,7 +31,6 @@ import {Compbaser} from "../../../compbaser/Compbaser";
 export class AdnetNetworkPackageContentProps extends Compbaser{
     constructor(private fb: FormBuilder, private appStore: AppStore, private adnetAction: AdnetActions) {
         super();
-        // this['me'] = Ngmslib.GetCompSelector(this.constructor)
         this.contGroup = fb.group({
             'maintainAspectRatio': [''],
             'duration': ['10'],

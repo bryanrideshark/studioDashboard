@@ -1,5 +1,5 @@
 <div class="row">
-    <small class="debug">{{me}}</small>
+    <small *ngIf="inDevMode" class="debug">{{me}}</small>
     <div class="col-xs-4">
         <AdnetConfigTargetStations (onTargetSelected)="onTargetSelected($event)" [adnetCustomerModel]="customerModel">
         </AdnetConfigTargetStations>

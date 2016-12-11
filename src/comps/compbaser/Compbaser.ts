@@ -12,9 +12,11 @@ import {Ngmslib} from "ng-mslib";
 export class Compbaser {
     private unsubFunctions: Array<any> = [];
     protected me = '';
+    protected inDevMode:boolean = false;
 
     constructor() {
-        this.me = Ngmslib.GetCompSelector(this.constructor)
+        this.inDevMode = Ngmslib.DevMode();
+        this.me = Ngmslib.GetCompSelector(this.constructor);
     }
 
     protected cancelOnDestroy(i_function: any): void {
