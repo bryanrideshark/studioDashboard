@@ -1,6 +1,6 @@
 var gulp = require('gulp');
 var git = require('gulp-git');
-
+var runSequence = require('run-sequence');
 
 /** Dangerous, this will wipe your current source and sync with GitHub **/
 gulp.task('vanish***', function (done) {
@@ -17,7 +17,13 @@ gulp.task('vanish***', function (done) {
     }, 1000)
 });
 
-gulp.task('gitReset', function () {
+gulp.task('x_gitPull', function () {
+    git.exec({args: '-c core.quotepath=false pull --progress --no-stat -v --progress origin master'}, function (err, stdout) {
+        if (err) throw err;
+    });
+});
+
+gulp.task('x_gitReset', function () {
     git.exec({args: '-c core.quotepath=false reset --hard HEAD --'}, function (err, stdout) {
         if (err) throw err;
     });
@@ -26,7 +32,6 @@ gulp.task('gitReset', function () {
 
 // var express = require('express');
 // var browserSync = require('browser-sync');
-// var runSequence = require('run-sequence');
 // var tslint = require('gulp-tslint');
 // var typedoc = require("gulp-typedoc");
 // var superstatic = require('superstatic');
