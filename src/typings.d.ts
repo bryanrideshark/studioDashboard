@@ -1,20 +1,6 @@
 // Typings reference file, you can add your own global typings here
 // https://www.typescriptlang.org/docs/handbook/writing-declaration-files.html
 
-
-// import {Middleware, Dispatch} from "redux";
-// export type ThunkAction<R, S, E> = (dispatch: Dispatch<S>, getState: () => S,
-//                                     extraArgument: E) => R;
-// declare module "redux" {
-//   export interface Dispatch<S> {
-//     <R, E>(asyncAction: ThunkAction<R, S, E>): R;
-//   }
-// }
-// declare const thunk: Middleware & {
-//   withExtraArgument(extraArgument: any): Middleware;
-// };
-// export default thunk;
-
 declare module Reflect {
   function apply(target: Function, thisArgument: any, argumentsList: ArrayLike<any>): any;
   function construct(target: Function, argumentsList: ArrayLike<any>): any;
@@ -43,6 +29,53 @@ declare module 'xml2js' {
   var parseString;
 }
 
+// declare module 'bootbox' {
+//   var hideAll:any;
+//   var prompt:any;
+//   var alert:any;
+//   var dialog:any;
+//   var alert:any;
+//   var confirm:any;
+// }
+//
+// declare var bootbox:any;
+
+interface jQueryModal extends JQuery {
+
+}
+
+interface JQuery {
+  modal:any;
+}
+
+interface PlatformStatic {
+  description?: string;
+  layout?: string;
+  manufacturer?: string;
+  name?: string;
+  prerelease?: string;
+  product?: string;
+  ua?: string;
+  version?: string;
+  os?: PlatformOS;
+  parse?(ua: string): PlatformStatic;
+  toString?(): string;
+}
+
+interface PlatformOS {
+  architecture?: number;
+  family?: string;
+  version?: string;
+  toString(): string;
+}
+
+interface Window {
+  platform: PlatformStatic
+}
+
+declare var platform:PlatformStatic;
+
+
 // declare class  ActiveXObject {
 //   constructor(a:any);
 //   async;
@@ -60,50 +93,15 @@ declare module 'xml2js' {
 // declare module 'highcharts' {
 // }
 
-interface a extends JQuery {}
-
-
-
-declare module 'bootbox' {
-  var hideAll:any;
-  var prompt:any;
-  var alert:any;
-  var dialog:any;
-  var alert:any;
-  var confirm:any;
-}
-
-declare var bootbox:any;
-
-interface JQuery {
-  modal:any;
-}
-
-
-
-interface PlatformStatic {
-  description?: string;
-  layout?: string;
-  manufacturer?: string;
-  name?: string;
-  prerelease?: string;
-  product?: string;
-  ua?: string;
-  version?: string;
-  os?: PlatformOS;
-  parse?(ua: string): PlatformStatic;
-  toString?(): string;
-}
-
-interface PlatformOS {
-  architecture?: number; //platform's docs say this is a string, but their code doesn't agree
-  family?: string;
-  version?: string;
-  toString(): string;
-}
-
-interface Window {
-  platform: PlatformStatic
-}
-
-declare var platform:PlatformStatic;
+// import {Middleware, Dispatch} from "redux";
+// export type ThunkAction<R, S, E> = (dispatch: Dispatch<S>, getState: () => S,
+//                                     extraArgument: E) => R;
+// declare module "redux" {
+//   export interface Dispatch<S> {
+//     <R, E>(asyncAction: ThunkAction<R, S, E>): R;
+//   }
+// }
+// declare const thunk: Middleware & {
+//   withExtraArgument(extraArgument: any): Middleware;
+// };
+// export default thunk;

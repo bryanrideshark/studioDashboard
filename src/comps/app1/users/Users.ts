@@ -152,7 +152,8 @@ export class Users extends Compbaser {
                 confirm: {
                     className: "btn-danger",
                     label: "Delete"
-                }
+                },
+                cancel: {}
             },
             callback: (result) => {
                 if (_.isNull(result))

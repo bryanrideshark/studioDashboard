@@ -36,7 +36,7 @@ export class AppComponent {
         this.checkPlatform();
 
         // setTimeout(() => {
-        //     bootbox.alert('aaa');
+        //     bootbox.alert('aaa2');
         // }, 4000)
 
         /** remove localstore **/
@@ -45,7 +45,6 @@ export class AppComponent {
 
         // todo: add logic to as when on each env
         // 0 = cloud, 1 = private 2 = hybrid
-        // this.checkPlatform();
 
         Ngmslib.GlobalizeStringJS();
 
