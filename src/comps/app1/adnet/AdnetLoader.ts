@@ -17,7 +17,7 @@ import * as _ from "lodash";
             <h5 *ngIf="loadingAdnetData==false" class="release">Customer selector
                 <i style="font-size: 1.4em" class="fa fa-cog pull-right"></i>
             </h5>
-            <Loading *ngIf="loadingAdnetData==true" [size]="123" [style]="{'margin-top': '150px'}"></Loading>
+            <Loading *ngIf="loadingAdnetData==true" [size]="'100px'" [style]="{'margin-top': '150px'}"></Loading>
             <p-dropdown *ngIf="loadingAdnetData==false" [options]="businesses" #dropDown (onChange)="onSelectedAdnetCustomer($event, dropDown.value)" [style]="{'width':'200px'}" [(ngModel)]="selectedBusinessId" filter="filter"></p-dropdown>
             <router-outlet></router-outlet>
             `,

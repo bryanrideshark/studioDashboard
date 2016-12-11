@@ -51,13 +51,12 @@ export class Loading {
     }
 
     @Input('size')
-    set size(i_size: number) {
-        // this._size = {
-        //     opacity: 1,
-        //     height: i_size,
-        //     width: i_size
-        // }
-
+    set size(i_size) {
+        this._size = {
+            opacity: 1,
+            height: i_size,
+            width: i_size
+        }
     }
 }
 

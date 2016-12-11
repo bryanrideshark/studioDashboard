@@ -3,7 +3,7 @@
 <div *ngIf="!selectedOrder && !loading">
   <h2>no orders selected</h2>
 </div>
-<Loading *ngIf="loading" [size]="75" [style]="{'margin-top': '250px'}"></Loading>
+<Loading *ngIf="loading" [size]="'75px'" [style]="{'margin-top': '250px'}"></Loading>
 <div *ngIf="selectedOrder && !loading">
   <div *ngIf="showProgress" class="row bs-wizard" style="border-bottom:0;">
 
