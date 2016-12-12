@@ -21,6 +21,15 @@ import * as _ from "lodash";
             <p-dropdown *ngIf="loadingAdnetData==false" [options]="businesses" #dropDown (onChange)="onSelectedAdnetCustomer($event, dropDown.value)" [style]="{'width':'200px'}" [(ngModel)]="selectedBusinessId" filter="filter"></p-dropdown>
             <router-outlet></router-outlet>
             `,
+    styles: [`
+        :host >>> .fa-caret-down {
+            position: relative;
+            left: -5px;
+        } 
+        :host >>> .ui-dropdown {
+          padding-right: 1.3em;
+        }
+    `],
     selector: 'AdnetLoader'
 })
 
