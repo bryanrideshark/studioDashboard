@@ -46,10 +46,7 @@ export class AppComponent {
         // todo: add logic to as when on each env
         // 0 = cloud, 1 = private 2 = hybrid
         Ngmslib.GlobalizeStringJS();
-        console.log(StringJS('string-js-is-init').humanize().s);
-        console.log(StringJS('string-js-is-init').capitalize().s);
-        console.log(StringJS('string-js-is-init').collapseWhitespace().s);
-        console.log(StringJS('lifeislife').camelize().s);
+        console.log(StringJS('app-loaded-ready').humanize().s);
 
         this.commBroker.setValue(Consts.Values().SERVER_MODE, ServerMode.CLOUD);
         this.m_styleService = styleService;
