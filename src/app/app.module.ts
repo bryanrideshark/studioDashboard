@@ -132,25 +132,28 @@ export enum ServerMode {
     HYBRID
 }
 
+export function appStoreFactory() {
+    const reducers = combineReducers({
+        notify,
+        appdb,
+        business,
+        stations,
+        reseller,
+        adnet,
+        orders
+    });
+    const middlewareEnhancer = applyMiddleware(<any>thunkMiddleware);
+    const isDebug = window['devToolsExtension']
+    const applyDevTools = () => isDebug ? window['devToolsExtension']() : f => f;
+    const enhancers: any = compose(middlewareEnhancer, applyDevTools());
+    const store = createStore(reducers, enhancers);
+    return new AppStore(store);
+}
+
+
 export var providing = [CommBroker, AUTH_PROVIDERS,
     {
-        provide: AppStore, useFactory: function() {
-        const reducers = combineReducers({
-            notify,
-            appdb,
-            business,
-            stations,
-            reseller,
-            adnet,
-            orders
-        });
-        const middlewareEnhancer = applyMiddleware(<any>thunkMiddleware);
-        const isDebug = window['devToolsExtension']
-        const applyDevTools = () => isDebug ? window['devToolsExtension']() : f => f;
-        const enhancers: any = compose(middlewareEnhancer, applyDevTools());
-        const store = createStore(reducers, enhancers);
-        return new AppStore(store);
-    }, deps: []
+        provide: AppStore, useFactory: appStoreFactory
     },
     {
         provide: StoreService,

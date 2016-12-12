@@ -40,7 +40,7 @@ import {SimpleGridRecord} from "../../simplegridmodule/SimpleGridRecord";
                   <simpleGridTable #userSimpleGridTable>
                     <thead>
                     <tr>
-                      <th sortableHeader="connection" [sort]="sort">connection</th>
+                      <th sortableHeader="connection" [sort]="sort">connect</th>
                       <th sortableHeader="watchDogConnection" [sort]="sort">watchdog</th>
                       <th sortableHeader="name" [sort]="sort">name</th>
                       <th sortableHeader="businessId" [sort]="sort">business</th>
