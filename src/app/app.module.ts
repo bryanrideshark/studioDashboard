@@ -146,9 +146,8 @@ export var providing = [CommBroker, AUTH_PROVIDERS,
         });
         const middlewareEnhancer = applyMiddleware(<any>thunkMiddleware);
         const isDebug = window['devToolsExtension']
-        // const applyDevTools = () => isDebug ? window['devToolsExtension']() : f => f;
-        // const enhancers: any = compose(middlewareEnhancer, applyDevTools());
-        const enhancers: any = compose(middlewareEnhancer);
+        const applyDevTools = () => isDebug ? window['devToolsExtension']() : f => f;
+        const enhancers: any = compose(middlewareEnhancer, applyDevTools());
         const store = createStore(reducers, enhancers);
         return new AppStore(store);
     }, deps: []
