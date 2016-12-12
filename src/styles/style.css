@@ -973,3 +973,7 @@ small.release {
     font-size: 0.9em;
 }
 
+.material-switch {
+    position: relative;
+    top: -10px
+}

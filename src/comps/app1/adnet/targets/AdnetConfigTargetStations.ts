@@ -9,7 +9,6 @@ import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {List} from "immutable";
 import {IsimplelistItem, simplelist} from "../../../simplelist/simplelist";
 import * as _ from "lodash";
-import {Lib} from "../../../../Lib";
 import {Compbaser} from "../../../compbaser/Compbaser";
 
 @Component({

@@ -594,7 +594,7 @@ export class AdnetActions extends Actions {
                     "customerId": customerId,
                     "label": "www.yourdomain.com",
                     "targetType": "2",
-                    "enabled": "false",
+                    "enabled": false,
                     "locationLat": "0",
                     "locationLng": "0",
                     "targetDomain": "www.yourdomain.com",

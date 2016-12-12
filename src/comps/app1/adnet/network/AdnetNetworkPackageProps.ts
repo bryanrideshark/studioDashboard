@@ -85,7 +85,7 @@ export class AdnetNetworkPackageProps extends Compbaser {
     }
 
     private numToDay(num) {
-        var days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+        var days = ['sun','mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
         return days[num];
     }
 

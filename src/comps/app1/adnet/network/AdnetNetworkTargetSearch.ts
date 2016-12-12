@@ -119,6 +119,7 @@ import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
                 </form>
                 <div (click)="$event.preventDefault()">
                     <a class="btns" (click)="onAdd($event)" href="#">
+                        <br/>
                         <span style="font-size: 1.5em; color: black" [ngClass]="{disabled: !selectedAdnetTargetModel}" class="fa fa-plus"></span>
                     </a>                    
                 </div>
