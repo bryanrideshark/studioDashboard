@@ -117,14 +117,6 @@ import {AppdbAction} from "../appdb/AppdbAction";
 import {AdnetResolver} from "../comps/app1/adnet/targets/AdnetResolver";
 import {CreditService} from "../services/CreditService";
 import {Consts} from "../Conts";
-// import {MODAL_DIRECTIVES} from "../comps/ng2-bs3-modal/ng2-bs3-modal";
-
-// import * as bootbox from 'bootbox';
-// import * as $ from 'jquery';
-// global['jQuery']  = $;
-// window['$'] = $;
-// import * as jQuery from "jquery";
-// window['jQuery'] = jQuery;
 
 export enum ServerMode {
     CLOUD,
