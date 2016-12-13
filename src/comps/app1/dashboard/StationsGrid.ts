@@ -4,11 +4,26 @@ import {
     Output,
     ViewChild,
     EventEmitter,
-    ChangeDetectionStrategy
+    ChangeDetectionStrategy, ChangeDetectorRef
 } from "@angular/core";
 import {StationModel} from "../../../stations/StationModel";
 import {SimpleGridTable} from "../../simplegridmodule/SimpleGridTable";
 import {SimpleGridRecord} from "../../simplegridmodule/SimpleGridRecord";
+import {List} from 'immutable';
+import {Observer, Observable} from "rxjs";
+import "rxjs/add/operator/do";
+import "rxjs/add/operator/delay";
+import * as _ from 'lodash';
+
+export function staggered$(list: any[], delay: number): Observable<any> {
+    return Observable.zip(
+        Observable.from(list),
+        Observable.interval(delay),
+        (x, y) => {
+            return x;
+        }
+    ).scan((acc, x) => acc.concat(x), [])
+}
 
 @Component({
     selector: 'stationsGrid',
@@ -54,6 +69,7 @@ import {SimpleGridRecord} from "../../simplegridmodule/SimpleGridRecord";
                     </tr>
                     </thead>
                     <tbody>
+                    <!--<tr class="simpleGridRecord" (onDoubleClicked)="onDoubleClicked($event)" simpleGridRecord *ngFor="let item of m_stations | ThrottlePipe | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">-->
                     <tr class="simpleGridRecord" (onDoubleClicked)="onDoubleClicked($event)" simpleGridRecord *ngFor="let item of m_stations | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">
                       <td style="width: 5%" simpleGridDataImage [color]="item.getConnectionIcon('color')" [field]="item.getConnectionIcon('icon')" [item]="item"></td>
                       <td style="width: 5%" simpleGridDataImage color="dodgerblue" [field]="item.getWatchDogConnection()" [item]="item"></td>
@@ -76,11 +92,48 @@ import {SimpleGridRecord} from "../../simplegridmodule/SimpleGridRecord";
 })
 export class StationsGrid {
 
+    constructor(private cd: ChangeDetectorRef) {
+
+        // this.m_stations = List<StationModel>();
+        // this.observable = Observable.create(o => {
+        //     this.observer = o;
+        // });
+        // var this = this;
+        // var c = 0;
+        // this.observable
+        //     .map(i_model => i_model)
+        //     .delay(_.random(2000, 4000))
+        //     .do((i_model) => {
+        //         console.log(c++);
+        //         this.m_stations = this.m_stations.push(i_model)
+        //         this.cd.markForCheck();
+        //     })
+        //     .subscribe();
+        //
+
+    }
+
     @ViewChild(SimpleGridTable) simpleGridTable: SimpleGridTable
 
+    // private observable: Observable<any>;
+    // private observer: Observer<any>;
+    private m_stations: List<StationModel>;
+
+
     @Input()
-    set stations(i_stations) {
-        this.m_stations = i_stations;
+    set stations(i_stations: List<StationModel>) {
+        if (!i_stations)
+            return;
+        this.m_stations = List<StationModel>();
+        i_stations.forEach((i_station: StationModel, c) => {
+            ((i_t, i_station) => {
+                setTimeout(() => {
+                    this.m_stations = this.m_stations.push(i_station)
+                    this.cd.markForCheck();
+                }, i_t)
+            })(c * 10, i_station);
+
+        })
     }
 
     @Output() onStationSelected: EventEmitter<StationModel> = new EventEmitter<StationModel>();
@@ -109,7 +162,6 @@ export class StationsGrid {
 
     }
 
-    private m_stations;
     public sort: {field: string, desc: boolean} = {
         field: null,
         desc: false

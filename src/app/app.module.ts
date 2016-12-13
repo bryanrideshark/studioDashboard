@@ -117,6 +117,7 @@ import {AppdbAction} from "../appdb/AppdbAction";
 import {AdnetResolver} from "../comps/app1/adnet/targets/AdnetResolver";
 import {CreditService} from "../services/CreditService";
 import {Consts} from "../Conts";
+import {ThrottlePipe} from "../pipes/ThrottlePipe";
 
 export enum ServerMode {
     CLOUD,
@@ -217,7 +218,7 @@ var decelerations = [AppComponent, RatesTable, UsersDetails, LoginPanel, Menu, M
     UserStorage, Loading, Samplelist, UserInfo, AddUser, AdnetPayment, AdnetTransfer, ChangePass, simplelistEditable, AdnetConfigTargetStations,
     AdnetConfigTargetProps, AdnetLocation, MapAddress, AdnetNetwork, AdnetNetworkCustomerSelector, AdnetNetworkPackageEditor, AdnetNetworkPackageViewer, AdnetNetworkTargetSearch,
     AdnetNetworkPackageProps, AdnetNetworkPackageContent, AdnetNetworkPackageContentProps, AdnetNetworkTarget, AdnetNetworkTargetProps, ResourceViewer, AdnetNetworkPackageViewProps,
-    AdnetNetworkPairProps, AdnetLoader, InputNumeric, InputString, Dropbox, Twofactor, AdnetReports];
+    AdnetNetworkPairProps, AdnetLoader, InputNumeric, InputString, Dropbox, Twofactor, AdnetReports, ThrottlePipe];
 
 @NgModule({
     declarations: [decelerations],
