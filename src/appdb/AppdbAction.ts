@@ -79,7 +79,6 @@ export class AppdbAction extends Actions {
     }
 
     public authenticateTwoFactor(i_token: string, i_enable: boolean, i_cb?: Function) {
-        //todo: debug
         // return (dispatch) => {
         //     dispatch({
         //         type: TWO_FACTOR_SERVER_RESULT,

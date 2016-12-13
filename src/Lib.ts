@@ -53,7 +53,7 @@ export class Lib {
             return '';
         //todo: adding +1 on save to server hack, need to ask Alon
         if (addDay) {
-            return moment(dateString, 'YYYY-MM-DD').add(1, 'day').valueOf();
+            return moment(dateString, 'YYYY-MM-DD').add(0, 'day').valueOf();
         } else {
             return moment(dateString, 'YYYY-MM-DD').valueOf();
         }

@@ -13,8 +13,6 @@ import {Consts} from "../Conts";
 import {Observable} from "rxjs";
 import {ServerMode} from "./app.module";
 import {setTimeout} from "timers";
-// import {platform} from "os";
-// import * as bootbox from 'bootbox';
 
 @Component({
     selector: 'app-root',
@@ -22,22 +20,20 @@ import {setTimeout} from "timers";
     templateUrl: './app.component.html',
 })
 export class AppComponent {
-    constructor(private localStorage: LocalStorage,
-                private router: Router,
-                private appStore: AppStore,
+    public version = '3.60';
+
+    constructor(private router: Router,
                 private commBroker: CommBroker,
                 private activatedRoute: ActivatedRoute,
                 private titleService: Title,
-                styleService: StyleService,
-                private appdbAction: AppdbAction,
+                private vRef: ViewContainerRef,
                 private toastr: ToastsManager,
-                private vRef: ViewContainerRef) {
+                private localStorage: LocalStorage,
+                private appStore: AppStore,
+                private styleService: StyleService,
+                private appdbAction: AppdbAction) {
 
         this.checkPlatform();
-
-        // setTimeout(() => {
-        //     bootbox.alert('aaa2');
-        // }, 4000)
 
         /** remove localstore **/
         // this.localStorage.removeItem('remember_me')
@@ -49,7 +45,6 @@ export class AppComponent {
         console.log(StringJS('app-loaded-ready').humanize().s);
 
         this.commBroker.setValue(Consts.Values().SERVER_MODE, ServerMode.CLOUD);
-        this.m_styleService = styleService;
         this.commBroker.setService(Consts.Services().App, this);
         Observable.fromEvent(window, 'resize').debounceTime(250).subscribe(() => {
             this.appResized();
@@ -61,9 +56,6 @@ export class AppComponent {
         }
         this.toastr.setRootViewContainerRef(vRef);
     }
-
-    private m_styleService: StyleService;
-    private version = '3.59';
 
     private checkPlatform() {
         switch (platform.name.toLowerCase()) {
@@ -100,7 +92,6 @@ export class AppComponent {
     }
 
     ngOnInit() {
-        // does not support hot-reload
         if (!Ngmslib.DevMode)
             this.listenRouterUpdateTitle();
     }
