@@ -210,14 +210,14 @@ export class AdnetActions extends Actions {
                         dispatch(this.receivedPackages(adnetPackageModels));
 
                         // enable timer to checkout slow network for loading adnet data
-                        setTimeout(() => {
-                            observer.next('adNetReady');
-                            observer.next({
-                                adnetCustomerId,
-                                adnetTokenId
-                            });
-                            observer.complete();
-                        }, 2000)
+                        // setTimeout(() => {
+                        observer.next('adNetReady');
+                        observer.next({
+                            adnetCustomerId,
+                            adnetTokenId
+                        });
+                        observer.complete();
+                        // }, 2000)
 
 
                     }).subscribe()

@@ -129,7 +129,7 @@ export class AdnetNetworkPackageProps extends Compbaser {
                 }
                 case 'endDate': {
                     var data = this.adnetPackageModels.getKey('Value')[key];
-                    data = Lib.ProcessDateField(data, false);
+                    data = Lib.ProcessDateField(data, true);
                     break;
                 }
                 default: {

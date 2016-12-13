@@ -20,8 +20,7 @@ import {setTimeout} from "timers";
     templateUrl: './app.component.html',
 })
 export class AppComponent {
-    public version = '3.60';
-
+    public version = '3.61';
     constructor(private router: Router,
                 private commBroker: CommBroker,
                 private activatedRoute: ActivatedRoute,
