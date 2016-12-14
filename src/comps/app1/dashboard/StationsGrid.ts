@@ -34,6 +34,7 @@ import {Compbaser} from "../../compbaser/Compbaser";
         `],
     template: `
         <div class="row">
+             <p style="padding-left: 10px">total players: {{totalPlayers$ | async}}</p>
              <div class="col-xs-12">
                 <div (click)="$event.preventDefault()" style="position: relative; top: 10px">
                     <div>
@@ -60,7 +61,7 @@ import {Compbaser} from "../../compbaser/Compbaser";
                       <th sortableHeader="appVersion" [sort]="sort">version</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody>                    
                     <!--<tr class="simpleGridRecord" (onDoubleClicked)="onDoubleClicked($event)" simpleGridRecord *ngFor="let item of m_stations | ThrottlePipe | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">-->
                     <tr class="simpleGridRecord" (onDoubleClicked)="onDoubleClicked($event)" simpleGridRecord *ngFor="let item of m_stations | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">
                       <td style="width: 5%" simpleGridDataImage [color]="item.getConnectionIcon('color')" [field]="item.getConnectionIcon('icon')" [item]="item"></td>
@@ -89,7 +90,7 @@ export class StationsGrid extends Compbaser {
 
     @ViewChild(SimpleGridTable) simpleGridTable: SimpleGridTable
 
-    private cancel$: Subject<any> = new Subject();
+    private totalPlayers$: Subject<any> = new Subject();
     private m_stations: List<StationModel>;
 
     private staggered(list, delay: number): Observable<any> {
@@ -104,13 +105,16 @@ export class StationsGrid extends Compbaser {
 
     @Input()
     set stations(i_stations: List<StationModel>) {
-        if (!i_stations)
-            return;
-        this.cancel$.next('done');
+        if (!i_stations || i_stations.size == 0) {
+            this.m_stations = List<any>();
+            this.totalPlayers$.next('none');
+            return
+        }
+        this.totalPlayers$.next(i_stations.size);
         this.m_stations = List<any>();
         var items$ = this.staggered(i_stations, 1);
         this.cancelOnDestroy(
-            items$.takeUntil(this.cancel$).subscribe((x) => {
+            items$.takeUntil(this.totalPlayers$).subscribe((x) => {
                 this.m_stations = List<any>(x);
                 this.cd.markForCheck();
             })
