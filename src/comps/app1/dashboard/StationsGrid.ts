@@ -15,6 +15,8 @@ import "rxjs/add/operator/do";
 import "rxjs/add/operator/delay";
 import * as _ from 'lodash';
 import {Compbaser} from "../../compbaser/Compbaser";
+import {StoreModel} from "../../../models/StoreModel";
+import {Ngmslib} from "ng-mslib";
 
 
 @Component({
@@ -93,16 +95,6 @@ export class StationsGrid extends Compbaser {
     private totalPlayers$: Subject<any> = new Subject();
     private m_stations: List<StationModel>;
 
-    private staggered(list, delay: number): Observable<any> {
-        return Observable.zip(
-            Observable.from(list),
-            Observable.interval(delay),
-            (x, y) => {
-                return x;
-            }
-        ).scan((acc: any, x) => acc.concat(x), [])
-    }
-
     @Input()
     set stations(i_stations: List<StationModel>) {
         if (!i_stations || i_stations.size == 0) {
@@ -111,8 +103,8 @@ export class StationsGrid extends Compbaser {
             return
         }
         this.totalPlayers$.next(i_stations.size);
-        this.m_stations = List<any>();
-        var items$ = this.staggered(i_stations, 1);
+        this.m_stations = List<StationModel>();
+        var items$ = Ngmslib.Staggered(i_stations, 1);
         this.cancelOnDestroy(
             items$.takeUntil(this.totalPlayers$).subscribe((x) => {
                 this.m_stations = List<any>(x);
