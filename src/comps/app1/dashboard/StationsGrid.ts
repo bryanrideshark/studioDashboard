@@ -15,15 +15,6 @@ import "rxjs/add/operator/do";
 import "rxjs/add/operator/delay";
 import * as _ from 'lodash';
 
-export function staggered$(list: any[], delay: number): Observable<any> {
-    return Observable.zip(
-        Observable.from(list),
-        Observable.interval(delay),
-        (x, y) => {
-            return x;
-        }
-    ).scan((acc, x) => acc.concat(x), [])
-}
 
 @Component({
     selector: 'stationsGrid',
@@ -93,46 +84,34 @@ export function staggered$(list: any[], delay: number): Observable<any> {
 export class StationsGrid {
 
     constructor(private cd: ChangeDetectorRef) {
-
-        // this.m_stations = List<StationModel>();
-        // this.observable = Observable.create(o => {
-        //     this.observer = o;
-        // });
-        // var this = this;
-        // var c = 0;
-        // this.observable
-        //     .map(i_model => i_model)
-        //     .delay(_.random(2000, 4000))
-        //     .do((i_model) => {
-        //         console.log(c++);
-        //         this.m_stations = this.m_stations.push(i_model)
-        //         this.cd.markForCheck();
-        //     })
-        //     .subscribe();
-        //
-
     }
 
     @ViewChild(SimpleGridTable) simpleGridTable: SimpleGridTable
 
-    // private observable: Observable<any>;
-    // private observer: Observer<any>;
     private m_stations: List<StationModel>;
+    private sub;
 
+    private staggered(list, delay: number): Observable<any> {
+        return Observable.zip(
+            Observable.from(list),
+            Observable.interval(delay),
+            (x, y) => {
+                return x;
+            }
+        ).scan((acc, x) => acc.concat(x), [])
+    }
 
     @Input()
     set stations(i_stations: List<StationModel>) {
         if (!i_stations)
             return;
-        this.m_stations = List<StationModel>();
-        i_stations.forEach((i_station: StationModel, c) => {
-            ((i_t, i_station) => {
-                setTimeout(() => {
-                    this.m_stations = this.m_stations.push(i_station)
-                    this.cd.markForCheck();
-                }, i_t)
-            })(c * 10, i_station);
-
+        if (this.sub)
+            this.sub.unsubscribe();
+        this.m_stations = List<any>();
+        var items$ = this.staggered(i_stations, 5)
+        this.sub = items$.subscribe((x) => {
+            this.m_stations = List<any>(x);
+            this.cd.markForCheck();
         })
     }
 
@@ -145,9 +124,6 @@ export class StationsGrid {
     private launchStationModal(i_stationModel?: StationModel) {
         if (!i_stationModel)
             i_stationModel = this.selectedStation();
-        //console.log('A ' + i_stationModel.getStationName() + ' ' + i_stationModel.getStationId());
-        // this.modalAddUserSample.open('lg');
-        // alert(stationModel.getKey('businessId'));
         this.onStationSelected.emit(i_stationModel)
     }
 
@@ -159,7 +135,6 @@ export class StationsGrid {
     }
 
     private onSelectStation(event) {
-
     }
 
     public sort: {field: string, desc: boolean} = {
@@ -169,3 +144,30 @@ export class StationsGrid {
 
 }
 
+// this.m_stations = List<StationModel>();
+// i_stations.forEach((i_station: StationModel, c) => {
+//     ((i_t, i_station) => {
+//         setTimeout(() => {
+//             this.m_stations = this.m_stations.push(i_station)
+//             this.cd.markForCheck();
+//         }, i_t)
+//     })(c * 10, i_station);
+//
+// })
+// this.m_stations = List<any>();
+// this.m_stations = List<StationModel>();
+// this.observable = Observable.create(o => {
+//     this.observer = o;
+// });
+// var this = this;
+// var c = 0;
+// this.observable
+//     .map(i_model => i_model)
+//     .delay(_.random(2000, 4000))
+//     .do((i_model) => {
+//         console.log(c++);
+//         this.m_stations = this.m_stations.push(i_model)
+//         this.cd.markForCheck();
+//     })
+//     .subscribe();
+//
