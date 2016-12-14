@@ -10,10 +10,11 @@ import {StationModel} from "../../../stations/StationModel";
 import {SimpleGridTable} from "../../simplegridmodule/SimpleGridTable";
 import {SimpleGridRecord} from "../../simplegridmodule/SimpleGridRecord";
 import {List} from 'immutable';
-import {Observer, Observable} from "rxjs";
+import {Observer, Observable, Subject} from "rxjs";
 import "rxjs/add/operator/do";
 import "rxjs/add/operator/delay";
 import * as _ from 'lodash';
+import {Compbaser} from "../../compbaser/Compbaser";
 
 
 @Component({
@@ -81,15 +82,15 @@ import * as _ from 'lodash';
     `,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StationsGrid {
-
+export class StationsGrid extends Compbaser {
     constructor(private cd: ChangeDetectorRef) {
+        super();
     }
 
     @ViewChild(SimpleGridTable) simpleGridTable: SimpleGridTable
 
+    private cancel$: Subject<any> = new Subject();
     private m_stations: List<StationModel>;
-    private sub;
 
     private staggered(list, delay: number): Observable<any> {
         return Observable.zip(
@@ -98,21 +99,22 @@ export class StationsGrid {
             (x, y) => {
                 return x;
             }
-        ).scan((acc, x) => acc.concat(x), [])
+        ).scan((acc: any, x) => acc.concat(x), [])
     }
 
     @Input()
     set stations(i_stations: List<StationModel>) {
         if (!i_stations)
             return;
-        if (this.sub)
-            this.sub.unsubscribe();
+        this.cancel$.next('done');
         this.m_stations = List<any>();
-        var items$ = this.staggered(i_stations, 5)
-        this.sub = items$.subscribe((x) => {
-            this.m_stations = List<any>(x);
-            this.cd.markForCheck();
-        })
+        var items$ = this.staggered(i_stations, 1);
+        this.cancelOnDestroy(
+            items$.takeUntil(this.cancel$).subscribe((x) => {
+                this.m_stations = List<any>(x);
+                this.cd.markForCheck();
+            })
+        )
     }
 
     @Output() onStationSelected: EventEmitter<StationModel> = new EventEmitter<StationModel>();
