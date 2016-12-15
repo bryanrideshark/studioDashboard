@@ -46,7 +46,7 @@
         <simpleGridTable *ngIf="selectedReport=='payments'">
             <thead>
             <tr>
-                <th [sortableHeader]="['Value','paymentDate']" [sort]="sort2">yy/mm/dd</th>
+                <th [sortableHeader]="['Value','paymentDate']" [sort]="sort2">date</th>
                 <th [sortableHeader]="['Value','prevCredit']" [sort]="sort2">prev</th>
                 <th [sortableHeader]="['Value','credit']" [sort]="sort2">credit</th>
                 <th [sortableHeader]="['Value','credit']" [sort]="sort2">total</th>
@@ -69,7 +69,7 @@
         <simpleGridTable *ngIf="selectedReport=='transfers'">
             <thead>
             <tr>
-                <th [sortableHeader]="['Value','transferDate']" [sort]="sort3">yy/mm/dd</th>
+                <th [sortableHeader]="['Value','transferDate']" [sort]="sort3">date</th>
                 <th [sortableHeader]="['Value','transferAmount']" [sort]="sort3">receive</th>
                 <th [sortableHeader]="['Value','transferAmount']" [sort]="sort3">send</th>
                 <th [sortableHeader]="['Value','customerId']" [sort]="sort3">customer</th>
