@@ -30,6 +30,7 @@ testem.log
 # js/map
 src/**/*.js
 *prod.js
+!index.js
 src/**/*.map
 
 #System Files
