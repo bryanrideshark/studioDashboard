@@ -9,17 +9,17 @@ import {Consts} from "../../../src/Conts";
 @Component({
     template: `
         <div class="row" style="margin-left: 0; margin-right: 0;">
-          <Menu #appMennu class="noSpace">
-            <MenuItem [fontAwesome]="'fa-dashboard'" [tabtitle]="'Dashboard'"></MenuItem>
-            <MenuItem [fontAwesome]="'fa-users'" [tabtitle]="'Users'"></MenuItem>
-            <MenuItem [fontAwesome]="'fa-lock'" [tabtitle]="'Privileges'"></MenuItem>
-            <MenuItem [fontAwesome]="'fa-adjust'" [tabtitle]="'White label'"></MenuItem>
-            <MenuItem [fontAwesome]="'fa-shopping-cart'" [tabtitle]="'Apps'"></MenuItem>
-            <MenuItem [fontAwesome]="'fa-cog'" [tabtitle]="'Account'"></MenuItem>
-            <MenuItem [fontAwesome]="'fa-shopping-cart'" [tabtitle]="'Orders'"></MenuItem>
-            <MenuItem [fontAwesome]="'fa-sitemap'" [tabtitle]="'Adnet'"></MenuItem>
-            <MenuItem [fontAwesome]="'fa-power-off'" [tabtitle]="'Logout'"></MenuItem>
-          </Menu>
+        <ng-menu [routePrefix]="'App1'" [verticalMode]="true">
+            <ng-menu-item [fontawesome]="'fa-dashboard'" [title]="'Dashboard'"></ng-menu-item>
+            <ng-menu-item [fontawesome]="'fa-users'" [title]="'Users'"></ng-menu-item>
+            <ng-menu-item [fontawesome]="'fa-lock'" [title]="'Privileges'"></ng-menu-item>
+            <ng-menu-item [fontawesome]="'fa-adjust'" [title]="'White label'"></ng-menu-item>
+            <ng-menu-item [fontawesome]="'fa-shopping-cart'" [title]="'Apps'"></ng-menu-item>
+            <ng-menu-item [fontawesome]="'fa-cog'" [title]="'Account'"></ng-menu-item>
+            <ng-menu-item [fontawesome]="'fa-shopping-cart'" [title]="'Orders'"></ng-menu-item>
+            <ng-menu-item [fontawesome]="'fa-sitemap'" [title]="'Adnet'"></ng-menu-item>
+            <ng-menu-item [fontawesome]="'fa-power-off'" [title]="'Logout'"></ng-menu-item>
+        </ng-menu>
           <div id="mainPanelWrapWasp" style="padding-left: 60px" class="mainContent col-xs-12 col-sm-12 col-md-12 col-lg-11">
             <router-outlet></router-outlet>
           </div>
@@ -53,6 +53,7 @@ export class App1 {
             if (!self.routerActive)
                 return;
             let screen = (e.message);
+            debugger;
             self.router.navigate([`/App1/${screen}`]);
         });
     }

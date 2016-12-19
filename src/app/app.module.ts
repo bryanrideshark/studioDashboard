@@ -28,8 +28,6 @@ import {routing} from "../App.routes";
 import {LoginPanel} from "../comps/entry/LoginPanel";
 import {RatesTable} from "../comps/app1/adnet/rates/RatesTable/RatesTable";
 import {UsersDetails} from "../comps/app1/users/UsersDetails";
-import {Menu} from "../comps/sidemenu/Menu";
-import {MenuItem} from "../comps/sidemenu/MenuItem";
 import {Account} from "../comps/app1/account/Account";
 import {Whitelabel} from "../comps/app1/whitelabel/Whitelabel";
 import {Apps} from "../comps/app1/apps/Apps";
@@ -39,9 +37,7 @@ import {Adnet} from "../comps/app1/adnet/Adnet";
 import {Privileges} from "../comps/app1/privileges/Privileges";
 import {Dashboard} from "../comps/app1/dashboard/Dashboard";
 import {Logout} from "../comps/logout/Logout";
-import {Filemenu} from "../comps/filemenu/Filemenu";
 import {Orders} from "../comps/app1/orders/Orders";
-import {FilemenuItem} from "../comps/filemenu/FilemenuItem";
 import {Logo} from "../comps/logo/Logo";
 import {LogoCompany} from "../comps/logo/LogoCompany";
 import {BlurForwarder} from "../comps/blurforwarder/BlurForwarder";
@@ -118,6 +114,8 @@ import {AdnetResolver} from "../comps/app1/adnet/targets/AdnetResolver";
 import {CreditService} from "../services/CreditService";
 import {Consts} from "../Conts";
 import {ThrottlePipe} from "../pipes/ThrottlePipe";
+import {NgMenu} from "../comps/ng-menu/ng-menu";
+import {NgMenuItem} from "../comps/ng-menu/ng-menu-item";
 
 export enum ServerMode {
     CLOUD,
@@ -212,13 +210,13 @@ let options: ToastOptions = new ToastOptions({
 });
 
 
-var decelerations = [AppComponent, RatesTable, UsersDetails, LoginPanel, Menu, MenuItem, Account, Whitelabel, Apps, App1, Users, Adnet, Privileges, Dashboard, Logout, Orders, Filemenu, FilemenuItem, Logo,
+var decelerations = [AppComponent, RatesTable, UsersDetails, LoginPanel, Account, Whitelabel, Apps, App1, Users, Adnet, Privileges, Dashboard, Logout, Orders, Logo,
     LogoCompany, Footer, BlurForwarder, InputEdit, OrderBy, SortBy, FilterPipe, FilterPipeEqual, AdnetBilling, AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, ServerStats, ServerAvg,
     StationsMap, StationsGrid, StationDetails, ImgLoader, Ng2Highcharts, AdnetConfigCustomer, AdnetConfig, StationSnapshot, OrderDetails, simplelist, PrivilegesDetails, ModalDialog, Infobox,
     UserStorage, Loading, Samplelist, UserInfo, AddUser, AdnetPayment, AdnetTransfer, ChangePass, simplelistEditable, AdnetConfigTargetStations,
     AdnetConfigTargetProps, AdnetLocation, MapAddress, AdnetNetwork, AdnetNetworkCustomerSelector, AdnetNetworkPackageEditor, AdnetNetworkPackageViewer, AdnetNetworkTargetSearch,
     AdnetNetworkPackageProps, AdnetNetworkPackageContent, AdnetNetworkPackageContentProps, AdnetNetworkTarget, AdnetNetworkTargetProps, ResourceViewer, AdnetNetworkPackageViewProps,
-    AdnetNetworkPairProps, AdnetLoader, InputNumeric, InputString, Dropbox, Twofactor, AdnetReports, ThrottlePipe];
+    AdnetNetworkPairProps, AdnetLoader, InputNumeric, InputString, Dropbox, Twofactor, AdnetReports, ThrottlePipe, NgMenu, NgMenuItem];
 
 @NgModule({
     declarations: [decelerations],
