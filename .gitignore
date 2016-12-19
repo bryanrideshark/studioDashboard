@@ -31,6 +31,7 @@ testem.log
 src/**/*.js
 *prod.js
 !index.js
+!service-worker.js
 src/**/*.map
 
 #System Files
