@@ -13,6 +13,7 @@ import {Consts} from "../Conts";
 import {Observable} from "rxjs";
 import {ServerMode} from "./app.module";
 import {setTimeout} from "timers";
+import {VERSION} from '@angular/core';
 import * as packageJson from '../../package.json'
 
 @Component({
@@ -34,6 +35,8 @@ export class AppComponent {
                 private appdbAction: AppdbAction) {
 
         this.version = packageJson.version;
+        this.ngVersion = VERSION.full
+
         //this.checkPlatform();
 
         /** remove localstore **/
@@ -59,6 +62,8 @@ export class AppComponent {
     }
 
     public version:string;
+    private ngVersion:string;
+
 
     private checkPlatform() {
         switch (platform.name.toLowerCase()) {
