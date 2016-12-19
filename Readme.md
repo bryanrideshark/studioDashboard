@@ -29,7 +29,6 @@ Prerequisites to fork and custom develop features:
                                 
 Features:
 ----------
-
  - Based on the popular StudioPro Enterprise edition
  - Live server stats
  - Live station stats 
@@ -38,6 +37,8 @@ Features:
  - User manager
  - App manager
  - mediaADNET entire set of APIs & UI: http://www.digitalsignage.com/_html/digital_signage_ad_network.html
+ - Supports icon on your mobile device (resembles native android or ios app) via progressive web app
+    to add a mobile home screen, click your browser settings and select "add to home screen"
 
 Links:
 ------------------------------------------------------------------------
