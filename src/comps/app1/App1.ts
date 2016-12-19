@@ -9,7 +9,7 @@ import {Consts} from "../../../src/Conts";
 @Component({
     template: `
         <div class="row" style="margin-left: 0; margin-right: 0;">
-        <ng-menu [routePrefix]="'App1'" [verticalMode]="true">
+        <ng-menu [routePrefix]="'App1'" [fileMenuMode]="true">
             <ng-menu-item [fontawesome]="'fa-dashboard'" [title]="'Dashboard'"></ng-menu-item>
             <ng-menu-item [fontawesome]="'fa-users'" [title]="'Users'"></ng-menu-item>
             <ng-menu-item [fontawesome]="'fa-lock'" [title]="'Privileges'"></ng-menu-item>

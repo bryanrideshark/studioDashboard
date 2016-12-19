@@ -13,6 +13,7 @@ import {Consts} from "../Conts";
 import {Observable} from "rxjs";
 import {ServerMode} from "./app.module";
 import {setTimeout} from "timers";
+import * as packageJson from '../../package.json'
 
 @Component({
     selector: 'app-root',
@@ -20,7 +21,7 @@ import {setTimeout} from "timers";
     templateUrl: './app.component.html',
 })
 export class AppComponent {
-    public version = '3.65';
+
     constructor(private router: Router,
                 private commBroker: CommBroker,
                 private activatedRoute: ActivatedRoute,
@@ -32,7 +33,8 @@ export class AppComponent {
                 private styleService: StyleService,
                 private appdbAction: AppdbAction) {
 
-        this.checkPlatform();
+        this.version = packageJson.version;
+        //this.checkPlatform();
 
         /** remove localstore **/
         // this.localStorage.removeItem('remember_me')
@@ -55,6 +57,8 @@ export class AppComponent {
         }
         this.toastr.setRootViewContainerRef(vRef);
     }
+
+    public version:string;
 
     private checkPlatform() {
         switch (platform.name.toLowerCase()) {

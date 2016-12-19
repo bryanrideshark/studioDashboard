@@ -9,7 +9,7 @@ import {Router} from "@angular/router";
     selector: 'ng-menu',
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-            <ng-container *ngIf="verticalMode">
+            <ng-container *ngIf="fileMenuMode">
                 <section id="appNavigatorWasp" class="appMenu fill hidden-xs hidden-sm hidden-md col-lg-1">
                      <li *ngFor="let item of items" (click)="listenMenuSelected(item.getTitle, $event)" data-ripple-color="white" class="btn btn-default list-group-item navicons">
                         <i *ngIf="!m_hidden" (click)="listenMenuSelected(item.getTitle, $event)" class="iconSize fa {{item.getFontAwesome}}"></i>
@@ -17,7 +17,7 @@ import {Router} from "@angular/router";
                       </li>
                   </section>
             </ng-container>
-            <ng-container *ngIf="!verticalMode">
+            <ng-container *ngIf="!fileMenuMode">
                  <div>
                      <div class="m_fileMenuWrap">
                         <ul class="nav navbar-nav" >
@@ -65,7 +65,7 @@ export class NgMenu extends Compbaser {
         this.listenWinResize()
     }
 
-    @Input() verticalMode: boolean = true;
+    @Input() fileMenuMode: boolean = true;
     @Input() routePrefix: string = '';
 
     private items: Array<NgMenuItem> = [];

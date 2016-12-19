@@ -1,6 +1,13 @@
 var gulp = require('gulp');
 var git = require('gulp-git');
 var runSequence = require('run-sequence');
+var bump = require('gulp-bump');
+
+gulp.task('x_bump', function(){
+    gulp.src('./package.json')
+        .pipe(bump({type:'PATCH', indent: 4 }))
+        .pipe(gulp.dest('./'));
+});
 
 /** Dangerous, this will wipe your current source and sync with GitHub **/
 gulp.task('vanish***', function (done) {
