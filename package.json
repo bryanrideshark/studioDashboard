@@ -1,7 +1,7 @@
 {
   "name": "studioDashboard",
   "version": "1.5.10",
-  "license": "MIT",
+  "license": "Modified GPL (see readme.md)",
   "angular-cli": {},
   "scripts": {
     "postinstall": "npm run dev",
