@@ -45,16 +45,6 @@ export class StoreService {
         this.appStore.dispatch(this.resellerAction.getAccountInfo());
         this.appStore.dispatch(this.businessActions.fetchBusinesses());
         this.appStore.dispatch(this.businessActions.getSamples());
-
-        // var adnetCustomerId = this.localStorage.getItem('adnet_customer_id');
-        // var adnetTokenId = this.localStorage.getItem('adnet_token_id');
-        // if (StringJS(adnetCustomerId).isBlank()) {
-        //     return
-        //     // this.appStore.dispatch(this.adnetActions.getAdnet(null));
-        // } else {
-        //     this.appStore.dispatch(this.adnetActions.getAdnet(adnetCustomerId, adnetTokenId));
-        // }
-
     }
 
     private initPollServices() {
@@ -65,7 +55,7 @@ export class StoreService {
         setInterval(() => {
             this.appStore.dispatch(this.appDbActions.serverStatus());
             this.fetchStations()
-        }, 5000);
+        }, 15000);
     }
 
     private listenServices() {
@@ -111,7 +101,8 @@ export class StoreService {
         var config = {}
         sources.forEach((i_businesses: List<string>, source) => {
             let businesses = i_businesses.toArray();
-            if (this.knownServers.indexOf(source) > -1) config[source] = businesses;
+            if (this.knownServers.indexOf(source) > -1)
+                config[source] = businesses;
 
         });
         this.appStore.dispatch(this.stationsAction.getStationsInfo(config));

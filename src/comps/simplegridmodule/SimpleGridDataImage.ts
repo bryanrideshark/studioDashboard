@@ -10,13 +10,14 @@ import {StoreModel} from "../../models/StoreModel";
         }
     `],
     template: `
-        <i (click)="onClick($event)" class="fa {{value}}"></i>
+        <i (click)="onClick($event)" [ngStyle]="style" class="fa {{value}}"></i>
         <!--<i (click)="onClick($event)" style="color: {{color}}; font-size: 1.5em" class="fa {{value}}"></i>-->
          <!--<img src="{{ value }}" style="width: 40px; height: 40px"/>-->
     `
 })
 export class SimpleGridDataImage {
     private value;
+    private style;
     storeModel:StoreModel;
 
     @Input()
@@ -30,10 +31,13 @@ export class SimpleGridDataImage {
     }
     
     @Input()
-    color;
+    set color(i_color:string) {
+        this.style = {
+            color: i_color
+        }
+    }
 
     onClick(event){
-        // alert(event)
     }
 
 }

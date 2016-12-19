@@ -18,9 +18,9 @@ import {StationModel} from "./StationModel";
 import {CommBroker} from "../services/CommBroker";
 import {Consts} from "../Conts";
 import * as _ from 'lodash'
-// import * as bootbox from 'bootbox';
 import * as xml2js from 'xml2js'
 import {Lib} from "../Lib";
+import {ToastsManager} from "ng2-toastr";
 
 export const RECEIVE_STATIONS = 'RECEIVE_STATIONS';
 export const RECEIVE_STATIONS_GEO = 'RECEIVE_STATIONS_GEO';
@@ -29,7 +29,7 @@ export const RECEIVE_TOTAL_STATIONS = 'RECEIVE_TOTAL_STATIONS';
 @Injectable()
 export class StationsAction extends Actions {
 
-    constructor(private appStore:AppStore, private _http:Http, private commBroker:CommBroker) {
+    constructor(private appStore: AppStore, private _http: Http, private commBroker: CommBroker, private toastr: ToastsManager) {
         super(appStore);
         //this.m_parseString = require('xml2js').parseString;
         this.m_parseString = xml2js.parseString;
@@ -38,53 +38,52 @@ export class StationsAction extends Actions {
 
     private m_parseString;
 
-    private getStationGeoLocation(i_source:string, i_businessId:string, i_stationId:string):string {
-        var stations:List<StationModel> = this.appStore.getState().stations.get(i_source);
+    private getStationGeoLocation(i_source: string, i_businessId: string, i_stationId: string): string {
+        var stations: List<StationModel> = this.appStore.getState().stations.get(i_source);
         if (_.isUndefined(stations))
             return '';
-        var stationIndex = stations.findIndex((stationModel:StationModel) => {
+        var stationIndex = stations.findIndex((stationModel: StationModel) => {
             return stationModel.getKey('businessId') === i_businessId && stationModel.getKey('id') == i_stationId;
         });
         Lib.CheckFoundIndex(stationIndex);
-        var station:StationModel = stations.get(stationIndex);
+        var station: StationModel = stations.get(stationIndex);
         return station.getLocation();
     }
 
     public getStationsInfo(config) {
         var self = this;
-        return (dispatch)=> {
+        return (dispatch) => {
             var totalStations = 0;
-            var observables:Array<Observable<any>> = [];
+            var observables: Array<Observable<any>> = [];
             for (let i_source in config) {
                 var i_businesses = config[i_source];
                 var businesses = i_businesses.join(',');
 
                 //todo: need to add user auth for getSocketStatusList
-                var url:string = `https://${i_source}/WebService/StationService.asmx/getSocketStatusList?i_businessList=${businesses}`;
+                var url: string = `https://${i_source}/WebService/StationService.asmx/getSocketStatusList?i_businessList=${businesses}`;
                 observables.push(this._http.get(url).retry(0).map((res) => {
                     return {xml: res.text(), source: i_source};
                 }));
             }
             Observable.forkJoin(observables).subscribe(
-                (data:Array<any>) => {
-                    data.forEach((i_data)=> {
+                (data: Array<any>) => {
+                    data.forEach((i_data) => {
                         var source = i_data.source;
-                        var xmlData:string = i_data.xml;
+                        var xmlData: string = i_data.xml;
                         xmlData = xmlData.replace(/&lt;/ig, '<').replace(/&gt;/ig, '>');
-                        this.m_parseString(xmlData, {attrkey: '_attr'}, function (err, result) {
+                        this.m_parseString(xmlData, {attrkey: '_attr'}, (err, result) => {
                             if (err) {
-                                bootbox.alert('problem loading station info')
-                                return;
+                                return this.toastr.error('problem loading station info');
                             }
                             /**
                              * redux inject stations sources
                              **/
-                            var stations:List<StationModel> = List<StationModel>();
+                            var stations: List<StationModel> = List<StationModel>();
                             if (result.string.SocketStatus["0"].Business) {
-                                result.string.SocketStatus["0"].Business.forEach((business)=> {
+                                result.string.SocketStatus["0"].Business.forEach((business) => {
                                     var businessId = business._attr.businessId;
                                     if (business.Stations["0"].Station) {
-                                        business.Stations["0"].Station.forEach((station)=> {
+                                        business.Stations["0"].Station.forEach((station) => {
                                             var stationId = station._attr.id;
                                             var geoLocation = self.getStationGeoLocation(source, businessId, stationId)
                                             var stationData = {
@@ -111,7 +110,7 @@ export class StationsAction extends Actions {
                                                 totalMemory: station._attr.totalMemory,
                                                 watchDogConnection: station._attr.watchDogConnection
                                             };
-                                            var stationModel:StationModel = new StationModel(stationData)
+                                            var stationModel: StationModel = new StationModel(stationData)
                                             stations = stations.push(stationModel);
                                         })
                                     }
@@ -122,7 +121,7 @@ export class StationsAction extends Actions {
                         });
                     })
                 },
-                (err:Response) => {
+                (err: Response) => {
                     err = err.json();
                     var status = err['currentTarget'].status;
                     var statusText = err['currentTarget'].statusText;
@@ -133,7 +132,7 @@ export class StationsAction extends Actions {
                         message: ''
                     });
                 },
-                ()=> {
+                () => {
                     dispatch(self.receiveTotalStations(totalStations));
                 }
             );
@@ -141,11 +140,11 @@ export class StationsAction extends Actions {
     }
 
     public getStationsIps() {
-        return (dispatch)=> {
+        return (dispatch) => {
             var stationsIps = [];
-            var stations:Map<string, List<StationModel>> = this.appStore.getState().stations;
-            stations.forEach((stationList:List<StationModel>, source)=> {
-                stationList.forEach((i_station:StationModel)=> {
+            var stations: Map<string, List<StationModel>> = this.appStore.getState().stations;
+            stations.forEach((stationList: List<StationModel>, source) => {
+                stationList.forEach((i_station: StationModel) => {
                     var ip = i_station.getKey('publicIp');
                     var geoLocation = i_station.getLocation();
                     var id = i_station.getKey('id');
@@ -157,7 +156,7 @@ export class StationsAction extends Actions {
                 })
             });
             var body = JSON.stringify(stationsIps);
-            var basicOptions:RequestOptionsArgs = {
+            var basicOptions: RequestOptionsArgs = {
                 url: 'https://secure.digitalsignage.com/getGeoByIp',
                 headers: new Headers({'Content-Type': 'application/json'}),
                 method: RequestMethod.Post,
@@ -167,14 +166,14 @@ export class StationsAction extends Actions {
             var req = new Request(reqOptions);
             this._http.request(req)
                 .catch((err) => {
-                    bootbox.alert('Error loading station IPs 1');
+                    this.toastr.error('Error loading station IPs 1');
                     // return Observable.of(true);
                     return Observable.throw(err);
                 })
                 .finally(() => {
                     // console.log('done');
                 })
-                .map((result:any) => {
+                .map((result: any) => {
                     var stations = result.json();
                     for (var station in stations) {
                         var i_station = stations[station];
@@ -189,7 +188,7 @@ export class StationsAction extends Actions {
         }
     }
 
-    public receiveStations(stations:List<StationModel>, source) {
+    public receiveStations(stations: List<StationModel>, source) {
         return {
             type: RECEIVE_STATIONS,
             stations,
@@ -197,14 +196,14 @@ export class StationsAction extends Actions {
         }
     }
 
-    public receiveStationsGeo(payload:Array<any>) {
+    public receiveStationsGeo(payload: Array<any>) {
         return {
             type: RECEIVE_STATIONS_GEO,
             payload
         }
     }
 
-    public receiveTotalStations(totalStations:number) {
+    public receiveTotalStations(totalStations: number) {
         return {
             type: RECEIVE_TOTAL_STATIONS,
             totalStations

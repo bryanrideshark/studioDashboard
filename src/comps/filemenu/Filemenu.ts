@@ -26,7 +26,7 @@ import {DOCUMENT} from "@angular/platform-browser";
              <div class="m_fileMenuWrap">
                 <ul class="nav navbar-nav" >
                 <li id="commonFileMenu" class="hidden-lg" dropdown>
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Navigatior<b class="caret"></b></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu<b class="caret"></b></a>
                   <ul class="dropdown-menu">
                   <li class="divider"></li>
                     <li *ngFor="let item of m_renderedItems" (click)="listenMenuSelected($event)">
