@@ -141,7 +141,7 @@ export class LoginPanel {
                     this.m_rememberMe = false;
                     this.loginState = 'default';
                     this.localStorage.removeItem('remember_me')
-                    //Lib.BootboxHide();
+                    Lib.BootboxHide();
                     break;
                 }
             }
@@ -186,7 +186,7 @@ export class LoginPanel {
     }
 
     private onAuthPass() {
-        //Lib.BootboxHide();
+        Lib.BootboxHide();
         this.loginState = 'active';
         if (Lib.DevMode()){
             setTimeout(() => this.m_router.navigate(['/App1/Dashboard']), 2000)

@@ -53,7 +53,6 @@ export class App1 {
             if (!self.routerActive)
                 return;
             let screen = (e.message);
-            debugger;
             self.router.navigate([`/App1/${screen}`]);
         });
     }

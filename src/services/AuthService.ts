@@ -109,11 +109,11 @@ export class AuthService {
 
     public authUser(i_user?: string, i_pass?: string, i_remember?: string): void {
         //todo: fix timing
-        // bootbox.dialog({
-        //     closeButton: false,
-        //     title: "Please wait, Authenticating...",
-        //     message: " "
-        // });
+        bootbox.dialog({
+            closeButton: false,
+            title: "Please wait, Authenticating...",
+            message: " "
+        });
         // no user/pass not given try and pull from local storage
         if (!i_user) {
             var credentials = this.localStorage.getItem('remember_me');

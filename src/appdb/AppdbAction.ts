@@ -178,6 +178,8 @@ export class AppdbAction extends Actions {
     private twoFactorCheck(i_user, i_pass): Observable<any> {
         var url = `${appBaseUrlCloud}/twoFactorCheck/${i_user}/${i_pass}`;
         return this._http.get(url)
-            .map(result => result = result.json());
+            .map(result => {
+                return result.json()
+            });
     }
 }

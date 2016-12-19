@@ -11,7 +11,6 @@ import {
     FormBuilder
 } from "@angular/forms";
 import {AppStore} from "angular2-redux-util";
-import {Lib} from "../../Lib";
 import * as _ from "lodash";
 import {AppdbAction} from "../../appdb/AppdbAction";
 import {LocalStorage} from "../../services/LocalStorage";
@@ -79,7 +78,7 @@ export class Twofactor extends Compbaser {
             this.twoFactorStatus = twoFactorStatus.status;
         }
         this.unsub = this.appStore.sub(i_twoFactorStatus => {
-            this.twoFactorStatus = i_twoFactorStatus;
+            //this.twoFactorStatus = i_twoFactorStatus;
             this.changeTwoFactorStatus(i_twoFactorStatus.status);
         }, 'appdb.twoFactorStatus');
 
@@ -104,6 +103,8 @@ export class Twofactor extends Compbaser {
             this.renderFormInputs();
         } else {
             bootbox.alert('wrong token entered');
+            // this.removeQrCode();
+            this.cd.markForCheck();
         }
     }
 
@@ -116,19 +117,19 @@ export class Twofactor extends Compbaser {
     private addQrCode() {
         this.removeQrCode();
         this.appdbAction.getQrCodeTwoFactor((qrCode) => {
-            // this.removeQrCode();
-            // jQuery(this.el.nativeElement).append(qrCode);
-            // var svg = jQuery(this.el.nativeElement).find('svg').get(0);
-            // // var w = svg.width.baseVal.value;
-            // // var h = svg.height.baseVal.value;
-            // svg.setAttribute('viewBox', '0 0 ' + 100 + ' ' + 100);
-            // svg.setAttribute('width', '100%');
-            // // svg.setAttribute('height', '100%');
+            this.removeQrCode();
+            jQuery(this.el.nativeElement).append(qrCode);
+            var svg = jQuery(this.el.nativeElement).find('svg').get(0);
+            // var w = svg.width.baseVal.value;
+            // var h = svg.height.baseVal.value;
+            svg.setAttribute('viewBox', '0 0 ' + 100 + ' ' + 100);
+            svg.setAttribute('width', '100%');
+            // svg.setAttribute('height', '100%');
         })
     }
 
     private removeQrCode() {
-        // jQuery(this.el.nativeElement).find('svg').remove();
+        jQuery(this.el.nativeElement).find('svg').remove();
     }
 
     private onChangeStatus(i_twoFactorStatus: boolean) {
