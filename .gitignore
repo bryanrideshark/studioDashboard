@@ -27,13 +27,15 @@ testem.log
 /typings
 *.log.*
 
+#include
+!index.js
+!service-worker.js
+!/typings
+
 # js/map
 src/**/*.js
 *prod.js
-!index.js
-!service-worker.js
 src/**/*.map
-
 #System Files
 .DS_Store
 Thumbs.db
