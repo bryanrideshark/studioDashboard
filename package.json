@@ -9,10 +9,14 @@
     "x_lint": "tslint \"src/**/*.ts\"",
     "x_prod": "ng build --target=production --base-href ./",
     "x_rsync": "rsync --progress  --chmod=ug=rwx --chmod=o=rx -av --stats -e ssh /cygdrive/c/msweb/studioDashboard/dist/ Sean@digitalsignage.com:/var/www/sites/dynasite/htdocs/_msportal/_js/_node/_dash",
+    "x_sw": "sw-precache --root=dist --config=sw-precache-config.js",
     "cp module": "cp ./node_modules/ng-mslib/src/myng-component.ts ./node_modules/ng-mslib/dist/",
     "hmr": "ng serve --port 4203 --aot false --hmr -e=hmr",
     "dev": "ng serve --port 4203 --aot false",
-    "release": "rm -r -f ./dist && npm run x_prod && npm run x_rsync"
+    "reg_release": "rm -r -f ./dist && npm run x_prod && npm run x_rsync",
+    "pwa_release": "rm -r -f ./dist && npm run x_prod && npm run x_sw && npm run x_rsync",
+    "disk-build": "ng build && npm run sw",
+    "disk-serve": "cd dist && live-server --port=4200 --host=localhost --entry-file=/index.html"
   },
   "dependencies": {
     "@angular/common": "2.2.3",
@@ -91,6 +95,7 @@
     "ts-node": "1.2.1",
     "tslint": "3.13.0",
     "typescript": "~2.0.3",
-    "webdriver-manager": "10.2.5"
+    "webdriver-manager": "10.2.5",
+    "sw-precache": "4.2.1"
   }
 }
