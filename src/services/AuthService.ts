@@ -17,7 +17,6 @@ import {
 } from "../appdb/AppdbAction";
 import 'rxjs/add/observable/fromPromise';
 import {Observable} from 'rxjs/Observable';
-// import * as bootbox from "bootbox";
 import {Map} from 'immutable';
 import {Lib} from "../Lib";
 
@@ -51,7 +50,6 @@ export class AuthService {
             var user = credentials.get('user');
             var pass = credentials.get('pass');
             var remember = credentials.get('remember');
-
             switch (this.m_authState) {
                 case AuthState.FAIL: {
                     this.onAuthFail();
@@ -63,7 +61,7 @@ export class AuthService {
                 }
                 case AuthState.TWO_FACTOR: {
                     this.onAuthPass(user, pass, remember);
-                    console.log('doing two factor');
+                    console.log('need two factor');
                     break;
                 }
             }
@@ -182,7 +180,7 @@ export class AuthService {
                         break;
                     }
                     case AuthState.TWO_FACTOR: {
-                        console.log(3333);
+                        console.log('waiting on 2 factor...');
                         break;
                     }
                 }

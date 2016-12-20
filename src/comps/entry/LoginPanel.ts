@@ -19,7 +19,6 @@ import {
     AuthService,
     FlagsAuth
 } from "../../services/AuthService";
-// import * as bootbox from "bootbox";
 import {Map} from 'immutable';
 import {AuthState} from "../../appdb/AppdbAction";
 import {Lib} from "../../Lib";
@@ -133,7 +132,7 @@ export class LoginPanel {
                     break;
                 }
                 case AuthState.PASS: {
-                    this.onAuthPass();
+                    this.enterApplication();
                     break;
                 }
                 case AuthState.TWO_FACTOR: {
@@ -150,7 +149,7 @@ export class LoginPanel {
         this.m_unsub = appStore.sub((twoFactorStatus: {status: boolean, twoFactorStatusReceived: Date}) => {
             // twoFactorStatus.status = false;//debug
             if (twoFactorStatus.status) {
-                this.onAuthPass();
+                this.enterApplication();
             } else {
                 this.onAuthFail(FlagsAuth.WrongTwoFactor);
             }
@@ -185,7 +184,7 @@ export class LoginPanel {
         }
     }
 
-    private onAuthPass() {
+    private enterApplication() {
         Lib.BootboxHide();
         this.loginState = 'active';
         if (Lib.DevMode()){
