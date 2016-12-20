@@ -20,27 +20,35 @@ import {Lib} from "../Lib";
 import * as _ from 'lodash'
 import {OrdersAction} from "../comps/app1/orders/OrdersAction";
 import {LocalStorage} from "./LocalStorage";
+import {AuthService} from "./AuthService";
+import {ActivatedRouteSnapshot} from "@angular/router";
 
 @Injectable()
 export class StoreService {
-    constructor(@Inject(forwardRef(() => AppStore)) private appStore: AppStore, @Inject(forwardRef(() => BusinessAction)) private businessActions: BusinessAction, @Inject(forwardRef(() => AdnetActions)) private adnetActions: AdnetActions, @Inject(forwardRef(() => OrdersAction)) private ordersActions: OrdersAction, @Inject(forwardRef(() => ResellerAction)) private resellerAction: ResellerAction, @Inject(forwardRef(() => StationsAction)) private stationsAction: StationsAction, @Inject(forwardRef(() => AppdbAction)) private appDbActions: AppdbAction, @Inject('OFFLINE_ENV') private offlineEnv, @Inject(forwardRef(() => CommBroker)) private commBroker: CommBroker, @Inject(forwardRef(() => LocalStorage)) private localStorage: LocalStorage) {
+    constructor(@Inject(forwardRef(() => AppStore)) private appStore: AppStore,
+                @Inject(forwardRef(() => BusinessAction)) private businessActions: BusinessAction,
+                @Inject(forwardRef(() => AdnetActions)) private adnetActions: AdnetActions,
+                @Inject(forwardRef(() => OrdersAction)) private ordersActions: OrdersAction,
+                @Inject(forwardRef(() => ResellerAction)) private resellerAction: ResellerAction,
+                @Inject(forwardRef(() => StationsAction)) private stationsAction: StationsAction,
+                @Inject(forwardRef(() => AppdbAction)) private appDbActions: AppdbAction,
+                @Inject(forwardRef(() => AuthService)) private authService: AuthService,
+                @Inject('OFFLINE_ENV') private offlineEnv,
+                @Inject(forwardRef(() => CommBroker)) private commBroker: CommBroker,
+                @Inject(forwardRef(() => LocalStorage)) private localStorage: LocalStorage) {
 
         this.appStore.dispatch(this.appDbActions.initAppDb());
     }
 
-    private singleton: boolean = false; // prevent multiple calls to this service
     // todo: in private / hybrid mode we need to get list of business servers and logic to as when on each env
     // 0 = cloud, 1 = private 2 = hybrid
     // private knownServers:Array<string> = ['mars.signage.me', 'mercury.signage.me'];
+
     private knownServers: Array<string> = [];
     private running: boolean = false;
 
     public loadServices() {
-        if (this.singleton)
-            return;
-        this.singleton = true;
         this.listenServices();
-
         this.appStore.dispatch(this.resellerAction.getResellerInfo());
         this.appStore.dispatch(this.resellerAction.getAccountInfo());
         this.appStore.dispatch(this.businessActions.fetchBusinesses());

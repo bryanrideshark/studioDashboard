@@ -116,6 +116,7 @@ import {Consts} from "../Conts";
 import {ThrottlePipe} from "../pipes/ThrottlePipe";
 import {NgMenu} from "../comps/ng-menu/ng-menu";
 import {NgMenuItem} from "../comps/ng-menu/ng-menu-item";
+import {AutoLogin} from "../comps/entry/AutoLogin";
 
 export enum ServerMode {
     CLOUD,
@@ -210,7 +211,7 @@ let options: ToastOptions = new ToastOptions({
 });
 
 
-var decelerations = [AppComponent, RatesTable, UsersDetails, LoginPanel, Account, Whitelabel, Apps, App1, Users, Adnet, Privileges, Dashboard, Logout, Orders, Logo,
+var decelerations = [AppComponent, RatesTable, UsersDetails, AutoLogin, LoginPanel, Account, Whitelabel, Apps, App1, Users, Adnet, Privileges, Dashboard, Logout, Orders, Logo,
     LogoCompany, Footer, BlurForwarder, InputEdit, OrderBy, SortBy, FilterPipe, FilterPipeEqual, AdnetBilling, AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, ServerStats, ServerAvg,
     StationsMap, StationsGrid, StationDetails, ImgLoader, Ng2Highcharts, AdnetConfigCustomer, AdnetConfig, StationSnapshot, OrderDetails, simplelist, PrivilegesDetails, ModalDialog, Infobox,
     UserStorage, Loading, Samplelist, UserInfo, AddUser, AdnetPayment, AdnetTransfer, ChangePass, simplelistEditable, AdnetConfigTargetStations,

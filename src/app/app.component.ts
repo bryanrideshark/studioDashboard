@@ -15,6 +15,8 @@ import {ServerMode} from "./app.module";
 import {setTimeout} from "timers";
 import {VERSION} from '@angular/core';
 import * as packageJson from '../../package.json'
+import {StoreService} from "../services/StoreService";
+import {AuthService} from "../services/AuthService";
 
 @Component({
     selector: 'app-root',
@@ -31,7 +33,9 @@ export class AppComponent {
                 private toastr: ToastsManager,
                 private localStorage: LocalStorage,
                 private appStore: AppStore,
+                private authService: AuthService,
                 private styleService: StyleService,
+                private storeService:StoreService,
                 private appdbAction: AppdbAction) {
 
         this.version = packageJson.version;
@@ -53,12 +57,23 @@ export class AppComponent {
         Observable.fromEvent(window, 'resize').debounceTime(250).subscribe(() => {
             this.appResized();
         });
-        if (!Ngmslib.DevMode()) {
-            setTimeout(() => {
-                router.navigate(['/App1/Dashboard']);
-            }, 1000);
-        }
+
+        // if (!Ngmslib.DevMode()) {
+        //     setTimeout(() => {
+        //         router.navigate(['/App1/Dashboard']);
+        //     }, 1000);
+        // }
         this.toastr.setRootViewContainerRef(vRef);
+        this.listenRouterUpdateTitle();
+    }
+
+    ngOnInit(){
+        let s = this.router.events.subscribe((val) => {
+            if (val instanceof NavigationEnd){
+                this.authService.start();
+                s.unsubscribe();
+            }
+        });
     }
 
     public version:string;
@@ -97,11 +112,6 @@ export class AppComponent {
                 width: appWidth
             }
         })
-    }
-
-    ngOnInit() {
-        if (!Ngmslib.DevMode)
-            this.listenRouterUpdateTitle();
     }
 
     private listenRouterUpdateTitle() {

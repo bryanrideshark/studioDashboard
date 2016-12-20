@@ -1,27 +1,13 @@
-import {
-    Component,
-    Injectable,
-    ViewChild,
-    ElementRef,
-    Renderer,
-    keyframes,
-    trigger,
-    state,
-    style,
-    transition,
-    animate
-} from "@angular/core";
-import {Router} from "@angular/router";
+import {Component, Injectable, ViewChild, ElementRef, Renderer, keyframes, trigger, state, style, transition, animate} from "@angular/core";
+import {Router, ActivatedRoute} from "@angular/router";
 import {AppStore} from "angular2-redux-util";
 import {BusinessAction} from "../../business/BusinessAction";
 import {LocalStorage} from "../../services/LocalStorage";
-import {
-    AuthService,
-    FlagsAuth
-} from "../../services/AuthService";
-import {Map} from 'immutable';
+import {AuthService, FlagsAuth} from "../../services/AuthService";
+import {Map} from "immutable";
 import {AuthState} from "../../appdb/AppdbAction";
 import {Lib} from "../../Lib";
+import {Compbaser} from "../compbaser/Compbaser";
 
 
 @Injectable()
@@ -67,14 +53,13 @@ import {Lib} from "../../Lib";
             transition(':leave', animate('500ms cubic-bezier(.17,.67,.83,.67)'))
         ])
     ],
-    template: `
-                <div *ngIf="showLoginPanel" [@loginState]="loginState" class="login-page" id="appLogin">
+    template: `<div [@loginState]="loginState" class="login-page" id="appLogin">
                 <br/>
                 <br/>
                   <form class="form-signin" role="form">
                     <h2 class="form-signin-heading"></h2>     
                     <input (keyup.enter)="passFocus()" #userName id="userName" spellcheck="false" type="text" name="m_user" [(ngModel)]="m_user" class="input-underline input-lg form-control" placeholder="user name" required autofocus>
-                    <input (keyup.enter)="authUser()" #userPass id="userPass" type="password" [(ngModel)]="m_pass" name="m_pass" class="input-underline input-lg form-control" placeholder="password" required>
+                    <input (keyup.enter)="onClickedLogin()" #userPass id="userPass" type="password" [(ngModel)]="m_pass" name="m_pass" class="input-underline input-lg form-control" placeholder="password" required>
                     <div [@showTwoFactor]="m_showTwoFactor" *ngIf="m_showTwoFactor">
                         <br/>     
                         <br/>
@@ -84,7 +69,7 @@ import {Lib} from "../../Lib";
                         <br/>
                     </div>
                     <br/> 
-                    <a id="loginButton" (click)="authUser()" type="submit" class="btn rounded-btn"> enterprise member login
+                    <a id="loginButton" (click)="onClickedLogin()" type="submit" class="btn rounded-btn"> enterprise member login
                      <span *ngIf="m_showTwoFactor" style="font-size: 9px; max-height: 15px; display: block; padding: 0; margin: 0; position: relative; top: -20px">with Google authenticator</span>
                     </a>&nbsp;
                     <!--<a type="submit" class="btn rounded-btn"> Register</a> -->
@@ -106,24 +91,26 @@ import {Lib} from "../../Lib";
                 </div>
                `
 })
-export class LoginPanel {
-    private m_user: string;
-    private m_pass: string;
+export class LoginPanel extends Compbaser {
+    private m_user: string = '';
+    private m_pass: string = '';
     private m_twoFactor: string;
     private m_showTwoFactor: boolean = false;
-    private m_router: Router;
     private m_rememberMe: any;
-    private m_unsub: ()=>void;
-    private showLoginPanel: boolean = false;
     private loginState: string = '';
 
-    constructor(private appStore: AppStore, private localStorage: LocalStorage, private renderer: Renderer, private router: Router, private authService: AuthService) {
-        this.m_router = router;
-        this.m_user = '';
-        this.m_pass = '';
-        this.m_rememberMe = this.authService.getLocalstoreCred().r;
+    constructor(private appStore: AppStore, private renderer: Renderer, private router: Router, private activatedRoute: ActivatedRoute, private authService: AuthService) {
+        super();
 
-        this.m_unsub = appStore.sub((credentials: Map<string,any>) => {
+        this.cancelOnDestroy(this.activatedRoute.params.subscribe(params => {
+                if (params['twoFactor'])
+                    this.m_showTwoFactor = true;
+            })
+        )
+
+        // this.m_rememberMe = this.authService.getLocalstoreCred().r;
+
+        this.cancelOnDestroy(appStore.sub((credentials: Map<string,any>) => {
             var state = credentials.get('authenticated');
             var reason = credentials.get('reason');
             switch (state) {
@@ -139,29 +126,32 @@ export class LoginPanel {
                     this.m_showTwoFactor = true;
                     this.m_rememberMe = false;
                     this.loginState = 'default';
-                    this.localStorage.removeItem('remember_me')
-                    Lib.BootboxHide();
                     break;
                 }
             }
-        }, 'appdb.credentials', false);
+        }, 'appdb.credentials', false))
 
-        this.m_unsub = appStore.sub((twoFactorStatus: {status: boolean, twoFactorStatusReceived: Date}) => {
+        this.cancelOnDestroy(
+            appStore.sub((twoFactorStatus: {status: boolean, twoFactorStatusReceived: Date}) => {
             // twoFactorStatus.status = false;//debug
             if (twoFactorStatus.status) {
                 this.enterApplication();
             } else {
                 this.onAuthFail(FlagsAuth.WrongTwoFactor);
             }
-        }, 'appdb.twoFactorStatus', false);
+        }, 'appdb.twoFactorStatus', false))
 
-        if (this.authService.getLocalstoreCred().u != '') {
-            this.showLoginPanel = false;
-            this.authService.authUser();
-        } else {
-            this.showLoginPanel = true;
-        }
+
+        //
+        // debugger;
+        // if (this.authService.getLocalstoreCred().u != '') {
+        //     this.showLoginPanel = false;
+        //     this.authService.authUser();
+        // } else {
+        //     this.showLoginPanel = true;
+        // }
     }
+
 
     @ViewChild('userPass') userPass: ElementRef;
 
@@ -169,15 +159,8 @@ export class LoginPanel {
         this.renderer.invokeElementMethod(this.userPass.nativeElement, 'focus', [])
     }
 
-    private authUser() {
+    private onClickedLogin() {
         if (this.m_showTwoFactor) {
-            bootbox.dialog({
-                closeButton: true,
-                title: 'Checking two factor authentication',
-                message: 'please wait...'
-            });
-            // var businessId = this.appStore.getState().appdb.get('credentials').get('businessId');
-            var businessId = this.appStore.getsKey('reseller', 'whitelabel', 'businessId');
             this.authService.authServerTwoFactor(this.m_twoFactor);
         } else {
             this.authService.authUser(this.m_user, this.m_pass, this.m_rememberMe);
@@ -185,13 +168,12 @@ export class LoginPanel {
     }
 
     private enterApplication() {
-        Lib.BootboxHide();
         this.loginState = 'active';
-        if (Lib.DevMode()){
-            setTimeout(() => this.m_router.navigate(['/App1/Dashboard']), 2000)
-            // setTimeout(() => this.m_router.navigate(['/App1/Adnet']), 200)
+        if (Lib.DevMode()) {
+            setTimeout(() => this.router.navigate(['/App1/Dashboard']), 2000)
+            // setTimeout(() => this.router.navigate(['/App1/Adnet']), 200)
         } else {
-            setTimeout(() => this.m_router.navigate(['/App1/Dashboard']), 2000)
+            setTimeout(() => this.router.navigate(['/App1/Dashboard']), 2000)
         }
     }
 
@@ -227,9 +209,6 @@ export class LoginPanel {
         return false;
     }
 
-    private ngOnDestroy() {
-        this.m_unsub();
-    }
 }
 
 

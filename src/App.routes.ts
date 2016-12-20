@@ -13,9 +13,13 @@ import {AuthService} from "./services/AuthService";
 import {Adnet} from "./comps/app1/adnet/Adnet";
 import {AdnetResolver} from "./comps/app1/adnet/targets/AdnetResolver";
 import {AdnetLoader} from "./comps/app1/adnet/AdnetLoader";
+import {AutoLogin} from "./comps/entry/AutoLogin";
 
 const routes: Routes = [
-    {path: 'Login', data: {title: 'Login'}, component: LoginPanel},
+    {path: 'index.html', data: {title: 'Login'}, component: AutoLogin},
+    {path: 'Login', data: {title: 'Login'}, component: AutoLogin},
+    {path: 'UserLogin', data: {title: 'Login'}, component: LoginPanel},
+    {path: 'UserLogin/:twoFactor', data: {title: 'Login'}, component: LoginPanel},
     {path: 'Logout', component: Logout},
     {path: '', component: App1, canActivate: [AuthService]},
     {

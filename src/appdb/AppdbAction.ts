@@ -78,13 +78,7 @@ export class AppdbAction extends Actions {
         };
     }
 
-    public authenticateTwoFactor(i_token: string, i_enable: boolean, i_cb?: Function) {
-        // return (dispatch) => {
-        //     dispatch({
-        //         type: TWO_FACTOR_SERVER_RESULT,
-        //         status: true
-        //     })
-        // };
+    public authenticateTwoFactor(i_token: string, i_enable: boolean) {
         return (dispatch) => {
             var appdb: Map<string,any> = this.appStore.getState().appdb;
             var url = appdb.get('appBaseUrlCloud').replace('END_POINT', 'twoFactor') + `/${i_token}/${i_enable}`
