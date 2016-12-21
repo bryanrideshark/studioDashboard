@@ -106,6 +106,7 @@ export class LoginPanel extends Compbaser {
                 private authService: AuthService) {
         super();
         this.listenEvents();
+        console.log(3);
     }
 
     @ViewChild('userPass') userPass: ElementRef;
