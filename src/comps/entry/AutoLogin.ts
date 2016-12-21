@@ -19,20 +19,26 @@ export class AutoLogin extends Compbaser {
                 var state = credentials.get('authenticated');
                 switch (state) {
                     case AuthState.FAIL: {
-                        this.router.navigate(['/UserLogin'])
+                        this.navigateTo(['/UserLogin'])
                         break;
                     }
                     case AuthState.TWO_FACTOR: {
-                        this.router.navigate(['/UserLogin/twoFactor'])
+                        this.navigateTo(['/UserLogin/twoFactor'])
                         break;
                     }
                     case AuthState.PASS: {
-                        // this.storeService.loadServices();
-                        this.router.navigate(['/App1/Dashboard'])
+                        this.navigateTo(['/App1/Dashboard'])
+
                         break;
                     }
                 }
             }, 'appdb.credentials', false)
         )
+    }
+
+    private navigateTo(to){
+        setTimeout(()=>{
+            this.router.navigate(to)
+        },1)
     }
 }

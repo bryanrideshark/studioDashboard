@@ -30,7 +30,6 @@ export enum AuthState {
     TWO_FACTOR
 }
 
-
 @Injectable()
 export class AppdbAction extends Actions {
     parseString;
@@ -39,7 +38,6 @@ export class AppdbAction extends Actions {
                 private appStore: AppStore,
                 private _http: Http) {
         super(appStore);
-        // this.parseString = require('xml2js').parseString;
         this.parseString = xml2js.parseString;
     }
 

@@ -140,16 +140,6 @@ export class LoginPanel extends Compbaser {
                 this.onAuthFail(FlagsAuth.WrongTwoFactor);
             }
         }, 'appdb.twoFactorStatus', false))
-
-
-        //
-        // debugger;
-        // if (this.authService.getLocalstoreCred().u != '') {
-        //     this.showLoginPanel = false;
-        //     this.authService.authUser();
-        // } else {
-        //     this.showLoginPanel = true;
-        // }
     }
 
 
@@ -208,7 +198,6 @@ export class LoginPanel extends Compbaser {
         }, 1200);
         return false;
     }
-
 }
 
 

@@ -31,8 +31,11 @@ export class StoreService {
 
     private knownServers: Array<string> = [];
     private running: boolean = false;
+    private singleton: boolean = false;
 
     public loadServices() {
+        if(this.singleton) return;
+        this.singleton = true;
         this.listenServices();
         this.appStore.dispatch(this.resellerAction.getResellerInfo());
         this.appStore.dispatch(this.resellerAction.getAccountInfo());

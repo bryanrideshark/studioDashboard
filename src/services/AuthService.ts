@@ -12,8 +12,6 @@ import * as _ from "lodash";
 
 
 export enum FlagsAuth {
-    AuthPass,
-    AuthFailEnterprise,
     WrongPass,
     NotEnterprise,
     Enterprise,
@@ -36,7 +34,6 @@ export class AuthService {
 
     public start() {
         var i_user, i_pass, i_remember;
-
         // check local store first
         var credentials = this.localStorage.getItem('remember_me');
         if (credentials && (credentials && credentials.u != '')) {
@@ -78,7 +75,6 @@ export class AuthService {
 
         this.appStore.sub((credentials: Map<string,any>) => {
             this.m_authState = credentials.get('authenticated');
-            console.log(this.m_authState);
             var user = credentials.get('user');
             var pass = credentials.get('pass');
             var remember = credentials.get('remember');
