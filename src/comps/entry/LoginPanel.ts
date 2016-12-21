@@ -111,7 +111,6 @@ export class LoginPanel extends Compbaser {
     @ViewChild('userPass') userPass: ElementRef;
 
     private listenEvents() {
-
         this.cancelOnDestroy(
             this.activatedRoute.params.subscribe(params => {
                 if (params['twoFactor']){
