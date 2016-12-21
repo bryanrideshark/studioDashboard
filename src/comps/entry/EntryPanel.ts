@@ -1,12 +1,6 @@
 import {Component} from "@angular/core";
 
 
-// @Routes([
-//     {path: '/Another2', component: LoginPanel},
-//     {path: '/Another3', component: ForgotPass},
-//     {path: '/ForgotPass', component: ForgotPass},
-//     {path: '/Login', component: LoginPanel}
-// ])
 @Component({
     selector: 'EntryPanel',
     template: `

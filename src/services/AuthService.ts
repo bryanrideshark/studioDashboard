@@ -139,7 +139,7 @@ export class AuthService {
     }
 
     public checkAccess(): Promise<any> {
-        let target = ['/Login'];
+        let target = ['/AutoLogin'];
 
         switch (this.m_authState) {
             case AuthState.FAIL: {
@@ -191,7 +191,7 @@ export class AuthService {
             .fromPromise(this.checkAccess())
             .do(result => {
                 if (!result)
-                    this.router.navigate(['/Login']);
+                    this.router.navigate(['/AutoLogin']);
             });
     }
 }
@@ -200,32 +200,3 @@ export const AUTH_PROVIDERS: Array<any> = [{
     provide: AuthService,
     useClass: AuthService
 }];
-
-
-// this.m_twoFactorToken = i_twoFactorToken;
-// if (i_twoFactorToken) {
-//     this.appStore.dispatch(this.appdbAction.authenticateTwoFactor(i_twoFactorToken, false));
-// } else {
-//
-// }
-
-// bootbox.dialog({
-//     closeButton: false,
-//     title: "Please wait, Authenticating...",
-//     message: " "
-// });
-// no credentials were entered manually so first try and pull from local storage
-
-// this.m_twoFactorToken = i_twoFactorToken;
-// if (i_twoFactorToken) {
-//     this.appStore.dispatch(this.appdbAction.authenticateTwoFactor(i_twoFactorToken, false));
-// } else {
-//
-// }
-
-// bootbox.dialog({
-//     closeButton: false,
-//     title: "Please wait, Authenticating...",
-//     message: " "
-// });
-// no credentials were entered manually so first try and pull from local storage

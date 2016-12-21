@@ -21,7 +21,7 @@ import {Lib} from "../../Lib";
                       Forgot password
                     </button>
                     <hr class="hrThin"/>
-                    <a [routerLink]="['/Login', {id: 'demo_user'}, 'Login']">Back to login screen</a><br/>
+                    <a [routerLink]="['/AutoLogin', {id: 'demo_user'}, 'Login']">Back to login screen</a><br/>
                     <small>(auto fill user by passing router args)</small>
                     <div id="languageSelectionLogin"></div>
                   </form>

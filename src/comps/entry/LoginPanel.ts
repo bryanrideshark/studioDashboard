@@ -117,7 +117,6 @@ export class LoginPanel extends Compbaser {
                     this.m_pass = Ngmslib.Base64().decode(params['pass']);
                     this.m_showTwoFactor = true;
                 }
-
             })
         )
 
