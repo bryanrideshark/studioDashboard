@@ -3,16 +3,15 @@ import {Compbaser} from "../compbaser/Compbaser";
 import {AppStore} from "angular2-redux-util";
 import {AuthState} from "../../appdb/AppdbAction";
 import {Router} from "@angular/router";
-import {StoreService} from "../../services/StoreService";
 
 @Component({
     selector: 'AutoLogin',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `<h5>verifying access...</h5>`
+    template: `<h5 style="padding-left: 10px"><span class="fa fa-2xfa-key"></span>verifying access...</h5>`
 })
 export class AutoLogin extends Compbaser {
 
-    constructor(private appStore: AppStore, private router:Router, private storeService:StoreService) {
+    constructor(private appStore: AppStore, private router:Router) {
         super();
         this.cancelOnDestroy(
             appStore.sub((credentials: Map<string,any>) => {
