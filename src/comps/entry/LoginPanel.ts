@@ -120,7 +120,6 @@ export class LoginPanel extends Compbaser {
                 }
             })
         )
-
         this.cancelOnDestroy(
             this.appStore.sub((credentials: Map<string,any>) => {
                 var state = credentials.get('authenticated');
@@ -142,7 +141,6 @@ export class LoginPanel extends Compbaser {
                     }
                 }
             }, 'appdb.credentials'))
-
         this.cancelOnDestroy(
             this.appStore.sub((twoFactorStatus: {status: boolean, twoFactorStatusReceived: Date}) => {
                 // twoFactorStatus.status = false;//debug
