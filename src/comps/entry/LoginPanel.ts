@@ -8,6 +8,7 @@ import {Map} from "immutable";
 import {AuthState} from "../../appdb/AppdbAction";
 import {Compbaser} from "../compbaser/Compbaser";
 import {Ngmslib} from "ng-mslib";
+import {ToastsManager} from "ng2-toastr";
 
 
 @Injectable()
@@ -100,6 +101,7 @@ export class LoginPanel extends Compbaser {
     constructor(private appStore: AppStore,
                 private renderer: Renderer,
                 private router: Router,
+                private toast:ToastsManager,
                 private activatedRoute: ActivatedRoute,
                 private authService: AuthService) {
         super();
@@ -159,9 +161,12 @@ export class LoginPanel extends Compbaser {
 
     private onClickedLogin() {
         if (this.m_showTwoFactor) {
+            this.toast.warning('Authenticating Two factor...');
             this.authService.authServerTwoFactor(this.m_twoFactor);
         } else {
+            this.toast.info('Authenticating...');
             this.authService.authUser(this.m_user, this.m_pass, this.m_rememberMe);
+
         }
     }
 
