@@ -35,7 +35,7 @@ export class AppComponent {
 
         //this.checkPlatform();
 
-        /** delete localstore **/
+        /** remove localstore **/
         // this.localStorage.removeItem('remember_me')
         // this.localStorage.removeItem('business_id')
 
