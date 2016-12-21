@@ -124,7 +124,7 @@ export class AppdbAction extends Actions {
                             reason: FlagsAuth.NotEnterprise
                         });
                     } else {
-                        // Auth passed, check if two factor enabled
+                        // Auth passed, next check if two factor enabled
                         self.twoFactorCheck(i_user, i_pass).subscribe((twoFactorResult) => {
                             if (twoFactorResult.enabled == false) {
                                 var eventType = AUTH_PASS;

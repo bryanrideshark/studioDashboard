@@ -6,8 +6,8 @@ import {LocalStorage} from "../../services/LocalStorage";
 import {AuthService, FlagsAuth} from "../../services/AuthService";
 import {Map} from "immutable";
 import {AuthState} from "../../appdb/AppdbAction";
-import {Lib} from "../../Lib";
 import {Compbaser} from "../compbaser/Compbaser";
+import {Ngmslib} from "ng-mslib";
 
 
 @Injectable()
@@ -72,7 +72,6 @@ import {Compbaser} from "../compbaser/Compbaser";
                     <a id="loginButton" (click)="onClickedLogin()" type="submit" class="btn rounded-btn"> enterprise member login
                      <span *ngIf="m_showTwoFactor" style="font-size: 9px; max-height: 15px; display: block; padding: 0; margin: 0; position: relative; top: -20px">with Google authenticator</span>
                     </a>&nbsp;
-                    <!--<a type="submit" class="btn rounded-btn"> Register</a> -->
                      <br/>
                      <div *ngIf="!m_showTwoFactor">
                          <label class="checkbox" style="padding-left: 20px">
@@ -83,7 +82,6 @@ import {Compbaser} from "../compbaser/Compbaser";
                     <br/>     
                     <br/>
                     <br/>
-                    <!--<hr class="hrThin"/>-->
                    <a href="http://www.digitalsignage.com/_html/benefits.html" target="_blank">not an enterprise member? learn more</a>
                     <!-- todo: add forgot password in v2-->                    
                     <div id="languageSelectionLogin"></div>
@@ -99,51 +97,62 @@ export class LoginPanel extends Compbaser {
     private m_rememberMe: any;
     private loginState: string = '';
 
-    constructor(private appStore: AppStore, private renderer: Renderer, private router: Router, private activatedRoute: ActivatedRoute, private authService: AuthService) {
+    constructor(private appStore: AppStore,
+                private renderer: Renderer,
+                private router: Router,
+                private activatedRoute: ActivatedRoute,
+                private authService: AuthService) {
         super();
+        this.listenEvents();
+    }
 
-        this.cancelOnDestroy(this.activatedRoute.params.subscribe(params => {
-                if (params['twoFactor'])
+    @ViewChild('userPass') userPass: ElementRef;
+
+    private listenEvents() {
+
+        this.cancelOnDestroy(
+            this.activatedRoute.params.subscribe(params => {
+                if (params['twoFactor']){
+                    this.m_user = Ngmslib.Base64().decode(params['user']);
+                    this.m_pass = Ngmslib.Base64().decode(params['pass']);
                     this.m_showTwoFactor = true;
+                }
+
             })
         )
 
-        // this.m_rememberMe = this.authService.getLocalstoreCred().r;
-
-        this.cancelOnDestroy(appStore.sub((credentials: Map<string,any>) => {
-            var state = credentials.get('authenticated');
-            var reason = credentials.get('reason');
-            switch (state) {
-                case AuthState.FAIL: {
-                    this.onAuthFail(reason);
-                    break;
+        this.cancelOnDestroy(
+            this.appStore.sub((credentials: Map<string,any>) => {
+                var state = credentials.get('authenticated');
+                var reason = credentials.get('reason');
+                switch (state) {
+                    case AuthState.FAIL: {
+                        this.onAuthFail(reason);
+                        break;
+                    }
+                    case AuthState.PASS: {
+                        this.enterApplication();
+                        break;
+                    }
+                    case AuthState.TWO_FACTOR: {
+                        this.m_showTwoFactor = true;
+                        this.m_rememberMe = false;
+                        this.loginState = 'default';
+                        break;
+                    }
                 }
-                case AuthState.PASS: {
-                    this.enterApplication();
-                    break;
-                }
-                case AuthState.TWO_FACTOR: {
-                    this.m_showTwoFactor = true;
-                    this.m_rememberMe = false;
-                    this.loginState = 'default';
-                    break;
-                }
-            }
-        }, 'appdb.credentials', false))
+            }, 'appdb.credentials'))
 
         this.cancelOnDestroy(
-            appStore.sub((twoFactorStatus: {status: boolean, twoFactorStatusReceived: Date}) => {
-            // twoFactorStatus.status = false;//debug
-            if (twoFactorStatus.status) {
-                this.enterApplication();
-            } else {
-                this.onAuthFail(FlagsAuth.WrongTwoFactor);
-            }
-        }, 'appdb.twoFactorStatus', false))
+            this.appStore.sub((twoFactorStatus: {status: boolean, twoFactorStatusReceived: Date}) => {
+                // twoFactorStatus.status = false;//debug
+                if (twoFactorStatus.status) {
+                    this.enterApplication();
+                } else {
+                    this.onAuthFail(FlagsAuth.WrongTwoFactor);
+                }
+            }, 'appdb.twoFactorStatus'))
     }
-
-
-    @ViewChild('userPass') userPass: ElementRef;
 
     private passFocus() {
         this.renderer.invokeElementMethod(this.userPass.nativeElement, 'focus', [])
@@ -159,16 +168,10 @@ export class LoginPanel extends Compbaser {
 
     private enterApplication() {
         this.loginState = 'active';
-        if (Lib.DevMode()) {
-            setTimeout(() => this.router.navigate(['/App1/Dashboard']), 2000)
-            // setTimeout(() => this.router.navigate(['/App1/Adnet']), 200)
-        } else {
-            setTimeout(() => this.router.navigate(['/App1/Dashboard']), 2000)
-        }
+        this.router.navigate(['/App1/Dashboard']);
     }
 
     private onAuthFail(i_reason) {
-        //Lib.BootboxHide(3500);
         this.loginState = 'inactive';
         let msg1: string;
         let msg2: string;
@@ -201,3 +204,4 @@ export class LoginPanel extends Compbaser {
 }
 
 
+// this.m_rememberMe = this.authService.getLocalstoreCred().r;
