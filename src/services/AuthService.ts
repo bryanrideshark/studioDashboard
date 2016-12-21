@@ -1,26 +1,14 @@
-import {
-    Injectable,
-    Inject,
-    forwardRef
-} from "@angular/core";
-import {
-    Router,
-    ActivatedRouteSnapshot,
-    RouterStateSnapshot, ActivatedRoute
-} from "@angular/router";
+import {Injectable, Inject, forwardRef} from "@angular/core";
+import {Router, ActivatedRouteSnapshot, RouterStateSnapshot, ActivatedRoute} from "@angular/router";
 import {AppStore} from "angular2-redux-util";
 import {LocalStorage} from "./LocalStorage";
 import {StoreService} from "./StoreService";
-import {
-    AppdbAction,
-    AuthState
-} from "../appdb/AppdbAction";
-import 'rxjs/add/observable/fromPromise';
-import {Observable} from 'rxjs/Observable';
-import {Map} from 'immutable';
-import {Lib} from "../Lib";
+import {AppdbAction, AuthState} from "../appdb/AppdbAction";
+import "rxjs/add/observable/fromPromise";
+import {Observable} from "rxjs/Observable";
+import {Map} from "immutable";
 import {Ngmslib} from "ng-mslib";
-import * as _ from 'lodash';
+import * as _ from "lodash";
 
 
 export enum FlagsAuth {
@@ -34,20 +22,17 @@ export enum FlagsAuth {
 
 @Injectable()
 export class AuthService {
-    private ubsub: () => void;
     private m_authState: AuthState;
     private m_pendingNotify: any;
-    private m_twoFactorToken: string = '';
 
     constructor(private router: Router,
                 @Inject(forwardRef(() => AppStore)) private appStore: AppStore,
                 @Inject(forwardRef(() => AppdbAction)) private appdbAction: AppdbAction,
                 @Inject(forwardRef(() => LocalStorage)) private localStorage: LocalStorage,
+                @Inject(forwardRef(() => StoreService)) private storeService: StoreService,
                 private activatedRoute: ActivatedRoute) {
-        this.listenStore();
+        this.listenStores();
     }
-
-    // @Inject(forwardRef(() => StoreService)) private storeService: StoreService,
 
     public start() {
         var i_user, i_pass, i_remember;
@@ -83,11 +68,12 @@ export class AuthService {
         }
     }
 
-
-    private listenStore() {
-
-        this.appStore.sub((credentials: Map<string,any>) => {
-        }, 'appdb.twoFactorStatus');
+    private listenStores() {
+        this.appStore.sub((twoFactorStatus: {status: boolean, twoFactorStatusReceived: Date}) => {
+            this.saveCredentials('', '', '');
+            if (twoFactorStatus.status)
+                this.storeService.loadServices();
+        }, 'appdb.twoFactorStatus', false)
 
 
         this.appStore.sub((credentials: Map<string,any>) => {
@@ -98,15 +84,16 @@ export class AuthService {
             var remember = credentials.get('remember');
             switch (this.m_authState) {
                 case AuthState.FAIL: {
-                    this.localStorage.removeItem('remember_me');
+                    this.saveCredentials('', '', '');
                     break;
                 }
                 case AuthState.PASS: {
+                    this.storeService.loadServices();
                     this.saveCredentials(user, pass, remember);
                     break;
                 }
                 case AuthState.TWO_FACTOR: {
-                    this.saveCredentials(user, pass, remember);
+                    this.saveCredentials('', '', '');
                     console.log('waiting need two factor');
                     break;
                 }
@@ -132,50 +119,12 @@ export class AuthService {
         }
     }
 
-    private onAuthFail() {
-        setTimeout(() => {
-            Lib.BootboxHide();
-            this.saveCredentials('', '', '');
-        }, 1000);
-        return false;
-    }
-
-
     public authUser(i_user: string, i_pass: string, i_remember: string): void {
-
         this.appdbAction.createDispatcher(this.appdbAction.authenticateUser)(i_user.trim(), i_pass.trim(), i_remember);
-
-        // this.m_twoFactorToken = i_twoFactorToken;
-        // if (i_twoFactorToken) {
-        //     this.appStore.dispatch(this.appdbAction.authenticateTwoFactor(i_twoFactorToken, false));
-        // } else {
-        //
-        // }
-
-        // bootbox.dialog({
-        //     closeButton: false,
-        //     title: "Please wait, Authenticating...",
-        //     message: " "
-        // });
-        // no credentials were entered manually so first try and pull from local storage
     }
-
 
     public authServerTwoFactor(i_twoFactorToken): void {
         this.appStore.dispatch(this.appdbAction.authenticateTwoFactor(i_twoFactorToken, false));
-        // this.m_twoFactorToken = i_twoFactorToken;
-        // if (i_twoFactorToken) {
-        //     this.appStore.dispatch(this.appdbAction.authenticateTwoFactor(i_twoFactorToken, false));
-        // } else {
-        //
-        // }
-
-        // bootbox.dialog({
-        //     closeButton: false,
-        //     title: "Please wait, Authenticating...",
-        //     message: " "
-        // });
-        // no credentials were entered manually so first try and pull from local storage
     }
 
     public getLocalstoreCred(): {u: string, p: string, r: string} {
@@ -241,7 +190,6 @@ export class AuthService {
         });
     }
 
-
     public canActivate(activatedRouteSnapshot: ActivatedRouteSnapshot, routerStateSnapshot: RouterStateSnapshot): Observable<boolean> {
         return Observable
             .fromPromise(this.checkAccess())
@@ -250,13 +198,38 @@ export class AuthService {
                     this.router.navigate(['/Login']);
             });
     }
-
-    private ngOnDestroy() {
-        this.ubsub();
-    }
 }
 
 export const AUTH_PROVIDERS: Array<any> = [{
     provide: AuthService,
     useClass: AuthService
 }];
+
+
+// this.m_twoFactorToken = i_twoFactorToken;
+// if (i_twoFactorToken) {
+//     this.appStore.dispatch(this.appdbAction.authenticateTwoFactor(i_twoFactorToken, false));
+// } else {
+//
+// }
+
+// bootbox.dialog({
+//     closeButton: false,
+//     title: "Please wait, Authenticating...",
+//     message: " "
+// });
+// no credentials were entered manually so first try and pull from local storage
+
+// this.m_twoFactorToken = i_twoFactorToken;
+// if (i_twoFactorToken) {
+//     this.appStore.dispatch(this.appdbAction.authenticateTwoFactor(i_twoFactorToken, false));
+// } else {
+//
+// }
+
+// bootbox.dialog({
+//     closeButton: false,
+//     title: "Please wait, Authenticating...",
+//     message: " "
+// });
+// no credentials were entered manually so first try and pull from local storage

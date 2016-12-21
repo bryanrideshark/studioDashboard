@@ -27,7 +27,7 @@ export class AutoLogin extends Compbaser {
                         break;
                     }
                     case AuthState.PASS: {
-                        this.storeService.loadServices();
+                        // this.storeService.loadServices();
                         this.router.navigate(['/App1/Dashboard'])
                         break;
                     }

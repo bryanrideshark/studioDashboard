@@ -1,41 +1,26 @@
-import {
-    Injectable,
-    Inject,
-    forwardRef
-} from "@angular/core";
+import {Injectable, Inject, forwardRef} from "@angular/core";
 import {BusinessAction} from "../business/BusinessAction";
-import {AdnetActions} from "../adnet/AdnetActions";
 import {ResellerAction} from "../reseller/ResellerAction";
 import {AppdbAction} from "../appdb/AppdbAction";
 import {AppStore} from "angular2-redux-util";
 import {StationsAction} from "../stations/StationsAction";
-import {
-    List,
-    Map
-} from 'immutable';
+import {List, Map} from "immutable";
 import {CommBroker} from "./CommBroker";
 import {Consts} from "../Conts";
 import {StationModel} from "../stations/StationModel";
 import {Lib} from "../Lib";
-import * as _ from 'lodash'
 import {OrdersAction} from "../comps/app1/orders/OrdersAction";
-import {LocalStorage} from "./LocalStorage";
-import {AuthService} from "./AuthService";
-import {ActivatedRouteSnapshot} from "@angular/router";
 
 @Injectable()
 export class StoreService {
     constructor(@Inject(forwardRef(() => AppStore)) private appStore: AppStore,
                 @Inject(forwardRef(() => BusinessAction)) private businessActions: BusinessAction,
-                @Inject(forwardRef(() => AdnetActions)) private adnetActions: AdnetActions,
                 @Inject(forwardRef(() => OrdersAction)) private ordersActions: OrdersAction,
                 @Inject(forwardRef(() => ResellerAction)) private resellerAction: ResellerAction,
                 @Inject(forwardRef(() => StationsAction)) private stationsAction: StationsAction,
                 @Inject(forwardRef(() => AppdbAction)) private appDbActions: AppdbAction,
-                @Inject(forwardRef(() => AuthService)) private authService: AuthService,
-                @Inject('OFFLINE_ENV') private offlineEnv,
                 @Inject(forwardRef(() => CommBroker)) private commBroker: CommBroker,
-                @Inject(forwardRef(() => LocalStorage)) private localStorage: LocalStorage) {
+                @Inject('OFFLINE_ENV') private offlineEnv) {
 
         this.appStore.dispatch(this.appDbActions.initAppDb());
     }
