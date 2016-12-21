@@ -41,6 +41,7 @@ export class StoreService {
         this.appStore.dispatch(this.resellerAction.getAccountInfo());
         this.appStore.dispatch(this.businessActions.fetchBusinesses());
         this.appStore.dispatch(this.businessActions.getSamples());
+        console.log('loaded network services...');
     }
 
     private initPollServices() {
