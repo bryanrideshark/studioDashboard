@@ -227,7 +227,18 @@ var decelerations = [AppComponent, RatesTable, UsersDetails, AutoLogin, LoginPan
         Ng2Bs3ModalModule,
         HttpModule,
         ChartModule,
-        ToastModule.forRoot(options),
+        ToastModule.forRoot({
+            animate: 'flyRight',
+            positionClass: 'toast-bottom-right',
+            toastLife: 5000,
+            showCloseButton: true,
+            maxShown: 5,
+            newestOnTop: true,
+            enableHTML: true,
+            dismiss: 'auto',
+            messageClass: "",
+            titleClass: ""
+        }),
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyAGD7EQugVG8Gq8X3vpyvkZCnW4E4HONLI'
         }),
@@ -254,3 +265,9 @@ export class AppModule {
     }
 
 }
+
+// https://github.com/angular/angular-cli/issues/3706#issuecomment-268868237
+// ToastModule.forRoot(options),
+// "files": ["main"],
+
+
