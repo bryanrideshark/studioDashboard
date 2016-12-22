@@ -206,10 +206,9 @@ export var providing = [CommBroker, AUTH_PROVIDERS,
 
 
 let options: ToastOptions = new ToastOptions({
-    toastLife: 4000,
+    toastLife: 3000,
     animate: 'flyRight'
 });
-
 
 var decelerations = [AppComponent, RatesTable, UsersDetails, AutoLogin, LoginPanel, Account, Whitelabel, Apps, App1, Users, Adnet, Privileges, Dashboard, Logout, Orders, Logo,
     LogoCompany, Footer, BlurForwarder, InputEdit, OrderBy, SortBy, FilterPipe, FilterPipeEqual, AdnetBilling, AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, ServerStats, ServerAvg,
