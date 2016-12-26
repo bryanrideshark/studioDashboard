@@ -54,21 +54,12 @@ export class AppComponent {
     }
 
     ngOnInit() {
-        console.log(123);
         let s = this.router.events.subscribe((val) => {
             if (val instanceof NavigationEnd) {
                 this.authService.start();
                 s.unsubscribe();
             }
         });
-
-        var arr = ['a', 'b', 'd'];
-        var e = arr.entries();
-        for (let [index, elem] of e) {
-            debugger;
-            console.log(`index = ${index}, elem = ${elem}`);
-        }
-
     }
 
     public version: string;
