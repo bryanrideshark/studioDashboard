@@ -98,8 +98,6 @@ export class LoginPanel extends Compbaser {
     private m_rememberMe: any;
     private loginState: string = '';
 
-
-    
     constructor(private appStore: AppStore,
                 private renderer: Renderer,
                 private router: Router,
