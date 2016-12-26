@@ -108,8 +108,6 @@ export class LoginPanel extends Compbaser {
         this.listenEvents();
     }
 
-
-    
     @ViewChild('userPass') userPass: ElementRef;
 
     private listenEvents() {
