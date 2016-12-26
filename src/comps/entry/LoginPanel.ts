@@ -91,8 +91,6 @@ import {ToastsManager} from "ng2-toastr";
                `
 })
 
-
-
 export class LoginPanel extends Compbaser {
     private m_user: string = '';
     private m_pass: string = '';
