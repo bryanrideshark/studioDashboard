@@ -7,8 +7,8 @@ import * as OrdersAction from "../comps/app1/orders/OrdersAction";
 // 0 = cloud, 1 = private 2 = hybrid
 
 const baseUrl = 'https://galaxy.signage.me/WebService/ResellerService.ashx';
-const adnetCustomerId = ':ADNET_CUSTOMER_ID:'
-const adnetCustomerToken = ':ADNET_TOKEN_ID:'
+const adnetCustomerId = ':ADNET_CUSTOMER_ID:';
+const adnetCustomerToken = ':ADNET_TOKEN_ID:';
 const appBaseUrlAdnet = `https://adnet.signage.me/adNetService.ashx?command=customerRequest&customerId=${adnetCustomerId}&customerToken=${adnetCustomerToken}&fromChangelistId=0`;
 const appBaseUrlAdnetSearch = `https://adnet.signage.me/adNetService.ashx?command=search&customerId=${adnetCustomerId}&customerToken=${adnetCustomerToken}:DATA:`;
 const appBaseUrlAdnetSave = `https://adnet.signage.me/adNetService.ashx?command=customerSubmit&customerId=${adnetCustomerId}&customerToken=${adnetCustomerToken}&data=:DATA:`;
