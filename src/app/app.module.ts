@@ -244,7 +244,7 @@ var decelerations = [AppComponent, RatesTable, UsersDetails, AutoLogin, LoginPan
         MsLibModule.forRoot(),
         SimpleGridModule.forRoot(),
         JsonpModule,
-        AlertModule.forRoot(),
+        AlertModule,
         ModalModule,
         DropdownModule.forRoot(),
         AccordionModule,
