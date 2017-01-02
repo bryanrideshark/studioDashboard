@@ -1,21 +1,12 @@
-import {
-    Component,
-    Input,
-    Output,
-    ViewChild,
-    EventEmitter,
-    ChangeDetectionStrategy, ChangeDetectorRef
-} from "@angular/core";
+import {Component, Input, Output, ViewChild, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef} from "@angular/core";
 import {StationModel} from "../../../stations/StationModel";
 import {SimpleGridTable} from "../../simplegridmodule/SimpleGridTable";
 import {SimpleGridRecord} from "../../simplegridmodule/SimpleGridRecord";
-import {List} from 'immutable';
-import {Observer, Observable, Subject} from "rxjs";
+import {List} from "immutable";
+import {Subject, Observable} from "rxjs";
 import "rxjs/add/operator/do";
 import "rxjs/add/operator/delay";
-import * as _ from 'lodash';
 import {Compbaser} from "../../compbaser/Compbaser";
-import {StoreModel} from "../../../models/StoreModel";
 import {Ngmslib} from "ng-mslib";
 
 
@@ -36,7 +27,7 @@ import {Ngmslib} from "ng-mslib";
         `],
     template: `
         <div class="row">
-             <p style="padding-left: 10px">total players: {{totalPlayers$ | async}}</p>
+             <p style="padding-left: 10px">total players: {{totalPlayersSubject$ | async}}</p>
              <div class="col-xs-12">
                 <div (click)="$event.preventDefault()" style="position: relative; top: 10px">
                     <div>
@@ -92,24 +83,26 @@ export class StationsGrid extends Compbaser {
 
     @ViewChild(SimpleGridTable) simpleGridTable: SimpleGridTable
 
-    private totalPlayers$: Subject<any> = new Subject();
+    private totalPlayersSubject$: Subject<any> = new Subject();
     private m_stations: List<StationModel>;
 
     @Input()
     set stations(i_stations: List<StationModel>) {
         if (!i_stations || i_stations.size == 0) {
             this.m_stations = List<any>();
-            this.totalPlayers$.next('none');
+            this.totalPlayersSubject$.next('none');
             return
         }
-        this.totalPlayers$.next(i_stations.size);
+        this.totalPlayersSubject$.next(i_stations.size);
         this.m_stations = List<StationModel>();
         var items$ = Ngmslib.Staggered(i_stations, 1);
         this.cancelOnDestroy(
-            items$.takeUntil(this.totalPlayers$).subscribe((x) => {
-                this.m_stations = List<any>(x);
-                this.cd.markForCheck();
-            })
+            items$.takeUntil((this.totalPlayersSubject$ as any))
+                .subscribe((x) => {
+                        this.m_stations = List<any>(x);
+                        this.cd.markForCheck();
+                    }
+                )
         )
     }
 
@@ -135,7 +128,7 @@ export class StationsGrid extends Compbaser {
     private onSelectStation(event) {
     }
 
-    public sort: {field: string, desc: boolean} = {
+    public sort: { field: string, desc: boolean } = {
         field: null,
         desc: false
     };

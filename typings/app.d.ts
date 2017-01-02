@@ -46,6 +46,12 @@ declare module '*!text' {
 // }
 
 
+// declare var Symbol: {
+//     (description?: anyNotSymbol): symbol;
+//     readonly match: symbol;
+// };
+
+
 declare module Reflect {
     function apply(target: Function, thisArgument: any, argumentsList: ArrayLike<any>): any;
 

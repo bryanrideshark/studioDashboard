@@ -2,7 +2,6 @@ import {BrowserModule} from "@angular/platform-browser";
 import {NgModule} from "@angular/core";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpModule, JsonpModule} from "@angular/http";
-import {AlertModule, ModalModule} from "ng2-bootstrap/ng2-bootstrap";
 import {Ng2Bs3ModalModule} from "ng2-bs3-modal/ng2-bs3-modal";
 import {AppComponent} from "./app.component";
 import {AppStore} from "angular2-redux-util";
@@ -21,7 +20,7 @@ import {MsLibModule} from "ng-mslib/dist/mslib.module";
 import {ToastModule, ToastOptions} from "ng2-toastr";
 import {AgmCoreModule} from "angular2-google-maps/core";
 import {SimpleGridModule} from "../comps/simplegridmodule/SimpleGridModule";
-import {DropdownModule, AccordionModule} from "ng2-bootstrap";
+import {DropdownModule, AccordionModule, AlertModule, ModalModule} from "ng2-bootstrap";
 import {TreeModule, InputTextModule, SelectButtonModule, DropdownModule as DropdownModulePrime} from "primeng/primeng";
 import {NgStringPipesModule} from "angular-pipes";
 import {routing} from "../App.routes";
@@ -245,9 +244,9 @@ var decelerations = [AppComponent, RatesTable, UsersDetails, AutoLogin, LoginPan
         MsLibModule.forRoot(),
         SimpleGridModule.forRoot(),
         JsonpModule,
-        AlertModule,
+        AlertModule.forRoot(),
         ModalModule,
-        DropdownModule,
+        DropdownModule.forRoot(),
         AccordionModule,
         TreeModule,
         NgStringPipesModule,
