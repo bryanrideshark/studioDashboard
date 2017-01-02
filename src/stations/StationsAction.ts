@@ -58,10 +58,14 @@ export class StationsAction extends Actions {
             for (let i_source in config) {
                 var i_businesses = config[i_source];
                 var businesses = i_businesses.join(',');
-
-                //todo: need to add user auth for getSocketStatusList
                 var url: string = `https://${i_source}/WebService/StationService.asmx/getSocketStatusList?i_businessList=${businesses}`;
-                observables.push(this._http.get(url).retry(0).map((res) => {
+                // console.log('http: ' + url);
+                observables.push(this._http.get(url).retry(2) .catch((err) => {
+                    console.log('problem loading station ' + err);
+                    return Observable.throw(err);
+                }).finally(() => {
+                    console.log('done loading http');
+                }).map((res) => {
                     return {xml: res.text(), source: i_source};
                 }));
             }
