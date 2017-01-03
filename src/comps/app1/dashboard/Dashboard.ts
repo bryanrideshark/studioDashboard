@@ -10,6 +10,7 @@ import {Consts} from "../../../Conts";
 import {ModalComponent} from "ng2-bs3-modal/components/modal";
 import * as _ from "lodash";
 import {FormControl} from "@angular/forms";
+import {Subscriber} from "rxjs";
 
 type stationComponentMode = "map" | "grid";
 
@@ -69,6 +70,8 @@ export class Dashboard {
     @ViewChild('modalStationDetails')
     modalStationDetails: ModalComponent;
 
+    // private unsubs: Array<() => void> = [];
+    private listeners: Subscriber<any>;
     private selectedStation: StationModel;
     private screensOnline: string = 'screens online: 0';
     private screensOffline: string = 'screens offline: 0';
@@ -76,7 +79,6 @@ export class Dashboard {
     private totalFilteredPlayers: number = 0;
     private businessNameControl: FormControl = new FormControl();
     private stations: Map<string, List<StationModel>>;
-    private unsubs: Array<()=>void> = [];
     private businessStats = {};
     private serverStats;
     private errorLoadingStations: boolean = false;
@@ -106,35 +108,42 @@ export class Dashboard {
 
     }
 
+
+
     private listenStore() {
-        var unsub;
+        this.listeners = new Subscriber()
 
         /** stations stats **/
         this.stations = this.appStore.getState().stations;
         this.initStationsFilter();
         this.onStationsFilterSelected('connection', 'all', 1000);
-        unsub = this.appStore.sub((stations: Map<string, List<StationModel>>) => {
-            this.stations = stations;
-            this.initStationsFilter();
-            //this.onStationsFilterSelected('connection', 'all', 1000);
-            this.setStationsFiltered();
-        }, 'stations');
-        this.unsubs.push(unsub);
+        this.listeners.add(
+            this.appStore.sub((stations: Map<string, List<StationModel>>) => {
+                this.stations = stations;
+                this.initStationsFilter();
+                //this.onStationsFilterSelected('connection', 'all', 1000);
+                this.setStationsFiltered();
+            }, 'stations')
+        );
+
 
         /** business stats **/
         this.businessStats = this.appStore.getState().business.getIn(['businessStats']) || {};
-        unsub = this.appStore.sub((i_businesses: Map<string,any>) => {
-            this.businessStats = i_businesses;
-        }, 'business.businessStats');
-        this.unsubs.push(unsub);
+        this.listeners.add(
+            this.appStore.sub((i_businesses: Map<string,any>) => {
+                this.businessStats = i_businesses;
+            }, 'business.businessStats')
+        )
+
 
         /** servers response stats **/
         var serversStatus = this.appStore.getState().appdb.getIn(['serversStatus']);
         this.loadServerStats(serversStatus);
-        unsub = this.appStore.sub((serversStatus: Map<string,any>) => {
-            this.loadServerStats(serversStatus);
-        }, 'appdb.serversStatus', false);
-        this.unsubs.push(unsub);
+        this.listeners.add(
+            this.appStore.sub((serversStatus: Map<string,any>) => {
+                this.loadServerStats(serversStatus);
+            }, 'appdb.serversStatus', false)
+        );
     }
 
     private loadServerStats(serversStatus: Map<string,any>) {
@@ -273,9 +282,10 @@ export class Dashboard {
     }
 
     private ngOnDestroy() {
-        this.unsubs.forEach((unsub: ()=>void) => {
-            unsub();
-        })
+        this.listeners.unsubscribe();
+        // this.unsubs.forEach((unsub: () => void) => {
+        //     unsub();
+        // })
     }
 }
 

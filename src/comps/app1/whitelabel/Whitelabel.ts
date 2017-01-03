@@ -117,7 +117,6 @@ export class Whitelabel {
     private stylesObj;
 
     private onInputBlur(event) {
-        console.log(88888);
         setTimeout(() => this.appStore.dispatch(this.resellerAction.saveWhiteLabel(Lib.CleanCharForXml(this.contGroup.value))), 1);
     }
 
