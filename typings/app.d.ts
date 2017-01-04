@@ -52,6 +52,11 @@ declare module '*!text' {
 // };
 
 
+declare module "*.json" {
+    const value: any;
+    export default value;
+}
+
 declare module Reflect {
     function apply(target: Function, thisArgument: any, argumentsList: ArrayLike<any>): any;
 
