@@ -26,12 +26,7 @@ import {Component, Input, ChangeDetectionStrategy} from '@angular/core'
     `],
     template: `
         <div class="center" [ngStyle]="_style">
-            <!--<center>-->
-               <!--<h5>Loading</h5>-->
-                <!--<div *ngIf="show" class="spinner"></div>-->
-                <div [ngStyle]="_size" class="spinner"></div>
-               <!--<img [src]="src"/>-->
-            <!--</center>-->
+           <div [ngStyle]="_size" class="spinner"></div>
         </div>
     `,
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -47,7 +42,6 @@ export class Loading {
     @Input('style')
     set style(i_style: Object) {
         this._style = i_style;
-        console.log();
     }
 
     @Input('size')
