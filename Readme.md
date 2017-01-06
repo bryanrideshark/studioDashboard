@@ -76,12 +76,14 @@ Customization:
 Keep in mind the StudioDashboard is often released with new updates, so you will lose any changes you make to your code if you overwrite it with our release builds.
 Be sure to merge changes and subclass modules to be able to continue and receive updates without loosing your source changes.
 
-StoreModel
+Videos:
 ------------------------------------------------------------------------
 
-this app relies on the AppStore implementation, watch the video to learn more:
+[![Advanced angular tips and tricks](http://img.youtube.com/vi/vyiyJCLlGwo/0.jpg)](https://www.youtube.com/watch?v=vyiyJCLlGwo&feature=youtu.be "Advanced angular tips and tricks")
 
 [![The Ultimate redux typed store implementation for angular](http://img.youtube.com/vi/bEkPEnudm7s/0.jpg)](https://www.youtube.com/watch?v=bEkPEnudm7s&feature=youtu.be "The Ultimate redux typed store implementation for angular")
+
+
 
 For the ultimate Angular 2 kitchen sink visit: 
 https://github.com/born2net/ng2Boilerplate
