@@ -29,7 +29,6 @@ testem.log
 
 #include
 !index.js
-!service-worker.js
 !/typings
 
 # js/map
@@ -39,3 +38,6 @@ src/**/*.map
 #System Files
 .DS_Store
 Thumbs.db
+
+
+!service-worker.js
