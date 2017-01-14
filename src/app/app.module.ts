@@ -242,13 +242,12 @@ var decelerations = [AppComponent, RatesTable, UsersDetails, AutoLogin, LoginPan
             apiKey: 'AIzaSyAGD7EQugVG8Gq8X3vpyvkZCnW4E4HONLI'
         }),
         MsLibModule.forRoot(),
-
-        JsonpModule,
-        AlertModule,
-        ModalModule,
         SimpleGridModule.forRoot(),
-        DropdownModule,
-        AccordionModule,
+        AlertModule.forRoot(),
+        DropdownModule.forRoot(),
+        AccordionModule.forRoot(),
+        ModalModule.forRoot(),
+        JsonpModule,
         TreeModule,
         NgStringPipesModule,
         InputTextModule,
