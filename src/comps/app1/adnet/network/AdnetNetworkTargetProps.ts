@@ -67,6 +67,7 @@ export class AdnetNetworkTargetProps extends Compbaser {
         }).first() as AdnetCustomerModel;
     }
 
+    selectedStation;
     adnetTargetModel: AdnetTargetModel;
     adnetCustomerModel: AdnetCustomerModel;
     adnetRateModel: AdnetRateModel;

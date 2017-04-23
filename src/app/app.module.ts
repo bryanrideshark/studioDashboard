@@ -117,6 +117,9 @@ import {NgMenuItem} from "../comps/ng-menu/ng-menu-item";
 import {AutoLogin} from "../comps/entry/AutoLogin";
 import {NgmslibService} from "ng-mslib";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {Ng2Highmaps} from "../comps/ng2-highcharts/src/directives/ng2-highmaps";
+import {Ng2Highstocks} from "../comps/ng2-highcharts/src/directives/ng2-highstocks";
+import {StringJSV2Pipe} from "../pipes/stringjsv2.pipe";
 
 export enum ServerMode {
     CLOUD,
@@ -202,8 +205,8 @@ export var providing = [CommBroker, AUTH_PROVIDERS, BsDropdownConfig, NgmslibSer
 
 
 var decelerations = [AppComponent, RatesTable, UsersDetails, AutoLogin, LoginPanel, Account, Whitelabel, Apps, App1, Users, Adnet, Privileges, Dashboard, Logout, Orders, Logo,
-    LogoCompany, Footer, BlurForwarder, InputEdit, OrderBy, SortBy, FilterPipe, FilterPipeEqual, AdnetBilling, AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, ServerStats, ServerAvg,
-    StationsMap, StationsGrid, StationDetails, ImgLoader, Ng2Highcharts, AdnetConfigCustomer, AdnetConfig, StationSnapshot, OrderDetails, simplelist, PrivilegesDetails, ModalDialog, Infobox,
+    LogoCompany, Footer, BlurForwarder, InputEdit, OrderBy, SortBy, FilterPipe, FilterPipeEqual, StringJSV2Pipe, AdnetBilling, AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, ServerStats, ServerAvg,
+    StationsMap, StationsGrid, StationDetails, ImgLoader, Ng2Highcharts, Ng2Highmaps, Ng2Highstocks, AdnetConfigCustomer, AdnetConfig, StationSnapshot, OrderDetails, simplelist, PrivilegesDetails, ModalDialog, Infobox,
     UserStorage, Loading, Samplelist, UserInfo, AddUser, AdnetPayment, AdnetTransfer, ChangePass, simplelistEditable, AdnetConfigTargetStations,
     AdnetConfigTargetProps, AdnetLocation, MapAddress, AdnetNetwork, AdnetNetworkCustomerSelector, AdnetNetworkPackageEditor, AdnetNetworkPackageViewer, AdnetNetworkTargetSearch,
     AdnetNetworkPackageProps, AdnetNetworkPackageContent, AdnetNetworkPackageContentProps, AdnetNetworkTarget, AdnetNetworkTargetProps, ResourceViewer, AdnetNetworkPackageViewProps,

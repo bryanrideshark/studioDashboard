@@ -29,7 +29,6 @@ export class Dropbox extends Compbaser {
 
     @Output()
     onFileLinkSelected: EventEmitter<Object> = new EventEmitter<Object>();
-
     selectedFile: TreeNode;
     files = [];
     nodes = []

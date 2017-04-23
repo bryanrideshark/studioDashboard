@@ -42,9 +42,8 @@ type stationComponentMode = "map" | "grid";
     providers: [BusinessAction],
     templateUrl: './Dashboard.html'
 })
-
+              
 export class Dashboard {
-
     // private unsubs: Array<() => void> = [];
     listeners: Subscriber<any>;
     selectedStation: StationModel;

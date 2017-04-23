@@ -9,7 +9,7 @@
         <span *ngIf="accountValidity" style="color: green" class="fa fa-check-square"></span>
         <span *ngIf="!accountValidity" style="color: red" class="fa fa-minus-square "></span>
     </button>
-    <h2 style="display: inline; position: relative; top: -3px; left: 10px">{{totalFilteredPlayers}}</h2>
+    <!--<h2 style="display: inline; position: relative; top: -3px; left: 10px">{{totalFilteredPlayers}}</h2>-->
 </div>
 <br/>
 <input placeholder="paste Dropbox token" class="form-control" style="width: 99.9%" type="password" (blur)="onTokenChange($event)" [(ngModel)]="token"/>
