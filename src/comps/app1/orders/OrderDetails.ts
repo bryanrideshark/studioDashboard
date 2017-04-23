@@ -1,13 +1,7 @@
-import {
-    Component,
-    Input,
-    OnDestroy,
-    ChangeDetectionStrategy,
-    ViewContainerRef
-} from "@angular/core";
+import {ChangeDetectionStrategy, Component, Input, ViewContainerRef} from "@angular/core";
 import {AppStore} from "angular2-redux-util";
 import {OrderDetailModel} from "./OrderDetailModel";
-import {Compbaser} from "../../compbaser/Compbaser";
+import {Compbaser} from "ng-mslib";
 
 @Component({
     selector: 'OrderDetails',
@@ -75,17 +69,17 @@ export class OrderDetails extends Compbaser {
         }
     };
 
-    private subtotal: number = 0;
-    private tax: number = 0;
-    private discount: number = 0;
-    private shipping: number = 0;
-    private total: number = 0;
-    private products: Array<any>;
-    private showProgress: boolean = false;
-    private steps: Array<boolean> = [true, true, true, true];
-    private stepsDescription: Array<string> = ['new order', 'approved', 'processing', 'shipped'];
-    private selectedOrder: OrderDetailModel;
-    private loading: boolean = false;
+    subtotal: number = 0;
+    tax: number = 0;
+    discount: number = 0;
+    shipping: number = 0;
+    total: number = 0;
+    products: Array<any>;
+    showProgress: boolean = false;
+    steps: Array<boolean> = [true, true, true, true];
+    stepsDescription: Array<string> = ['new order', 'approved', 'processing', 'shipped'];
+    selectedOrder: OrderDetailModel;
+    loading: boolean = false;
     // private unsub1: Function;
     // private unsub2: Function;
     // private orderList:List<OrderModel> = List<OrderModel>();
@@ -111,26 +105,26 @@ export class OrderDetails extends Compbaser {
         return true;
     }
 
-    private toCurrency(value) {
+    toCurrency(value) {
         if (value && !isNaN(value)) {
             return '$' + parseFloat(value).toFixed(2);
         }
         return '$0.00';
     }
 
-    private tableDesc(field) {
+    tableDesc(field) {
         return field.description;
     }
 
-    private tableQty(field) {
+    tableQty(field) {
         return field.product_count;
     }
 
-    private tablePrice(field) {
+    tablePrice(field) {
         return parseFloat(field.price);
     }
 
-    private tableTotal(field) {
+    tableTotal(field) {
         var v: any = field.product_count * field.price;
         return parseFloat(v);
     }

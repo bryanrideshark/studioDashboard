@@ -6,16 +6,18 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {List} from "immutable";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {AppStore} from "angular2-redux-util";
-import {Compbaser} from "../../../compbaser/Compbaser";
+import {Compbaser} from "ng-mslib";
+import {Lib} from "../../../../Lib";
 
 @Component({
     selector: 'AdnetConfigTargets',
     templateUrl: './AdnetConfigTargets.html'
 })
 export class AdnetConfigTargets extends Compbaser {
-
+    inDevMode;
     constructor(private appStore: AppStore) {
         super();
+        this.inDevMode = Lib.DevMode();
     }
 
     ngOnInit() {
@@ -36,7 +38,7 @@ export class AdnetConfigTargets extends Compbaser {
         this.customerModel = i_adnetCustomerModel;
     }
 
-    private customerModel: AdnetCustomerModel;
+    customerModel: AdnetCustomerModel;
     public adnetTargetModel: AdnetTargetModel;
 
     private onTargetSelected(event) {

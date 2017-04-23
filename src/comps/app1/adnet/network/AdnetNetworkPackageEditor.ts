@@ -1,32 +1,16 @@
-import {
-    Component,
-    Input,
-    ViewChild,
-    EventEmitter,
-    Output,
-    ChangeDetectorRef
-} from "@angular/core";
+import {ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewChild} from "@angular/core";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
 import {List} from "immutable";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 import {AppStore} from "angular2-redux-util";
-import {
-    simplelist,
-    IsimplelistItem
-} from "../../../simplelist/simplelist";
-import {
-    AdnetNetworkPropSelector,
-    IAdNetworkPropSelectedEvent,
-    TabType
-} from "./AdnetNetwork";
+import {IsimplelistItem, simplelist} from "../../../simplelist/simplelist";
+import {AdnetNetworkPropSelector, IAdNetworkPropSelectedEvent, TabType} from "./AdnetNetwork";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
-import {
-    AdnetActions,
-    ContentTypeEnum
-} from "../../../../adnet/AdnetActions";
+import {AdnetActions, ContentTypeEnum} from "../../../../adnet/AdnetActions";
+import {Compbaser} from "ng-mslib";
+import {Lib} from "../../../../Lib";
 // import * as bootbox from "bootbox";
-import {Compbaser} from "../../../compbaser/Compbaser";
 
 @Component({
     selector: 'AdnetNetworkPackageEditor',
@@ -35,9 +19,10 @@ import {Compbaser} from "../../../compbaser/Compbaser";
 })
 
 export class AdnetNetworkPackageEditor extends Compbaser {
-
+    inDevMode;
     constructor(private appStore: AppStore, private adnetAction: AdnetActions, private cd: ChangeDetectorRef) {
         super();
+        this.inDevMode = Lib.DevMode();
     }
 
     ngOnInit() {
@@ -74,18 +59,18 @@ export class AdnetNetworkPackageEditor extends Compbaser {
 
     @Output() onAdnetTargetSelected: EventEmitter<AdnetTargetModel> = new EventEmitter<AdnetTargetModel>();
 
-    private adnetCustomerModel: AdnetCustomerModel;
-    private packages: List<AdnetPackageModel>
-    private packagesFiltered: List<AdnetPackageModel>
-    private pairOutgoing: boolean;
+    adnetCustomerModel: AdnetCustomerModel;
+    packages: List<AdnetPackageModel>
+    packagesFiltered: List<AdnetPackageModel>
+    pairOutgoing: boolean;
     public selectedAdnetPackageModel: AdnetPackageModel;
 
-    private onAdd(event) {
+    onAdd(event) {
         var id = this.adnetCustomerModel.customerId();
         this.appStore.dispatch(this.adnetAction.addAdnetPackages(id));
     }
 
-    private onRemove(event) {
+    onRemove(event) {
         if (!this.selectedAdnetPackageModel) return;
         bootbox.confirm({
             message: "are you sure you want to delete this adnet packages?",
@@ -99,17 +84,17 @@ export class AdnetNetworkPackageEditor extends Compbaser {
         });
     }
 
-    private processAdnetPackageField(i_function: string) {
+    processAdnetPackageField(i_function: string) {
         return (i_adnetPackageModel: AdnetPackageModel) => {
             return i_adnetPackageModel[i_function]();
         }
     }
 
-    private onTargetSearchSelected(event) {
+    onTargetSearchSelected(event) {
         this.onPropSelected.emit({selected: AdnetNetworkPropSelector.TARGET})
     }
 
-    private onFilterPackages() {
+    onFilterPackages() {
         if (!this.packages || !this.adnetCustomerModel)
             return;
         this.packagesFiltered = List<AdnetPackageModel>();
@@ -121,13 +106,13 @@ export class AdnetNetworkPackageEditor extends Compbaser {
         this.notifyAdnetTargetChange();
     }
 
-    private getId(i_adnetPackageModel: AdnetPackageModel) {
+    getId(i_adnetPackageModel: AdnetPackageModel) {
         if (!i_adnetPackageModel)
             return;
         return i_adnetPackageModel.getId();
     }
 
-    private notifyAdnetTargetChange() {
+    notifyAdnetTargetChange() {
         if (!this.selectedAdnetPackageModel)
             return;
         var targetsIds = this.selectedAdnetPackageModel.getTargetIds();
@@ -139,7 +124,7 @@ export class AdnetNetworkPackageEditor extends Compbaser {
         this.cd.markForCheck();
     }
 
-    private onSelecting(event) {
+    onSelecting(event) {
         var itemSelected: IsimplelistItem = this.simplelist.getSelected() as IsimplelistItem;
         this.selectedAdnetPackageModel = itemSelected.item;
         this.onPropSelected.emit({selected: AdnetNetworkPropSelector.PACKAGE})
@@ -147,18 +132,18 @@ export class AdnetNetworkPackageEditor extends Compbaser {
         this.notifyAdnetTargetChange();
     }
 
-    private onDropboxFileSelected(event) {
+    onDropboxFileSelected(event) {
         if (!this.selectedAdnetPackageModel)
             return bootbox.alert('first select a Package from the above accordion Packages tab, to add this file onto your selected package');
         this.appStore.dispatch(this.adnetAction.addAdnetPackageContent(event, this.selectedAdnetPackageModel, ContentTypeEnum.DROPBOX));
     }
 
-    private getName(i_adnetPackageModel: AdnetPackageModel) {
+    getName(i_adnetPackageModel: AdnetPackageModel) {
         if (i_adnetPackageModel)
             return i_adnetPackageModel.getName();
     }
 
-    private adnetTargetSelected(tab: TabType, i_adnetTargetModel: AdnetTargetModel) {
+    adnetTargetSelected(tab: TabType, i_adnetTargetModel: AdnetTargetModel) {
         this.onAdnetTargetSelected.emit(i_adnetTargetModel);
     }
 

@@ -55,13 +55,13 @@ export class AdnetTransfer {
     @Output()
     onSubmit: EventEmitter<ITransferPayment> = new EventEmitter<ITransferPayment>();
 
-    private adnetCustomerModel: AdnetCustomerModel;
-    private customerId: string = '';
-    private pairs: List<AdnetPairModel> = List<AdnetPairModel>();
-    private notesForm: FormGroup;
-    private _showSubmit: boolean = true;
+    adnetCustomerModel: AdnetCustomerModel;
+    customerId: string = '';
+    pairs: List<AdnetPairModel> = List<AdnetPairModel>();
+    notesForm: FormGroup;
+    _showSubmit: boolean = true;
 
-    private filterContent(i_pair: AdnetPairModel) {
+    filterContent(i_pair: AdnetPairModel) {
         var c = String(i_pair.getCustomerId());
         return c;
     }

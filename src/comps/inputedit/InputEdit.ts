@@ -7,23 +7,26 @@ import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnChang
             padding: 0;
             margin: 0;
         }
+
         .editableLabel {
             cursor: pointer;
         }
+
         input {
             padding: 0;
             margin: 0;
         }
+
         a {
             cursor: pointer;
         }
     `],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-        <label [ngStyle]="_style.label" class="editableLabel"  *ngIf="!_editing" (click)="onEdit(true)">{{_value}}</label>
+        <label [ngStyle]="_style.label" class="editableLabel" *ngIf="!_editing" (click)="onEdit(true)">{{_value}}</label>
         <i *ngIf="!_editing && showIcon" [ngStyle]="_style.editIcon" (click)="onEdit(true)" class="editableLabel fa fa-edit"></i>
-         <span *ngIf="_editing">
-            <input [ngStyle]="_style.input"  value="{{_value}}" type="{{_type}}" [(ngModel)]="_value"/>
+        <span *ngIf="_editing">
+            <input [ngStyle]="_style.input" value="{{_value}}" type="{{_type}}" [(ngModel)]="_value"/>
                 <a (click)="onEdit(false)" class="editableLabel fa fa-check"></a>
          </span>
     `
@@ -32,13 +35,13 @@ import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnChang
 //style="font-size: {{_size}}"
 export class InputEdit {
 
-    private _value:string = '';
-    private _editable:boolean = false;
-    private _editing:boolean = false;
-    private _size:string = '2em';
+    _value: string = '';
+    _editable: boolean = false;
+    _editing: boolean = false;
+    _size: string = '2em';
 
     @Input()
-    set value(i_value:string) {
+    set value(i_value: string) {
         this._value = i_value
     }
 
@@ -48,16 +51,16 @@ export class InputEdit {
     }
 
     @Input('type')
-    _type:string = 'text';
+    _type: string = 'text';
     @Input('style')
-    _style:Object = {};
+    _style: any = {};
     @Input()
-    showIcon:boolean = true;
+    showIcon: boolean = true;
 
     @Output()
-    labelEdited:EventEmitter<any> = new EventEmitter();
+    labelEdited: EventEmitter<any> = new EventEmitter();
 
-    onEdit(value:boolean) {
+    onEdit(value: boolean) {
         if (!this._editable)
             return;
         this._editing = value;

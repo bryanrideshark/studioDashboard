@@ -1,13 +1,5 @@
-import {
-    Component,
-    Input,
-    ChangeDetectionStrategy
-} from "@angular/core";
-import {
-    FormControl,
-    FormGroup,
-    FormBuilder
-} from "@angular/forms";
+import {ChangeDetectionStrategy, Component, Input} from "@angular/core";
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import * as _ from "lodash";
 import {Lib} from "../../../../Lib";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
@@ -39,7 +31,7 @@ export class AdnetConfigCustomer {
             'globalNetwork': [''],
             'defaultAutoActivate': ['']
         });
-        _.forEach(this.contGroup.controls, (value, key: string)=> {
+        _.forEach(this.contGroup.controls, (value, key: string) => {
             this.formInputs[key] = this.contGroup.controls[key] as FormControl;
         })
     }
@@ -50,9 +42,9 @@ export class AdnetConfigCustomer {
         this.renderFormInputs();
     }
 
-    private customerModel: AdnetCustomerModel;
-    private contGroup: FormGroup;
-    private formInputs = {};
+    customerModel: AdnetCustomerModel;
+    contGroup: FormGroup;
+    formInputs = {};
 
     private onInputBlur(event) {
         this.updateSore();
@@ -63,7 +55,7 @@ export class AdnetConfigCustomer {
     }
 
     private updateSore() {
-        setTimeout(()=> {
+        setTimeout(() => {
             this.appStore.dispatch(this.adnetAction.saveCustomerInfo(Lib.CleanCharForXml(this.contGroup.value), this.customerModel.customerId()))
         }, 1)
     }
@@ -71,7 +63,7 @@ export class AdnetConfigCustomer {
     private renderFormInputs() {
         if (!this.customerModel)
             return;
-        _.forEach(this.formInputs, (value, key: string)=> {
+        _.forEach(this.formInputs, (value, key: string) => {
             var data = this.customerModel.getKey('Value')[key];
             this.formInputs[key].setValue(data)
         });

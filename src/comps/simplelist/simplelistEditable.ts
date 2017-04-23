@@ -1,33 +1,33 @@
-import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, ApplicationRef} from "@angular/core";
+import {ApplicationRef, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output} from "@angular/core";
 
 @Component({
     selector: 'simplelistEditable',
     template: `
-                <span *ngIf="!m_editing" class="li-content pull-left">{{getContent(item)}}</span>
-                <input #editInput *ngIf="m_editing && editable" [(ngModel)]="m_value" class="li-content pull-left"  value="{{getContent(item)}}" />
-                <span *ngIf="editable" (click)="onEdit(true)" class="editable fa {{m_icon}} pull-right"></span>
+        <span *ngIf="!m_editing" class="li-content pull-left">{{getContent(item)}}</span>
+        <input #editInput *ngIf="m_editing && editable" [(ngModel)]="m_value" class="li-content pull-left" value="{{getContent(item)}}"/>
+        <span *ngIf="editable" (click)="onEdit(true)" class="editable fa {{m_icon}} pull-right"></span>
     `,
     styleUrls: ['./simplelist.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class simplelistEditable {
-    constructor(private app:ApplicationRef, private ref:ChangeDetectorRef) {
+    constructor(private app: ApplicationRef, private ref: ChangeDetectorRef) {
     }
 
     @Input()
     item;
     @Input()
-    content:((any)=>string);
+    content: ((any) => string);
     @Input()
-    editable:boolean = false;
+    editable: boolean = false;
     @Output()
-    editChange:EventEmitter<any> = new EventEmitter();
+    editChange: EventEmitter<any> = new EventEmitter();
 
-    private m_editing:boolean = false;
-    private m_icon:string = 'fa-edit';
-    private m_value:string = '';
+    m_editing: boolean = false;
+    m_icon: string = 'fa-edit';
+    m_value: string = '';
 
-    private onEdit(changed:boolean) {
+    private onEdit(changed: boolean) {
         if (this.m_editing) {
             var delay = 100;
             this.m_icon = 'fa-edit';
@@ -39,17 +39,17 @@ export class simplelistEditable {
         }
         this.updateDetection();
         // use small delay so you don't see a skip in data appending
-        setTimeout(()=> {
+        setTimeout(() => {
             this.m_editing = !this.m_editing
             this.updateDetection();
         }, delay);
     }
 
-    private updateDetection(){
+    private updateDetection() {
         this.ref.markForCheck();
     }
 
-    private getContent(item):string {
+    private getContent(item): string {
         if (this.content) {
             return this.content(item);
         } else {

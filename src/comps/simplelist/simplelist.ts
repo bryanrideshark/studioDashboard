@@ -1,15 +1,4 @@
-import {
-    Component,
-    Input,
-    Output,
-    EventEmitter,
-    ChangeDetectionStrategy,
-    ViewChild,
-    ChangeDetectorRef,
-    ElementRef,
-    NgZone,
-    HostListener
-} from "@angular/core";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewChild} from "@angular/core";
 import {List} from "immutable";
 import {simplelistEditable} from "./simplelistEditable";
 import * as _ from "lodash";
@@ -57,15 +46,15 @@ export class simplelist {
      private _handler: Function;
      **/
 
-    private filter: string = '';
-    private m_icon: string;
-    private m_iconCallback: ((a: number, b: any) => string);
-    private m_iconInstanceOfFunction: boolean;
-    private m_editing: boolean = false;
-    private m_iconSelected: string = '';
-    private m_iconSelectedIndex: number = -1;
-    private m_iconSelectedMode: boolean = false;
-    private m_metadata: any = {};
+    filter: string = '';
+    m_icon: string;
+    m_iconCallback: ((a: number, b: any) => string);
+    m_iconInstanceOfFunction: boolean;
+    m_editing: boolean = false;
+    m_iconSelected: string = '';
+    m_iconSelectedIndex: number = -1;
+    m_iconSelectedMode: boolean = false;
+    m_metadata: any = {};
     // private m_metadata: { [key: string]: IsimplelistItem } = {};
 
     ngAfterViewInit() {
@@ -84,16 +73,16 @@ export class simplelist {
     editable: boolean = false;
 
     @Input()
-    content: ((any)=>string);
+    content: ((any) => string);
 
     @Input()
-    contentId: ((any)=>string);
+    contentId: ((any) => string);
 
     @Input()
     multiSelect: boolean = true;
 
     @Input()
-    iconSelected: ((index: number, item: any)=>boolean);
+    iconSelected: ((index: number, item: any) => boolean);
 
     @Input()
     set icon(i_icon: any) {

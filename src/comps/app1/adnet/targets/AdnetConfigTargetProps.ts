@@ -1,14 +1,14 @@
-import {Component, ChangeDetectionStrategy, Input, ChangeDetectorRef} from "@angular/core";
-import {FormControl, FormGroup, FormBuilder} from "@angular/forms";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input} from "@angular/core";
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import * as _ from "lodash";
-import {List} from 'immutable';
+import {List} from "immutable";
 import {Lib} from "../../../../Lib";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {AppStore} from "angular2-redux-util";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {AdnetRateModel} from "../../../../adnet/AdnetRateModel";
-import {Compbaser} from "../../../compbaser/Compbaser";
+import {Compbaser} from "ng-mslib";
 
 @Component({
     selector: 'AdnetConfigTargetProps',
@@ -22,15 +22,19 @@ import {Compbaser} from "../../../compbaser/Compbaser";
             position: relative;
             padding-top: 10px;
         }
+
         .btn-group {
             width: 100%;
         }
+
         .input-group {
             padding-top: 10px;
         }
+
         textarea {
             height: 300px;
         }
+
         i {
             width: 20px;
         }
@@ -40,13 +44,14 @@ import {Compbaser} from "../../../compbaser/Compbaser";
 export class AdnetConfigTargetProps extends Compbaser {
 
     //todo: add Web view show HTML snippet in UI
-
+    inDevMode;
     constructor(private fb: FormBuilder,
                 private appStore: AppStore,
                 private cd: ChangeDetectorRef,
                 private adnetAction: AdnetActions) {
 
         super();
+        this.inDevMode = Lib.DevMode();
         this.contGroup = fb.group({
             'enabled': [''],
             'label': [''],
@@ -84,12 +89,12 @@ export class AdnetConfigTargetProps extends Compbaser {
     @Input()
     adnetCustomerModel: AdnetCustomerModel
 
-    private unsub: Function;
-    private rates: List<AdnetRateModel> = List<AdnetRateModel>();
-    private filteredRates: List<AdnetRateModel> = List<AdnetRateModel>();
-    private targetModel: AdnetTargetModel;
-    private contGroup: FormGroup;
-    private formInputs = {};
+    unsub: Function;
+    rates: List<AdnetRateModel> = List<AdnetRateModel>();
+    filteredRates: List<AdnetRateModel> = List<AdnetRateModel>();
+    targetModel: AdnetTargetModel;
+    contGroup: FormGroup;
+    formInputs = {};
 
 
     private isWebLocation(): boolean {
@@ -140,7 +145,7 @@ export class AdnetConfigTargetProps extends Compbaser {
     private renderFormInputs() {
         if (!this.targetModel)
             return;
-        _.forEach(this.formInputs, (value:FormControl, key: string) => {
+        _.forEach(this.formInputs, (value: FormControl, key: string) => {
             var data = this.targetModel.getKey('Value')[key];
             this.formInputs[key].setValue(data)
         });

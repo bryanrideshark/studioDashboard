@@ -1,11 +1,10 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
-import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/merge';
-import 'rxjs/add/operator/distinctUntilChanged';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from "@angular/core";
+import "rxjs/add/observable/fromEvent";
+import "rxjs/add/operator/do";
+import "rxjs/add/operator/merge";
+import "rxjs/add/operator/distinctUntilChanged";
 import {AppStore} from "angular2-redux-util";
 import {WhitelabelModel} from "../../reseller/WhitelabelModel";
-import {ImgLoader} from "../imgloader/ImgLoader";
 
 /**
  * Logo component for Application header
@@ -16,19 +15,19 @@ import {ImgLoader} from "../imgloader/ImgLoader";
     selector: 'logoCompany',
     changeDetection: ChangeDetectionStrategy.Default,
     template: `
-            <div *ngIf="whitelabelModel"> 
-              <span style="color: gainsboro; font-family: Roboto">{{getBusinessInfo('companyName')}}</span>
-              <imgLoader style="display: inline-block; padding-top: 4px" [style]="stylesObj" [circle]="true" [images]="getImageUrl()" [defaultImage]="'assets/person.png'"></imgLoader>
-            </div>
+        <div *ngIf="whitelabelModel">
+            <span style="color: gainsboro; font-family: Roboto">{{getBusinessInfo('companyName')}}</span>
+            <imgLoader style="display: inline-block; padding-top: 4px" [style]="stylesObj" [circle]="true" [images]="getImageUrl()" [defaultImage]="'assets/person.png'"></imgLoader>
+        </div>
     `
 })
 
 export class LogoCompany {
 
-    constructor(private appStore:AppStore, private cdr:ChangeDetectorRef) {
+    constructor(private appStore: AppStore, private cdr: ChangeDetectorRef) {
         var i_reseller = this.appStore.getState().reseller;
         this.whitelabelModel = i_reseller.getIn(['whitelabel']);
-        this.unsub = this.appStore.sub((whitelabelModel:WhitelabelModel) => {
+        this.unsub = this.appStore.sub((whitelabelModel: WhitelabelModel) => {
             this.whitelabelModel = whitelabelModel;
         }, 'reseller.whitelabel');
 
@@ -41,12 +40,13 @@ export class LogoCompany {
             }
         }
     }
-    private unsub;
-    private stylesObj;
-    private images:Array<string> = [];
-    private whitelabelModel:WhitelabelModel;
 
-    private getImageUrl():Array<string> {
+    unsub;
+    stylesObj;
+    images: Array<string> = [];
+    whitelabelModel: WhitelabelModel;
+
+    private getImageUrl(): Array<string> {
         if (!this.whitelabelModel)
             return [];
         if (this.images.length > 0)
@@ -56,7 +56,7 @@ export class LogoCompany {
         return this.images;
     }
 
-    private getBusinessInfo(field):string {
+    private getBusinessInfo(field): string {
         if (!this.whitelabelModel)
             return '';
         return this.appStore.getsKey('reseller', 'whitelabel', field);

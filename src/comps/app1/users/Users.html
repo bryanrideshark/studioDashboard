@@ -3,7 +3,8 @@
   <div class="col-xs-3">
     <div class="users">
       <div (click)="$event.preventDefault()">
-                      <span dropdown (on-toggle)="toggled($event)">
+                      <span dropdown>
+                      <!--<span dropdown (on-toggle)="toggled($event)">-->
                       <a class="btns addUser" dropdownToggle href="#"><span class="fa fa-plus"></span></a>
                         <ul class="dropdown-menu" aria-labelledby="simple-dropdown">
                           <li *ngFor="let choice of accounts">

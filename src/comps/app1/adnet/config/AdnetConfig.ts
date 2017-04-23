@@ -29,6 +29,6 @@ export class AdnetConfig {
             this.adnetCustomerId = this.adnetCustomerModel.customerId();
     }
 
-    private adnetCustomerId: number = -1;
-    private adnetCustomerModel: AdnetCustomerModel;
+     adnetCustomerId: number = -1;
+     adnetCustomerModel: AdnetCustomerModel;
 }

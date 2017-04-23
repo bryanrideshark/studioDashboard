@@ -1,12 +1,11 @@
-import {Component, ViewContainerRef, VERSION} from "@angular/core";
+import {Component, VERSION, ViewContainerRef} from "@angular/core";
 import {StyleService} from "../styles/StyleService";
 import {AppdbAction} from "../appdb/AppdbAction";
 import "rxjs/add/operator/catch";
-import {Router, ActivatedRoute, NavigationEnd} from "@angular/router";
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {CommBroker} from "../services/CommBroker";
 import {Title} from "@angular/platform-browser";
 import {ToastsManager} from "ng2-toastr";
-import {Ngmslib} from "ng-mslib";
 import {Consts} from "../Conts";
 import {Observable} from "rxjs";
 import {ServerMode} from "./app.module";
@@ -27,7 +26,7 @@ export class AppComponent {
                 private titleService: Title,
                 private vRef: ViewContainerRef,
                 private toastr: ToastsManager,
-                private localStorage:LocalStorage,
+                private localStorage: LocalStorage,
                 private authService: AuthService) {
 
         this.version = packageJson.version;
@@ -62,8 +61,8 @@ export class AppComponent {
         });
     }
 
-    public version: string;
-    private ngVersion: string;
+    version: string;
+    ngVersion: string;
 
     private checkPlatform() {
         switch (platform.name.toLowerCase()) {

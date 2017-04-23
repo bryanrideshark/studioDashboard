@@ -1,18 +1,12 @@
-import {
-    Component,
-    EventEmitter,
-    ChangeDetectionStrategy,
-    Input,
-    ViewChild
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, ViewChild} from "@angular/core";
 import {BusinessUser} from "../../../business/BusinessUser";
 import {Lib} from "../../../Lib";
-import {FormGroup, Validators, FormControl, FormBuilder} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {AppStore} from "angular2-redux-util";
 import {BusinessAction} from "../../../business/BusinessAction";
 import {PrivelegesModel} from "../../../reseller/PrivelegesModel";
 import {ModalComponent} from "ng2-bs3-modal/components/modal";
-import * as _ from 'lodash'
+import * as _ from "lodash";
 import {ChangePass} from "./ChangePass";
 
 @Component({
@@ -28,7 +22,7 @@ import {ChangePass} from "./ChangePass";
  **/
 export class AddUser {
 
-    constructor(private appStore:AppStore, private businessActions:BusinessAction, private fb:FormBuilder, private modal:ModalComponent) {
+    constructor(private appStore: AppStore, private businessActions: BusinessAction, private fb: FormBuilder, private modal: ModalComponent) {
         this.notesForm = fb.group({
             'userName': ['', Validators.required],
             'businessName': [],
@@ -43,9 +37,9 @@ export class AddUser {
             'privileges': ['', Validators.required]
         });
 
-        this.sub = modal.onClose.subscribe(()=> {
-            var userNameControl:FormControl = this.notesForm.controls['userName'] as FormControl;
-            var businessNameControl:FormControl = this.notesForm.controls['businessName'] as FormControl;
+        this.sub = modal.onClose.subscribe(() => {
+            var userNameControl: FormControl = this.notesForm.controls['userName'] as FormControl;
+            var businessNameControl: FormControl = this.notesForm.controls['businessName'] as FormControl;
             userNameControl.setValue('')
             businessNameControl.setValue('')
         })
@@ -53,34 +47,34 @@ export class AddUser {
         this.userName = this.notesForm.controls['userName'] as FormControl;
     }
 
-    private accessKeysArr:any = _.times(8, _.uniqueId as any);
+    accessKeysArr: any = _.times(8, _.uniqueId as any);
     // private accessKeys:Array<boolean> = _.times(8, ()=>false);
     // private accessKeys:FormControl[];
 
     @ViewChild(ChangePass)
-    changePass:ChangePass;
+    changePass: ChangePass;
 
     @Input()
-    businessId:number;
+    businessId: number;
 
     @Input()
-    priveleges:Array<PrivelegesModel> = [];
+    priveleges: Array<PrivelegesModel> = [];
 
     @Input()
-    mode:'fromSample'|'fromClean'|'fromUser' = null;
+    mode: 'fromSample' | 'fromClean' | 'fromUser' = null;
 
-    private privilegeName:string = '';
-    private notesForm:FormGroup;
-    private userName:FormControl;
-    private businessName:FormControl;
-    // private passwordGroup;
-    private sub:EventEmitter<any>;
+    privilegeName: string = '';
+    notesForm: FormGroup;
+    userName: FormControl;
+    businessName: FormControl;
+    //  passwordGroup;
+    sub: EventEmitter<any>;
 
     private onKeyChange(event, index) {
         // console.log(event.target.checked + ' ' + index);
     }
 
-    private areEqual(group:FormGroup) {
+    private areEqual(group: FormGroup) {
         let valid = true, val;
         for (var name in group.controls) {
             if (val === undefined) {
@@ -113,16 +107,16 @@ export class AddUser {
         if (_.isNull(pass))
             return;
         var accessKeys = [];
-        _.forEach(event,(value,key:any)=>{
-            if (key.indexOf('accessKey') > -1){
-                var state:boolean = (value === false || _.isNull(value)) || value == 'false' ? false : true
+        _.forEach(event, (value, key: any) => {
+            if (key.indexOf('accessKey') > -1) {
+                var state: boolean = (value === false || _.isNull(value)) || value == 'false' ? false : true
                 accessKeys.push(state);
             }
         })
         let privilegeId = '-1';
         let computedAccessMask = Lib.ComputeMask(accessKeys);
-        var privileges:Array<PrivelegesModel> = this.appStore.getState().reseller.getIn(['privileges']);
-        privileges.forEach((privelegesModel:PrivelegesModel)=> {
+        var privileges: Array<PrivelegesModel> = this.appStore.getState().reseller.getIn(['privileges']);
+        privileges.forEach((privelegesModel: PrivelegesModel) => {
             if (privelegesModel.getName() == this.privilegeName) {
                 privilegeId = privelegesModel.getPrivelegesId();
             }
@@ -140,18 +134,18 @@ export class AddUser {
         switch (this.mode) {
             case 'fromSample': {
                 userData['businessId'] = this.businessId;
-                var businessUser:BusinessUser = new BusinessUser(userData);
+                var businessUser: BusinessUser = new BusinessUser(userData);
                 this.appStore.dispatch(this.businessActions.duplicateAccount(businessUser));
                 break;
             }
             case 'fromClean': {
                 userData['businessId'] = 999;
-                var businessUser:BusinessUser = new BusinessUser(userData);
+                var businessUser: BusinessUser = new BusinessUser(userData);
                 this.appStore.dispatch(this.businessActions.duplicateAccount(businessUser));
                 break;
             }
             case 'fromUser': {
-                var businessUser:BusinessUser = new BusinessUser(userData);
+                var businessUser: BusinessUser = new BusinessUser(userData);
                 this.appStore.dispatch(this.businessActions.addNewBusinessUser(businessUser));
                 break;
             }

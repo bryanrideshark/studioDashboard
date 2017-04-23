@@ -1,4 +1,4 @@
-import {Component, Input, ChangeDetectionStrategy} from "@angular/core";
+import {ChangeDetectionStrategy, Component, Input} from "@angular/core";
 import {PrivelegesModel} from "../../../reseller/PrivelegesModel";
 import {List, Map} from "immutable";
 import {AppStore} from "angular2-redux-util";
@@ -16,49 +16,52 @@ enum PrivModeEnum {ADD, DEL, UPD}
             top: 28px;
             border-radius: 0;
             -webkit-transition: all 0.3s;
-               -moz-transition: all 0.3s;
-                    transition: all 0.3s;
+            -moz-transition: all 0.3s;
+            transition: all 0.3s;
         }
     `],
     template: `
-          <div *ngIf="!m_privelegesSystemModelList || !m_selected">
-              <h3 style="text-align: center">select | create privileges</h3>
-          </div>
-          <div *ngIf="m_privelegesSystemModelList && m_selected">
-              <div *ngFor="let privilegesItem of m_privelegesSystemModelList">
+        <div *ngIf="!m_privelegesSystemModelList || !m_selected">
+            <h3 style="text-align: center">select | create privileges</h3>
+        </div>
+        <div *ngIf="m_privelegesSystemModelList && m_selected">
+            <div *ngFor="let privilegesItem of m_privelegesSystemModelList">
                 <hr/>
                 <h3>{{privilegesItem.getTableName()}}</h3>
-                <a *ngFor="let groupAttribute of privilegesItem.getGroupAttributes(privilegesItem, groupAttribute)" 
-                  (click)="updatePrivilegesGroupAttributes($event, privilegesItem, groupAttribute)"
-                  href="#" class="btn btn-outlined btn-xs {{renderPrivilegesGroupAttributes(privilegesItem, groupAttribute)}}"
-                  role="button">{{groupAttribute}}
-                </a>         
+                <a *ngFor="let groupAttribute of privilegesItem.getGroupAttributes(privilegesItem, groupAttribute)"
+                   (click)="updatePrivilegesGroupAttributes($event, privilegesItem, groupAttribute)"
+                   href="#" class="btn btn-outlined btn-xs {{renderPrivilegesGroupAttributes(privilegesItem, groupAttribute)}}"
+                   role="button">{{groupAttribute}}
+                </a>
                 <simpleGridTable #userSimpleGridTable>
                     <thead>
-                        <tr>
-                          <th></th>
-                          <th>delete</th>
-                          <th>add</th>
-                          <th>update</th>
-                        </tr>
+                    <tr>
+                        <th></th>
+                        <th>delete</th>
+                        <th>add</th>
+                        <th>update</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr class="simpleGridRecord" *ngFor="let item of renderPrivilegesTable(privilegesItem); let index=index">
-                            <td style="width: 70%" [editable]="false" simpleGridData [processField]="renderTableName" [item]="item"></td>
-                            <td style="width: 10%" (changed)="onPrivilegeChange($event)" [item]="{item: privilegesItem, index: index, PrivModeEnum: PrivModeEnum.DEL}" simpleGridDataChecks [checkboxes]="renderPrivilegesChecks(privilegesItem, index, PrivModeEnum.DEL)"></td>
-                            <td style="width: 10%" (changed)="onPrivilegeChange($event)" [item]="{item: privilegesItem, index: index, PrivModeEnum: PrivModeEnum.ADD}" simpleGridDataChecks [checkboxes]="renderPrivilegesChecks(privilegesItem, index, PrivModeEnum.ADD)"></td>
-                            <td style="width: 10%" (changed)="onPrivilegeChange($event)" [item]="{item: privilegesItem, index: index, PrivModeEnum: PrivModeEnum.UPD}" simpleGridDataChecks [checkboxes]="renderPrivilegesChecks(privilegesItem, index, PrivModeEnum.UPD)"></td>
-                        </tr>
+                    <tr class="simpleGridRecord" *ngFor="let item of renderPrivilegesTable(privilegesItem); let index=index">
+                        <td style="width: 70%" [editable]="false" simpleGridData [processField]="renderTableName" [item]="item"></td>
+                        <td style="width: 10%" (changed)="onPrivilegeChange($event)" [item]="{item: privilegesItem, index: index, PrivModeEnum: PrivModeEnum.DEL}" simpleGridDataChecks
+                            [checkboxes]="renderPrivilegesChecks(privilegesItem, index, PrivModeEnum.DEL)"></td>
+                        <td style="width: 10%" (changed)="onPrivilegeChange($event)" [item]="{item: privilegesItem, index: index, PrivModeEnum: PrivModeEnum.ADD}" simpleGridDataChecks
+                            [checkboxes]="renderPrivilegesChecks(privilegesItem, index, PrivModeEnum.ADD)"></td>
+                        <td style="width: 10%" (changed)="onPrivilegeChange($event)" [item]="{item: privilegesItem, index: index, PrivModeEnum: PrivModeEnum.UPD}" simpleGridDataChecks
+                            [checkboxes]="renderPrivilegesChecks(privilegesItem, index, PrivModeEnum.UPD)"></td>
+                    </tr>
                     </tbody>
                 </simpleGridTable>
-              </div>      
-          </div>
+            </div>
+        </div>
     `,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PrivilegesDetails {
 
-    private PrivModeEnum = PrivModeEnum;
+    PrivModeEnum = PrivModeEnum;
 
     constructor(private appStore: AppStore, private resellerAction: ResellerAction) {
         var i_reseller = this.appStore.getState().reseller;
@@ -69,10 +72,10 @@ export class PrivilegesDetails {
         }, 'reseller.privilegesSystem');
     }
 
-    private unsub;
-    private m_selected: PrivelegesModel;
+    unsub;
+    m_selected: PrivelegesModel;
     // private m_privileges:List<PrivelegesModel>
-    private m_privelegesSystemModelList: List<PrivelegesTemplateModel>
+    m_privelegesSystemModelList: List<PrivelegesTemplateModel>
 
     @Input()
     set selected(i_selected: PrivelegesModel) {
@@ -112,23 +115,23 @@ export class PrivilegesDetails {
         }
     }
 
-    private renderPrivilegesTable(privelegesSystemModel: PrivelegesTemplateModel): Map<string,any> {
+    renderPrivilegesTable(privelegesSystemModel: PrivelegesTemplateModel): Map<string, any> {
         return privelegesSystemModel.getColumns();
     }
 
-    private get renderTableName() {
+    get renderTableName() {
         return (field) => {
             return field[0];
         }
     }
 
-    private updatePrivilegesGroupAttributes(event, i_privelegesSystemModel: PrivelegesTemplateModel, privelegesAttribute: string): void {
+    updatePrivilegesGroupAttributes(event, i_privelegesSystemModel: PrivelegesTemplateModel, privelegesAttribute: string): void {
         event.preventDefault();
         let privelegesId = this.m_selected.getPrivelegesId();
         let selPrivName = this.m_selected.getName();
         var tableName = i_privelegesSystemModel.getTableName();
         var selColumn = this.m_selected.getColumns();
-        selColumn = selColumn.find((k)=> {
+        selColumn = selColumn.find((k) => {
             if (k.get('tableName') == tableName)
                 return true;
         })
@@ -154,7 +157,7 @@ export class PrivilegesDetails {
         let privModeEnum: PrivModeEnum = event.item.PrivModeEnum;
 
         var selColumn = this.m_selected.getColumns();
-        selColumn = selColumn.find((k)=> {
+        selColumn = selColumn.find((k) => {
             if (k.get('tableName') == tableName)
                 return true;
         })
@@ -177,7 +180,7 @@ export class PrivilegesDetails {
     private renderPrivilegesGroupAttributes(i_privelegesSystemModel: PrivelegesTemplateModel, i_privelegesAttribute: string): string {
         var tableName = i_privelegesSystemModel.getTableName();
         var selColumn = this.m_selected.getColumns();
-        selColumn = selColumn.find((k)=> {
+        selColumn = selColumn.find((k) => {
             if (k.get('tableName') == tableName)
                 return true;
         })
@@ -191,7 +194,7 @@ export class PrivilegesDetails {
         var selColumn = this.m_selected.getColumns();
 
 
-        selColumn = selColumn.find((k)=> {
+        selColumn = selColumn.find((k) => {
             if (k.get('tableName') == tableName)
                 return true;
         })

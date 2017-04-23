@@ -36,10 +36,10 @@ export class AdnetPayment {
     @Output()
     onSubmit: EventEmitter<IAddPayment> = new EventEmitter<IAddPayment>();
 
-    private notesForm: FormGroup;
-    private _showSubmit: boolean = true;
+    notesForm: FormGroup;
+    _showSubmit: boolean = true;
 
-    private onSubmitted(event) {
+    onSubmitted(event) {
         this.onSubmit.emit(this.notesForm.value);
         this.modal.close();
     }

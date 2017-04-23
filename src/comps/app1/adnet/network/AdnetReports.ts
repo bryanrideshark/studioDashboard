@@ -1,5 +1,4 @@
-import {Component, ChangeDetectionStrategy, Input, ViewChild, ChangeDetectorRef} from "@angular/core";
-import {Compbaser} from "../../../compbaser/Compbaser";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, ViewChild} from "@angular/core";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {List} from "immutable";
 // import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
@@ -10,14 +9,14 @@ import {Lib} from "../../../../Lib";
 import {SimpleGridTable} from "../../../simplegridmodule/SimpleGridTable";
 import {SelectItem} from "primeng/primeng";
 import * as _ from "lodash";
-import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {AdnetReportModel} from "../../../../adnet/AdnetReportModel";
+import {Compbaser} from "ng-mslib";
 //import AdnetReportsTemplate from './AdnetReports.html!text'; /*prod*/
 
 @Component({
 //    	template: AdnetReportsTemplate, /*prod*/
     selector: 'AdnetReports',
-	    templateUrl: './AdnetReports.html', /*dev*/
+    templateUrl: './AdnetReports.html', /*dev*/
     styles: [`
         .disabled {
             opacity: 0.2;
@@ -30,10 +29,12 @@ import {AdnetReportModel} from "../../../../adnet/AdnetReportModel";
 
 export class AdnetReports extends Compbaser {
 
-    private ReportEnum = ReportEnum;
+    ReportEnum = ReportEnum;
+    inDevMode;
 
     constructor(private adnetAction: AdnetActions, private appStore: AppStore, private cd: ChangeDetectorRef) {
         super();
+        this.inDevMode = Lib.DevMode();
         this.renderReportSelectionMenu();
 
         this.cancelOnDestroy(
@@ -85,26 +86,26 @@ export class AdnetReports extends Compbaser {
     public stringJSPipeArgs = {
         humanize: []
     }
-    public sort: {field: string, desc: boolean} = {
+    public sort: { field: string, desc: boolean } = {
         field: null,
         desc: false
     };
 
-    private adnetCustomerModel: AdnetCustomerModel;
-    private adnetPairModels: List<AdnetPairModel>;
-    private allPairsSelected: boolean;
-    private switchViewReportReceived: number;
-    private reportDisabled: boolean = true;
-    private reportTypes: SelectItem[];
-    private selectedReportName: string;
-    private selectedReportNameLong: string = '';
-    private absolutMonth: number;
-    private selectedDate: string;
-    private selectedCustomer: string;
-    private summaryReports: List<AdnetReportModel>;
-    private resultReports: List<AdnetReportModel>;
+    adnetCustomerModel: AdnetCustomerModel;
+    adnetPairModels: List<AdnetPairModel>;
+    allPairsSelected: boolean;
+    switchViewReportReceived: number;
+    reportDisabled: boolean = true;
+    reportTypes: SelectItem[];
+    selectedReportName: string;
+    selectedReportNameLong: string = '';
+    absolutMonth: number;
+    selectedDate: string;
+    selectedCustomer: string;
+    summaryReports: List<AdnetReportModel>;
+    resultReports: List<AdnetReportModel>;
     public switchView: string = 'SELECT_REPORT';
-    private pairOutgoing: boolean
+    pairOutgoing: boolean
 
     private renderReportSelectionMenu() {
         this.reportTypes = [];

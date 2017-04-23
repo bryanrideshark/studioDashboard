@@ -10,7 +10,7 @@ import {List} from 'immutable';
 })
 export class Samplelist {
 
-    private m_samples:List<SampleModel>;
+    m_samples:List<SampleModel>;
     @Input()
     set samples(i_samples:List<SampleModel>){
         this.m_samples = i_samples;

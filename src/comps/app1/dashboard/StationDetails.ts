@@ -43,7 +43,7 @@ export class StationDetails {
         });
     }
 
-    private m_selectedStation: StationModel;
+    m_selectedStation: StationModel;
 
     // @Input() station:StationModel;
 

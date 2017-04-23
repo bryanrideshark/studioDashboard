@@ -1,23 +1,12 @@
-import {
-    Component,
-    Input,
-    ChangeDetectionStrategy
-} from "@angular/core";
-import {
-    FormControl,
-    FormGroup,
-    FormBuilder,
-    Validators
-} from "@angular/forms";
+import {ChangeDetectionStrategy, Component, Input} from "@angular/core";
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {AppStore} from "angular2-redux-util";
 import {AdnetContentModel} from "../../../../adnet/AdnetContentModel";
 import {Lib} from "../../../../Lib";
 import * as _ from "lodash";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
-import {List} from "immutable";
-import {Ngmslib} from "ng-mslib";
-import {Compbaser} from "../../../compbaser/Compbaser";
+import {Compbaser} from "ng-mslib";
 
 //todo: add volume property control of contentType == video
 
@@ -28,9 +17,11 @@ import {Compbaser} from "../../../compbaser/Compbaser";
     templateUrl: './AdnetNetworkPackageContentProps.html',
     styleUrls: ['./AdnetNetworkPackageCommonStyles.css']
 })
-export class AdnetNetworkPackageContentProps extends Compbaser{
+export class AdnetNetworkPackageContentProps extends Compbaser {
+    inDevMode;
     constructor(private fb: FormBuilder, private appStore: AppStore, private adnetAction: AdnetActions) {
         super();
+        this.inDevMode = Lib.DevMode();
         this.contGroup = fb.group({
             'maintainAspectRatio': [''],
             'duration': ['10'],
@@ -62,11 +53,11 @@ export class AdnetNetworkPackageContentProps extends Compbaser{
 
     @Input() showResourceOnly: boolean = false;
 
-    private adnetPackageModels: AdnetPackageModel;
-    private adnetContentModels: AdnetContentModel;
-    private contGroup: FormGroup;
-    private formInputs = {};
-    private resource: string = '';
+    adnetPackageModels: AdnetPackageModel;
+    adnetContentModels: AdnetContentModel;
+    contGroup: FormGroup;
+    formInputs = {};
+    resource: string = '';
 
     private onFormChange(event) {
         this.updateSore();

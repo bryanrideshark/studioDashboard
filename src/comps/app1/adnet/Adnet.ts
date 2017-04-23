@@ -6,7 +6,7 @@ import {Router} from "@angular/router";
 import {BusinessModel} from "../../../business/BusinessModel";
 import {LocalStorage} from "../../../services/LocalStorage";
 import {AdnetActions} from "../../../adnet/AdnetActions";
-import {Compbaser} from "../../compbaser/Compbaser";
+import {Compbaser} from "ng-mslib";
 
 @Component({
     selector: 'Adnet',
@@ -31,49 +31,50 @@ import {Compbaser} from "../../compbaser/Compbaser";
     template: `
         <br/>
         <button (click)="onGoBack()" style="width: 40px; padding: 9px" type="button" class="btn btn-default">
-          <span class="fa fa-chevron-left"></span>
+            <span class="fa fa-chevron-left"></span>
         </button>
         <h3 style="float: right">{{adnetCustomerName}}</h3>
-          <div>
+        <div>
             <!--<div (click)="$event.preventDefault()">-->
-              <!--<div class="btn-group" dropdown (onToggle)="toggled($event)" [(isOpen)]="status.isopen">-->
-                  <!--<button id="single-button" type="button" class="btn btn-primary" dropdownToggle>-->
-                    <!--Select sub-account -->
-                  <!--<span class="caret"></span>-->
-                <!--</button>-->
-                  <!--<ul dropdownMenu role="menu" aria-labelledby="single-button">-->
-                    <!--<li *ngFor="let customer of businesses" (click)="onSelectedAdnetCustomer(customer)" role="menuitem"><a class="dropdown-item" href="#">{{customer.getName()}}</a></li>-->
-                    <!--&lt;!&ndash;<li class="divider dropdown-divider"></li>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<li role="menuitem"><a class="dropdown-item" href="#">Separated link</a></li>&ndash;&gt;-->
-                  <!--</ul>-->
-              <!--</div>-->
+            <!--<div class="btn-group" dropdown (onToggle)="toggled($event)" [(isOpen)]="status.isopen">-->
+            <!--<button id="single-button" type="button" class="btn btn-primary" dropdownToggle>-->
+            <!--Select sub-account -->
+            <!--<span class="caret"></span>-->
+            <!--</button>-->
+            <!--<ul dropdownMenu role="menu" aria-labelledby="single-button">-->
+            <!--<li *ngFor="let customer of businesses" (click)="onSelectedAdnetCustomer(customer)" role="menuitem"><a class="dropdown-item" href="#">{{customer.getName()}}</a></li>-->
+            <!--&lt;!&ndash;<li class="divider dropdown-divider"></li>&ndash;&gt;-->
+            <!--&lt;!&ndash;<li role="menuitem"><a class="dropdown-item" href="#">Separated link</a></li>&ndash;&gt;-->
+            <!--</ul>-->
             <!--</div>-->
-            
+            <!--</div>-->
+
             <!--<p-dropdown [options]="businesses" #dropDown (onChange)="onSelectedAdnetCustomer($event, dropDown.value)" [style]="{'width':'200px'}" [(ngModel)]="selectedBusinessId" filter="filter"></p-dropdown>-->
-            
-          </div>
-          <br/>
-          <div [@showState]="showState">
-                <tabs>
-                    <tab [tabtitle]="'Configuration'">
-                      <AdnetConfig [setAdnetCustomerModel]="adnetCustomerModel"></AdnetConfig>
-                    </tab>
-                    <tab [tabtitle]="'Network'">
-                      <AdnetNetwork [setAdnetCustomerModel]="adnetCustomerModel"></AdnetNetwork>
-                    </tab>
-                    <tab [tabtitle]="'Billing'">
-                      <AdnetBilling [setAdnetCustomerModel]="adnetCustomerModel"></AdnetBilling>
-                    </tab>
-                </tabs>
-          </div>
+
+        </div>
+        <br/>
+        <div [@showState]="showState">
+            <tabs>
+                <tab [tabtitle]="'Configuration'">
+                    <AdnetConfig [setAdnetCustomerModel]="adnetCustomerModel"></AdnetConfig>
+                </tab>
+                <tab [tabtitle]="'Network'">
+                    <AdnetNetwork [setAdnetCustomerModel]="adnetCustomerModel"></AdnetNetwork>
+                </tab>
+                <tab [tabtitle]="'Billing'">
+                    <AdnetBilling [setAdnetCustomerModel]="adnetCustomerModel"></AdnetBilling>
+                </tab>
+            </tabs>
+        </div>
     `,
     styles: [`
-        :host >>> .fa-caret-down {
+        :host > > > .fa-caret-down {
             position: relative;
             left: -5px;
-        } 
-        :host >>> .ui-dropdown {
-          padding-right: 1.3em;
+        }
+
+        :host > > > .ui-dropdown {
+            padding-right: 1.3em;
         }
     `],
 })
@@ -100,7 +101,7 @@ export class Adnet extends Compbaser {
         this.loadAdnetCustomerModel();
     }
 
-    private onGoBack(){
+    private onGoBack() {
         this.router.navigate(['/App1/Adnet']);
     }
 
@@ -126,17 +127,17 @@ export class Adnet extends Compbaser {
         }, 'adnet.customers'));
     }
 
-    private selectedBusinessId = -1;
-    private businessId: number;
-    private adnetCustomerId: number = -1;
-    private adnetTokenId: number = -1;
-    private adnetCustomerName: string = '';
-    private businesses: Array<any>;
-    private adnetCustomers: List<AdnetCustomerModel>
-    private adnetCustomerModel: AdnetCustomerModel;
-    private showState: string = 'active';
+    selectedBusinessId = -1;
+    businessId: number;
+    adnetCustomerId: number = -1;
+    adnetTokenId: number = -1;
+    adnetCustomerName: string = '';
+    businesses: Array<any>;
+    adnetCustomers: List<AdnetCustomerModel>
+    adnetCustomerModel: AdnetCustomerModel;
+    showState: string = 'active';
     public disabled: boolean = false;
-    public status: {isopen: boolean} = {isopen: false};
+    public status: { isopen: boolean } = {isopen: false};
 
     // private listenAdnetDataReady() {
     //     this.cancelOnDestroy(this.adnetActions.onAdnetDataReady().subscribe((data) => {

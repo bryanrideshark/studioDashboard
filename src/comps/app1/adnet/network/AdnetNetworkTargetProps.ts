@@ -1,5 +1,5 @@
-import {Component, Input, ChangeDetectionStrategy, ViewChild} from "@angular/core";
-import {FormControl, FormGroup, FormBuilder} from "@angular/forms";
+import {ChangeDetectionStrategy, Component, Input, ViewChild} from "@angular/core";
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {AppStore} from "angular2-redux-util";
 import {Lib} from "../../../../Lib";
 import * as _ from "lodash";
@@ -8,7 +8,7 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {List} from "immutable";
 import {AdnetRateModel} from "../../../../adnet/AdnetRateModel";
 import {ModalComponent} from "ng2-bs3-modal/components/modal";
-import {Compbaser} from "../../../compbaser/Compbaser";
+import {Compbaser} from "ng-mslib";
 
 
 @Component({
@@ -18,25 +18,30 @@ import {Compbaser} from "../../../compbaser/Compbaser";
         '(input-blur)': 'onFormChange($event)'
     },
     templateUrl: './AdnetNetworkTargetProps.html',
-    styles: [`        
+    styles: [`
         input.ng-invalid {
             border-right: 10px solid red;
         }
+
         .material-switch {
             position: relative;
             padding-top: 10px;
         }
+
         .input-group {
             padding-top: 10px;
         }
+
         i {
             width: 20px;
         }
     `]
 })
 export class AdnetNetworkTargetProps extends Compbaser {
+    inDevMode;
     constructor(private fb: FormBuilder, private appStore: AppStore) {
         super();
+        this.inDevMode = Lib.DevMode();
         this.contGroup = fb.group({
             'keys': [''],
             'comments': [''],
@@ -62,11 +67,11 @@ export class AdnetNetworkTargetProps extends Compbaser {
         }).first() as AdnetCustomerModel;
     }
 
-    private adnetTargetModel: AdnetTargetModel;
-    private adnetCustomerModel: AdnetCustomerModel;
-    private adnetRateModel: AdnetRateModel;
-    private contGroup: FormGroup;
-    private formInputs = {};
+    adnetTargetModel: AdnetTargetModel;
+    adnetCustomerModel: AdnetCustomerModel;
+    adnetRateModel: AdnetRateModel;
+    contGroup: FormGroup;
+    formInputs = {};
 
     private getReviewIcon(item, index): string {
         var reviewRate = this.adnetCustomerModel.reviewRate();

@@ -11,26 +11,27 @@ import {DOCUMENT} from "@angular/platform-browser";
     selector: 'ModalDialog',
     inputs: ['title:title', 'content:content', 'owner:owner'],
     styles: [`
-            .modal-dialog {
-                width: 95%;
-                height: 95%;
-                padding: 0;
-            }
+        .modal-dialog {
+            width: 95%;
+            height: 95%;
+            padding: 0;
+        }
 
-            .modal-content {
-                height: 95%;
-                border-radius: 0;
-            }
+        .modal-content {
+            height: 95%;
+            border-radius: 0;
+        }
     `],
     encapsulation: ViewEncapsulation.Emulated,
     template: `
-         <div class="modal modal-static fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        <div class="modal modal-static fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
              aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button id="toggleProperties" type="button" class="close" data-dismiss="modal"
-                                aria-hidden="true">&times;</button>
+                                aria-hidden="true">&times;
+                        </button>
                         <h4 class="modal-title" id="myModalLabel" data-localize="ModalTitle">{{title}}</h4>
                     </div>
                     <div class="modal-body">
@@ -48,10 +49,12 @@ import {DOCUMENT} from "@angular/platform-browser";
     `
 })
 export class ModalDialog {
-    private el: HTMLElement;
-    private viewContainer: ViewContainerRef;
-    private dom: HTMLBodyElement;
-    private owner: any;
+    title
+    content;
+    el: HTMLElement;
+    viewContainer: ViewContainerRef;
+    dom: HTMLBodyElement;
+    owner: any;
 
     constructor(viewContainer: ViewContainerRef, @Inject(DOCUMENT) private doc) {
         this.viewContainer = viewContainer;
@@ -64,7 +67,7 @@ export class ModalDialog {
     }
 
     openModal() {
-        var jq:any = jQuery;
+        var jq: any = jQuery;
         var modal = jq(this.dom).find('.modal', this.el)[0];
         jQuery(modal).modal();
     }

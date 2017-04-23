@@ -6,9 +6,9 @@ import {List, Map} from "immutable";
 import {PrivelegesModel} from "./reseller/PrivelegesModel";
 import * as _ from "lodash";
 import * as xml2js from "xml2js";
-import * as moment_ from "moment";
+import * as moment from 'moment'
+window['moment'] = moment;
 
-export const moment = moment_["default"];
 
 @Injectable()
 export class Lib {

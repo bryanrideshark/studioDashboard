@@ -16,7 +16,7 @@ import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 // import * as bootbox from "bootbox";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {Lib} from "../../../../Lib";
-import {Compbaser} from "../../../compbaser/Compbaser";
+import {Compbaser} from "ng-mslib";
 
 @Component({
     selector: 'AdnetConfigRates',
@@ -25,8 +25,10 @@ import {Compbaser} from "../../../compbaser/Compbaser";
 })
 
 export class AdnetConfigRates extends Compbaser {
+    inDevMode;
     constructor(private appStore: AppStore, private adnetAction: AdnetActions) {
         super();
+        this.inDevMode = Lib.DevMode();
         var i_adnet = this.appStore.getState().adnet;
         this.rates = i_adnet.getIn(['rates']);
         this.unsub = this.appStore.sub((i_rates: List<AdnetRateModel>) => {
@@ -44,11 +46,11 @@ export class AdnetConfigRates extends Compbaser {
 
     @ViewChild(simplelist) simplelist: simplelist;
 
-    private unsub: Function;
-    private selectedAdnetCustomerModel: AdnetCustomerModel;
-    private selectedAdnetRateModel: AdnetRateModel;
-    private rates: List<AdnetRateModel> = List<AdnetRateModel>();
-    private filteredRates: List<AdnetRateModel> = List<AdnetRateModel>();
+    unsub: Function;
+    selectedAdnetCustomerModel: AdnetCustomerModel;
+    selectedAdnetRateModel: AdnetRateModel;
+    rates: List<AdnetRateModel> = List<AdnetRateModel>();
+    filteredRates: List<AdnetRateModel> = List<AdnetRateModel>();
 
     private resetSelection() {
         this.selectedAdnetRateModel = null;
@@ -97,7 +99,7 @@ export class AdnetConfigRates extends Compbaser {
     }
 
     private onRateRenamed(event) {
-        var  adnetRateModel:AdnetRateModel = event.item;
+        var adnetRateModel: AdnetRateModel = event.item;
         var updData = {
             adHourlyRate: adnetRateModel.rateLevels(),
             rateId: adnetRateModel.getId(),
@@ -118,7 +120,7 @@ export class AdnetConfigRates extends Compbaser {
         }
     }
 
-    private getContent(adnetRateModel: AdnetRateModel) {
+    getContent(adnetRateModel: AdnetRateModel) {
         return adnetRateModel.getName();
     }
 

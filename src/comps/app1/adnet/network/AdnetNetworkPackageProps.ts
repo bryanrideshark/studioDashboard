@@ -1,17 +1,5 @@
-import {
-    Component,
-    Input,
-    QueryList,
-    ViewChildren,
-    ChangeDetectionStrategy,
-    EventEmitter,
-    Output
-} from "@angular/core";
-import {
-    FormControl,
-    FormGroup,
-    FormBuilder
-} from "@angular/forms";
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, QueryList, ViewChildren} from "@angular/core";
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {AppStore} from "angular2-redux-util";
 import {Lib} from "../../../../Lib";
@@ -19,8 +7,7 @@ import * as _ from "lodash";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 import {List} from "immutable";
 import {AdnetPackagePlayMode} from "./AdnetNetwork";
-import {Ngmslib} from "ng-mslib";
-import {Compbaser} from "../../../compbaser/Compbaser";
+import {Compbaser} from "ng-mslib";
 
 @Component({
     selector: 'AdnetNetworkPackageProps',
@@ -30,8 +17,10 @@ import {Compbaser} from "../../../compbaser/Compbaser";
     styleUrls: ['./AdnetNetworkPackageCommonStyles.css']
 })
 export class AdnetNetworkPackageProps extends Compbaser {
+    inDevMode;
     constructor(private fb: FormBuilder, private appStore: AppStore, private adnetAction: AdnetActions) {
         super();
+        this.inDevMode = Lib.DevMode();
         this.contGroup = fb.group({
             'autoAddSiblings': [''],
             'channel': [''],
@@ -68,12 +57,12 @@ export class AdnetNetworkPackageProps extends Compbaser {
 
     @ViewChildren('checkInputs') inputs: QueryList<any>
 
-    private adnetPackageModels: AdnetPackageModel;
-    private adnetPackageDays: List<any> = List<any>()
-    private contGroup: FormGroup;
-    private formInputs = {};
-    private packageName = '';
-    private hours = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'];
+    adnetPackageModels: AdnetPackageModel;
+    adnetPackageDays: List<any> = List<any>()
+    contGroup: FormGroup;
+    formInputs = {};
+    packageName = '';
+    hours = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'];
 
     private onFormChange(event) {
         this.updateSore();
@@ -85,7 +74,7 @@ export class AdnetNetworkPackageProps extends Compbaser {
     }
 
     private numToDay(num) {
-        var days = ['sun','mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+        var days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
         return days[num];
     }
 

@@ -1,30 +1,31 @@
 import {Component, Input, ViewChild} from "@angular/core";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {StationModel} from "../../../../stations/StationModel";
-import {List} from 'immutable';
+import {List} from "immutable";
 import {StationsMap} from "../../dashboard/StationsMap";
 import {AppStore} from "angular2-redux-util";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {MapAddress} from "../../../mapaddress/MapAddress";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
-import * as _ from 'lodash';
+import * as _ from "lodash";
+import {Compbaser} from "ng-mslib";
 import {Lib} from "../../../../Lib";
-import {Compbaser} from "../../../compbaser/Compbaser";
 
 @Component({
     selector: 'AdnetLocation',
     template: `
-                <small *ngIf="inDevMode" class="debug">{{me}}</small>
-                <MapAddress #mapAddress (onChange)="onUpdatedStationCoords($event)"></MapAddress>
-                <stationsMap #stationsMap (onMapClicked)="onUpdatedStationCoords($event)" 
-                   *ngIf="stationComponentMode=='map'" [stations]="stations">
-                </stationsMap>`
+        <small *ngIf="inDevMode" class="debug">{{me}}</small>
+        <MapAddress #mapAddress (onChange)="onUpdatedStationCoords($event)"></MapAddress>
+        <stationsMap #stationsMap (onMapClicked)="onUpdatedStationCoords($event)"
+                     *ngIf="stationComponentMode=='map'" [stations]="stations">
+        </stationsMap>`
 })
 
 export class AdnetLocation extends Compbaser {
-
+    inDevMode;
     constructor(private appStore: AppStore, private adnetAction: AdnetActions) {
         super();
+        this.inDevMode = Lib.DevMode();
     }
 
     @ViewChild(StationsMap)
@@ -35,7 +36,7 @@ export class AdnetLocation extends Compbaser {
 
     @Input()
     set adnetTargetModel(i_adnetTargetModel: AdnetTargetModel) {
-        if (!i_adnetTargetModel){
+        if (!i_adnetTargetModel) {
             this.stations = null;
             if (this.stationsMap)
                 this.stationsMap.clear();
@@ -55,7 +56,7 @@ export class AdnetLocation extends Compbaser {
     @Input()
     adnetCustomerModel: AdnetCustomerModel
 
-    private onUpdateMap(){
+    private onUpdateMap() {
         var lat = this.selectedAdnetTargetModel ? this.selectedAdnetTargetModel.getCoordinates().lat : 0;
         var lon = this.selectedAdnetTargetModel ? this.selectedAdnetTargetModel.getCoordinates().lng : 0;
         var name = this.selectedAdnetTargetModel ? this.selectedAdnetTargetModel.getName() : '';
@@ -102,7 +103,7 @@ export class AdnetLocation extends Compbaser {
         this.appStore.dispatch(this.adnetAction.saveTargetCoordinates(payload, this.selectedAdnetTargetModel, this.adnetCustomerModel))
     }
 
-    private stationComponentMode: string;
-    private stations: List<StationModel> = List<StationModel>();
-    private selectedAdnetTargetModel: AdnetTargetModel;
+    stationComponentMode: string;
+    stations: List<StationModel> = List<StationModel>();
+    selectedAdnetTargetModel: AdnetTargetModel;
 }

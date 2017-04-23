@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, ViewChildren, QueryList, ChangeDetectorRef} from "@angular/core";
+import {ChangeDetectorRef, Component, EventEmitter, Input, Output, QueryList, ViewChildren} from "@angular/core";
 import {List} from "immutable";
 import {StoreModel} from "../../models/StoreModel";
 import * as _ from "lodash";
@@ -9,6 +9,7 @@ import * as _ from "lodash";
         i {
             cursor: pointer;
         }
+
         .slideMode {
             padding-top: 8px;
             padding-right: 20px;
@@ -17,15 +18,15 @@ import * as _ from "lodash";
     template: `
         <div *ngIf="!slideMode">
             <div *ngFor="let item of m_checkboxes">
-              <label class="pull-left">{{item.name}}</label>
-              <Input (click)="onClick()" #checkInputs type="checkbox" [checked]="item" value="{{item}}" class="pull-left" style="margin-right: 2px">
+                <label class="pull-left">{{item.name}}</label>
+                <Input (click)="onClick()" #checkInputs type="checkbox" [checked]="item" value="{{item}}" class="pull-left" style="margin-right: 2px">
             </div>
         </div>
         <div *ngIf="slideMode" class="slideMode">
             <div *ngFor="let item of m_checkboxes" class="material-switch pull-right">
-              <Input id="{{m_checkId}}"(mouseup)="onClick()" (click)="onClick()" #checkInputs type="checkbox" [checked]="item" value="{{item}}" class="pull-left" style="margin-right: 2px">
-              <label [attr.for]="m_checkId" class="label-primary"></label>
-          </div>
+                <Input id="{{m_checkId}}" (mouseup)="onClick()" (click)="onClick()" #checkInputs type="checkbox" [checked]="item" value="{{item}}" class="pull-left" style="margin-right: 2px">
+                <label [attr.for]="m_checkId" class="label-primary"></label>
+            </div>
         </div>
     `
 })
@@ -33,9 +34,9 @@ export class SimpleGridDataChecks {
     constructor(private cdr: ChangeDetectorRef) {
     }
 
-    private m_checkId = _.uniqueId('slideCheck');
-    private m_checkboxes: List<any>
-    private m_storeModel: StoreModel;
+    m_checkId = _.uniqueId('slideCheck');
+    m_checkboxes: List<any>
+    m_storeModel: StoreModel;
 
     @ViewChildren('checkInputs')
     inputs: QueryList<any>

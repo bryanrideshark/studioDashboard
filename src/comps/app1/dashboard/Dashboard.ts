@@ -1,4 +1,4 @@
-import {Component, ViewChild, ChangeDetectorRef, trigger, transition, animate, state, style} from "@angular/core";
+import {animate, ChangeDetectorRef, Component, state, style, transition, trigger, ViewChild} from "@angular/core";
 import {List, Map} from "immutable";
 import {AppStore} from "angular2-redux-util";
 import {BusinessAction} from "../../../business/BusinessAction";
@@ -30,19 +30,48 @@ type stationComponentMode = "map" | "grid";
             transition('* => void', animate(333, style({opacity: 0})))
         ])
     ],
-    styles: [`      
-      * {
-             border-radius: 0 !important;
+    styles: [`
+        * {
+            border-radius: 0 !important;
         }
+
         input {
-             border-radius: 0 !important;
-        }  
+            border-radius: 0 !important;
+        }
     `],
     providers: [BusinessAction],
     templateUrl: './Dashboard.html'
 })
 
 export class Dashboard {
+
+    // private unsubs: Array<() => void> = [];
+    listeners: Subscriber<any>;
+    selectedStation: StationModel;
+    screensOnline: string = 'screens online: 0';
+    screensOffline: string = 'screens offline: 0';
+    stationComponentMode: stationComponentMode = 'grid';
+    totalFilteredPlayers: number = 0;
+    businessNameControl: FormControl = new FormControl();
+    stations: Map<string, List<StationModel>>;
+    businessStats:any = {};
+    serverStats;
+    errorLoadingStations: boolean = false;
+    serverAvgResponse;
+    serverStatsCategories;
+    stationsFiltered: List<StationModel>;
+    stationsFilteredBy = {
+        connection: 'all',
+        name: 'all',
+        os: 'all',
+        airVersion: 'all',
+        appVersion: 'all'
+    }
+    stationsFilter = {
+        os: [],
+        airVersion: [],
+        appVersion: []
+    };
 
     constructor(private authService: AuthService,
                 private appStore: AppStore,
@@ -64,39 +93,10 @@ export class Dashboard {
         //         console.log(a,b,c);
         //     })
         // },3000)
-
     }
 
     @ViewChild('modalStationDetails')
     modalStationDetails: ModalComponent;
-
-    // private unsubs: Array<() => void> = [];
-    private listeners: Subscriber<any>;
-    private selectedStation: StationModel;
-    private screensOnline: string = 'screens online: 0';
-    private screensOffline: string = 'screens offline: 0';
-    private stationComponentMode: stationComponentMode = 'grid';
-    private totalFilteredPlayers: number = 0;
-    private businessNameControl: FormControl = new FormControl();
-    private stations: Map<string, List<StationModel>>;
-    private businessStats = {};
-    private serverStats;
-    private errorLoadingStations: boolean = false;
-    private serverAvgResponse;
-    private serverStatsCategories;
-    private stationsFiltered: List<StationModel>;
-    private stationsFilteredBy = {
-        connection: 'all',
-        name: 'all',
-        os: 'all',
-        airVersion: 'all',
-        appVersion: 'all'
-    }
-    private stationsFilter = {
-        os: [],
-        airVersion: [],
-        appVersion: []
-    };
 
     private listenStationsErrors() {
         this.commBroker.onEvent(Consts.Events().STATIONS_NETWORK_ERROR).subscribe((e: IMessage) => {
@@ -107,7 +107,6 @@ export class Dashboard {
     private onModalClose(event) {
 
     }
-
 
 
     private listenStore() {
@@ -130,7 +129,7 @@ export class Dashboard {
         /** business stats **/
         this.businessStats = this.appStore.getState().business.getIn(['businessStats']) || {};
         this.listeners.add(
-            this.appStore.sub((i_businesses: Map<string,any>) => {
+            this.appStore.sub((i_businesses: Map<string, any>) => {
                 this.businessStats = i_businesses;
             }, 'business.businessStats')
         )
@@ -140,13 +139,13 @@ export class Dashboard {
         var serversStatus = this.appStore.getState().appdb.getIn(['serversStatus']);
         this.loadServerStats(serversStatus);
         this.listeners.add(
-            this.appStore.sub((serversStatus: Map<string,any>) => {
+            this.appStore.sub((serversStatus: Map<string, any>) => {
                 this.loadServerStats(serversStatus);
             }, 'appdb.serversStatus', false)
         );
     }
 
-    private loadServerStats(serversStatus: Map<string,any>) {
+    private loadServerStats(serversStatus: Map<string, any>) {
         if (!serversStatus)
             return;
         var self = this;
@@ -223,7 +222,7 @@ export class Dashboard {
 
                     if ((this.stationsFilteredBy['os'] == 'all' || this.stationsFilteredBy['os'] == os))
                         score++;
-                    if (this.stationsFilteredBy['name'] == 'all' || name.toLowerCase().match(this.stationsFilteredBy['name'] .toLowerCase()))
+                    if (this.stationsFilteredBy['name'] == 'all' || name.toLowerCase().match(this.stationsFilteredBy['name'].toLowerCase()))
                         score++;
                     if (this.stationsFilteredBy['appVersion'] == 'all' || this.stationsFilteredBy['appVersion'] == appVersion)
                         score++;

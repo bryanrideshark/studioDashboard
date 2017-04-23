@@ -32,22 +32,22 @@ import {ResellerAction} from "../../../reseller/ResellerAction";
     ],
     template: `
         <div *ngIf="apps && apps.size > 0">
-          <simpleGridTable>
-            <thead>
-            <tr>
-              <th>icon</th>
-              <th sortableHeader="appName" [sort]="sort">app name</th>
-              <th>available (off | on)</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr class="simpleGridRecord" simpleGridRecord *ngFor="let item of apps | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">
-              <td style="width: 10%" simpleGridDataImage color="dodgerblue" [field]="item.getIcon(item)" [item]="item"></td> 
-              <td style="width: 70%" simpleGridData field="appName" [item]="item"></td>
-              <td style="width: 20%" simpleGridDataChecks slideMode="true" [item]="item" [checkboxes]="getInstalledStatus(item)" (changed)="onAppInstalledChange($event,index)"></td>
-            </tr>
-            </tbody>
-          </simpleGridTable>
+            <simpleGridTable>
+                <thead>
+                <tr>
+                    <th>icon</th>
+                    <th sortableHeader="appName" [sort]="sort">app name</th>
+                    <th>available (off | on)</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="simpleGridRecord" simpleGridRecord *ngFor="let item of apps | OrderBy:sort.field:sort.desc; let index=index" [item]="item" [index]="index">
+                    <td style="width: 10%" simpleGridDataImage color="dodgerblue" [field]="item.getIcon(item)" [item]="item"></td>
+                    <td style="width: 70%" simpleGridData field="appName" [item]="item"></td>
+                    <td style="width: 20%" simpleGridDataChecks slideMode="true" [item]="item" [checkboxes]="getInstalledStatus(item)" (changed)="onAppInstalledChange($event,index)"></td>
+                </tr>
+                </tbody>
+            </simpleGridTable>
         </div>
     `,
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -64,9 +64,9 @@ export class Apps {
         }, 'reseller.apps');
     }
 
-    private sort: {field: string, desc: boolean} = {field: null, desc: false};
-    private apps: List<AppModel>;
-    private unsub;
+    sort: { field: string, desc: boolean } = {field: null, desc: false};
+    apps: List<AppModel>;
+    unsub;
 
     private getInstalledStatus(item: AppModel) {
         return [Number(item.getInstalled())];

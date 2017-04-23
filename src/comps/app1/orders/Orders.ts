@@ -42,11 +42,11 @@ export class Orders {
     @ViewChild(simplelist)
     simplelist: simplelist;
 
-    private selectedOrder: OrderModel;
-    private unsub: Function;
-    private orderList: List<OrderModel> = List<OrderModel>();
+    selectedOrder: OrderModel;
+    unsub: Function;
+    orderList: List<OrderModel> = List<OrderModel>();
 
-    private getContent(order: OrderModel) {
+    getContent(order: OrderModel) {
         // console.log(Math.random())
         var type = order.getOrderType();
         var paymentDate = order.getDate();
@@ -54,7 +54,7 @@ export class Orders {
         return `${type} ${orderId} ${paymentDate}`;
     }
 
-    private onSelection() {
+    onSelection() {
         if (!this.orderList)
             return;
         var orderSelected: {} = this.simplelist.getSelected();

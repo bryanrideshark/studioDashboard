@@ -42,7 +42,8 @@ const routes: Routes = [
             {path: 'Apps', component: Apps, data: {title: 'Apps'}, canActivate: [AuthService]},
             {path: 'Account', component: Account, data: {title: 'Account'}, canActivate: [AuthService]},
             {path: 'Orders', component: Orders, data: {title: 'Orders'}, canActivate: [AuthService]},
-            {path: 'Adnet', component: Adnet, data: {title: 'Adnet'}, canActivate: [AuthService], pathMatch: 'full', redirectTo: '/App1/Adnet/Adnet' },
+            // {path: 'Adnet', component: Adnet, data: {title: 'Adnet'}, canActivate: [AuthService], pathMatch: 'full', redirectTo: '/App1/Adnet/Adnet' },
+            {path: 'Adnet', data: {title: 'Adnet'}, canActivate: [AuthService], pathMatch: 'full', redirectTo: '/App1/Adnet/Adnet' },
             {path: 'Adnet',
                 children: [
                         {path: 'Adnet', component: AdnetLoader,  data: {title: 'Adnet'}, canActivate: [AuthService]},

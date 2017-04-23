@@ -20,8 +20,8 @@ import {ISimpleGridEdit} from "../../../simplegridmodule/SimpleGridModule";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
 import {AppStore} from "angular2-redux-util";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
-import {Compbaser} from "../../../compbaser/Compbaser";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
+import {Compbaser} from "ng-mslib";
 
 @Component({
     selector: 'AdnetNetworkTarget',
@@ -35,12 +35,12 @@ import {AdnetActions} from "../../../../adnet/AdnetActions";
     template: `
         <small *ngIf="inDevMode" class="debug">{{me}}</small>
         <small *ngIf="!inDevMode" class="release">targets</small>
-        <a class="pull-right" style="position: relative; top: 5px; right: 6px" 
-                (click)="$event.preventDefault(); onRemoveTarget($event)" 
-                    [ngClass]="{disabled: !selectedTargetModel || editMode == false}" href="#">
-                <span class="remove fa fa-lg fa-times-circle"></span>
-            </a>
-            
+        <a class="pull-right" style="position: relative; top: 5px; right: 6px"
+           (click)="$event.preventDefault(); onRemoveTarget($event)"
+           [ngClass]="{disabled: !selectedTargetModel || editMode == false}" href="#">
+            <span class="remove fa fa-lg fa-times-circle"></span>
+        </a>
+
         <div [hidden]="!adnetPackageModel && !adnetPairModels">
             <simpleGridTable>
                 <thead>
@@ -71,8 +71,11 @@ import {AdnetActions} from "../../../../adnet/AdnetActions";
 })
 
 export class AdnetNetworkTarget extends Compbaser {
+    inDevMode;
+
     constructor(private appStore: AppStore, private adnetActions: AdnetActions, private cd: ChangeDetectorRef) {
         super();
+        this.inDevMode = Lib.DevMode();
         this.cancelOnDestroy(
             this.appStore.sub((i_adnetPackageModels: List<AdnetPackageModel>) => {
                 // this.updateModel(false);
@@ -103,7 +106,7 @@ export class AdnetNetworkTarget extends Compbaser {
         this.filterTargets();
     }
 
-    @Input() editMode:boolean = false;
+    @Input() editMode: boolean = false;
 
     @Input()
     set setAdnetPairModels(i_adnetPairModels: List<AdnetPairModel>) {
@@ -125,14 +128,14 @@ export class AdnetNetworkTarget extends Compbaser {
 
     @ViewChild(SimpleGridTable) simpleGridTable: SimpleGridTable;
 
-    private selectedTargetModel: AdnetTargetModel;
-    private adnetCustomerModel: AdnetCustomerModel;
-    private adnetTargetModels: List<AdnetTargetModel>
-    private adnetPairModels: List<AdnetPairModel>;
-    private adnetPackageModel: AdnetPackageModel;
-    private pairOutgoing: boolean;
+    selectedTargetModel: AdnetTargetModel;
+    adnetCustomerModel: AdnetCustomerModel;
+    adnetTargetModels: List<AdnetTargetModel>
+    adnetPairModels: List<AdnetPairModel>;
+    adnetPackageModel: AdnetPackageModel;
+    pairOutgoing: boolean;
 
-    public sort: {field: string, desc: boolean} = {
+    public sort: { field: string, desc: boolean } = {
         field: null,
         desc: false
     };

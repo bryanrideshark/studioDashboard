@@ -20,7 +20,7 @@ import {MsLibModule} from "ng-mslib/dist/mslib.module";
 import {ToastModule, ToastOptions} from "ng2-toastr";
 import {AgmCoreModule} from "angular2-google-maps/core";
 import {SimpleGridModule} from "../comps/simplegridmodule/SimpleGridModule";
-import {DropdownModule, AccordionModule, AlertModule, ModalModule} from "ng2-bootstrap";
+import {AccordionModule, AlertModule, ModalModule, BsDropdownModule, BsDropdownConfig} from "ngx-bootstrap";
 import {TreeModule, InputTextModule, SelectButtonModule, DropdownModule as DropdownModulePrime} from "primeng/primeng";
 import {NgStringPipesModule} from "angular-pipes";
 import {routing} from "../App.routes";
@@ -44,7 +44,6 @@ import {Footer} from "../comps/footer/Footer";
 import {InputEdit} from "../comps/inputedit/InputEdit";
 import {OrderBy} from "../pipes/OrderBy";
 import {SortBy} from "../pipes/SortBy";
-import {Ngmslib} from "ng-mslib";
 import {FilterPipe} from "../pipes/FilterPipe";
 import {FilterPipeEqual} from "../pipes/FilterPipeNot";
 import {AdnetBilling} from "../comps/app1/adnet/billing/AdnetBilling";
@@ -116,6 +115,8 @@ import {ThrottlePipe} from "../pipes/ThrottlePipe";
 import {NgMenu} from "../comps/ng-menu/ng-menu";
 import {NgMenuItem} from "../comps/ng-menu/ng-menu-item";
 import {AutoLogin} from "../comps/entry/AutoLogin";
+import {NgmslibService} from "ng-mslib";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 export enum ServerMode {
     CLOUD,
@@ -142,7 +143,7 @@ export function appStoreFactory() {
 }
 
 
-export var providing = [CommBroker, AUTH_PROVIDERS,
+export var providing = [CommBroker, AUTH_PROVIDERS, BsDropdownConfig, NgmslibService,
     {
         provide: AppStore, useFactory: appStoreFactory
     },
@@ -195,19 +196,10 @@ export var providing = [CommBroker, AUTH_PROVIDERS,
         useClass: Consts
     },
     {
-        provide: "DEV_ENV",
-        useValue: Ngmslib.DevMode()
-    },
-    {
         provide: "OFFLINE_ENV",
         useValue: false
     }];
 
-
-let options: ToastOptions = new ToastOptions({
-    toastLife: 3000,
-    animate: 'flyRight'
-});
 
 var decelerations = [AppComponent, RatesTable, UsersDetails, AutoLogin, LoginPanel, Account, Whitelabel, Apps, App1, Users, Adnet, Privileges, Dashboard, Logout, Orders, Logo,
     LogoCompany, Footer, BlurForwarder, InputEdit, OrderBy, SortBy, FilterPipe, FilterPipeEqual, AdnetBilling, AdnetConfigTargets, AdnetConfigRates, Tabs, Tab, ServerStats, ServerAvg,
@@ -223,13 +215,14 @@ var decelerations = [AppComponent, RatesTable, UsersDetails, AutoLogin, LoginPan
         BrowserModule,
         FormsModule,
         ReactiveFormsModule,
+        BrowserAnimationsModule,
         Ng2Bs3ModalModule,
         HttpModule,
         ChartModule,
         ToastModule.forRoot({
             animate: 'flyRight',
             positionClass: 'toast-bottom-right',
-            toastLife: 5000,
+            toastLife: 10000,
             showCloseButton: true,
             maxShown: 5,
             newestOnTop: true,
@@ -237,14 +230,14 @@ var decelerations = [AppComponent, RatesTable, UsersDetails, AutoLogin, LoginPan
             dismiss: 'auto',
             messageClass: "",
             titleClass: ""
-        }),
+        }),    
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyAGD7EQugVG8Gq8X3vpyvkZCnW4E4HONLI'
         }),
-        MsLibModule.forRoot(),
+        MsLibModule,
         SimpleGridModule.forRoot(),
         AlertModule.forRoot(),
-        DropdownModule.forRoot(),
+        BsDropdownModule,
         AccordionModule.forRoot(),
         ModalModule.forRoot(),
         JsonpModule,
@@ -260,7 +253,9 @@ var decelerations = [AppComponent, RatesTable, UsersDetails, AutoLogin, LoginPan
     bootstrap: [AppComponent]
 })
 export class AppModule {
-    constructor() {
+    constructor(private ngmslibService:NgmslibService) {
+        this.ngmslibService.globalizeStringJS();
+        console.log(StringJS('app-loaded-and-ready').humanize().s);
     }
 
 }

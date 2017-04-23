@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Input} from "@angular/core";
+import {ChangeDetectionStrategy, Component, Input} from "@angular/core";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
 import {List} from "immutable";
@@ -41,27 +41,27 @@ export class AdnetNetwork {
             this.adnetCustomerId = this.adnetCustomerModel.customerId();
     }
 
-    private adnetNetworkPropSelector = AdnetNetworkPropSelector;
-    private propSelectorPackageTab: AdnetNetworkPropSelector = AdnetNetworkPropSelector.CONTENT;
-    private propSelectorTargetsTab: AdnetNetworkPropSelector = AdnetNetworkPropSelector.NONE;
-    private adnetCustomerId: number = -1;
-    private adnetCustomerModel: AdnetCustomerModel;
-    private pairsSelected: List<AdnetPairModel>;
-    private pairsOutgoing: boolean;
-    private packageEditMode: boolean = false;
+    adnetNetworkPropSelector = AdnetNetworkPropSelector;
+    propSelectorPackageTab: AdnetNetworkPropSelector = AdnetNetworkPropSelector.CONTENT;
+    propSelectorTargetsTab: AdnetNetworkPropSelector = AdnetNetworkPropSelector.NONE;
+    adnetCustomerId: number = -1;
+    adnetCustomerModel: AdnetCustomerModel;
+    pairsSelected: List<AdnetPairModel>;
+    pairsOutgoing: boolean;
+    packageEditMode: boolean = false;
 
     /** packages tabs specific members **/
-    private selectedAdnetTargetModels: List<AdnetTargetModel>;
-    private selectedAdnetPackagePlayMode_tab_packages: AdnetPackagePlayMode;
-    private selectedAdnetPackageModel_tab_packages: AdnetPackageModel;
-    private selectedAdnetTargetModel_tab_packages: AdnetTargetModel;
-    private selectedAdnetContentModel_tab_packages: AdnetContentModel;
+    selectedAdnetTargetModels: List<AdnetTargetModel>;
+    selectedAdnetPackagePlayMode_tab_packages: AdnetPackagePlayMode;
+    selectedAdnetPackageModel_tab_packages: AdnetPackageModel;
+    selectedAdnetTargetModel_tab_packages: AdnetTargetModel;
+    selectedAdnetContentModel_tab_packages: AdnetContentModel;
 
     /**  target tabs specific members **/
-    private selectedAdnetPackagePlayMode_tab_targets: AdnetPackagePlayMode;
-    private selectedAdnetPackageModel_tab_targets: AdnetPackageModel;
-    private selectedAdnetTargetModel_tab_targets: AdnetTargetModel;
-    private selectedAdnetContentModel_tab_targets: AdnetContentModel;
+    selectedAdnetPackagePlayMode_tab_targets: AdnetPackagePlayMode;
+    selectedAdnetPackageModel_tab_targets: AdnetPackageModel;
+    selectedAdnetTargetModel_tab_targets: AdnetTargetModel;
+    selectedAdnetContentModel_tab_targets: AdnetContentModel;
 
     private onAdnetContentSelected(tab: TabType, event: AdnetContentModel) {
         switch (tab) {

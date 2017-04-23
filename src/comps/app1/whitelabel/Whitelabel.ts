@@ -1,23 +1,9 @@
-import {
-    Component,
-    ViewChild,
-    ChangeDetectorRef,
-    ChangeDetectionStrategy,
-    ElementRef,
-    NgZone,
-    ViewChildren,
-    QueryList,
-    trigger,
-    transition,
-    animate,
-    state,
-    style
-} from "@angular/core";
+import {animate, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, NgZone, QueryList, state, style, transition, trigger, ViewChild, ViewChildren} from "@angular/core";
 import {Router} from "@angular/router";
 import {WhitelabelModel} from "../../../reseller/WhitelabelModel";
 import {ResellerAction} from "../../../reseller/ResellerAction";
 import {AppStore} from "angular2-redux-util";
-import {FormGroup, FormControl, FormBuilder} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {Lib} from "../../../Lib";
 import {ImgLoader} from "../../imgloader/ImgLoader";
 import * as _ from "lodash";
@@ -110,11 +96,11 @@ export class Whitelabel {
     @ViewChildren(ImgLoader)
     f: QueryList<any>;
 
-    private formInputs = {};
-    private contGroup: FormGroup;
-    private whitelabelModel: WhitelabelModel;
-    private unsub;
-    private stylesObj;
+    formInputs = {};
+    contGroup: FormGroup;
+    whitelabelModel: WhitelabelModel;
+    unsub;
+    stylesObj;
 
     private onInputBlur(event) {
         setTimeout(() => this.appStore.dispatch(this.resellerAction.saveWhiteLabel(Lib.CleanCharForXml(this.contGroup.value))), 1);
@@ -189,7 +175,7 @@ export class Whitelabel {
         var pass = this.appStore.getState().appdb.get('credentials').get('pass');
         formData.append("userName", user);
         formData.append("password", pass);
-        var appdb: Map<string,any> = this.appStore.getState().appdb;
+        var appdb: Map<string, any> = this.appStore.getState().appdb;
         var url = appdb.get('appBaseUrlUser').split('ResellerService')[0];
         httpRequest.open("POST", `${url}/ResourceUpload.ashx`);
         httpRequest.send(formData);

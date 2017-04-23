@@ -3,8 +3,8 @@ import {
     Input
 } from "@angular/core";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
-import {Ngmslib} from "ng-mslib";
-import {Compbaser} from "../../../compbaser/Compbaser";
+import {Compbaser} from "ng-mslib";
+import {Lib} from "../../../../Lib";
 
 @Component({
     selector: 'AdnetNetworkPackageViewProps',
@@ -12,9 +12,11 @@ import {Compbaser} from "../../../compbaser/Compbaser";
     styles: [``]
 })
 
-export class AdnetNetworkPackageViewProps extends Compbaser{
+export class AdnetNetworkPackageViewProps extends Compbaser {
+    inDevMode;
     constructor() {
         super();
+        this.inDevMode = Lib.DevMode();
     }
 
     @Input()
@@ -22,5 +24,5 @@ export class AdnetNetworkPackageViewProps extends Compbaser{
         this.adnetPackageModels = i_adnetPackageModels;
     }
 
-    private adnetPackageModels: AdnetPackageModel;
+    adnetPackageModels: AdnetPackageModel;
 }

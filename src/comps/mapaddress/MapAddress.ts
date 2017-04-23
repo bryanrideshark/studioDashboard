@@ -6,16 +6,16 @@ declare var google: any;
 @Component({
     selector: 'MapAddress',
     template: `
-                <input class="form-control" placeholder="enter address" 
-                type="text" [formControl]="searchControl"/>
-              `,
+        <input class="form-control" placeholder="enter address"
+               type="text" [formControl]="searchControl"/>
+    `,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class MapAddress {
-    private geocoder: any;
-    private unsub: Subscription;
-    private searchControl = new FormControl();
+    geocoder: any;
+    unsub: Subscription;
+    searchControl = new FormControl();
 
     @Output()
     onChange: EventEmitter<any> = new EventEmitter<any>();
@@ -24,9 +24,9 @@ export class MapAddress {
         this.unsub = this.searchControl.valueChanges
             .debounceTime(400)
             .distinctUntilChanged()
-            .filter((address: string)=> {
+            .filter((address: string) => {
                 return address.length > 3;
-            }).do((address)=> {
+            }).do((address) => {
                 if (!this.geocoder)
                     this.geocoder = new google.maps.Geocoder();
                 this.geocoder.geocode({'address': address}, (results, status) => {
@@ -47,7 +47,7 @@ export class MapAddress {
                     }
                 });
 
-            }).subscribe(()=> {
+            }).subscribe(() => {
             })
 
     }

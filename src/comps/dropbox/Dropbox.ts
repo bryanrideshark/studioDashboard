@@ -9,8 +9,7 @@ import {LocalStorage} from "../../services/LocalStorage";
 import {Http} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 import {TreeNode} from "primeng/primeng";
-import {Ngmslib} from "ng-mslib";
-import {Compbaser} from "../compbaser/Compbaser";
+import {Compbaser} from "ng-mslib";
 
 @Component({
     selector: 'Dropbox',
@@ -31,11 +30,11 @@ export class Dropbox extends Compbaser {
     @Output()
     onFileLinkSelected: EventEmitter<Object> = new EventEmitter<Object>();
 
-    private selectedFile: TreeNode;
-    private files = [];
-    private nodes = []
-    private token;
-    private accountValidity: boolean = false;
+    selectedFile: TreeNode;
+    files = [];
+    nodes = []
+    token;
+    accountValidity: boolean = false;
 
     private nodeUnselect(event) {
         console.log({

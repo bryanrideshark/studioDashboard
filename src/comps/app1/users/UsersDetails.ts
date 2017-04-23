@@ -1,9 +1,4 @@
-import {
-    Component,
-    Input,
-    ChangeDetectionStrategy,
-    ViewChild
-} from "@angular/core";
+import {ChangeDetectionStrategy, Component, Input, ViewChild} from "@angular/core";
 import {List} from "immutable";
 import {BusinessModel} from "../../../business/BusinessModel";
 import {AppStore} from "angular2-redux-util";
@@ -11,7 +6,6 @@ import {BusinessAction} from "../../../business/BusinessAction";
 import {BusinessUser} from "../../../business/BusinessUser";
 import {Lib} from "../../../Lib";
 import {PrivelegesModel} from "../../../reseller/PrivelegesModel";
-import {ModalComponent} from "ng2-bs3-modal/components/modal";
 import {ModalResult} from "ng2-bs3-modal/components/modal-instance";
 // import * as bootbox from "bootbox";
 import {SimpleGridTable} from "../../simplegridmodule/SimpleGridTable";
@@ -71,14 +65,14 @@ export class UsersDetails {
         this.m_priveleges = i_priveleges;
     }
 
-    public sort: {field: string, desc: boolean} = {
+    public sort: { field: string, desc: boolean } = {
         field: null,
         desc: false
     };
-    private m_businesses: List<BusinessModel>;
-    private m_businessUsers: List<BusinessUser>;
-    private m_priveleges: Array<PrivelegesModel>;
-    private totalBusinessSelected: number = 0;
+    m_businesses: List<BusinessModel>;
+    m_businessUsers: List<BusinessUser>;
+    m_priveleges: Array<PrivelegesModel>;
+    totalBusinessSelected: number = 0;
 
     private launchStudio() {
         let businessUser: BusinessUser = this.selectedBusinessUser();

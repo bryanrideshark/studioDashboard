@@ -156,7 +156,7 @@ export class InputString implements ControlValueAccessor, OnChanges {
         this.writeValue(this.defaultValue);
     }
 
-    private placer: string = ''
+    placer: string = ''
 
     stringFixLength(i_value){
         return i_value.substr(0, this.stringRangeMax)

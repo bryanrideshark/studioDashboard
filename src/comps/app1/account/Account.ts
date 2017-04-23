@@ -102,7 +102,7 @@ export class Account {
         this.renderFormInputs();
     }
 
-    private payments = [{
+    payments = [{
         index: 1,
         icon: 'fa-credit-card-alt',
         name: 'credit card'
@@ -116,20 +116,20 @@ export class Account {
         name: 'disable'
     }]
 
-    private cards = ['visa', 'mastercard', 'amex', 'discover', 'paypal'];
+    cards = ['visa', 'mastercard', 'amex', 'discover', 'paypal'];
 
-    private companyName = '';
-    private userName = '';
-    private businessId = '';
-    private payerId = '';
-    private whiteLabelEnabled: boolean = true;
-    private formInputs = {};
-    private contGroup: FormGroup;
-    private whitelabelModel: WhitelabelModel;
-    private accountModels: List<AccountModel>;
-    private PAY_SUBSCRIBER: number = 4;
-    private unsub;
-    private stylesObj = {
+    companyName = '';
+    userName = '';
+    businessId = '';
+    payerId = '';
+    whiteLabelEnabled: boolean = true;
+    formInputs = {};
+    contGroup: FormGroup;
+    whitelabelModel: WhitelabelModel;
+    accountModels: List<AccountModel>;
+    PAY_SUBSCRIBER: number = 4;
+    unsub;
+    stylesObj = {
         editIcon: {
             'position': 'relative',
             'top': '-8px'

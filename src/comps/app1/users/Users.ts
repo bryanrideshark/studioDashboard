@@ -1,5 +1,5 @@
-import {Component, ViewChild, ElementRef, trigger, state, transition, style, animate} from "@angular/core";
-import {simplelist, IsimplelistItem} from "../../simplelist/simplelist";
+import {animate, Component, ElementRef, state, style, transition, trigger, ViewChild} from "@angular/core";
+import {IsimplelistItem, simplelist} from "../../simplelist/simplelist";
 import {AppStore} from "angular2-redux-util";
 import {BusinessAction} from "../../../business/BusinessAction";
 import {ModalComponent} from "ng2-bs3-modal/components/modal";
@@ -11,7 +11,8 @@ import {PrivelegesModel} from "../../../reseller/PrivelegesModel";
 import {SampleModel} from "../../../business/SampleModel";
 // import * as bootbox from "bootbox";
 import * as _ from "lodash";
-import {Compbaser} from "../../compbaser/Compbaser";
+import {Compbaser} from "ng-mslib";
+import {Lib} from "../../../Lib";
 
 @Component({
     selector: 'Users',
@@ -51,9 +52,11 @@ import {Compbaser} from "../../compbaser/Compbaser";
 // templateUrl: 'Users.html',
 
 export class Users extends Compbaser {
+    inDevMode;
 
     constructor(private appStore: AppStore, private businessAction: BusinessAction) {
         super();
+        this.inDevMode = Lib.DevMode();
         var i_businesses = this.appStore.getState().business;
         var i_reseller = this.appStore.getState().reseller;
         this.businessesList = i_businesses.getIn(['businesses']);
@@ -102,18 +105,18 @@ export class Users extends Compbaser {
     @ViewChild(UsersDetails)
     usersDetails: UsersDetails;
 
-    private businessesList: List<BusinessModel> = List<BusinessModel>();
-    private samples: List<SampleModel> = List<SampleModel>();
-    private businessesListFiltered: List<BusinessModel>
-    private businessUsersListFiltered: List<BusinessUser>;
-    private businessesUsers: List<BusinessUser>
-    private priveleges: List<PrivelegesModel>
-    private showUserInfo: Object = null;
-    private selectedSampleBusinessId: number = -1;
-    private unsub: Function;
-    private unsub2: Function;
-    private unsub3: Function;
-    private accounts = ['Add new account from sample', 'Add new account from blank', 'Import existing account'];
+    businessesList: List<BusinessModel> = List<BusinessModel>();
+    samples: List<SampleModel> = List<SampleModel>();
+    businessesListFiltered: List<BusinessModel>
+    businessUsersListFiltered: List<BusinessUser>;
+    businessesUsers: List<BusinessUser>
+    priveleges: List<PrivelegesModel>
+    showUserInfo: Object = null;
+    selectedSampleBusinessId: number = -1;
+    unsub: Function;
+    unsub2: Function;
+    unsub3: Function;
+    accounts = ['Add new account from sample', 'Add new account from blank', 'Import existing account'];
 
     private onAddUser(choice, fromSample: boolean = false) {
         switch (choice) {
@@ -232,12 +235,12 @@ export class Users extends Compbaser {
         this.businessUsersListFiltered = List<BusinessUser>(arr);
     }
 
-    private getBusinesses(businessItem: BusinessModel) {
+    getBusinesses(businessItem: BusinessModel) {
         // console.log(Math.random());
         return businessItem.getKey('name');
     }
 
-    private getBusinessesId() {
+    getBusinessesId() {
         return (businessItem: BusinessModel) => {
             return businessItem.getKey('businessId');
         }

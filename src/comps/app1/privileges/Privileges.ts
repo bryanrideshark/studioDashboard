@@ -1,15 +1,4 @@
-import {
-    Component,
-    Input,
-    Output,
-    EventEmitter,
-    ViewChild,
-    trigger,
-    transition,
-    animate,
-    state,
-    style
-} from "@angular/core";
+import {animate, Component, EventEmitter, Input, Output, state, style, transition, trigger, ViewChild} from "@angular/core";
 import {simplelist} from "../../simplelist/simplelist";
 import {PrivelegesModel} from "../../../reseller/PrivelegesModel";
 import {List} from "immutable";
@@ -21,24 +10,28 @@ import {ResellerAction} from "../../../reseller/ResellerAction";
 @Component({
     selector: 'privileges',
     styles: [`
-      .userView {
-        /*background-color: red; */
-      }      
-      .btns {
-          padding: 0 20px 20px 0px;
-          font-size: 1.4em;
-          color: #313131;
-      }
-      .btns:hover {
-        color: red;
-      }
-      .enabled {
-        opacity: 1
-      }
-       .disabled {
-        opacity: 0.2;
-        cursor: default;
-      }
+        .userView {
+            /*background-color: red; */
+        }
+
+        .btns {
+            padding: 0 20px 20px 0px;
+            font-size: 1.4em;
+            color: #313131;
+        }
+
+        .btns:hover {
+            color: red;
+        }
+
+        .enabled {
+            opacity: 1
+        }
+
+        .disabled {
+            opacity: 0.2;
+            cursor: default;
+        }
     `],
     host: {
         '[@routeAnimation]': 'true',
@@ -57,32 +50,32 @@ import {ResellerAction} from "../../../reseller/ResellerAction";
     ],
     template: `
         <div class="row">
-             <div class="col-xs-3">
+            <div class="col-xs-3">
                 <div style="position: relative; top: 10px">
                     <div>
-                      <a class="btns" (click)="onAdd($event);$event.preventDefault()" href="#"><span class="fa fa-plus"></span></a>
-                      <a class="btns" (click)="onRemove($event);$event.preventDefault()" [ngClass]="{disabled: !privelegesModelSelected}" href="#">
-                       <span class="fa fa-remove"></span>
-                      </a>
+                        <a class="btns" (click)="onAdd($event);$event.preventDefault()" href="#"><span class="fa fa-plus"></span></a>
+                        <a class="btns" (click)="onRemove($event);$event.preventDefault()" [ngClass]="{disabled: !privelegesModelSelected}" href="#">
+                            <span class="fa fa-remove"></span>
+                        </a>
                     </div>
                 </div>
-                <simplelist *ngIf="privelegesList" #simplelist [list]="privelegesList" 
-                    (selected)="onPrivilegeSelected()"
-                    (iconClicked)="onDefaultPrivilegeChanged($event)"
-                    (edited)="onPrivilegeRenamed($event)"                    
-                    [editable]="true"
-                    [iconSelectiondMode]="true"
-                    [iconSelected]="getDefaultPrivilege()"
-                    [contentId]="getPrivilegeId()"
-                    [content]="getPrivilege">
-                </simplelist> 
+                <simplelist *ngIf="privelegesList" #simplelist [list]="privelegesList"
+                            (selected)="onPrivilegeSelected()"
+                            (iconClicked)="onDefaultPrivilegeChanged($event)"
+                            (edited)="onPrivilegeRenamed($event)"
+                            [editable]="true"
+                            [iconSelectiondMode]="true"
+                            [iconSelected]="getDefaultPrivilege()"
+                            [contentId]="getPrivilegeId()"
+                            [content]="getPrivilege">
+                </simplelist>
                 <Loading *ngIf="!privelegesList" [src]="'assets/preload6.gif'" [style]="{'margin-top': '150px'}"></Loading>
-             </div>
-             <div class="col-xs-9" style="max-height: 100% !important; overflow-y: scroll">                
+            </div>
+            <div class="col-xs-9" style="max-height: 100% !important; overflow-y: scroll">
                 <Loading *ngIf="!privelegesList" [src]="'assets/preload6.gif'" [style]="{'margin-top': '150px'}"></Loading>
                 <!--<privilegesDetails [selected]="privelegesModelSelected" [priveleges]="privelegesList" ></privilegesDetails>-->
                 <privilegesDetails [selected]="privelegesModelSelected"></privilegesDetails>
-             </div>
+            </div>
         </div>
     `
 })
@@ -114,12 +107,12 @@ export class Privileges {
     @Output()
     addToCart: EventEmitter<any> = new EventEmitter();
 
-    private unsub;
-    private privelegesList: List<PrivelegesModel>
-    private privelegesModelSelected: PrivelegesModel;
-    private privilegeDefault: number;
+    unsub;
+    privelegesList: List<PrivelegesModel>
+    privelegesModelSelected: PrivelegesModel;
+    privilegeDefault: number;
 
-    private onPrivilegeRenamed(event: {item: PrivelegesModel, value: string}) {
+    private onPrivilegeRenamed(event: { item: PrivelegesModel, value: string }) {
         if (event.value.trim().length == 0)
             return;
         var privilegeId = event.item.getPrivelegesId();
@@ -145,11 +138,11 @@ export class Privileges {
         this.privelegesModelSelected = selectedList.first();
     }
 
-    private getPrivilege(privelegesModel: PrivelegesModel) {
+    getPrivilege(privelegesModel: PrivelegesModel) {
         return privelegesModel.getName();
     }
 
-    private getPrivilegeId() {
+    getPrivilegeId() {
         return (privilegeModel: PrivelegesModel) => {
             return privilegeModel.getPrivelegesId();
         }

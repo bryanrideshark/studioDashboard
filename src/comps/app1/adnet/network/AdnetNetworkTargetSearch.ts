@@ -19,7 +19,6 @@ import {
     IAdNetworkPropSelectedEvent,
     AdnetNetworkPropSelector
 } from "./AdnetNetwork";
-import {Compbaser} from "../../../compbaser/Compbaser";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {Lib} from "../../../../Lib";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
@@ -29,125 +28,133 @@ import {
     simplelist
 } from "../../../simplelist/simplelist";
 import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
+import {Compbaser} from "ng-mslib";
 
 @Component({
     selector: 'AdnetNetworkTargetSearch',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `<div>                
-                <form novalidate autocomplete="off" [formGroup]="contGroup">
-                    <div class="row">
-                        <div class="inner userGeneral">
-                            <div class="panel panel-default tallPanel">
-                                <div class="panel-heading">
-                                    <small class="release">target properties
-                                        <i style="font-size: 1.4em" class="fa fa-cog pull-right"></i>
-                                    </small>
+    template: `
+        <div>
+            <form novalidate autocomplete="off" [formGroup]="contGroup">
+                <div class="row">
+                    <div class="inner userGeneral">
+                        <div class="panel panel-default tallPanel">
+                            <div class="panel-heading">
+                                <small class="release">target properties
+                                    <i style="font-size: 1.4em" class="fa fa-cog pull-right"></i>
+                                </small>
                                 <small *ngIf="inDevMode" class="debug">{{me}}</small>
-                                </div>
-                                <ul class="list-group">
-                                    <li *ngIf="this.globalNetworkEnabled" class="list-group-item">
-                                        global Adnet search
-                                        <div class="material-switch pull-right">
-                                            <input (change)="onFormChange(customerNetwork2.checked)"
-                                                   [formControl]="contGroup.controls['globalSearch']"
-                                                   id="customerNetwork2" #customerNetwork2
-                                                   name="customerNetwork2" type="checkbox"/>
-                                            <label for="customerNetwork2" class="label-primary"></label>
-                                        </div>
-                                    </li>
-                                    
-                                    <li class="list-group-item">
-                                        <div class="btn-group" role="group">
-                                          <select  [formControl]="contGroup.controls['searchType']" style="width: 100%"  class="form-control">
-                                            <option *ngFor="let item of searchTypes">{{item}}</option>
-                                          </select>
-                                        </div>
-                                        <button (click)="onSearch($event)" class="pull-right btn btn-primary">Search</button>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-circle-o-notch"></i></span>
-                                            <input type="text" [formControl]="contGroup.controls['customerName']" 
-                                                   class="form-control"
-                                                   placeholder="customer name">
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-circle-o-notch"></i></span>
-                                            <input type="text" [formControl]="contGroup.controls['targetName']" 
-                                                   class="form-control"
-                                                   placeholder="target name">
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-circle-o-notch"></i></span>
-                                            <input type="text" [formControl]="contGroup.controls['targetKey']" 
-                                                   class="form-control"
-                                                   placeholder="target key">
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-circle-o-notch"></i></span>
-                                            <input type="number" [formControl]="contGroup.controls['lat']" 
-                                                   class="form-control"
-                                                   placeholder="lat">
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-circle-o-notch"></i></span>
-                                            <input type="number" [formControl]="contGroup.controls['lng']" 
-                                                   class="form-control"
-                                                   placeholder="lng">
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-circle-o-notch"></i></span>
-                                            <input type="number" [formControl]="contGroup.controls['radios']" 
-                                                   class="form-control"
-                                                   placeholder="lng">
-                                        </div>
-                                    </li>
-                                </ul>
                             </div>
+                            <ul class="list-group">
+                                <li *ngIf="this.globalNetworkEnabled" class="list-group-item">
+                                    global Adnet search
+                                    <div class="material-switch pull-right">
+                                        <input (change)="onFormChange(customerNetwork2.checked)"
+                                               [formControl]="contGroup.controls['globalSearch']"
+                                               id="customerNetwork2" #customerNetwork2
+                                               name="customerNetwork2" type="checkbox"/>
+                                        <label for="customerNetwork2" class="label-primary"></label>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <div class="btn-group" role="group">
+                                        <select [formControl]="contGroup.controls['searchType']" style="width: 100%" class="form-control">
+                                            <option *ngFor="let item of searchTypes">{{item}}</option>
+                                        </select>
+                                    </div>
+                                    <button (click)="onSearch($event)" class="pull-right btn btn-primary">Search</button>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-circle-o-notch"></i></span>
+                                        <input type="text" [formControl]="contGroup.controls['customerName']"
+                                               class="form-control"
+                                               placeholder="customer name">
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-circle-o-notch"></i></span>
+                                        <input type="text" [formControl]="contGroup.controls['targetName']"
+                                               class="form-control"
+                                               placeholder="target name">
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-circle-o-notch"></i></span>
+                                        <input type="text" [formControl]="contGroup.controls['targetKey']"
+                                               class="form-control"
+                                               placeholder="target key">
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-circle-o-notch"></i></span>
+                                        <input type="number" [formControl]="contGroup.controls['lat']"
+                                               class="form-control"
+                                               placeholder="lat">
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-circle-o-notch"></i></span>
+                                        <input type="number" [formControl]="contGroup.controls['lng']"
+                                               class="form-control"
+                                               placeholder="lng">
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-circle-o-notch"></i></span>
+                                        <input type="number" [formControl]="contGroup.controls['radios']"
+                                               class="form-control"
+                                               placeholder="lng">
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
                     </div>
-                </form>
-                <div (click)="$event.preventDefault()">
-                    <a class="btns" (click)="onAdd($event)" href="#">
-                        <br/>
-                        <span style="font-size: 1.5em; color: black" [ngClass]="{disabled: !selectedAdnetTargetModel}" class="fa fa-plus"></span>
-                    </a>                    
                 </div>
-                <simplelist (selected)="onTargetSelected($event)" [list]="adnetTargetModels" [content]="getContent()" [multiSelect]="false"></simplelist>
+            </form>
+            <div (click)="$event.preventDefault()">
+                <a class="btns" (click)="onAdd($event)" href="#">
+                    <br/>
+                    <span style="font-size: 1.5em; color: black" [ngClass]="{disabled: !selectedAdnetTargetModel}" class="fa fa-plus"></span>
+                </a>
             </div>
+            <simplelist (selected)="onTargetSelected($event)" [list]="adnetTargetModels" [content]="getContent()" [multiSelect]="false"></simplelist>
+        </div>
     `,
     styles: [`
         .disabled {
             opacity: 0.5;
         }
+
         input.ng-invalid {
             border-right: 10px solid red;
         }
+
         .material-switch {
             position: relative;
             padding-top: 10px;
         }
+
         li {
             border: none;
         }
+
         i {
             width: 20px;
         }
     `]
 })
 export class AdnetNetworkTargetSearch extends Compbaser {
+    inDevMode;
     constructor(private fb: FormBuilder, private appStore: AppStore, private adnetAction: AdnetActions, private cd: ChangeDetectorRef) {
         super();
+        this.inDevMode = Lib.DevMode();
         this.contGroup = fb.group({
             'searchType': [''],
             'globalSearch': [''],
@@ -191,14 +198,14 @@ export class AdnetNetworkTargetSearch extends Compbaser {
 
     @Output() onAdnetTargetSelected: EventEmitter<AdnetTargetModel> = new EventEmitter<AdnetTargetModel>();
 
-    private searchTypes: Array<any> = ['Select adnet search type:', 'Station', 'Mobile', 'Website'];
-    private adnetPackageModels: AdnetPackageModel;
-    private adnetCustomerModel: AdnetCustomerModel;
-    private adnetTargetModels: List<AdnetTargetModel>;
-    private selectedAdnetTargetModel: AdnetTargetModel;
-    private contGroup: FormGroup;
-    private formInputs = {};
-    private globalNetworkEnabled: boolean = false;
+    searchTypes: Array<any> = ['Select adnet search type:', 'Station', 'Mobile', 'Website'];
+    adnetPackageModels: AdnetPackageModel;
+    adnetCustomerModel: AdnetCustomerModel;
+    adnetTargetModels: List<AdnetTargetModel>;
+    selectedAdnetTargetModel: AdnetTargetModel;
+    contGroup: FormGroup;
+    formInputs = {};
+    globalNetworkEnabled: boolean = false;
 
     private getContent() {
         var self = this;

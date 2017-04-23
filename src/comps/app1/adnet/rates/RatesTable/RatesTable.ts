@@ -13,7 +13,7 @@ import * as _ from "lodash";
 import {simplelist} from "../../../../simplelist/simplelist";
 import {AdnetRateModel} from "../../../../../adnet/AdnetRateModel";
 import {Lib} from "../../../../../Lib";
-import {Compbaser} from "../../../../compbaser/Compbaser";
+import {Compbaser} from "ng-mslib";
 
 
 @Component({
@@ -24,9 +24,10 @@ import {Compbaser} from "../../../../compbaser/Compbaser";
 })
 
 export class RatesTable extends Compbaser {
-
+    inDevMode;
     constructor(private el: ElementRef) {
         super();
+        this.inDevMode = Lib.DevMode();
     }
 
     ngOnInit() {
@@ -54,10 +55,10 @@ export class RatesTable extends Compbaser {
 
     @ViewChildren('input') inputs: QueryList<ElementRef>;
 
-    private adHourlyRate: Array<string> = [];
-    private selectedColor: string = 'orange';
-    private rateGridContainer;
-    private adnetRateModel: AdnetRateModel;
+    adHourlyRate: Array<string> = [];
+    selectedColor: string = 'orange';
+    rateGridContainer;
+    adnetRateModel: AdnetRateModel;
 
 
     private onColor(i_color) {

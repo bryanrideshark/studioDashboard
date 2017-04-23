@@ -1,6 +1,5 @@
-import {Component, Input, ChangeDetectionStrategy, Output, EventEmitter} from '@angular/core'
+import {ChangeDetectionStrategy, Component, Input} from "@angular/core";
 import {StoreModel} from "../../models/StoreModel";
-import {ISimpleGridEdit} from "./SimpleGrid";
 
 @Component({
     selector: 'td[simpleGridDataCurrency]',
@@ -12,15 +11,15 @@ import {ISimpleGridEdit} from "./SimpleGrid";
         }
     `],
     template: `
-         <label>{{value | currency:'USD':true}}</label>         
+        <label>{{value | currency:'USD':true}}</label>
     `
 })
 export class SimpleGridDataCurrency {
-    private value:string = '';
-    private storeModel:StoreModel;
+    value: string = '';
+    storeModel: StoreModel;
 
     @Input()
-    set item(i_storeModel:StoreModel) {
+    set item(i_storeModel: StoreModel) {
         this.storeModel = i_storeModel
     }
 
@@ -30,7 +29,7 @@ export class SimpleGridDataCurrency {
     }
 
     @Input()
-    set processField(i_processField:(storeModel:StoreModel)=>string) {
+    set processField(i_processField: (storeModel: StoreModel) => string) {
         this.value = i_processField(this.storeModel)
     }
 }

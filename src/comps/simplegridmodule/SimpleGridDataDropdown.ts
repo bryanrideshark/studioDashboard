@@ -33,11 +33,11 @@ import {StoreModel} from "../../models/StoreModel";
 })
 export class SimpleGridDataDropdown {
 
-    private m_dropdown:List<any>
-    private m_storeModel:StoreModel;
-    private m_field:string = '';
-    private value:string = '';
-    private m_testSelection:Function;
+     m_dropdown:List<any>
+     m_storeModel:StoreModel;
+     m_field:string = '';
+     value:string = '';
+     m_testSelection:Function;
 
     @ViewChildren('checkInputs')
     inputs:QueryList<any>

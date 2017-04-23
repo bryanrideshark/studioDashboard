@@ -151,7 +151,7 @@ export class InputNumeric implements ControlValueAccessor, OnChanges {
         this.writeValue(this.defaultValue);
     }
 
-    private placer: string = ''
+    placer: string = ''
 
     onKeyUp(event) {
         if (!this.onKeyUpNotify)

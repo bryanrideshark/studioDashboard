@@ -1,10 +1,4 @@
-import {
-    Component,
-    Input,
-    ViewChild,
-    Output,
-    EventEmitter
-} from "@angular/core";
+import {Component, EventEmitter, Input, Output, ViewChild} from "@angular/core";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
 import {List} from "immutable";
@@ -12,23 +6,21 @@ import {AdnetPackageModel} from "../../../../adnet/AdnetPackageModel";
 import {AppStore} from "angular2-redux-util";
 import {AdnetTargetModel} from "../../../../adnet/AdnetTargetModel";
 import {Lib} from "../../../../Lib";
-import {
-    IAdNetworkPropSelectedEvent,
-    AdnetNetworkPropSelector
-} from "./AdnetNetwork";
+import {AdnetNetworkPropSelector, IAdNetworkPropSelectedEvent} from "./AdnetNetwork";
 import {SimpleGridTable} from "../../../simplegridmodule/SimpleGridTable";
-import {Ngmslib} from "ng-mslib";
-import {Compbaser} from "../../../compbaser/Compbaser";
+import {Compbaser} from "ng-mslib";
 
 @Component({
     selector: 'AdnetNetworkPackageViewer',
     styles: [`
         .width-sm {
             width: 10px !important;
-        } 
+        }
+
         .width-md {
             width: 40px;
         }
+
         .width-lr {
             min-width: 200px !important;
         }
@@ -37,9 +29,11 @@ import {Compbaser} from "../../../compbaser/Compbaser";
 })
 
 export class AdnetNetworkPackageViewer extends Compbaser {
+    inDevMode;
 
     constructor(private appStore: AppStore) {
         super();
+        this.inDevMode = Lib.DevMode();
     }
 
     ngOnInit() {
@@ -96,15 +90,15 @@ export class AdnetNetworkPackageViewer extends Compbaser {
 
     @Output() onPropSelected: EventEmitter<IAdNetworkPropSelectedEvent> = new EventEmitter<IAdNetworkPropSelectedEvent>();
 
-    private unsub1: Function;
-    private unsub2: Function;
-    private adnetCustomerModel: AdnetCustomerModel;
-    private adnetPairModels: List<AdnetPairModel>;
-    private targets: List<AdnetTargetModel>
-    private packages: List<AdnetPackageModel>
-    private adnetTargetModel: AdnetTargetModel;
-    private packagesFiltered: List<AdnetPackageModel>
-    private pairOutgoing: boolean
+    unsub1: Function;
+    unsub2: Function;
+    adnetCustomerModel: AdnetCustomerModel;
+    adnetPairModels: List<AdnetPairModel>;
+    targets: List<AdnetTargetModel>
+    packages: List<AdnetPackageModel>
+    adnetTargetModel: AdnetTargetModel;
+    packagesFiltered: List<AdnetPackageModel>
+    pairOutgoing: boolean
 
     private setAccessMask(event) {
     }
@@ -190,12 +184,12 @@ export class AdnetNetworkPackageViewer extends Compbaser {
         }
     }
 
-    public sort: {field: string, desc: boolean} = {
+    public sort: { field: string, desc: boolean } = {
         field: null,
         desc: false
     };
 
-    private get getCustomerName() {
+    get getCustomerName() {
         return (i_adnetPackageModel: AdnetPackageModel) => {
             var customerId = i_adnetPackageModel.getCustomerId();
             var customersList: List<AdnetCustomerModel> = this.appStore.getState().adnet.getIn(['customers']) || {};

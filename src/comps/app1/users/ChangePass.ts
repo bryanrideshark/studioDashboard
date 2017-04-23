@@ -1,5 +1,5 @@
-import {Component, EventEmitter, ChangeDetectionStrategy, Input, Output} from "@angular/core";
-import {FormGroup, Validators, FormControl, FormBuilder} from "@angular/forms";
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from "@angular/core";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {AppStore} from "angular2-redux-util";
 import {BusinessAction} from "../../../business/BusinessAction";
 import {BusinessUser} from "../../../business/BusinessUser";
@@ -57,10 +57,10 @@ export interface IChangePass {
     @Output()
     onSubmit: EventEmitter<IChangePass> = new EventEmitter<IChangePass>();
 
-    private sub: EventEmitter<any>;
-    private notesForm: FormGroup;
-    private passwordGroup;
-    private _showSubmit: boolean = true;
+    sub: EventEmitter<any>;
+    notesForm: FormGroup;
+    passwordGroup;
+    _showSubmit: boolean = true;
 
 
     private areEqual(group: FormGroup) {

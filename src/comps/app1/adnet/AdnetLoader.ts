@@ -6,37 +6,42 @@ import {List} from "immutable";
 import {BusinessModel} from "../../../business/BusinessModel";
 import {LocalStorage} from "../../../services/LocalStorage";
 import {AdnetActions} from "../../../adnet/AdnetActions";
-import {Compbaser} from "../../compbaser/Compbaser";
-import {Ngmslib} from "ng-mslib";
 import * as _ from "lodash";
+import {Compbaser} from "ng-mslib";
+import {Lib} from "../../../Lib";
 
 @Component({
     template: `
-            <small *ngIf="inDevMode" class="debug">{{me}}</small>
-            <br/>
-            <h5 *ngIf="loadingAdnetData==false" class="release">Customer selector
-                <i style="font-size: 1.4em" class="fa fa-cog pull-right"></i>
-            </h5>
-            <Loading *ngIf="loadingAdnetData==true" [size]="'100px'" [style]="{'margin-top': '150px'}"></Loading>
-            <p-dropdown *ngIf="loadingAdnetData==false" [options]="businesses" #dropDown (onChange)="onSelectedAdnetCustomer($event, dropDown.value)" [style]="{'width':'200px'}" [(ngModel)]="selectedBusinessId" filter="filter"></p-dropdown>
-            <router-outlet></router-outlet>
-            `,
+        <small *ngIf="inDevMode" class="debug">{{me}}</small>
+        <br/>
+        <h5 *ngIf="loadingAdnetData==false" class="release">Customer selector
+            <i style="font-size: 1.4em" class="fa fa-cog pull-right"></i>
+        </h5>
+        <Loading *ngIf="loadingAdnetData==true" [size]="'100px'" [style]="{'margin-top': '150px'}"></Loading>
+        <p-dropdown *ngIf="loadingAdnetData==false" [options]="businesses" #dropDown (onChange)="onSelectedAdnetCustomer($event, dropDown.value)" [style]="{'width':'200px'}" [(ngModel)]="selectedBusinessId" filter="filter"></p-dropdown>
+        <router-outlet></router-outlet>
+    `,
     styles: [`
-        :host >>> .fa-caret-down {
+        :host > > > .fa-caret-down {
             position: relative;
             left: -5px;
-        } 
-        :host >>> .ui-dropdown {
-          padding-right: 1.3em;
+        }
+
+        :host > > > .ui-dropdown {
+            padding-right: 1.3em;
         }
     `],
     selector: 'AdnetLoader'
 })
 
 export class AdnetLoader extends Compbaser {
+
+    inDevMode
+
     constructor(private router: Router, private appStore: AppStore, private adnetActions: AdnetActions, private localStorage: LocalStorage) {
         super();
         // this.me = Ngmslib.GetCompSelector(this.constructor, this)
+        this.inDevMode = Lib.DevMode();
         this.listenAdnetDataReady();
         this.buildBusinessList();
         this.showDropdownSelection();
@@ -68,18 +73,18 @@ export class AdnetLoader extends Compbaser {
         }, 'adnet.customers'));
     }
 
-    private loadingAdnetData: boolean = false;
-    private selectedBusinessId = -1;
-    private businessId: number;
-    private adnetCustomerId: number = -1;
-    private adnetTokenId: number = -1;
-    private adnetCustomerName: string = '';
-    private businesses: Array<any>;
-    private adnetCustomers: List<AdnetCustomerModel>
-    private adnetCustomerModel: AdnetCustomerModel;
-    private showState: string = 'active';
+    loadingAdnetData: boolean = false;
+    selectedBusinessId = -1;
+    businessId: number;
+    adnetCustomerId: number = -1;
+    adnetTokenId: number = -1;
+    adnetCustomerName: string = '';
+    businesses: Array<any>;
+    adnetCustomers: List<AdnetCustomerModel>
+    adnetCustomerModel: AdnetCustomerModel;
+    showState: string = 'active';
     public disabled: boolean = false;
-    public status: {isopen: boolean} = {isopen: false};
+    public status: { isopen: boolean } = {isopen: false};
 
     private listenAdnetDataReady() {
         this.cancelOnDestroy(

@@ -7,8 +7,8 @@ import {AppdbAction, AuthState} from "../appdb/AppdbAction";
 import "rxjs/add/observable/fromPromise";
 import {Observable} from "rxjs/Observable";
 import {Map} from "immutable";
-import {Ngmslib} from "ng-mslib";
 import * as _ from "lodash";
+import {NgmslibService} from "ng-mslib";
 
 
 export enum FlagsAuth {
@@ -28,7 +28,7 @@ export class AuthService {
                 @Inject(forwardRef(() => AppdbAction)) private appdbAction: AppdbAction,
                 @Inject(forwardRef(() => LocalStorage)) private localStorage: LocalStorage,
                 @Inject(forwardRef(() => StoreService)) private storeService: StoreService,
-                private activatedRoute: ActivatedRoute) {
+                private activatedRoute: ActivatedRoute, private ngmslibService:NgmslibService) {
         this.listenStores();
     }
 
@@ -47,7 +47,7 @@ export class AuthService {
             if (!_.isUndefined(id)) {
                 id = `${id}=`;
                 try {
-                    credentials = Ngmslib.Base64().decode(id);
+                    credentials = this.ngmslibService.base64().decode(id);
                     var local = this.activatedRoute.snapshot.queryParams['local'];
                     var credentialsArr = credentials.match(/user=(.*),pass=(.*)/);
                     i_user = credentialsArr[1]

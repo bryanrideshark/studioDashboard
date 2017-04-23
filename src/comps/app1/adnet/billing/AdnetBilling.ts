@@ -1,19 +1,20 @@
-import {Component, Input, ChangeDetectorRef, ViewChild} from "@angular/core";
-import {Compbaser} from "../../../compbaser/Compbaser";
+import {ChangeDetectorRef, Component, Input, ViewChild} from "@angular/core";
 import {AppStore} from "angular2-redux-util";
-import {SelectItem, Message} from "primeng/components/common/api";
+import {SelectItem} from "primeng/components/common/api";
 import {List} from "immutable";
 import {AdnetCustomerModel} from "../../../../adnet/AdnetCustomerModel";
 import {AdnetPairModel} from "../../../../adnet/AdnetPairModel";
 import {AdnetActions} from "../../../../adnet/AdnetActions";
 import {AdnetPaymentModel} from "../../../../adnet/AdnetPaymentModel";
 import {AdnetTransferModel} from "../../../../adnet/AdnetTransferModel";
-import {ToastsManager, Toast} from "ng2-toastr";
-import {ChangePass, IChangePass} from "../../users/ChangePass";
+import {ToastsManager} from "ng2-toastr";
+import {IChangePass} from "../../users/ChangePass";
 import {IAddPayment} from "./AdnetPayment";
 import {ITransferPayment} from "./AdnetTransfer";
 import {Router} from "@angular/router";
 import {ModalComponent} from "ng2-bs3-modal/components/modal";
+import {Compbaser, NgmslibService} from "ng-mslib";
+import {Lib} from "../../../../Lib";
 
 interface ICustomer {
     adCharges: number;
@@ -24,29 +25,49 @@ interface ICustomer {
 
 @Component({
     styles: [`
-    .actionButtons button {
-        display: block;
-        width: 180px;
-        margin-top: 3px;
-    }
-    .styled-hr {
-        border: none;
-        height: 1px;
-        margin: 0;
-        width: 180px;
-        padding: 0;
-        color: #333; /* old IE */
-        background-color: #333; /* Modern Browsers */
-    }
+        .actionButtons button {
+            display: block;
+            width: 180px;
+            margin-top: 3px;
+        }
+
+        .styled-hr {
+            border: none;
+            height: 1px;
+            margin: 0;
+            width: 180px;
+            padding: 0;
+            color: #333; /* old IE */
+            background-color: #333; /* Modern Browsers */
+        }
     `],
     selector: 'AdnetBilling',
     templateUrl: './AdnetBilling.html',
 })
 
 export class AdnetBilling extends Compbaser {
-
-    constructor(private appStore: AppStore, private cd: ChangeDetectorRef, private adnetAction: AdnetActions, private toastr: ToastsManager, private router: Router) {
+    inDevMode;
+    m_totalPayments = 0;
+    m_lastPayments = 0.0;
+    m_totalAdCharges = 0;
+    m_balance = 0;
+    m_totalTransfers = 0;
+    payments: List<AdnetPaymentModel> = List<AdnetPaymentModel>();
+    transfers: List<AdnetTransferModel> = List<AdnetTransferModel>();
+    customers: List<ICustomer> = List<ICustomer>();
+    adnetCustomerId: number = -1;
+    adnetCustomerModel: AdnetCustomerModel;
+    selectionPeriod: SelectItem[] = [];
+    selectionReport: SelectItem[] = [];
+    // private selectedPeriod = 'absolute';
+    // private selectedReport = 'balance';
+    selectedReport;
+    pairs: List<AdnetPairModel>
+    // private msgs: Message[] = [];
+    
+    constructor(private appStore: AppStore, private cd: ChangeDetectorRef, private adnetAction: AdnetActions, private toastr: ToastsManager, private router: Router, private ngmslibService:NgmslibService) {
         super();
+        this.inDevMode = Lib.DevMode();
     }
 
     ngOnInit() {
@@ -115,27 +136,10 @@ export class AdnetBilling extends Compbaser {
         }
     }
 
-    public stringJSPipeArgs = {
+    stringJSPipeArgs = {
         toCurrency: ['us']
-    }
+   }
 
-    private m_totalPayments = 0;
-    private m_lastPayments = 0.0;
-    private m_totalAdCharges = 0;
-    private m_balance = 0;
-    private m_totalTransfers = 0;
-
-    private payments: List<AdnetPaymentModel> = List<AdnetPaymentModel>();
-    private transfers: List<AdnetTransferModel> = List<AdnetTransferModel>();
-    private customers: List<ICustomer> = List<ICustomer>();
-    private adnetCustomerId: number = -1;
-    private adnetCustomerModel: AdnetCustomerModel;
-    private selectionPeriod: SelectItem[] = [];
-    private selectionReport: SelectItem[] = [];
-    // private selectedPeriod = 'absolute';
-    // private selectedReport = 'balance';
-    private pairs: List<AdnetPairModel>
-    // private msgs: Message[] = [];
 
     private onChangePassSubmitted(i_changePass: IChangePass) {
         this.adnetAction.billingChangePassowrd(this.adnetCustomerId, i_changePass.userName, i_changePass.userPass, i_changePass.matchingPassword.password, (result) => {
@@ -324,17 +328,17 @@ export class AdnetBilling extends Compbaser {
         }
     }
 
-    public sort: {field: string, desc: boolean} = {
+    public sort: { field: string, desc: boolean } = {
         field: null,
         desc: false
     };
 
-    public sort2: {field: string, desc: boolean} = {
+    public sort2: { field: string, desc: boolean } = {
         field: null,
         desc: false
     };
 
-    public sort3: {field: string, desc: boolean} = {
+    public sort3: { field: string, desc: boolean } = {
         field: null,
         desc: false
     };

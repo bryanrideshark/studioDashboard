@@ -33,10 +33,10 @@ import {ISimpleGridEdit} from "./SimpleGrid";
     `
 })
 export class SimpleGridData {
-    private value:string = '';
-    private storeModel:StoreModel;
-    private _editable:boolean|string = false;
-    private _editing:boolean = false;
+     value:string = '';
+     storeModel:StoreModel;
+     _editable:boolean|string = false;
+     _editing:boolean = false;
 
     @Input()
     set item(i_storeModel:StoreModel) {

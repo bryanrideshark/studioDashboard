@@ -33,8 +33,8 @@
         "../node_modules/bootbox/bootbox.js",
         "../node_modules/platform/platform.js"
       ],
+      "environmentSource": "environments/environment.ts",
       "environments": {
-        "source": "environments/environment.ts",
         "dev": "environments/environment.ts",
         "hmr": "environments/environment.hmr.ts",
         "prod": "environments/environment.prod.ts"

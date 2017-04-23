@@ -22,7 +22,7 @@ import {
     IAdNetworkPropSelectedEvent,
     AdnetNetworkPropSelector
 } from "./AdnetNetwork";
-import {Compbaser} from "../../../compbaser/Compbaser";
+import {Compbaser} from "ng-mslib";
 
 export interface IPairSelect {
     pairs: List<AdnetPairModel>,
@@ -32,64 +32,74 @@ export interface IPairSelect {
 @Component({
     selector: 'AdnetNetworkCustomerSelector',
     styles: [`
-        .mn {margin-left: 4px; width: 80%; } option { font-size: 16px; }
-        .faPlace {
-        padding-right: 10px;
-        font-size: 1.6em;
-        position: relative;
-        top: 2px;
+        .mn {
+            margin-left: 4px;
+            width: 80%;
         }
-`],
-    template: `   
-            <small *ngIf="inDevMode" class="debug">{{me}}</small>
-            <select style="font-family:'FontAwesome', Arial;" (change)="onChanges($event)" class="mn form-control custom longInput">
-                <option>&#xf112; Outgoing</option>
-                <option>&#xf064; Incoming</option>
-            </select>
-            <br/>
-            <button (click)="onEditMode()"
+
+        option {
+            font-size: 16px;
+        }
+
+        .faPlace {
+            padding-right: 10px;
+            font-size: 1.6em;
+            position: relative;
+            top: 2px;
+        }
+    `],
+    template: `
+        <small *ngIf="inDevMode" class="debug">{{me}}</small>
+        <select style="font-family:'FontAwesome', Arial;" (change)="onChanges($event)" class="mn form-control custom longInput">
+            <option>&#xf112; Outgoing</option>
+            <option>&#xf064; Incoming</option>
+        </select>
+        <br/>
+        <button (click)="onEditMode()"
                 [ngClass]="{'btn-primary': packageEditMode}" class="btn-sm mn btn">
-                <div *ngIf="packageEditMode && outgoing == true">
-                    <span class="faPlace fa fa-edit"></span>
-                    select all (edit mode)
-                </div>
-                <div style="opacity: 0.3" *ngIf="!packageEditMode && outgoing == true">
-                    <span class="faPlace fa fa-edit"></span>
-                    select all (edit mode)                        
-                </div>
-                <div *ngIf="packageEditMode && outgoing == false">
-                    <span class="faPlace fa fa-list"></span>
-                    select all
-                </div>                
-                <div *ngIf="!packageEditMode && outgoing == false">
-                    <span class="faPlace fa fa-list"></span>
-                    select all                        
-                </div>
-            </button>
-            <div style="padding-left: 20px">
-               <simplelist *ngIf="outgoing" #simplelistOutgoing
-                    [list]="pairsFilteredOutgoing"
-                    (itemClicked)="packageEditMode = false"
-                    (selected)="onSelecting($event)"
-                    [multiSelect]="true" 
-                    [contentId]="getPairId" [content]="getPairName()">
-                </simplelist>
-                
-                <simplelist *ngIf="!outgoing" #simplelistIncoming 
-                    [list]="pairsFilteredIncoming"
-                    (itemClicked)="packageEditMode = false"
-                    (selected)="onSelecting($event)"
-                    [multiSelect]="true" 
-                    [contentId]="getPairId" [content]="getPairName()">
-                </simplelist>
+            <div *ngIf="packageEditMode && outgoing == true">
+                <span class="faPlace fa fa-edit"></span>
+                select all (edit mode)
             </div>
-            `,
+            <div style="opacity: 0.3" *ngIf="!packageEditMode && outgoing == true">
+                <span class="faPlace fa fa-edit"></span>
+                select all (edit mode)
+            </div>
+            <div *ngIf="packageEditMode && outgoing == false">
+                <span class="faPlace fa fa-list"></span>
+                select all
+            </div>
+            <div *ngIf="!packageEditMode && outgoing == false">
+                <span class="faPlace fa fa-list"></span>
+                select all
+            </div>
+        </button>
+        <div style="padding-left: 20px">
+            <simplelist *ngIf="outgoing" #simplelistOutgoing
+                        [list]="pairsFilteredOutgoing"
+                        (itemClicked)="packageEditMode = false"
+                        (selected)="onSelecting($event)"
+                        [multiSelect]="true"
+                        [contentId]="getPairId" [content]="getPairName()">
+            </simplelist>
+
+            <simplelist *ngIf="!outgoing" #simplelistIncoming
+                        [list]="pairsFilteredIncoming"
+                        (itemClicked)="packageEditMode = false"
+                        (selected)="onSelecting($event)"
+                        [multiSelect]="true"
+                        [contentId]="getPairId" [content]="getPairName()">
+            </simplelist>
+        </div>
+    `,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class AdnetNetworkCustomerSelector extends Compbaser {
+    inDevMode
     constructor(private appStore: AppStore, private cd: ChangeDetectorRef) {
         super();
+        this.inDevMode = Lib.DevMode();
     }
 
     ngOnInit() {
@@ -125,17 +135,17 @@ export class AdnetNetworkCustomerSelector extends Compbaser {
 
     @Output() onPairsSelected: EventEmitter<IPairSelect> = new EventEmitter<IPairSelect>();
 
-    // private obs: Subscription;
-    private observer: Observer<any>;
-    private outgoing = true;
-    private pairs: List<AdnetPairModel>
-    private pairsFilteredIncoming: List<AdnetPairModel>
-    private pairsFilteredOutgoing: List<AdnetPairModel>
-    private pairsSelected: List<AdnetPairModel>
-    // private unsub: Function;
-    private adnetCustomerId: number = -1;
-    private adnetCustomerModel: AdnetCustomerModel;
-    private packageEditMode: boolean = true;
+    //  obs: Subscription;
+    observer: Observer<any>;
+    outgoing = true;
+    pairs: List<AdnetPairModel>
+    pairsFilteredIncoming: List<AdnetPairModel>
+    pairsFilteredOutgoing: List<AdnetPairModel>
+    pairsSelected: List<AdnetPairModel>
+    //  unsub: Function;
+    adnetCustomerId: number = -1;
+    adnetCustomerModel: AdnetCustomerModel;
+    packageEditMode: boolean = true;
 
     private getIndex(list: List<any>, id: number) {
         return list.findIndex((i: StoreModel) => i['getId']() === id);
@@ -171,13 +181,13 @@ export class AdnetNetworkCustomerSelector extends Compbaser {
             this.simplelistOutgoing.itemAllSelected();
     }
 
-    private getPairId(i_adnetPairModel: AdnetPairModel) {
+    getPairId(i_adnetPairModel: AdnetPairModel) {
         if (!i_adnetPairModel)
             return;
         return i_adnetPairModel.getId();
     }
 
-    private getPairName(i_adnetPairModel: AdnetPairModel) {
+    getPairName(i_adnetPairModel: AdnetPairModel) {
         var self = this;
         return (i_adnetPairModel: AdnetPairModel) => {
             var customers: List<AdnetCustomerModel> = self.appStore.getState().adnet.getIn(['customers']);

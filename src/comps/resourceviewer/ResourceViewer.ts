@@ -1,12 +1,7 @@
-import {
-    Component,
-    ChangeDetectionStrategy,
-    Input,
-    ChangeDetectorRef
-} from "@angular/core";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input} from "@angular/core";
 import {Observable} from "rxjs";
 import {Http} from "@angular/http";
-import {Compbaser} from "../compbaser/Compbaser";
+import {Compbaser} from "ng-mslib";
 
 @Component({
     selector: 'ResourceViewer',
@@ -22,7 +17,7 @@ import {Compbaser} from "../compbaser/Compbaser";
                 Your browser does not support the video tag.
             </video>
         </div>
-        `,
+    `,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
@@ -31,8 +26,8 @@ export class ResourceViewer extends Compbaser {
         super();
     }
 
-    private imgSource = '';
-    private videoSource;
+    imgSource = '';
+    videoSource;
 
     @Input()
     set resource(i_loadResource: string) {
