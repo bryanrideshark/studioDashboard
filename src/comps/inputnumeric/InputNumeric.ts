@@ -121,7 +121,7 @@ export function createCounterRangeValidator(maxValue, minValue) {
 })
 export class InputNumeric implements ControlValueAccessor, OnChanges {
 
-    constructor(private elRef: ElementRef, private renderer: Renderer, private cd: ChangeDetectorRef) {
+    constructor(private elRef: ElementRef, private cd: ChangeDetectorRef) {
     }
 
     @ViewChild('inputElement') inputElement: ElementRef;
@@ -175,7 +175,8 @@ export class InputNumeric implements ControlValueAccessor, OnChanges {
         }
 
         /** fire custom input-blur so we can easily bind to any changes using our custom BlurForwarder directive **/
-        this.renderer.invokeElementMethod(this.elRef.nativeElement, 'dispatchEvent', [new CustomEvent('input-blur', {bubbles: true})]);
+        this.elRef.nativeElement.dispatchEvent(new CustomEvent('input-blur', { bubbles: true }));
+        // this.renderer.invokeElementMethod(this.elRef.nativeElement, 'dispatchEvent', [new CustomEvent('input-blur', {bubbles: true})]);
 
         /** fire even for onChange and notify when final value is being delivered **/
         this.onChange.emit({

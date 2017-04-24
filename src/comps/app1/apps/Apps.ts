@@ -1,18 +1,9 @@
-import {
-    Component,
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    trigger,
-    transition,
-    animate,
-    state,
-    style
-} from "@angular/core";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from "@angular/core";
 import {AppModel} from "../../../reseller/AppModel";
 import {List} from "immutable";
 import {AppStore} from "angular2-redux-util";
 import {ResellerAction} from "../../../reseller/ResellerAction";
-// import {ComponentInstruction} from "@angular/router";
+import {animate, state, style, transition, trigger} from "@angular/animations";
 
 @Component({
     selector: 'apps',

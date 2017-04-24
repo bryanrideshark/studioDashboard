@@ -1,4 +1,4 @@
-import {Directive, Renderer, ElementRef} from "@angular/core";
+import {Directive, Renderer, ElementRef, Renderer2} from "@angular/core";
 import {AppStore} from "angular2-redux-util";
 import {Observable} from "rxjs/Rx";
 import "rxjs/add/operator/do";
@@ -16,7 +16,7 @@ export class StationSnapshot {
     constructor(private appStore:AppStore,
                 private businessActions:BusinessAction,
                 private elRef:ElementRef,
-                private renderer:Renderer) {
+                private renderer:Renderer2) {
     }
 
     public sendSnapshot(selectedStation:StationModel) {
@@ -31,7 +31,9 @@ export class StationSnapshot {
             jQuery.getJSON(url, ()=> {
                 var path = `https://${source}/Snapshots/business${businessId}/station${stationId}/${fileName}.jpg`;
                 jQuery(this.elRef.nativeElement).find('.newImage').fadeOut(200);
-                var img = this.renderer.createElement(this.elRef.nativeElement, 'img', null);
+                var img = this.renderer.createElement('img');
+                // this.renderer.appendChild(img,this.elRef.nativeElement);
+                jQuery(this.elRef.nativeElement).append(img);
                 jQuery(img).addClass('snap');
                 var int$ = Observable.interval(500).do(()=> {
                     img.src = path;

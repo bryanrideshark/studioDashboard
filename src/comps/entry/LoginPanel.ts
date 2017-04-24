@@ -1,5 +1,5 @@
-import {Component, Injectable, ViewChild, ElementRef, Renderer, keyframes, trigger, state, style, transition, animate} from "@angular/core";
-import {Router, ActivatedRoute} from "@angular/router";
+import {Component, ElementRef, Injectable, Renderer, ViewChild} from "@angular/core";
+import {ActivatedRoute, Router} from "@angular/router";
 import {AppStore} from "angular2-redux-util";
 import {BusinessAction} from "../../business/BusinessAction";
 import {LocalStorage} from "../../services/LocalStorage";
@@ -8,6 +8,7 @@ import {Map} from "immutable";
 import {AuthState} from "../../appdb/AppdbAction";
 import {ToastsManager} from "ng2-toastr";
 import {Compbaser, NgmslibService} from "ng-mslib";
+import {animate, state, style, transition, trigger, keyframes} from "@angular/animations";
 
 
 @Injectable()
@@ -100,7 +101,6 @@ export class LoginPanel extends Compbaser {
     loginState: string = '';
 
     constructor(private appStore: AppStore,
-                private renderer: Renderer,
                 private router: Router,
                 private toast: ToastsManager,
                 private activatedRoute: ActivatedRoute,
@@ -153,11 +153,13 @@ export class LoginPanel extends Compbaser {
             }, 'appdb.twoFactorStatus'))
     }
 
-     passFocus() {
-        this.renderer.invokeElementMethod(this.userPass.nativeElement, 'focus', [])
+    passFocus() {
+        // this.renderer.invokeElementMethod(this.userPass.nativeElement, 'focus', [])
+        // this.elRef.nativeElement.dispatchEvent(new CustomEvent('input-blur', { bubbles: true }));
+        jQuery(this.userPass.nativeElement).focus();
     }
 
-     onClickedLogin() {
+    onClickedLogin() {
         if (this.m_showTwoFactor) {
             this.toast.warning('Authenticating Two factor...');
             this.authService.authServerTwoFactor(this.m_twoFactor);
@@ -168,12 +170,12 @@ export class LoginPanel extends Compbaser {
         }
     }
 
-     enterApplication() {
+    enterApplication() {
         this.loginState = 'active';
         this.router.navigate(['/App1/Dashboard']);
     }
 
-     onAuthFail(i_reason) {
+    onAuthFail(i_reason) {
         this.loginState = 'inactive';
         let msg1: string;
         let msg2: string;

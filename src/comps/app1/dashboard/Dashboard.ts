@@ -1,4 +1,4 @@
-import {animate, ChangeDetectorRef, Component, state, style, transition, trigger, ViewChild} from "@angular/core";
+import {ChangeDetectorRef, Component, ViewChild} from "@angular/core";
 import {List, Map} from "immutable";
 import {AppStore} from "angular2-redux-util";
 import {BusinessAction} from "../../../business/BusinessAction";
@@ -11,6 +11,7 @@ import {ModalComponent} from "ng2-bs3-modal/components/modal";
 import * as _ from "lodash";
 import {FormControl} from "@angular/forms";
 import {Subscriber} from "rxjs";
+import {animate, state, style, transition, trigger} from "@angular/animations";
 
 type stationComponentMode = "map" | "grid";
 
@@ -42,7 +43,7 @@ type stationComponentMode = "map" | "grid";
     providers: [BusinessAction],
     templateUrl: './Dashboard.html'
 })
-              
+
 export class Dashboard {
     // private unsubs: Array<() => void> = [];
     listeners: Subscriber<any>;
@@ -53,7 +54,7 @@ export class Dashboard {
     totalFilteredPlayers: number = 0;
     businessNameControl: FormControl = new FormControl();
     stations: Map<string, List<StationModel>>;
-    businessStats:any = {};
+    businessStats: any = {};
     serverStats;
     errorLoadingStations: boolean = false;
     serverAvgResponse;
@@ -97,18 +98,18 @@ export class Dashboard {
     @ViewChild('modalStationDetails')
     modalStationDetails: ModalComponent;
 
-     listenStationsErrors() {
+    listenStationsErrors() {
         this.commBroker.onEvent(Consts.Events().STATIONS_NETWORK_ERROR).subscribe((e: IMessage) => {
             this.errorLoadingStations = true;
         });
     }
 
-     onModalClose(event) {
+    onModalClose(event) {
 
     }
 
 
-     listenStore() {
+    listenStore() {
         this.listeners = new Subscriber()
 
         /** stations stats **/
@@ -144,7 +145,7 @@ export class Dashboard {
         );
     }
 
-     loadServerStats(serversStatus: Map<string, any>) {
+    loadServerStats(serversStatus: Map<string, any>) {
         if (!serversStatus)
             return;
         var self = this;
@@ -168,7 +169,7 @@ export class Dashboard {
         this.serverAvgResponse = t / c;
     }
 
-     onStationComponentSelect(stationComponentMode: stationComponentMode) {
+    onStationComponentSelect(stationComponentMode: stationComponentMode) {
         this.stationComponentMode = stationComponentMode;
         switch (stationComponentMode) {
             case 'map': {
@@ -180,7 +181,7 @@ export class Dashboard {
         }
     }
 
-     initStationsFilter() {
+    initStationsFilter() {
         this.stations.forEach((stationList: List<StationModel>, source) => {
             stationList.forEach((i_station: StationModel) => {
                 this.stationsFilter['os'].push(i_station.getKey('os'));
@@ -199,7 +200,7 @@ export class Dashboard {
         });
     }
 
-     setStationsFiltered() {
+    setStationsFiltered() {
 
         setTimeout(() => {
             var stationsFiltered = List<StationModel>();
@@ -241,7 +242,7 @@ export class Dashboard {
         }, 1000)
     }
 
-     onStationsFilterSelected(filterType, filterValue, delay: number) {
+    onStationsFilterSelected(filterType, filterValue, delay: number) {
         if (filterType == 'connection') {
             if (filterValue == 'connected') {
                 filterValue = '1'
@@ -257,7 +258,7 @@ export class Dashboard {
         this.setStationsFiltered();
     }
 
-     onStationModalOpen(i_stationModel: StationModel) {
+    onStationModalOpen(i_stationModel: StationModel) {
         this.selectedStation = i_stationModel;
         this.modalStationDetails.open('lg');
         // this.stationsFiltered.forEach((stationModel:StationModel)=> {
@@ -270,7 +271,7 @@ export class Dashboard {
         // });
     }
 
-     listenBusinessNameFilter() {
+    listenBusinessNameFilter() {
         return this.businessNameControl.valueChanges
             .debounceTime(250)
             .distinctUntilChanged()
@@ -279,7 +280,7 @@ export class Dashboard {
             });
     }
 
-     ngOnDestroy() {
+    ngOnDestroy() {
         this.listeners.unsubscribe();
         // this.unsubs.forEach((unsub: () => void) => {
         //     unsub();

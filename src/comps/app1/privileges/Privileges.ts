@@ -1,10 +1,12 @@
-import {animate, Component, EventEmitter, Input, Output, state, style, transition, trigger, ViewChild} from "@angular/core";
+import {Component, EventEmitter, Input, Output, ViewChild} from "@angular/core";
 import {simplelist} from "../../simplelist/simplelist";
 import {PrivelegesModel} from "../../../reseller/PrivelegesModel";
 import {List} from "immutable";
 import {AppStore} from "angular2-redux-util";
 import {AuthService} from "../../../services/AuthService";
 import {ResellerAction} from "../../../reseller/ResellerAction";
+import {animate, state, style, transition, trigger} from "@angular/animations";
+
 // import * as bootbox from "bootbox";
 
 @Component({
@@ -112,7 +114,7 @@ export class Privileges {
     privelegesModelSelected: PrivelegesModel;
     privilegeDefault: number;
 
-     onPrivilegeRenamed(event: { item: PrivelegesModel, value: string }) {
+    onPrivilegeRenamed(event: { item: PrivelegesModel, value: string }) {
         if (event.value.trim().length == 0)
             return;
         var privilegeId = event.item.getPrivelegesId();
@@ -120,14 +122,14 @@ export class Privileges {
         this.appStore.dispatch(this.resellerAction.savePrivileges(privilegeId, event.value));
     }
 
-     onDefaultPrivilegeChanged(event) {
+    onDefaultPrivilegeChanged(event) {
         for (var id in event.metadata) {
             if (event.metadata[id].index == event.index)
                 this.appStore.dispatch(this.resellerAction.setDefaultPrivilege(Number(id)));
         }
     }
 
-     onPrivilegeSelected() {
+    onPrivilegeSelected() {
         if (!this.simplelist)
             return;
         var selected = this.simplelist.getSelected();
@@ -148,7 +150,7 @@ export class Privileges {
         }
     }
 
-     getDefaultPrivilege() {
+    getDefaultPrivilege() {
         return (index, privelegesModel: PrivelegesModel) => {
             if (privelegesModel.getPrivelegesId() == this.privilegeDefault)
                 return true
@@ -156,11 +158,11 @@ export class Privileges {
         }
     }
 
-     onAdd(event) {
+    onAdd(event) {
         this.appStore.dispatch(this.resellerAction.createPrivilege());
     }
 
-     onRemove(event) {
+    onRemove(event) {
         if (!this.privelegesModelSelected)
             return;
         var simplelistItems = this.simplelist.getSelected();
@@ -181,7 +183,7 @@ export class Privileges {
         });
     }
 
-     ngOnDestroy() {
+    ngOnDestroy() {
         this.unsub();
     }
 }

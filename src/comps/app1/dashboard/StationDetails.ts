@@ -16,8 +16,7 @@ export class StationDetails {
 
     constructor(private appStore: AppStore,
                 private businessActions: BusinessAction,
-                private elRef: ElementRef,
-                private renderer: Renderer) {
+                private elRef: ElementRef) {
     }
 
     private sendSnapshot() {

@@ -1,4 +1,4 @@
-import {animate, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, NgZone, QueryList, state, style, transition, trigger, ViewChild, ViewChildren} from "@angular/core";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, NgZone, QueryList, ViewChild, ViewChildren} from "@angular/core";
 import {Router} from "@angular/router";
 import {WhitelabelModel} from "../../../reseller/WhitelabelModel";
 import {ResellerAction} from "../../../reseller/ResellerAction";
@@ -7,7 +7,8 @@ import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {Lib} from "../../../Lib";
 import {ImgLoader} from "../../imgloader/ImgLoader";
 import * as _ from "lodash";
-// import * as bootbox from "bootbox";
+import {animate, state, style, transition, trigger} from "@angular/animations";
+
 
 @Component({
     selector: 'whitelabel',
@@ -102,11 +103,11 @@ export class Whitelabel {
     unsub;
     stylesObj;
 
-     onInputBlur(event) {
+    onInputBlur(event) {
         setTimeout(() => this.appStore.dispatch(this.resellerAction.saveWhiteLabel(Lib.CleanCharForXml(this.contGroup.value))), 1);
     }
 
-     getImageUrl(i_type): Array<string> {
+    getImageUrl(i_type): Array<string> {
         if (!this.whitelabelModel)
             return [];
 
@@ -121,13 +122,13 @@ export class Whitelabel {
         }
     }
 
-     getBusinessInfo(field): string {
+    getBusinessInfo(field): string {
         if (!this.whitelabelModel)
             return '';
         return this.appStore.getsKey('reseller', 'whitelabel', field);
     }
 
-     uploadLogos(i_type) {
+    uploadLogos(i_type) {
         var self = this;
         var progressHandlingFunction = (e) => {
             console.log('progress ' + e);
@@ -181,7 +182,7 @@ export class Whitelabel {
         httpRequest.send(formData);
     }
 
-     onBranding(value) {
+    onBranding(value) {
         switch (value) {
             case 'video': {
                 window.open('http://www.digitalsignage.com/_html/video_tutorials.html?videoNumber=msgetstarted', '_blank');
@@ -199,7 +200,7 @@ export class Whitelabel {
         return false;
     }
 
-     renderFormInputs() {
+    renderFormInputs() {
         _.forEach(this.formInputs, (i_value, key: string) => {
             var value = this.whitelabelModel.getKey(key);
             value = StringJS(value).booleanToNumber();
@@ -207,11 +208,11 @@ export class Whitelabel {
         })
     };
 
-     isWhitelabelEnabled() {
+    isWhitelabelEnabled() {
         return StringJS(this.getBusinessInfo('whitelabelEnabled')).booleanToNumber();
     }
 
-     onWhiteLabelChange(value) {
+    onWhiteLabelChange(value) {
         if (value && this.resellerAction.getResellerIsActive() == false) {
             value = false;
             bootbox.alert('Branding will not be set as this account is inactive, be sure to update the billing info to reactivate the account!');
@@ -222,7 +223,7 @@ export class Whitelabel {
         }, 1)
     }
 
-     ngOnDestroy() {
+    ngOnDestroy() {
         this.unsub();
     }
 }

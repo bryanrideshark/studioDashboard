@@ -1,4 +1,5 @@
-import {Component, trigger, state, style, transition, animate} from "@angular/core";
+import {Component} from "@angular/core";
+import {animate, state, style, transition, trigger} from "@angular/animations";
 import {AppStore} from "angular2-redux-util";
 import {AdnetCustomerModel} from "../../../adnet/AdnetCustomerModel";
 import {List} from "immutable";
@@ -101,11 +102,11 @@ export class Adnet extends Compbaser {
         this.loadAdnetCustomerModel();
     }
 
-     onGoBack() {
+    onGoBack() {
         this.router.navigate(['/App1/Adnet']);
     }
 
-     buildBusinessList() {
+    buildBusinessList() {
         var bus = this.appStore.getState().business.getIn(['businesses']);
         if (!bus)
             return
@@ -147,7 +148,7 @@ export class Adnet extends Compbaser {
     //     }));
     // }
 
-     loadAdnetCustomerModel() {
+    loadAdnetCustomerModel() {
         if (!this.adnetCustomers)
             return;
         this.adnetCustomerModel = this.adnetCustomers.filter((i_adnetCustomerModel: AdnetCustomerModel) => {
@@ -155,7 +156,7 @@ export class Adnet extends Compbaser {
         }).first() as AdnetCustomerModel;
     }
 
-     showDropdownSelection() {
+    showDropdownSelection() {
         if (!this.businesses || !this.businessId)
             return;
         var selectedBusinessId = this.businesses.filter((item) => {

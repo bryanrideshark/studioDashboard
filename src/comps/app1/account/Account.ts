@@ -1,4 +1,5 @@
-import {Component, ChangeDetectionStrategy, trigger, transition, animate, state, style} from "@angular/core";
+import {ChangeDetectionStrategy, Component} from "@angular/core";
+import {animate, state, style, transition, trigger} from "@angular/animations";
 import {WhitelabelModel} from "../../../reseller/WhitelabelModel";
 import {ResellerAction} from "../../../reseller/ResellerAction";
 import {AppStore} from "angular2-redux-util";
