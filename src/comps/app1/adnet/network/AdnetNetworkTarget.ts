@@ -140,12 +140,12 @@ export class AdnetNetworkTarget extends Compbaser {
         desc: false
     };
 
-    private deSelect() {
+     deSelect() {
         this.selectedTargetModel = null;
         this.simpleGridTable.deselect();
     }
 
-    private onRemoveTarget(event) {
+     onRemoveTarget(event) {
         if (!this.selectedTargetModel || this.editMode == false)
             return;
         var targetId = -1;
@@ -156,7 +156,7 @@ export class AdnetNetworkTarget extends Compbaser {
         this.appStore.dispatch(this.adnetActions.removeAdnetTarget(targetId, this.adnetPackageModel));
     }
 
-    private filterTargets() {
+     filterTargets() {
         this.adnetTargetModels = List<AdnetTargetModel>();
         var packages: List<AdnetPackageModel> = this.appStore.getState().adnet.getIn(['packages']) || {};
         var targets: List<AdnetTargetModel> = this.appStore.getState().adnet.getIn(['targets']) || {};
@@ -215,13 +215,13 @@ export class AdnetNetworkTarget extends Compbaser {
         }
     }
 
-    private processAdnetPackageField(i_function: string) {
+     processAdnetPackageField(i_function: string) {
         return (i_adnetTargetModel: AdnetTargetModel) => {
             return i_adnetTargetModel[i_function]();
         }
     }
 
-    private onGridSelected(simpleGridEdit: ISimpleGridEdit) {
+     onGridSelected(simpleGridEdit: ISimpleGridEdit) {
         this.selectedTargetModel = simpleGridEdit.item as AdnetTargetModel;
         this.onAdnetTargetSelected.emit(simpleGridEdit.item as AdnetTargetModel);
         this.onPropSelected.emit({selected: AdnetNetworkPropSelector.TARGET})

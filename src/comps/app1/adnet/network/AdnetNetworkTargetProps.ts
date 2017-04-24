@@ -39,6 +39,7 @@ import {Compbaser} from "ng-mslib";
 })
 export class AdnetNetworkTargetProps extends Compbaser {
     inDevMode;
+
     constructor(private fb: FormBuilder, private appStore: AppStore) {
         super();
         this.inDevMode = Lib.DevMode();
@@ -74,7 +75,7 @@ export class AdnetNetworkTargetProps extends Compbaser {
     contGroup: FormGroup;
     formInputs = {};
 
-    private getReviewIcon(item, index): string {
+    getReviewIcon(item, index): string {
         var reviewRate = this.adnetCustomerModel.reviewRate();
         reviewRate = reviewRate - index;
         if (reviewRate <= 0)
@@ -84,10 +85,10 @@ export class AdnetNetworkTargetProps extends Compbaser {
         return 'fa-star';
     }
 
-    private onModalClose(event) {
+    onModalClose(event) {
     }
 
-    private onShowRates() {
+    onShowRates() {
         var rateId = this.adnetTargetModel.getRateId();
         if (rateId == 0)
             return
@@ -99,14 +100,14 @@ export class AdnetNetworkTargetProps extends Compbaser {
         this.modalRateTable.open('lg');
     }
 
-    private updateSore() {
+    updateSore() {
         setTimeout(() => {
             console.log(this.contGroup.status + ' ' + JSON.stringify(Lib.CleanCharForXml(this.contGroup.value)));
             //this.appStore.dispatch(this.adnetAction.saveCustomerInfo(Lib.CleanCharForXml(this.contGroup.value), this.customerModel.customerId()))
         }, 1)
     }
 
-    private renderFormInputs() {
+    renderFormInputs() {
         if (!this.adnetTargetModel)
             return;
         _.forEach(this.formInputs, (value, key: string) => {

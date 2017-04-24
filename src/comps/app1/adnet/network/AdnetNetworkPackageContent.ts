@@ -146,7 +146,7 @@ export class AdnetNetworkPackageContent extends Compbaser {
 
     @Output() onAdnetContentSelected: EventEmitter<AdnetContentModel> = new EventEmitter<AdnetContentModel>();
 
-    private onRemoveContent(event) {
+     onRemoveContent(event) {
         if (!this.selectedAdnetContentModel || this.editMode == false)
             return;
         console.log('removing content ' + this.selectedAdnetContentModel.getId());
@@ -155,7 +155,7 @@ export class AdnetNetworkPackageContent extends Compbaser {
         this.onAdnetContentSelected.emit(null);
     }
 
-    private updateModel(deselect: boolean = true) {
+     updateModel(deselect: boolean = true) {
         if (!this.adnetPackageModels)
             return
         var contents = this.adnetPackageModels.getContents();
@@ -173,7 +173,7 @@ export class AdnetNetworkPackageContent extends Compbaser {
         }
     }
 
-    private onContentSelect(i_content: AdnetContentModel) {
+     onContentSelect(i_content: AdnetContentModel) {
         this.selectedAdnetContentModel = i_content;
         this.onAdnetContentSelected.emit(i_content);
         this.onPropSelected.emit({
@@ -181,7 +181,7 @@ export class AdnetNetworkPackageContent extends Compbaser {
         })
     }
 
-    private processAdnetPackageField(i_function: string) {
+     processAdnetPackageField(i_function: string) {
         return (i_adnetContentModel: AdnetContentModel) => {
             return i_adnetContentModel[i_function]();
         }

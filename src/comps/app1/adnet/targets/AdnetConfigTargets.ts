@@ -41,7 +41,7 @@ export class AdnetConfigTargets extends Compbaser {
     customerModel: AdnetCustomerModel;
     public adnetTargetModel: AdnetTargetModel;
 
-    private onTargetSelected(event) {
+    onTargetSelected(event) {
         this.adnetTargetModel = event;
     }
 

@@ -98,11 +98,11 @@ export class AddUser {
         };
     }
 
-    private onPriveleges(event) {
+    onPriveleges(event) {
         this.privilegeName = event.target.value;
     }
 
-    private onSubmit(event) {
+    onSubmit(event) {
         var pass = this.changePass.getPassword();
         if (_.isNull(pass))
             return;

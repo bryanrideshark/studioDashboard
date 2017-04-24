@@ -12,6 +12,11 @@ window['moment'] = moment;
 
 @Injectable()
 export class Lib {
+
+    static Con(msg: any, stringify?: boolean) {
+        console.log(msg, stringify)
+    }
+
     /**
      *
      * @param dateString format of date + time: /Date(1469923200000+0000)/"

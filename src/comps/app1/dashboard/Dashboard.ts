@@ -97,18 +97,18 @@ export class Dashboard {
     @ViewChild('modalStationDetails')
     modalStationDetails: ModalComponent;
 
-    private listenStationsErrors() {
+     listenStationsErrors() {
         this.commBroker.onEvent(Consts.Events().STATIONS_NETWORK_ERROR).subscribe((e: IMessage) => {
             this.errorLoadingStations = true;
         });
     }
 
-    private onModalClose(event) {
+     onModalClose(event) {
 
     }
 
 
-    private listenStore() {
+     listenStore() {
         this.listeners = new Subscriber()
 
         /** stations stats **/
@@ -144,7 +144,7 @@ export class Dashboard {
         );
     }
 
-    private loadServerStats(serversStatus: Map<string, any>) {
+     loadServerStats(serversStatus: Map<string, any>) {
         if (!serversStatus)
             return;
         var self = this;
@@ -168,7 +168,7 @@ export class Dashboard {
         this.serverAvgResponse = t / c;
     }
 
-    private onStationComponentSelect(stationComponentMode: stationComponentMode) {
+     onStationComponentSelect(stationComponentMode: stationComponentMode) {
         this.stationComponentMode = stationComponentMode;
         switch (stationComponentMode) {
             case 'map': {
@@ -180,7 +180,7 @@ export class Dashboard {
         }
     }
 
-    private initStationsFilter() {
+     initStationsFilter() {
         this.stations.forEach((stationList: List<StationModel>, source) => {
             stationList.forEach((i_station: StationModel) => {
                 this.stationsFilter['os'].push(i_station.getKey('os'));
@@ -199,7 +199,7 @@ export class Dashboard {
         });
     }
 
-    private setStationsFiltered() {
+     setStationsFiltered() {
 
         setTimeout(() => {
             var stationsFiltered = List<StationModel>();
@@ -241,7 +241,7 @@ export class Dashboard {
         }, 1000)
     }
 
-    private onStationsFilterSelected(filterType, filterValue, delay: number) {
+     onStationsFilterSelected(filterType, filterValue, delay: number) {
         if (filterType == 'connection') {
             if (filterValue == 'connected') {
                 filterValue = '1'
@@ -257,7 +257,7 @@ export class Dashboard {
         this.setStationsFiltered();
     }
 
-    private onStationModalOpen(i_stationModel: StationModel) {
+     onStationModalOpen(i_stationModel: StationModel) {
         this.selectedStation = i_stationModel;
         this.modalStationDetails.open('lg');
         // this.stationsFiltered.forEach((stationModel:StationModel)=> {
@@ -270,7 +270,7 @@ export class Dashboard {
         // });
     }
 
-    private listenBusinessNameFilter() {
+     listenBusinessNameFilter() {
         return this.businessNameControl.valueChanges
             .debounceTime(250)
             .distinctUntilChanged()
@@ -279,7 +279,7 @@ export class Dashboard {
             });
     }
 
-    private ngOnDestroy() {
+     ngOnDestroy() {
         this.listeners.unsubscribe();
         // this.unsubs.forEach((unsub: () => void) => {
         //     unsub();

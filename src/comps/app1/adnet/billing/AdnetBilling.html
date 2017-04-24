@@ -6,13 +6,13 @@
         <!--<p>previous balance: <span style="padding-right: 1px" class="pull-right">{{m_lastPayments | StringJSPipe:stringJSPipeArgs}}</span></p>-->
         <hr/>
         <p>payments: <span style="padding-right: 1px" class="pull-right">
-            {{m_totalPayments | StringJSPipe:stringJSPipeArgs}}
+            {{m_totalPayments | StringJSV2Pipe:stringJSPipeArgs}}
         </span></p>
-        <p>ad charges: <span style="padding-right: 1px" class="pull-right">{{m_totalAdCharges | StringJSPipe:stringJSPipeArgs}}</span></p>
-        <p>transfers: <span style="padding-right: 1px" class="pull-right">{{m_totalTransfers | StringJSPipe:stringJSPipeArgs}}</span></p>
+        <p>ad charges: <span style="padding-right: 1px" class="pull-right">{{m_totalAdCharges | StringJSV2Pipe:stringJSPipeArgs}}</span></p>
+        <p>transfers: <span style="padding-right: 1px" class="pull-right">{{m_totalTransfers | StringJSV2Pipe:stringJSPipeArgs}}</span></p>
         <br/>
         <hr class="styled-hr push-left"/>
-        <h3>balance: {{m_balance | StringJSPipe:stringJSPipeArgs}}</h3>
+        <h3>balance: {{m_balance | StringJSV2Pipe:stringJSPipeArgs}}</h3>
         <hr/>
         <div class="actionButtons">
             <!--<button (click)="editBilling()" class="btn">edit billing</button>-->

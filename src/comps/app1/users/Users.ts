@@ -118,7 +118,7 @@ export class Users extends Compbaser {
     unsub3: Function;
     accounts = ['Add new account from sample', 'Add new account from blank', 'Import existing account'];
 
-    private onAddUser(choice, fromSample: boolean = false) {
+    onAddUser(choice, fromSample: boolean = false) {
         switch (choice) {
             case this.accounts[0]: {
                 this.modalSamples.open('lg');
@@ -142,7 +142,7 @@ export class Users extends Compbaser {
         }
     }
 
-    private onRemoveUser() {
+    onRemoveUser(event) {
         if (!this.businessesListFiltered || this.businessesListFiltered.size != 1)
             return
         var businessModel: BusinessModel = this.businessesListFiltered.first();
@@ -173,16 +173,16 @@ export class Users extends Compbaser {
         });
     }
 
-    private onSelectedsample(businessId) {
+    onSelectedsample(businessId) {
         this.selectedSampleBusinessId = businessId;
         this.modalSamples.close();
         this.onAddUser(this.accounts[1], true);
     }
 
-    private onModalClose($event) {
+    onModalClose($event) {
     }
 
-    private onImportUser(event) {
+    onImportUser(event) {
         var user = this.importUserName.nativeElement.value;
         var pass = this.importUserPass.nativeElement.value;
         if (user.length < 2 || pass.length < 2) {
@@ -193,7 +193,7 @@ export class Users extends Compbaser {
         this.modalAddUserExisting.close();
     }
 
-    private getSelectedBusinessId(): number {
+    getSelectedBusinessId(): number {
         if (!this.businessUsersListFiltered)
             return -1;
         var first = this.businessesListFiltered.first();
@@ -202,16 +202,16 @@ export class Users extends Compbaser {
         return first.getBusinessId();
     }
 
-    private getSelectedSampleBusinessId(): number {
+    getSelectedSampleBusinessId(): number {
         return this.selectedSampleBusinessId;
     }
 
-    private onShowUserInfo(selectedBusiness: IsimplelistItem) {
+    onShowUserInfo(selectedBusiness: IsimplelistItem) {
         this.onFilteredSelection();
         this.showUserInfo = selectedBusiness;
     }
 
-    private onFilteredSelection() {
+    onFilteredSelection() {
         this.showUserInfo = null;
         if (!this.simplelist)
             return;

@@ -102,11 +102,11 @@ export class Whitelabel {
     unsub;
     stylesObj;
 
-    private onInputBlur(event) {
+     onInputBlur(event) {
         setTimeout(() => this.appStore.dispatch(this.resellerAction.saveWhiteLabel(Lib.CleanCharForXml(this.contGroup.value))), 1);
     }
 
-    private getImageUrl(i_type): Array<string> {
+     getImageUrl(i_type): Array<string> {
         if (!this.whitelabelModel)
             return [];
 
@@ -121,13 +121,13 @@ export class Whitelabel {
         }
     }
 
-    private getBusinessInfo(field): string {
+     getBusinessInfo(field): string {
         if (!this.whitelabelModel)
             return '';
         return this.appStore.getsKey('reseller', 'whitelabel', field);
     }
 
-    private uploadLogos(i_type) {
+     uploadLogos(i_type) {
         var self = this;
         var progressHandlingFunction = (e) => {
             console.log('progress ' + e);
@@ -181,7 +181,7 @@ export class Whitelabel {
         httpRequest.send(formData);
     }
 
-    private onBranding(value) {
+     onBranding(value) {
         switch (value) {
             case 'video': {
                 window.open('http://www.digitalsignage.com/_html/video_tutorials.html?videoNumber=msgetstarted', '_blank');
@@ -199,7 +199,7 @@ export class Whitelabel {
         return false;
     }
 
-    private renderFormInputs() {
+     renderFormInputs() {
         _.forEach(this.formInputs, (i_value, key: string) => {
             var value = this.whitelabelModel.getKey(key);
             value = StringJS(value).booleanToNumber();
@@ -207,11 +207,11 @@ export class Whitelabel {
         })
     };
 
-    private isWhitelabelEnabled() {
+     isWhitelabelEnabled() {
         return StringJS(this.getBusinessInfo('whitelabelEnabled')).booleanToNumber();
     }
 
-    private onWhiteLabelChange(value) {
+     onWhiteLabelChange(value) {
         if (value && this.resellerAction.getResellerIsActive() == false) {
             value = false;
             bootbox.alert('Branding will not be set as this account is inactive, be sure to update the billing info to reactivate the account!');
@@ -222,7 +222,7 @@ export class Whitelabel {
         }, 1)
     }
 
-    private ngOnDestroy() {
+     ngOnDestroy() {
         this.unsub();
     }
 }

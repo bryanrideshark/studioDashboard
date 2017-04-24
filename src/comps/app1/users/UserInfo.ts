@@ -105,7 +105,7 @@ export class UserInfo {
         }
     }
 
-    private getTemplateName() {
+     getTemplateName() {
         if (this.samples[this.fromTemplateId]) {
             return this.samples[this.fromTemplateId].replace(',', ' | ');
         } else {
@@ -114,11 +114,11 @@ export class UserInfo {
 
     }
 
-    private updateStore() {
+     updateStore() {
         this.appStore.dispatch(this.businessAction.updateAccount(this.businessId, this.userName, this.maxMonitors, this.allowSharing));
     }
 
-    private onChangeMonitors(event) {
+     onChangeMonitors(event) {
         var maxMonitors: number = parseInt(event);
         if (_.isNaN(maxMonitors))
             return bootbox.alert('Not a valid number entered');
@@ -126,12 +126,12 @@ export class UserInfo {
         this.updateStore();
     }
 
-    private onChangeSharing(event) {
+     onChangeSharing(event) {
         this.allowSharing = StringJS(event).booleanToNumber();
         this.updateStore();
     }
 
-    private onChangeUserName(event) {
+     onChangeUserName(event) {
         this.userName = event;
         this.updateStore();
     }
@@ -143,7 +143,7 @@ export class UserInfo {
         // }, 'business.businessUsers');
     }
 
-    private ngOnDestroy() {
+     ngOnDestroy() {
         //this.unsub();
         //this.appStore.dispatch(this.businessActions.fetchBusinessUser([]))
     }

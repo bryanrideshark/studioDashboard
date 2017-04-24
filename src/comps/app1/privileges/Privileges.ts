@@ -112,7 +112,7 @@ export class Privileges {
     privelegesModelSelected: PrivelegesModel;
     privilegeDefault: number;
 
-    private onPrivilegeRenamed(event: { item: PrivelegesModel, value: string }) {
+     onPrivilegeRenamed(event: { item: PrivelegesModel, value: string }) {
         if (event.value.trim().length == 0)
             return;
         var privilegeId = event.item.getPrivelegesId();
@@ -120,14 +120,14 @@ export class Privileges {
         this.appStore.dispatch(this.resellerAction.savePrivileges(privilegeId, event.value));
     }
 
-    private onDefaultPrivilegeChanged(event) {
+     onDefaultPrivilegeChanged(event) {
         for (var id in event.metadata) {
             if (event.metadata[id].index == event.index)
                 this.appStore.dispatch(this.resellerAction.setDefaultPrivilege(Number(id)));
         }
     }
 
-    private onPrivilegeSelected() {
+     onPrivilegeSelected() {
         if (!this.simplelist)
             return;
         var selected = this.simplelist.getSelected();
@@ -148,7 +148,7 @@ export class Privileges {
         }
     }
 
-    private getDefaultPrivilege() {
+     getDefaultPrivilege() {
         return (index, privelegesModel: PrivelegesModel) => {
             if (privelegesModel.getPrivelegesId() == this.privilegeDefault)
                 return true
@@ -156,11 +156,11 @@ export class Privileges {
         }
     }
 
-    private onAdd() {
+     onAdd(event) {
         this.appStore.dispatch(this.resellerAction.createPrivilege());
     }
 
-    private onRemove() {
+     onRemove(event) {
         if (!this.privelegesModelSelected)
             return;
         var simplelistItems = this.simplelist.getSelected();
@@ -181,7 +181,7 @@ export class Privileges {
         });
     }
 
-    private ngOnDestroy() {
+     ngOnDestroy() {
         this.unsub();
     }
 }

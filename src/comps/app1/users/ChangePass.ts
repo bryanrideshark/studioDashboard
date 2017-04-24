@@ -87,7 +87,7 @@ export interface IChangePass {
         };
     }
 
-    private onSubmitted(event) {
+    onSubmitted(event) {
         if (this.onSubmit.observers.length >= 1)
             return this.onSubmit.emit(this.notesForm.value);
         this.appStore.dispatch(this.businessActions.updateBusinessPassword(this.businessUser.getName(), event.matchingPassword.password));

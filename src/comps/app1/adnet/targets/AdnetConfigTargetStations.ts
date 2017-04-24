@@ -66,7 +66,7 @@ export class AdnetConfigTargetStations extends Compbaser {
         this.render();
     }
 
-    private isWebLocation(): boolean {
+     isWebLocation(): boolean {
         if (!this.selectedAdnetTargetModel || this.selectedAdnetTargetModel.getTargetType() == "0")
             return true;
         return false;
@@ -78,16 +78,16 @@ export class AdnetConfigTargetStations extends Compbaser {
         return 'fa-globe';
     }
 
-    private onAddWeb() {
+     onAddWeb(event) {
         var id = this.customerModel.customerId();
         this.appStore.dispatch(this.adnetAction.addAdnetTargetWeb(id));
     }
 
-    private onWebPlayerSnippet() {
+     onWebPlayerSnippet() {
 
     }
 
-    private onRemoveWeb() {
+     onRemoveWeb(event) {
         if (this.isWebLocation())
             return;
         this.appStore.dispatch(this.adnetAction.removeAdnetTargetWeb(this.selectedAdnetTargetModel.getId(), this.customerModel.customerId()));
@@ -95,14 +95,14 @@ export class AdnetConfigTargetStations extends Compbaser {
 
     }
 
-    private resetSelection() {
+     resetSelection() {
         if (this.customerModel)
             this.render();
         if (this.simplelist)
             this.simplelist.deselect();
     }
 
-    private onSelection(items: Array<any>) {
+     onSelection(items: Array<any>) {
         _.forEach(items, (simpleItem: IsimplelistItem) => {
             if (simpleItem.selected) {
                 this.selectedAdnetTargetModel = simpleItem.item;
@@ -117,7 +117,7 @@ export class AdnetConfigTargetStations extends Compbaser {
     adTargetsFiltered: List<AdnetTargetModel> = List<AdnetTargetModel>();
     unsub: Function;
 
-    private render() {
+     render() {
         if (!this.adTargets || !this.customerModel)
             return;
         this.adTargetsFiltered = List<AdnetTargetModel>();

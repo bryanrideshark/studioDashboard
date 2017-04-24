@@ -66,7 +66,7 @@ export class AdnetTransfer {
         return c;
     }
 
-    private onSubmitted(event) {
+    onSubmitted(event) {
         this.onSubmit.emit(this.notesForm.value);
         this.modal.close();
     }

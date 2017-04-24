@@ -153,11 +153,11 @@ export class LoginPanel extends Compbaser {
             }, 'appdb.twoFactorStatus'))
     }
 
-    private passFocus() {
+     passFocus() {
         this.renderer.invokeElementMethod(this.userPass.nativeElement, 'focus', [])
     }
 
-    private onClickedLogin() {
+     onClickedLogin() {
         if (this.m_showTwoFactor) {
             this.toast.warning('Authenticating Two factor...');
             this.authService.authServerTwoFactor(this.m_twoFactor);
@@ -168,12 +168,12 @@ export class LoginPanel extends Compbaser {
         }
     }
 
-    private enterApplication() {
+     enterApplication() {
         this.loginState = 'active';
         this.router.navigate(['/App1/Dashboard']);
     }
 
-    private onAuthFail(i_reason) {
+     onAuthFail(i_reason) {
         this.loginState = 'inactive';
         let msg1: string;
         let msg2: string;

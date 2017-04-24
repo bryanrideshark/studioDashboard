@@ -74,7 +74,7 @@ export class UsersDetails {
     m_priveleges: Array<PrivelegesModel>;
     totalBusinessSelected: number = 0;
 
-    private launchStudio() {
+    launchStudio() {
         let businessUser: BusinessUser = this.selectedBusinessUser();
         let businessId = businessUser.getBusinessId();
         let businesses: List<BusinessModel> = this.appStore.getState().business.getIn(['businesses']);
@@ -118,10 +118,10 @@ export class UsersDetails {
         return `${origin}/_studiolite-dist/studiolite.html`;
     }
 
-    private onModalClose(result: ModalResult) {
+    onModalClose(result: ModalResult) {
     }
 
-    private removeBusinessUser() {
+    removeBusinessUser() {
         var businessUser: BusinessUser = this.selectedBusinessUser();
         bootbox.confirm(`Are you sure you want to remove the user ${businessUser.getName()}?`, (result) => {
             if (result) {
@@ -130,13 +130,13 @@ export class UsersDetails {
         });
     }
 
-    private getBusinessIdSelected(): number {
+    getBusinessIdSelected(): number {
         if (!this.m_businesses)
             return -1;
         return this.m_businesses.first().getBusinessId()
     }
 
-    private onLabelEdited(event: ISimpleGridEdit, field) {
+    onLabelEdited(event: ISimpleGridEdit, field) {
         var newValue = event.value;
         var businessUser: BusinessUser = event.item as BusinessUser;
         var oldValue = businessUser.getKey('name');
@@ -147,14 +147,14 @@ export class UsersDetails {
         }));
     }
 
-    private selectedBusinessUser(): BusinessUser {
+    selectedBusinessUser(): BusinessUser {
         if (!this.simpleGridTable)
             return null;
         let selected: SimpleGridRecord = this.simpleGridTable.getSelected();
         return selected ? this.simpleGridTable.getSelected().item : '';
     }
 
-    private setPriveleges(event) {
+    setPriveleges(event) {
         let privilegeId = -1;
         let privelegesName: string = event.value;
         var businessUser: BusinessUser = event.item as BusinessUser;
@@ -170,13 +170,13 @@ export class UsersDetails {
         this.appStore.dispatch(this.businessActions.updateBusinessUserAccess(businessId, name, accessMask, privilegeId));
     }
 
-    private selectedPriveleges() {
+    selectedPriveleges() {
         return (privelegesModel: PrivelegesModel, businessUser: BusinessUser) => {
             return businessUser.privilegeId() == privelegesModel.getPrivelegesId() ? 'selected' : '';
         }
     }
 
-    private setAccessMask(event) {
+    setAccessMask(event) {
         var businessUser: BusinessUser = event.item as BusinessUser;
         var businessId = businessUser.getBusinessId();
         var name = businessUser.getName();
@@ -186,7 +186,7 @@ export class UsersDetails {
         this.appStore.dispatch(this.businessActions.updateBusinessUserAccess(businessId, name, computedAccessMask, privilegeId));
     }
 
-    private getAccessMask(businessUser: BusinessUser) {
+    getAccessMask(businessUser: BusinessUser) {
         var accessMask = businessUser.getAccessMask();
         return Lib.GetAccessMask(accessMask);
     }

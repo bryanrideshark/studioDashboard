@@ -52,12 +52,12 @@ export class AdnetConfigRates extends Compbaser {
     rates: List<AdnetRateModel> = List<AdnetRateModel>();
     filteredRates: List<AdnetRateModel> = List<AdnetRateModel>();
 
-    private resetSelection() {
+     resetSelection() {
         this.selectedAdnetRateModel = null;
         if (this.simplelist) this.simplelist.deselect();
     }
 
-    private onSelection() {
+     onSelection() {
         if (!this.filteredRates)
             return;
         var selected: {} = this.simplelist.getSelected();
@@ -69,11 +69,11 @@ export class AdnetConfigRates extends Compbaser {
         })
     }
 
-    private onAddRate() {
+     onAddRate(event) {
         this.appStore.dispatch(this.adnetAction.addAdnetRateTable(this.selectedAdnetCustomerModel.getId()));
     }
 
-    private isAdnetUsed(): boolean {
+     isAdnetUsed(): boolean {
         var isUsed = false;
         var rateId = this.selectedAdnetRateModel.getId();
         var targets: List<AdnetTargetModel> = this.appStore.getState().adnet.getIn(['targets']) || {};
@@ -84,7 +84,7 @@ export class AdnetConfigRates extends Compbaser {
         return isUsed;
     }
 
-    private onRemoveRate() {
+     onRemoveRate(event) {
         if (!this.selectedAdnetRateModel)
             return;
         if (this.isAdnetUsed())
@@ -94,11 +94,11 @@ export class AdnetConfigRates extends Compbaser {
         this.selectedAdnetRateModel = null;
     }
 
-    private onRateChange(event) {
+     onRateChange(event) {
         this.appStore.dispatch(this.adnetAction.updAdnetRateTable(event, this.selectedAdnetCustomerModel.getId()));
     }
 
-    private onRateRenamed(event) {
+     onRateRenamed(event) {
         var adnetRateModel: AdnetRateModel = event.item;
         var updData = {
             adHourlyRate: adnetRateModel.rateLevels(),
@@ -109,7 +109,7 @@ export class AdnetConfigRates extends Compbaser {
         this.appStore.dispatch(this.adnetAction.updAdnetRateTable(updData, this.selectedAdnetCustomerModel.getId(), true));
     }
 
-    private updFilteredRates() {
+     updFilteredRates() {
         if (this.rates && this.selectedAdnetCustomerModel) {
             this.filteredRates = List<AdnetRateModel>();
             this.rates.forEach((i_adnetRateModel: AdnetRateModel) => {

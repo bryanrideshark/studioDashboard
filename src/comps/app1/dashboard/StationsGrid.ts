@@ -77,7 +77,7 @@ import {Compbaser, NgmslibService} from "ng-mslib";
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StationsGrid extends Compbaser {
-    constructor(private cd: ChangeDetectorRef, private ngmslibService:NgmslibService) {
+    constructor(private cd: ChangeDetectorRef, private ngmslibService: NgmslibService) {
         super();
     }
 
@@ -108,24 +108,24 @@ export class StationsGrid extends Compbaser {
 
     @Output() onStationSelected: EventEmitter<StationModel> = new EventEmitter<StationModel>();
 
-    private onDoubleClicked(event) {
+    onDoubleClicked(event) {
         this.launchStationModal(event.item);
     }
 
-    private launchStationModal(i_stationModel?: StationModel) {
+    launchStationModal(i_stationModel?: StationModel) {
         if (!i_stationModel)
             i_stationModel = this.selectedStation();
         this.onStationSelected.emit(i_stationModel)
     }
 
-    private selectedStation(): StationModel {
+    selectedStation(): StationModel {
         if (!this.simpleGridTable)
             return null;
         let selected: SimpleGridRecord = this.simpleGridTable.getSelected();
         return selected ? this.simpleGridTable.getSelected().item : '';
     }
 
-    private onSelectStation(event) {
+    onSelectStation(event) {
     }
 
     public sort: { field: string, desc: boolean } = {

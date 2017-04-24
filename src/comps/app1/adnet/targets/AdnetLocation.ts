@@ -96,7 +96,7 @@ export class AdnetLocation extends Compbaser {
         }
     }
 
-    private onUpdatedStationCoords(event) {
+    onUpdatedStationCoords(event) {
         var payload = this.selectedAdnetTargetModel.getKey('Value');
         payload.locationLat = event['coords'].lat;
         payload.locationLng = event['coords'].lng;

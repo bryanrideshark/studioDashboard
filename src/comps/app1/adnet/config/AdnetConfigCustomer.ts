@@ -46,21 +46,21 @@ export class AdnetConfigCustomer {
     contGroup: FormGroup;
     formInputs = {};
 
-    private onInputBlur(event) {
+     onInputBlur(event) {
         this.updateSore();
     }
 
-    private onChangeSharing(event) {
+     onChangeSharing(event) {
         this.updateSore();
     }
 
-    private updateSore() {
+     updateSore() {
         setTimeout(() => {
             this.appStore.dispatch(this.adnetAction.saveCustomerInfo(Lib.CleanCharForXml(this.contGroup.value), this.customerModel.customerId()))
         }, 1)
     }
 
-    private renderFormInputs() {
+     renderFormInputs() {
         if (!this.customerModel)
             return;
         _.forEach(this.formInputs, (value, key: string) => {

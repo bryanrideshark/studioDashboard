@@ -1,5 +1,5 @@
 import {BrowserModule} from "@angular/platform-browser";
-import {NgModule} from "@angular/core";
+import {Compiler, NgModule} from "@angular/core";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpModule, JsonpModule} from "@angular/http";
 import {Ng2Bs3ModalModule} from "ng2-bs3-modal/ng2-bs3-modal";
@@ -120,6 +120,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {Ng2Highmaps} from "../comps/ng2-highcharts/src/directives/ng2-highmaps";
 import {Ng2Highstocks} from "../comps/ng2-highcharts/src/directives/ng2-highstocks";
 import {StringJSV2Pipe} from "../pipes/stringjsv2.pipe";
+import {Lib} from "../Lib";
 
 export enum ServerMode {
     CLOUD,
@@ -256,9 +257,11 @@ var decelerations = [AppComponent, RatesTable, UsersDetails, AutoLogin, LoginPan
     bootstrap: [AppComponent]
 })
 export class AppModule {
-    constructor(private ngmslibService:NgmslibService) {
+    constructor(private compiler: Compiler, private ngmslibService:NgmslibService) {
         this.ngmslibService.globalizeStringJS();
         console.log(StringJS('app-loaded-and-ready').humanize().s);
+        Lib.Con(`running in dev mode: ${Lib.DevMode()}`);
+        Lib.Con(`App in ${(compiler instanceof Compiler) ? 'AOT' : 'JIT'} mode`);
     }
 
 }

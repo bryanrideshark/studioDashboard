@@ -147,11 +147,11 @@ export class AdnetNetworkCustomerSelector extends Compbaser {
     adnetCustomerModel: AdnetCustomerModel;
     packageEditMode: boolean = true;
 
-    private getIndex(list: List<any>, id: number) {
+     getIndex(list: List<any>, id: number) {
         return list.findIndex((i: StoreModel) => i['getId']() === id);
     }
 
-    private listenOnCustomerSelected() {
+     listenOnCustomerSelected() {
         this.cancelOnDestroy(
             Observable.create((observer: Observer<any>) => {
                 this.observer = observer;
@@ -169,11 +169,11 @@ export class AdnetNetworkCustomerSelector extends Compbaser {
         )
     }
 
-    private onSelecting(event) {
+     onSelecting(event) {
         this.observer.next(event)
     }
 
-    private onEditMode() {
+     onEditMode() {
         this.packageEditMode = true;
         if (this.simplelistIncoming)
             this.simplelistIncoming.itemAllSelected();
@@ -201,7 +201,7 @@ export class AdnetNetworkCustomerSelector extends Compbaser {
         }
     }
 
-    private filterPairs() {
+     filterPairs() {
         if (!this.pairs)
             return;
         this.pairsFilteredIncoming = List<AdnetPairModel>();
@@ -218,7 +218,7 @@ export class AdnetNetworkCustomerSelector extends Compbaser {
         this.cd.markForCheck();
     }
 
-    private onChanges(event) {
+     onChanges(event) {
         this.outgoing = !this.outgoing;
         if (this.simplelistOutgoing) this.simplelistOutgoing.deselect();
         if (this.simplelistIncoming) this.simplelistIncoming.deselect();
@@ -227,13 +227,13 @@ export class AdnetNetworkCustomerSelector extends Compbaser {
         this.selectAllDelayed();
     }
 
-    private selectAllDelayed() {
+     selectAllDelayed() {
         setTimeout(() => {
             this.onEditMode();
         }, 10)
     }
 
-    private announceChange() {
+     announceChange() {
         const data: IPairSelect = {
             pairs: this.pairsSelected,
             pairsOutgoing: this.outgoing
@@ -249,7 +249,7 @@ export class AdnetNetworkCustomerSelector extends Compbaser {
         this.onPackageEditMode.emit(this.packageEditMode)
     }
 
-    // private ngOnDestroy() {
+    //  ngOnDestroy() {
     //     this.unsub();
     //     this.obs.unsubscribe();
     // }

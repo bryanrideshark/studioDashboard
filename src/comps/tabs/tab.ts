@@ -39,7 +39,7 @@ export class Tab {
     activated:EventEmitter<any> = new EventEmitter<any>();
 
     public title:string;
-    private _active = false;
+    _active = false;
     public set active(value){
         this._active = value || false;
         if (this._active)

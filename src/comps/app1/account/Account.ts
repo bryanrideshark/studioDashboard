@@ -149,16 +149,16 @@ export class Account {
         }
     }
 
-    private onInputBlur(event) {
+    onInputBlur(event) {
         setTimeout(() => this.appStore.dispatch(this.resellerAction.saveAccountInfo(Lib.CleanCharForXml(this.contGroup.value))), 1);
     }
 
-    private onSubmit(value) {
+    onSubmit(value) {
         //setTimeout(()=>console.log(JSON.stringify(this.contGroup.value)), 1);
         setTimeout(() => this.appStore.dispatch(this.resellerAction.saveAccountInfo(Lib.CleanCharForXml(this.contGroup.value))), 1);
     }
 
-    private renderFormInputs() {
+    renderFormInputs() {
         if (!this.accountModels)
             return;
         this.companyName = this.appStore.getsKey('reseller', 'whitelabel', 'companyName');
@@ -193,11 +193,11 @@ export class Account {
         })
     };
 
-    private onCompanyNameEdited(value) {
+    onCompanyNameEdited(value) {
         this.appStore.dispatch(this.resellerAction.saveWhiteLabel(Lib.CleanCharForXml({companyName: value})));
     }
 
-    private getAccountModelKey(modelType, key) {
+    getAccountModelKey(modelType, key) {
         var result = '';
         if (!this.accountModels)
             return result;
@@ -210,7 +210,7 @@ export class Account {
         return result;
     }
 
-    private getRecurringValue(key): any {
+    getRecurringValue(key): any {
         if (!this.accountModels)
             return '';
         var value = this.getAccountModelKey('Recurring', key);
@@ -246,7 +246,7 @@ export class Account {
         }
     }
 
-    private onPaymentChanged(event) {
+    onPaymentChanged(event) {
         var payment = event.target.value;
         payment = _.find(this.payments, (k) => {
             return k.name == payment;
@@ -312,7 +312,7 @@ export class Account {
         }
     }
 
-    private onPaypalConnect(): boolean {
+    onPaypalConnect(): boolean {
         var url = `https://galaxy.signage.me/WebService/CreateResellerRecurring.aspx?resellerId=${this.businessId }`;
         var newWin = window.open(url, '_blank');
         if (!newWin || newWin.closed || typeof newWin.closed == 'undefined') {
@@ -322,18 +322,18 @@ export class Account {
         return true;
     }
 
-    private getSelectedPayment(i_recurringMode) {
+    getSelectedPayment(i_recurringMode) {
         var recurringMode = this.getAccountModelKey('Recurring', 'recurringMode');
         if (i_recurringMode.index == recurringMode)
             return 'selected';
         return '';
     }
 
-    private isAccountActive(): boolean {
+    isAccountActive(): boolean {
         return this.resellerAction.getResellerIsActive();
     }
 
-    private onUpdateCreditCard(event) {
+    onUpdateCreditCard(event) {
         var cardNumber = this.contGroup.controls['billing_cardNumber'].value
         var cardTypeTest = this.creditService.parseCardType(cardNumber);
         var cardValidTest = this.creditService.validateCardNumber(cardNumber);
@@ -402,12 +402,12 @@ export class Account {
         });
     }
 
-    private onWhiteLabelChange(value) {
+    onWhiteLabelChange(value) {
         value = value ? 1 : 0;
         this.appStore.dispatch(this.resellerAction.updateResellerInfo({whitelabelEnabled: value}))
     }
 
-    private isCardSelected(i_cardType) {
+    isCardSelected(i_cardType) {
         var recurringMode = this.getRecurringValue('recurringMode');
         if (recurringMode == 2 && i_cardType == 'paypal')
             return true;
@@ -426,7 +426,7 @@ export class Account {
         return true;
     }
 
-    private ngOnDestroy() {
+    ngOnDestroy() {
         this.unsub();
     }
 }

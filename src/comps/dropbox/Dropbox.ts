@@ -35,7 +35,7 @@ export class Dropbox extends Compbaser {
     token;
     accountValidity: boolean = false;
 
-    private nodeUnselect(event) {
+     nodeUnselect(event) {
         console.log({
             severity: 'info',
             summary: 'Node Unselected',
@@ -43,28 +43,28 @@ export class Dropbox extends Compbaser {
         });
     }
 
-    private nodeSelect(event) {
+     nodeSelect(event) {
         this.loadFiles(event.node.path);
     }
 
-    private onTokenChange(event) {
+     onTokenChange(event) {
         if (event.target.value.length < 20)
             return;
         this.localStorage.setItem('dropbox_key', event.target.value);
         this.renderTree();
     }
 
-    private refreshTree() {
+     refreshTree() {
         this.nodes = [];
         this.files = [];
         this.renderTree();
     }
 
-    private onAddResource(f) {
+     onAddResource(f) {
         this.loadFile(f.fileName.file);
     }
 
-    private loadFiles(i_path) {
+     loadFiles(i_path) {
         this.files = [];
         const url = `https://secure.digitalsignage.com/DropboxFiles/${this.token}${i_path}`;
         return this._http.get(url)
@@ -86,7 +86,7 @@ export class Dropbox extends Compbaser {
             }).subscribe();
     }
 
-    private loadFile(i_path) {
+     loadFile(i_path) {
         this.onFileLinkSelected.emit({link: `https://secure.digitalsignage.com/DropboxFileLink/${this.token}${i_path}`});
         this.cd.markForCheck();
 
@@ -107,7 +107,7 @@ export class Dropbox extends Compbaser {
         //     }).subscribe();
     }
 
-    private renderTree(i_folder: {} = {
+     renderTree(i_folder: {} = {
         name: '',
         path: '/'
     }, i_start: boolean = true) {
@@ -145,7 +145,7 @@ export class Dropbox extends Compbaser {
         });
     }
 
-    private checkToken(i_cb) {
+     checkToken(i_cb) {
         const url = `https://secure.digitalsignage.com/DropboxAccountInfo/${this.token}`
         this._http.get(url)
             .catch((err) => {
@@ -167,7 +167,7 @@ export class Dropbox extends Compbaser {
             }).subscribe();
     }
 
-    private updateAccountValidity(i_value) {
+     updateAccountValidity(i_value) {
         this.accountValidity = i_value;
         if (!i_value)
             this.files = [];

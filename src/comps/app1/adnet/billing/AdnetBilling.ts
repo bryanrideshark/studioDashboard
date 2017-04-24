@@ -141,7 +141,7 @@ export class AdnetBilling extends Compbaser {
    }
 
 
-    private onChangePassSubmitted(i_changePass: IChangePass) {
+     onChangePassSubmitted(i_changePass: IChangePass) {
         this.adnetAction.billingChangePassowrd(this.adnetCustomerId, i_changePass.userName, i_changePass.userPass, i_changePass.matchingPassword.password, (result) => {
             this.changePass.close();
             if (result == true) {
@@ -152,7 +152,7 @@ export class AdnetBilling extends Compbaser {
         });
     }
 
-    private onAddPayment(i_addPayment: IAddPayment) {
+     onAddPayment(i_addPayment: IAddPayment) {
         this.adnetAction.billingMakePayment(this.adnetCustomerId, i_addPayment.userName, i_addPayment.userPass, i_addPayment.amount, i_addPayment.comment, (result) => {
             this.addPayment.close();
             if (result == 'Fake money') {
@@ -165,7 +165,7 @@ export class AdnetBilling extends Compbaser {
         });
     }
 
-    private onTransferPayment(i_transferPayment: ITransferPayment) {
+     onTransferPayment(i_transferPayment: ITransferPayment) {
         var toCustomerId = i_transferPayment.adnetPairModel.getCustomerId();
         this.pairs = this.appStore.getState().adnet.getIn(['pairs']) || {};
         var transferPair: AdnetPairModel = this.pairs.find((i_pair: AdnetPairModel) => {
@@ -185,7 +185,7 @@ export class AdnetBilling extends Compbaser {
     }
 
 
-    private calcTotals() {
+     calcTotals() {
         setTimeout(() => {
             this.m_totalPayments = 0;
             this.m_lastPayments = 0.0;
@@ -209,23 +209,23 @@ export class AdnetBilling extends Compbaser {
         }, 50)
     }
 
-    private onModalClose() {
+     onModalClose(event) {
 
     }
 
-    private makePayment() {
+     makePayment() {
         this.addPayment.open();
     }
 
-    private changePassword() {
+     changePassword() {
         this.changePass.open();
     }
 
-    private transferMoney() {
+     transferMoney() {
         this.tarnsferPayment.open();
     }
 
-    private buildCustomerList() {
+     buildCustomerList() {
         if (!this.pairs)
             return;
         var customerMap = {}
@@ -260,7 +260,7 @@ export class AdnetBilling extends Compbaser {
         this.cd.markForCheck();
     }
 
-    private processFieldBalance(i_field: string) {
+     processFieldBalance(i_field: string) {
         return (i_item): any => {
             switch (i_field) {
                 case 'name': {
@@ -276,7 +276,7 @@ export class AdnetBilling extends Compbaser {
         }
     }
 
-    private processFieldTransfers(i_field: string) {
+     processFieldTransfers(i_field: string) {
         return (i_item: AdnetTransferModel): any => {
             switch (i_field) {
                 case 'date': {
@@ -304,7 +304,7 @@ export class AdnetBilling extends Compbaser {
         }
     }
 
-    private processFieldPayments(i_field: string) {
+     processFieldPayments(i_field: string) {
         return (i_item: AdnetPaymentModel): any => {
             switch (i_field) {
                 case 'total': {
@@ -343,7 +343,7 @@ export class AdnetBilling extends Compbaser {
         desc: false
     };
 
-    private onSelectedPeriod() {
+     onSelectedPeriod(event) {
 
     }
 

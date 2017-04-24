@@ -42,7 +42,7 @@
             report results
         ------------------->
         <hr/>
-        <h5>{{selectedReportNameLong | StringJSPipe:stringJSPipeArgs}}</h5>
+        <h5>{{selectedReportNameLong | StringJSV2Pipe:stringJSPipeArgs}}</h5>
         <button style="margin: 3px" (click)="goBackToReportSelection()" class="btn pull-right">Back</button>
         <button style="margin: 3px" (click)="export()" class="btn pull-right">Export</button>
         <button style="margin: 3px" [ngClass]="{disabled: reportDisabled}"

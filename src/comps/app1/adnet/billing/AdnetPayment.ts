@@ -39,7 +39,7 @@ export class AdnetPayment {
     notesForm: FormGroup;
     _showSubmit: boolean = true;
 
-    onSubmitted(event) {
+    onSubmitted() {
         this.onSubmit.emit(this.notesForm.value);
         this.modal.close();
     }

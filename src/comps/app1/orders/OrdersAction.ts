@@ -25,15 +25,15 @@ export const RECEIVE_ACCOUNT_TYPE = 'RECEIVE_ACCOUNT_TYPE';
 export class OrdersAction extends Actions {
     parseString;
 
-    constructor(private _http:Http, private appStore:AppStore) {
+    constructor(private _http: Http, private appStore: AppStore) {
         super();
         this.parseString = xml2js.parseString;
     }
 
-    public fetchOrder(orderId:string, accountType:string) {
-        return (dispatch)=> {
+    public fetchOrder(orderId: string, accountType: string) {
+        return (dispatch) => {
             dispatch(this.requestOrder());
-            var appdb:Map<string,any> = this.appStore.getState().appdb;
+            var appdb: Map<string, any> = this.appStore.getState().appdb;
             var url;
             url = appdb.get('appBaseUrlCloud').replace('END_POINT', 'order') + `/${orderId}/${accountType}`
             this._http.get(url)
@@ -43,17 +43,17 @@ export class OrdersAction extends Actions {
                 })
                 .finally(() => {
                 })
-                .map((result:any) => {
-                    var order:any = result.json();
-                    var orderDetailModel:OrderDetailModel = new OrderDetailModel(order);
+                .map((result: any) => {
+                    var order: any = result.json();
+                    var orderDetailModel: OrderDetailModel = new OrderDetailModel(order);
                     dispatch(this.receivedOrder(orderDetailModel));
                 }).subscribe();
         }
     }
 
-    public fetchOrders(dispatch, accountType:string) {
+    public fetchOrders(dispatch, accountType: string) {
         dispatch(this.requestOrders());
-        var appdb:Map<string,any> = this.appStore.getState().appdb;
+        var appdb: Map<string, any> = this.appStore.getState().appdb;
         var url;
         url = appdb.get('appBaseUrlCloud').replace('END_POINT', 'orders') + `/${accountType}`
         this._http.get(url)
@@ -63,11 +63,11 @@ export class OrdersAction extends Actions {
             })
             .finally(() => {
             })
-            .map((result:any) => {
-                var orders:any = result.json();
-                var orderModels:List<OrderModel> = List<OrderModel>();
+            .map((result: any) => {
+                var orders: any = result.json();
+                var orderModels: List<OrderModel> = List<OrderModel>();
                 orders.forEach((i_order) => {
-                    var orderModel:OrderModel = new OrderModel(i_order);
+                    var orderModel: OrderModel = new OrderModel(i_order);
                     orderModels = orderModels.push(orderModel);
                 })
                 dispatch(this.receivedOrders(orderModels));
@@ -75,8 +75,8 @@ export class OrdersAction extends Actions {
     }
 
     public fetchAccountType() {
-        return (dispatch)=> {
-            var appdb:Map<string,any> = this.appStore.getState().appdb;
+        return (dispatch) => {
+            var appdb: Map<string, any> = this.appStore.getState().appdb;
             var url;
             url = appdb.get('appBaseUrlCloud').replace('END_POINT', 'getAccountType');
             this._http.get(url)
@@ -86,7 +86,7 @@ export class OrdersAction extends Actions {
                 })
                 .finally(() => {
                 })
-                .map((result:any) => {
+                .map((result: any) => {
                     var accountType = result.json().accountType
                     dispatch(this.receiveAccountType(accountType))
                     if (accountType == 'UNKNOWN') {
@@ -110,28 +110,28 @@ export class OrdersAction extends Actions {
         }
     }
 
-    public receiveAccountType(accountType:string) {
+    public receiveAccountType(accountType: string) {
         return {
             type: RECEIVE_ACCOUNT_TYPE,
             accountType
         }
     }
 
-    private receivedOrder(order:OrderDetailModel) {
+    receivedOrder(order: OrderDetailModel) {
         return {
             type: RECEIVED_ORDER,
             order
         }
     }
 
-    private receivedOrders(orders:List<OrderModel>) {
+    receivedOrders(orders: List<OrderModel>) {
         return {
             type: RECEIVED_ORDERS,
             orders
         }
     }
 
-    private ngOnDestroy() {
+    ngOnDestroy() {
     }
 
 }

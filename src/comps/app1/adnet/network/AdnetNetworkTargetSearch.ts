@@ -207,7 +207,7 @@ export class AdnetNetworkTargetSearch extends Compbaser {
     formInputs = {};
     globalNetworkEnabled: boolean = false;
 
-    private getContent() {
+     getContent() {
         var self = this;
         return (i_adnetTargetModel: AdnetTargetModel) => {
             var customersList: List<AdnetCustomerModel> = self.appStore.getState().adnet.getIn(['customers']);
@@ -219,7 +219,7 @@ export class AdnetNetworkTargetSearch extends Compbaser {
         }
     }
 
-    private onAdd($event) {
+     onAdd($event) {
         if (!this.adnetPackageModels)
             return bootbox.alert('first select a Package from the above accordion Packages tab, to add this file onto your selected package')
         this.selectedAdnetTargetModel = (this.simplelist.getSelected() as IsimplelistItem).item;
@@ -231,7 +231,7 @@ export class AdnetNetworkTargetSearch extends Compbaser {
         );
     }
 
-    private onSearch() {
+     onSearch(event) {
         this.selectedAdnetTargetModel = null;
         this.simplelist.deselect();
         var searchType = this.searchTypes.indexOf(this.contGroup.value.searchType) - 1;
@@ -255,25 +255,25 @@ export class AdnetNetworkTargetSearch extends Compbaser {
             ));
     }
 
-    private onTargetSelected(list: Array<IsimplelistItem>) {
+     onTargetSelected(list: Array<IsimplelistItem>) {
         this.selectedAdnetTargetModel = (this.simplelist.getSelected() as IsimplelistItem).item;
         this.onAdnetTargetSelected.emit(this.selectedAdnetTargetModel);
         this.onPropSelected.emit({selected: AdnetNetworkPropSelector.TARGET})
 
     }
 
-    private onFormChange(event) {
+     onFormChange(event) {
         // this.updateSore();
     }
 
-    // private updateSore() {
+    //  updateSore() {
     //     // setTimeout(() => {
     //     // console.log(this.contGroup.status + ' ' + JSON.stringify(Lib.CleanCharForXml(this.contGroup.value)));
     //     // this.appStore.dispatch(this.adnetAction.saveCustomerInfo(Lib.CleanCharForXml(this.contGroup.value), this.customerModel.customerId()))
     //     // }, 1)
     // }
 
-    private renderFormInputs() {
+     renderFormInputs() {
         this.globalNetworkEnabled = this.adnetCustomerModel.getGlobalNetwork();
         // _.forEach(this.formInputs, (value, key: string) => {
         //     var data = this.setadnetCustomerModel.getKey('Value')[key];
