@@ -65,6 +65,7 @@ export class AppComponent {
     public version: string;
     private ngVersion: string;
 
+    
     private checkPlatform() {
         switch (platform.name.toLowerCase()) {
             case 'microsoft edge': {
