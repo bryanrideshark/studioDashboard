@@ -22,8 +22,9 @@ const routes: Routes = [
     {path: 'UserLogin/:twoFactor', data: {title: 'Login'}, component: LoginPanel},
     {path: 'UserLogin/:twoFactor/:user/:pass', data: {title: 'Login'}, component: LoginPanel},
     {path: 'Logout', component: Logout},
-    {path: 'dash', pathMatch: 'full', redirectTo: '/App1/Dashboard' },
+    {path: 'dash', pathMatch: 'full', redirectTo: '/App1/Dashboard'},  // IE/FF compatibility
     {path: '', component: App1, canActivate: [AuthService]},
+    {path: 'dash/index.html', pathMatch: 'full', redirectTo: '/App1/Dashboard'},  // IE 11
     {
         path: 'src', component: App1,
         children: [
