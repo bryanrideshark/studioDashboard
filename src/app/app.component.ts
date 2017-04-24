@@ -32,7 +32,7 @@ export class AppComponent {
         this.version = packageJson.version;
         this.ngVersion = VERSION.full
 
-        //this.checkPlatform();
+        this.checkPlatform();
 
         /** remove localstore **/
         // this.localStorage.removeItem('remember_me')
@@ -74,7 +74,7 @@ export class AppComponent {
                 break;
             }
             default: {
-                alert('for best performance please use Google Chrome');
+                // alert('for best performance please use Google Chrome');
                 break;
             }
         }
