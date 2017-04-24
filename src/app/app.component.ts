@@ -50,7 +50,7 @@ export class AppComponent {
         });
         this.toastr.setRootViewContainerRef(vRef);
         this.listenRouterUpdateTitle();
-    }
+    }             
 
     ngOnInit() {
         let s = this.router.events.subscribe((val) => {
