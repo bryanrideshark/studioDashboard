@@ -57,7 +57,7 @@ Links:
 Technical data:
 ------------------------------------------------------------------------
 - The application is powered by angular-cli 
-- Use latest release of Angular2
+- Use latest release of Angular2 with AOT mode
 - Application is powered by TypeScript
 - App can be hosted to run locally (recommended on node.js) or on any hosted web server
    Keep in mind that you must serve the source from the root (/) of the server domain (not under any sub-directory)
