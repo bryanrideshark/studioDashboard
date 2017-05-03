@@ -48,16 +48,16 @@ Links:
 - Enterprise benefits: http://www.digitalsignage.com/_html/benefits.html
 - Support: http://script.digitalsignage.com/forum/index.php/board,9.0.html
 - StudioDashboard video: TBA
-- Angular2: https://angular.io/
-- Angular2 docs: https://angular.io/docs/ts/latest/
-- Angular2 GitHub: https://github.com/angular/angular/tree/master/modules/angular2
+- Angular: https://angular.io/
+- Angular docs: https://angular.io/docs/ts/latest/
+- Angular GitHub: https://github.com/angular/angular
 - TypeScript: https://www.typescriptlang.org/
 
 
 Technical data:
 ------------------------------------------------------------------------
 - The application is powered by angular-cli 
-- Use latest release of Angular2 with AOT mode
+- Use latest release of Angular with AOT mode
 - Application is powered by TypeScript
 - App can be hosted to run locally (recommended on node.js) or on any hosted web server
    Keep in mind that you must serve the source from the root (/) of the server domain (not under any sub-directory)
