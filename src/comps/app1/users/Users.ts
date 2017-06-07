@@ -54,7 +54,7 @@ import {Lib} from "../../../Lib";
 export class Users extends Compbaser {
     inDevMode;
     selectedAddUser = 'Add user action';
-    
+
     constructor(private appStore: AppStore, private businessAction: BusinessAction) {
         super();
         this.inDevMode = Lib.DevMode();
@@ -119,7 +119,7 @@ export class Users extends Compbaser {
     unsub3: Function;
     accounts = ['Add new account from sample', 'Add new account from blank', 'Import existing account'];
 
-    onAddUserDropDown(event){
+    onAddUserDropDown(event) {
         this.onAddUser(event.target.value)
     }
 
@@ -243,7 +243,7 @@ export class Users extends Compbaser {
 
     getBusinesses(businessItem: BusinessModel) {
         // console.log(Math.random());
-        return businessItem.getKey('name');
+        return businessItem.getKey('name') + ' (id:' + businessItem.getKey('businessId') + ')';
     }
 
     getBusinessesId() {

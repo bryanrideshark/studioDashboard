@@ -12,7 +12,8 @@
                 </select>
             </div>
         </div>
-        <simplelist *ngIf="businessesUsers && priveleges" #simplelist [list]="businessesList" (selected)="onFilteredSelection()" (iconClicked)="onShowUserInfo($event)" [contentId]="getBusinessesId()" [icon]="'fa-user'"
+        <simplelist *ngIf="businessesUsers && priveleges" #simplelist [list]="businessesList" (selected)="onFilteredSelection()" (iconClicked)="onShowUserInfo($event)"
+                    [contentId]="getBusinessesId()" [icon]="'fa-user'"
                     [content]="getBusinesses"></simplelist>
         <Loading *ngIf="!businessesUsers || !priveleges" [size]="'100px'" [style]="{'margin-top': '150px'}"></Loading>
     </div>
