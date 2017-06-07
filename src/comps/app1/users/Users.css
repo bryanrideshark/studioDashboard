@@ -35,5 +35,6 @@
 .remove {
     font-size: 23px;
     position: relative;
-    left: -20px;
+    left: -13px;
+    top: 3px;
 }

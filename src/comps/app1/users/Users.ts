@@ -53,7 +53,8 @@ import {Lib} from "../../../Lib";
 
 export class Users extends Compbaser {
     inDevMode;
-
+    selectedAddUser = 'Add user action';
+    
     constructor(private appStore: AppStore, private businessAction: BusinessAction) {
         super();
         this.inDevMode = Lib.DevMode();
@@ -118,7 +119,12 @@ export class Users extends Compbaser {
     unsub3: Function;
     accounts = ['Add new account from sample', 'Add new account from blank', 'Import existing account'];
 
+    onAddUserDropDown(event){
+        this.onAddUser(event.target.value)
+    }
+
     onAddUser(choice, fromSample: boolean = false) {
+        this.selectedAddUser = 'Add user action';
         switch (choice) {
             case this.accounts[0]: {
                 this.modalSamples.open('lg');
