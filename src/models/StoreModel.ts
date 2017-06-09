@@ -1,7 +1,6 @@
 import {Map, List} from 'immutable';
 import { UUID } from 'angular2-uuid';
 
-
 /**
  * StoreModel is a thin wrapper of Immutable data around for a Class
  * uses the internal immutable map to hold all values.
@@ -10,36 +9,37 @@ import { UUID } from 'angular2-uuid';
  *
  * Also ships with a helper static method to create unique IDs
  **/
-export class StoreModel {
+export abstract class StoreModel<T> {
+
+
+    protected abstract readonly _baseType: typeof StoreModel;
+
+    private _data: Map<string, any>;
 
     static UniqueId(){
         return UUID.UUID();
     }
 
-    constructor(data:any = {}) {
+    constructor(data: any = {}) {
         this._data = Map<string, any>(data);
     }
 
-    _data:Map<string, any>;
 
-    public setKey<T>(ClassName:any, key:string, value:any):T {
-        return this.setData(ClassName, this._data.set(key, value)) as T;
+
+    public setKey(key: string, value: any): T {
+        return this.setData(this._data.set(key, value)) as T;
     }
 
-    public getKey(key:string) {
+    public getKey(key: string) {
         return this._data.get(key);
     }
 
-    public setData<T>(ClassName, data:any):T {
-        function ClassFactory(className:{new(data): T;}, data:any):T {
-            var created:T = new className(Map<string, any>(data));
-            return created;
-        }
-
-        return ClassFactory(ClassName, data);
+    public setData<T>(data: any): T {
+        const baseType: any = this._baseType;
+        return new baseType(data) as T;
     }
 
-    public getData():Map<string, any> {
+    public getData(): Map<string, any> {
         return this._data;
     }
 
@@ -50,13 +50,14 @@ export class StoreModel {
      * @param i_value
      * @returns {T}
      */
-    public listPush<T>(ClassName, i_key:string, i_value:string):any {
-        var value = this.getKey(i_key);
-        var model:StoreModel = this;
-        if (!value)
-            model = this.setKey<T>(ClassName, i_key, List<any>()) as any;
-        var list:List<any> = model.getKey(i_key);
+    public listPush<K>(i_key: string, i_value: K): T {
+        const value = this.getKey(i_key);
+        let model: StoreModel<T> = this;
+        if (!value) {
+            model = this.setKey(i_key, List<any>()) as any;
+        }
+        let list: List<any> = model.getKey(i_key);
         list = list.push(i_value);
-        return model.setKey<T>(ClassName, i_key, list) as T;
+        return model.setKey(i_key, list);
     }
 }
